@@ -1,0 +1,2265 @@
+<request>
+    <user>ole-khuntley</user>
+    <operation>File Ingest</operation>
+    <requestDocuments>
+        <ingestDocument id="1" category="work" type="bibliographic" format="marc">
+            <content><![CDATA[
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+<record>
+  <leader>01264cam a2200217   4500</leader>
+  <controlfield tag="001">5929601</controlfield>
+  <controlfield tag="003">InU</controlfield>
+  <controlfield tag="006">m    |   j |      </controlfield>
+  <controlfield tag="007">cr||n||||||||n</controlfield>
+  <controlfield tag="008">791208s1714    ie      s     00    eng d</controlfield>
+  <datafield tag="035" ind1=" " ind2=" ">
+    <subfield code="a">(ICU)10001</subfield>
+  </datafield>
+  <datafield tag="040" ind1=" " ind2=" ">
+    <subfield code="a">Uk-ES</subfield>
+    <subfield code="c">Uk-ES</subfield>
+    <subfield code="d">CStRLIN</subfield>
+    <subfield code="d">Thomson Gale</subfield>
+  </datafield>
+  <datafield tag="245" ind1="0" ind2="4">
+    <subfield code="a">The old snugg Presbyterian charter of conscience: or, a recital of their solemn league and covenant. With the decent equipage of a preface and a postscript</subfield>
+    <subfield code="h">[electronic resource].</subfield>
+  </datafield>
+  <datafield tag="260" ind1=" " ind2=" ">
+    <subfield code="a">Dublin :</subfield>
+    <subfield code="b">printed by E. Waters,</subfield>
+    <subfield code="c">1714.</subfield>
+  </datafield>
+  <datafield tag="300" ind1=" " ind2=" ">
+    <subfield code="a">8p. ;</subfield>
+    <subfield code="c">4⁰.</subfield>
+  </datafield>
+  <datafield tag="500" ind1=" " ind2=" ">
+    <subfield code="a">Reproduction of original from the British Library.</subfield>
+  </datafield>
+  <datafield tag="510" ind1="4" ind2=" ">
+    <subfield code="a">English Short Title Catalog,</subfield>
+    <subfield code="c">ESTCT73947.</subfield>
+  </datafield>
+  <datafield tag="533" ind1=" " ind2=" ">
+    <subfield code="a">Electronic reproduction.</subfield>
+    <subfield code="b">Farmington Hills, Mich. :</subfield>
+    <subfield code="c">Thomson Gale,</subfield>
+    <subfield code="d">2003.</subfield>
+    <subfield code="n">Available via the World Wide Web.</subfield>
+    <subfield code="n">Access limited by licensing agreements</subfield>
+    <subfield code="f">(Eighteenth century collections online)</subfield>
+    <subfield code="7">s2003    miunns</subfield>
+  </datafield>
+  <datafield tag="830" ind1=" " ind2="0">
+    <subfield code="a">Eighteenth century collections online</subfield>
+  </datafield>
+  <datafield tag="856" ind1="4" ind2="0">
+    <subfield code="u">http://galenet.galegroup.com/servlet/ECCO?c=1&amp;stp=Author&amp;ste=11&amp;af=BN&amp;ae=T073947&amp;tiPG=1&amp;dd=0&amp;dc=flc&amp;docNum=CW119601402&amp;vrsn=1.0&amp;srchtp=a&amp;d4=0.33&amp;n=10&amp;SU=0LRF&amp;locID=iuclassb</subfield>
+    <subfield code="z">Available on campus and off-campus with authorized logon</subfield>
+  </datafield>
+  <datafield tag="596" ind1=" " ind2=" ">
+    <subfield code="a">4</subfield>
+  </datafield>
+  <datafield tag="999" ind1=" " ind2=" ">
+    <subfield code="a">XX(5929601.1)</subfield>
+    <subfield code="w">AUTO</subfield>
+    <subfield code="c">1</subfield>
+    <subfield code="i">5929601-1001</subfield>
+    <subfield code="l">WWW</subfield>
+    <subfield code="m">ONLINE</subfield>
+    <subfield code="r">Y</subfield>
+    <subfield code="s">Y</subfield>
+    <subfield code="t">NONCIRC</subfield>
+    <subfield code="u">8/30/2004</subfield>
+  </datafield>
+</record>
+ </collection>]]>
+            </content>
+            <additionalAttributes>
+                <dateEntered>12-12-2-2010</dateEntered>
+                <lastUpdated>12-11-2011</lastUpdated>
+                <fastAddFlag>true</fastAddFlag>
+                <supressFromPublic>false</supressFromPublic>
+                <harvestable>false</harvestable>
+                <status>n</status>
+            </additionalAttributes>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="2" category="work" type="bibliographic" format="marc">
+            <content><![CDATA[
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+<record>
+  <leader>01892nam a2200289   4500</leader>
+  <controlfield tag="001">5929618</controlfield>
+  <controlfield tag="003">InU</controlfield>
+  <controlfield tag="006">m    |   j |      </controlfield>
+  <controlfield tag="007">cr||n||||||||n</controlfield>
+  <controlfield tag="008">791208s1744    enk     s     00    eng d</controlfield>
+  <datafield tag="035" ind1=" " ind2=" ">
+    <subfield code="a">(ICU)10002</subfield>
+  </datafield>
+  <datafield tag="040" ind1=" " ind2=" ">
+    <subfield code="a">Uk-ES</subfield>
+    <subfield code="c">Uk-ES</subfield>
+    <subfield code="d">CStRLIN</subfield>
+    <subfield code="d">Thomson Gale</subfield>
+  </datafield>
+  <datafield tag="100" ind1="1" ind2=" ">
+    <subfield code="a">Synge, Edward,</subfield>
+    <subfield code="d">1659-1741.</subfield>
+  </datafield>
+  <datafield tag="245" ind1="1" ind2="0">
+    <subfield code="a">Thankfulness to Almighty God for his more antient and later mercies and deliverances vouchsafed to the British and Protestants within the Kingdom of Ireland</subfield>
+    <subfield code="h">[electronic resource],</subfield>
+    <subfield code="b">recommended and press'd, in a sermon before the ... House of Commons, October the 23d, 1711. ... By Edward Synge, ...</subfield>
+  </datafield>
+  <datafield tag="246" ind1="3" ind2=" ">
+    <subfield code="a">Thankfulness to Almighty God for his more ancient and later mercies and deliverances vouchsafed to the British and Protestants within the Kingdom of Ireland</subfield>
+  </datafield>
+  <datafield tag="250" ind1=" " ind2=" ">
+    <subfield code="a">The third edition.</subfield>
+  </datafield>
+  <datafield tag="260" ind1=" " ind2=" ">
+    <subfield code="a">London :</subfield>
+    <subfield code="b">printed for T. Trye,</subfield>
+    <subfield code="c">1744.</subfield>
+  </datafield>
+  <datafield tag="300" ind1=" " ind2=" ">
+    <subfield code="a">36p. ;</subfield>
+    <subfield code="c">12⁰.</subfield>
+  </datafield>
+  <datafield tag="500" ind1=" " ind2=" ">
+    <subfield code="a">Half-title: 'Archbishop Synge's sermon before the Honourable House of Commons'.</subfield>
+  </datafield>
+  <datafield tag="500" ind1=" " ind2=" ">
+    <subfield code="a">Also issued as part of: 'The works of the Most Reverend Dr. Edward Synge' vol.1, London, 1744.</subfield>
+  </datafield>
+  <datafield tag="500" ind1=" " ind2=" ">
+    <subfield code="a">With a final advertisement leaf.</subfield>
+  </datafield>
+  <datafield tag="500" ind1=" " ind2=" ">
+    <subfield code="a">Reproduction of original from the British Library.</subfield>
+  </datafield>
+  <datafield tag="510" ind1="4" ind2=" ">
+    <subfield code="a">English Short Title Catalog,</subfield>
+    <subfield code="c">ESTCT73967.</subfield>
+  </datafield>
+  <datafield tag="533" ind1=" " ind2=" ">
+    <subfield code="a">Electronic reproduction.</subfield>
+    <subfield code="b">Farmington Hills, Mich. :</subfield>
+    <subfield code="c">Thomson Gale,</subfield>
+    <subfield code="d">2003.</subfield>
+    <subfield code="n">Available via the World Wide Web.</subfield>
+    <subfield code="n">Access limited by licensing agreements</subfield>
+    <subfield code="f">(Eighteenth century collections online)</subfield>
+    <subfield code="7">s2003    miunns</subfield>
+  </datafield>
+  <datafield tag="830" ind1=" " ind2="0">
+    <subfield code="a">Eighteenth century collections online</subfield>
+  </datafield>
+  <datafield tag="856" ind1="4" ind2="0">
+    <subfield code="u">http://galenet.galegroup.com/servlet/ECCO?c=1&amp;stp=Author&amp;ste=11&amp;af=BN&amp;ae=T073967&amp;tiPG=1&amp;dd=0&amp;dc=flc&amp;docNum=CW123387943&amp;vrsn=1.0&amp;srchtp=a&amp;d4=0.33&amp;n=10&amp;SU=0LRF&amp;locID=iuclassb</subfield>
+    <subfield code="z">Available on campus and off-campus with authorized logon</subfield>
+  </datafield>
+  <datafield tag="596" ind1=" " ind2=" ">
+    <subfield code="a">4</subfield>
+  </datafield>
+  <datafield tag="999" ind1=" " ind2=" ">
+    <subfield code="a">XX(5929618.1)</subfield>
+    <subfield code="w">AUTO</subfield>
+    <subfield code="c">1</subfield>
+    <subfield code="i">5929618-1001</subfield>
+    <subfield code="l">WWW</subfield>
+    <subfield code="m">ONLINE</subfield>
+    <subfield code="r">Y</subfield>
+    <subfield code="s">Y</subfield>
+    <subfield code="t">NONCIRC</subfield>
+    <subfield code="u">8/30/2004</subfield>
+  </datafield>
+</record>
+ </collection>]]>
+            </content>
+            <additionalAttributes>
+                <dateEntered>12-12-2-2010</dateEntered>
+                <lastUpdated>12-11-2011</lastUpdated>
+                <fastAddFlag>true</fastAddFlag>
+                <supressFromPublic>false</supressFromPublic>
+                <harvestable>false</harvestable>
+                <status>n</status>
+            </additionalAttributes>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="3" category="work" type="bibliographic" format="marc">
+            <content><![CDATA[
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+<record>
+  <leader>01702cam a2200421 a 45 0</leader>
+  <controlfield tag="001">592969</controlfield>
+  <controlfield tag="003">InU</controlfield>
+  <controlfield tag="008">940121m19939999enkae    b    00110 eng d</controlfield>
+  <datafield tag="010" ind1=" " ind2=" ">
+    <subfield code="a">gb 94040025</subfield>
+  </datafield>
+  <datafield tag="015" ind1=" " ind2=" ">
+    <subfield code="a">GB94-40025</subfield>
+  </datafield>
+  <datafield tag="020" ind1=" " ind2=" ">
+    <subfield code="a">0714839337 (v. 3)</subfield>
+  </datafield>
+  <datafield tag="020" ind1=" " ind2=" ">
+    <subfield code="a">0714828599 (v.2)</subfield>
+  </datafield>
+  <datafield tag="020" ind1=" " ind2=" ">
+    <subfield code="a">0714828092</subfield>
+  </datafield>
+  <datafield tag="020" ind1=" " ind2=" ">
+    <subfield code="a">0714839310 (v. 4)</subfield>
+  </datafield>
+  <datafield tag="035" ind1=" " ind2=" ">
+    <subfield code="a">(ICU)10003</subfield>
+  </datafield>
+  <datafield tag="040" ind1=" " ind2=" ">
+    <subfield code="a">RSD</subfield>
+    <subfield code="c">RSD</subfield>
+    <subfield code="d">WAU</subfield>
+    <subfield code="d">UIU</subfield>
+    <subfield code="d">UKM</subfield>
+  </datafield>
+  <datafield tag="049" ind1=" " ind2=" ">
+    <subfield code="a">IULA</subfield>
+  </datafield>
+  <datafield tag="090" ind1=" " ind2=" ">
+    <subfield code="a">NA1123.P47</subfield>
+    <subfield code="b">B9 1993</subfield>
+  </datafield>
+  <datafield tag="092" ind1="0" ind2=" ">
+    <subfield code="a">720.945</subfield>
+    <subfield code="b">P573b</subfield>
+    <subfield code="2">20</subfield>
+  </datafield>
+  <datafield tag="100" ind1="1" ind2=" ">
+    <subfield code="a">Buchanan, Peter.</subfield>
+  </datafield>
+  <datafield tag="245" ind1="1" ind2="0">
+    <subfield code="a">Renzo Piano Building Workshop :</subfield>
+    <subfield code="b">complete works /</subfield>
+    <subfield code="c">Peter Buchanan.</subfield>
+  </datafield>
+  <datafield tag="260" ind1=" " ind2=" ">
+    <subfield code="a">London :</subfield>
+    <subfield code="b">Phaidon Press,</subfield>
+    <subfield code="c">c1993-</subfield>
+  </datafield>
+  <datafield tag="300" ind1=" " ind2=" ">
+    <subfield code="a"> v. :</subfield>
+    <subfield code="b">ill. (some col.), plans ; ports. ;</subfield>
+    <subfield code="c">30 cm.</subfield>
+  </datafield>
+  <datafield tag="504" ind1=" " ind2=" ">
+    <subfield code="a">Includes bibliographical references and indexes.</subfield>
+  </datafield>
+  <datafield tag="591" ind1=" " ind2=" ">
+    <subfield code="a"></subfield>
+  </datafield>
+  <datafield tag="600" ind1="1" ind2="0">
+    <subfield code="a">Piano, Renzo.</subfield>
+  </datafield>
+  <datafield tag="610" ind1="2" ind2="0">
+    <subfield code="a">Renzo Piano Building Workshop.</subfield>
+  </datafield>
+  <datafield tag="650" ind1=" " ind2="0">
+    <subfield code="a">Architecture, Modern</subfield>
+    <subfield code="y">20th century.</subfield>
+  </datafield>
+  <datafield tag="610" ind1="2" ind2="4">
+    <subfield code="a">Renzo Piano Building Workshop.</subfield>
+  </datafield>
+  <datafield tag="653" ind1="0" ind2=" ">
+    <subfield code="a">Architecture</subfield>
+  </datafield>
+  <datafield tag="700" ind1="1" ind2=" ">
+    <subfield code="a">Piano, Renzo.</subfield>
+  </datafield>
+  <datafield tag="998" ind1=" " ind2=" ">
+    <subfield code="a">1/31/1995</subfield>
+    <subfield code="b">10/15/2000</subfield>
+    <subfield code="c">9/11/1995</subfield>
+  </datafield>
+  <datafield tag="596" ind1=" " ind2=" ">
+    <subfield code="a">10</subfield>
+  </datafield>
+  <datafield tag="999" ind1=" " ind2=" ">
+    <subfield code="a">NA1123.P47 B8 1993 v.2</subfield>
+    <subfield code="w">LC</subfield>
+    <subfield code="c">1</subfield>
+    <subfield code="i">30000003295353</subfield>
+    <subfield code="d">7/19/2010</subfield>
+    <subfield code="e">1/16/2001</subfield>
+    <subfield code="l">STACKS</subfield>
+    <subfield code="m">B-FINEARTS</subfield>
+    <subfield code="n">6</subfield>
+    <subfield code="p">$60.00</subfield>
+    <subfield code="q">9</subfield>
+    <subfield code="r">Y</subfield>
+    <subfield code="s">Y</subfield>
+    <subfield code="t">DAY14</subfield>
+    <subfield code="u">11/6/2000</subfield>
+  </datafield>
+  <datafield tag="999" ind1=" " ind2=" ">
+    <subfield code="a">BBAFB761731</subfield>
+    <subfield code="w">LC</subfield>
+    <subfield code="c">1</subfield>
+    <subfield code="i">592969-4001</subfield>
+    <subfield code="k">ON-ORDER</subfield>
+    <subfield code="l">STACKS</subfield>
+    <subfield code="m">B-FINEARTS</subfield>
+    <subfield code="r">Y</subfield>
+    <subfield code="s">Y</subfield>
+    <subfield code="t">NORMAL</subfield>
+    <subfield code="u">12/13/2000</subfield>
+  </datafield>
+  <datafield tag="999" ind1=" " ind2=" ">
+    <subfield code="a">NA1123.P47 B8 1993 v.3</subfield>
+    <subfield code="w">LC</subfield>
+    <subfield code="c">1</subfield>
+    <subfield code="i">30000068213978</subfield>
+    <subfield code="d">7/19/2010</subfield>
+    <subfield code="l">STACKS</subfield>
+    <subfield code="m">B-FINEARTS</subfield>
+    <subfield code="p">$29.95</subfield>
+    <subfield code="q">10</subfield>
+    <subfield code="r">Y</subfield>
+    <subfield code="s">Y</subfield>
+    <subfield code="t">DAY14</subfield>
+    <subfield code="u">3/23/2001</subfield>
+    <subfield code="o">.STAFF. 04-10-01 CC004</subfield>
+    <subfield code="o">.STAFF. Blackwell  5/01</subfield>
+  </datafield>
+  <datafield tag="999" ind1=" " ind2=" ">
+    <subfield code="a">NA1123.P47 B8 1993 v.4</subfield>
+    <subfield code="w">LC</subfield>
+    <subfield code="c">1</subfield>
+    <subfield code="i">30000068214125</subfield>
+    <subfield code="d">12/9/2010</subfield>
+    <subfield code="e">11/18/2010</subfield>
+    <subfield code="l">STACKS</subfield>
+    <subfield code="m">B-FINEARTS</subfield>
+    <subfield code="n">8</subfield>
+    <subfield code="p">$75.00</subfield>
+    <subfield code="q">7</subfield>
+    <subfield code="r">Y</subfield>
+    <subfield code="s">Y</subfield>
+    <subfield code="t">DAY14</subfield>
+    <subfield code="u">4/4/2001</subfield>
+    <subfield code="o">.STAFF. Blackwell  5/01</subfield>
+  </datafield>
+</record>
+ </collection>]]>
+            </content>
+            <additionalAttributes>
+                <dateEntered>12-12-2-2010</dateEntered>
+                <lastUpdated>12-11-2011</lastUpdated>
+                <fastAddFlag>true</fastAddFlag>
+                <supressFromPublic>false</supressFromPublic>
+                <harvestable>false</harvestable>
+                <status>n</status>
+            </additionalAttributes>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="4" category="work" type="bibliographic" format="marc">
+            <content><![CDATA[
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+<record>
+  <leader>01598cam a2200241   4500</leader>
+  <controlfield tag="001">5929703</controlfield>
+  <controlfield tag="003">InU</controlfield>
+  <controlfield tag="006">m    |   j |      </controlfield>
+  <controlfield tag="007">cr||n||||||||n</controlfield>
+  <controlfield tag="008">791208s1789    enk     s     00    eng d</controlfield>
+  <datafield tag="035" ind1=" " ind2=" ">
+    <subfield code="a">(ICU)10004</subfield>
+  </datafield>
+  <datafield tag="040" ind1=" " ind2=" ">
+    <subfield code="a">Uk-ES</subfield>
+    <subfield code="c">Uk-ES</subfield>
+    <subfield code="d">CStRLIN</subfield>
+    <subfield code="d">Thomson Gale</subfield>
+  </datafield>
+  <datafield tag="100" ind1="1" ind2=" ">
+    <subfield code="a">Lambert, George,</subfield>
+    <subfield code="d">1742-1816.</subfield>
+  </datafield>
+  <datafield tag="245" ind1="1" ind2="0">
+    <subfield code="a">Britain's King rejoicing in Jehovah's salvation</subfield>
+    <subfield code="h">[electronic resource].</subfield>
+    <subfield code="b">A sermon, preached at Kingston upon Hull, Thursday, April 23, 1789, being the day appointed for a general thanksgiving, on His Majesty's happy recovery. By George Lambert. To which are added, the hymns sung upon that occasion, composed by a friend. ...</subfield>
+  </datafield>
+  <datafield tag="260" ind1=" " ind2=" ">
+    <subfield code="a">Hull :</subfield>
+    <subfield code="b">printed by G. Prince; sold by J. Todd, York; C. Dilly, London; J. Smith, Sheffield; and the booksellers in Hull,</subfield>
+    <subfield code="c">1789.</subfield>
+  </datafield>
+  <datafield tag="300" ind1=" " ind2=" ">
+    <subfield code="a">29,[3]p. ;</subfield>
+    <subfield code="c">8⁰.</subfield>
+  </datafield>
+  <datafield tag="500" ind1=" " ind2=" ">
+    <subfield code="a">With a final advertisement leaf.</subfield>
+  </datafield>
+  <datafield tag="500" ind1=" " ind2=" ">
+    <subfield code="a">Reproduction of original from the British Library.</subfield>
+  </datafield>
+  <datafield tag="510" ind1="4" ind2=" ">
+    <subfield code="a">English Short Title Catalog,</subfield>
+    <subfield code="c">ESTCT74188.</subfield>
+  </datafield>
+  <datafield tag="533" ind1=" " ind2=" ">
+    <subfield code="a">Electronic reproduction.</subfield>
+    <subfield code="b">Farmington Hills, Mich. :</subfield>
+    <subfield code="c">Thomson Gale,</subfield>
+    <subfield code="d">2003.</subfield>
+    <subfield code="n">Available via the World Wide Web.</subfield>
+    <subfield code="n">Access limited by licensing agreements</subfield>
+    <subfield code="f">(Eighteenth century collections online)</subfield>
+    <subfield code="7">s2003    miunns</subfield>
+  </datafield>
+  <datafield tag="830" ind1=" " ind2="0">
+    <subfield code="a">Eighteenth century collections online</subfield>
+  </datafield>
+  <datafield tag="856" ind1="4" ind2="0">
+    <subfield code="u">http://galenet.galegroup.com/servlet/ECCO?c=1&amp;stp=Author&amp;ste=11&amp;af=BN&amp;ae=T074188&amp;tiPG=1&amp;dd=0&amp;dc=flc&amp;docNum=CW119295198&amp;vrsn=1.0&amp;srchtp=a&amp;d4=0.33&amp;n=10&amp;SU=0LRF&amp;locID=iuclassb</subfield>
+    <subfield code="z">Available on campus and off-campus with authorized logon</subfield>
+  </datafield>
+  <datafield tag="596" ind1=" " ind2=" ">
+    <subfield code="a">4</subfield>
+  </datafield>
+  <datafield tag="999" ind1=" " ind2=" ">
+    <subfield code="a">XX(5929703.1)</subfield>
+    <subfield code="w">AUTO</subfield>
+    <subfield code="c">1</subfield>
+    <subfield code="i">5929703-1001</subfield>
+    <subfield code="l">WWW</subfield>
+    <subfield code="m">ONLINE</subfield>
+    <subfield code="r">Y</subfield>
+    <subfield code="s">Y</subfield>
+    <subfield code="t">NONCIRC</subfield>
+    <subfield code="u">8/30/2004</subfield>
+  </datafield>
+</record>
+ </collection>]]>
+            </content>
+            <additionalAttributes>
+                <dateEntered>12-12-2-2010</dateEntered>
+                <lastUpdated>12-11-2011</lastUpdated>
+                <fastAddFlag>true</fastAddFlag>
+                <supressFromPublic>false</supressFromPublic>
+                <harvestable>false</harvestable>
+                <status>n</status>
+            </additionalAttributes>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="5" category="work" type="bibliographic" format="marc">
+            <content><![CDATA[
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+<record>
+  <leader>01340nam a2200253   4500</leader>
+  <controlfield tag="001">5929769</controlfield>
+  <controlfield tag="003">InU</controlfield>
+  <controlfield tag="006">m    |   j |      </controlfield>
+  <controlfield tag="007">cr||n||||||||n</controlfield>
+  <controlfield tag="008">791208s1786    enk     s     00    eng d</controlfield>
+   <datafield tag="035" ind1=" " ind2=" ">
+    <subfield code="a">(ICU)10005</subfield>
+  </datafield>
+  <datafield tag="040" ind1=" " ind2=" ">
+    <subfield code="a">Uk-ES</subfield>
+    <subfield code="c">Uk-ES</subfield>
+    <subfield code="d">CStRLIN</subfield>
+    <subfield code="d">Thomson Gale</subfield>
+  </datafield>
+  <datafield tag="100" ind1="1" ind2=" ">
+    <subfield code="a">Dalrymple, Alexander,</subfield>
+    <subfield code="d">1737-1808.</subfield>
+  </datafield>
+  <datafield tag="245" ind1="1" ind2="0">
+    <subfield code="a">Memoir of the chart of the Natunas, Anambas and adjacent islands. by A Dalrymple. 1786</subfield>
+    <subfield code="h">[electronic resource].</subfield>
+  </datafield>
+  <datafield tag="260" ind1=" " ind2=" ">
+    <subfield code="a">London :</subfield>
+    <subfield code="b">printed by George Bigg,</subfield>
+    <subfield code="c">1786.</subfield>
+  </datafield>
+  <datafield tag="300" ind1=" " ind2=" ">
+    <subfield code="a">[2],2,30p. ;</subfield>
+    <subfield code="c">4⁰.</subfield>
+  </datafield>
+  <datafield tag="500" ind1=" " ind2=" ">
+    <subfield code="a">Pages 29-30 are a folding table.</subfield>
+  </datafield>
+  <datafield tag="500" ind1=" " ind2=" ">
+    <subfield code="a">With an errata slip.</subfield>
+  </datafield>
+  <datafield tag="500" ind1=" " ind2=" ">
+    <subfield code="a">Reproduction of original from the British Library.</subfield>
+  </datafield>
+  <datafield tag="510" ind1="4" ind2=" ">
+    <subfield code="a">English Short Title Catalog,</subfield>
+    <subfield code="c">ESTCT74292.</subfield>
+  </datafield>
+  <datafield tag="533" ind1=" " ind2=" ">
+    <subfield code="a">Electronic reproduction.</subfield>
+    <subfield code="b">Farmington Hills, Mich. :</subfield>
+    <subfield code="c">Thomson Gale,</subfield>
+    <subfield code="d">2003.</subfield>
+    <subfield code="n">Available via the World Wide Web.</subfield>
+    <subfield code="n">Access limited by licensing agreements</subfield>
+    <subfield code="f">(Eighteenth century collections online)</subfield>
+    <subfield code="7">s2003    miunns</subfield>
+  </datafield>
+  <datafield tag="830" ind1=" " ind2="0">
+    <subfield code="a">Eighteenth century collections online</subfield>
+  </datafield>
+  <datafield tag="856" ind1="4" ind2="0">
+    <subfield code="u">http://galenet.galegroup.com/servlet/ECCO?c=1&amp;stp=Author&amp;ste=11&amp;af=BN&amp;ae=T074292&amp;tiPG=1&amp;dd=0&amp;dc=flc&amp;docNum=CW109041649&amp;vrsn=1.0&amp;srchtp=a&amp;d4=0.33&amp;n=10&amp;SU=0LRM&amp;locID=iuclassb</subfield>
+    <subfield code="z">Available on campus and off-campus with authorized logon</subfield>
+  </datafield>
+  <datafield tag="596" ind1=" " ind2=" ">
+    <subfield code="a">4</subfield>
+  </datafield>
+  <datafield tag="999" ind1=" " ind2=" ">
+    <subfield code="a">XX(5929769.1)</subfield>
+    <subfield code="w">AUTO</subfield>
+    <subfield code="c">1</subfield>
+    <subfield code="i">5929769-1001</subfield>
+    <subfield code="l">WWW</subfield>
+    <subfield code="m">ONLINE</subfield>
+    <subfield code="r">Y</subfield>
+    <subfield code="s">Y</subfield>
+    <subfield code="t">NONCIRC</subfield>
+    <subfield code="u">8/30/2004</subfield>
+  </datafield>
+</record>
+ </collection>]]>
+            </content>
+            <additionalAttributes>
+                <dateEntered>12-12-2-2010</dateEntered>
+                <lastUpdated>12-11-2011</lastUpdated>
+                <fastAddFlag>true</fastAddFlag>
+                <supressFromPublic>false</supressFromPublic>
+                <harvestable>false</harvestable>
+                <status>n</status>
+            </additionalAttributes>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="6" category="work" type="bibliographic" format="marc">
+            <content><![CDATA[
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+<record>
+  <leader>01448cam a2200253   4500</leader>
+  <controlfield tag="001">5929837</controlfield>
+  <controlfield tag="003">InU</controlfield>
+  <controlfield tag="006">m    |   j |      </controlfield>
+  <controlfield tag="007">cr||n||||||||n</controlfield>
+  <controlfield tag="008">791208s1722    enk     s     00    eng d</controlfield>
+  <datafield tag="035" ind1=" " ind2=" ">
+    <subfield code="a">(ICU)10006</subfield>
+  </datafield>
+  <datafield tag="040" ind1=" " ind2=" ">
+    <subfield code="a">Uk-ES</subfield>
+    <subfield code="c">Uk-ES</subfield>
+    <subfield code="d">CStRLIN</subfield>
+    <subfield code="d">Thomson Gale</subfield>
+  </datafield>
+  <datafield tag="100" ind1="1" ind2=" ">
+    <subfield code="a">Synge, Edward,</subfield>
+    <subfield code="d">1659-1741.</subfield>
+  </datafield>
+  <datafield tag="245" ind1="1" ind2="3">
+    <subfield code="a">An essay towards making the knowledge of religion easy to the meanest capacity</subfield>
+    <subfield code="h">[electronic resource].</subfield>
+    <subfield code="b">Being a short and plain account of the doctrines and rules of Christianity. By ... Edward Lord Archbishop of Tuam.</subfield>
+  </datafield>
+  <datafield tag="250" ind1=" " ind2=" ">
+    <subfield code="a">The fifth edition.</subfield>
+  </datafield>
+  <datafield tag="260" ind1=" " ind2=" ">
+    <subfield code="a">London :</subfield>
+    <subfield code="b">printed for R. Sare,</subfield>
+    <subfield code="c">1722.</subfield>
+  </datafield>
+  <datafield tag="300" ind1=" " ind2=" ">
+    <subfield code="a">[6],23,[7]p. ;</subfield>
+    <subfield code="c">12⁰.</subfield>
+  </datafield>
+  <datafield tag="500" ind1=" " ind2=" ">
+    <subfield code="a">With seven final pages of advertisements.</subfield>
+  </datafield>
+  <datafield tag="500" ind1=" " ind2=" ">
+    <subfield code="a">Reproduction of original from the British Library.</subfield>
+  </datafield>
+  <datafield tag="510" ind1="4" ind2=" ">
+    <subfield code="a">English Short Title Catalog,</subfield>
+    <subfield code="c">ESTCT74371.</subfield>
+  </datafield>
+  <datafield tag="533" ind1=" " ind2=" ">
+    <subfield code="a">Electronic reproduction.</subfield>
+    <subfield code="b">Farmington Hills, Mich. :</subfield>
+    <subfield code="c">Thomson Gale,</subfield>
+    <subfield code="d">2003.</subfield>
+    <subfield code="n">Available via the World Wide Web.</subfield>
+    <subfield code="n">Access limited by licensing agreements</subfield>
+    <subfield code="f">(Eighteenth century collections online)</subfield>
+    <subfield code="7">s2003    miunns</subfield>
+  </datafield>
+  <datafield tag="830" ind1=" " ind2="0">
+    <subfield code="a">Eighteenth century collections online</subfield>
+  </datafield>
+  <datafield tag="856" ind1="4" ind2="0">
+    <subfield code="u">http://galenet.galegroup.com/servlet/ECCO?c=1&amp;stp=Author&amp;ste=11&amp;af=BN&amp;ae=T074371&amp;tiPG=1&amp;dd=0&amp;dc=flc&amp;docNum=CW120281612&amp;vrsn=1.0&amp;srchtp=a&amp;d4=0.33&amp;n=10&amp;SU=0LRF&amp;locID=iuclassb</subfield>
+    <subfield code="z">Available on campus and off-campus with authorized logon</subfield>
+  </datafield>
+  <datafield tag="596" ind1=" " ind2=" ">
+    <subfield code="a">4</subfield>
+  </datafield>
+  <datafield tag="999" ind1=" " ind2=" ">
+    <subfield code="a">XX(5929837.1)</subfield>
+    <subfield code="w">AUTO</subfield>
+    <subfield code="c">1</subfield>
+    <subfield code="i">5929837-1001</subfield>
+    <subfield code="l">WWW</subfield>
+    <subfield code="m">ONLINE</subfield>
+    <subfield code="r">Y</subfield>
+    <subfield code="s">Y</subfield>
+    <subfield code="t">NONCIRC</subfield>
+    <subfield code="u">8/30/2004</subfield>
+  </datafield>
+</record>
+ </collection>]]>
+            </content>
+            <additionalAttributes>
+                <dateEntered>12-12-2-2010</dateEntered>
+                <lastUpdated>12-11-2011</lastUpdated>
+                <fastAddFlag>true</fastAddFlag>
+                <supressFromPublic>false</supressFromPublic>
+                <harvestable>false</harvestable>
+                <status>n</status>
+            </additionalAttributes>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="7" category="work" type="bibliographic" format="marc">
+            <content><![CDATA[
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+<record>
+  <leader>01204cam a2200229   4500</leader>
+  <controlfield tag="001">5929880</controlfield>
+  <controlfield tag="003">InU</controlfield>
+  <controlfield tag="006">m    |   j |      </controlfield>
+  <controlfield tag="007">cr||n||||||||n</controlfield>
+  <controlfield tag="008">791208s1788    enk     s     00    eng d</controlfield>
+  <datafield tag="035" ind1=" " ind2=" ">
+    <subfield code="a">(ICU)10007</subfield>
+  </datafield>
+  <datafield tag="040" ind1=" " ind2=" ">
+    <subfield code="a">Uk-ES</subfield>
+    <subfield code="c">Uk-ES</subfield>
+    <subfield code="d">CStRLIN</subfield>
+    <subfield code="d">Thomson Gale</subfield>
+  </datafield>
+  <datafield tag="100" ind1="0" ind2=" ">
+    <subfield code="a">Lady of distinction.</subfield>
+  </datafield>
+  <datafield tag="245" ind1="1" ind2="0">
+    <subfield code="a">Helena, a novel</subfield>
+    <subfield code="h">[electronic resource].</subfield>
+    <subfield code="b">By a lady of distinction.</subfield>
+  </datafield>
+  <datafield tag="260" ind1=" " ind2=" ">
+    <subfield code="a">London :</subfield>
+    <subfield code="b">printed for W. Richardson,</subfield>
+    <subfield code="c">1788.</subfield>
+  </datafield>
+  <datafield tag="300" ind1=" " ind2=" ">
+    <subfield code="a">[4],281,[1]p. ;</subfield>
+    <subfield code="c">12⁰.</subfield>
+  </datafield>
+  <datafield tag="500" ind1=" " ind2=" ">
+    <subfield code="a">Reproduction of original from the British Library.</subfield>
+  </datafield>
+  <datafield tag="510" ind1="4" ind2=" ">
+    <subfield code="a">English Short Title Catalog,</subfield>
+    <subfield code="c">ESTCT74436.</subfield>
+  </datafield>
+  <datafield tag="533" ind1=" " ind2=" ">
+    <subfield code="a">Electronic reproduction.</subfield>
+    <subfield code="b">Farmington Hills, Mich. :</subfield>
+    <subfield code="c">Thomson Gale,</subfield>
+    <subfield code="d">2003.</subfield>
+    <subfield code="n">Available via the World Wide Web.</subfield>
+    <subfield code="n">Access limited by licensing agreements</subfield>
+    <subfield code="f">(Eighteenth century collections online)</subfield>
+    <subfield code="7">s2003    miunns</subfield>
+  </datafield>
+  <datafield tag="830" ind1=" " ind2="0">
+    <subfield code="a">Eighteenth century collections online</subfield>
+  </datafield>
+  <datafield tag="856" ind1="4" ind2="0">
+    <subfield code="u">http://galenet.galegroup.com/servlet/ECCO?c=1&amp;stp=Author&amp;ste=11&amp;af=BN&amp;ae=T074436&amp;tiPG=1&amp;dd=0&amp;dc=flc&amp;docNum=CW110695723&amp;vrsn=1.0&amp;srchtp=a&amp;d4=0.33&amp;n=10&amp;SU=0LRK&amp;locID=iuclassb</subfield>
+    <subfield code="z">Available on campus and off-campus with authorized logon</subfield>
+  </datafield>
+  <datafield tag="596" ind1=" " ind2=" ">
+    <subfield code="a">4</subfield>
+  </datafield>
+  <datafield tag="999" ind1=" " ind2=" ">
+    <subfield code="a">XX(5929880.1)</subfield>
+    <subfield code="w">AUTO</subfield>
+    <subfield code="c">1</subfield>
+    <subfield code="i">5929880-1001</subfield>
+    <subfield code="l">WWW</subfield>
+    <subfield code="m">ONLINE</subfield>
+    <subfield code="r">Y</subfield>
+    <subfield code="s">Y</subfield>
+    <subfield code="t">NONCIRC</subfield>
+    <subfield code="u">8/30/2004</subfield>
+  </datafield>
+</record>
+ </collection>]]>
+            </content>
+            <additionalAttributes>
+                <dateEntered>12-12-2-2010</dateEntered>
+                <lastUpdated>12-11-2011</lastUpdated>
+                <fastAddFlag>true</fastAddFlag>
+                <supressFromPublic>false</supressFromPublic>
+                <harvestable>false</harvestable>
+                <status>n</status>
+            </additionalAttributes>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="8" category="work" type="bibliographic" format="marc">
+            <content><![CDATA[
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+<record>
+  <leader>01532nam a2200253   4500</leader>
+  <controlfield tag="001">5929909</controlfield>
+  <controlfield tag="003">InU</controlfield>
+  <controlfield tag="006">m    |   j |      </controlfield>
+  <controlfield tag="007">cr||n||||||||n</controlfield>
+  <controlfield tag="008">791208s1742    enk     s     00    eng d</controlfield>
+  <datafield tag="035" ind1=" " ind2=" ">
+    <subfield code="a">(ICU)10008</subfield>
+  </datafield>
+  <datafield tag="040" ind1=" " ind2=" ">
+    <subfield code="a">Uk-ES</subfield>
+    <subfield code="c">Uk-ES</subfield>
+    <subfield code="d">CStRLIN</subfield>
+    <subfield code="d">Thomson Gale</subfield>
+  </datafield>
+  <datafield tag="245" ind1="0" ind2="2">
+    <subfield code="a">A letter to a noble lord, to whom alone it belongs</subfield>
+    <subfield code="h">[electronic resource].</subfield>
+    <subfield code="b">Occasioned by a representation at the Theatre Royal in Drury-Lane, of a farce, called Miss Lucy in town.</subfield>
+  </datafield>
+  <datafield tag="260" ind1=" " ind2=" ">
+    <subfield code="a">London :</subfield>
+    <subfield code="b">printed for T. Cooper,</subfield>
+    <subfield code="c">1742.</subfield>
+  </datafield>
+  <datafield tag="300" ind1=" " ind2=" ">
+    <subfield code="a">[4],20p. ;</subfield>
+    <subfield code="c">8⁰.</subfield>
+  </datafield>
+  <datafield tag="500" ind1=" " ind2=" ">
+    <subfield code="a">Wrongly attributed to Henry Fielding, the author of 'Miss Lucy in town' - The "noble lord" = Charles Fitzroy, Duke of Grafton, Lord Chamberlain who banned the play.</subfield>
+  </datafield>
+  <datafield tag="500" ind1=" " ind2=" ">
+    <subfield code="a">With a half-title.</subfield>
+  </datafield>
+  <datafield tag="500" ind1=" " ind2=" ">
+    <subfield code="a">Reproduction of original from the British Library.</subfield>
+  </datafield>
+  <datafield tag="510" ind1="4" ind2=" ">
+    <subfield code="a">English Short Title Catalog,</subfield>
+    <subfield code="c">ESTCT74491.</subfield>
+  </datafield>
+  <datafield tag="533" ind1=" " ind2=" ">
+    <subfield code="a">Electronic reproduction.</subfield>
+    <subfield code="b">Farmington Hills, Mich. :</subfield>
+    <subfield code="c">Thomson Gale,</subfield>
+    <subfield code="d">2003.</subfield>
+    <subfield code="n">Available via the World Wide Web.</subfield>
+    <subfield code="n">Access limited by licensing agreements</subfield>
+    <subfield code="f">(Eighteenth century collections online)</subfield>
+    <subfield code="7">s2003    miunns</subfield>
+  </datafield>
+  <datafield tag="830" ind1=" " ind2="0">
+    <subfield code="a">Eighteenth century collections online</subfield>
+  </datafield>
+  <datafield tag="700" ind1="1" ind2=" ">
+    <subfield code="a">Fielding, Henry,</subfield>
+    <subfield code="d">1707-1754.</subfield>
+  </datafield>
+  <datafield tag="856" ind1="4" ind2="0">
+    <subfield code="u">http://galenet.galegroup.com/servlet/ECCO?c=1&amp;stp=Author&amp;ste=11&amp;af=BN&amp;ae=T074491&amp;tiPG=1&amp;dd=0&amp;dc=flc&amp;docNum=CW110256104&amp;vrsn=1.0&amp;srchtp=a&amp;d4=0.33&amp;n=10&amp;SU=0LRK&amp;locID=iuclassb</subfield>
+    <subfield code="z">Available on campus and off-campus with authorized logon</subfield>
+  </datafield>
+  <datafield tag="596" ind1=" " ind2=" ">
+    <subfield code="a">4</subfield>
+  </datafield>
+  <datafield tag="999" ind1=" " ind2=" ">
+    <subfield code="a">XX(5929909.1)</subfield>
+    <subfield code="w">AUTO</subfield>
+    <subfield code="c">1</subfield>
+    <subfield code="i">5929909-1001</subfield>
+    <subfield code="l">WWW</subfield>
+    <subfield code="m">ONLINE</subfield>
+    <subfield code="r">Y</subfield>
+    <subfield code="s">Y</subfield>
+    <subfield code="t">NONCIRC</subfield>
+    <subfield code="u">8/30/2004</subfield>
+  </datafield>
+</record>
+ </collection>]]>
+            </content>
+            <additionalAttributes>
+                <dateEntered>12-12-2-2010</dateEntered>
+                <lastUpdated>12-11-2011</lastUpdated>
+                <fastAddFlag>true</fastAddFlag>
+                <supressFromPublic>false</supressFromPublic>
+                <harvestable>false</harvestable>
+                <status>n</status>
+            </additionalAttributes>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="9" category="work" type="bibliographic" format="marc">
+            <content><![CDATA[
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+<record>
+  <leader>01558cam a2200349 a 45 0</leader>
+  <controlfield tag="001">592993</controlfield>
+  <controlfield tag="003">InU</controlfield>
+  <controlfield tag="008">950127s1995    mnu           001 0 eng d</controlfield>
+  <datafield tag="010" ind1=" " ind2=" ">
+    <subfield code="a">   94060768</subfield>
+  </datafield>
+  <datafield tag="035" ind1=" " ind2=" ">
+    <subfield code="a">(ICU)10020</subfield>
+  </datafield>
+  <datafield tag="040" ind1=" " ind2=" ">
+    <subfield code="a">IPB</subfield>
+    <subfield code="c">IPB</subfield>
+  </datafield>
+  <datafield tag="043" ind1=" " ind2=" ">
+    <subfield code="a">n-us-in</subfield>
+  </datafield>
+  <datafield tag="049" ind1=" " ind2=" ">
+    <subfield code="a">ILIC</subfield>
+  </datafield>
+  <datafield tag="050" ind1="0" ind2="0">
+    <subfield code="a">KFI3080</subfield>
+    <subfield code="b">.I53 v. 12-13B, 1995</subfield>
+  </datafield>
+  <datafield tag="100" ind1="1" ind2=" ">
+    <subfield code="a">Miller, Robert Lowell.</subfield>
+  </datafield>
+  <datafield tag="245" ind1="1" ind2="0">
+    <subfield code="a">Indiana evidence /</subfield>
+    <subfield code="c">by Robert Lowell Miller, Jr.</subfield>
+  </datafield>
+  <datafield tag="250" ind1=" " ind2=" ">
+    <subfield code="a">2nd ed.</subfield>
+  </datafield>
+  <datafield tag="260" ind1=" " ind2=" ">
+    <subfield code="a">St. Paul, Minn. :</subfield>
+    <subfield code="b">West Publishing Co.,</subfield>
+    <subfield code="c">1995.</subfield>
+  </datafield>
+  <datafield tag="300" ind1=" " ind2=" ">
+    <subfield code="a">4 v. ;</subfield>
+    <subfield code="c">26 cm.</subfield>
+  </datafield>
+  <datafield tag="440" ind1=" " ind2="0">
+    <subfield code="a">Indiana practice ;</subfield>
+    <subfield code="v">v. 12-13A</subfield>
+  </datafield>
+  <datafield tag="500" ind1=" " ind2=" ">
+    <subfield code="a">Kept up to date by supplements.</subfield>
+  </datafield>
+  <datafield tag="500" ind1=" " ind2=" ">
+    <subfield code="a">Includes index.</subfield>
+  </datafield>
+  <datafield tag="650" ind1=" " ind2="0">
+    <subfield code="a">Evidence (Law)</subfield>
+    <subfield code="z">Indiana.</subfield>
+  </datafield>
+  <datafield tag="998" ind1=" " ind2=" ">
+    <subfield code="a">1/31/1995</subfield>
+    <subfield code="b">12/17/1996</subfield>
+    <subfield code="c">1/31/1995</subfield>
+  </datafield>
+  <datafield tag="596" ind1=" " ind2=" ">
+    <subfield code="a">40</subfield>
+  </datafield>
+  <datafield tag="999" ind1=" " ind2=" ">
+    <subfield code="a">KFI3080 .I53 v.12 1995</subfield>
+    <subfield code="w">LC</subfield>
+    <subfield code="c">1</subfield>
+    <subfield code="i">30000044164949</subfield>
+    <subfield code="d">2/7/2003</subfield>
+    <subfield code="e">2/6/2003</subfield>
+    <subfield code="l">_ILAWSUPC</subfield>
+    <subfield code="m">I-LAW</subfield>
+    <subfield code="n">1</subfield>
+    <subfield code="r">Y</subfield>
+    <subfield code="s">Y</subfield>
+    <subfield code="t">NONCIRC</subfield>
+    <subfield code="u">11/6/2000</subfield>
+    <subfield code="o">.STAFF. ILAFB767011</subfield>
+  </datafield>
+  <datafield tag="999" ind1=" " ind2=" ">
+    <subfield code="a">KFI3080 .I53 v.12 1995</subfield>
+    <subfield code="w">LC</subfield>
+    <subfield code="c">2</subfield>
+    <subfield code="i">30000044164972</subfield>
+    <subfield code="d">4/26/2007</subfield>
+    <subfield code="e">4/24/2007</subfield>
+    <subfield code="l">_ILAWSUPC</subfield>
+    <subfield code="m">I-LAW</subfield>
+    <subfield code="n">1</subfield>
+    <subfield code="q">1</subfield>
+    <subfield code="r">Y</subfield>
+    <subfield code="s">Y</subfield>
+    <subfield code="t">NONCIRC</subfield>
+    <subfield code="u">11/6/2000</subfield>
+    <subfield code="o">.STAFF.  c.2</subfield>
+  </datafield>
+  <datafield tag="999" ind1=" " ind2=" ">
+    <subfield code="a">KFI3080 .I53 v.13 1995</subfield>
+    <subfield code="w">LC</subfield>
+    <subfield code="c">1</subfield>
+    <subfield code="i">30000044164956</subfield>
+    <subfield code="d">6/15/2005</subfield>
+    <subfield code="e">5/18/2005</subfield>
+    <subfield code="l">_ILAWSUPC</subfield>
+    <subfield code="m">I-LAW</subfield>
+    <subfield code="n">1</subfield>
+    <subfield code="r">Y</subfield>
+    <subfield code="s">Y</subfield>
+    <subfield code="t">NONCIRC</subfield>
+    <subfield code="u">11/6/2000</subfield>
+  </datafield>
+  <datafield tag="999" ind1=" " ind2=" ">
+    <subfield code="a">KFI3080 .I53 v.13 1995</subfield>
+    <subfield code="w">LC</subfield>
+    <subfield code="c">2</subfield>
+    <subfield code="i">30000044164980</subfield>
+    <subfield code="l">_ILAWSUPC</subfield>
+    <subfield code="m">I-LAW</subfield>
+    <subfield code="r">Y</subfield>
+    <subfield code="s">Y</subfield>
+    <subfield code="t">NONCIRC</subfield>
+    <subfield code="u">11/6/2000</subfield>
+    <subfield code="o">.STAFF.  c.2</subfield>
+  </datafield>
+  <datafield tag="999" ind1=" " ind2=" ">
+    <subfield code="a">KFI3080 .I53 v.13A 1995</subfield>
+    <subfield code="w">LC</subfield>
+    <subfield code="c">1</subfield>
+    <subfield code="i">30000044164964</subfield>
+    <subfield code="l">_ILAWSUPC</subfield>
+    <subfield code="m">I-LAW</subfield>
+    <subfield code="r">Y</subfield>
+    <subfield code="s">Y</subfield>
+    <subfield code="t">NONCIRC</subfield>
+    <subfield code="u">11/6/2000</subfield>
+  </datafield>
+  <datafield tag="999" ind1=" " ind2=" ">
+    <subfield code="a">KFI3080 .I53 v.13A 1995</subfield>
+    <subfield code="w">LC</subfield>
+    <subfield code="c">2</subfield>
+    <subfield code="i">30000044164998</subfield>
+    <subfield code="l">_ILAWSUPC</subfield>
+    <subfield code="m">I-LAW</subfield>
+    <subfield code="r">Y</subfield>
+    <subfield code="s">Y</subfield>
+    <subfield code="t">NONCIRC</subfield>
+    <subfield code="u">11/6/2000</subfield>
+    <subfield code="o">.STAFF.  c.2</subfield>
+  </datafield>
+</record>
+ </collection>]]>
+            </content>
+            <additionalAttributes>
+                <dateEntered>12-12-2-2010</dateEntered>
+                <lastUpdated>12-11-2011</lastUpdated>
+                <fastAddFlag>true</fastAddFlag>
+                <supressFromPublic>false</supressFromPublic>
+                <harvestable>false</harvestable>
+                <status>n</status>
+            </additionalAttributes>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="10" category="work" type="bibliographic" format="marc">
+            <content><![CDATA[
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+<record>
+  <leader>01193cas a2200397 a 45 0</leader>
+  <controlfield tag="001">592994</controlfield>
+  <controlfield tag="003">InU</controlfield>
+  <controlfield tag="008">910725c19909999nyuar1        0   a0eng  </controlfield>
+  <datafield tag="010" ind1=" " ind2=" ">
+    <subfield code="a">   91662208 //r92</subfield>
+  </datafield>
+  <datafield tag="012" ind1=" " ind2=" ">
+    <subfield code="a">2</subfield>
+    <subfield code="i">9107</subfield>
+    <subfield code="l">1</subfield>
+  </datafield>
+  <datafield tag="022" ind1="0" ind2=" ">
+    <subfield code="a">1062-600X</subfield>
+  </datafield>
+  <datafield tag="035" ind1=" " ind2=" ">
+    <subfield code="a">(ICU)10009</subfield>
+  </datafield>
+  <datafield tag="040" ind1=" " ind2=" ">
+    <subfield code="a">DLC</subfield>
+    <subfield code="c">DLC</subfield>
+    <subfield code="d">NSD</subfield>
+    <subfield code="d">IUL</subfield>
+  </datafield>
+  <datafield tag="042" ind1=" " ind2=" ">
+    <subfield code="a">lc</subfield>
+    <subfield code="a">nsdp</subfield>
+  </datafield>
+  <datafield tag="043" ind1=" " ind2=" ">
+    <subfield code="a">n-us---</subfield>
+  </datafield>
+  <datafield tag="049" ind1=" " ind2=" ">
+    <subfield code="a">IULA</subfield>
+  </datafield>
+  <datafield tag="050" ind1="0" ind2="0">
+    <subfield code="a">GV1202.F34</subfield>
+    <subfield code="b">D36</subfield>
+  </datafield>
+  <datafield tag="082" ind1="0" ind2="0">
+    <subfield code="a">793.93</subfield>
+    <subfield code="2">20</subfield>
+  </datafield>
+  <datafield tag="210" ind1="0" ind2=" ">
+    <subfield code="a">Danny Sheridan's fantasy footb.</subfield>
+  </datafield>
+  <datafield tag="222" ind1=" " ind2="0">
+    <subfield code="a">Danny Sheridan's fantasy football</subfield>
+  </datafield>
+  <datafield tag="245" ind1="0" ind2="0">
+    <subfield code="a">Danny Sheridan's fantasy football.</subfield>
+  </datafield>
+  <datafield tag="246" ind1="1" ind2="0">
+    <subfield code="a">Fantasy football</subfield>
+  </datafield>
+  <datafield tag="260" ind1=" " ind2=" ">
+    <subfield code="a">New York :</subfield>
+    <subfield code="b">Collier Books/Macmillan Pub. Co.,</subfield>
+    <subfield code="c">c1990-</subfield>
+  </datafield>
+  <datafield tag="300" ind1=" " ind2=" ">
+    <subfield code="a">v. :</subfield>
+    <subfield code="b">ill. ;</subfield>
+    <subfield code="c">21 cm.</subfield>
+  </datafield>
+  <datafield tag="310" ind1=" " ind2=" ">
+    <subfield code="a">Annual</subfield>
+  </datafield>
+  <datafield tag="362" ind1="0" ind2=" ">
+    <subfield code="a">[1990 ed.]-</subfield>
+  </datafield>
+  <datafield tag="500" ind1=" " ind2=" ">
+    <subfield code="a">Published by: Macmillan, &lt;1994-&gt;</subfield>
+  </datafield>
+  <datafield tag="591" ind1=" " ind2=" ">
+    <subfield code="a"></subfield>
+  </datafield>
+  <datafield tag="650" ind1=" " ind2="0">
+    <subfield code="a">Fantasy football (Game)</subfield>
+    <subfield code="x">Periodicals.</subfield>
+  </datafield>
+  <datafield tag="700" ind1="1" ind2="0">
+    <subfield code="a">Sheridan, Danny.</subfield>
+  </datafield>
+  <datafield tag="850" ind1=" " ind2=" ">
+    <subfield code="a">DLC</subfield>
+    <subfield code="a">InU</subfield>
+  </datafield>
+  <datafield tag="890" ind1=" " ind2=" ">
+    <subfield code="a">Danny Sheridan's fantasy football.</subfield>
+  </datafield>
+  <datafield tag="998" ind1=" " ind2=" ">
+    <subfield code="a">1/31/1995</subfield>
+    <subfield code="c">1/31/1995</subfield>
+  </datafield>
+  <datafield tag="596" ind1=" " ind2=" ">
+    <subfield code="a">44</subfield>
+  </datafield>
+  <datafield tag="999" ind1=" " ind2=" ">
+    <subfield code="a">GV1202.F34 D36 1994</subfield>
+    <subfield code="w">LC</subfield>
+    <subfield code="c">1</subfield>
+    <subfield code="i">30000021331248</subfield>
+    <subfield code="d">12/2/1997</subfield>
+    <subfield code="e">12/2/1997</subfield>
+    <subfield code="k">LOST</subfield>
+    <subfield code="l">STACKS</subfield>
+    <subfield code="m">NORTHWEST</subfield>
+    <subfield code="n">2</subfield>
+    <subfield code="q">2</subfield>
+    <subfield code="r">M</subfield>
+    <subfield code="s">Y</subfield>
+    <subfield code="t">NORMAL</subfield>
+    <subfield code="u">11/6/2000</subfield>
+  </datafield>
+</record>
+ </collection>]]>
+            </content>
+            <additionalAttributes>
+                <dateEntered>12-12-2-2010</dateEntered>
+                <lastUpdated>12-11-2011</lastUpdated>
+                <fastAddFlag>true</fastAddFlag>
+                <supressFromPublic>false</supressFromPublic>
+                <harvestable>false</harvestable>
+                <status>n</status>
+            </additionalAttributes>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="11" category="work" type="bibliographic" format="marc">
+            <content><![CDATA[
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+<record>
+  <leader>01543cam a2200277   4500</leader>
+  <controlfield tag="001">5929980</controlfield>
+  <controlfield tag="003">InU</controlfield>
+  <controlfield tag="006">m    |   j |      </controlfield>
+  <controlfield tag="007">cr||n||||||||n</controlfield>
+  <controlfield tag="008">791208s1718    enk     s     00    eng d</controlfield>
+  <datafield tag="035" ind1=" " ind2=" ">
+    <subfield code="a">(ICU)10010</subfield>
+  </datafield>
+  <datafield tag="040" ind1=" " ind2=" ">
+    <subfield code="a">Uk-ES</subfield>
+    <subfield code="c">Uk-ES</subfield>
+    <subfield code="d">CStRLIN</subfield>
+    <subfield code="d">Thomson Gale</subfield>
+  </datafield>
+  <datafield tag="100" ind1="1" ind2=" ">
+    <subfield code="a">Addison, Joseph,</subfield>
+    <subfield code="d">1672-1719.</subfield>
+  </datafield>
+  <datafield tag="245" ind1="1" ind2="0">
+    <subfield code="a">Remarks on several parts of Italy, &amp;c. in the years 1701, 1702, 1703</subfield>
+    <subfield code="h">[electronic resource].</subfield>
+  </datafield>
+  <datafield tag="250" ind1=" " ind2=" ">
+    <subfield code="a">The second edition.</subfield>
+  </datafield>
+  <datafield tag="260" ind1=" " ind2=" ">
+    <subfield code="a">London :</subfield>
+    <subfield code="b">printed for J. Tonson,</subfield>
+    <subfield code="c">1718.</subfield>
+  </datafield>
+  <datafield tag="300" ind1=" " ind2=" ">
+    <subfield code="a">[12],x,410,[10]p. ;</subfield>
+    <subfield code="c">12⁰.</subfield>
+  </datafield>
+  <datafield tag="500" ind1=" " ind2=" ">
+    <subfield code="a">P. 258 misnumbered 228.</subfield>
+  </datafield>
+  <datafield tag="500" ind1=" " ind2=" ">
+    <subfield code="a">Variant 1 has p. 255 misnumbered 252 and p. 258 numbered correctly. Variant 2 has p. 227 and 255 misnumbered 237 and 252 respectively, and p. 258 numbered correctly.</subfield>
+  </datafield>
+  <datafield tag="500" ind1=" " ind2=" ">
+    <subfield code="a">Dedication signed: J. Addison.</subfield>
+  </datafield>
+  <datafield tag="500" ind1=" " ind2=" ">
+    <subfield code="a">Reproduction of original from the British Library.</subfield>
+  </datafield>
+  <datafield tag="510" ind1="4" ind2=" ">
+    <subfield code="a">English Short Title Catalog,</subfield>
+    <subfield code="c">ESTCT74576.</subfield>
+  </datafield>
+  <datafield tag="533" ind1=" " ind2=" ">
+    <subfield code="a">Electronic reproduction.</subfield>
+    <subfield code="b">Farmington Hills, Mich. :</subfield>
+    <subfield code="c">Thomson Gale,</subfield>
+    <subfield code="d">2003.</subfield>
+    <subfield code="n">Available via the World Wide Web.</subfield>
+    <subfield code="n">Access limited by licensing agreements</subfield>
+    <subfield code="f">(Eighteenth century collections online)</subfield>
+    <subfield code="7">s2003    miunns</subfield>
+  </datafield>
+  <datafield tag="830" ind1=" " ind2="0">
+    <subfield code="a">Eighteenth century collections online</subfield>
+  </datafield>
+  <datafield tag="856" ind1="4" ind2="0">
+    <subfield code="u">http://galenet.galegroup.com/servlet/ECCO?c=1&amp;stp=Author&amp;ste=11&amp;af=BN&amp;ae=T074576&amp;tiPG=1&amp;dd=0&amp;dc=flc&amp;docNum=CW100787717&amp;vrsn=1.0&amp;srchtp=a&amp;d4=0.33&amp;n=10&amp;SU=0LRH&amp;locID=iuclassb</subfield>
+    <subfield code="z">Available on campus and off-campus with authorized logon</subfield>
+  </datafield>
+  <datafield tag="596" ind1=" " ind2=" ">
+    <subfield code="a">4</subfield>
+  </datafield>
+  <datafield tag="999" ind1=" " ind2=" ">
+    <subfield code="a">XX(5929980.1)</subfield>
+    <subfield code="w">AUTO</subfield>
+    <subfield code="c">1</subfield>
+    <subfield code="i">5929980-1001</subfield>
+    <subfield code="l">WWW</subfield>
+    <subfield code="m">ONLINE</subfield>
+    <subfield code="r">Y</subfield>
+    <subfield code="s">Y</subfield>
+    <subfield code="t">NONCIRC</subfield>
+    <subfield code="u">8/30/2004</subfield>
+  </datafield>
+</record>
+ </collection>]]>
+            </content>
+            <additionalAttributes>
+                <dateEntered>12-12-2-2010</dateEntered>
+                <lastUpdated>12-11-2011</lastUpdated>
+                <fastAddFlag>true</fastAddFlag>
+                <supressFromPublic>false</supressFromPublic>
+                <harvestable>false</harvestable>
+                <status>n</status>
+            </additionalAttributes>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="12" category="work" type="bibliographic" format="marc">
+            <content><![CDATA[
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+<record>
+  <leader>01318cam a2200241   4500</leader>
+  <controlfield tag="001">5929982</controlfield>
+  <controlfield tag="003">InU</controlfield>
+  <controlfield tag="006">m    |   j |      </controlfield>
+  <controlfield tag="007">cr||n||||||||n</controlfield>
+  <controlfield tag="008">791208s1733    enk     s     00    eng d</controlfield>
+  <datafield tag="035" ind1=" " ind2=" ">
+    <subfield code="a">(ICU)10011</subfield>
+  </datafield>
+  <datafield tag="040" ind1=" " ind2=" ">
+    <subfield code="a">Uk-ES</subfield>
+    <subfield code="c">Uk-ES</subfield>
+    <subfield code="d">CStRLIN</subfield>
+    <subfield code="d">Thomson Gale</subfield>
+  </datafield>
+  <datafield tag="100" ind1="1" ind2=" ">
+    <subfield code="a">Addison, Joseph,</subfield>
+    <subfield code="d">1672-1719.</subfield>
+  </datafield>
+  <datafield tag="245" ind1="1" ind2="0">
+    <subfield code="a">Remarks on several parts of Italy, &amp;c. in the years, 1701, 1702, 1703</subfield>
+    <subfield code="h">[electronic resource].</subfield>
+    <subfield code="b">By the late Right Honourable Joseph Addison, Esq;</subfield>
+  </datafield>
+  <datafield tag="250" ind1=" " ind2=" ">
+    <subfield code="a">The fourth edition.</subfield>
+  </datafield>
+  <datafield tag="260" ind1=" " ind2=" ">
+    <subfield code="a">London :</subfield>
+    <subfield code="b">printed for J. Tonson,</subfield>
+    <subfield code="c">1733.</subfield>
+  </datafield>
+  <datafield tag="300" ind1=" " ind2=" ">
+    <subfield code="a">304,[8]p. ;</subfield>
+    <subfield code="c">12⁰.</subfield>
+  </datafield>
+  <datafield tag="500" ind1=" " ind2=" ">
+    <subfield code="a">Reproduction of original from the British Library.</subfield>
+  </datafield>
+  <datafield tag="510" ind1="4" ind2=" ">
+    <subfield code="a">English Short Title Catalog,</subfield>
+    <subfield code="c">ESTCT74578.</subfield>
+  </datafield>
+  <datafield tag="533" ind1=" " ind2=" ">
+    <subfield code="a">Electronic reproduction.</subfield>
+    <subfield code="b">Farmington Hills, Mich. :</subfield>
+    <subfield code="c">Thomson Gale,</subfield>
+    <subfield code="d">2003.</subfield>
+    <subfield code="n">Available via the World Wide Web.</subfield>
+    <subfield code="n">Access limited by licensing agreements</subfield>
+    <subfield code="f">(Eighteenth century collections online)</subfield>
+    <subfield code="7">s2003    miunns</subfield>
+  </datafield>
+  <datafield tag="830" ind1=" " ind2="0">
+    <subfield code="a">Eighteenth century collections online</subfield>
+  </datafield>
+  <datafield tag="856" ind1="4" ind2="0">
+    <subfield code="u">http://galenet.galegroup.com/servlet/ECCO?c=1&amp;stp=Author&amp;ste=11&amp;af=BN&amp;ae=T074578&amp;tiPG=1&amp;dd=0&amp;dc=flc&amp;docNum=CW102372786&amp;vrsn=1.0&amp;srchtp=a&amp;d4=0.33&amp;n=10&amp;SU=0LRH&amp;locID=iuclassb</subfield>
+    <subfield code="z">Available on campus and off-campus with authorized logon</subfield>
+  </datafield>
+  <datafield tag="596" ind1=" " ind2=" ">
+    <subfield code="a">4</subfield>
+  </datafield>
+  <datafield tag="999" ind1=" " ind2=" ">
+    <subfield code="a">XX(5929982.1)</subfield>
+    <subfield code="w">AUTO</subfield>
+    <subfield code="c">1</subfield>
+    <subfield code="i">5929982-1001</subfield>
+    <subfield code="l">WWW</subfield>
+    <subfield code="m">ONLINE</subfield>
+    <subfield code="r">Y</subfield>
+    <subfield code="s">Y</subfield>
+    <subfield code="t">NONCIRC</subfield>
+    <subfield code="u">8/30/2004</subfield>
+  </datafield>
+</record>
+ </collection>]]>
+            </content>
+            <additionalAttributes>
+                <dateEntered>12-12-2-2010</dateEntered>
+                <lastUpdated>12-11-2011</lastUpdated>
+                <fastAddFlag>true</fastAddFlag>
+                <supressFromPublic>false</supressFromPublic>
+                <harvestable>false</harvestable>
+                <status>n</status>
+            </additionalAttributes>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="13" category="work" type="bibliographic" format="marc">
+            <content><![CDATA[
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+<record>
+  <leader>01388nam a2200253   4500</leader>
+  <controlfield tag="001">5929984</controlfield>
+  <controlfield tag="003">InU</controlfield>
+  <controlfield tag="006">m    |   j |      </controlfield>
+  <controlfield tag="007">cr||n||||||||n</controlfield>
+  <controlfield tag="008">791208s1755    stk     s     00    eng d</controlfield>
+   <datafield tag="035" ind1=" " ind2=" ">
+    <subfield code="a">(ICU)10012</subfield>
+  </datafield>
+  <datafield tag="040" ind1=" " ind2=" ">
+    <subfield code="a">Uk-ES</subfield>
+    <subfield code="c">Uk-ES</subfield>
+    <subfield code="d">CStRLIN</subfield>
+    <subfield code="d">Thomson Gale</subfield>
+  </datafield>
+  <datafield tag="100" ind1="1" ind2=" ">
+    <subfield code="a">Addison, Joseph,</subfield>
+    <subfield code="d">1672-1719.</subfield>
+  </datafield>
+  <datafield tag="245" ind1="1" ind2="0">
+    <subfield code="a">Remarks on several parts of Italy, &amp;c. in the years 1701, 1702, 1703</subfield>
+    <subfield code="h">[electronic resource].</subfield>
+    <subfield code="b">By the late Right Honourable Joseph Addison, Esq;</subfield>
+  </datafield>
+  <datafield tag="260" ind1=" " ind2=" ">
+    <subfield code="a">Glasgow :</subfield>
+    <subfield code="b">printed and sold by Robert and Andrew Foulis,</subfield>
+    <subfield code="c">1755.</subfield>
+  </datafield>
+  <datafield tag="300" ind1=" " ind2=" ">
+    <subfield code="a">[8],271,[9]p.,plate ;</subfield>
+    <subfield code="c">12⁰.</subfield>
+  </datafield>
+  <datafield tag="500" ind1=" " ind2=" ">
+    <subfield code="a">A variant has format 8⁰.</subfield>
+  </datafield>
+  <datafield tag="500" ind1=" " ind2=" ">
+    <subfield code="a">Reproduction of original from the British Library.</subfield>
+  </datafield>
+  <datafield tag="510" ind1="4" ind2=" ">
+    <subfield code="a">Gaskell,</subfield>
+    <subfield code="c">280</subfield>
+  </datafield>
+  <datafield tag="510" ind1="4" ind2=" ">
+    <subfield code="a">English Short Title Catalog,</subfield>
+    <subfield code="c">ESTCT74580.</subfield>
+  </datafield>
+  <datafield tag="533" ind1=" " ind2=" ">
+    <subfield code="a">Electronic reproduction.</subfield>
+    <subfield code="b">Farmington Hills, Mich. :</subfield>
+    <subfield code="c">Thomson Gale,</subfield>
+    <subfield code="d">2003.</subfield>
+    <subfield code="n">Available via the World Wide Web.</subfield>
+    <subfield code="n">Access limited by licensing agreements</subfield>
+    <subfield code="f">(Eighteenth century collections online)</subfield>
+    <subfield code="7">s2003    miunns</subfield>
+  </datafield>
+  <datafield tag="830" ind1=" " ind2="0">
+    <subfield code="a">Eighteenth century collections online</subfield>
+  </datafield>
+  <datafield tag="856" ind1="4" ind2="0">
+    <subfield code="u">http://galenet.galegroup.com/servlet/ECCO?c=1&amp;stp=Author&amp;ste=11&amp;af=BN&amp;ae=T074580&amp;tiPG=1&amp;dd=0&amp;dc=flc&amp;docNum=CW100088841&amp;vrsn=1.0&amp;srchtp=a&amp;d4=0.33&amp;n=10&amp;SU=0LRH&amp;locID=iuclassb</subfield>
+    <subfield code="z">Available on campus and off-campus with authorized logon</subfield>
+  </datafield>
+  <datafield tag="596" ind1=" " ind2=" ">
+    <subfield code="a">4</subfield>
+  </datafield>
+  <datafield tag="999" ind1=" " ind2=" ">
+    <subfield code="a">XX(5929984.1)</subfield>
+    <subfield code="w">AUTO</subfield>
+    <subfield code="c">1</subfield>
+    <subfield code="i">5929984-1001</subfield>
+    <subfield code="l">WWW</subfield>
+    <subfield code="m">ONLINE</subfield>
+    <subfield code="r">Y</subfield>
+    <subfield code="s">Y</subfield>
+    <subfield code="t">NONCIRC</subfield>
+    <subfield code="u">8/30/2004</subfield>
+  </datafield>
+</record>
+ </collection>]]>
+            </content>
+            <additionalAttributes>
+                <dateEntered>12-12-2-2010</dateEntered>
+                <lastUpdated>12-11-2011</lastUpdated>
+                <fastAddFlag>true</fastAddFlag>
+                <supressFromPublic>false</supressFromPublic>
+                <harvestable>false</harvestable>
+                <status>n</status>
+            </additionalAttributes>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="14" category="work" type="bibliographic" format="marc">
+            <content><![CDATA[
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+<record>
+  <leader>01494cam a2200229   4500</leader>
+  <controlfield tag="001">5929987</controlfield>
+  <controlfield tag="003">InU</controlfield>
+  <controlfield tag="006">m    |   j |      </controlfield>
+  <controlfield tag="007">cr||n||||||||n</controlfield>
+  <controlfield tag="008">791208s1730    enk     s     00    eng d</controlfield>
+   <datafield tag="035" ind1=" " ind2=" ">
+    <subfield code="a">(ICU)10013</subfield>
+  </datafield>
+  <datafield tag="040" ind1=" " ind2=" ">
+    <subfield code="a">Uk-ES</subfield>
+    <subfield code="c">Uk-ES</subfield>
+    <subfield code="d">CStRLIN</subfield>
+    <subfield code="d">Thomson Gale</subfield>
+  </datafield>
+  <datafield tag="100" ind1="1" ind2=" ">
+    <subfield code="a">Addison, Joseph,</subfield>
+    <subfield code="d">1672-1719.</subfield>
+  </datafield>
+  <datafield tag="245" ind1="1" ind2="4">
+    <subfield code="a">The evidences of the Christian religion</subfield>
+    <subfield code="h">[electronic resource],</subfield>
+    <subfield code="b">by the Right Honorable Joseph Addison, Esq; To which are added, several discourses against atheism and infidelity, ... occasionally published by him and others: ... With a preface, containing the sentiments of Mr. Boyle, Mr. Lock, and Sir Isaac Newton, concerning the gospel-revelation.</subfield>
+  </datafield>
+  <datafield tag="260" ind1=" " ind2=" ">
+    <subfield code="a">London :</subfield>
+    <subfield code="b">printed for J. Tonson,</subfield>
+    <subfield code="c">1730.</subfield>
+  </datafield>
+  <datafield tag="300" ind1=" " ind2=" ">
+    <subfield code="a">xxvi,[2],330p. ;</subfield>
+    <subfield code="c">12⁰.</subfield>
+  </datafield>
+  <datafield tag="500" ind1=" " ind2=" ">
+    <subfield code="a">Reproduction of original from the British Library.</subfield>
+  </datafield>
+  <datafield tag="510" ind1="4" ind2=" ">
+    <subfield code="a">English Short Title Catalog,</subfield>
+    <subfield code="c">ESTCT74583.</subfield>
+  </datafield>
+  <datafield tag="533" ind1=" " ind2=" ">
+    <subfield code="a">Electronic reproduction.</subfield>
+    <subfield code="b">Farmington Hills, Mich. :</subfield>
+    <subfield code="c">Thomson Gale,</subfield>
+    <subfield code="d">2003.</subfield>
+    <subfield code="n">Available via the World Wide Web.</subfield>
+    <subfield code="n">Access limited by licensing agreements</subfield>
+    <subfield code="f">(Eighteenth century collections online)</subfield>
+    <subfield code="7">s2003    miunns</subfield>
+  </datafield>
+  <datafield tag="830" ind1=" " ind2="0">
+    <subfield code="a">Eighteenth century collections online</subfield>
+  </datafield>
+  <datafield tag="856" ind1="4" ind2="0">
+    <subfield code="u">http://galenet.galegroup.com/servlet/ECCO?c=1&amp;stp=Author&amp;ste=11&amp;af=BN&amp;ae=T074583&amp;tiPG=1&amp;dd=0&amp;dc=flc&amp;docNum=CW118520174&amp;vrsn=1.0&amp;srchtp=a&amp;d4=0.33&amp;n=10&amp;SU=0LRF&amp;locID=iuclassb</subfield>
+    <subfield code="z">Available on campus and off-campus with authorized logon</subfield>
+  </datafield>
+  <datafield tag="596" ind1=" " ind2=" ">
+    <subfield code="a">4</subfield>
+  </datafield>
+  <datafield tag="999" ind1=" " ind2=" ">
+    <subfield code="a">XX(5929987.1)</subfield>
+    <subfield code="w">AUTO</subfield>
+    <subfield code="c">1</subfield>
+    <subfield code="i">5929987-1001</subfield>
+    <subfield code="l">WWW</subfield>
+    <subfield code="m">ONLINE</subfield>
+    <subfield code="r">Y</subfield>
+    <subfield code="s">Y</subfield>
+    <subfield code="t">NONCIRC</subfield>
+    <subfield code="u">8/30/2004</subfield>
+  </datafield>
+</record>
+ </collection>]]>
+            </content>
+            <additionalAttributes>
+                <dateEntered>12-12-2-2010</dateEntered>
+                <lastUpdated>12-11-2011</lastUpdated>
+                <fastAddFlag>true</fastAddFlag>
+                <supressFromPublic>false</supressFromPublic>
+                <harvestable>false</harvestable>
+                <status>n</status>
+            </additionalAttributes>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="15" category="work" type="bibliographic" format="marc">
+            <content><![CDATA[
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+<record>
+  <leader>01469nam a2200265   4500</leader>
+  <controlfield tag="001">5929999</controlfield>
+  <controlfield tag="003">InU</controlfield>
+  <controlfield tag="006">m    |   j |      </controlfield>
+  <controlfield tag="007">cr||n||||||||n</controlfield>
+  <controlfield tag="008">791208s1783    enk     s     00    eng d</controlfield>
+   <datafield tag="035" ind1=" " ind2=" ">
+    <subfield code="a">(ICU)10014</subfield>
+  </datafield>
+  <datafield tag="040" ind1=" " ind2=" ">
+    <subfield code="a">Uk-ES</subfield>
+    <subfield code="c">Uk-ES</subfield>
+    <subfield code="d">Cu-RivES</subfield>
+    <subfield code="d">CStRLIN</subfield>
+    <subfield code="d">Thomson Gale</subfield>
+  </datafield>
+  <datafield tag="100" ind1="1" ind2=" ">
+    <subfield code="a">Dent, John,</subfield>
+    <subfield code="d">fl. 1782-1795.</subfield>
+  </datafield>
+  <datafield tag="245" ind1="1" ind2="4">
+    <subfield code="a">The receipt tax</subfield>
+    <subfield code="h">[electronic resource].</subfield>
+    <subfield code="b">A farce, in two acts, as performed at the Theatre-Royal, in the Hay-Market, with universal applause. Written by the author of Too civil by half, &amp;c.</subfield>
+  </datafield>
+  <datafield tag="260" ind1=" " ind2=" ">
+    <subfield code="a">London :</subfield>
+    <subfield code="b">printed for J. Stockdale,</subfield>
+    <subfield code="c">1783.</subfield>
+  </datafield>
+  <datafield tag="300" ind1=" " ind2=" ">
+    <subfield code="a">48p. ;</subfield>
+    <subfield code="c">8⁰.</subfield>
+  </datafield>
+  <datafield tag="500" ind1=" " ind2=" ">
+    <subfield code="a">The author of Too civil by half = John Dent.</subfield>
+  </datafield>
+  <datafield tag="500" ind1=" " ind2=" ">
+    <subfield code="a">Horizontal chain lines.</subfield>
+  </datafield>
+  <datafield tag="500" ind1=" " ind2=" ">
+    <subfield code="a">With a half-title.</subfield>
+  </datafield>
+  <datafield tag="500" ind1=" " ind2=" ">
+    <subfield code="a">Reproduction of original from the British Library.</subfield>
+  </datafield>
+  <datafield tag="510" ind1="4" ind2=" ">
+    <subfield code="a">English Short Title Catalog,</subfield>
+    <subfield code="c">ESTCT74600.</subfield>
+  </datafield>
+  <datafield tag="533" ind1=" " ind2=" ">
+    <subfield code="a">Electronic reproduction.</subfield>
+    <subfield code="b">Farmington Hills, Mich. :</subfield>
+    <subfield code="c">Thomson Gale,</subfield>
+    <subfield code="d">2003.</subfield>
+    <subfield code="n">Available via the World Wide Web.</subfield>
+    <subfield code="n">Access limited by licensing agreements</subfield>
+    <subfield code="f">(Eighteenth century collections online)</subfield>
+    <subfield code="7">s2003    miunns</subfield>
+  </datafield>
+  <datafield tag="830" ind1=" " ind2="0">
+    <subfield code="a">Eighteenth century collections online</subfield>
+  </datafield>
+  <datafield tag="856" ind1="4" ind2="0">
+    <subfield code="u">http://galenet.galegroup.com/servlet/ECCO?c=1&amp;stp=Author&amp;ste=11&amp;af=BN&amp;ae=T074600&amp;tiPG=1&amp;dd=0&amp;dc=flc&amp;docNum=CW115328422&amp;vrsn=1.0&amp;srchtp=a&amp;d4=0.33&amp;n=10&amp;SU=0LRK&amp;locID=iuclassb</subfield>
+    <subfield code="z">Available on campus and off-campus with authorized logon</subfield>
+  </datafield>
+  <datafield tag="596" ind1=" " ind2=" ">
+    <subfield code="a">4</subfield>
+  </datafield>
+  <datafield tag="999" ind1=" " ind2=" ">
+    <subfield code="a">XX(5929999.1)</subfield>
+    <subfield code="w">AUTO</subfield>
+    <subfield code="c">1</subfield>
+    <subfield code="i">5929999-1001</subfield>
+    <subfield code="l">WWW</subfield>
+    <subfield code="m">ONLINE</subfield>
+    <subfield code="r">Y</subfield>
+    <subfield code="s">Y</subfield>
+    <subfield code="t">NONCIRC</subfield>
+    <subfield code="u">8/30/2004</subfield>
+  </datafield>
+</record>
+ </collection>]]>
+            </content>
+            <additionalAttributes>
+                <dateEntered>12-12-2-2010</dateEntered>
+                <lastUpdated>12-11-2011</lastUpdated>
+                <fastAddFlag>true</fastAddFlag>
+                <supressFromPublic>false</supressFromPublic>
+                <harvestable>false</harvestable>
+                <status>n</status>
+            </additionalAttributes>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="16" category="work" type="bibliographic" format="marc">
+            <content><![CDATA[
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+<record>
+  <leader>01209cas a2200373 a 45 0</leader>
+  <controlfield tag="001">593002</controlfield>
+  <controlfield tag="003">InU</controlfield>
+  <controlfield tag="008">950113c19939999pl ar    s   f0    0pol d</controlfield>
+  <datafield tag="010" ind1=" " ind2=" ">
+    <subfield code="a">sn 95020187</subfield>
+  </datafield>
+  <datafield tag="012" ind1=" " ind2=" ">
+    <subfield code="i">9501</subfield>
+  </datafield>
+ <datafield tag="035" ind1=" " ind2=" ">
+    <subfield code="a">(ICU)10015</subfield>
+  </datafield>
+  <datafield tag="040" ind1=" " ind2=" ">
+    <subfield code="a">COO</subfield>
+    <subfield code="c">DLC</subfield>
+    <subfield code="d">IUL</subfield>
+  </datafield>
+  <datafield tag="042" ind1=" " ind2=" ">
+    <subfield code="a">lcd</subfield>
+  </datafield>
+  <datafield tag="043" ind1=" " ind2=" ">
+    <subfield code="a">e-pl---</subfield>
+  </datafield>
+  <datafield tag="049" ind1=" " ind2=" ">
+    <subfield code="a">IULA</subfield>
+  </datafield>
+  <datafield tag="050" ind1="1" ind2="4">
+    <subfield code="a">HF3636</subfield>
+    <subfield code="b">.A3</subfield>
+  </datafield>
+  <datafield tag="130" ind1="0" ind2=" ">
+    <subfield code="a">Rocznik statystyczny handlu zagranicznego (1993)</subfield>
+  </datafield>
+  <datafield tag="245" ind1="0" ind2="0">
+    <subfield code="a">Rocznik statystyczny handlu zagranicznego.</subfield>
+  </datafield>
+  <datafield tag="260" ind1=" " ind2=" ">
+    <subfield code="a">Warszawa :</subfield>
+    <subfield code="b">Głowny Urząd Statystyczny,</subfield>
+    <subfield code="c">1993-</subfield>
+  </datafield>
+  <datafield tag="265" ind1=" " ind2=" ">
+    <subfield code="a">Zakłąd Wydawnictw Statystycznych, 00-925 Warszawa, al. Niepodleglosci 208</subfield>
+  </datafield>
+  <datafield tag="300" ind1=" " ind2=" ">
+    <subfield code="a">v. ;</subfield>
+    <subfield code="c">24 cm.</subfield>
+  </datafield>
+  <datafield tag="310" ind1=" " ind2=" ">
+    <subfield code="a">Annual</subfield>
+  </datafield>
+  <datafield tag="362" ind1="0" ind2=" ">
+    <subfield code="a">1993-</subfield>
+  </datafield>
+  <datafield tag="490" ind1="1" ind2=" ">
+    <subfield code="a">Roczniki branżowe</subfield>
+  </datafield>
+  <datafield tag="591" ind1=" " ind2=" ">
+    <subfield code="a"></subfield>
+  </datafield>
+  <datafield tag="651" ind1=" " ind2="0">
+    <subfield code="a">Poland</subfield>
+    <subfield code="x">Commerce</subfield>
+    <subfield code="x">Statistics</subfield>
+    <subfield code="x">Periodicals.</subfield>
+  </datafield>
+  <datafield tag="710" ind1="1" ind2="0">
+    <subfield code="a">Poland.</subfield>
+    <subfield code="b">Główny Urząd Statystyczny.</subfield>
+  </datafield>
+  <datafield tag="780" ind1="0" ind2="0">
+    <subfield code="t">Roczniki statystyczne. Handel zagraniczny</subfield>
+    <subfield code="x">0079-2691</subfield>
+    <subfield code="w">(DLC)   92656518</subfield>
+    <subfield code="w">(OCoLC)23832225</subfield>
+  </datafield>
+  <datafield tag="830" ind1=" " ind2="0">
+    <subfield code="a">Seria Roczniki branżowe.</subfield>
+  </datafield>
+  <datafield tag="850" ind1=" " ind2=" ">
+    <subfield code="a">InU</subfield>
+    <subfield code="a">NIC</subfield>
+  </datafield>
+  <datafield tag="998" ind1=" " ind2=" ">
+    <subfield code="a">1/31/1995</subfield>
+    <subfield code="b">2/13/1995</subfield>
+    <subfield code="c">1/31/1995</subfield>
+  </datafield>
+  <datafield tag="596" ind1=" " ind2=" ">
+    <subfield code="a">1</subfield>
+  </datafield>
+  <datafield tag="999" ind1=" " ind2=" ">
+    <subfield code="a">HF3636 .A3 1993</subfield>
+    <subfield code="w">LC</subfield>
+    <subfield code="c">1</subfield>
+    <subfield code="i">30000008621363</subfield>
+    <subfield code="l">_RCSTACKS</subfield>
+    <subfield code="m">B-WELLS</subfield>
+    <subfield code="r">Y</subfield>
+    <subfield code="s">Y</subfield>
+    <subfield code="t">PERIOD</subfield>
+    <subfield code="u">11/6/2000</subfield>
+  </datafield>
+</record>
+ </collection>]]>
+            </content>
+            <additionalAttributes>
+                <dateEntered>12-12-2-2010</dateEntered>
+                <lastUpdated>12-11-2011</lastUpdated>
+                <fastAddFlag>true</fastAddFlag>
+                <supressFromPublic>false</supressFromPublic>
+                <harvestable>false</harvestable>
+                <status>n</status>
+            </additionalAttributes>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="17" category="work" type="bibliographic" format="marc">
+            <content><![CDATA[
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+<record>
+  <leader>01578cam a2200241   4500</leader>
+  <controlfield tag="001">5930072</controlfield>
+  <controlfield tag="003">InU</controlfield>
+  <controlfield tag="006">m    |   j |      </controlfield>
+  <controlfield tag="007">cr||n||||||||n</controlfield>
+  <controlfield tag="008">791208s1770    ie      s     00    eng d</controlfield>
+  <datafield tag="035" ind1=" " ind2=" ">
+    <subfield code="a">(ICU)10016</subfield>
+  </datafield>
+  <datafield tag="040" ind1=" " ind2=" ">
+    <subfield code="a">Uk-ES</subfield>
+    <subfield code="c">Uk-ES</subfield>
+    <subfield code="d">CStRLIN</subfield>
+    <subfield code="d">Thomson Gale</subfield>
+  </datafield>
+  <datafield tag="100" ind1="1" ind2=" ">
+    <subfield code="a">Morell, Charles,</subfield>
+    <subfield code="c">Sir,</subfield>
+    <subfield code="d">1736-1765.</subfield>
+  </datafield>
+  <datafield tag="245" ind1="1" ind2="4">
+    <subfield code="a">The tales of the genii</subfield>
+    <subfield code="h">[electronic resource];</subfield>
+    <subfield code="b">or, the delightful lessons of Horam, the son of Asmar. Faithfully translated from the Persian manuscript; and compared with the French and Spanish editions ... By Sir Charles Morell, ... In two volumes. ...</subfield>
+  </datafield>
+  <datafield tag="260" ind1=" " ind2=" ">
+    <subfield code="a">Dublin :</subfield>
+    <subfield code="b">printed for S. Price, D. Chamberlaine, J. Potts, J. Hoey, jun. and J. Williams,</subfield>
+    <subfield code="c">1770.</subfield>
+  </datafield>
+  <datafield tag="300" ind1=" " ind2=" ">
+    <subfield code="a">2v. ;</subfield>
+    <subfield code="c">12⁰.</subfield>
+  </datafield>
+  <datafield tag="500" ind1=" " ind2=" ">
+    <subfield code="a">An original work by James Ridley, writing under the pseudonym Sir Charles Morell, based on the 'Arabian nights'.</subfield>
+  </datafield>
+  <datafield tag="500" ind1=" " ind2=" ">
+    <subfield code="a">Reproduction of original from the British Library.</subfield>
+  </datafield>
+  <datafield tag="510" ind1="4" ind2=" ">
+    <subfield code="a">English Short Title Catalog,</subfield>
+    <subfield code="c">ESTCT74886.</subfield>
+  </datafield>
+  <datafield tag="533" ind1=" " ind2=" ">
+    <subfield code="a">Electronic reproduction.</subfield>
+    <subfield code="b">Farmington Hills, Mich. :</subfield>
+    <subfield code="c">Thomson Gale,</subfield>
+    <subfield code="d">2003.</subfield>
+    <subfield code="n">Available via the World Wide Web.</subfield>
+    <subfield code="n">Access limited by licensing agreements</subfield>
+    <subfield code="f">(Eighteenth century collections online)</subfield>
+    <subfield code="7">s2003    miunns</subfield>
+  </datafield>
+  <datafield tag="830" ind1=" " ind2="0">
+    <subfield code="a">Eighteenth century collections online</subfield>
+  </datafield>
+  <datafield tag="856" ind1="4" ind2="0">
+    <subfield code="u">http://galenet.galegroup.com/servlet/ECCO?c=1&amp;stp=Author&amp;ste=11&amp;af=BN&amp;ae=T074886&amp;tiPG=1&amp;dd=0&amp;dc=flc&amp;docNum=CW112401722&amp;vrsn=1.0&amp;srchtp=a&amp;d4=0.33&amp;n=10&amp;SU=0LRK&amp;locID=iuclassb</subfield>
+    <subfield code="z">Available on campus and off-campus with authorized logon</subfield>
+  </datafield>
+  <datafield tag="596" ind1=" " ind2=" ">
+    <subfield code="a">4</subfield>
+  </datafield>
+  <datafield tag="999" ind1=" " ind2=" ">
+    <subfield code="a">XX(5930072.1)</subfield>
+    <subfield code="w">AUTO</subfield>
+    <subfield code="c">1</subfield>
+    <subfield code="i">5930072-1001</subfield>
+    <subfield code="l">WWW</subfield>
+    <subfield code="m">ONLINE</subfield>
+    <subfield code="r">Y</subfield>
+    <subfield code="s">Y</subfield>
+    <subfield code="t">NONCIRC</subfield>
+    <subfield code="u">8/30/2004</subfield>
+  </datafield>
+</record>
+ </collection>]]>
+            </content>
+            <additionalAttributes>
+                <dateEntered>12-12-2-2010</dateEntered>
+                <lastUpdated>12-11-2011</lastUpdated>
+                <fastAddFlag>true</fastAddFlag>
+                <supressFromPublic>false</supressFromPublic>
+                <harvestable>false</harvestable>
+                <status>n</status>
+            </additionalAttributes>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="18" category="work" type="bibliographic" format="marc">
+            <content><![CDATA[
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+<record>
+  <leader>01305cam a2200241   4500</leader>
+  <controlfield tag="001">5930082</controlfield>
+  <controlfield tag="003">InU</controlfield>
+  <controlfield tag="006">m    |   j |      </controlfield>
+  <controlfield tag="007">cr||n||||||||n</controlfield>
+  <controlfield tag="008">791208s1764    enk     s     00    eng d</controlfield>
+  <datafield tag="035" ind1=" " ind2=" ">
+    <subfield code="a">(ICU)10017</subfield>
+  </datafield>
+  <datafield tag="040" ind1=" " ind2=" ">
+    <subfield code="a">Uk-ES</subfield>
+    <subfield code="c">Uk-ES</subfield>
+    <subfield code="d">Cu-RivES</subfield>
+    <subfield code="d">CStRLIN</subfield>
+    <subfield code="d">Thomson Gale</subfield>
+  </datafield>
+  <datafield tag="100" ind1="1" ind2=" ">
+    <subfield code="a">Jerningham,</subfield>
+    <subfield code="c">Mr.</subfield>
+    <subfield code="q">(Edward),</subfield>
+    <subfield code="d">1737?-1812.</subfield>
+  </datafield>
+  <datafield tag="245" ind1="1" ind2="4">
+    <subfield code="a">The nun: an elegy</subfield>
+    <subfield code="h">[electronic resource].</subfield>
+    <subfield code="b">By the author of the Magdalens.</subfield>
+  </datafield>
+  <datafield tag="260" ind1=" " ind2=" ">
+    <subfield code="a">London :</subfield>
+    <subfield code="b">printed for R. and J. Dodsley,</subfield>
+    <subfield code="c">1764.</subfield>
+  </datafield>
+  <datafield tag="300" ind1=" " ind2=" ">
+    <subfield code="a">11,[1]p. ;</subfield>
+    <subfield code="c">4⁰.</subfield>
+  </datafield>
+  <datafield tag="500" ind1=" " ind2=" ">
+    <subfield code="a">The author of the Magdalens = Edward Jerningham.</subfield>
+  </datafield>
+  <datafield tag="500" ind1=" " ind2=" ">
+    <subfield code="a">Reproduction of original from the British Library.</subfield>
+  </datafield>
+  <datafield tag="510" ind1="4" ind2=" ">
+    <subfield code="a">English Short Title Catalog,</subfield>
+    <subfield code="c">ESTCT74897.</subfield>
+  </datafield>
+  <datafield tag="533" ind1=" " ind2=" ">
+    <subfield code="a">Electronic reproduction.</subfield>
+    <subfield code="b">Farmington Hills, Mich. :</subfield>
+    <subfield code="c">Thomson Gale,</subfield>
+    <subfield code="d">2003.</subfield>
+    <subfield code="n">Available via the World Wide Web.</subfield>
+    <subfield code="n">Access limited by licensing agreements</subfield>
+    <subfield code="f">(Eighteenth century collections online)</subfield>
+    <subfield code="7">s2003    miunns</subfield>
+  </datafield>
+  <datafield tag="830" ind1=" " ind2="0">
+    <subfield code="a">Eighteenth century collections online</subfield>
+  </datafield>
+  <datafield tag="856" ind1="4" ind2="0">
+    <subfield code="u">http://galenet.galegroup.com/servlet/ECCO?c=1&amp;stp=Author&amp;ste=11&amp;af=BN&amp;ae=T074897&amp;tiPG=1&amp;dd=0&amp;dc=flc&amp;docNum=CW113284122&amp;vrsn=1.0&amp;srchtp=a&amp;d4=0.33&amp;n=10&amp;SU=0LRK&amp;locID=iuclassb</subfield>
+    <subfield code="z">Available on campus and off-campus with authorized logon</subfield>
+  </datafield>
+  <datafield tag="596" ind1=" " ind2=" ">
+    <subfield code="a">4</subfield>
+  </datafield>
+  <datafield tag="999" ind1=" " ind2=" ">
+    <subfield code="a">XX(5930082.1)</subfield>
+    <subfield code="w">AUTO</subfield>
+    <subfield code="c">1</subfield>
+    <subfield code="i">5930082-1001</subfield>
+    <subfield code="l">WWW</subfield>
+    <subfield code="m">ONLINE</subfield>
+    <subfield code="r">Y</subfield>
+    <subfield code="s">Y</subfield>
+    <subfield code="t">NONCIRC</subfield>
+    <subfield code="u">8/30/2004</subfield>
+  </datafield>
+</record>
+ </collection>]]>
+            </content>
+            <additionalAttributes>
+                <dateEntered>12-12-2-2010</dateEntered>
+                <lastUpdated>12-11-2011</lastUpdated>
+                <fastAddFlag>true</fastAddFlag>
+                <supressFromPublic>false</supressFromPublic>
+                <harvestable>false</harvestable>
+                <status>n</status>
+            </additionalAttributes>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="19" category="work" type="bibliographic" format="marc">
+            <content><![CDATA[
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+<record>
+  <leader>02838cam a2200433 a 45 0</leader>
+  <controlfield tag="001">593011</controlfield>
+  <controlfield tag="003">InU</controlfield>
+  <controlfield tag="008">940428m19849999mdua         f000 0 eng d</controlfield>
+  <datafield tag="019" ind1=" " ind2=" ">
+    <subfield code="a">16911428</subfield>
+  </datafield>
+ <datafield tag="035" ind1=" " ind2=" ">
+    <subfield code="a">(ICU)10018</subfield>
+  </datafield>
+  <datafield tag="040" ind1=" " ind2=" ">
+    <subfield code="a">CUY</subfield>
+    <subfield code="c">CUY</subfield>
+    <subfield code="d">IUL</subfield>
+  </datafield>
+  <datafield tag="043" ind1=" " ind2=" ">
+    <subfield code="a">n-us---</subfield>
+  </datafield>
+  <datafield tag="049" ind1=" " ind2=" ">
+    <subfield code="a">IULA</subfield>
+  </datafield>
+  <datafield tag="086" ind1="0" ind2=" ">
+    <subfield code="a">NAS 1.15:86129/V.1</subfield>
+  </datafield>
+  <datafield tag="090" ind1=" " ind2=" ">
+    <subfield code="a">G70.4</subfield>
+    <subfield code="b">.E37 1984</subfield>
+  </datafield>
+  <datafield tag="245" ind1="0" ind2="0">
+    <subfield code="a">Earth observing system.</subfield>
+  </datafield>
+  <datafield tag="260" ind1=" " ind2=" ">
+    <subfield code="a">Greenbelt, Md. :</subfield>
+    <subfield code="b">National Aeronautics and Space Administration, Goddard Space Flight Center,</subfield>
+    <subfield code="c">1984-</subfield>
+  </datafield>
+  <datafield tag="300" ind1=" " ind2=" ">
+    <subfield code="a">v. :</subfield>
+    <subfield code="b">ill. ;</subfield>
+    <subfield code="c">28 cm.</subfield>
+  </datafield>
+  <datafield tag="490" ind1="1" ind2=" ">
+    <subfield code="a">Technical memorandum ;</subfield>
+    <subfield code="v">86129</subfield>
+  </datafield>
+  <datafield tag="505" ind1="1" ind2=" ">
+    <subfield code="a">v. 1, pt.1. Science and mission requirements working group report --v. 2. From pattern to process: the strategy of the earth observing system --v. 2a. Data and information system --v. 2c. HIRIS: high-resolution imaging spectrometer: science opportunities for the 1990s --v. 2d. LASA: lidar atmospheric sounder and altimeter --v. 2e. HMMR: High-resolution multifrequency microwave radiometer --v. 2f. SAR: synthetic aperture radar --</subfield>
+  </datafield>
+  <datafield tag="591" ind1=" " ind2=" ">
+    <subfield code="a"></subfield>
+  </datafield>
+  <datafield tag="650" ind1=" " ind2="0">
+    <subfield code="a">Remote sensing</subfield>
+    <subfield code="z">United States.</subfield>
+  </datafield>
+  <datafield tag="710" ind1="2" ind2="0">
+    <subfield code="a">Goddard Space Flight Center.</subfield>
+  </datafield>
+  <datafield tag="830" ind1=" " ind2="0">
+    <subfield code="a">NASA technical memorandum.</subfield>
+    <subfield code="v">86129.</subfield>
+  </datafield>
+  <datafield tag="998" ind1=" " ind2=" ">
+    <subfield code="a">1/31/1995</subfield>
+    <subfield code="b">2/3/1995</subfield>
+    <subfield code="c">2/4/1995</subfield>
+  </datafield>
+  <datafield tag="596" ind1=" " ind2=" ">
+    <subfield code="a">1 11</subfield>
+  </datafield>
+  <datafield tag="999" ind1=" " ind2=" ">
+    <subfield code="a">G70.4 .E37 1984 v.2</subfield>
+    <subfield code="w">LC</subfield>
+    <subfield code="c">1</subfield>
+    <subfield code="i">30000045752460</subfield>
+    <subfield code="d">3/27/1995</subfield>
+    <subfield code="l">STACKS</subfield>
+    <subfield code="m">B-GEOLOGY</subfield>
+    <subfield code="n">1</subfield>
+    <subfield code="r">Y</subfield>
+    <subfield code="s">Y</subfield>
+    <subfield code="t">NORMAL</subfield>
+    <subfield code="u">11/6/2000</subfield>
+  </datafield>
+  <datafield tag="999" ind1=" " ind2=" ">
+    <subfield code="a">G70.4 .E37 1984 v.2a</subfield>
+    <subfield code="w">LC</subfield>
+    <subfield code="c">1</subfield>
+    <subfield code="i">30000045752320</subfield>
+    <subfield code="l">STACKS</subfield>
+    <subfield code="m">B-GEOLOGY</subfield>
+    <subfield code="r">Y</subfield>
+    <subfield code="s">Y</subfield>
+    <subfield code="t">NORMAL</subfield>
+    <subfield code="u">11/6/2000</subfield>
+  </datafield>
+  <datafield tag="999" ind1=" " ind2=" ">
+    <subfield code="a">G70.4 .E37 1984 v.2c</subfield>
+    <subfield code="w">LC</subfield>
+    <subfield code="c">1</subfield>
+    <subfield code="i">30000045752478</subfield>
+    <subfield code="l">STACKS</subfield>
+    <subfield code="m">B-GEOLOGY</subfield>
+    <subfield code="r">Y</subfield>
+    <subfield code="s">Y</subfield>
+    <subfield code="t">NORMAL</subfield>
+    <subfield code="u">11/6/2000</subfield>
+  </datafield>
+  <datafield tag="999" ind1=" " ind2=" ">
+    <subfield code="a">G70.4 .E37 1984 v.2d</subfield>
+    <subfield code="w">LC</subfield>
+    <subfield code="c">1</subfield>
+    <subfield code="i">30000045752247</subfield>
+    <subfield code="l">STACKS</subfield>
+    <subfield code="m">B-GEOLOGY</subfield>
+    <subfield code="r">Y</subfield>
+    <subfield code="s">Y</subfield>
+    <subfield code="t">NORMAL</subfield>
+    <subfield code="u">11/6/2000</subfield>
+  </datafield>
+  <datafield tag="999" ind1=" " ind2=" ">
+    <subfield code="a">G70.4 .E37 1984 v.2e</subfield>
+    <subfield code="w">LC</subfield>
+    <subfield code="c">1</subfield>
+    <subfield code="i">30000045752254</subfield>
+    <subfield code="l">STACKS</subfield>
+    <subfield code="m">B-GEOLOGY</subfield>
+    <subfield code="r">Y</subfield>
+    <subfield code="s">Y</subfield>
+    <subfield code="t">NORMAL</subfield>
+    <subfield code="u">11/6/2000</subfield>
+  </datafield>
+  <datafield tag="999" ind1=" " ind2=" ">
+    <subfield code="a">G70.4 .E37 1984 v.2f</subfield>
+    <subfield code="w">LC</subfield>
+    <subfield code="c">1</subfield>
+    <subfield code="i">30000045752262</subfield>
+    <subfield code="d">12/19/1997</subfield>
+    <subfield code="l">STACKS</subfield>
+    <subfield code="m">B-GEOLOGY</subfield>
+    <subfield code="n">1</subfield>
+    <subfield code="r">Y</subfield>
+    <subfield code="s">Y</subfield>
+    <subfield code="t">NORMAL</subfield>
+    <subfield code="u">11/6/2000</subfield>
+  </datafield>
+  <datafield tag="999" ind1=" " ind2=" ">
+    <subfield code="a">NAS 1.15:86129/V.1</subfield>
+    <subfield code="w">SUDOC</subfield>
+    <subfield code="c">1</subfield>
+    <subfield code="i">30000115865143</subfield>
+    <subfield code="l">_DOCSUS</subfield>
+    <subfield code="m">B-WELLS</subfield>
+    <subfield code="r">Y</subfield>
+    <subfield code="s">Y</subfield>
+    <subfield code="t">NORMAL</subfield>
+    <subfield code="u">9/13/2007</subfield>
+    <subfield code="x">GOVDOCS</subfield>
+    <subfield code="o">.STAFF. 09-13-2007;CC035</subfield>
+    <subfield code="o">.STAFF. SENT 09-16-2007;OCL;IUL</subfield>
+  </datafield>
+  <datafield tag="999" ind1=" " ind2=" ">
+    <subfield code="a">NAS 1.15:86129/V.1/APP.</subfield>
+    <subfield code="w">SUDOC</subfield>
+    <subfield code="c">1</subfield>
+    <subfield code="i">30000115865135</subfield>
+    <subfield code="l">_DOCSUS</subfield>
+    <subfield code="m">B-WELLS</subfield>
+    <subfield code="r">Y</subfield>
+    <subfield code="s">Y</subfield>
+    <subfield code="t">NORMAL</subfield>
+    <subfield code="u">9/13/2007</subfield>
+    <subfield code="x">GOVDOCS</subfield>
+    <subfield code="o">.STAFF. 09-13-2007;CC035</subfield>
+    <subfield code="o">.STAFF. </subfield>
+  </datafield>
+  <datafield tag="999" ind1=" " ind2=" ">
+    <subfield code="a">NAS 1.15:89213</subfield>
+    <subfield code="w">SUDOC</subfield>
+    <subfield code="c">1</subfield>
+    <subfield code="i">30000115865127</subfield>
+    <subfield code="l">_DOCSUS</subfield>
+    <subfield code="m">B-WELLS</subfield>
+    <subfield code="r">Y</subfield>
+    <subfield code="s">Y</subfield>
+    <subfield code="t">NORMAL</subfield>
+    <subfield code="u">9/13/2007</subfield>
+    <subfield code="x">GOVDOCS</subfield>
+    <subfield code="o">.STAFF. 09-13-2007;CC035</subfield>
+    <subfield code="o">.STAFF. </subfield>
+  </datafield>
+  <datafield tag="999" ind1=" " ind2=" ">
+    <subfield code="a">NAS 1.15:89625</subfield>
+    <subfield code="w">SUDOC</subfield>
+    <subfield code="c">1</subfield>
+    <subfield code="i">30000115865119</subfield>
+    <subfield code="l">_DOCSUS</subfield>
+    <subfield code="m">B-WELLS</subfield>
+    <subfield code="r">Y</subfield>
+    <subfield code="s">Y</subfield>
+    <subfield code="t">NORMAL</subfield>
+    <subfield code="u">9/13/2007</subfield>
+    <subfield code="x">GOVDOCS</subfield>
+    <subfield code="o">.STAFF. 09-13-2007;CC035</subfield>
+    <subfield code="o">.STAFF. </subfield>
+  </datafield>
+  <datafield tag="999" ind1=" " ind2=" ">
+    <subfield code="a">NAS 1.15:87777</subfield>
+    <subfield code="w">SUDOC</subfield>
+    <subfield code="c">1</subfield>
+    <subfield code="i">30000109890909</subfield>
+    <subfield code="l">_DOCSMFIC</subfield>
+    <subfield code="m">B-WELLS</subfield>
+    <subfield code="r">Y</subfield>
+    <subfield code="s">Y</subfield>
+    <subfield code="t">NORMAL</subfield>
+    <subfield code="u">11/16/2006</subfield>
+    <subfield code="x">GOVDOCS</subfield>
+    <subfield code="o">.STAFF. 11-16-2006;CC022</subfield>
+    <subfield code="o">.STAFF. SENT 11-19-2006;OCL;IUL</subfield>
+  </datafield>
+  <datafield tag="999" ind1=" " ind2=" ">
+    <subfield code="a">NAS 1.15:87777</subfield>
+    <subfield code="w">SUDOC</subfield>
+    <subfield code="c">2</subfield>
+    <subfield code="i">30000126544505</subfield>
+    <subfield code="l">_DOCSUS</subfield>
+    <subfield code="m">B-WELLS</subfield>
+    <subfield code="r">Y</subfield>
+    <subfield code="s">Y</subfield>
+    <subfield code="t">NORMAL</subfield>
+    <subfield code="u">9/17/2009</subfield>
+    <subfield code="x">GOVDOCS</subfield>
+    <subfield code="o">.STAFF. 09-17-2009;CC035</subfield>
+  </datafield>
+</record>
+ </collection>]]>
+            </content>
+            <additionalAttributes>
+                <dateEntered>12-12-2-2010</dateEntered>
+                <lastUpdated>12-11-2011</lastUpdated>
+                <fastAddFlag>true</fastAddFlag>
+                <supressFromPublic>false</supressFromPublic>
+                <harvestable>false</harvestable>
+                <status>n</status>
+            </additionalAttributes>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="20" category="work" type="bibliographic" format="marc">
+            <content><![CDATA[
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+<record>
+  <leader>01284nam a2200241   4500</leader>
+  <controlfield tag="001">5930118</controlfield>
+  <controlfield tag="003">InU</controlfield>
+  <controlfield tag="006">m    |   j |      </controlfield>
+  <controlfield tag="007">cr||n||||||||n</controlfield>
+  <controlfield tag="008">791208s1767    enk     s     00    eng d</controlfield>
+  <datafield tag="035" ind1=" " ind2=" ">
+    <subfield code="a">(ICU)10019</subfield>
+  </datafield>
+  <datafield tag="040" ind1=" " ind2=" ">
+    <subfield code="a">Uk-ES</subfield>
+    <subfield code="c">Uk-ES</subfield>
+    <subfield code="d">Cu-RivES</subfield>
+    <subfield code="d">CStRLIN</subfield>
+    <subfield code="d">Thomson Gale</subfield>
+  </datafield>
+  <datafield tag="100" ind1="1" ind2=" ">
+    <subfield code="a">Underwood, Thomas,</subfield>
+    <subfield code="d">b. 1739 or 40.</subfield>
+  </datafield>
+  <datafield tag="245" ind1="1" ind2="4">
+    <subfield code="a">The impartialist. A poem. By T. Underwood,  </subfield>
+    <subfield code="h">[electronic resource]...</subfield>
+  </datafield>
+  <datafield tag="260" ind1=" " ind2=" ">
+    <subfield code="a">London :</subfield>
+    <subfield code="b">printed for the author, and sold by Henry Webley,</subfield>
+    <subfield code="c">1767.</subfield>
+  </datafield>
+  <datafield tag="300" ind1=" " ind2=" ">
+    <subfield code="a">[4],22p. ;</subfield>
+    <subfield code="c">4⁰.</subfield>
+  </datafield>
+  <datafield tag="500" ind1=" " ind2=" ">
+    <subfield code="a">With a half-title.</subfield>
+  </datafield>
+  <datafield tag="500" ind1=" " ind2=" ">
+    <subfield code="a">Reproduction of original from the British Library.</subfield>
+  </datafield>
+  <datafield tag="510" ind1="4" ind2=" ">
+    <subfield code="a">English Short Title Catalog,</subfield>
+    <subfield code="c">ESTCT74934.</subfield>
+  </datafield>
+  <datafield tag="533" ind1=" " ind2=" ">
+    <subfield code="a">Electronic reproduction.</subfield>
+    <subfield code="b">Farmington Hills, Mich. :</subfield>
+    <subfield code="c">Thomson Gale,</subfield>
+    <subfield code="d">2003.</subfield>
+    <subfield code="n">Available via the World Wide Web.</subfield>
+    <subfield code="n">Access limited by licensing agreements</subfield>
+    <subfield code="f">(Eighteenth century collections online)</subfield>
+    <subfield code="7">s2003    miunns</subfield>
+  </datafield>
+  <datafield tag="830" ind1=" " ind2="0">
+    <subfield code="a">Eighteenth century collections online</subfield>
+  </datafield>
+  <datafield tag="856" ind1="4" ind2="0">
+    <subfield code="u">http://galenet.galegroup.com/servlet/ECCO?c=1&amp;stp=Author&amp;ste=11&amp;af=BN&amp;ae=T074934&amp;tiPG=1&amp;dd=0&amp;dc=flc&amp;docNum=CW115012027&amp;vrsn=1.0&amp;srchtp=a&amp;d4=0.33&amp;n=10&amp;SU=0LRK&amp;locID=iuclassb</subfield>
+    <subfield code="z">Available on campus and off-campus with authorized logon</subfield>
+  </datafield>
+  <datafield tag="596" ind1=" " ind2=" ">
+    <subfield code="a">4</subfield>
+  </datafield>
+  <datafield tag="999" ind1=" " ind2=" ">
+    <subfield code="a">XX(5930118.1)</subfield>
+    <subfield code="w">AUTO</subfield>
+    <subfield code="c">1</subfield>
+    <subfield code="i">5930118-1001</subfield>
+    <subfield code="l">WWW</subfield>
+    <subfield code="m">ONLINE</subfield>
+    <subfield code="r">Y</subfield>
+    <subfield code="s">Y</subfield>
+    <subfield code="t">NONCIRC</subfield>
+    <subfield code="u">8/30/2004</subfield>
+  </datafield>
+</record>
+ </collection>]]>
+            </content>
+            <additionalAttributes>
+                <dateEntered>12-12-2-2010</dateEntered>
+                <lastUpdated>12-11-2011</lastUpdated>
+                <fastAddFlag>true</fastAddFlag>
+                <supressFromPublic>false</supressFromPublic>
+                <harvestable>false</harvestable>
+                <status>n</status>
+                <harvestable>false</harvestable>
+                <status>n</status>
+            </additionalAttributes>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+    </requestDocuments>
+</request>

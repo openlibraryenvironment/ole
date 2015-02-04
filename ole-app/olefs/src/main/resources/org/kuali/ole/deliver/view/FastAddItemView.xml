@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="FastAddItemView" parent="FastAddItemView-parentBean" />
+    <bean id="FastAddItemView-parentBean" parent="Uif-OLEFormView">
+        <property name="items">
+            <list>
+                <bean id="FastAddItemViewPage" parent="Uif-Page" >
+                    <property name="items">
+                        <list>
+                            <ref bean="OleFastAddItem-HorizontalBoxSection" />
+                            <ref bean="loanItemFlag"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="footer">
+            <ref bean="FastAddItem-HorizontalBoxSection-button" />
+        </property>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>ole/deliver/loan/script/loan.js</value>
+            </list>
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>ole/deliver/loan/css/loan.css</value>
+            </list>
+        </property>
+        <property name="formClass" value="org.kuali.ole.deliver.form.OleLoanForm"/>
+    </bean>
+    <bean id="loanItemFlag" parent="Uif-InputField" p:propertyName="itemFlag">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+    <bean id="OleFastAddItem-HorizontalBoxSection" parent="OleFastAddItem-HorizontalBoxSection-parent"/>
+    <bean id="OleFastAddItem-HorizontalBoxSection-parent" parent="Uif-VerticalBoxSection">
+        <property name="headerText" value="Fast-Add item"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <ref bean="OleFastAddInformationSection"/>
+                            <ref bean="OleFastAddItemSection"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OleFastAddInformationSection" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="FastAddMessageFieldSection" parent="Uif-MessageField" p:messageText="@{information}" p:cssClasses="messageClass"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="OleFastAddItemSection" parent="Uif-GridSection" p:layoutManager.numberOfColumns="2">
+
+        <property name="items">
+            <list>
+                <bean id="addTitle" parent="Uif-InputField" p:label="Title" p:propertyName="oleLoanFastAdd.title" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl"/>
+                    </property>
+                </bean>
+
+                <bean id="fastAdd_Author" parent="Uif-InputField" p:label="Author" p:propertyName="oleLoanFastAdd.author" >
+                    <property name="control">
+                        <bean parent="Uif-TextControl"/>
+                    </property>
+                </bean>
+
+                <bean id="shelvingLocation" parent="Uif-InputField" p:propertyName="oleLoanFastAdd.locationName"
+                      p:label="Location"  p:required="true" p:instructionalText="Type * for all locations, other letters for matching locations">
+                    <property name="suggest">
+                        <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
+                            <property name="suggestQuery">
+                                <bean parent="Uif-AttributeQueryConfig"
+                                      p:queryMethodToCall="retrieveLocationDetailsForSuggest"
+                                      p:queryMethodInvokerConfig.targetClass="org.kuali.ole.describe.keyvalue.LocationValuesBuilder"/>
+                            </property>
+                            <property name="templateOptions">
+                                <map merge="true">
+                                    <entry key="minLength" value="1"/>
+                                </map>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+
+                <bean id="barcode" parent="Uif-InputField" p:label="Barcode" p:propertyName="oleLoanFastAdd.barcode" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl"/>
+                    </property>
+                </bean>
+                <bean id="itemType" parent="Uif-InputField" p:label="Item Type" p:propertyName="oleLoanFastAdd.itemType" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="dropdown"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.OleItemSearchKeyValue"/>
+                    </property>
+                </bean>
+                <bean id="callNumberType" parent="Uif-InputField" p:label="Call Number Type" p:propertyName="oleLoanFastAdd.callNumberType" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="dropdown"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.describe.keyvalue.ShelvingScheme"/>
+                    </property>
+                </bean>
+                <bean id="callNumber" parent="Uif-InputField" p:label="Call Number" p:propertyName="oleLoanFastAdd.callNumber" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl"/>
+                    </property>
+                </bean>
+                <bean id="copyNumber" parent="Uif-InputField" p:label="Copy Number" p:propertyName="oleLoanFastAdd.copyNumber">
+                    <property name="control">
+                        <bean parent="Uif-TextControl"/>
+                    </property>
+                </bean>
+                <bean id="labelForCopyNumber" parent="Uif-InputField" p:label="Copy Number Label" p:propertyName="oleLoanFastAdd.labelForCopyNumber">
+                    <property name="control">
+                        <bean parent="Uif-TextControl"/>
+                    </property>
+                </bean>
+
+                <bean id="checkinNote" parent="Uif-InputField" p:label="Checkin Note" p:propertyName="oleLoanFastAdd.checkinNote" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-TextAreaControl" p:rows="5" p:cols="50" />
+                    </property>
+                </bean>
+                <bean id="note" parent="Uif-InputField" p:label="Note" p:propertyName="oleLoanFastAdd.note" >
+                    <property name="control">
+                        <bean parent="Uif-TextAreaControl" p:rows="5" p:cols="50" />
+                    </property>
+                </bean>
+
+                <bean id="enumeration" parent="Uif-InputField" p:label="Enumeration" p:propertyName="oleLoanFastAdd.enumeration">
+                    <property name="control">
+                        <bean parent="Uif-TextControl"/>
+                    </property>
+                </bean>
+                <bean id="numberOfPieces" parent="Uif-InputField" p:label="Number Of Pieces" p:propertyName="oleLoanFastAdd.numberOfPieces">
+                    <property name="control">
+                        <bean parent="Uif-TextControl"/>
+                    </property>
+                </bean>
+
+
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="FastAddItem-HorizontalBoxSection-button" parent="Uif-HorizontalBoxSection" p:disclosure.render="false">
+        <property name="items">
+            <list>
+                <bean id="saveFastAddItemBtn" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:27em;width:10%" p:methodToCall="createFastAddItem" p:actionLabel="Submit" p:ajaxSubmit="true"  p:successCallback="callFastAddClose();"/>
+
+                <bean id="closeFastAddItemBtn" parent="Uif-SecondaryActionButton-Small" p:hidden="true" p:actionLabel="Close" p:actionScript="setItemBarcode();"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

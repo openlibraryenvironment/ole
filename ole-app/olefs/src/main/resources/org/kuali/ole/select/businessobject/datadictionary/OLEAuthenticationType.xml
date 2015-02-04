@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="OleAuthenticationType" parent="OleAuthenticationType-parentBean"/>
+
+    <bean id="OleAuthenticationType-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.select.bo.OLEAuthenticationType"/>
+        <property name="titleAttribute" value="oleAuthenticationTypeName"/>
+        <property name="objectLabel" value="Authentication Type"/>
+        <property name="attributes">
+            <list>
+                <ref bean="OleAuthenticationType-oleAuthenticationTypeId"/>
+                <ref bean="OleAuthenticationType-oleAuthenticationTypeName"/>
+                <ref bean="OleAuthenticationType-oleAuthenticationTypeDesc"/>
+                <ref bean="OleAuthenticationType-active"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+
+    <bean id="OleAuthenticationType-oleAuthenticationTypeId" parent="OleAuthenticationType-oleAuthenticationTypeId-parentBean"/>
+
+    <bean id="OleAuthenticationType-oleAuthenticationTypeId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Authentication Type Id"/>
+        <property name="maxLength" value="10"/>
+        <property name="name" value="oleAuthenticationTypeId"/>
+        <property name="label" value="Authentication Type Id"/>
+        <property name="description" value="Authentication Type Id"/>
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+    </bean>
+
+    <bean id="OleAuthenticationType-oleAuthenticationTypeName" parent="OleAuthenticationType-oleAuthenticationTypeName-parentBean"/>
+
+    <bean id="OleAuthenticationType-oleAuthenticationTypeName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Authentication Type Name"/>
+        <property name="maxLength" value="100"/>
+        <property name="name" value="oleAuthenticationTypeName"/>
+        <property name="label" value="Authentication Type Name"/>
+        <property name="description" value="Authentication Type Name"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean id="TextControlDefinition_oleAuthenticationTypeName" parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean id="Uif-TextControl_oleAuthenticationTypeName" parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OleAuthenticationType-oleAuthenticationTypeDesc" parent="OleAuthenticationType-oleAuthenticationTypeDesc-parentBean"/>
+
+    <bean id="OleAuthenticationType-oleAuthenticationTypeDesc-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Authentication Type Description"/>
+        <property name="maxLength" value="700"/>
+        <property name="name" value="oleAuthenticationTypeDesc"/>
+        <property name="label" value="Authentication Type Description"/>
+        <property name="description" value="Authentication Type Description"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean id="TextControlDefinition_oleAuthenticationTypeDesc" parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean id="Uif-TextControl_oleAuthenticationTypeDesc" parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+
+    <bean id="OleAuthenticationType-active" parent="OleAuthenticationType-active-parentBean"/>
+    <bean id="OleAuthenticationType-active-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="active"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="active"/>
+        <property name="maxLength" value="1"/>
+        <property name="summary" value="Active Indicator"/>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+        <property name="label" value="Active Indicator"/>
+        <property name="description" value="This attribute is used to describe whether the associated object is active or inactive."/>
+        <property name="validCharactersConstraint">
+            <bean  parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean  parent="Uif-CheckboxControl"/>
+        </property>
+
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+
+    <bean id="OleAuthenticationType-InquiryView" parent="Uif-OLEInquiryView">
+        <property name="headerText" value="Authentication Type Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OLEAuthenticationType" />
+
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-VerticalBoxSection">
+                    <property name="header.headerText" value="Authentication Type" />
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-GridGroup">
+                                <property name="items">
+                                    <list>
+                                        <bean id="inquiry_oleAuthenticationTypeId" parent="Uif-InputField" p:propertyName="oleAuthenticationTypeId" />
+                                        <bean id="inquiry_oleAuthenticationTypeName" parent="Uif-InputField" p:propertyName="oleAuthenticationTypeName" p:enableAutoDirectInquiry="false"/>
+                                        <bean id="inquiry_oleAuthenticationTypeDesc" parent="Uif-InputField" p:propertyName="oleAuthenticationTypeDesc"/>
+                                        <bean id="inquiry_active" parent="Uif-InputField" p:propertyName="active" />
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <!-- Business Object Lookup Definition -->
+
+
+    <bean id="OleAuthenticationType-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="Authentication Type Lookup" />
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/BASICS/content/ch02s04.html#_lookupHelp"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OLEAuthenticationType" />
+        <property name="criteriaFields">
+            <list>
+                <bean id="oleAuthenticationTypeName" parent="Uif-LookupCriteriaInputField" p:propertyName="oleAuthenticationTypeName" p:enableAutoDirectInquiry="false"/>
+                <bean id="oleAuthenticationTypeDesc" parent="Uif-LookupCriteriaInputField" p:propertyName="oleAuthenticationTypeDesc" />
+                <bean id="active" parent="Uif-LookupCriteriaInputField" p:propertyName="active" />
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean id="searchResult_oleAuthenticationTypeName" parent="Uif-DataField" p:propertyName="oleAuthenticationTypeName" />
+                <bean id="searchResult_oleAuthenticationTypeDesc" parent="Uif-DataField" p:propertyName="oleAuthenticationTypeDesc" />
+                <bean id="searchResult_active" parent="Uif-DataField" p:propertyName="active" />
+            </list>
+        </property>
+    </bean>
+
+</beans>

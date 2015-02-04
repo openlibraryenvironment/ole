@@ -1,0 +1,257 @@
+<!--
+   - Copyright 2011 The Kuali Foundation.
+   - 
+   - Licensed under the Educational Community License, Version 2.0 (the "License");
+   - you may not use this file except in compliance with the License.
+   - You may obtain a copy of the License at
+   - 
+   - http://www.opensource.org/licenses/ecl2.php
+   - 
+   - Unless required by applicable law or agreed to in writing, software
+   - distributed under the License is distributed on an "AS IS" BASIS,
+   - WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   - See the License for the specific language governing permissions and
+   - limitations under the License.
+ -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         
+	http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="OleFundLookupDocument" parent="OleFundLookupDocument-parentBean" />
+
+	<bean id="OleFundLookupDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+		<property name="documentTypeName" value="OLE_FLU" />
+    	<property name="sessionDocument" value="true"/>
+		<property name="documentClass" value="org.kuali.ole.select.document.OleFundLookupDocument" />
+		<!-- <property name="businessRulesClass" value="org.kuali.ole.sys.document.validation.impl.AccountingRuleEngineRuleBase"/> -->
+	 	<property name="workflowAttributes">
+    		<ref bean="OleFundLookupDocument-workflowAttributes"/>
+    	</property> 
+    	 <!--  <property name="inquiryDefinition">
+      <ref bean="OleFundLookupDocument-inquiryDefinition"/>
+    </property> -->
+    <!-- <property name="lookupDefinition">
+      <ref bean="OleFundLookupDocument-lookupDefinition"/>
+    </property> -->
+		<property name="attributes">
+			<list>
+				<ref bean="OleFundLookupDocument-keyword" />
+				<ref bean="OleFundLookupDocument-chartOfAccountsCode"/>
+				<ref bean="OleFundLookupDocument-organizationCode" />				
+				<ref bean="OleFundLookupDocument-accountNumber"/>
+				<ref bean="OleFundLookupDocument-objectCode" />
+				<ref bean="OleFundLookupDocument-universityFiscalYear" />
+				<ref bean="OleFundLookupDocument-active" />
+			</list>
+		</property>		
+	</bean>
+
+	<!-- Attribute Definitions -->
+
+	<bean id="OleFundLookupDocument-keyword" parent="OleFundLookupDocument-keyword-parent" />
+	
+	<bean id="OleFundLookupDocument-keyword-parent" abstract="true"
+		parent="AttributeDefinition"
+		p:name="keyword" 
+		p:maxLength="50"
+        p:label ="Keyword " 
+		p:shortLabel ="Document Type" >
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="20" />
+		</property>
+	</bean>
+	
+	
+	
+<!-- 	<bean id="OleFundLookupDocument-chartOfAccountsCode" parent="OleFundLookupDocument-chartOfAccountsCode-parentBean" />
+	<bean id="OleFundLookupDocument-chartOfAccountsCode-parentBean" abstract="true"
+		parent="ChartAttribute-TextControl" />
+		
+	<bean id="OleFundLookupDocument-accountNumber" parent="OleFundLookupDocument-accountNumber-parentBean" />
+	<bean id="OleFundLookupDocument-accountNumber-parentBean" abstract="true"
+		parent="AccountAttribute" />
+	<bean id="OleFundLookupDocument-objectCode" parent="OleFundLookupDocument-objectCode-parentBean" />
+
+	<bean id="OleFundLookupDocument-objectCode-parentBean" abstract="true"
+		parent="ObjectCode-financialObjectCode">
+		<property name="name" value="objectCode" />
+		<property name="forceUppercase" value="true" />
+	</bean>
+	
+	<bean id="OleFundLookupDocument-organizationCode" parent="OleFundLookupDocument-organizationCode-parentBean" />
+	<bean id="OleFundLookupDocument-organizationCode-parentBean" abstract="true"
+		parent="Organization-organizationCode" /> -->
+	
+	
+	
+	
+	<bean id="OleFundLookupDocument-chartOfAccountsCode" parent="OleFundLookupDocument-chartOfAccountsCode-parent"/>
+	
+	<bean id="OleFundLookupDocument-chartOfAccountsCode-parent" abstract="true"
+		parent="AttributeDefinition" p:name="chartOfAccountsCode"
+		p:label="Chart Code"
+		p:maxLength="2"
+		p:required="true"
+		p:shortLabel="Chart #">
+		<property name="control"> 
+		 	<bean parent="TextControlDefinition" p:size="2"/>
+		</property>
+	</bean> 
+		
+	 <bean id="OleFundLookupDocument-organizationCode" parent="OleFundLookupDocument-organizationCode-parent"/>
+	
+	<bean id="OleFundLookupDocument-organizationCode-parent" abstract="true"
+		parent="AttributeDefinition" p:name="organizationCode"
+		p:label="Organization Code"
+		p:maxLength="4"		
+		p:shortLabel="Organization #">
+		<property name="control"> 
+		 	<bean parent="TextControlDefinition" p:size="4"/>
+		</property>
+	</bean>
+	 
+	<bean id="OleFundLookupDocument-accountNumber" parent="OleFundLookupDocument-accountNumber-parent"/>
+	
+	<bean id="OleFundLookupDocument-accountNumber-parent" abstract="true"
+		parent="AttributeDefinition" p:name="accountNumber"
+		p:label="Account Number"
+		p:maxLength="7"
+		p:required="true"
+		p:shortLabel="Account #">
+		<property name="control"> 
+		 	<bean parent="TextControlDefinition" p:size="7"/>
+		</property>
+	</bean> 
+	
+	 <bean id="OleFundLookupDocument-objectCode" parent="OleFundLookupDocument-objectCode-parent"/>
+	
+	<bean id="OleFundLookupDocument-objectCode-parent" abstract="true"
+		parent="AttributeDefinition" p:name="objectCode"
+		p:label="Object Code"
+		p:maxLength="4"
+		p:required="true"
+		p:shortLabel="Object Code">
+		 <property name="control"> 
+		 	<bean parent="TextControlDefinition" p:size="4"/>
+		</property> 
+	</bean> 
+	
+	<bean id="OleFundLookupDocument-universityFiscalYear" parent="OleFundLookupDocument-universityFiscalYear-parent"/>
+	
+	<bean id="OleFundLookupDocument-universityFiscalYear-parent" abstract="true"
+		parent="GenericAttributes-genericFiscalYear" p:name="universityFiscalYear"
+		p:label="Fiscal Year"
+		p:shortLabel="Fiscal Year">
+	</bean>
+	<bean id="OleFundLookupDocument-active" parent="OleFundLookupDocument-active-parentBean" />
+
+	<bean id="OleFundLookupDocument-active-parentBean" abstract="true"
+		parent="GenericAttributes-activeIndicator">
+		<property name="name" value="active" />
+		<!-- <property name="label" value="Active?" /> -->
+	</bean>
+	
+	
+	<bean id="OleFundLookupDocument-workflowAttributes" parent="OleFundLookupDocument-workflowAttributes-parentBean"/>
+    <bean id="OleFundLookupDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes"/>
+    
+     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+   
+   
+   
+    
+    
+    
+    
+    
+    
+    
+    <!-- Business Object Inquiry Definition -->
+
+	<bean id="OleFundLookupDocument-inquiryDefinition" parent="OleFundLookupDocument-inquiryDefinition-parentBean" />
+
+	<bean id="OleFundLookupDocument-inquiryDefinition-parentBean" abstract="true"
+		parent="InquiryDefinition">
+		<property name="title" value="Ole Fund Lookup" />
+		<property name="inquirySections">
+			<list>
+				<ref bean="OleFundLookupDocument-inquirySectionDefinition" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="OleFundLookupDocument-inquirySectionDefinition" parent="OleFundLookupDocument-inquirySectionDefinition-parentBean" />
+	<bean id="OleFundLookupDocument-inquirySectionDefinition-parentBean"
+		parent="InquirySectionDefinition" abstract="true">
+		<property name="title" value="" />
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="keyword" />
+				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
+				<bean parent="FieldDefinition" p:attributeName="organizationCode" />
+				<bean parent="FieldDefinition" p:attributeName="accountNumber" />
+				<bean parent="FieldDefinition" p:attributeName="objectCode" />
+				<bean parent="FieldDefinition" p:attributeName="universityFiscalYear" />							
+			</list>
+		</property>
+	</bean>
+
+	<!-- Business Object Lookup Definition -->
+
+
+	<bean id="OleFundLookupDocument-lookupDefinition" parent="OleFundLookupDocument-lookupDefinition-parentBean" />
+
+	 <bean id="OleFundLookupDocument-lookupDefinition-parentBean" abstract="true"
+		parent="LookupDefinition"> 
+		<property name="title" value="Ole Fund Lookup" />
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+				 <property name="attributeNames">
+					<list>
+						<value>accountNumber</value>
+					</list>
+				</property> 
+			</bean>
+		</property>
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="keyword" />
+				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
+				<bean parent="FieldDefinition" p:attributeName="organizationCode" />
+				<bean parent="FieldDefinition" p:attributeName="accountNumber" />
+				<bean parent="FieldDefinition" p:attributeName="objectCode" />
+				<bean parent="FieldDefinition" p:attributeName="universityFiscalYear" />	
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="keyword" />
+				<bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" />
+				<bean parent="FieldDefinition" p:attributeName="organizationCode" />
+				<bean parent="FieldDefinition" p:attributeName="accountNumber" />
+				<bean parent="FieldDefinition" p:attributeName="objectCode" />
+				<bean parent="FieldDefinition" p:attributeName="universityFiscalYear" />	
+			</list>
+		</property>
+	</bean>
+    
+
+</beans>

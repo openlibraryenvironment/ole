@@ -1,0 +1,1438 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"
+    version="5.0" xml:lang="en-US">
+    <title><anchor xml:id="_DeliverEDocuments"/>Circulation</title>
+    <para role="Body Text"><inlinemediaobject>
+            <alt>Deliver</alt>
+            <imageobject>
+                <imagedata fileref="../images/DeliverNoTitlePage-DeliverTab.png"/>
+            </imageobject>
+        </inlinemediaobject> &gt; <inlinemediaobject>
+            <alt>Circulation</alt>
+            <imageobject>
+                <imagedata fileref="../images/DeliverNoTitlePage-Circulation.png"/>
+            </imageobject>
+        </inlinemediaobject> &gt;<inlinemediaobject>
+            <alt>Circulation Links</alt>
+            <imageobject>
+                <imagedata fileref="../images/DeliverNoTitlePage-CirculationMenu.png"/>
+            </imageobject>
+        </inlinemediaobject>
+    </para>
+    <para role="Body Text">On the Deliver menu, Circulation provides access to a number of
+        circulation functions that allow users to view and maintain a variety of standard
+        Circulation E-Docs.</para>
+    <para role="Normal"/>
+    <section>
+        <title><anchor xml:id="_Loan"/>Loan</title>
+        <para role="Body Text">
+            <inlinemediaobject>
+                <alt>Deliver</alt>
+                <imageobject>
+                    <imagedata fileref="../images/DeliverNoTitlePage-DeliverTab.png"/>
+                </imageobject>
+            </inlinemediaobject> &gt; <inlinemediaobject>
+                <alt>Circulation</alt>
+                <imageobject>
+                    <imagedata fileref="../images/DeliverNoTitlePage-Circulation.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+                    <alt>Loan</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-10.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt;<inlinemediaobject>
+                    <alt>Loan</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-11.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Normal">A loan consists of identifying a patron and then creating temporary
+            links to the item(s) being loaned to the patron. The Loan interface allows for staff to
+            circulate materials to patrons.</para>
+        <section>
+            <title>Getting Started</title>
+            <para role="Normal">OLE breaks down circulation permissions into several roles. Unit
+                Manager have all loan privileges including override permissions. Operator have only
+                “create loan” permissions.</para>
+            <note>
+                <para role="Normal"> You will receive errors if not logged in as a user mapped to a
+                    circulation desk. Login before selecting Loan from the <emphasis role="bold"
+                        >Deliver</emphasis> Menu.</para>
+            </note>
+            <para role="Normal"/>
+            <para role="Normal">Each staff operator can be authorized to work at one or more
+                circulation desks; one must be set as the default. If they have more than one
+                circulation desk, they will be able to change from one circulation desk to another
+                to indicate where they are. When an operator changes a circulation desk during a
+                session, the change will persist for the rest of the session. The next time the
+                operator logs in, OLE will return them to their default location. </para>
+            <para role="Normal"/>
+            <note>
+                <para role="Normal (Web)"> For more information about Circulation Desk maintenance
+                    and mapping, see <link linkend="_Circulation_Desk_1">Circulation Desk</link> and
+                        <link linkend="_Circulation_Desk_Mapping_1">Circulation Desk Mapping</link>.
+                </para>
+            </note>
+            <para role="Normal"/>
+            <para role="Normal">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Circulation Desk Field near the Login/Logout buttons</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-14.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+        </section>
+        <section>
+            <title role="Heading 4circ">Process Overview</title>
+            <orderedlist numeration="arabic" spacing="normal">
+                <listitem>
+                    <para role="List Paragraph">Once you have opened the <emphasis role="bold"
+                            >Loan</emphasis> interface, enter the Patron Barcode and press Enter or
+                        search for it from the lookup <inlinemediaobject>
+                            <imageobject>
+                                <imagedata fileref="../images/Lookup2.png"/>
+                            </imageobject>
+                        </inlinemediaobject> . If you search for a patron record from the lookup,
+                        the resulting display will show a Return Value link to the left of each
+                        patron. Click on that link to populate the patron field on the Loan screen.
+                        Press Enter.</para>
+                    <note>
+                        <para>The preferred addresses on a patron’s record must be verified
+                            otherwise the warning “Patron’s street address has not been verified”
+                            will appear.</para>
+                    </note>
+                    <tip>
+                        <para role="Normal"> Clicking on the <emphasis role="bold">Return</emphasis>
+                            button will take you to the return menu, allowing you to check-in
+                            materials.</para>
+                    </tip>
+                    <para role="Normal">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Loan screen</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DeliverNoTitlePage-17.png"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para role="Normal">Once the patron barcode is entered, details about the patron
+                        will appear above the Patron field. If there is a block on the patron or
+                        some other problem, then an error message will appear. You may need to
+                        access the patron record to address the error or, in some cases an override
+                        is permitted for you to continue.</para>
+                    <note>
+                        <para role="Normal (Web)"> For more information about Patron Documents, see
+                                <link linkend="_Patron">Patron</link>.</para>
+                    </note>
+                    <para role="Normal">If text exists in a user note field in the patron record,
+                        this message displays immediately whenever the patron’s barcode is scanned
+                        into the system. (The purpose is to be able to deliver a message to the
+                        patron in person.) The operator has the option to acknowledge and delete the
+                        message or simply acknowledge -- in the latter case, the message remains and
+                        continues to display each time the patron barcode is entered until the text
+                        is removed.</para>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">Enter the Item Barcode or search for it from the
+                        lookup <inlinemediaobject>
+                            <imageobject>
+                                <imagedata fileref="../images/Lookup2.png"/>
+                            </imageobject>
+                        </inlinemediaobject>. </para>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">Press <emphasis role="bold">Enter</emphasis></para>
+                    <para role="Normal"/>
+                    <para role="Normal">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Loan screen: Sample Patron with one item checked out</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DeliverNoTitlePage-20.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para role="Normal"/>
+                    <para role="Normal">OLE will calculate the due date and time and update the item
+                        status to "Loaned". This information displays in the <emphasis role="bold"
+                            >Items Checked Out This Session</emphasis> section of the screen. A
+                        sound will notify staff of successful check-outs or alert them of issues to
+                        address (provided the sound parameter AUDIO_OPTION is turned on and your
+                        computer has speakers).</para>
+                    <para role="Normal"/>
+                    <para role="Normal">When loaning an item to a patron, an alert may appear to
+                        inform you of any problems based on local configurations settings. OLE
+                        provides a pop up screen to assist staff to correct these errors and/or
+                        override them so that the loan can proceed.</para>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">If the patron has presented more than one item to
+                        borrow, enter the next item barcode and press Enter. Each new item
+                        checked-out will appear at the top of the <emphasis role="bold">Items
+                            Checked Out This Session</emphasis> list.</para>
+                    <para>To view all items a patron has checked out, click the <inlinemediaobject>
+                            <alt>Show All Items Currently Checked Out</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DeliverNoTitlePage-124.png"/>
+                            </imageobject>
+                        </inlinemediaobject> button.</para>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">Clear the patron information to prepare for the next
+                        patron.</para>
+                    <para/>
+                    <para role="Normal">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Loan screen: Click Clear Patron, second button from the
+                                    left.</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DeliverNoTitlePage-63.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                </listitem>
+            </orderedlist>
+            <tip>
+                <para role="Normal"> Each Circulation Location also defines a timeout interval which
+                    has the same effect as manually ending a session. This can be locally
+                    configured.</para>
+            </tip>
+        </section>
+        <section>
+            <title><anchor xml:id="_FastAdds"/>Fast Adds</title>
+            <para role="Normal">If an item does not have a barcode or cannot be found by a search,
+                click <emphasis role="bold">Fast-Add item</emphasis> to create a brief record. This
+                will open a simple record editor on top of the <emphasis role="bold">Loan</emphasis>
+                window:</para>
+            <para role="Normal"/>
+            <para role="Normal">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Loan screen: Fast-Add Item pop-up</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-22.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Normal"/>
+            <orderedlist numeration="arabic" spacing="normal">
+                <listitem>
+                    <para role="List Paragraph">You must enter all fields that have asterisks (*)
+                        before their labels, these are required. </para>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">Click <emphasis role="bold"
+                        >Submit</emphasis>.</para>
+                    <para role="Normal">OLE will provide you with an error message if you forget to
+                        enter a value for required field. If the system accepts the data, the window
+                        closes and supplies the item barcode in the Item field of the Loan screen.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">Press <emphasis role="bold">Enter</emphasis> on your
+                        keyboard.</para>
+                </listitem>
+            </orderedlist>
+            <para role="Normal">The Loan now proceeds. </para>
+        </section>
+        <section>
+            <title>Options available from the Loan Screen</title>
+            <para>You will notice that there are a row of buttons available at the top of the Loan
+                Screen. These are explained below</para>
+            <para role="Normal"/>
+            <para role="Normal">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Loan screen: Buttons available from the Loan screen after a Patron has
+                            been entered.</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-36.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <section>
+                <title>Close and Clear Patron</title>
+                <para>If you change circulation desks for a loan and then want to switch back to
+                    your default location, click <inlinemediaobject>
+                        <alt>Close</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-39.png"/>
+                        </imageobject>
+                    </inlinemediaobject>. You will not exit the Loan screen but default settings
+                    will be restored.</para>
+                <para>If you need to clear a patron to loan items to a new patron, click <inlinemediaobject>
+                        <alt>Clear Patron</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-42.png"/>
+                        </imageobject>
+                    </inlinemediaobject>.</para>
+            </section>
+            <section>
+                <title><anchor xml:id="_Renew"/>Renew and Modify Due Dates/Times</title>
+                <para role="Normal">From the top of the loan screen, you can renew items or modify
+                    due dates/times.</para>
+                <para role="Normal"/>
+                <para role="Normal">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Loan screen: Click Alter Due Date, third button from the
+                                left.</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DeliverNoTitlePage-23.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="Normal"/>
+                <orderedlist>
+                    <listitem>
+                        <para role="List Paragraph"><emphasis role="bold">To renew</emphasis>,
+                            select line items from the Current Session Item list or the Items
+                            Currently Checked Out list. You can also click the Select All button for
+                            either or both lists. </para>
+                    </listitem>
+                    <listitem>
+                        <para role="Normal">Click <inlinemediaobject>
+                                <alt>Renew</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DeliverNoTitlePage-24.png"/>
+                                </imageobject>
+                            </inlinemediaobject>.</para>
+                        <para role="Normal">OLE will update due dates/times.</para>
+                    </listitem>
+                </orderedlist>
+                <tip>
+                    <para role="Normal">Alternatively, enter the item barcode in the item field as
+                        though loaning the item and press Enter. The item will be renewed for the
+                        patron.</para>
+                </tip>
+                <orderedlist>
+                    <listitem>
+                        <para role="Normal"><emphasis role="bold">To modify or alter a due
+                                date/time</emphasis>, select line items from the Current Session
+                            Item list or the Items Currently Checked Out list. You can also click
+                            the "Select All" button for either or both lists.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="Normal">Click <inlinemediaobject>
+                                <alt>Alter Due Date</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DeliverNoTitlePage-25.png"/>
+                                </imageobject>
+                            </inlinemediaobject>.</para>
+                        <para role="Normal">The <emphasis role="bold">Alter Due Date</emphasis>
+                            window will appear.</para>
+                        <para role="Normal"/>
+                        <para role="Normal">
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Loan screen: Alter Due Date Pop-up</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DeliverNoTitlePage-26.png"
+                                            width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para role="Normal">Enter in a new <emphasis role="bold">Due Date</emphasis>
+                            or use the calendar icon <inlinemediaobject>
+                                <imageobject>
+                                    <imagedata fileref="../images/DeliverNoTitlePage-27.png"/>
+                                </imageobject>
+                            </inlinemediaobject>. Note that you can also adjust the due time if your
+                            loan periods are hourly, if you do not specify a time, OLE will assume
+                            23:59:59. This assumed time can be changed from the parameter
+                            DEF_CLOSE_TIME.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="Normal">Click <inlinemediaobject>
+                                <alt>Update</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DeliverNoTitlePage-28.png"/>
+                                </imageobject>
+                            </inlinemediaobject>.</para>
+                    </listitem>
+                </orderedlist>
+            </section>
+            <section>
+                <title>Claims Return</title>
+                <para role="Normal">Patrons sometimes notify library staff that they have returned
+                    items for which they may have received overdue notices or replacement fee bills.
+                    In such circumstances a library staff operator with proper permission needs to
+                    manually turn on a “claims returned” flag in the item and have the system
+                    automatically record the date of the event.</para>
+                <para role="Normal"/>
+                <orderedlist numeration="arabic" spacing="normal">
+                    <listitem>
+                        <para role="List Paragraph">To perform the claims return from the loan
+                            screen, select the line item associated with the title.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="List Paragraph">Click <inlinemediaobject>
+                                <alt>Claims Return</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DeliverNoTitlePage-29.png"/>
+                                </imageobject>
+                            </inlinemediaobject> from the top row of buttons available.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="List Paragraph">Type any notes to record specific circumstances
+                            in the pop up window:</para>
+                        <para role="Normal"/>
+                        <para role="Normal">
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Loan screen: Claim Return Note Pop-up</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DeliverNoTitlePage-30.png"
+                                            width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para role="List Paragraph">Click <inlinemediaobject>
+                                <alt>Save</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DeliverNoTitlePage-31.png"/>
+                                </imageobject>
+                            </inlinemediaobject>.</para>
+                        <para role="Normal">The claims return note and date will appear in the item
+                            record and if the item is requested to circulate again.</para>
+                    </listitem>
+                </orderedlist>
+            </section>
+            <section>
+                <title>Missing Piece</title>
+                <para>If the operator observes that the item presented for checkout is missing a
+                    piece, then they can report the missing piece within OLE. Missing pieces are
+                    noted on the item record and will remind staff with each circulation transaction
+                    if the item remains in circulation.</para>
+                <orderedlist numeration="arabic" spacing="normal">
+                    <listitem>
+                        <para role="List Paragraph">To mark an item as missing a piece from the loan
+                            screen, select the line item associated with the title.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="List Paragraph">Click <inlinemediaobject>
+                                <alt>Missing Piece</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DeliverNoTitlePage-43.png"/>
+                                </imageobject>
+                            </inlinemediaobject> from the top row of buttons available.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="List Paragraph">Type how many pieces are missing from the item
+                            and add a notes to record specific circumstances in the pop up
+                            window:</para>
+                        <para role="Normal"/>
+                        <para role="Normal">
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Loan screen: Missing Piece Pop-up</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DeliverNoTitlePage-47.png"
+                                            width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para role="List Paragraph">Click <inlinemediaobject>
+                                <alt>Save</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DeliverNoTitlePage-31.png"/>
+                                </imageobject>
+                            </inlinemediaobject>.</para>
+                        <para role="Normal">The missing piece count, note, and date will appear in
+                            the item record and when the item is requested to circulate
+                            again.</para>
+                    </listitem>
+                </orderedlist>
+            </section>
+            <section>
+                <title>Damaged</title>
+                <para>If the operator observes that the item presented for checkout is damaged, then
+                    they can report the damage within OLE. Damages are noted on the item record and
+                    a notice will pop up with each circulation transaction if the item remains in
+                    circulation.</para>
+                <orderedlist numeration="arabic" spacing="normal">
+                    <listitem>
+                        <para role="List Paragraph">To mark an item as damaged from the loan screen,
+                            select the line item associated with the title.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="List Paragraph">Click <inlinemediaobject>
+                                <alt>Damaged</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DeliverNoTitlePage-50.png"/>
+                                </imageobject>
+                            </inlinemediaobject> from the top row of buttons available.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="List Paragraph">Type a notes to record specific circumstances in
+                            the pop up window:</para>
+                        <para role="Normal"/>
+                        <para role="Normal">
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Loan screen: Damaged Note Pop-up</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DeliverNoTitlePage-51.png"
+                                            width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para role="List Paragraph">Click <inlinemediaobject>
+                                <alt>Save</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DeliverNoTitlePage-31.png"/>
+                                </imageobject>
+                            </inlinemediaobject>.</para>
+                        <para role="Normal">The note and date will appear in the item record and
+                            when the item is requested to circulate again.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Click <inlinemediaobject>
+                                <alt>Remove Damaged Flag</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DeliverNoTitlePage-54.png"/>
+                                </imageobject>
+                            </inlinemediaobject> to remove the damage flag.</para>
+                    </listitem>
+                </orderedlist>
+            </section>
+            <section>
+                <title>Printing Call Slips</title>
+                <para>You may print call slips from the item record.</para>
+                <para>Click the barcode number to access the item record.</para>
+                <para role="Normal"/>
+                <para role="Normal">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Loan screen: Click the barcode link access, to the left of the
+                                title, to open the item record</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DeliverNoTitlePage-74.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="Normal"/>
+                <note>
+                    <para>To learn more about <link
+                            xlink:href="../../../webhelp/CG/content/ch01s03.html#_printingCallSlips"
+                            >printing call slips</link>, see the relevant section of the item record
+                        in the <link xlink:href="../../../webhelp/CG/content/pr01.html"><emphasis
+                                role="italic">Guide to the OLE Describe and Manage
+                            Module</emphasis></link>.</para>
+                </note>
+                <para/>
+            </section>
+        </section>
+        <section>
+            <title>Business Rules</title>
+            <itemizedlist>
+                <listitem>
+                    <para role="Normal">Circulation policies are based on three factors: item
+                        location, item type and borrower type. Each specific combination determines
+                        the loan period, applicable maximum limits, and other policies pertaining to
+                        renewals, requests, etc. These can be defined locally.</para>
+                </listitem>
+                <listitem>
+                    <para role="Normal">Staff must log in and select a circulation desk before
+                        loaning, or checking-in items.</para>
+                </listitem>
+            </itemizedlist>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_Request"/>Request</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Deliver</alt>
+                <imageobject>
+                    <imagedata fileref="../images/DeliverNoTitlePage-DeliverTab.png"/>
+                </imageobject>
+            </inlinemediaobject> &gt; <inlinemediaobject>
+                <alt>Circulation</alt>
+                <imageobject>
+                    <imagedata fileref="../images/DeliverNoTitlePage-Circulation.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+                    <alt>Request</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-59.png"/>
+                    </imageobject>
+                </inlinemediaobject>&gt; <inlinemediaobject>
+                    <alt>Request Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-60.png"/>
+                    </imageobject>
+                </inlinemediaobject>&gt; <inlinemediaobject>
+                    <alt>Request</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-172.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para>** Helpful notes:</para>
+        <itemizedlist>
+            <listitem>
+                <para>At this time the back button simply sends you back to the Deliver homescreen
+                    (not back to the last page you were on). It does the same thing as Cancel</para>
+            </listitem>
+            <listitem>
+                <para>If you select the wrong request type, you will receive an error. The system
+                    will allow you to select a new request type without having to start over. The
+                    same applies with patron, simply delete patron name and barcode and select the
+                    magnifying glass lookup to search for another patron. </para>
+            </listitem>
+        </itemizedlist>
+        <para role="Body Text">The Request Document allows staff operators to place patron requests
+            for library items. </para>
+        <para role="Body Text">Request types include:</para>
+        <itemizedlist>
+            <listitem>
+                <para role="Body Text">Recall (for hold or delivery) - The ability for a patron to
+                    ask that an item currently on loan to another patron be returned.</para>
+            </listitem>
+            <listitem>
+                <para role="Body Text">Hold (for hold or delivery) - The ability for a patron to ask
+                    that an item currently on loan to another patron be made available when it is
+                    returned.</para>
+            </listitem>
+            <listitem>
+                <para role="Body Text">Page (for hold or delivery) - The ability for a patron to ask
+                    that an item not on loan be retrieved and either placed on hold or be
+                    delivered.</para>
+            </listitem>
+            <listitem>
+                <para role="Body Text">Copy - The ability for a patron to ask for a photocopy or PDF
+                    of a part of an item.</para>
+            </listitem>
+            <listitem>
+                <para>In-Transit - The ability for a patron to ask for an item that is currently in
+                    route between circulation desks</para>
+            </listitem>
+            <listitem>
+                <para>ASR - The ability for a patron to ask for an item that is located in the
+                    Automated Storage and Retrieval System</para>
+            </listitem>
+        </itemizedlist>
+        <para role="Body Text">A “for hold” request means that the patron (i.e., the requester) will
+            come to a pick-up location to retrieve the item when available. </para>
+        <para role="Body Text">A “for delivery” request means that the item will be automatically
+            checked out and delivered to the patron’s preferred street address when it becomes
+            available.</para>
+        <para role="Body Text">Each patron’s delivery privileges (either “yes” or “no”) are stored
+            in the patron record and the system will automatically select the request method based
+            on this value. However, if a patron’s delivery privileges=yes, the system still provides
+            for selection of a pick-up location. If one is selected, the request is recall/hold, not
+            recall/delivery. </para>
+        <para role="Body Text">Delivery privileges can be automatically enabled for any patron of a
+            designated borrower type , e.g., you might set up OLE so that any patron belonging to
+            borrower type “faculty” gets delivery privileges. However, delivery privileges can be
+            assigned on an individual basis as well, e.g., you may enable delivery for any student
+            with a physical disability.</para>
+        <para role="Body Text">Most copy requests are now typically filled by scanning the required
+            item and a file is then emailed to the patron, meaning that copy requests are
+            “delivered” via email. If a paper copy is made, the staff operator will manually address
+            an envelope using the preferred street address from the patron record.</para>
+        <para role="Body Text">Patrons can place their own requests via a library’s user interface
+            which will need to be customized to interact with the OLE request logic appropriately. </para>
+        <section>
+            <title role="Heading 4circ">Process Overview</title>
+            <para role="Normal">To request new items, staff will find <emphasis role="bold">Create
+                    New</emphasis> to the very right in the <emphasis role="bold">Request</emphasis>
+                Lookup.</para>
+            <orderedlist numeration="arabic" spacing="normal">
+                <listitem>
+                    <para role="List Paragraph">Click <emphasis role="bold">Create New</emphasis> in
+                        the upper right side of the interface.</para>
+                    <para role="Normal"/>
+                    <para role="Normal">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>From the Request Lookup, click Create New in the top right
+                                    corner</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DeliverNoTitlePage-61.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para role="Normal"/>
+                    <para role="Normal">The <emphasis role="bold">Request</emphasis> window will
+                        appear. </para>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">Select the <emphasis role="bold">User
+                            Type</emphasis> from the drop down menu.</para>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">Select the <emphasis role="bold">Request
+                            Type</emphasis> from the drop down.</para>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">Enter the <emphasis role="bold">Patron Id</emphasis>
+                        or search for it from the lookup <inlinemediaobject>
+                            <imageobject>
+                                <imagedata fileref="../images/Lookup2.png"/>
+                            </imageobject>
+                        </inlinemediaobject>. This can also be the Proxy Patron Id.</para>
+                    <para role="Normal">Asterisks indicate a required field. </para>
+                    <para role="Normal"/>
+                    <para role="Normal">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Request Document</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DeliverNoTitlePage-65.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>Once you have entered the patron information, enter the Item Barcode or
+                        search for it from the lookup <inlinemediaobject>
+                            <imageobject>
+                                <imagedata fileref="../images/Lookup2.png"/>
+                            </imageobject>
+                        </inlinemediaobject>.</para>
+                    <para role="Normal">Different Request Types call for different information. Once
+                        selected, the interface will change slightly depending on what you select. </para>
+                    <para role="Normal">Below is an example of a Recall/Hold Request:</para>
+                    <para role="Normal"/>
+                    <para role="Normal">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Request Document: Recall/Hold Request Request Details</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DeliverNoTitlePage-66.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para role="Normal"/>
+                    <para role="TableHeading"><emphasis role="bold">Request Detail Tab
+                            Definitions</emphasis></para>
+                    <informaltable frame="top">
+                        <tgroup cols="2">
+                            <colspec colname="col1" colnum="1"/>
+                            <colspec colname="col2" colnum="2"/>
+                            <tbody>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Title </para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Description </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">User Type</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">The type of patron making the
+                                            request. Select the Type from the dropdown list.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Request Type</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Required. The type of request being
+                                            made. Select the Type from the dropdown list.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Patron Barcode</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">The barcode of the patron. Search
+                                            from the lookup <inlinemediaobject>
+                                                <imageobject>
+                                                  <imagedata fileref="../images/Lookup2.png"/>
+                                                </imageobject>
+                                            </inlinemediaobject> and OLE will automatically fill all
+                                            Patron infotmation.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Patron Name</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">The name of the patron making the
+                                            request.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Item Barcode</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Required. The barcode of the item.
+                                            Search from the lookup <inlinemediaobject>
+                                                <imageobject>
+                                                  <imagedata fileref="../images/Lookup2.png"/>
+                                                </imageobject>
+                                            </inlinemediaobject> and OLE will automatically fill all
+                                            Item information.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Title</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">The title of the requested item.
+                                            This will be filled automatically when you lookup the
+                                            item barcode.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Item Author</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">The author of the requested item.
+                                            This will be filled automatically when you lookup the
+                                            item barcode.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Shelving Location</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">The shelving location of the
+                                            requested item. This will be filled automatically when
+                                            you lookup the item barcode.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Call Number</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">The call number of the requested
+                                            item. This will be filled automatically when you lookup
+                                            the item barcode.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Copy Number</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">The copy number of the requested
+                                            item. This will be filled automatically when you lookup
+                                            the item barcode.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Patron Queue Position</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">The numeric position of the patron
+                                            in the patron queue. Once a request is linked to an
+                                            item, any subsequent borrower requests for the same item
+                                            are added to the request record and assigned a position
+                                            in a queue.</para>
+                                        <para>Patron Queues can be updated by authorized staff from
+                                                <link linkend="_Request_Re-order">Request
+                                                Re-Order</link></para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Pickup Location</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">The circulation desk at which the
+                                            patron will pick up their hold. </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Recall Notice Sent Date</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">The system-generated date at which
+                                            OLE sent the recall notice.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Create Date</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">The date that the patron makes the
+                                            request. Defaults to today's date but may be
+                                            edited.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Request Expiry Date</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">The date that the patron no longer
+                                            needs the requested item. Enter a date or select it from
+                                            the calendar icon <inlinemediaobject>
+                                                <imageobject>
+                                                  <imagedata
+                                                  fileref="../images/DeliverNoTitlePage-27.png"/>
+                                                </imageobject>
+                                            </inlinemediaobject>.</para>
+                                    </entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </informaltable>
+                    <para role="Normal">Copy Requests include fields for format and page
+                        information:</para>
+                    <para role="Normal"> </para>
+                    <para role="Normal">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Request Document: Copy Request Request Details</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DeliverNoTitlePage-67.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para role="Normal"/>
+                    <para role="TableHeading"><emphasis role="bold">Request Detail Tab Definitions
+                            for Copy Requests</emphasis></para>
+                    <informaltable frame="top">
+                        <tgroup cols="2">
+                            <colspec colname="col1" colnum="1"/>
+                            <colspec colname="col2" colnum="2"/>
+                            <tbody>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Title </para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Description </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Copy Format</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">The format in which the patron
+                                            would like to receive the copy, such as photocopy or
+                                            PDF.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Pages</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">The pages or content that the
+                                            patron would like to have copied.</para>
+                                    </entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </informaltable>
+                    <para role="Normal">In-Transit Requests contains a <emphasis role="bold"
+                            >Circulation Location</emphasis> and a <emphasis role="bold">Check-in
+                            Note</emphasis> field. This is to allow for the situation when an item
+                        needs to be sent to another Circulation Location (only library staff may
+                        place In-Transit Requests): </para>
+                    <para role="Normal"/>
+                    <para role="Normal">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Request Document: In Transit Request Request Details</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DeliverNoTitlePage-68.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para role="TableHeading"><emphasis role="bold">Request Detail Tab Definitions
+                            for In-Transit Requests</emphasis></para>
+                    <informaltable frame="top">
+                        <tgroup cols="2">
+                            <colspec colname="col1" colnum="1"/>
+                            <colspec colname="col2" colnum="2"/>
+                            <tbody>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Title </para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Description </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Circulation Location</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">The circulation desk at which the
+                                            item should be routed to.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Check-In Note</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">An additional note to be displayed
+                                            at the time the item is checked-in.</para>
+                                    </entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </informaltable>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">Click <inlinemediaobject>
+                            <alt>Submit</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DeliverNoTitlePage-69.png"/>
+                            </imageobject>
+                        </inlinemediaobject>.</para>
+                </listitem>
+            </orderedlist>
+        </section>
+        <section>
+            <title>Modifying or Canceling Requests </title>
+            <para role="Normal">An authorized library staff operator can change a pickup location or
+                an expiration date for a request.</para>
+            <orderedlist>
+                <listitem>
+                    <para role="Normal">Enter any search criteria in the <emphasis role="bold"
+                            >Request Lookup</emphasis> screen and click <inlinemediaobject>
+                            <alt>Search</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DeliverNoTitlePage-70.png"/>
+                            </imageobject>
+                        </inlinemediaobject>.</para>
+                    <note>
+                        <para role="Normal (Web)"> To learn more about searching, see <link
+                                xlink:href="../../../webhelp/BASICS/content/ch02s04.html#_searchingOLE"
+                                >Searching OLE</link> on the <emphasis>Guide to OLE Basic
+                                Functionality and Key Concepts</emphasis>.</para>
+                    </note>
+                </listitem>
+                <listitem>
+                    <para role="Normal (Web)">Click <emphasis role="bold">edit</emphasis> to modify
+                        the request or <emphasis role="bold">cancel</emphasis> to remove the request
+                        from OLE.</para>
+                    <para role="Normal (Web)">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Request Lookup with Sample Results.  Edit, Cancel buttons are
+                                    on the left</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DeliverNoTitlePage-72.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para role="Normal (Web)">If you click edit, you will be able to change
+                            <emphasis role="bold">Pickup Location</emphasis>, the <emphasis
+                            role="bold">Request Expiry Date</emphasis>, the <emphasis role="bold"
+                            >Patron</emphasis> and the <emphasis role="bold">Item</emphasis>.</para>
+                    <para role="Normal (Web)"/>
+                    <para role="Normal (Web)"><inlinemediaobject>
+                            <imageobject>
+                                <imagedata fileref="../images/DeliverNoTitlePage-75.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </inlinemediaobject></para>
+                </listitem>
+                <listitem>
+                    <para role="Normal">Alternatively, if you click cancel from the search screen, a
+                        confirmation screen will appear. </para>
+                    <para role="Normal">Double check that this is the request you would like to
+                        cancel and click <inlinemediaobject>
+                            <alt>Cancel</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DeliverNoTitlePage-76.png"/>
+                            </imageobject>
+                        </inlinemediaobject>.</para>
+                    <para role="Normal"/>
+                    <para role="Normal">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Request Cancel Screen</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DeliverNoTitlePage-77.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para role="Normal"/>
+                    <para role="Normal">The request is canceled and you return to the <emphasis
+                            role="bold">Deliver Menu</emphasis>.</para>
+                </listitem>
+            </orderedlist>
+        </section>
+        <section>
+            <title>Printing Call Slips</title>
+            <para>You may print call slips from the item record.</para>
+            <para role="Normal">To access the item record, search for an item from the <emphasis
+                    role="bold">Search Workbench</emphasis>.</para>
+            <note>
+                <para>To learn more about <link
+                        xlink:href="../../../webhelp/CG/content/ch01s03.html#_printingCallSlips"
+                        >printing call slips</link>, see the relevant section of the item record in
+                    the <link xlink:href="../../../webhelp/CG/content/pr01.html"><emphasis
+                            role="italic">Guide to the OLE Describe and Manage
+                        Module</emphasis></link>.</para>
+                <para>For more information about the Search Workbench, see <link
+                        xlink:href="../../../webhelp/BASICS/content/ch02s04.html#_Describe_Workbench"
+                        >Search Workbench</link> in the <link
+                        xlink:href="../../../webhelp/BASICS/content/pr01.html"><emphasis
+                            role="italic">Guide to OLE Basic Functionality and Key
+                            Concepts</emphasis></link>.</para>
+            </note>
+            <para/>
+        </section>
+        <section>
+            <title>Business Rules</title>
+            <itemizedlist>
+                <listitem>
+                    <para role="Normal">When a request for a patron is completed (i.e., the item is
+                        checked out to the patron), the request information is removed from active
+                        requests and archived. </para>
+                </listitem>
+                <listitem>
+                    <para role="Normal">Requests can only be placed at the item level. Title-level
+                        requests will be a future OLE enhancement. </para>
+                </listitem>
+                <listitem>
+                    <para role="Body Text">Not all requests are allowed for any item at any time.
+                        E.g., you cannot place a page request for an item currently loaned. In that
+                        situation, the operator would place a recall or hold request depending on
+                        the requester’s preference.</para>
+                </listitem>
+            </itemizedlist>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_Request_Re-order"/>Request Re-order</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Deliver</alt>
+                <imageobject>
+                    <imagedata fileref="../images/DeliverNoTitlePage-DeliverTab.png"/>
+                </imageobject>
+            </inlinemediaobject> &gt; <inlinemediaobject>
+                <alt>Circulation</alt>
+                <imageobject>
+                    <imagedata fileref="../images/DeliverNoTitlePage-Circulation.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+                    <alt>Request Re-order</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-85.png"/>
+                    </imageobject>
+                </inlinemediaobject>&gt; <inlinemediaobject>
+                    <alt>Request Re-order</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-86.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Normal"/>
+        <para role="Normal">When more than one patron has requested the same item, an authorized
+            library staff operator can display the request record that enumerates the patrons. The
+            queue can be reordered appropriately. </para>
+        <section>
+            <title role="Heading 4circ">Process Overview</title>
+            <para role="Normal">To reorder multiple requests for the same item, locate the <emphasis
+                    role="bold">Request Re-Order</emphasis> interface under <emphasis role="bold"
+                    >Circulation</emphasis> on the <emphasis role="bold">Deliver</emphasis> menu. </para>
+            <orderedlist>
+                <listitem>
+                    <para role="Normal">Enter the <emphasis role="bold">Item</emphasis> or search
+                        for it from the lookup <inlinemediaobject>
+                            <imageobject>
+                                <imagedata fileref="../images/Lookup2.png"/>
+                            </imageobject>
+                        </inlinemediaobject>.</para>
+                </listitem>
+                <listitem>
+                    <para role="Normal">To reorder the request queue, change the numeration within
+                        the <emphasis role="bold">Queue Position</emphasis>
+                    </para>
+                    <para role="Normal">Click <emphasis role="bold">Save</emphasis>.</para>
+                    <para/>
+                    <para role="Normal">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Request Re-order with Sample Requests listed</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DeliverNoTitlePage-88.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                </listitem>
+            </orderedlist>
+        </section>
+        <section>
+            <title>Business Rules</title>
+            <itemizedlist>
+                <listitem>
+                    <para role="Normal">When multiple requests are made for the same item, recall
+                        requests are always given precedence over other request types. Hold requests
+                        have second priority followed by paging and copy requests. If there are
+                        multiple requests of the same type from multiple patrons, the system places
+                        them in the order in which they were made .</para>
+                </listitem>
+            </itemizedlist>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_Return"/>Return</title>
+        <para role="Normal"><inlinemediaobject>
+                <alt>Deliver</alt>
+                <imageobject>
+                    <imagedata fileref="../images/DeliverNoTitlePage-DeliverTab.png"/>
+                </imageobject>
+            </inlinemediaobject> &gt; <inlinemediaobject>
+                <alt>Circulation</alt>
+                <imageobject>
+                    <imagedata fileref="../images/DeliverNoTitlePage-Circulation.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+                    <alt>Return</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-34.png"/>
+                    </imageobject>
+                </inlinemediaobject>&gt; <inlinemediaobject>
+                    <alt>Return</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-73.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Normal">A return session begins with the identification of the item being
+            returned and ends when all the items to be checked in have been processed. Returns
+            utilize item barcode numbers as the primary identifier to begin processing a check-in
+            transaction.</para>
+        <section>
+            <title>Getting Started</title>
+            <para role="Normal">OLE breaks down circulation permissions into several roles. Unit
+                Manager and operator have permissions to return items within OLE.</para>
+            <note>
+                <para role="Normal"> You will receive errors if not logged in as a user mapped to a
+                    circulation desk. Login before selecting Loan from the <emphasis role="bold"
+                        >Deliver</emphasis> Menu.</para>
+            </note>
+            <para role="Normal"/>
+            <para role="Normal">Each staff operator can be authorized to work at one or more
+                circulation desks; one must be set as the default. If they have more than one
+                circulation desk, they will be able to change from one circulation desk to another
+                to indicate where they are. When an operator changes a circulation desk during a
+                session, the change will persist for the rest of the session. The next time the
+                operator logs in OLE will return them to their default location. </para>
+            <para role="Normal"/>
+            <note>
+                <para role="Normal (Web)"> For more information about Circulation Desk maintenance
+                    and mapping, see <link linkend="_Circulation_Desk">Circulation Desk</link> and
+                        <link linkend="_Circulation_Desk_Mapping_1">Circulation Desk Mapping</link>.
+                </para>
+            </note>
+            <para role="Normal"/>
+            <para role="Normal">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Circulation Desk Field near the Login/Logout buttons</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-14.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+        </section>
+        <section>
+            <title>Process Overview</title>
+            <para role="Normal">The system automatically assumes today’s date/time as the default
+                date/time of any check-in. An operator can change the date/time as needed (e.g.,
+                items returned overnight while the library is closed may be checked-in as if
+                returned yesterday).</para>
+            <tip>
+                <para role="Normal"> Clicking on the green <emphasis role="bold">Loan</emphasis>
+                    button will take you to the Loan menu, allowing you to check-out
+                    materials.</para>
+            </tip>
+            <para role="Normal">To check-in items, staff will find the <emphasis role="bold"
+                    >Return</emphasis> e-document under <emphasis role="bold">Circulation</emphasis>
+                on the <emphasis role="bold">Deliver</emphasis> menu.</para>
+            <orderedlist>
+                <listitem>
+                    <para role="Normal">Enter the item barcode or search for it from the lookup <inlinemediaobject>
+                            <imageobject>
+                                <imagedata fileref="../images/Lookup2.png"/>
+                            </imageobject>
+                        </inlinemediaobject>. </para>
+                </listitem>
+                <listitem>
+                    <para role="Normal">Press <emphasis role="bold">Enter.</emphasis></para>
+                    <para role="Normal">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Return Screen</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DeliverNoTitlePage-37.png"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para role="Normal">Items returned appear in the <emphasis role="bold">Item(s)
+                            Returned</emphasis> tab with the most current at the top of the
+                        list.</para>
+                    <para role="Normal"/>
+                    <para role="Normal">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Return Screen: Sample Item returned</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DeliverNoTitlePage-38.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para role="Normal"/>
+                    <para role="Normal">A sound will notify staff of successful check-outs or alert
+                        them of issues to address (provided the sound parameter AUDIO_OPTION is
+                        turned on the computer has speakers). A visual alert may appear to notify
+                        staff of any item related problems based on local configurations settings.
+                        These may include recalls, fines, and outstanding holds, item condition
+                        notices, and number of pieces an item contains, missing record information,
+                        and others. OLE provides a pop up screen to assist staff to correct these
+                        errors.</para>
+                    <para role="Normal"/>
+                    <para role="Normal">If necessary, OLE will calculate any fines or penalties
+                        based upon the locally configured fine rates and create an overdue fine bill
+                        and send it automatically to the patron. </para>
+                    <note>
+                        <para role="Normal (Web)"> For more information about the Patron Bill, see
+                                <link linkend="_Patron_Bill_Payment">Patron Bill</link>.</para>
+                    </note>
+                </listitem>
+            </orderedlist>
+            <para role="Normal"/>
+        </section>
+        <section>
+            <title>To mark an item as Claims Return, Item Damaged, or Missing Piece</title>
+            <para role="Normal">If the patron requests a Claim Return, returns the item damaged, or
+                returns the item while missing pieces, you may make note of these situations from
+                the <emphasis role="bold">Circulation Information</emphasis> tab of the <emphasis
+                    role="bold">Item</emphasis> record.</para>
+            <para role="Normal">Click on the item barcode to open the Item Record.</para>
+            <note>
+                <para>To learn more about the <link
+                        xlink:href="../../../webhelp/CG/content/ch01s03.html#_circulationInformation"
+                        >Circulation Information</link> tab of the <emphasis role="bold"
+                        >Item</emphasis> record, see the relevant section of the <link
+                        xlink:href="../../../webhelp/CG/content/pr01.html"><emphasis role="italic"
+                            >Guide to the OLE Describe and Manage Module</emphasis></link></para>
+            </note>
+            <tip>
+                <para>From the item record, you can also print call slips. For more information, see
+                        <link
+                        xlink:href="../../../webhelp/CG/content/ch01s03.html#_printingCallSlips"
+                        >printing call slips</link>.</para>
+            </tip>
+            <para role="Normal">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Return screen: Click the barcode link access, to the left of the title,
+                            to open the item record</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-41.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Normal"/>
+        </section>
+        <section>
+            <title>Business Rules</title>
+            <itemizedlist>
+                <listitem>
+                    <para role="Normal">During a check-in transaction, the system compares the due
+                        date/time in the loan transaction record to today’s date/time (as set on the
+                        Return screen). If today’s date time is AFTER the due date/time, the system
+                        verifies if an overdue fine is to be imposed and if so, the rate at which
+                        the fine is calculated. The overdue fine bill is then created automatically
+                        as part of the return process. </para>
+                </listitem>
+                <listitem>
+                    <para role="Normal">For check-in, if an operator's circulation desk is not the
+                        same as the item's “home” location, OLE sets the item status to "in transit"
+                        and prints a routing slip so the item can be sent to its “home” location.
+                        When the item is checked in again at the “home” circulation desk, the item
+                        status returns to “Available” (or “Recently Returned”—an option to allow for
+                        the time gap between check-in and reshelving. A batch program changes
+                        “Recently Returned” to “Available” once that time gap has expired).</para>
+                </listitem>
+                <listitem>
+                    <para role="Normal">Check-in of a borrowed item increments the item’s
+                        circulation counter by “1”. If an item with no loan transaction is
+                        checked-in, the system increments the in-house uses counter by”1”.</para>
+                </listitem>
+                <listitem>
+                    <para role="Normal">At check-in, the system also displays notices of special
+                        conditions to the operator. E.g., check-in of an item with a pending request
+                        shows a message indicating that the item needs to be placed on hold for the
+                        requester and an on-hold slip is printed. Other conditions result in other
+                        messages/directions for the operator. </para>
+                </listitem>
+            </itemizedlist>
+        </section>
+    </section>
+</chapter>

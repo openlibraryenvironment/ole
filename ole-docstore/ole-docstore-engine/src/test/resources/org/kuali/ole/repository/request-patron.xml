@@ -1,0 +1,200 @@
+<!--
+   - Copyright 2011 The Kuali Foundation.
+   -
+   - Licensed under the Educational Community License, Version 2.0 (the "License");
+   - you may not use this file except in compliance with the License.
+   - You may obtain a copy of the License at
+   -
+   - http://www.opensource.org/licenses/ecl2.php
+   -
+   - Unless required by applicable law or agreed to in writing, software
+   - distributed under the License is distributed on an "AS IS" BASIS,
+   - WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   - See the License for the specific language governing permissions and
+   - limitations under the License.
+ -->
+
+<request>
+    <user>ole-khuntley</user>
+    <operation>batchIngest</operation>
+    <requestDocuments>
+        <ingestDocument id="1" category="security" type="patron" format="oleml">
+            <content><![CDATA[<op:patronGroup xmlns:op="http://ole.kuali.org/standards/ole-patron">
+                   <op:patron>
+
+        <op:recordNumber>00100055U</op:recordNumber>
+        <op:activeDates>
+            <op:beginDate>2007-01-01</op:beginDate>
+        </op:activeDates>
+        <op:purgeDate>2015-12-31</op:purgeDate>
+
+        <op:name>
+            <op:first>Stephanie</op:first>
+            <op:middle>A</op:middle>
+            <op:surname>Sample</op:surname>
+        </op:name>
+
+        <op:borrowerType>STUDENT</op:borrowerType>
+
+        <op:barcode>
+            <op:barcodeNumber>6010570003043550</op:barcodeNumber>
+            <op:status>Active</op:status>
+            <op:statusDate>2011-07-01T12:12:09</op:statusDate>
+        </op:barcode>
+
+        <op:historicalBarcodes>
+            <op:barcode>
+
+                <op:barcodeNumber>6010570003043550</op:barcodeNumber>
+                <op:status>Lost</op:status>
+                <op:statusDate>2011-03-01T12:12:09</op:statusDate>
+            </op:barcode>
+        </op:historicalBarcodes>
+
+        <op:addresses>
+            <op:address primary="true">
+
+                <op:type>Home</op:type>
+                <op:postalAddress>
+                    <op:addressLine>999 N Monticello</op:addressLine>
+                    <op:city>Chicago</op:city>
+                    <op:stateProvince>IL</op:stateProvince>
+                    <op:postalCode>60647</op:postalCode>
+
+                </op:postalAddress>
+                <op:activeDates>
+                    <op:beginDate>2008-01-01</op:beginDate>
+                </op:activeDates>
+                <op:inactivated>2012-04-15T05:00:00</op:inactivated>
+            </op:address>
+            <op:address primary="false">
+                <op:type>Campus</op:type>
+
+                <op:postalAddress>
+                    <op:addressLine>99 N Monticello</op:addressLine>
+                    <op:city>Chicago</op:city>
+                    <op:stateProvince>IL</op:stateProvince>
+                    <op:postalCode>60647</op:postalCode>
+                </op:postalAddress>
+                <op:activeDates>
+
+                    <op:beginDate>2008-01-01</op:beginDate>
+                </op:activeDates>
+                <op:inactivated>2012-04-15T05:00:00</op:inactivated>
+            </op:address>
+
+            <op:address primary="true">
+                <op:type>Home</op:type>
+                <op:emailAddress>
+
+                    <op:email>sample55@uchicago.edu</op:email>
+                </op:emailAddress>
+                <op:activeDates>
+                    <op:beginDate>2012-01-01</op:beginDate>
+                </op:activeDates>
+            </op:address>
+            <op:address primary="true">
+                <op:type>Home</op:type>
+
+                <op:telephoneNumber>
+                    <op:phoneNumber>7737269999</op:phoneNumber>
+                    <op:acceptsTextMessage>false</op:acceptsTextMessage>
+                </op:telephoneNumber>
+                <op:activeDates>
+                    <op:beginDate>2008-01-01</op:beginDate>
+                </op:activeDates>
+
+            </op:address>
+        </op:addresses>
+        <op:isGenerallyBlocked>false</op:isGenerallyBlocked>
+        <op:patronLevelPolicies>
+            <op:hasDeliveryPrivilege>false</op:hasDeliveryPrivilege>
+            <op:hasPagingPrivilege>false</op:hasPagingPrivilege>
+            <op:receivesCourtesyNotice>false</op:receivesCourtesyNotice>
+
+        </op:patronLevelPolicies>
+
+        <op:affiliations>
+            <op:affiliation>
+                <op:type>LDAPAffiliation</op:type>
+                <op:value>student,staff</op:value>
+            </op:affiliation>
+            <op:affiliation>
+
+                <op:type>StudentStatus</op:type>
+                <op:value>1</op:value>
+            </op:affiliation>
+            <op:affiliation>
+                <op:type>StudentDivision</op:type>
+                <op:value>COL</op:value>
+            </op:affiliation>
+
+            <op:affiliation>
+                <op:type>StudentDepartment</op:type>
+                <op:value>POLITICAL SCIENCE</op:value>
+            </op:affiliation>
+            <op:affiliation>
+                <op:type>StudyProgram</op:type>
+                <op:value>UNDERGRADUATE</op:value>
+
+            </op:affiliation>
+            <op:affiliation>
+                <op:type>Reg_SSS</op:type>
+                <op:value>College Full-Time Default</op:value>
+            </op:affiliation>
+            <op:affiliation>
+                <op:type>LastRegisteredQtr</op:type>
+
+                <op:value>2012/01</op:value>
+            </op:affiliation>
+            <op:affiliation>
+                <op:type>RegStatus</op:type>
+                <op:value>R</op:value>
+            </op:affiliation>
+            <op:affiliation>
+
+                <op:type>StaffAffiliation</op:type>
+                <op:value>STF</op:value>
+            </op:affiliation>
+            <op:affiliation>
+                <op:type>StaffLibpriv</op:type>
+                <op:value>NONE</op:value>
+            </op:affiliation>
+
+            <op:affiliation>
+                <op:type>StaffDivision</op:type>
+                <op:value>Library</op:value>
+            </op:affiliation>
+            <op:affiliation>
+                <op:type>StaffDepartment</op:type>
+                <op:value>Library</op:value>
+
+            </op:affiliation>
+        </op:affiliations>
+
+        <op:identifications>
+            <op:identification>
+                <op:identificationType>RFIDnumber</op:identificationType>
+                <op:identifier>54514</op:identifier>
+            </op:identification>
+
+            <op:identification>
+                <op:identificationType>Libnum</op:identificationType>
+                <op:identifier>3427283</op:identifier>
+            </op:identification>
+            <op:identification>
+                <op:identificationType>Studentid</op:identificationType>
+                <op:identifier>3976647</op:identifier>
+
+            </op:identification>
+            <op:identification>
+                <op:identificationType>alumniid</op:identificationType>
+                <op:identifier>1000210353</op:identifier>
+            </op:identification>
+        </op:identifications>
+    </op:patron>
+             </op:patronGroup>]]>
+            </content>
+        </ingestDocument>
+    </requestDocuments>
+</request>

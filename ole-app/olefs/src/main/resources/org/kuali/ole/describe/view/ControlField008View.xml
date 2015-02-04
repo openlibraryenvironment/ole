@@ -1,0 +1,2625 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="Control_Field_008_Data_Section" parent="Uif-Disclosure-VerticalBoxSection"
+    		class="org.kuali.ole.krad.OleFilteredCopyGroup" p:filterModelProperty="filterField008"
+          p:layoutManager.orientation="VERTICAL"
+          p:layoutManager.style="border:0px solid;"
+          p:render="@{editable eq 'true'  and displayField008 eq 'true'}">
+        <property name="headerText" value="008 Structured Data Elements"/>
+        <property name="validationMessages.displayMessages" value="false"/>
+        <property name="items">
+            <list>
+                <ref bean="Control_Field_008_Books"/>
+                <ref bean="Control_Field_008_Music"/>
+                <ref bean="Control_Field_008_ComputerFiles"/>
+                <ref bean="Control_Field_008_Map"/>
+                <ref bean="Control_Field_008_ContinuingResources"/>
+                <ref bean="Control_Field_008_MixedMaterial"/>
+                <ref bean="Control_Field_008_VisualMaterials"/>
+                <ref bean="Control_Field_008_Buttons"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="ControlField-008" parent="Uif-VerticalFieldGroup" p:style="float:bottom;margin-bottom:-1em">
+        <property name="items">
+            <list>
+                <bean id="Control_Field_008" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.rawText"
+                      p:label="008" p:render="@{editable eq 'true'}"
+                      p:defaultValue="######s########xxu###########000#0#eng#d" p:additionalHiddenPropertyNames="documentForm.marcControlFields.controlField008.date008">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="70"/>
+                    </property>
+                </bean>
+                <bean id="Control_Field_008ReadOnly" parent="Uif-DataField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.rawText" p:label="008"
+                      p:render="@{editable eq 'false'}"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="008Field_0_0" parent="Base-Uif-InputField"
+          p:propertyName="documentForm.marcControlFields.controlField008.dateEnteredOnFile"
+          p:label="DateEnt"  p:defaultValue="######" >
+        <property name="control">
+            <bean parent="Uif-TextControl" p:size="6" p:disabled="true"/>
+        </property>
+    </bean>
+    <bean id="008Field_0_1" parent="Base-Uif-InputField"
+          p:propertyName="documentForm.marcControlFields.controlField008.typeOfDate" p:label="TypeDate"
+          p:defaultValue="s">
+        <property name="control">
+            <bean parent="Uif-DropdownControl">
+                <property name="options">
+                    <list>
+                        <bean parent="Uif-KeyLabelPair" p:key="b"
+                              p:value="b - No dates given; B.C. date involved"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="c"
+                              p:value="c - Continuing resource currently published"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="d"
+                              p:value="d - Continuing resource ceased publication"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="e" p:value="e - Detailed date"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="i"
+                              p:value="i - Inclusive dates of collection"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="k"
+                              p:value="k - Range of years of bulk of collection"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="m" p:value="m - Multiple dates"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="n" p:value="n - Dates unknown"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="p"
+                              p:value="p - Date of distribution/release/issue and production/recording session when different"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="q" p:value="q - Questionable date"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="r"
+                              p:value="r - Reprint/reissue date and original date"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="s"
+                              p:value="s - Single known date/probable date"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="t"
+                              p:value="t - Publication date and copyright date"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="u"
+                              p:value="u - Continuing resource status unknown"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="|" p:value="| - No attempt to code"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+    <bean id="008Field_0_2" parent="Base-Uif-InputField"
+          p:propertyName="documentForm.marcControlFields.controlField008.date1" p:label="Date1"
+          p:defaultValue="####">
+        <property name="control">
+            <bean parent="Uif-TextControl" p:size="3" p:maxLength="4" p:minLength="4"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean id="controlField_date1" parent="ValidCharactersConstraint" p:value="[0-9u#|]$" p:messageKey="Minimum 4 characters required. Only 1-9,u,#,| are allowed."/>
+        </property>
+    </bean>
+    <bean id="008Field_0_3" parent="Base-Uif-InputField"
+          p:propertyName="documentForm.marcControlFields.controlField008.date2" p:label="Date2"
+          p:defaultValue="####">
+        <property name="control">
+            <bean parent="Uif-TextControl" p:size="3" p:maxLength="4" p:minLength="4"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean id="controlField_date2" parent="ValidCharactersConstraint" p:value="[0-9u#|]$" p:messageKey="Minimum 4 characters required. Only 1-9,u,#,| are allowed."/>
+        </property>
+    </bean>
+    <bean id="008Field_0_4" parent="Base-Uif-InputField"
+          p:propertyName="documentForm.marcControlFields.controlField008.place" p:label="PlacePub"
+          p:defaultValue="xxu">
+        <property name="control">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+        <property name="suggest">
+            <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
+                <property name="suggestQuery">
+                    <bean parent="Uif-AttributeQueryConfig"
+                          p:queryMethodToCall="retrieveControlField008Place"
+                          p:queryMethodInvokerConfig.targetClass="org.kuali.ole.describe.keyvalue.Place008KeyValueFinder"/>
+                </property>
+                <property name="templateOptions">
+                    <map merge="true">
+                        <entry key="minLength" value="1"/>
+                    </map>
+                </property>
+            </bean>
+        </property>
+    </bean>
+    <bean id="008Field_0_5" parent="Base-Uif-InputField"
+          p:propertyName="documentForm.marcControlFields.controlField008.language" p:label="Lang"
+          p:defaultValue="eng">
+        <property name="control">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+        <property name="suggest">
+            <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
+                <property name="suggestQuery">
+                    <bean parent="Uif-AttributeQueryConfig"
+                          p:queryMethodToCall="retrieveControlField008Language"
+                          p:queryMethodInvokerConfig.targetClass="org.kuali.ole.describe.keyvalue.Langauge008KeyValueFinder"/>
+                </property>
+                <property name="templateOptions">
+                    <map merge="true">
+                        <entry key="minLength" value="1"/>
+                    </map>
+                </property>
+            </bean>
+        </property>
+    </bean>
+    <bean id="008Field_0_6" parent="Base-Uif-InputField"
+          p:propertyName="documentForm.marcControlFields.controlField008.modifiedRecord" p:label="ModiRec"
+          p:defaultValue="#">
+        <property name="control">
+            <bean parent="Uif-DropdownControl">
+                <property name="options">
+                    <list>
+                        <bean parent="Uif-KeyLabelPair" p:key="#" p:value="# - Not modified"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="d"
+                              p:value="d - Dashed-on information omitted"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="o"
+                              p:value="o - Completely romanized/printed cards Romanized"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="r"
+                              p:value="r - Completely romanized/printed cards in script"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="s" p:value="s - Shortened"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="x" p:value="x - Missing characters"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="|" p:value="| - No attempt to code"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+    <bean id="008Field_0_7" parent="Base-Uif-InputField"
+          p:propertyName="documentForm.marcControlFields.controlField008.catalogingSource" p:label="CatSrc"
+          p:defaultValue="d">
+        <property name="control">
+            <bean parent="Uif-DropdownControl">
+                <property name="options">
+                    <list>
+                        <bean parent="Uif-KeyLabelPair" p:key="#"
+                              p:value="# - National bibliographic agency"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="c"
+                              p:value="c - Cooperative cataloging program"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="d" p:value="d - Other"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="u" p:value="u - Unknown"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="|" p:value="| - No attempt to code"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+    <bean id="Control_Field_008_Books" parent="Uif-HorizontalFieldGroup"
+          p:render="@{documentForm.marcControlFields.booksVisible008 eq 'true' }">
+        <property name="items">
+            <list>
+    <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="8">
+        <property name="items">
+            <list>
+                <ref bean="008Field_0_0"/>
+                <ref bean="008Field_0_1"/>
+                <ref bean="008Field_0_2"/>
+                <ref bean="008Field_0_3"/>
+                <ref bean="008Field_0_4"/>
+                <bean id="008Field_7_0" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.books.illustrations"
+                      p:label="Illustra" p:defaultValue="#">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#"
+                                          p:value="# - No illustrations"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="a" p:value="a - Illustrations"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="b" p:value="b - Maps"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="c" p:value="c - Portraits"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="d" p:value="d - Charts"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="e" p:value="e - Plans"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="f" p:value="f - Plates"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="g" p:value="g - Music"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="h" p:value="h - Facsimiles"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="i" p:value="i - Coats of arms"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="j"
+                                          p:value="j - Genealogical tables"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="k" p:value="k - Forms"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="l" p:value="l - Samples"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="m"
+                                          p:value="m - Phonodisc, phonowire, etc."/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="o" p:value="o - Photographs"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="p" p:value="p - Illuminations"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_7_1" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.books.illustrations"
+                      p:label="Illustra" p:defaultValue="#">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#"
+                                          p:value="# - No illustrations"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="a" p:value="a - Illustrations"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="b" p:value="b - Maps"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="c" p:value="c - Portraits"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="d" p:value="d - Charts"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="e" p:value="e - Plans"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="f" p:value="f - Plates"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="g" p:value="g - Music"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="h" p:value="h - Facsimiles"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="i" p:value="i - Coats of arms"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="j"
+                                          p:value="j - Genealogical tables"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="k" p:value="k - Forms"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="l" p:value="l - Samples"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="m"
+                                          p:value="m - Phonodisc, phonowire, etc."/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="o" p:value="o - Photographs"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="p" p:value="p - Illuminations"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_7_2" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.books.illustrations"
+                      p:label="Illustra" p:defaultValue="#">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#"
+                                          p:value="# - No illustrations"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="a" p:value="a - Illustrations"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="b" p:value="b - Maps"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="c" p:value="c - Portraits"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="d" p:value="d - Charts"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="e" p:value="e - Plans"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="f" p:value="f - Plates"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="g" p:value="g - Music"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="h" p:value="h - Facsimiles"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="i" p:value="i - Coats of arms"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="j"
+                                          p:value="j - Genealogical tables"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="k" p:value="k - Forms"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="l" p:value="l - Samples"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="m"
+                                          p:value="m - Phonodisc, phonowire, etc."/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="o" p:value="o - Photographs"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="p" p:value="p - Illuminations"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_7_3" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.books.illustrations"
+                      p:label="Illustra" p:defaultValue="#">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#"
+                                          p:value="# - No illustrations"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="a" p:value="a - Illustrations"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="b" p:value="b - Maps"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="c" p:value="c - Portraits"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="d" p:value="d - Charts"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="e" p:value="e - Plans"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="f" p:value="f - Plates"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="g" p:value="g - Music"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="h" p:value="h - Facsimiles"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="i" p:value="i - Coats of arms"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="j"
+                                          p:value="j - Genealogical tables"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="k" p:value="k - Forms"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="l" p:value="l - Samples"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="m"
+                                          p:value="m - Phonodisc, phonowire, etc."/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="o" p:value="o - Photographs"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="p" p:value="p - Illuminations"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_7_4" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.books.targetAudience"
+                      p:label="TargAud" p:defaultValue="#">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#"
+                                          p:value="# - Unknown or Unspecified"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="a" p:value="a - Preschool"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="b" p:value="b - Primary"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="c" p:value="c - Pre-adolescent"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="d" p:value="d - Adolescent"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="e" p:value="e - Adult"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="f" p:value="f - Specialized"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="g" p:value="g - General"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="j" p:value="j - Juvenile"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_7_5" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.books.formOfItem"
+                      p:label="FormItem" p:defaultValue="#">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#"
+                                          p:value="# - None of the following"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="a" p:value="a - Microfilm"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="b" p:value="b - Microfiche"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="c" p:value="c - Microopaque"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="d" p:value="d - Large print"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="f" p:value="f - Braille"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="o" p:value="o - Online"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="q"
+                                          p:value="q - Direct electronic"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="r"
+                                          p:value="r - Regular print reproduction"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="s" p:value="s - Electronic"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_7_6" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.books.natureOfContents"
+                      p:label="NatCont" p:defaultValue="#">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#"
+                                          p:value="# - No specified nature of contents"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="a"
+                                          p:value="a - Abstracts/summaries"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="b" p:value="b - Bibliographies"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="c" p:value="c - Catalogs"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="d" p:value="d - Dictionaries"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="e" p:value="e - Encyclopedias"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="f" p:value="f - Handbooks"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="g" p:value="g - Legal articles"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="i" p:value="i - Indexes"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="j"
+                                          p:value="j - Patent document"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="k" p:value="k - Discographies"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="l" p:value="l - Legislation"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="m" p:value="m - Theses"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="n"
+                                          p:value="n - Surveys of literature in a subject area"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="o" p:value="o - Reviews"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="p"
+                                          p:value="p - Programmed texts"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="q" p:value="q - Filmographies"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="r" p:value="r - Directories"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="s" p:value="s - Statistics"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="t"
+                                          p:value="t - Technical reports"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="u"
+                                          p:value="u - Standards/specifications"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="v"
+                                          p:value="v - Legal cases and case notes"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="w"
+                                          p:value="w - Law reports and digests"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="y" p:value="y - Yearbooks"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="z" p:value="z - Treaties"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="2" p:value="2 - Offprints"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="5" p:value="5 - Calendars"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="6"
+                                          p:value="6 - Comics/graphic novels"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_7_7" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.books.natureOfContents"
+                      p:label="NatCont" p:defaultValue="#">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#"
+                                          p:value="# - No specified nature of contents"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="a"
+                                          p:value="a - Abstracts/summaries"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="b" p:value="b - Bibliographies"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="c" p:value="c - Catalogs"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="d" p:value="d - Dictionaries"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="e" p:value="e - Encyclopedias"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="f" p:value="f - Handbooks"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="g" p:value="g - Legal articles"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="i" p:value="i - Indexes"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="j"
+                                          p:value="j - Patent document"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="k" p:value="k - Discographies"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="l" p:value="l - Legislation"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="m" p:value="m - Theses"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="n"
+                                          p:value="n - Surveys of literature in a subject area"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="o" p:value="o - Reviews"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="p"
+                                          p:value="p - Programmed texts"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="q" p:value="q - Filmographies"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="r" p:value="r - Directories"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="s" p:value="s - Statistics"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="t"
+                                          p:value="t - Technical reports"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="u"
+                                          p:value="u - Standards/specifications"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="v"
+                                          p:value="v - Legal cases and case notes"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="w"
+                                          p:value="w - Law reports and digests"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="y" p:value="y - Yearbooks"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="z" p:value="z - Treaties"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="2" p:value="2 - Offprints"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="5" p:value="5 - Calendars"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="6"
+                                          p:value="6 - Comics/graphic novels"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_7_8" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.books.natureOfContents"
+                      p:label="NatCont" p:defaultValue="#">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#"
+                                          p:value="# - No specified nature of contents"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="a"
+                                          p:value="a - Abstracts/summaries"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="b" p:value="b - Bibliographies"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="c" p:value="c - Catalogs"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="d" p:value="d - Dictionaries"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="e" p:value="e - Encyclopedias"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="f" p:value="f - Handbooks"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="g" p:value="g - Legal articles"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="i" p:value="i - Indexes"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="j"
+                                          p:value="j - Patent document"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="k" p:value="k - Discographies"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="l" p:value="l - Legislation"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="m" p:value="m - Theses"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="n"
+                                          p:value="n - Surveys of literature in a subject area"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="o" p:value="o - Reviews"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="p"
+                                          p:value="p - Programmed texts"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="q" p:value="q - Filmographies"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="r" p:value="r - Directories"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="s" p:value="s - Statistics"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="t"
+                                          p:value="t - Technical reports"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="u"
+                                          p:value="u - Standards/specifications"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="v"
+                                          p:value="v - Legal cases and case notes"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="w"
+                                          p:value="w - Law reports and digests"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="y" p:value="y - Yearbooks"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="z" p:value="z - Treaties"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="2" p:value="2 - Offprints"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="5" p:value="5 - Calendars"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="6"
+                                          p:value="6 - Comics/graphic novels"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_7_9" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.books.natureOfContents"
+                      p:label="NatCont" p:defaultValue="#">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#"
+                                          p:value="# - No specified nature of contents"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="a"
+                                          p:value="a - Abstracts/summaries"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="b" p:value="b - Bibliographies"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="c" p:value="c - Catalogs"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="d" p:value="d - Dictionaries"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="e" p:value="e - Encyclopedias"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="f" p:value="f - Handbooks"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="g" p:value="g - Legal articles"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="i" p:value="i - Indexes"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="j"
+                                          p:value="j - Patent document"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="k" p:value="k - Discographies"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="l" p:value="l - Legislation"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="m" p:value="m - Theses"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="n"
+                                          p:value="n - Surveys of literature in a subject area"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="o" p:value="o - Reviews"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="p"
+                                          p:value="p - Programmed texts"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="q" p:value="q - Filmographies"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="r" p:value="r - Directories"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="s" p:value="s - Statistics"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="t"
+                                          p:value="t - Technical reports"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="u"
+                                          p:value="u - Standards/specifications"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="v"
+                                          p:value="v - Legal cases and case notes"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="w"
+                                          p:value="w - Law reports and digests"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="y" p:value="y - Yearbooks"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="z" p:value="z - Treaties"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="2" p:value="2 - Offprints"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="5" p:value="5 - Calendars"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="6"
+                                          p:value="6 - Comics/graphic novels"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_7_10" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.books.govtPublications"
+                      p:label="GovPub" p:defaultValue="#">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#"
+                                          p:value="# - Not a government publication"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="a"
+                                          p:value="a - Autonomous or semi-autonomous component"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="c" p:value="c - Multilocal"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="f"
+                                          p:value="f - Federal/national"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="i"
+                                          p:value="i - International intergovernmental"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="l" p:value="l - Local"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="m" p:value="m - Multistate"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="o"
+                                          p:value="o - Government publication-level undetermined"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="s"
+                                          p:value="s - State, provincial, territorial, dependent, etc."/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="u"
+                                          p:value="u - Unknown if item is government publication"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="z" p:value="z - Other"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_7_11" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.books.confPublications"
+                      p:label="ConfPub" p:defaultValue="0">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="0"
+                                          p:value="0 - Not a conference publication"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="1"
+                                          p:value="1 - Conference publication"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_7_12" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.books.festschrift"
+                      p:label="Festschf" p:defaultValue="0">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="0"
+                                          p:value="0 - Not a festschrift"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="1" p:value="1 - Festschrift"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_7_13" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.books.index"
+                      p:label="Index" p:defaultValue="0">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="0" p:value="0 - No index"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="1" p:value="1 - Index present"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_7_14" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.books.undefined"
+                      p:label="Undef"  p:defaultValue="#" >
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="1" p:disabled="true"/>
+                    </property>
+                </bean>
+                <bean id="008Field_7_15" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.books.literaryForm"
+                      p:label="LitForm" p:defaultValue="0">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="0"
+                                          p:value="0 - Not fiction (not further specified)"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="1"
+                                          p:value="1 - Fiction (not further specified)"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="d" p:value="d - Dramas"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="e" p:value="e - Essays"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="f" p:value="f - Novels"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="h"
+                                          p:value="h - Humor, satires, etc."/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="i" p:value="i - Letters"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="j" p:value="j - Short stories"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="m" p:value="m - Mixed forms"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="p" p:value="p - Poetry"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="s" p:value="s - Speeches"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="u" p:value="u - Unknown"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_7_16" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.books.biography"
+                      p:label="Biogrphy" p:defaultValue="#">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#"
+                                          p:value="# - No biographical material"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="a" p:value="a - Autobiography"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="b"
+                                          p:value="b - Individual biography"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="c"
+                                          p:value="c - Collective biography"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="d"
+                                          p:value="d - Contains biographical information"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <ref bean="008Field_0_5"/>
+                <ref bean="008Field_0_6"/>
+                <ref bean="008Field_0_7"/>
+            </list>
+        </property>
+    </bean>
+    </list>
+    </property>
+    </bean>
+    <bean id="Control_Field_008_ComputerFiles" parent="Uif-HorizontalFieldGroup"
+          p:render="@{documentForm.marcControlFields.computerFilesVisible008 eq 'true' }">
+        <property name="items">
+            <list>
+    <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="8">
+        <property name="items">
+            <list>
+                <ref bean="008Field_0_0"/>
+                <ref bean="008Field_0_1"/>
+                <ref bean="008Field_0_2"/>
+                <ref bean="008Field_0_3"/>
+                <ref bean="008Field_0_4"/>
+                <bean id="008Field_1_0" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.computerFiles.undefinedPos4"
+                      p:label="Undef"  p:defaultValue="####" >
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="4" p:disabled="true"/>
+                    </property>
+                </bean>
+                <bean id="008Field_1_1" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.computerFiles.targetAudience"
+                      p:label="TargAud" p:defaultValue="#">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#"
+                                          p:value="# - Unknown or not specified"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="a" p:value="a - Preschool"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="b" p:value="b - Primary"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="c" p:value="c - Pre-adolescent"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="d" p:value="d - Adolescent"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="e" p:value="e - Adult"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="f" p:value="f - Specialized"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="g" p:value="g - General"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="j" p:value="j - Juvenile"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_1_2" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.computerFiles.FormOfItem"
+                      p:label="FormItem" p:defaultValue="#">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#"
+                                          p:value="# - Unknown or not specified"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="o" p:value="o - Online"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="q"
+                                          p:value="q - Direct electronic"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_1_3" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.computerFiles.undefinedPos2"
+                      p:label="Undef"  p:defaultValue="##" >
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="2" p:disabled="true"/>
+                    </property>
+                </bean>
+                <bean id="008Field_1_4" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.computerFiles.typeOfComputerFile"
+                      p:label="TypeComp" p:defaultValue="u">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="a" p:value="a - Numeric data"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="b"
+                                          p:value="b - Computer program"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="c"
+                                          p:value="c - Representational"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="d" p:value="d - Document"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="e"
+                                          p:value="e - Bibliographic data"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="f" p:value="f - Font"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="g" p:value="g - Game"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="h" p:value="h - Sound"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="i"
+                                          p:value="i - Interactive multimedia"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="j"
+                                          p:value="j - Online system or service"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="m" p:value="m - Combination"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="u" p:value="u - Unknown"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="z" p:value="z - Other"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_1_5" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.computerFiles.undefined"
+                      p:label="Undef"  p:defaultValue="#" >
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="1" p:disabled="true"/>
+                    </property>
+                </bean>
+                <bean id="008Field_1_6" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.computerFiles.governmentPublication"
+                      p:label="GovPub" p:defaultValue="#">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#"
+                                          p:value="# - Not a government publication"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="a"
+                                          p:value="a - Autonomous or semi-autonomous component"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="c" p:value="c - Multilocal"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="f"
+                                          p:value="f - Federal/national"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="i"
+                                          p:value="i - International intergovernmental"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="l" p:value="l - Local"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="m" p:value="m - Multistate"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="o"
+                                          p:value="o - Government publication-level undetermined"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="s"
+                                          p:value="s - State, provincial, territorial, dependent, etc."/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="u"
+                                          p:value="u - Unknown if item is government publication"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="z" p:value="z - Other"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_1_7" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.computerFiles.undefinedPos6"
+                      p:label="Undef"  p:defaultValue="######" >
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="6" p:disabled="true"/>
+                    </property>
+                </bean>
+                <ref bean="008Field_0_5"/>
+                <ref bean="008Field_0_6"/>
+                <ref bean="008Field_0_7"/>
+            </list>
+        </property>
+    </bean>
+    </list>
+    </property>
+    </bean>
+    <bean id="Control_Field_008_Map" parent="Uif-HorizontalFieldGroup"
+          p:render="@{documentForm.marcControlFields.mapVisible008 eq 'true' }">
+        <property name="items">
+            <list>
+    <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="8">
+        <property name="items">
+            <list>
+                <ref bean="008Field_0_0"/>
+                <ref bean="008Field_0_1"/>
+                <ref bean="008Field_0_2"/>
+                <ref bean="008Field_0_3"/>
+                <ref bean="008Field_0_4"/>
+                <bean id="008Field_2_0" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.map.relief"
+                      p:label="Relief" p:defaultValue="#">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#"
+                                          p:value="# - No relief shown"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="a" p:value="a - Contours"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="b" p:value="b - Shading"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="c"
+                                          p:value="c - Gradient and bathymetric tints"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="d" p:value="d - Hachures"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="e"
+                                          p:value="e - Bathymetry/soundings"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="f" p:value="f - Form lines"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="g" p:value="g - Spot heights"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="i" p:value="i - Pictorially"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="j" p:value="j - Land forms"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="k"
+                                          p:value="k - Bathymetry/isolines"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="m" p:value="m - Rock drawings"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="z" p:value="z - Other"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_2_1" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.map.relief"
+                      p:label="Relief" p:defaultValue="#">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#"
+                                          p:value="# - No relief shown"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="a" p:value="a - Contours"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="b" p:value="b - Shading"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="c"
+                                          p:value="c - Gradient and bathymetric tints"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="d" p:value="d - Hachures"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="e"
+                                          p:value="e - Bathymetry/soundings"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="f" p:value="f - Form lines"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="g" p:value="g - Spot heights"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="i" p:value="i - Pictorially"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="j" p:value="j - Land forms"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="k"
+                                          p:value="k - Bathymetry/isolines"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="m" p:value="m - Rock drawings"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="z" p:value="z - Other"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_2_2" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.map.relief"
+                      p:label="Relief" p:defaultValue="#">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#"
+                                          p:value="# - No relief shown"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="a" p:value="a - Contours"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="b" p:value="b - Shading"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="c"
+                                          p:value="c - Gradient and bathymetric tints"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="d" p:value="d - Hachures"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="e"
+                                          p:value="e - Bathymetry/soundings"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="f" p:value="f - Form lines"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="g" p:value="g - Spot heights"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="i" p:value="i - Pictorially"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="j" p:value="j - Land forms"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="k"
+                                          p:value="k - Bathymetry/isolines"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="m" p:value="m - Rock drawings"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="z" p:value="z - Other"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_2_3" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.map.relief"
+                      p:label="Relief" p:defaultValue="#">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#"
+                                          p:value="# - No relief shown"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="a" p:value="a - Contours"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="b" p:value="b - Shading"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="c"
+                                          p:value="c - Gradient and bathymetric tints"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="d" p:value="d - Hachures"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="e"
+                                          p:value="e - Bathymetry/soundings"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="f" p:value="f - Form lines"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="g" p:value="g - Spot heights"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="i" p:value="i - Pictorially"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="j" p:value="j - Land forms"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="k"
+                                          p:value="k - Bathymetry/isolines"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="m" p:value="m - Rock drawings"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="z" p:value="z - Other"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_2_4" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.map.projection"
+                      p:label="Project" p:defaultValue="##">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="##"
+                                          p:value="## - Projection not specified"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="aa" p:value="aa - Aitoff"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="ab" p:value="ab - Gnomic"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="ac"
+                                          p:value="ac - Lambert's azimuthal equal area"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="ad" p:value="ad - Orthographic"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="ae"
+                                          p:value="ae - Azimuthal equidistant"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="af"
+                                          p:value="af - Stereographic"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="ag"
+                                          p:value="ag - General vertical near-sided"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="am"
+                                          p:value="am - Modified stereographic for Alaska"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="an"
+                                          p:value="an - Chamberlin trimetric"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="ap"
+                                          p:value="ap - Polar stereographic"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="au"
+                                          p:value="au - Azimuthal, specific type unknown"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="az"
+                                          p:value="az - Azimuthal, other"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="ba" p:value="ba - Gall"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="bb"
+                                          p:value="bb - Goode's homolographic"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="bc"
+                                          p:value="bc - Lambert's cylindrical equal area"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="bd" p:value="bd - Mercator"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="be" p:value="be - Miller"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="bf" p:value="bf - Mollweide"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="bg" p:value="bg - Sinusoidal"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="bh"
+                                          p:value="bh - Transverse Mercator"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="bi" p:value="bi - Gauss-Kruger"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="bj"
+                                          p:value="bj - Equirectangular"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="bk" p:value="bk - Krovak"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="bl"
+                                          p:value="bl - Cassini-Soldner"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="bo"
+                                          p:value="bo - Oblique Mercator"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="br" p:value="br - Robinson"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="bs"
+                                          p:value="bs - Space oblique Mercator"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="bu"
+                                          p:value="bu - Cylindrical, specific type unknown"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="bz"
+                                          p:value="bz - Cylindrical, other"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="ca"
+                                          p:value="ca - Albers equal area"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="cb" p:value="cb - Bonne"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="cc"
+                                          p:value="cc - Lambert's conformal conic"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="ce"
+                                          p:value="ce - Equidistant conic"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="cp" p:value="cp - Polyconic"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="cu"
+                                          p:value="cu - Conic, specific type unknown"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="cz" p:value="cz - Conic, other"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="da" p:value="da - Armadillo"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="db" p:value="db - Butterfly"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="dc" p:value="dc - Eckert"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="dd"
+                                          p:value="dd - Goode's homolosine"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="de"
+                                          p:value="de - Miller's bipolar oblique conformal conic"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="df"
+                                          p:value="df - Van Der Grinten"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="dg" p:value="dg - Dimaxion"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="dh" p:value="dh - Cordiform"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="dl"
+                                          p:value="dl - Lambert conformal"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="zz" p:value="zz - Other"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="||"
+                                          p:value="|| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_2_5" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.map.undefinedpos4"
+                      p:label="Undef"  p:defaultValue="#" >
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="1" p:disabled="true"/>
+                    </property>
+                </bean>
+                <bean id="008Field_2_6" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.map.typeOfCartographicMaterial"
+                      p:label="TypeCart" p:defaultValue="a">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="a" p:value="a - Single map"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="b" p:value="b - Map series"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="c" p:value="c - Map serial"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="d" p:value="d - Globe"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="e" p:value="e - Atlas"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="f"
+                                          p:value="f - Separate supplement to another work"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="g"
+                                          p:value="g - Bound as part of another work"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="u" p:value="u - Unknown"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="z" p:value="z - Other"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_2_7" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.map.undefinedPos2"
+                      p:label="Undef"  p:defaultValue="##" >
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="2" p:disabled="true"/>
+                    </property>
+                </bean>
+                <bean id="008Field_2_8" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.map.governmentPublication"
+                      p:label="GovPub" p:defaultValue="#">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#"
+                                          p:value="# - Not a government publication"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="a"
+                                          p:value="a - Autonomous or semi-autonomous component"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="c" p:value="c - Multilocal"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="f"
+                                          p:value="f - Federal/national"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="i"
+                                          p:value="i - International intergovernmental"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="l" p:value="l - Local"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="m" p:value="m - Multistate"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="o"
+                                          p:value="o - Government publication-level undetermined"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="s"
+                                          p:value="s - State, provincial, territorial, dependent, etc."/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="u"
+                                          p:value="u - Unknown if item is government publication"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="z" p:value="z - Other"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_2_9" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.map.formOfItem"
+                      p:label="FormItem" p:defaultValue="#">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#"
+                                          p:value="# - None of the following"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="a" p:value="a - Microfilm"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="b" p:value="b - Microfiche"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="c" p:value="c - Microopaque"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="d" p:value="d - Large print"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="f" p:value="f - Braille"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="o" p:value="o - Online"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="q"
+                                          p:value="q - Direct electronic"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="r"
+                                          p:value="r - Regular print reproduction"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="s" p:value="s - Electronic"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_2_10" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.map.undefinedpos7"
+                      p:label="Undef"  p:defaultValue="#" >
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="1" p:disabled="true"/>
+                    </property>
+                </bean>
+                <bean id="008Field_2_11" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.map.index"
+                      p:label="Index" p:defaultValue="0">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="0" p:value="0 - No index"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="1" p:value="1 - Index present"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_2_12" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.map.undefinedpos8"
+                      p:label="Undef"  p:defaultValue="#" >
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="1" p:disabled="true"/>
+                    </property>
+                </bean>
+                <bean id="008Field_2_13" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.map.specialFormatCharacteristics"
+                      p:label="SpecForm" p:defaultValue="#">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#"
+                                          p:value="# - No specified special format characteristics"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="e" p:value="e - Manuscript"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="j"
+                                          p:value="j - Picture card, post card"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="k" p:value="k - Calendar"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="l" p:value="l - Puzzle"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="n" p:value="n - Game"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="o" p:value="o - Wall map"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="p" p:value="p - Playing cards"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="r" p:value="r - Loose-leaf"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="z" p:value="z - Other"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_2_14" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.map.specialFormatCharacteristics"
+                      p:label="SpecForm">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#"
+                                          p:value="# - No specified special format characteristics"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="e" p:value="e - Manuscript"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="j"
+                                          p:value="j - Picture card, post card"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="k" p:value="k - Calendar"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="l" p:value="l - Puzzle"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="n" p:value="n - Game"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="o" p:value="o - Wall map"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="p" p:value="p - Playing cards"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="r" p:value="r - Loose-leaf"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="z" p:value="z - Other"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <ref bean="008Field_0_5"/>
+                <ref bean="008Field_0_6"/>
+                <ref bean="008Field_0_7"/>
+            </list>
+        </property>
+    </bean>
+    </list>
+    </property>
+    </bean>
+    <bean id="Control_Field_008_Music" parent="Uif-HorizontalFieldGroup"
+          p:render="@{documentForm.marcControlFields.musicVisible008 eq 'true' }">
+        <property name="items">
+            <list>
+    <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="8">
+        <property name="items">
+            <list>
+                <ref bean="008Field_0_0"/>
+                <ref bean="008Field_0_1"/>
+                <ref bean="008Field_0_2"/>
+                <ref bean="008Field_0_3"/>
+                <ref bean="008Field_0_4"/>
+                <bean id="008Field_3_0" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.music.formOfComposition"
+                      p:label="FormComp" p:defaultValue="uu">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="an" p:value="an - Anthems"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="bd" p:value="bd - Ballads"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="bg"
+                                          p:value="bg - Bluegrass music"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="bl" p:value="bl - Blues"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="bt" p:value="bt - Ballets"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="ca" p:value="ca - Chaconnes"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="cb"
+                                          p:value="cb - Chants, Other religions"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="cc"
+                                          p:value="cc - Chant, Christian"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="cg"
+                                          p:value="cg - Concerti grossi"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="ch" p:value="ch - Chorales"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="cl"
+                                          p:value="cl - Chorale preludes"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="cn"
+                                          p:value="cn - Canons and rounds"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="co" p:value="co - Concertos"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="cp"
+                                          p:value="cp - Chansons, polyphonic"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="cr" p:value="cr - Carols"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="cs"
+                                          p:value="cs - Chance compositions"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="ct" p:value="ct - Cantatas"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="cy"
+                                          p:value="cy - Country music"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="cz" p:value="cz - Canzonas"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="df" p:value="df - Dance forms"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="dv"
+                                          p:value="dv - Divertimentos, serenades, cassations, divertissements, and notturni"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="fg" p:value="fg - Fugues"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="fl" p:value="fl - Flamenco"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="fm" p:value="fm - Folk music"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="ft" p:value="ft - Fantasias"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="gm" p:value="gm - Gospel music"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="hy" p:value="hy - Hymns"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="jz" p:value="jz - Jazz"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="mc"
+                                          p:value="mc - Musical revues and comedies"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="md" p:value="md - Madrigals"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="mi" p:value="mi - Minuets"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="mo" p:value="mo - Motets"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="mp"
+                                          p:value="mp - Motion picture music"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="mr" p:value="mr - Marches"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="ms" p:value="ms - Masses"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="mu"
+                                          p:value="mu - Multiple forms"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="mz" p:value="mz - Mazurkas"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="nc" p:value="nc - Nocturnes"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="nn"
+                                          p:value="nn - Not applicable"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="op" p:value="op - Operas"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="or" p:value="or - Oratorios"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="ov" p:value="ov - Overtures"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="pg"
+                                          p:value="pg - Program music"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="pm"
+                                          p:value="pm - Passion music"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="po" p:value="po - Polonaises"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="pp"
+                                          p:value="pp - Popular music"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="pr" p:value="pr - Preludes"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="ps" p:value="ps - Passacaglias"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="pt" p:value="pt - Part-songs"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="pv" p:value="pv - Pavans"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="rc" p:value="rc - Rock music"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="rd" p:value="rd - Rondos"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="rg"
+                                          p:value="rg - Ragtime music"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="ri" p:value="ri - Ricercars"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="rp" p:value="rp - Rhapsodies"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="rq" p:value="rq - Requiems"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="sd"
+                                          p:value="sd - Square dance music"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="sg" p:value="sg - Songs"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="sn" p:value="sn - Sonatas"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="sp"
+                                          p:value="sp - Symphonic poems"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="st"
+                                          p:value="st - Studies and exercises"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="su" p:value="su - Suites"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="sy" p:value="sy - Symphonies"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="tc" p:value="tc - Toccatas"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="tl"
+                                          p:value="tl - Teatro lirico"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="ts" p:value="ts - Trio-sonatas"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="uu" p:value="uu - Unknown"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="vi" p:value="vi - Villancicos"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="vr" p:value="vr - Variations"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="wz" p:value="wz - Waltzes"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="za" p:value="za - Zarzuelas"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="zz" p:value="zz - Other "/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="||"
+                                          p:value="|| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_3_1" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.music.formatOfMusic"
+                      p:label="FormMus" p:defaultValue="u">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="a" p:value="a - Full score"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="b"
+                                          p:value="b - Full score, miniature or study size"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="c"
+                                          p:value="c - Accompaniment reduced for keyboard"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="d"
+                                          p:value="d - Voice score with accompaniment omitted"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="e"
+                                          p:value="e - Condensed score or piano-conductor score"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="g" p:value="g - Close score"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="h" p:value="h - Chorus score"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="i"
+                                          p:value="i - Condensed score"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="j"
+                                          p:value="j - Performer-conductor part"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="k" p:value="k - Vocal score"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="l" p:value="l - Score"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="m"
+                                          p:value="m - Multiple score formats"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="n" p:value="n - Not applicable"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="u" p:value="u - Unknown"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="z" p:value="z - Other"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_3_2" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.music.musicParts"
+                      p:label="MusiPart" p:defaultValue="#">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#"
+                                          p:value="# - No parts in hand or not specified"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="d"
+                                          p:value="d - Instrumental and vocal parts"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="e"
+                                          p:value="e - Instrumental parts"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="f" p:value="f - Vocal parts"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="n" p:value="n - Not applicable"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="u" p:value="u - Unknown"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_3_3" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.music.TargetAudience"
+                      p:label="TargAud" p:defaultValue="#">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#"
+                                          p:value="# - Unknown or Unspecified"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="a" p:value="a - Preschool"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="b" p:value="b - Primary"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="c" p:value="c - Pre-adolescent"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="d" p:value="d - Adolescent"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="e" p:value="e - Adult"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="f" p:value="f - Specialized"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="g" p:value="g - General"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="j" p:value="j - Juvenile"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_3_4" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.music.FormOfItem"
+                      p:label="FormItem" p:defaultValue="#">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#"
+                                          p:value="# - None of the following"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="a" p:value="a - Microfilm"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="b" p:value="b - Microfiche"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="c" p:value="c - Microopaque"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="d" p:value="d - Large print"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="f" p:value="f - Braille"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="o" p:value="o - Online"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="q"
+                                          p:value="q - Direct electronic"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="r"
+                                          p:value="r - Regular print reproduction"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="s" p:value="s - Electronic"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_3_5" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.music.accompanyingMatter"
+                      p:label="AccmpMtr" p:defaultValue="#">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#"
+                                          p:value="# - No accompanying matter"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="a" p:value="a - Discography"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="b" p:value="b - Bibliography"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="c" p:value="c - Thematic index"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="d"
+                                          p:value="d - Libretto or text"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="e"
+                                          p:value="e - Biography of composer or author"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="f"
+                                          p:value="f - Biography of performer or history of ensemble"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="g"
+                                          p:value="g - Technical and/or historical information on instrument"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="h"
+                                          p:value="h - Technical information on music"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="i"
+                                          p:value="i - Historical information"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="k"
+                                          p:value="k - Ethnological information"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="r"
+                                          p:value="r - Instructional materials"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="s" p:value="s - Music"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="z" p:value="z - Other"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_3_6" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.music.accompanyingMatter"
+                      p:label="AccmpMtr" p:defaultValue="#">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#"
+                                          p:value="# - No accompanying matter"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="a" p:value="a - Discography"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="b" p:value="b - Bibliography"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="c" p:value="c - Thematic index"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="d"
+                                          p:value="d - Libretto or text"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="e"
+                                          p:value="e - Biography of composer or author"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="f"
+                                          p:value="f - Biography of performer or history of ensemble"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="g"
+                                          p:value="g - Technical and/or historical information on instrument"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="h"
+                                          p:value="h - Technical information on music"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="i"
+                                          p:value="i - Historical information"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="k"
+                                          p:value="k - Ethnological information"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="r"
+                                          p:value="r - Instructional materials"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="s" p:value="s - Music"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="z" p:value="z - Other"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_3_7" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.music.accompanyingMatter"
+                      p:label="AccmpMtr" p:defaultValue="#">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#"
+                                          p:value="# - No accompanying matter"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="a" p:value="a - Discography"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="b" p:value="b - Bibliography"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="c" p:value="c - Thematic index"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="d"
+                                          p:value="d - Libretto or text"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="e"
+                                          p:value="e - Biography of composer or author"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="f"
+                                          p:value="f - Biography of performer or history of ensemble"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="g"
+                                          p:value="g - Technical and/or historical information on instrument"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="h"
+                                          p:value="h - Technical information on music"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="i"
+                                          p:value="i - Historical information"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="k"
+                                          p:value="k - Ethnological information"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="r"
+                                          p:value="r - Instructional materials"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="s" p:value="s - Music"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="z" p:value="z - Other"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_3_8" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.music.accompanyingMatter"
+                      p:label="AccmpMtr" p:defaultValue="#">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#"
+                                          p:value="# - No accompanying matter"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="a" p:value="a - Discography"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="b" p:value="b - Bibliography"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="c" p:value="c - Thematic index"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="d"
+                                          p:value="d - Libretto or text"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="e"
+                                          p:value="e - Biography of composer or author"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="f"
+                                          p:value="f - Biography of performer or history of ensemble"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="g"
+                                          p:value="g - Technical and/or historical information on instrument"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="h"
+                                          p:value="h - Technical information on music"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="i"
+                                          p:value="i - Historical information"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="k"
+                                          p:value="k - Ethnological information"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="r"
+                                          p:value="r - Instructional materials"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="s" p:value="s - Music"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="z" p:value="z - Other"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_3_9" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.music.accompanyingMatter"
+                      p:label="AccmpMtr" p:defaultValue="#">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#"
+                                          p:value="# - No accompanying matter"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="a" p:value="a - Discography"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="b" p:value="b - Bibliography"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="c" p:value="c - Thematic index"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="d"
+                                          p:value="d - Libretto or text"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="e"
+                                          p:value="e - Biography of composer or author"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="f"
+                                          p:value="f - Biography of performer or history of ensemble"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="g"
+                                          p:value="g - Technical and/or historical information on instrument"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="h"
+                                          p:value="h - Technical information on music"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="i"
+                                          p:value="i - Historical information"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="k"
+                                          p:value="k - Ethnological information"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="r"
+                                          p:value="r - Instructional materials"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="s" p:value="s - Music"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="z" p:value="z - Other"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_3_10" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.music.accompanyingMatter"
+                      p:label="AccmpMtr" p:defaultValue="#">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#"
+                                          p:value="# - No accompanying matter"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="a" p:value="a - Discography"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="b" p:value="b - Bibliography"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="c" p:value="c - Thematic index"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="d"
+                                          p:value="d - Libretto or text"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="e"
+                                          p:value="e - Biography of composer or author"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="f"
+                                          p:value="f - Biography of performer or history of ensemble"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="g"
+                                          p:value="g - Technical and/or historical information on instrument"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="h"
+                                          p:value="h - Technical information on music"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="i"
+                                          p:value="i - Historical information"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="k"
+                                          p:value="k - Ethnological information"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="r"
+                                          p:value="r - Instructional materials"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="s" p:value="s - Music"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="z" p:value="z - Other"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_3_11" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.music.literaryText"
+                      p:label="LitTxtSR" p:defaultValue="#">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#"
+                                          p:value="# - Item is a music sound recording"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="a" p:value="a - Autobiography"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="b" p:value="b - Biography"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="c"
+                                          p:value="c - Conference proceedings"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="d" p:value="d - Drama"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="e" p:value="e - Essays"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="f" p:value="f - Fiction"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="g" p:value="g - Reporting"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="h" p:value="h - History"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="i" p:value="i - Instruction"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="j"
+                                          p:value="j - Language instruction"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="k" p:value="k - Comedy"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="l"
+                                          p:value="l - Lectures, speeches"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="m" p:value="m - Memoirs"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="n" p:value="n - Not applicable"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="o" p:value="o - Folktales"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="p" p:value="p - Poetry"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="r" p:value="r - Rehearsals"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="s" p:value="s - Sounds"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="t" p:value="t - Interviews"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="z" p:value="z - Other"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_3_12" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.music.literaryText"
+                      p:label="LitTxtSR" p:defaultValue="#">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#"
+                                          p:value="# - Item is a music sound recording"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="a" p:value="a - Autobiography"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="b" p:value="b - Biography"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="c"
+                                          p:value="c - Conference proceedings"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="d" p:value="d - Drama"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="e" p:value="e - Essays"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="f" p:value="f - Fiction"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="g" p:value="g - Reporting"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="h" p:value="h - History"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="i" p:value="i - Instruction"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="j"
+                                          p:value="j - Language instruction"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="k" p:value="k - Comedy"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="l"
+                                          p:value="l - Lectures, speeches"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="m" p:value="m - Memoirs"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="n" p:value="n - Not applicable"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="o" p:value="o - Folktales"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="p" p:value="p - Poetry"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="r" p:value="r - Rehearsals"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="s" p:value="s - Sounds"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="t" p:value="t - Interviews"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="z" p:value="z - Other"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_3_13" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.music.undefinedPos1"
+                      p:label="Undef"  p:defaultValue="#" >
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="1" p:disabled="true"/>
+                    </property>
+                </bean>
+                <bean id="008Field_3_14" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.music.transpositionAndArrangement"
+                      p:label="TransArr" p:defaultValue="#">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#"
+                                          p:value="# - Not arrangement or transposition or not specified"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="a" p:value="a - Transposition"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="b" p:value="b - Arrangement"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="c"
+                                          p:value="c - Both transposed and arranged"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="n" p:value="n - Not applicable"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="u" p:value="u - Unknown"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_3_15" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.music.undefinedPos2"
+                      p:label="Undef"  p:defaultValue="#" >
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="1" p:disabled="true"/>
+                    </property>
+                </bean>
+                <ref bean="008Field_0_5"/>
+                <ref bean="008Field_0_6"/>
+                <ref bean="008Field_0_7"/>
+            </list>
+        </property>
+    </bean>
+    </list>
+    </property>
+    </bean>
+    <bean id="Control_Field_008_ContinuingResources" parent="Uif-HorizontalFieldGroup"
+          p:render="@{documentForm.marcControlFields.continuingResourcesVisible008 eq 'true' }">
+        <property name="items">
+            <list>
+    <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="8">
+        <property name="items">
+            <list>
+                <ref bean="008Field_0_0"/>
+                <ref bean="008Field_0_1"/>
+                <ref bean="008Field_0_2"/>
+                <ref bean="008Field_0_3"/>
+                <ref bean="008Field_0_4"/>
+                <bean id="008Field_4_0" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.continuingResources.frequency"
+                      p:label="Freqncy" p:defaultValue="|">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#"
+                                          p:value="# - No determinable frequency"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="a" p:value="a - Annual"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="b" p:value="b - Bimonthly"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="c" p:value="c - Semiweekly"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="d" p:value="d - Daily"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="e" p:value="e - Biweekly"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="f" p:value="f - Semiannual"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="g" p:value="g - Biennial"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="h" p:value="h - Triennial"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="i"
+                                          p:value="i - Three times a week"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="j"
+                                          p:value="j - Three times a month"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="k"
+                                          p:value="k - Continuously updated"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="m" p:value="m - Monthly"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="q" p:value="q - Quarterly"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="s" p:value="s - Semimonthly"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="t"
+                                          p:value="t - Three times a year"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="u" p:value="u - Unknown"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="w" p:value="w - Weekly"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="z" p:value="z - Other"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_4_1" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.continuingResources.regularity"
+                      p:label="Regulrty" p:defaultValue="|">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+
+                                    <bean parent="Uif-KeyLabelPair" p:key="n"
+                                          p:value="n - Normalized irregular"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="r" p:value="r - Regular"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="u" p:value="u - Unknown"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="x"
+                                          p:value="x - Completely irregular"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_4_2" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.continuingResources.undefined"
+                      p:label="Undef"  p:defaultValue="#" >
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="1" p:disabled="true"/>
+                    </property>
+                </bean>
+                <bean id="008Field_4_3" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.continuingResources.typeOfContinuingResource"
+                      p:label="TypeCont" p:defaultValue="#">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#"
+                                          p:value="# - None of the following"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="d"
+                                          p:value="d - Updating database"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="l"
+                                          p:value="l - Updating loose-leaf"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="m"
+                                          p:value="m - Monographic series"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="n" p:value="n - Newspaper"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="p" p:value="p - Periodical"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="w"
+                                          p:value="w - Updating Web site"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_4_4" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.continuingResources.formOfOriginal"
+                      p:label="FormOrig" p:defaultValue="#">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#"
+                                          p:value="# - None of the following"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="a" p:value="a - Microfilm"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="b" p:value="b - Microfiche"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="c" p:value="c - Microopaque"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="d" p:value="d - Large print"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="e"
+                                          p:value="e - Newspaper format"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="f" p:value="f - Braille"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="o" p:value="o - Online "/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="q"
+                                          p:value="q - Direct electronic"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="s" p:value="s - Electronic"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_4_5" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.continuingResources.formOfItem"
+                      p:label="FormItem" p:defaultValue="#">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#"
+                                          p:value="# - None of the following"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="a" p:value="a - Microfilm"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="b" p:value="b - Microfiche"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="c" p:value="c - Microopaque"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="d" p:value="d - Large print"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="f" p:value="f - Braille"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="o" p:value="o - Online"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="q"
+                                          p:value="q - Direct electronic"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="r"
+                                          p:value="r - Regular print reproduction"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="s" p:value="s - Electronic"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_4_6" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.continuingResources.natureOfEntireWork"
+                      p:label="NatWork" p:defaultValue="#">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#" p:value="# - Not specified"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="a"
+                                          p:value="a - Abstracts/summaries"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="b" p:value="b - Bibliographies"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="c" p:value="c - Catalogs"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="d" p:value="d - Dictionaries"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="e" p:value="e - Encyclopedias"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="f" p:value="f - Handbooks"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="g" p:value="g - Legal articles"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="h" p:value="h - Biography"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="i" p:value="i - Indexes"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="k" p:value="k - Discographies"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="l" p:value="l - Legislation"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="m" p:value="m - Theses"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="n"
+                                          p:value="n - Surveys of literature in a subject area"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="o" p:value="o - Reviews"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="p"
+                                          p:value="p - Programmed texts"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="q" p:value="q - Filmographies"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="r" p:value="r - Directories"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="s" p:value="s - Statistics"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="t"
+                                          p:value="t - Technical reports"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="u"
+                                          p:value="u - Standards/specifications"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="v"
+                                          p:value="v - Legal cases and case notes"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="w"
+                                          p:value="w - Law reports and digests"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="y" p:value="y - Yearbooks"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="z" p:value="z - Treaties"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="5" p:value="5 - Calendars"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="6"
+                                          p:value="6 - Comics/graphic novels"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_4_7" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.continuingResources.natureOfContents"
+                      p:label="NatCont" p:defaultValue="#">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#" p:value="# - Not specified"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="a"
+                                          p:value="a - Abstracts/summaries"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="b" p:value="b - Bibliographies"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="c" p:value="c - Catalogs"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="d" p:value="d - Dictionaries"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="e" p:value="e - Encyclopedias"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="f" p:value="f - Handbooks"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="g" p:value="g - Legal articles"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="h" p:value="h - Biography"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="i" p:value="i - Indexes"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="k" p:value="k - Discographies"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="l" p:value="l - Legislation"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="m" p:value="m - Theses"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="n"
+                                          p:value="n - Surveys of literature in a subject area"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="o" p:value="o - Reviews"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="p"
+                                          p:value="p - Programmed texts"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="q" p:value="q - Filmographies"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="r" p:value="r - Directories"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="s" p:value="s - Statistics"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="t"
+                                          p:value="t - Technical reports"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="u"
+                                          p:value="u - Standards/specifications"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="v"
+                                          p:value="v - Legal cases and case notes"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="w"
+                                          p:value="w - Law reports and digests"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="y" p:value="y - Yearbooks"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="z" p:value="z - Treaties"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="5" p:value="5 - Calendars"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="6"
+                                          p:value="6 - Comics/graphic novels"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_4_8" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.continuingResources.natureOfContents"
+                      p:label="NatCont" p:defaultValue="#">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#" p:value="# - Not specified"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="a"
+                                          p:value="a - Abstracts/summaries"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="b" p:value="b - Bibliographies"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="c" p:value="c - Catalogs"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="d" p:value="d - Dictionaries"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="e" p:value="e - Encyclopedias"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="f" p:value="f - Handbooks"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="g" p:value="g - Legal articles"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="h" p:value="h - Biography"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="i" p:value="i - Indexes"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="k" p:value="k - Discographies"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="l" p:value="l - Legislation"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="m" p:value="m - Theses"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="n"
+                                          p:value="n - Surveys of literature in a subject area"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="o" p:value="o - Reviews"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="p"
+                                          p:value="p - Programmed texts"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="q" p:value="q - Filmographies"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="r" p:value="r - Directories"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="s" p:value="s - Statistics"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="t"
+                                          p:value="t - Technical reports"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="u"
+                                          p:value="u - Standards/specifications"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="v"
+                                          p:value="v - Legal cases and case notes"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="w"
+                                          p:value="w - Law reports and digests"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="y" p:value="y - Yearbooks"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="z" p:value="z - Treaties"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="5" p:value="5 - Calendars"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="6"
+                                          p:value="6 - Comics/graphic novels"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_4_9" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.continuingResources.natureOfContents"
+                      p:label="NatCont" p:defaultValue="#">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#" p:value="# - Not specified"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="a"
+                                          p:value="a - Abstracts/summaries"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="b" p:value="b - Bibliographies"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="c" p:value="c - Catalogs"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="d" p:value="d - Dictionaries"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="e" p:value="e - Encyclopedias"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="f" p:value="f - Handbooks"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="g" p:value="g - Legal articles"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="h" p:value="h - Biography"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="i" p:value="i - Indexes"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="k" p:value="k - Discographies"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="l" p:value="l - Legislation"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="m" p:value="m - Theses"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="n"
+                                          p:value="n - Surveys of literature in a subject area"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="o" p:value="o - Reviews"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="p"
+                                          p:value="p - Programmed texts"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="q" p:value="q - Filmographies"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="r" p:value="r - Directories"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="s" p:value="s - Statistics"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="t"
+                                          p:value="t - Technical reports"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="u"
+                                          p:value="u - Standards/specifications"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="v"
+                                          p:value="v - Legal cases and case notes"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="w"
+                                          p:value="w - Law reports and digests"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="y" p:value="y - Yearbooks"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="z" p:value="z - Treaties"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="5" p:value="5 - Calendars"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="6"
+                                          p:value="6 - Comics/graphic novels"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_4_10" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.continuingResources.governmentPublication"
+                      p:label="GovPub" p:defaultValue="#">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#"
+                                          p:value="# - Not a government publication"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="a"
+                                          p:value="a - Autonomous or semi-autonomous component"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="c" p:value="c - Multilocal"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="f"
+                                          p:value="f - Federal/national"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="i"
+                                          p:value="i - International intergovernmental"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="l" p:value="l - Local"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="m" p:value="m - Multistate"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="o"
+                                          p:value="o - Government publication-level undetermined"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="s"
+                                          p:value="s - State, provincial, territorial, dependent, etc."/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="u"
+                                          p:value="u - Unknown if item is government publication"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="z" p:value="z - Other"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_4_11" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.continuingResources.conferencePublication"
+                      p:label="ConfPub" p:defaultValue="0">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="0"
+                                          p:value="0 - Not a conference publication"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="1"
+                                          p:value="1 - Conference publication"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_4_12" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.continuingResources.undefinedPos3"
+                      p:label="Undef"  p:defaultValue="###" >
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="3" p:disabled="true"/>
+                    </property>
+                </bean>
+                <bean id="008Field_4_13" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.continuingResources.originalAlphabet"
+                      p:label="OrigAlph" p:defaultValue="#">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#"
+                                          p:value="# - No alphabet or script given/No key title"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="a" p:value="a - Basic Roman"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="b" p:value="b - Extended Roman"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="c" p:value="c - Cyrillic"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="d" p:value="d - Japanese"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="e" p:value="e - Chinese"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="f" p:value="f - Arabic"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="g" p:value="g - Greek"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="h" p:value="h - Hebrew"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="i" p:value="i - Thai"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="j" p:value="j - Devanagari"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="k" p:value="k - Korean"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="l" p:value="l - Tamil"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="u" p:value="u - Unknown"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="z" p:value="z - Other"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_4_14" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.continuingResources.entryConvention"
+                      p:label="EntryCon" p:defaultValue="0">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="0"
+                                          p:value="0 - Successive entry"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="1" p:value="1 - Latest entry"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="2"
+                                          p:value="2 - Integrated entry"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <ref bean="008Field_0_5"/>
+                <ref bean="008Field_0_6"/>
+                <ref bean="008Field_0_7"/>
+            </list>
+        </property>
+    </bean>
+    </list>
+    </property>
+    </bean>
+    <bean id="Control_Field_008_MixedMaterial" parent="Uif-HorizontalFieldGroup"
+          p:render="@{documentForm.marcControlFields.mixedMaterialVisible008 eq 'true' }">
+        <property name="items">
+            <list>
+    <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="8">
+        <property name="items">
+            <list>
+                <ref bean="008Field_0_0"/>
+                <ref bean="008Field_0_1"/>
+                <ref bean="008Field_0_2"/>
+                <ref bean="008Field_0_3"/>
+                <ref bean="008Field_0_4"/>
+                <bean id="008Field_5_0" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.mixedMaterial.undefinedPos5"
+                      p:label="Undef"  p:defaultValue="#####" >
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="5" p:disabled="true"/>
+                    </property>
+                </bean>
+                <bean id="008Field_5_1" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.mixedMaterial.formOfItem"
+                      p:label="FormItem" p:defaultValue="#">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#"
+                                          p:value="# - None of the following"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="a" p:value="a - Microfilm"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="b" p:value="b - Microfiche"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="c" p:value="c - Microopaque"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="d" p:value="d - Large print"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="f" p:value="f - Braille"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="o" p:value="o - Online"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="q"
+                                          p:value="q - Direct electronic"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="r"
+                                          p:value="r - Regular print reproduction"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="s" p:value="s - Electronic"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_5_2" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.mixedMaterial.undefinedPos10"
+                      p:label="Undef"  p:defaultValue="###########" >
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="11" p:disabled="true"/>
+                    </property>
+                </bean>
+                <ref bean="008Field_0_5"/>
+                <ref bean="008Field_0_6"/>
+                <ref bean="008Field_0_7"/>
+            </list>
+        </property>
+    </bean>
+    </list>
+    </property>
+    </bean>
+    <bean id="Control_Field_008_VisualMaterials" parent="Uif-HorizontalFieldGroup"
+          p:render="@{documentForm.marcControlFields.visualMaterialsVisible008 eq 'true' }">
+        <property name="items">
+            <list>
+    <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="8">
+        <property name="items">
+            <list>
+                <ref bean="008Field_0_0"/>
+                <ref bean="008Field_0_1"/>
+                <ref bean="008Field_0_2"/>
+                <ref bean="008Field_0_3"/>
+                <ref bean="008Field_0_4"/>
+                <bean id="008Field_6_0" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.visualMaterials.runningTime"
+                      p:label="RunnTime" p:render="@{editable eq 'true'}" p:defaultValue="###">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="3" p:maxLength="3"/>
+                    </property>
+                </bean>
+                <bean id="008Field_6_1" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.visualMaterials.undefined"
+                      p:label="Undef"  p:defaultValue="#" >
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="1" p:disabled="true"/>
+                    </property>
+                </bean>
+                <bean id="008Field_6_2" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.visualMaterials.targetAudience"
+                      p:label="TargAud" p:defaultValue="#">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#"
+                                          p:value="# - Unknown or not specified"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="a" p:value="a - Preschool"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="b" p:value="b - Primary"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="c" p:value="c - Pre-adolescent"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="d" p:value="d - Adolescent"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="e" p:value="e - Adult"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="f" p:value="f - Specialized"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="g" p:value="g - General"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="j" p:value="j - Juvenile"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_6_3" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.visualMaterials.undefinedPos5"
+                      p:label="Undef"  p:defaultValue="#####" >
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="5" p:disabled="true"/>
+                    </property>
+                </bean>
+                <bean id="008Field_6_4" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.visualMaterials.governmentPublication"
+                      p:label="GovPub" p:defaultValue="#">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#"
+                                          p:value="# - Not a government publication"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="a"
+                                          p:value="a - Autonomous or semi-autonomous component"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="c" p:value="c - Multilocal"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="f"
+                                          p:value="f - Federal/national"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="i"
+                                          p:value="i - International intergovernmental"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="l" p:value="l - Local"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="m" p:value="m - Multistate"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="o"
+                                          p:value="o - Government publication-level undetermined"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="s"
+                                          p:value="s - State, provincial, territorial, dependent, etc."/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="u"
+                                          p:value="u - Unknown if item is government publication"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="z" p:value="z - Other"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_6_5" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.visualMaterials.formOfItem"
+                      p:label="FormItem" p:defaultValue="#">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="#"
+                                          p:value="# - None of the following"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="a" p:value="a - Microfilm"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="b" p:value="b - Microfiche"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="c" p:value="c - Microopaque"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="d" p:value="d - Large print"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="f" p:value="f - Braille"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="o" p:value="o - Online"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="q"
+                                          p:value="q - Direct electronic"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="r"
+                                          p:value="r - Regular print reproduction"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="s" p:value="s - Electronic"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_6_6" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.visualMaterials.undefinedPos3"
+                      p:label="Undef"  p:defaultValue="###" >
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="3" p:disabled="true"/>
+                    </property>
+                </bean>
+                <bean id="008Field_6_7" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.visualMaterials.typeOfVisualMaterial"
+                      p:label="TypeVisu" p:defaultValue="|">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+
+                                    <bean parent="Uif-KeyLabelPair" p:key="a" p:value="a - Art original"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="b" p:value="b - Kit"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="c"
+                                          p:value="c - Art reproduction"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="d" p:value="d - Diorama"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="f" p:value="f - Filmstrip"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="g" p:value="g - Game"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="i" p:value="i - Picture"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="k" p:value="k - Graphic"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="l"
+                                          p:value="l - Technical drawing"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="m" p:value="m - Motion picture"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="n" p:value="n - Chart"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="o" p:value="o - Flash card"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="p"
+                                          p:value="p - Microscope slide"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="q" p:value="q - Mode"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="r" p:value="r - Realia"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="s" p:value="s - Slide"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="t" p:value="t - Transparency"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="v" p:value="v - Videorecording"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="w" p:value="w - Toy"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="z" p:value="z - Other"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="008Field_6_8" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField008.visualMaterials.technique"
+                      p:label="Techniq" p:defaultValue="n">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+
+                                    <bean parent="Uif-KeyLabelPair" p:key="a" p:value="a - Animation"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="c"
+                                          p:value="c - Animation and live action"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="l" p:value="l - Live action"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="n" p:value="n - Not applicable"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="u" p:value="u - Unknown"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="z" p:value="z - Other"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="|"
+                                          p:value="| - No attempt to code"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <ref bean="008Field_0_5"/>
+                <ref bean="008Field_0_6"/>
+                <ref bean="008Field_0_7"/>
+            </list>
+        </property>
+    </bean>
+    </list>
+    </property>
+    </bean>
+    <bean id="Control_Field_008_Buttons" parent="Uif-HorizontalFieldGroup" p:render="@{editable eq 'true'}">
+        <property name="items">
+            <list>
+                <bean id="ControlField008_Set_button" parent="Uif-SecondaryActionButton-Small"
+                      p:style="float:left;margin-left:5em" p:actionLabel="Set Control Field"
+                      p:actionScript="controlField008Set();"/>
+                <bean id="ControlField008_Reset_button" parent="Uif-SecondaryActionButton-Small"
+                      p:style="float:left;margin-left:2em" p:actionLabel="Clear Selections"
+                      p:methodToCall="loadControlField008" p:successCallback="defaultDropDownSetting008();"
+                      p:refreshId="Control_Field_008_Section"/>
+            </list>
+        </property>
+    </bean>
+</beans>

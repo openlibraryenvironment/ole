@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="OleLicenseRequestBo" parent="OleLicenseRequestBo-parentBean"/>
+
+    <bean id="OleLicenseRequestBo-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.select.bo.OleLicenseRequestBo"/>
+        <property name="titleAttribute" value="oleLicenseRequestId"/>
+        <property name="objectLabel" value="License Request"/>
+
+        <property name="attributes">
+            <list>
+                <ref bean="OleLicenseRequestBo-oleLicenseRequestId"/>
+                <ref bean="OleLicenseRequestBo-licenseRequestStatusCode"/>
+                <ref bean="OleLicenseRequestBo-assignee"/>
+                <ref bean="OleLicenseRequestBo-locationId"/>
+                <ref bean="OleLicenseRequestBo-licenseRequestTypeId"/>
+                <ref bean="OleLicenseRequestBo-licenseRequestWorkflowTypeCode"/>
+                <ref bean="OleLicenseRequestBo-agreementMethodId"/>
+                <ref bean="OleLicenseRequestBo-documentNumber"/>
+                <ref bean="OleLicenseRequestBo-eResourceName"/>
+                <ref bean="OleLicenseRequestBo-lastModifiedDateFrom"/>
+                <ref bean="OleLicenseRequestBo-lastModifiedDateTo"/>
+                <ref bean="OleLicenseRequestBo-createdDateFrom"/>
+                <ref bean="OleLicenseRequestBo-createdDateTo"/>
+                <ref bean="OleLicenseRequestBo-linkedAgreement"/>
+                <ref bean="OleLicenseRequestBo-lastModifiedDateSearchType"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OleLicenseRequestBo-oleLicenseRequestId" parent="OleLicenseRequestBo-oleLicenseRequestId-parentBean"/>
+
+    <bean id="OleLicenseRequestBo-oleLicenseRequestId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="License Request Id"/>
+        <property name="maxLength" value="10"/>
+        <property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+        <property name="name" value="oleLicenseRequestId"/>
+        <property name="label" value="License Request Id"/>
+        <property name="description" value="License Request Id"/>
+    </bean>
+
+    <bean id="OleLicenseRequestBo-licenseRequestStatusCode"
+          parent="OleLicenseRequestBo-licenseRequestStatusCode-parentBean"/>
+    <bean id="OleLicenseRequestBo-licenseRequestStatusCode-parentBean" parent="AttributeDefinition" abstract="true"
+          p:name="licenseRequestStatusCode" p:label="License Request Status"
+          p:shortLabel="Licensing WorkFlowCode" p:maxLength="40" p:required="true">
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="OleLicenseRequestBo-assignee" parent="OleLicenseRequestBo-assignee-parentBean"/>
+    <bean id="OleLicenseRequestBo-assignee-parentBean" parent="AttributeDefinition" abstract="true"
+          p:name="assignee" p:label="Owner" p:shortLabel="Owner" p:maxLength="40">
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="10"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="40"/>
+        </property>
+    </bean>
+    <bean id="OleLicenseRequestBo-locationId" parent="OleLicenseRequestBo-locationId-parentBean"/>
+    <bean id="OleLicenseRequestBo-locationId-parentBean" parent="AttributeDefinition" abstract="true"
+          p:name="locationId" p:forceUppercase="true" p:label="Location Id" p:shortLabel="Current Location Id"
+          p:maxLength="40">
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="40"/>
+        </property>
+    </bean>
+    <bean id="OleLicenseRequestBo-licenseRequestTypeId" parent="OleLicenseRequestBo-licenseRequestTypeId-parentBean"/>
+    <bean id="OleLicenseRequestBo-licenseRequestTypeId-parentBean" parent="AttributeDefinition" abstract="true"
+          p:name="licenseRequestTypeId" p:label="License Request Type" p:shortLabel="License Request Type"
+          p:maxLength="40">
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+    </bean>
+    <bean id="OleLicenseRequestBo-licenseRequestWorkflowTypeCode"
+          parent="OleLicenseRequestBo-licenseRequestWorkflowTypeCode-parentBean"/>
+    <bean id="OleLicenseRequestBo-licenseRequestWorkflowTypeCode-parentBean" parent="AttributeDefinition"
+          abstract="true"  p:name="licenseRequestWorkflowTypeCode"  p:label="License Request Status"
+          p:shortLabel="Licensing WorkFlowCode" p:maxLength="40">
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="OleLicenseRequestBo-agreementMethodId" parent="OleLicenseRequestBo-agreementMethodId-parentBean"/>
+    <bean id="OleLicenseRequestBo-agreementMethodId-parentBean" parent="AttributeDefinition" abstract="true"
+          p:name="agreementMethodId"  p:label="Agreement Method" p:shortLabel="Agreement Method"
+          p:maxLength="40" >
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="OleLicenseRequestBo-documentNumber" parent="OleLicenseRequestBo-documentNumber-parentBean"/>
+    <bean id="OleLicenseRequestBo-documentNumber-parentBean" parent="AttributeDefinition" abstract="true">
+        <property name="shortLabel" value="Doc Nbr"/>
+        <property name="maxLength" value="14"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="16"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="16"/>
+        </property>
+        <property name="summary" value="Document Number"/>
+        <property name="name" value="documentNumber"/>
+        <property name="label" value="Document Number"/>
+    </bean>
+
+    <bean id="OleLicenseRequestBo-eResourceName" parent="OleLicenseRequestBo-eResourceName-parentBean"/>
+    <bean id="OleLicenseRequestBo-eResourceName-parentBean" parent="AttributeDefinition" abstract="true">
+        <property name="shortLabel" value="E-Resource Name"/>
+        <property name="maxLength" value="14"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="summary" value="E-Resource Name"/>
+        <property name="name" value="eResourceName"/>
+        <property name="label" value="E-Resource Name"/>
+    </bean>
+
+    <bean id="OleLicenseRequestBo-lastModifiedDateFrom" parent="OleLicenseRequestBo-lastModifiedDateFrom-parentBean"/>
+    <bean id="OleLicenseRequestBo-lastModifiedDateFrom-parentBean" parent="AttributeReferenceDummy-genericDate" abstract="true">
+        <property name="shortLabel" value="Date Last Modified From"/>
+        <property name="name" value="lastModifiedDateFrom"/>
+        <property name="label" value=" Last Modified Date From"/>
+    </bean>
+    <bean id="OleLicenseRequestBo-lastModifiedDateTo" parent="OleLicenseRequestBo-lastModifiedDateTo-parentBean"/>
+    <bean id="OleLicenseRequestBo-lastModifiedDateTo-parentBean" parent="AttributeReferenceDummy-genericDate" abstract="true">
+        <property name="shortLabel" value="Date Last Modified To"/>
+        <property name="name" value="lastModifiedDateTo"/>
+        <property name="label" value="Last Modified Date To"/>
+    </bean>
+
+    <bean id="OleLicenseRequestBo-createdDateFrom" parent="OleLicenseRequestBo-createdDateFrom-parentBean"/>
+    <bean id="OleLicenseRequestBo-createdDateFrom-parentBean" parent="AttributeReferenceDummy-genericDate" abstract="true">
+        <property name="shortLabel" value="Date Created From"/>
+        <property name="name" value="createdDateFrom"/>
+        <property name="label" value="Created Date From"/>
+    </bean>
+
+    <bean id="OleLicenseRequestBo-createdDateTo" parent="OleLicenseRequestBo-createdDateTo-parentBean"/>
+    <bean id="OleLicenseRequestBo-createdDateTo-parentBean" parent="AttributeReferenceDummy-genericDate" abstract="true">
+        <property name="shortLabel" value="Date Created To"/>
+        <property name="name" value="createdDateTo"/>
+        <property name="label" value="Created Date To"/>
+    </bean>
+
+    <bean id="OleLicenseRequestBo-linkedAgreement" parent="OleLicenseRequestBo-linkedAgreement-parentBean"/>
+    <bean id="OleLicenseRequestBo-linkedAgreement-parentBean" parent="AttributeDefinition" abstract="true"
+          p:name="linkedAgreement" p:label="Find/Link Agreement" p:shortLabel="Find/Link Agreement" p:maxLength="100" >
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="50"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="50" p:disabled="true"/>
+        </property>
+    </bean>
+
+    <bean id="OleLicenseRequestBo-lastModifiedDateSearchType" parent="OleLicenseRequestBo-lastModifiedDateSearchType-parentBean"/>
+
+    <bean id="OleLicenseRequestBo-lastModifiedDateSearchType-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="lastModifiedDateSearchType"/>
+        <property name="label" value="Create Date, Modified Date Search Combination"/>
+        <property name="shortLabel" value="Create Date, Last Modified Date Search Combination"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="maxLength" value="1"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="50"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-VerticalRadioControl"/>
+        </property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.ole.select.keyvalue.OleLicenseDateModifiedSearchTypeKeyValues"/>
+        </property>
+    </bean>
+
+    <!--  <bean id="Uif-LookupView-RemoveAction" parent="Uif-LookupView-RemoveAction-parentBean"/>
+      <bean id="Uif-LookupView-RemoveAction-parentBean" abstract="true" class="org.kuali.ole.service.OleLookupView"
+            parent="Uif-OLELookupView"/>-->
+
+    <bean id="OleLicenseRequestBo-LookupView" parent="Uif-OLELookupView">
+        <property name="header.headerText" value="License Request Lookup"/>
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/AG/content/ch08s03.html"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OleLicenseRequestBo"/>
+        <property name="viewHelperServiceClass" value="org.kuali.ole.select.lookup.OleLicenseRequestLookupableImpl"/>
+        <property name="criteriaFields">
+            <list>
+                <bean id="eResourceName" parent="Uif-LookupCriteriaInputField" p:propertyName="eResourceName"/>
+
+                <bean id="licenseRequestStatusCode" parent="Uif-LookupCriteriaInputField"
+                      p:propertyName="licenseRequestStatusCode" p:label="License Request Status">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.select.keyvalue.OleLicenseRequestStatusKeyValues" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                    <property name="quickfinder">
+                        <null></null>
+                    </property>
+                </bean>
+
+                <bean id="assignee" parent="Uif-LookupCriteriaInputField" p:propertyName="assignee" p:label="Owner">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.select.keyvalue.OleAssigneeKeyValues" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                </bean>
+                <bean id="currentLocation" parent="Uif-LookupCriteriaInputField" p:propertyName="locationId" p:label="Current Location">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.select.keyvalue.OleLicenseRequestLocationKeyValues" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                    <property name="quickfinder">
+                        <null></null>
+                    </property>
+                </bean>
+                <bean id="licenseRequestType" parent="Uif-LookupCriteriaInputField" p:propertyName="licenseRequestTypeId" p:label="License Request Type">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.select.keyvalue.OleLicenseRequestTypeKeyValues" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                    <property name="quickfinder">
+                        <null></null>
+                    </property>
+                </bean>
+
+                <!--<bean id="lastModifiedDate" parent="Uif-LookupCriteriaInputField" p:propertyName="lastModifiedDate">
+                    <property name="control">
+                        <bean  parent="Uif-DateControl" p:size="10"/>
+                    </property>
+                 </bean>-->
+                <bean id="createdDateFrom" parent="Uif-LookupCriteriaInputField" p:propertyName="createdDateFrom">
+                    <property name="control">
+                        <bean  parent="Uif-DateControl" p:size="10"/>
+                    </property>
+                </bean>
+                <bean id="createdDateTo" parent="Uif-LookupCriteriaInputField" p:propertyName="createdDateTo">
+                    <property name="control">
+                        <bean  parent="Uif-DateControl" p:size="10"/>
+                    </property>
+                </bean>
+                <bean id="lastModifiedDateFrom" parent="Uif-LookupCriteriaInputField" p:propertyName="lastModifiedDateFrom">
+                    <property name="control">
+                        <bean  parent="Uif-DateControl" p:size="10"/>
+                    </property>
+                </bean>
+                <bean id="lastModifiedDateTo" parent="Uif-LookupCriteriaInputField" p:propertyName="lastModifiedDateTo">
+                    <property name="control">
+                        <bean  parent="Uif-DateControl" p:size="10"/>
+                    </property>
+                </bean>
+                <bean id="lastModifiedDateSearchType" parent="Uif-LookupCriteriaInputField" p:propertyName="lastModifiedDateSearchType" p:defaultValue="true"/>
+
+                <!-- <bean parent="Uif-LookupCriteriaInputField" p:propertyName="searchName"/>-->
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean id="searchResult_DocumentNumber" parent="Uif-LinkField" p:href="@{#ViewHelper.viewParticularDocument(#line)}"
+                      p:linkText="@{#line.documentNumber}" p:label="Document Number" p:target="_blank"/>
+                <bean id="searchResult_eResourceName" parent="Uif-DataField" p:propertyName="eResourceName"
+                      p:label="E-Resource Name"/>
+                <bean id="searchResult_assignee" parent="Uif-DataField" p:propertyName="assignee"/>
+                <bean id="searchResult_oleLicenseRequestStatus" parent="Uif-DataField"
+                      p:propertyName="oleLicenseRequestStatus.name" p:label="License Request Status"/>
+                <bean id="searchResult_createdDateFrom" parent="Uif-DataField" p:propertyName="createdDateFrom"
+                      p:label="Date Created"/>
+                <!--<bean id="searchResult_createdDateTo" parent="Uif-DataField" p:propertyName="createdDateTo"
+                      p:label="Date Created To"/>-->
+                <bean id="searchResult_oleLicenseRequestLocation" parent="Uif-DataField" p:propertyName="oleLicenseRequestLocation.name"
+                      p:label="Current Location"/>
+                <bean id="searchResult_oleLicenseRequestType" parent="Uif-DataField" p:propertyName="oleLicenseRequestType.name"
+                      p:label="License Request Type"/>
+            </list>
+        </property>
+        <property name="resultsGroup">
+            <bean parent="OleLicenseRequest-LookupView-ResultActions"/>
+        </property>
+        <property name="page">
+            <bean parent="OleLicenseRequestBo-LookupPage"/>
+        </property>
+    </bean>
+
+    <bean id="OleLicenseRequest-LookupView-ResultActions" parent="Uif-LookupResultsCollectionSection">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-lookupView-resultActions</value>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-ActionLink">
+                    <property name="actionLabel" value="Return Value"/>
+                    <property name="finalizeMethodToCall" value="getReturnUrlForResults"/>
+                    <property name="render"
+                              value="@{!#empty(returnFormKey) and !#empty(returnLocation) and !view.hideReturnLinks}"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OleLicenseRequestBo-LookupPage" parent="OleLicenseRequestBo-LookupPage-parentBean"/>
+    <bean id="OleLicenseRequestBo-LookupPage-parentBean" abstract="true" parent="Uif-Page">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-lookupPage</value>
+            </list>
+        </property>
+        <property name="renderFooter" value="false"/>
+        <property name="header">
+            <ref bean="OleLicenseRequestBo-LookupPageHeaderField"/>
+        </property>
+    </bean>
+    <bean id="OleLicenseRequestBo-LookupPageHeaderField" parent="Uif-PageHeader">
+        <property name="rightGroup">
+            <bean parent="OleLicenseRequestBo-LookupPageHeaderField-Group"/>
+        </property>
+    </bean>
+    <bean id="OleLicenseRequestBo-LookupPageHeaderField-Group" parent="Uif-ActionsGroup">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-rightAligned-headerFieldGroup</value>
+            </list>
+        </property>
+        <property name="items">
+            <list><!--
+                <bean parent="Uif-CreateNewLink"/>-->
+            </list>
+        </property>
+    </bean>
+
+</beans>

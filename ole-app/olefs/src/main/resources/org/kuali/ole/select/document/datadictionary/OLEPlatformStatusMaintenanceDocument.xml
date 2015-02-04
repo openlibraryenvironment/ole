@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="OlePlatformStatusMaintenanceDocument-workflowProperties-parentBean" abstract="true"
+          parent="WorkflowProperties">
+        <property name="workflowPropertyGroups">
+            <list>
+                <bean parent="WorkflowPropertyGroup">
+                    <property name="workflowProperties">
+                        <list>
+                            <bean parent="WorkflowProperty" p:path="oldMaintainableObject.businessObject"/>
+                            <bean parent="WorkflowProperty" p:path="newMaintainableObject.businessObject"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OlePlatformStatus-MaintenanceView" parent="Uif-OLEMaintenanceView">
+        <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OLEPlatformStatus"/>
+        <property name="headerText" value="Platform Status"/>
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="${ole.externalizable.help.url}"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="items">
+            <list merge="true">
+                <bean parent="Uif-MaintenanceGridSection">
+                    <property name="headerText" value="Add/Edit Platform Status"/>
+                    <property name="items">
+                        <list>
+                            <bean id="create_platformStatusName" parent="Uif-InputField"
+                                  p:propertyName="platformStatusName" p:enableAutoDirectInquiry="false"/>
+                            <bean id="create_platformStatusDesc" parent="Uif-InputField"
+                                  p:propertyName="platformStatusDesc"/>
+                            <bean id="create_active" parent="Uif-InputField" p:propertyName="active"
+                                  p:defaultValue="true"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="OlePlatformStatusMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
+        <property name="dataObjectClass" value="org.kuali.ole.select.bo.OLEPlatformStatus"/>
+        <property name="documentTypeName" value="OLE_PLTFRM_STAT"/>
+        <property name="businessRulesClass" value="org.kuali.ole.select.rule.OLEPlatformStatusRule"/>
+        <property name="lockingKeys">
+            <list>
+                <value>platformStatusId</value>
+            </list>
+        </property>
+    </bean>
+</beans>

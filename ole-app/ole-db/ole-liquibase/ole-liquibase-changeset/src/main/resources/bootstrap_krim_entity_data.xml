@@ -1,0 +1,21 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <!--  Just loads the "OLE" user -->
+    <changeSet context="bootstrap" author="ole" id="KRIM_ENTITY_T">
+        <loadData tableName="KRIM_ENTITY_T" file="ole-bootstrap/persons/krim_entity_t.csv" />
+    </changeSet>
+    <changeSet context="bootstrap" author="ole" id="KRIM_PRNCPL_T">
+        <loadData tableName="KRIM_PRNCPL_T" file="ole-bootstrap/persons/krim_prncpl_t.csv" />
+    </changeSet>
+    <changeSet context="bootstrap" author="ole" id="KRIM_ENTITY_ENT_TYP_T">
+        <loadData tableName="KRIM_ENTITY_ENT_TYP_T" file="ole-bootstrap/persons/krim_entity_ent_typ_t.csv" />
+    </changeSet>
+    <changeSet context="bootstrap" author="ole" id="KRIM_ENTITY_NM_T">
+        <loadData tableName="KRIM_ENTITY_NM_T" file="ole-bootstrap/persons/krim_entity_nm_t.csv" />
+    </changeSet>
+
+</databaseChangeLog>

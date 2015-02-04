@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ole:instanceCollection xmlns:ole="http://ole.kuali.org/standards/ole-instance">
+    <ole:instance>
+        <ole:instanceIdentifier>string</ole:instanceIdentifier>
+        <!--1 or more repetitions:-->
+        <ole:resourceIdentifier>string</ole:resourceIdentifier>
+        <ole:extension>string</ole:extension>
+        <ole:holdings>
+            <ole:holdingsIdentifier>string</ole:holdingsIdentifier>
+            <!--Zero or more repetitions:-->
+            <ole:formerIdentifiers>
+                <!--Optional:-->
+                <identifier>string</identifier>
+                <!--Optional:-->
+                <identifierType>string</identifierType>
+            </ole:formerIdentifiers>
+            <ole:suppressFromPublic>true</ole:suppressFromPublic>
+            <ole:fastAddFlag>true</ole:fastAddFlag>
+            <status>n</status>
+            <recordType>u</recordType>
+            <encodingLevel>3</encodingLevel>
+            <ole:lastUpdated>01-01-2012</ole:lastUpdated>
+            <ole:dateEntered>01-01-2012</ole:dateEntered>
+            <receiptStatus>3</receiptStatus>
+            <acquisitionMethod>e</acquisitionMethod>
+            <expectedAcquisitionEndDate>stri</expectedAcquisitionEndDate>
+            <generalRetentionPolicy>7</generalRetentionPolicy>
+            <specificRetentionPolicy>
+                <policyType>p</policyType>
+                <numberOfUnits>2</numberOfUnits>
+                <unitType>m</unitType>
+            </specificRetentionPolicy>
+            <completeness>4</completeness>
+            <copiesReported>200</copiesReported>
+            <lendingPolicy>b</lendingPolicy>
+            <reproductionPolicy>u</reproductionPolicy>
+            <separateOrCompositeReport>0</separateOrCompositeReport>
+            <reportDate>100</reportDate>
+            <!--Zero or more repetitions:-->
+            <actionNote>
+                <privacy>1</privacy>
+                <action>string</action>
+                <!--Zero or more repetitions:-->
+                <actionIdentification>string</actionIdentification>
+                <!--Zero or more repetitions:-->
+                <timeDateOfAction>100</timeDateOfAction>
+                <!--Zero or more repetitions:-->
+                <actionInterval>100</actionInterval>
+                <!--Zero or more repetitions:-->
+                <contingencyForAction>string</contingencyForAction>
+                <!--Zero or more repetitions:-->
+                <authorization>string</authorization>
+                <!--Zero or more repetitions:-->
+                <jurisdiction>string</jurisdiction>
+                <!--Zero or more repetitions:-->
+                <methodOfAction>string</methodOfAction>
+                <!--Zero or more repetitions:-->
+                <siteOfAction>string</siteOfAction>
+                <!--Zero or more repetitions:-->
+                <actionAgent>string</actionAgent>
+                <!--Zero or more repetitions:-->
+                <actionStatus>string</actionStatus>
+                <!--Zero or more repetitions:-->
+                <actionExtent>string</actionExtent>
+                <!--Zero or more repetitions:-->
+                <unitType>string</unitType>
+                <!--Zero or more repetitions:-->
+                <actionURI>string</actionURI>
+                <!--Zero or more repetitions:-->
+                <ole:nonPublicNote>string</ole:nonPublicNote>
+                <!--Zero or more repetitions:-->
+                <ole:publicNote>string</ole:publicNote>
+                <!--Optional:-->
+                <sourceOfTerm>string</sourceOfTerm>
+                <!--Optional:-->
+                <materialsSpecified>string</materialsSpecified>
+                <!--Optional:-->
+                <ole:institutionToWhichFieldApplies>
+                    <value>anyType</value>
+                    <typeOrSource>
+                        <!--You have a CHOICE of the next 2 items at this level-->
+                        <pointer>http://www.company.edu/nubibus/flammas</pointer>
+                        <text>anyType</text>
+                    </typeOrSource>
+                </ole:institutionToWhichFieldApplies>
+            </actionNote>
+            <!--Zero or more repetitions:-->
+            <extentOfOwnership>
+                <!--Optional:-->
+                <typeOfOwnership>Textual Holdings - Basic Bibliographic Unit</typeOfOwnership>
+                <!--Optional:-->
+                <fieldEncodingLevel>4</fieldEncodingLevel>
+                <!--Optional:-->
+                <typeOfNotation>7</typeOfNotation>
+                <!--Optional:-->
+                <textualHoldings>string</textualHoldings>
+                <!--Zero or more repetitions:-->
+                <ole:nonPublicNote>string</ole:nonPublicNote>
+                <!--Zero or more repetitions:-->
+                <ole:publicNote>string</ole:publicNote>
+                <!--Optional:-->
+                <extentSourceOfNotation>string</extentSourceOfNotation>
+            </extentOfOwnership>
+            <!--Zero or more repetitions:-->
+            <alternateGraphicRepresentation>
+                <!--Zero or more repetitions:-->
+                <fieldName>string</fieldName>
+                <!--Zero or more repetitions:-->
+                <fieldValue>string</fieldValue>
+            </alternateGraphicRepresentation>
+            <ole:extension>
+                <additionalAttributes>
+                    <dateEntered>12-12-2-2010</dateEntered>
+                    <dateLastUpdated>12-11-2011</dateLastUpdated>
+                    <fastAddFlag>true</fastAddFlag>
+                    <supressFromPublic>false</supressFromPublic>
+                </additionalAttributes>
+            </ole:extension>
+        </ole:holdings>
+        <!--1 or more repetitions:-->
+        <ole:item>
+            <ole:itemIdentifier>string</ole:itemIdentifier>
+            <!--1 or more repetitions:-->
+            <ole:purchaseOrderLineItemIdentifier>string</ole:purchaseOrderLineItemIdentifier>
+            <!--Optional:-->
+            <!--<accessInformation>-->
+            <!--&lt;!&ndash;You have a CHOICE of the next 2 items at this level&ndash;&gt;-->
+            <!--<barcode>string</barcode>-->
+            <!--<uri resolvable="true"/>-->
+            <!--</accessInformation>-->
+            <!--&lt;!&ndash;Optional:&ndash;&gt;-->
+            <!--<electronicLocationAndAccess>-->
+            <!--&lt;!&ndash;Optional:&ndash;&gt;-->
+            <!--<accessMethod>2</accessMethod>-->
+            <!--&lt;!&ndash;Optional:&ndash;&gt;-->
+            <!--<relationship>2</relationship>-->
+            <!--&lt;!&ndash;Zero or more repetitions:&ndash;&gt;-->
+            <!--<hostName>string</hostName>-->
+            <!--&lt;!&ndash;Zero or more repetitions:&ndash;&gt;-->
+            <!--<accessNumber>string</accessNumber>-->
+            <!--&lt;!&ndash;Zero or more repetitions:&ndash;&gt;-->
+            <!--<compressionInformation>string</compressionInformation>-->
+            <!--&lt;!&ndash;Zero or more repetitions:&ndash;&gt;-->
+            <!--<path>string</path>-->
+            <!--&lt;!&ndash;Zero or more repetitions:&ndash;&gt;-->
+            <!--<electronicName>string</electronicName>-->
+            <!--&lt;!&ndash;Zero or more repetitions:&ndash;&gt;-->
+            <!--<requestProcessor>string</requestProcessor>-->
+            <!--&lt;!&ndash;Zero or more repetitions:&ndash;&gt;-->
+            <!--<instruction>string</instruction>-->
+            <!--&lt;!&ndash;Optional:&ndash;&gt;-->
+            <!--<bitsPerSecond>string</bitsPerSecond>-->
+            <!--&lt;!&ndash;Optional:&ndash;&gt;-->
+            <!--<password>string</password>-->
+            <!--&lt;!&ndash;Optional:&ndash;&gt;-->
+            <!--<logon>string</logon>-->
+            <!--&lt;!&ndash;Zero or more repetitions:&ndash;&gt;-->
+            <!--<accessAssistanceContact>string</accessAssistanceContact>-->
+            <!--&lt;!&ndash;Optional:&ndash;&gt;-->
+            <!--<locationHostName>string</locationHostName>-->
+            <!--&lt;!&ndash;Optional:&ndash;&gt;-->
+            <!--<operatingSystem>string</operatingSystem>-->
+            <!--&lt;!&ndash;Optional:&ndash;&gt;-->
+            <!--<port>string</port>-->
+            <!--&lt;!&ndash;Optional:&ndash;&gt;-->
+            <!--<electronicFormatType>string</electronicFormatType>-->
+            <!--&lt;!&ndash;Optional:&ndash;&gt;-->
+            <!--<settings>string</settings>-->
+            <!--&lt;!&ndash;Zero or more repetitions:&ndash;&gt;-->
+            <!--<fileSize>string</fileSize>-->
+            <!--&lt;!&ndash;Zero or more repetitions:&ndash;&gt;-->
+            <!--<terminalEmulation>string</terminalEmulation>-->
+            <!--&lt;!&ndash;Zero or more repetitions:&ndash;&gt;-->
+            <!--<hoursAccessMethodAvailable>string</hoursAccessMethodAvailable>-->
+            <!--&lt;!&ndash;Zero or more repetitions:&ndash;&gt;-->
+            <!--<recordControlNumber>string</recordControlNumber>-->
+            <!--&lt;!&ndash;Zero or more repetitions:&ndash;&gt;-->
+            <!--<ole:nonPublicNote>string</ole:nonPublicNote>-->
+            <!--&lt;!&ndash;Zero or more repetitions:&ndash;&gt;-->
+            <!--<linkText>string</linkText>-->
+            <!--&lt;!&ndash;Zero or more repetitions:&ndash;&gt;-->
+            <!--<ole:publicNote>string</ole:publicNote>-->
+            <!--&lt;!&ndash;Optional:&ndash;&gt;-->
+            <!--<additionalAccessMethodInformation>-->
+            <!--<value>anyType</value>-->
+            <!--<typeOrSource>-->
+            <!--&lt;!&ndash;You have a CHOICE of the next 2 items at this level&ndash;&gt;-->
+            <!--<pointer>http://www.sample.com/praeterea/arce</pointer>-->
+            <!--<text>anyType</text>-->
+            <!--</typeOrSource>-->
+            <!--</additionalAccessMethodInformation>-->
+            <!--&lt;!&ndash;Optional:&ndash;&gt;-->
+            <!--<materialsSpecified>string</materialsSpecified>-->
+            <!--</electronicLocationAndAccess>-->
+            <!--Optional:-->
+            <barcodeARSL>string</barcodeARSL>
+            <!--Zero or more repetitions:-->
+            <ole:formerIdentifiers>
+                <!--Optional:-->
+                <identifier>string</identifier>
+                <!--Optional:-->
+                <identifierType>string</identifierType>
+            </ole:formerIdentifiers>
+            <!--Zero or more repetitions:-->
+            <statisticalSearchingCodes>string</statisticalSearchingCodes>
+            <ole:suppressFromPublic>false</ole:suppressFromPublic>
+            <ole:harvestable>false</ole:harvestable>
+            <ole:fastAddFlag>true</ole:fastAddFlag>
+            <ole:dateEntered>2017-10-19</ole:dateEntered>
+            <ole:lastUpdated>2000-01-06</ole:lastUpdated>
+            <!--Optional:-->
+            <itemType>string</itemType>
+            <!--Optional:-->
+            <itemStatus>string</itemStatus>
+            <!--Optional:-->
+            <copyNumber>201</copyNumber>
+            <!--Optional:-->
+            <copyNumberLabel>string</copyNumberLabel>
+            <!--Optional:-->
+            <volumeNumber>100</volumeNumber>
+            <!--Optional:-->
+            <volumeNumberLabel>100</volumeNumberLabel>
+            <ole:nonPublicNote>string</ole:nonPublicNote>
+            <ole:publicNote>string</ole:publicNote>
+            <!--Optional:-->
+            <enumeration>string</enumeration>
+            <!--Optional:-->
+            <chronology>string</chronology>
+            <!--0 to 2 repetitions:-->
+            <!--<ole:location>-->
+            <!--&lt;!&ndash;0 to 2 repetitions:&ndash;&gt;-->
+            <!--<locationStatus>Temporary</locationStatus>-->
+            <!--<locationName>-->
+            <!--<value>anyType</value>-->
+            <!--<typeOrSource>-->
+            <!--&lt;!&ndash;You have a CHOICE of the next 2 items at this level&ndash;&gt;-->
+            <!--<pointer>http://www.test.org/pectore/austris</pointer>-->
+            <!--<text>anyType</text>-->
+            <!--</typeOrSource>-->
+            <!--</locationName>-->
+            <!--<levelName>-->
+            <!--<value>anyType</value>-->
+            <!--<typeOrSource>-->
+            <!--&lt;!&ndash;You have a CHOICE of the next 2 items at this level&ndash;&gt;-->
+            <!--<pointer>http://www.your.gov/certo/dare</pointer>-->
+            <!--<text>anyType</text>-->
+            <!--</typeOrSource>-->
+            <!--</levelName>-->
+            <!--<shelvingScheme>8</shelvingScheme>-->
+            <!--<shelvingOrder>#</shelvingOrder>-->
+            <!--&lt;!&ndash;Zero or more repetitions:&ndash;&gt;-->
+            <!--<callNumberPrefix>string</callNumberPrefix>-->
+            <!--&lt;!&ndash;Optional:&ndash;&gt;-->
+            <!--<classificationPart>string</classificationPart>-->
+            <!--&lt;!&ndash;Zero or more repetitions:&ndash;&gt;-->
+            <!--<itemPart>string</itemPart>-->
+            <!--&lt;!&ndash;Zero or more repetitions:&ndash;&gt;-->
+            <!--<callNumberSuffix>string</callNumberSuffix>-->
+            <!--<classificationSort>anyType</classificationSort>-->
+            <!--<classificationView>anyType</classificationView>-->
+            <!--&lt;!&ndash;Zero or more repetitions:&ndash;&gt;-->
+            <!--<formerShelvingLocation>string</formerShelvingLocation>-->
+            <!--&lt;!&ndash;Zero or more repetitions:&ndash;&gt;-->
+            <!--<address>string</address>-->
+            <!--&lt;!&ndash;Zero or more repetitions:&ndash;&gt;-->
+            <!--<codedLocationQualifier>str</codedLocationQualifier>-->
+            <!--&lt;!&ndash;Zero or more repetitions:&ndash;&gt;-->
+            <!--<noncodedLocationQualifier>string</noncodedLocationQualifier>-->
+            <!--&lt;!&ndash;Optional:&ndash;&gt;-->
+            <!--<shelvingControlNumber>string</shelvingControlNumber>-->
+            <!--&lt;!&ndash;Optional:&ndash;&gt;-->
+            <!--<shelvingFormOfTitle>string</shelvingFormOfTitle>-->
+            <!--&lt;!&ndash;Optional:&ndash;&gt;-->
+            <!--<countryCode>-->
+            <!--<value>anyType</value>-->
+            <!--<typeOrSource>-->
+            <!--&lt;!&ndash;You have a CHOICE of the next 2 items at this level&ndash;&gt;-->
+            <!--<pointer>http://www.company.com/faciat/magno</pointer>-->
+            <!--<text>anyType</text>-->
+            <!--</typeOrSource>-->
+            <!--</countryCode>-->
+            <!--&lt;!&ndash;Zero or more repetitions:&ndash;&gt;-->
+            <!--<copyrightArticleFeeCode>string</copyrightArticleFeeCode>-->
+            <!--&lt;!&ndash;Optional:&ndash;&gt;-->
+            <!--<copyNumber>100</copyNumber>-->
+            <!--&lt;!&ndash;Optional:&ndash;&gt;-->
+            <!--<pieceDesignation>string</pieceDesignation>-->
+            <!--&lt;!&ndash;Optional:&ndash;&gt;-->
+            <!--<piecePhysicalCondition>string</piecePhysicalCondition>-->
+            <!--&lt;!&ndash;Zero or more repetitions:&ndash;&gt;-->
+            <!--<ole:nonPublicNote>string</ole:nonPublicNote>-->
+            <!--&lt;!&ndash;Zero or more repetitions:&ndash;&gt;-->
+            <!--<ole:publicNote>string</ole:publicNote>-->
+            <!--&lt;!&ndash;Optional:&ndash;&gt;-->
+            <!--<classificationOrShelvingSchemeSource>-->
+            <!--<value>anyType</value>-->
+            <!--<typeOrSource>-->
+            <!--&lt;!&ndash;You have a CHOICE of the next 2 items at this level&ndash;&gt;-->
+            <!--<pointer>http://www.my.com/et/regemque</pointer>-->
+            <!--<text>anyType</text>-->
+            <!--</typeOrSource>-->
+            <!--</classificationOrShelvingSchemeSource>-->
+            <!--&lt;!&ndash;Optional:&ndash;&gt;-->
+            <!--<materialsSpecified>string</materialsSpecified>-->
+            <!--</ole:location>-->
+            <!--&lt;!&ndash;Optional:&ndash;&gt;-->
+            <!--<highDensityStorage>-->
+            <!--&lt;!&ndash;Optional:&ndash;&gt;-->
+            <!--<row>string</row>-->
+            <!--&lt;!&ndash;Optional:&ndash;&gt;-->
+            <!--<module>string</module>-->
+            <!--&lt;!&ndash;Optional:&ndash;&gt;-->
+            <!--<shelf>string</shelf>-->
+            <!--&lt;!&ndash;Optional:&ndash;&gt;-->
+            <!--<hds>string</hds>-->
+            <!--</highDensityStorage>-->
+            <ole:extension>
+                <additionalAttributes>
+                    <dateEntered>12-12-2-2010</dateEntered>
+                    <dateLastUpdated>12-11-2011</dateLastUpdated>
+                    <fastAddFlag>true</fastAddFlag>
+                    <supressFromPublic>false</supressFromPublic>
+                </additionalAttributes>
+            </ole:extension>
+        </ole:item>
+    </ole:instance>
+</ole:instanceCollection>

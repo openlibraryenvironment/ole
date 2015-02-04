@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<bean id="OleLocationIngestSummaryRecord" parent="OleLocationIngestSummaryRecord-parentBean"/>
+
+<bean id="OleLocationIngestSummaryRecord-parentBean" abstract="true" parent="BusinessObjectEntry">
+<property name="businessObjectClass" value="org.kuali.ole.describe.bo.OleLocationIngestSummaryRecord"/>
+   <property name="titleAttribute" value="oleLocationSummaryId"/>
+    <property name="objectLabel" value="Ole Location Summary report Id"/>
+
+    <property name="attributes">
+        <list>
+            <ref bean="OleLocationIngestSummaryRecord-oleLocationSummaryId"/>
+            <ref bean="OleLocationIngestSummaryRecord-LocationTotCount"/>
+            <ref bean="OleLocationIngestSummaryRecord-LocationCreateCount"/>
+            <ref bean="OleLocationIngestSummaryRecord-LocationUpdateCount"/>
+            <ref bean="OleLocationIngestSummaryRecord-LocationFailedCount"/>
+            <ref bean="OleLocationIngestSummaryRecord-fileName"/>
+            <ref bean="OleLocationIngestSummaryRecord-olePrincipalName"/>
+            <ref bean="OleLocationIngestSummaryRecord-date"/>
+
+        </list>
+    </property>
+</bean>
+
+
+<!-- Attribute Definitions -->
+
+
+<bean id="OleLocationIngestSummaryRecord-oleLocationSummaryId" parent="OleLocationIngestSummaryRecord-oleLocationSummaryId-parentBean"/>
+
+<bean id="OleLocationIngestSummaryRecord-oleLocationSummaryId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="Location Summary Report ID"/>
+    <property name="maxLength" value="10"/>
+    <property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>
+    <property name="controlField">
+        <bean parent="Uif-TextControl" p:size="30"/>
+    </property>
+    <property name="name" value="oleLocationSummaryId"/>
+    <property name="label" value="Location Summary ID"/>
+</bean>
+
+
+
+<bean id="OleLocationIngestSummaryRecord-LocationTotCount" parent="OleLocationIngestSummaryRecord-LocationTotCount-parentBean"/>
+
+<bean id="OleLocationIngestSummaryRecord-LocationTotCount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="No. of Total Record"/>
+    <property name="maxLength" value="100"/>
+    <property name="control">
+        <bean parent="TextControlDefinition" p:size="30"/>
+    </property>
+    <property name="controlField">
+        <bean parent="Uif-TextControl" p:size="30"/>
+    </property>
+    <property name="name" value="oleLocationTotCount"/>
+    <property name="label" value="No. of Total Record"/>
+    <property name="description" value="Number of Total Record"/>
+</bean>
+
+
+<bean id="OleLocationIngestSummaryRecord-LocationCreateCount" parent="OleLocationIngestSummaryRecord-LocationCreateCount-parentBean"/>
+
+<bean id="OleLocationIngestSummaryRecord-LocationCreateCount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="No. of Created Record"/>
+    <property name="maxLength" value="100"/>
+    <property name="control">
+        <bean parent="TextControlDefinition" p:size="30"/>
+    </property>
+    <property name="controlField">
+        <bean parent="Uif-TextControl" p:size="30"/>
+    </property>
+    <property name="name" value="oleLocationCreateCount"/>
+    <property name="label" value="No. of Created Record"/>
+    <property name="description" value="Number of Created Record"/>
+</bean>
+
+<bean id="OleLocationIngestSummaryRecord-LocationUpdateCount" parent="OleLocationIngestSummaryRecord-LocationUpdateCount-parentBean"/>
+
+<bean id="OleLocationIngestSummaryRecord-LocationUpdateCount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="No. of Updated Record"/>
+    <property name="maxLength" value="100"/>
+    <property name="control">
+        <bean parent="TextControlDefinition" p:size="30"/>
+    </property>
+    <property name="controlField">
+        <bean parent="Uif-TextControl" p:size="30"/>
+    </property>
+    <property name="name" value="oleLocationUpdateCount"/>
+    <property name="label" value="No. of Updated Record"/>
+    <property name="description" value="Number of Updated Record"/>
+</bean>
+
+<bean id="OleLocationIngestSummaryRecord-LocationFailedCount" parent="OleLocationIngestSummaryRecord-LocationFailedCount-parentBean"/>
+
+<bean id="OleLocationIngestSummaryRecord-LocationFailedCount-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="oleLocationFailedCount"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="No. of Failed Record"/>
+        <property name="label" value="No. of Failed Record"/>
+        <property name="maxLength" value="100"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="description" value="Number of Failed Records"/>
+    </bean>
+
+    <bean id="OleLocationIngestSummaryRecord-fileName" parent="OleLocationIngestSummaryRecord-fileName-parentBean"/>
+    <bean id="OleLocationIngestSummaryRecord-fileName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="fileName"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="File Name"/>
+        <property name="label" value="File Name"/>
+        <property name="maxLength" value="100"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="description" value="File Name of the Location Import Record"/>
+    </bean>
+
+    <bean id="OleLocationIngestSummaryRecord-olePrincipalName" parent="OleLocationIngestSummaryRecord-olePrincipalName-parentBean"/>
+    <bean id="OleLocationIngestSummaryRecord-olePrincipalName-parentBean"  abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Location Summary Principal Name"/>
+        <property name="maxLength" value="10"/>
+        <property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="olePrincipalName"/>
+        <property name="label" value="Principal name ingested/loaded"/>
+
+    </bean>
+
+    <bean id="OleLocationIngestSummaryRecord-date" parent="OleLocationIngestSummaryRecord-date-parentBean"/>
+    <bean id="OleLocationIngestSummaryRecord-date-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Location Summary Date"/>
+        <property name="maxLength" value="10"/>
+        <property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="date"/>
+        <property name="label" value="Date ingested/loaded"/>
+    </bean>
+
+<bean id="OleLocationIngestSummaryRecord-LookupView" parent="Uif-OLELookupView">
+    <property name="headerText" value="Ole Location Summary Lookup" />
+    <property name="dataObjectClassName" value="org.kuali.ole.describe.bo.OleLocationIngestSummaryRecord" />
+    <property name="viewHelperServiceClass" value="org.kuali.ole.describe.lookup.OleLocationSummaryLookupableImpl" />
+    <property name="help">
+        <bean parent="Uif-Help">
+            <property name="externalHelpUrl"
+                      value="@{#ConfigProperties['externalizable.help.url']}/reference/html/ADMIN.html#_Location_Summary"/>
+            <property name="tooltipHelpContent" value="[Help] help"/>
+        </bean>
+    </property>
+    <property name="criteriaFields">
+        <list>
+           <!-- <bean id="oleLocationSummaryId" parent="Uif-LookupCriteriaInputField" p:propertyName="oleLocationSummaryId" p:enableAutoDirectInquiry="false"/>/>-->
+            <bean id="fileName" parent="Uif-LookupCriteriaInputField" p:propertyName="fileName"/>
+            <bean id="olePrincipalName" parent="Uif-LookupCriteriaInputField" p:propertyName="olePrincipalName"/>
+            <bean id="locationDate" parent="Uif-LookupCriteriaInputField" p:propertyName="date">
+                <property name="control">
+                    <bean parent="Uif-DateControl" p:size="10"/>
+                </property>
+            </bean>
+        </list>
+    </property>
+    <property name="resultFields">
+        <list>
+            <bean id="searchResult_oleLocationSummaryId" parent="Uif-DataField" p:propertyName="oleLocationSummaryId" />
+            <bean id="searchResult_fileName" parent="Uif-DataField" p:propertyName="fileName"/>
+            <bean id="searchResult_oleLocationTotCount" parent="Uif-DataField" p:propertyName="oleLocationTotCount"/>
+            <bean id="searchResult_oleLocationCreateCount" parent="Uif-DataField" p:propertyName="oleLocationCreateCount"/>
+            <bean id="searchResult_oleLocationUpdateCount" parent="Uif-DataField" p:propertyName="oleLocationUpdateCount"/>
+            <bean id="searchResult_oleLocationFailedCount" parent="Uif-DataField" p:propertyName="oleLocationFailedCount"/>
+            <bean id="searchResult_olePrincipalName" parent="Uif-DataField" p:propertyName="olePrincipalName"/>
+            <bean id="searchResult_date" parent="Uif-DataField" p:propertyName="date"/>
+
+
+        </list>
+    </property>
+</bean>
+
+
+    <bean id="OleLocationIngestSummaryRecord-InquiryView" parent="Uif-OLEInquiryView">
+    <property name="title" value="Ole Location Summary Report Inquiry"/>
+    <property name="dataObjectClassName" value="org.kuali.ole.describe.bo.OleLocationIngestSummaryRecord" />
+   <property name="viewHelperServiceClass" value="org.kuali.ole.describe.inquiry.OleLocationSummaryInquirable"/>
+    <property name="singlePageView" value="true"/>
+    <property name="items">
+        <list>
+            <bean parent="Uif-Disclosure-VerticalBoxSection">
+                <property name="header.headerText" value="Location" />
+                <property name="items">
+                    <list merge="true">
+                        <ref bean="OleLocationIngestSummaryRecord-InquiryView-OverviewSection"/>
+                    </list>
+                </property>
+                <property name="title" value="Location Attributes"/>
+            </bean>
+        </list>
+    </property>
+</bean>
+
+    <bean id="OleLocationIngestSummaryRecord-InquiryView-OverviewSection" parent="OleLocationIngestSummaryRecord-InquiryView-OverviewSection-parentBean"/>
+    <bean id="OleLocationIngestSummaryRecord-InquiryView-OverviewSection-parentBean" abstract="true" parent="Uif-Disclosure-GridSection">
+        <property name="layoutManager.numberOfColumns" value="2"/>
+        <property name="items">
+                        <list merge="true">
+                            <bean id="inquiryView_oleLocationSummaryId" parent="Uif-InputField" p:propertyName="oleLocationSummaryId"/>
+                            <bean id="inquiryView_olePrincipalName" parent="Uif-InputField" p:propertyName="olePrincipalName" p:label="Principal Name"/>
+                            <bean id="inquiryView_fileName" parent="Uif-InputField" p:propertyName="fileName"/>
+                            <bean id="inquiryView_oleLocationTotCount" parent="Uif-InputField" p:propertyName="oleLocationTotCount" p:label="No. of Total Records"/>
+                            <bean id="inquiryView_oleLocationCreateCount" parent="Uif-InputField" p:propertyName="oleLocationCreateCount" p:label="No. of Created Records"/>
+                            <bean id="inquiryView_oleLocationUpdateCount" parent="Uif-InputField" p:propertyName="oleLocationUpdateCount" p:label="No. of Updated Records"/>
+                            <bean id="inquiryView_oleLocationFailedCount" parent="Uif-InputField" p:propertyName="oleLocationFailedCount" p:label="No. of Failed Records"/>
+                            <bean id="inquiryView_DownloadLink" parent="Uif-LinkField" p:href="@{#ViewHelper.getUrl()}" p:linkText="@{#ViewHelper.getFileName()}" p:label="DownLoad Attachment"/>
+                        </list>
+        </property>
+    </bean>
+</beans>

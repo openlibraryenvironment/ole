@@ -1,0 +1,2687 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0"
+    xml:lang="en-US">
+<title>System Configuration Administrative Documents</title>
+<para role="Body Text"><emphasis role="bold"><inlinemediaobject>
+                <alt>Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/Admin.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                <alt>System Configuration</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-242.png"/>
+                </imageobject>
+            </inlinemediaobject>&gt; <inlinemediaobject>
+                <alt>System Configuration Links</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-243.png"/>
+                </imageobject>
+            </inlinemediaobject></emphasis></para>
+<para role="Body Text">The <emphasis role="bold">System Configuration</emphasis> submenu allows you
+        to perform a variety of functional and technical activities that affect the entire
+        system.</para>
+    <para role="Body Text">The <emphasis role="bold">OLE</emphasis> configuration submenu group
+        provides access to high-level configuration options available to functional users. These
+        include functions that allow authorized users to maintain the message of the day and various
+        parameters and business rules, define many high-level definitions of a fiscal year, and
+        perform other functions that affect users and transactions throughout the system. Some
+        functions are only lookups, such as the ability to view data mapping fields and others are
+        inquire screens like the Routing &amp; Identity Management Document Type Hierarchy. </para>
+    <para role="Body Text">The options in the <emphasis role="bold">Parameters</emphasis> submenu
+        group are used primarily by technical users to upload and configure data to maintain the
+        Kuali Enterprise Workflow (KEW) system. Because these two options are intended for technical
+        users, they will not be dealt with in detail here.</para>
+    <para role="Body Text">Use of these options is restricted to users with the KR-SYS Technical
+        Administrator role.</para>
+    <section>
+        <title><anchor xml:id="_dataMappingFieldDefinition"/>Data Mapping Field Definition<indexterm
+                significance="normal">
+                <primary>Functional configuration submenu group</primary>
+                <secondary>Data Mapping Field Definition Lookup</secondary>
+            </indexterm><indexterm significance="normal">
+                <primary>Data Mapping Field Definition Lookup</primary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/Admin.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                <alt>System Configuration</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-242.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>OLE</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-246.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Data Mapping Field Definition</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-247.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Data Mapping Field Definition Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-248.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The Data Mapping Field Definition lookup displays definitions related
+            to a given field in OLE. This information includes definitions such as the functional
+            field description, the length of the field, whether or not it is encrypted, and the name
+            of the field at the database level </para>
+        <note>
+            <para> This data can only be updated by a technical resource and many of the values here
+                are only meaningful to a technical user.</para>
+        </note>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Data Mapping Field Definition Lookup Screen</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-250.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="TableHeading"><emphasis role="bold">Data Mapping Field Definition Lookup
+                    definition</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="c1" colnum="1"/>
+                    <colspec colname="c1" colnum="1"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Description</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Namespace</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. Select the namespace (large
+                                    functional category) associated with the field you wish to
+                                    search for.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Component</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. Enter or search for and return
+                                    the component (more specific functional category, such as a
+                                    given screen or document section) associated with the field you
+                                    wish to search for.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Field</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Optional. Enter the field name of the field
+                                    you wish to search for or use the lookup to search for
+                                    it.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Description</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Optional. Search for a field by its
+                                    description. Remember that wildcards can be used, such as
+                                    *account* to return all fields with the word 'account' in their
+                                    description.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Database Table Name</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Optional. Enter the name of the table in
+                                    which the field you're searching for resides.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Database Field Name</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Optional. Enter the name that identifies
+                                    the field in the database.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+            <para role="Body Text"/>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Data Mapping Field Definition Lookup Screen with Sample Search
+                            Results</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-251.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Body Text">The results display the namespace, component, field name,
+                description and database field name and table name. Click on the linked field name
+                to view the inquiry which contains additional data fields.</para>
+            <para role="Normal"/>
+            <para role="Normal">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Data Mapping Field Definition: Field Definition Inquiry</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-252.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <section>
+                <title>Data Mapping Field Definition Inquiry</title>
+                <para role="Body Text">Fields appearing on the inquiry and not previously described
+                    above are detailed here.</para>
+                <para role="TableHeading"><emphasis role="bold">Data Mapping Field Definition
+                        Inquiry definition</emphasis></para>
+                <informaltable frame="top">
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1"/>
+                        <colspec colname="c1" colnum="1"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Database Data Type</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">The type of data expected for this
+                                        field by the database.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Application Data Type</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">The type of data the application
+                                        expects in this field.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Database Defined Length</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">The maximum character length of the
+                                        field in the database.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Application Defined Length</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">The maximum character length of the
+                                        field in the application.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Decimal Places</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">The number of decimal places supported
+                                        by this field.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Reference Component</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">OLE component where this field
+                                        originates. For example, an account number field has a
+                                        reference component of 'account' indicating it is defined on
+                                        the Account document.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Indicates if the field must be
+                                        completed for this particular component.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Validation Pattern</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">The technical pattern used to determine
+                                        if the data in the field is valid.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Encrypted</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Indicates if the field is encrypted at
+                                        the database level.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Mask Pattern</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">If a field is masked (its content
+                                        partially or fully obscured to unauthorized users) this
+                                        field defines the type of masking used. </para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_externalDataSources"/>External Data Sources (z39.50
+            connection)</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/Admin.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                <alt>System Configuration</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-242.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>OLE</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-246.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>External Data Sources</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DescribeNoTitlePage-254.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>External Data Sources</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DescribeNoTitlePage-255.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Normal">As the <emphasis role="bold">Import Bib from External Data
+                Source</emphasis> option is available to show the possibility for institutions to
+            import bibliographic records through a Z39.50 protocol, this interface exists to support
+            the functionality. This e-doc can be used to create and maintain the sources for the
+            import.</para>
+        <para role="Normal"/>
+        <note>
+            <para role="Normal"> Users will need to implement the Z39.50 protocol before using this
+                e-doc.</para>
+        </note>
+        <section>
+            <title>Document Layout</title>
+            <para role="Normal"/>
+            <para role="Normal">
+                <screenshot>
+                    <mediaobject>
+                        <alt>External Data Sources Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DescribeNoTitlePage-257.png" width="100%"
+                            />
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="TableHeading"><emphasis role="bold">Add/Edit Data Source tab
+                    definition</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Name</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">The familiar title of the data
+                                    source.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Description</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">The description of the data source.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Domain Name</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Enter the web address of the data
+                                    source.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Port Number</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Enter the port number required for
+                                    accessing the data source.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Login ID</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Enter the login ID of the data
+                                    source.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Authorization Key</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Enter the authorization key of the data
+                                    source.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Password</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Enter the password for the data
+                                    source.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_functionalFieldDescription"/>Functional Field Description<indexterm
+                significance="normal">
+                <primary>Functional Field Description document</primary>
+            </indexterm><indexterm significance="normal">
+                <primary>Functional configuration submenu group</primary>
+                <secondary>Functional Field Description document</secondary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/Admin.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                <alt>System Configuration</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-242.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>OLE</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-246.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Functional Field Description</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-256.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Functional Field Description Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-257.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Functional Field Description</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-258.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The Functional Field Description document is used to maintain
+            descriptions for various fields throughout the application. Note that these values are
+            for data mapping purposes only and cannot actually be viewed elsewhere in the
+            application.</para>
+        <para role="Body Text">This document can only be initiated by members of OLE-SYS Manager
+            role and does not route for approval. You can only edit existing field descriptions (by
+            choosing 'edit' from the lookup). Creating new values requires technical
+            assistance.</para>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Functional Field Description Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-259.jpg" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Body Text">The Functional Field Description document contains the <emphasis
+                    role="bold">Functional Field Description</emphasis> tab.</para>
+            <para role="TableHeading">Functional Field Description tab definition</para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="c1" colnum="1"/>
+                    <colspec colname="c1" colnum="1"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Namespace</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Display only. The namespace (large
+                                    functional category) associated with the field you wish to edit
+                                    the description for.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Component</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Display only. The component (more specific
+                                    functional category, such as a given screen or document section)
+                                    associated with the field you wish to edit the description
+                                    for.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Field</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Display only. The field name of the field
+                                    you wish to edit the description for.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Description</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. Enter the description you wish to
+                                    associate with this field.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. Leave checked if you wish this
+                                    functional description to be active. Uncheck the box if you wish
+                                    to inactivate the description. Since these are not viewable
+                                    elsewhere in the application inactivation will have no apparent
+                                    effect.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_messageOfTheDay"/>Message Of The Day<indexterm significance="normal">
+                <primary>Message Of The Day document</primary>
+            </indexterm><indexterm significance="normal">
+                <primary>Functional configuration submenu group</primary>
+                <secondary>Message Of The Day document</secondary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/Admin.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                <alt>System Configuration</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-242.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>OLE</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-246.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Message Of The Day</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-263.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Message Of The Day Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-264.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Message Of The Day</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-265.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The Message of the Day document updates a message that appears OLE
+            portal. It is an easy way to share information with OLE users and can be updated at any
+            time.</para>
+        <note>
+            <para> Only members of OLE-SYS Manager role can create or edit Message of the Day
+                    documents.<phrase role="GEN-\MinBodyLeft"/></para>
+        </note>
+        <para role="Illustration"><inlinemediaobject>
+                <alt>Message Of The Day Display on the User Interface</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-267.png"/>
+                </imageobject>
+            </inlinemediaobject></para>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Message Of The Day Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-268.jpg" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <section>
+                <title>Edit Message Of The Day Tab</title>
+                <para role="Body Text">The Message of the Day document contains the <emphasis
+                        role="bold">Edit Message of the Day</emphasis> tab.</para>
+                <para role="TableHeading"><emphasis role="bold">Edit Message of the Day tab
+                        definition</emphasis></para>
+                <informaltable frame="top">
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1"/>
+                        <colspec colname="c1" colnum="1"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Financial System Origination
+                                        Code</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the code that
+                                        identifies the instance of OLE in which you want the message
+                                        to appear.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Message of the Day</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Enter the text you want OLE
+                                        users to see as the message of the day.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_systemOptions"/>System Options<indexterm significance="normal">
+                <primary>System Options document</primary>
+            </indexterm><indexterm significance="normal">
+                <primary>Functional configuration submenu group</primary>
+                <secondary>System Options document</secondary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/Admin.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                <alt>System Configuration</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-242.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>OLE</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-246.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>System Options</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-272.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>System Options Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-273.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>System Options</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-274.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The System Options document defines many high-level definitions of a
+            fiscal year, including balance types, object types and the university chart level. It
+            also contains values that have an impact on how sufficient funds checking works for a
+            given fiscal year. </para>
+        <note>
+            <para> Only members of OLE-SYS Manager role can create or edit System Options documents.
+                These documents do not route for approval.</para>
+        </note>
+        <tip>
+            <para> When you are configuring object types, it is important to cross reference the
+                Object Type Table, System Options Table and the OBJECT_TYPES parameters in the
+                Parameter Table. </para>
+        </tip>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>System Options Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-277.jpg" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <section>
+                <title>Edit System Options Tab</title>
+                <para role="Body Text">The System Options document includes the <emphasis
+                        role="bold">Edit System Options</emphasis> tab.</para>
+                <para role="TableHeading"><emphasis role="bold">Edit System Options tab
+                        definition</emphasis></para>
+                <informaltable frame="top">
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1"/>
+                        <colspec colname="c1" colnum="1"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Fiscal Year</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the fiscal year for
+                                        which values are being defined.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Fiscal Year Name</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the descriptive name of
+                                        the fiscal year.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Fiscal Year Start Year</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the calendar year when
+                                        the fiscal year begins.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Fiscal Year Start Month</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the calendar month when
+                                        the fiscal year begins</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Fiscal Year</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the fiscal year for
+                                        which values are being defined.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Beginning Balances Loaded
+                                        Indicator</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Select the check box if the
+                                        beginning balances for the fiscal year have been loaded. If
+                                        beginning balances have not been loaded then cash level
+                                        sufficient funds checking must check both the previous and
+                                        current fiscal years. Clear the check box if the beginning
+                                        balances for the fiscal year have not been loaded.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Budget Checking Options Code</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Select the check box if
+                                        sufficient funds checking is enabled for the fiscal year.
+                                        Clear the check box if it is not.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Chart Code</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the university level
+                                        chart code defined for the fiscal year, or search for it
+                                        from the <emphasis role="bold">Chart </emphasis>lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Actual Balance Type</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the balance type used
+                                        to identify an Actual in the fiscal year, or search for it
+                                        from the <emphasis role="bold">Balance Type</emphasis>lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Budget Checking Balance Type</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the balance type used
+                                        to identify Budget Checking in the fiscal year, or search
+                                        for it from the <emphasis role="bold">Balance
+                                            Type</emphasis>lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">External Encumbrance Balance
+                                        Type</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the balance type used
+                                        to identify External Encumbrances in the fiscal year, or
+                                        search for it from the <emphasis role="bold">Balance
+                                            Type</emphasis>lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Internal Encumbrance Balance
+                                        Type</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the balance type used
+                                        to identify Internal Encumbrances in the fiscal year, or
+                                        search for it from the <emphasis role="bold">Balance
+                                            Type</emphasis>lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Pre-Encumbrance Balance Type</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the balance type used
+                                        to identify Pre-Encumbrances in the fiscal year, or search
+                                        for it from the <emphasis role="bold">Balance
+                                            Type</emphasis>lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Eliminations Balance Type</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the balance type used
+                                        to identify Eliminations in the fiscal year, or search for
+                                        it from the <emphasis role="bold">Balance
+                                        Type</emphasis>lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>.</para>
+                                    <para role="Table Cells"/>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Expenditure/Expense Object Type</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the object type used to
+                                        identify the Expenditure/Expense category in the fiscal
+                                        year, or search for it from the <emphasis role="bold">Object
+                                            Type</emphasis>lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject></para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Expenditure Not Expense Object
+                                        Type</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the object Type used to
+                                        identify the Expenditure Not Expense category in this fiscal
+                                        year, or search for it from the <emphasis role="bold">Object
+                                            Type</emphasis> lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Expense Not Expenditure Object
+                                        Type</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the object Type used to
+                                        identify the Expense Not Expenditure category in the fiscal
+                                        year, or search for it from the <emphasis role="bold">Object
+                                            Type</emphasis> lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject></para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Income/Cash Object Type</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the object Type used to
+                                        identify the Income/Cash category in the fiscal year, or
+                                        search for it from the <emphasis role="bold">Object
+                                            Type</emphasis> lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Income Not Cash Object Type</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the object type used to
+                                        identify the Income Not Cash category in the fiscal year, or
+                                        search for it from the <emphasis role="bold">Object
+                                            Type</emphasis> lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject></para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Cash Not Income Object Type</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the object type used to
+                                        identify the Cash Not Income category in the fiscal year or
+                                        search for it from the <emphasis role="bold">Object
+                                            Type</emphasis> lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Assets Object Type</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the object type used to
+                                        identify the Asset category in the fiscal year, or search
+                                        for it from the <emphasis role="bold">Object Type</emphasis>
+                                        lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Liabilities Object Type</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the object type used to
+                                        identify the Liabilities category in the fiscal year, or
+                                        search for it from the <emphasis role="bold">Object
+                                            Type</emphasis> lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Fund Balance Object Type</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the object type used to
+                                        identify the Fund Balance category in the fiscal year, or
+                                        search for it from the <emphasis role="bold">Object
+                                            Type</emphasis> lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Cost Share Encumbrance Balance Object
+                                        Type</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the object type used to
+                                        identify cost share encumbrances in the fiscal year, or
+                                        search for it from the <emphasis role="bold">Object
+                                            Type</emphasis> lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Base Budget Balance Type</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the object type used to
+                                        identify Base Budget in the fiscal year, or search for it
+                                        from the <emphasis role="bold">Object Type</emphasis> lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Monthly Budget Balance Type</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the object type used to
+                                        Monthly Budget in the fiscal year, or search for it from the
+                                            <emphasis role="bold">Object Type</emphasis> lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Transfer In Object Type</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the object type used to
+                                        identify Transfer In transactions in the fiscal year, or
+                                        search for it from the <emphasis role="bold">Object
+                                            Type</emphasis> lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Transfer Out Object Type</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the object type used to
+                                        identify Transfer Out transactions in the fiscal year, or
+                                        search for it from the <emphasis role="bold">Object
+                                            Type</emphasis> lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Nominal Closing Balances Balance
+                                        Type</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the object type used to
+                                        identify Nominal Balance closing entries in the fiscal year,
+                                        or search for it from the <emphasis role="bold">Object
+                                            Type</emphasis> lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+                <para role="TableHeading"/>
+            </section>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_searchFrameworkConfiguration"/>Search Framework
+            Configuration</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/Admin.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                <alt>System Configuration</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-242.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>OLE</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-246.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Search Framework Configuration</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-124.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Search Framework Configuration</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-125.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para>The <emphasis role="bold">Search Framwork Configuration</emphasis> controls what is
+            displayed on the Search Workbench and to a large degree how the Search Workbench
+            operates.</para>
+        <note>
+            <para>To see the system defaults for 1.5, see the Jira <link
+                    xlink:href="https://jira.kuali.org/browse/OLE-6360">OLE-6360</link>.</para>
+        </note>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Search Framework Configuration Interface</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-130.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para>The Search Framework Configuration screen is divided into 5 parts with each part
+                controlling a different aspect of the Search Workbench: <emphasis role="bold">Doc
+                    Types</emphasis>, <emphasis role="bold">Doc Formats</emphasis>, <emphasis
+                    role="bold">Doc Fields</emphasis>, <emphasis role="bold">Search Result Page
+                    Size</emphasis>, and <emphasis role="bold">Facet Page Size</emphasis>.</para>
+            <section>
+                <title><anchor xml:id="_docTypes"/>Doc Types Tab</title>
+                <para/>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Search Framework Configuration Interface: Doc Types Tab</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/admin-131.png"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para/>
+                <para>The Doc Types tab has 3 columns and as many rows as are needed to define the
+                    various doc types of records stored in DocStore. These Doc Types are what are
+                    displayed on the Search Workbench in the Document Type drop down:</para>
+                <para/>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Doc Types Drop Down on the Search Workbench</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/admin-132.png" width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para/>
+                <para>They are also used in the other sections of the Search Framework Configuration
+                    as described below.</para>
+                <para> Multiple doc types can be added to the search framework configuration by
+                    filling in all of the required fields and clicking the <emphasis role="bold"
+                        >add</emphasis> button. </para>
+                <warning>
+                    <para>DO NOT ADD OR CHANGE ANY VALUES IN THIS SECTION WITHOUT FIRST CONSULTING
+                        WITH A PROGRAMMER. Code changes are needed to support a new document
+                        type.</para>
+                </warning>
+                <para role="TableHeading"><emphasis role="bold">Doc Types Column
+                        definitions</emphasis></para>
+                <informaltable frame="top">
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1"/>
+                        <colspec colname="c1" colnum="1"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Name</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. A unique name of the Doc
+                                        Type. This will appear within the code.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Label</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. A label for the Doc Type.
+                                        This will appear in the Doc Type lookup on the Search
+                                        Workbench.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. A description for the Doc
+                                        Type.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+            <section>
+                <title><anchor xml:id="_docFormat"/>Doc Formats Tab</title>
+                <para/>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Search Framework Configuration Interface: Doc Formats Tab</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/admin-136.png" width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para/>
+                <para>The Doc Formats tab allows you to define multiple formats for document types
+                    and to provide each with a distinct label. The values in the drop down “Document
+                    Type” are from the <link linkend="_docTypes">Doc Types</link> definitions
+                    described above. </para>
+                <para>To work with the Doc Formats section, first select a <emphasis role="bold"
+                        >Document Type </emphasis>in that drop down.</para>
+                <para/>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Search Framework Configuration Interface: First determine the Doc
+                                Type before listing any Doc Formats</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/admin-137.png" width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para/>
+                <para>Selecting <emphasis role="bold">Document Type</emphasis> Bibliographic will
+                    display the 3 formats defined for 3 different Bibliographic formats: Dublin
+                    Core, Dublin Unqualified, and MARC. </para>
+                <para>Selecting <emphasis role="bold">Document Types</emphasis> EHolding, Holding
+                    and Item will display a single document format definition for each. For all of
+                    these document types, the format is oleml (OLE Markup Language – an xml
+                    format).</para>
+                <para> Selecting <emphasis role="bold">Document Type</emphasis> License displays 4
+                    different formats for License. The definitions are DOC (Word Doc), ONIXPL (ONIX
+                    for Publications Licenses), PDF (Adobe), and XSLT (Extensible Stylesheet
+                    Language Transformations).</para>
+                <para/>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Search Framework Configuration Interface: Doc Formats Tab with
+                                Sample Data</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/admin-138.png" width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para/>
+                <para>The format definitions along with the <link linkend="_docTypes">Doc
+                        Types</link> are used in the <link linkend="_DocFields">Doc Fields</link>
+                    section described below.</para>
+                <para> Multiple doc formats can be added to the search framework configuration by
+                    filling in all of the required fields and clicking the <emphasis role="bold"
+                        >add</emphasis> button. </para>
+                <warning>
+                    <para>DO NOT ADD OR CHANGE ANY VALUES IN THIS SECTION WITHOUT FIRST CONSULTING
+                        WITH A PROGRAMMER. Code changes are needed to support a new document
+                        type.</para>
+                </warning>
+                <para role="TableHeading"><emphasis role="bold">Doc Format Column
+                        definitions</emphasis></para>
+                <informaltable frame="top">
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1"/>
+                        <colspec colname="c1" colnum="1"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Name</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. A unique name of the Doc
+                                        Format. This will appear within the code.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Label</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. A label for the Doc Format.
+                                    </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. A description for the Doc
+                                        Format.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+            <section>
+                <title><anchor xml:id="_DocFields"/>Doc Fields Tab</title>
+                <para/>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Search Framework Configuration Interface: Doc Fields Tab</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/admin-139.png" width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para/>
+                <para>The Doc Fields tab controls the fields that are available for searching, the
+                    fields that are displayed in the results, the fields that can be globally edited
+                    in the Global Edit screen, and the fields that will be exported in an XML format
+                    from the search results. It also controls the definitions of those fields in
+                    terms of the values recorded in the bibliographic records. For example a field
+                    called Title can be defined in terms of MARC fields.</para>
+                <note>
+                    <para>Changes to some Doc Fields values will only affect records added or edited
+                        after the change is made because an indexing update is necessary to alter
+                        the display. </para>
+                    <para>In order to index and reindex bibliographic, holdings, e-holdings, and
+                        item records in Solr, go to <link
+                            xlink:href="http://demo.docstore.ole.kuali.org/admin.jsp"
+                            >http://demo.docstore.ole.kuali.org/admin.jsp</link> (or <link
+                            xlink:href="http://tst.docstore.ole.kuali.org/admin.jsp"
+                            >http://tst.docstore.ole.kuali.org/admin.jsp</link> if you are in the
+                        tst environment).</para>
+                    <para>Click the <emphasis role="bold">Start</emphasis> button. </para>
+                    <para>Click <emphasis role="bold">Show Status</emphasis> button to see the
+                        status. </para>
+                    <para>Indexing is complete when you see the "Index End Time"</para>
+                </note>
+                <para>To use this section, you need to select values from both the drop downs:
+                    Document Type and Document Format. The values for these lists are from the
+                    previous sections <link linkend="_docTypes">Doc Types</link> and <link
+                        linkend="_docFormat">Doc Formats</link>. Selecting a Doc Type will change
+                    the values in the Document Format section.</para>
+                <para/>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Search Framework Configuration Interface: First determine the Doc
+                                Type and the Doc Format before entering any Doc Fields</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/admin-143.png" width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para/>
+                <para>Depending on the Document Type selected from the drop down, different columns
+                    will be displayed.</para>
+                <para/>
+                <section>
+                    <title>Doc Fields for Document Type – Bibliographic and Document Format –
+                        MARC</title>
+                    <para>Selecting <emphasis role="bold">Document Type</emphasis> Bibliographic and
+                            <emphasis role="bold">Document Format</emphasis> MARC displays
+                        columns:</para>
+                    <para>Name, Label, Description, Path Include, Path Exclude, Is Search, Is
+                        Display, Global Edit, Is Export, and Is Facet. </para>
+                    <para>A Note on Titles: What OLE displays as Title in the search results is
+                        Title_sort. If you modify Title_display you will not see the results.
+                        However if you mouse-hover over a Title_sort value in the Search Workbench,
+                        you will see the Title_display value.</para>
+                    <para> Multiple doc fields can be added to the search framework configuration by
+                        filling in all of the required fields and clicking the <emphasis role="bold"
+                            >add</emphasis> button.</para>
+                    <para/>
+                    <para role="Illustration">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Search Framework Configuration Interface: Doc Fields Tab with
+                                    Sample Data</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/admin-144.png" width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para/>
+                    <para role="TableHeading"><emphasis role="bold">Doc Fields
+                            definitions</emphasis></para>
+                    <informaltable frame="top">
+                        <tgroup cols="2">
+                            <colspec colname="c1" colnum="1"/>
+                            <colspec colname="c1" colnum="1"/>
+                            <tbody>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Title </para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Description </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Name</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Required. This is the name of the
+                                            field used in Solr configuration. Please note that each
+                                            Name value here must have the same name in the Solr
+                                            configuration. </para>
+                                        <warning>
+                                            <para role="Table Cells">Adding a name here must be
+                                                accompanied by a reconfiguration of Solr to be
+                                                effective. Changing an existing Name value here
+                                                without a corresponding name change in Solr will
+                                                have unforeseen consequences .</para>
+                                        </warning>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Label</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Required. This is what the users
+                                            will see displayed as search values in the ‘In Field’
+                                            drop down on the Search Workbench for selecting the
+                                            search criteria for Names ending in “_search” and the
+                                            column names for search results for Names ending in
+                                            “_display”. This can be changed without any
+                                            corresponding change in Solr Configuration. </para>
+                                        <note>
+                                            <para role="Table Cells">As of this writing, changing
+                                                the value for an existing Label does not affect what
+                                                the users see.</para>
+                                        </note>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Description</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Optional. This is just for
+                                            documentation. It does not have any impact on what the
+                                            user sees on the Search Workbench.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Path Include</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Optional. For Bibliographic Marc
+                                            format fields, this is a reference to the underlying
+                                            MARC fields and subfield codes. Entering a MARC field
+                                            and subfield here defines what fields are displayed or
+                                            searched on when this field is displayed in the search
+                                            results or searched if selected in the search criteria.
+                                            The default values displayed were derived from the <link
+                                                xlink:href="https://wiki.kuali.org/display/OLE/OLE+Search+Technical+Documentation#OLESearchTechnicalDocumentation-1.1.1SearchablefieldsforBibliographic"
+                                                >OLE Search Technical Documentation page</link>
+                                            (section 1.3) on OLE’s Wiki page. </para>
+                                        <para>There is a specific syntax to be used for both Path
+                                            Include and Path Exclude. See <link
+                                                linkend="_pathSyntax">Path Syntax</link>
+                                            below.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Path Exclude</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Optional. For Bibliographic MARC
+                                            format fields, this is a limitation on the Path Include
+                                            values. If the path include for Title_display field for
+                                            example was “245”, a value of “245-c” in this column
+                                            would cause all values in 245 subfields to display
+                                            except for the value in subfield 245 c.</para>
+                                        <para role="Table Cells">See <link linkend="_pathSyntax"
+                                                >Path Syntax</link> below for a definition of the
+                                            syntax to be used.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Is Search</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Optional. Checking this box for a
+                                            field will cause the field label to appear as a value in
+                                            the “In Field” drop down on the Search Workbench.
+                                            Removing the check will cause that field to disappear
+                                            from those drop down values. Only check fields in this
+                                            column which have “_search” as the last part of their
+                                            names. </para>
+                                        <para role="Table Cells">See <link
+                                                linkend="_cautionaryNotes">Cautionary Notes</link>
+                                            below.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Is Display</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Optional. Checking this box for a
+                                            field will cause the field label to appear as a column
+                                            in the search results on the Search Workbench. Removing
+                                            the check will cause that field column to disappear from
+                                            the search results display on the Search Workbench. Only
+                                            check fields in this column which have “_display” as the
+                                            last part of their names. </para>
+                                        <para role="Table Cells">See <link
+                                                linkend="_cautionaryNotes">Cautionary Notes</link>
+                                            below.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Global Edit</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Optional. Checking this box for a
+                                            field will allow the field to be edited in the Global
+                                            Edit screens. A Global Edit screen for Bibliographic
+                                            records is a future enhancement. This column will likely
+                                            be hidden until that enhancement is ready.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Is Export</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Optional. This is for a future
+                                            feature that will allow export of fields in csv format.
+                                            It has no impact on the “Export to Doc XML” function
+                                            displayed under the search results on the Search
+                                            WorkBench screen.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Is Facet</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Optional. Checking this box will
+                                            cause the Label for this field to appear in the “Narrow
+                                            Search” section of the Search Workbench screen when
+                                            searching for Bibliographic records. Only check fields
+                                            in this column that have “_facet” as part of their
+                                            names. See <link linkend="_cautionaryNotes">Cautionary
+                                                Notes</link> below.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Actions</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Click <emphasis role="bold"
+                                                >add</emphasis> before clicking <emphasis
+                                                role="bold">save</emphasis>to add extra rows to the
+                                                <emphasis role="bold">Doc Fields</emphasis>
+                                            tab.</para>
+                                    </entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </informaltable>
+                    <section>
+                        <title><anchor xml:id="_pathSyntax"/>Path Syntax</title>
+                        <para>There is a specific Path syntax to be used in the Path Include and
+                            Path Exclude column values for a field. Here are examples of the
+                            syntax.</para>
+                        <para>245-a means MARC field 245, subfield a. This is the value that will be
+                            searched or displayed for that field name.</para>
+                        <para>245-a;b means MARC field 245 subfield a and subfield b. The semi colon
+                            means that for display fields, the value displayed will be the
+                            concatenated values of those subfields.</para>
+                        <para>234-c, 245-6 means MARC field 245 subfield c and field 245 subfield 6
+                            will be displayed, the comma will cause those two values to display on
+                            two lines in the search results.</para>
+                        <para>600,610,69* means all the subfields of 600 will be concatenated and
+                            displayed on the first line, all the subfields of 610 will be
+                            concatenated and displayed on the second line, all the values of all the
+                            subfields of all fields starting with 69 will be concatenated and
+                            displayed on a third line.</para>
+                        <para>Note: There are some nonstandard subfields in a few of the default
+                            values that should not be confused as some kind of syntax. Examples
+                            include the Author_display Path Exclude field. The values “100-=” and
+                            “100-?” are actually subfields for the 100 field used by some of OLE’s
+                            partner institutions’ current systems – not syntax. It is likely that
+                            those subfields will not be used in OLE and will be removed from these
+                            default field definition values.</para>
+                    </section>
+                </section>
+                <section>
+                    <title>Doc Fields for Document Type Holdings, EHoldings, and Items; Document
+                        Format OLEML</title>
+                    <para>Selecting <emphasis role="bold">Document Type</emphasis> Holding,
+                        EHoldings, or Items and <emphasis role="bold">Document Format</emphasis>
+                        OLEML displays columns:</para>
+                    <para>Name, Label, Description, Is Search, Is Display, Global Edit, Is Export,
+                        and Is Facet. </para>
+                    <para> Multiple doc fields can be added to the search framework configuration by
+                        filling in all of the required fields and clicking the <emphasis role="bold"
+                            >add</emphasis> button.</para>
+                    <para/>
+                    <para role="Illustration">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Search Framework Configuration Interface: Doc Fields Tab with
+                                    Sample Data</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/admin-145.png" width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para/>
+                    <para role="TableHeading"><emphasis role="bold">Doc Fields
+                            definitions</emphasis></para>
+                    <informaltable frame="top">
+                        <tgroup cols="2">
+                            <colspec colname="c1" colnum="1"/>
+                            <colspec colname="c1" colnum="1"/>
+                            <tbody>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Title </para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Description </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Name</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Required. This is the name of the
+                                            field used in Solr configuration. Please note that each
+                                            Name value here must have the same name in the Solr
+                                            configuration. </para>
+                                        <warning>
+                                            <para role="Table Cells">Adding a name here must be
+                                                accompanied by a reconfiguration of Solr to be
+                                                effective. Changing an existing Name value here
+                                                without a corresponding name change in Solr will
+                                                have unforeseen consequences .</para>
+                                        </warning>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Label</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Required. This is what the users
+                                            will see displayed as search values in the ‘In Field’
+                                            drop down on the Search Workbench for selecting the
+                                            search criteria for Names ending in “_search” and the
+                                            column names for search results for Names ending in
+                                            “_display”. This can be changed without any
+                                            corresponding change in Solr Configuration. </para>
+                                        <note>
+                                            <para role="Table Cells">As of this writing, changing
+                                                the value for an existing Label does not affect what
+                                                the users see.</para>
+                                        </note>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Description</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Optional. This is just for
+                                            documentation. It does not have any impact on what the
+                                            user sees on the Search Workbench.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Is Search</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Optional. Checking this box for a
+                                            field will cause the field label to appear as a value in
+                                            the “In Field” drop down on the Search Workbench.
+                                            Removing the check will cause that field to disappear
+                                            from those drop down values. Only check fields in this
+                                            column which have “_search” as the last part of their
+                                            names. </para>
+                                        <para role="Table Cells">See <link
+                                                linkend="_cautionaryNotes">Cautionary Notes</link>
+                                            below.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Is Display</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Optional. Checking this box for a
+                                            field will cause the field label to appear as a column
+                                            in the search results on the Search Workbench. Removing
+                                            the check will cause that field column to disappear from
+                                            the search results display on the Search Workbench. Only
+                                            check fields in this column which have “_display” as the
+                                            last part of their names. </para>
+                                        <para role="Table Cells">See <link
+                                                linkend="_cautionaryNotes">Cautionary Notes</link>
+                                            below.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Global Edit</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Optional. Checking this box for a
+                                            field will allow the field to be edited in the Global
+                                            Edit screens. A Global Edit screen for Bibliographic
+                                            records is a future enhancement. This column will likely
+                                            be hidden until that enhancement is ready.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Is Export</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Optional. This is for a future
+                                            feature that will allow export of fields in csv format.
+                                            It has no impact on the “Export to Doc XML” function
+                                            displayed under the search results on the Search
+                                            WorkBench screen.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Is Facet</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Optional. Checking this box will
+                                            cause the Label for this field to appear in the “Narrow
+                                            Search” section of the Search Workbench screen when
+                                            searching for Bibliographic records. Only check fields
+                                            in this column that have “_facet” as part of their
+                                            names. See <link linkend="_cautionaryNotes">Cautionary
+                                                Notes</link> below.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Actions</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Click <emphasis role="bold"
+                                                >add</emphasis> before clicking <emphasis
+                                                role="bold">save</emphasis>to add extra rows to the
+                                                <emphasis role="bold">Doc Fields</emphasis>
+                                            tab.</para>
+                                    </entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </informaltable>
+                    <para><emphasis role="bold">Notes about some of the Field Name rows defined for
+                            Holdings, Items and Eholdings:</emphasis></para>
+                    <itemizedlist>
+                        <listitem>
+                            <para>Title_display is needed. </para>
+                        </listitem>
+                        <listitem>
+                            <para>Some current fields like Title_Facet, Title_search, Title_sort are
+                                not meaningful here and will be removed.</para>
+                        </listitem>
+                        <listitem>
+                            <para>Fields like “CallNumber_display” and “CallNumber_search” can be
+                                merged into a single field. We anticipate that this will be done
+                                soon.</para>
+                        </listitem>
+                    </itemizedlist>
+                    <section>
+                        <title><anchor xml:id="_cautionaryNotes"/>Cautionary Notes</title>
+                        <itemizedlist>
+                            <listitem>
+                                <para>The question has come up about the significance of the
+                                    “_display”, “_search”, “_facet”, “_sort” that are included in
+                                    the Name column. If all of those different names for the same
+                                    type of field are defined exactly the same in the Path Include
+                                    and Path Exclude fields, can one of those fields have the Is
+                                    Search, Is Display, Global Edit, and Is Facet boxes checked and
+                                    the other fields ignored. This is something that still needs to
+                                    be tested. Until then, only check the boxes as described
+                                    above.</para>
+                            </listitem>
+                            <listitem>
+                                <para>The field Names ending in “_sort” are for internal use and
+                                    exist primarily for the possible suppression of initial
+                                    characters in the subfield value. We are not yet sure if there
+                                    is a use case for having different values in the Path Include
+                                    and Path Exclude fields for this Name than are present for the
+                                    same field with “_display” at the end. At present the Path
+                                    Include and Exclude values for Names ending with “_sort” are the
+                                    same as those ending with “_display”.</para>
+                            </listitem>
+                            <listitem>
+                                <para>If a change is made in the Path Include or Path Exclude for
+                                    any of the existing Names, the change will only be effective for
+                                    bibliographic records created after the change. A re-index of
+                                    the bibliographic records will be required to make that change
+                                    effective for records that existed before the change. Even if
+                                    the Name is a “_display” field, it will require a re-index to be
+                                    effective for existing documents.</para>
+                                <note>
+                                    <para>In order to index and reindex bibliographic, holdings,
+                                        e-holdings, and item records in Solr, go to <link
+                                            xlink:href="http://demo.docstore.ole.kuali.org/admin.jsp"
+                                            >http://demo.docstore.ole.kuali.org/admin.jsp</link> (or
+                                            <link
+                                            xlink:href="http://tst.docstore.ole.kuali.org/admin.jsp"
+                                            >http://tst.docstore.ole.kuali.org/admin.jsp</link> if
+                                        you are in the tst environment).</para>
+                                    <para>Click the <emphasis role="bold">Start</emphasis> button. </para>
+                                    <para>Click <emphasis role="bold">Show Status</emphasis> button
+                                        to see the status. </para>
+                                    <para>Indexing is complete when you see the "Index End
+                                        Time"</para>
+                                </note>
+                            </listitem>
+                        </itemizedlist>
+                        <para>Note: There are some nonstandard subfields in a few of the default
+                            values that should not be confused as some kind of syntax. Examples
+                            include the Author_display Path Exclude field. The values “100-=” and
+                            “100-?” are actually subfields for the 100 field used by some of OLE’s
+                            partner institutions’ current systems – not syntax. It is likely that
+                            those subfields will not be used in OLE and will be removed from these
+                            default field definition values.</para>
+                    </section>
+                </section>
+                <section>
+                    <title>Doc Fields for Document Type Licenses</title>
+                    <para>The doc field definitions for Document Type License has not been verified
+                        as yet.</para>
+                </section>
+            </section>
+            <section>
+                <title><anchor xml:id="_searchResultsPageSize"/>Search Results Page Size Tab</title>
+                <para> Multiple Search Result Page Sizes can be added to the search framework
+                    configuration by filling in all of the required fields and clicking the
+                        <emphasis role="bold">add</emphasis> button.</para>
+                <para/>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Search Framework Configuration Interface: Search Result Page Size
+                                Tab</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/admin-146.png"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para/>
+                <para role="TableHeading"><emphasis role="bold">Search Result Page Size Column
+                        definitions</emphasis></para>
+                <informaltable frame="top">
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1"/>
+                        <colspec colname="c1" colnum="1"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Size</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. The number of search results
+                                        displayed options available with each search's Result's
+                                            <emphasis role="bold">Show __ Entries</emphasis>
+                                        .</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+            <section>
+                <title><anchor xml:id="_facetPageSize"/>Facet Page Size Tab</title>
+                <para> Multiple Facet Page Sizes can be added to the search framework configuration
+                    by filling in all of the required fields and clicking the <emphasis role="bold"
+                        >add</emphasis> button.</para>
+                <para/>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Search Framework Configuration Interface: Facet Page Sizes
+                                Tab</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/admin-147.png"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para/>
+            </section>
+        </section>
+        <section>
+            <title>Process Overview</title>
+            <para>Modify tabs within the Search Framework Configuration page.  Consult a programmer
+                before adding or modifying some of the sections, these are noted above.</para>
+            <para>Click <inlinemediaobject>
+                    <alt>Save</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-31.png"/>
+                    </imageobject>
+                </inlinemediaobject> to save any changes or additions you have made. You must save
+                each section that you modify.</para>
+            <para>Click <inlinemediaobject>
+                    <alt>Reset</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/Admin-177.png"/>
+                    </imageobject>
+                </inlinemediaobject> to discard any changes you have made since the section was last
+                saved.  The reset function only restores everything from the database, by clicking
+                the button any changes made in the session without clicking save will be
+                reverted.</para>
+            <section>
+                <title>Example</title>
+                <para>An example of how indexing and searching is done: </para>
+                <para>When a Bib MARC record is added or updated, the following fields are generated
+                    for this record and indexed in Solr: </para>
+                <para><emphasis role="bold">Title_search</emphasis> - This is a multi-valued field
+                    and the values are generated by taking all the subfields of the datafields
+                    245,130,240,246,247,440,490,730,740,773,774,780,785,830,840 (Path Include
+                    values) and excluding the subfields </para>
+                <para>245-c,245-6,245-c,245-6,130-c,130-6,240-c,240-6,246-c,246-6,247-c,247-6,440-c,440-6,490-c,490-6,730-c,730-6,740-c,740-6,773-c,773-6,774-c,774-6,780-c,780-6,785-c,785-6,830-c,830-6,840-c,840-6
+                    (Path Exclude values) </para>
+                <para>So there can be 15 values of Title_search generated, assuming all of the above
+                    data fields have values. </para>
+                <para><emphasis role="bold">Title_display</emphasis> - 245-a;b - This is a
+                    single-valued field and its value is generated by concatenating subfields a and
+                    b of datafield 245 </para>
+                <para>When a search request (<emphasis role="bold">Title</emphasis> = ‘ole’) is
+                    submitted, the query is built and sent to solr. The value ‘ole’ is looked for in
+                    the 15 or so values of <emphasis role="bold">Title_search</emphasis> field of
+                    every bib record <emphasis role="bold">in Solr</emphasis>. If found, the single
+                    value of <emphasis role="bold">Title_display</emphasis> of the matched record is
+                    returned <emphasis role="bold">from Solr </emphasis>as a search result row. </para>
+                <para>(So, the value searched for may not appear in the displayed search result
+                    row.) </para>
+                <para>Both <emphasis role="bold">_search</emphasis> and <emphasis role="bold"
+                        >_display</emphasis> fields are updated in Solr whenever a MARC record is
+                    added or updated in OLE. And the <emphasis role="bold">Path Include</emphasis>
+                    and <emphasis role="bold">Path Exclude</emphasis> definitions that are available
+                    at that time will be used for updating Solr. </para>
+                <para>So if the <emphasis role="bold">Path Include </emphasis>and <emphasis
+                        role="bold">Path Exclude</emphasis> are modified for either the <emphasis
+                        role="bold">_search</emphasis> or <emphasis role="bold">_display</emphasis>
+                    field, these modifications will not affect the records already indexed in Solr,
+                    until they are reindexed.</para>
+                <para><emphasis role="bold"> Is_search</emphasis> property of <emphasis role="bold"
+                        >Title_search</emphasis> field tells whether the user can run a search
+                    against this field. </para>
+                <para><emphasis role="bold">Is_display</emphasis> property of <emphasis role="bold"
+                        >Title_display</emphasis> field tells whether the user can see this column
+                    in search result grid.</para>
+            </section>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_namespace"/>Namespace<indexterm significance="normal">
+                <primary>Namespace document</primary>
+            </indexterm><indexterm significance="normal">
+                <primary>Functional configuration submenu group</primary>
+                <secondary>Namespace document</secondary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/Admin.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                <alt>System Configuration</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-242.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Parameters</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-347.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Namespace</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-348.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Namespace Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-349.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Namespace</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-350.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The Namespace document allows you to add new or maintain existing
+            namespace codes. Namespace codes are used to identify various pieces of functionality
+            and generally correspond to large functional areas. The namespaces in OLE base data
+            normally take the form of a Kuali application followed by one of that application's
+            modules. For example OLE Purchasing /Accounts Payable module would be associated with
+            the namespace OLE-PURAP.</para>
+        <para role="Body Text">This document can only be initiated by members of OLE-SYS Manager or
+            KR-SYS Technical Administrator role and does not route for approval.</para>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Namespace Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-351.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <section>
+                <title>Edit Namespace Tab</title>
+                <para role="Body Text">The Namespace document contains the <emphasis role="bold"
+                        >Edit Namespace</emphasis> tab.</para>
+                <para role="TableHeading"><emphasis role="bold">Edit Namespace tab
+                        definition</emphasis></para>
+                <informaltable frame="top">
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1"/>
+                        <colspec colname="c1" colnum="1"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Namespace Code</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the namespace code for
+                                        this namespace. OLE convention for most namespaces is
+                                        application abbreviation and module abbreviation separated
+                                        by a dash (OLE-PURAP, KR-WKFLW, etc.)</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Namespace Name</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. A longer text description for
+                                        this namespace code.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Application ID</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. An additional namespace
+                                        identifier which identifies which application should
+                                        recognize this namespace code. This is generally only used
+                                        in instances where the regular namespace code is not enough
+                                        to make a definition unique. This definition is normally
+                                        used directly on the Parameter document and not assigned
+                                        specifically to a namespace on this table.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Active Indicator</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Leave checked to indicate
+                                        that this namespace is active and can be associated with
+                                        permissions, responsibilities, roles and Kuali data elements
+                                        organized by namespace. Uncheck the box to inactivate this
+                                        namespace and make it an invalid choice.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+                <para role="Body Text"/>
+            </section>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_parameter"/>Parameter<indexterm significance="normal">
+                <primary>Parameter document</primary>
+            </indexterm><indexterm significance="normal">
+                <primary>Functional configuration submenu group</primary>
+                <secondary>Parameter document</secondary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/Admin.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                <alt>System Configuration</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-242.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Parameters</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-347.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Parameter</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-355.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Parameter Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-356.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Parameter</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-357.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The Parameter document is used to define parameters and business
+            rules in OLE. A specific value of a parameter can vary based on what the parameter is
+            used to define. Some parameters create business rules. These rules create restrictions
+            and enforce valid values and combinations on various document types or batch processes.
+            Other parameters simply define institution-specific values not defined elsewhere in OLE.
+            The value may, for example, be text that OLE is to display in a given location or it may
+            be a simple yes or no value to turn an option on or off.</para>
+        <para role="Body Text">Only members of the KR-SYS Technical Administrator or OLE-SYS Manager
+            role can create or edit Parameter documents.</para>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Parameter Maintenance Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-358.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <section>
+                <title>Edit Parameter Tab</title>
+                <para role="Body Text">The Parameter document includes the <emphasis role="bold"
+                        >Edit Parameter</emphasis> tab. This tab is where you define the modules,
+                    type, rules, and description of the parameters.</para>
+                <para role="TableHeading"><emphasis role="bold">Edit Parameter tab
+                        definition</emphasis></para>
+                <informaltable frame="top">
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1"/>
+                        <colspec colname="c1" colnum="1"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Namespace Code</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Select the appropriate
+                                        Namespace code for the parameter from the <emphasis
+                                            role="bold">Namespace Code</emphasis> list or search for
+                                        it from the lookup.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Component </para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the parameter component
+                                        code or search for it from the <emphasis role="bold"
+                                            >Parameter Component</emphasis> lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Application ID</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the application
+                                        namespace to identify the application to which this
+                                        parameter applies. Note that the same parameter can have
+                                        different values for different applications.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Parameter Name</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the name of the
+                                        parameter being defined.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Parameter Value</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the value for the
+                                        parameter. The nature of a given parameter determines what
+                                        form the parameter value should take. In some cases it is
+                                        text for an OLE user to view or it could be a value such as
+                                        an account number or an object code. In cases where multiple
+                                        values are allowed they should be separated by a semi-colon.
+                                        Consult with technical resources if you are unsure what
+                                        format a specific parameter value should take.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Parameter Description</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Describe the purpose and
+                                        usage of the parameter. The description is used for a
+                                        documentation purpose.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Parameter Type Code</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Select the parameter type
+                                        code from the <emphasis role="bold">Parameter
+                                            Type</emphasis> list or search for it from the lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>.</para>
+                                    <para role="Table Cells">Default types include:</para>
+                                    <para role="Table Cells">System Configuration: Used to establish
+                                        institution values not specific to validation.</para>
+                                    <para role="Table Cells">Document Validation: Used to establish
+                                        business rules for documents.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Parameter Constraint Code</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Select <phrase role="Strong"
+                                            >Allowed</phrase> if the parameter is to allow the
+                                        defined parameter value within OLE application. Select
+                                            <emphasis role="bold">Denied</emphasis> if the parameter
+                                        is to deny the defined parameter value within OLE
+                                        application. Consult with technical resources if you are
+                                        unsure of the appropriate constraint code for a given
+                                        parameter.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_parameterComponent"/>Parameter Component<indexterm
+                significance="normal">
+                <primary>Parameter Component document</primary>
+            </indexterm><indexterm significance="normal">
+                <primary>Functional configuration submenu group</primary>
+                <secondary>Parameter Component document</secondary>
+            </indexterm><anchor xml:id="_Toc276394162"/><anchor xml:id="_Toc290041267"/></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/Admin.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                <alt>System Configuration</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-242.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Parameters</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-347.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Parameter Component</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-364.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Parameter Component Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-365.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Parameter Component</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-366.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The Parameter Component document defines valid components that can be
+            associated with a parameter. Parameter components indicate a general or specific piece
+            of OLE functionality to which a parameter applies. Some Parameter Components are generic
+            (batch, lookup, all) while others are very specific and refer to particular documents or
+            even specific tabs or fields on documents.</para>
+        <para role="Body Text">Only members of the KR-SYS Technical Administrator or OLE-SYS Manager
+            role can create or edit Parameter Component documents.</para>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Parameter Component Maintenance Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-367.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <section>
+                <title>Edit Component Tab</title>
+                <para role="Body Text">The Parameter Component document includes the <emphasis
+                        role="bold">Edit Component Type</emphasis> tab.</para>
+                <para role="TableHeading"><emphasis role="bold">Edit Component tab
+                        definition</emphasis></para>
+                <informaltable frame="none">
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1"/>
+                        <colspec colname="c1" colnum="1"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Namespace Name</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Select the appropriate
+                                        Namespace code for the parameter from the <phrase
+                                            role="Strong">Namespace Name</phrase> list or search for
+                                        it from the lookup.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Component </para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the parameter component
+                                        code or search for it from the <phrase role="Strong"
+                                            >Parameter Component</phrase> lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Component Name</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the descriptive name of
+                                        the parameter component being defined.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Active Indicator</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Leave checked to indicate
+                                        that this parameter component is active and can be
+                                        associated with parameters. Uncheck the box to inactivate
+                                        this component and make it an invalid choice.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+                <para role="Body Text"/>
+            </section>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_parameterType"/>Parameter Type<indexterm significance="normal">
+                <primary>Parameter Type document</primary>
+            </indexterm><indexterm significance="normal">
+                <primary>Functional configuration submenu group</primary>
+                <secondary>Parameter Type document</secondary>
+            </indexterm><anchor xml:id="_Toc276394163"/><anchor xml:id="_Toc290041268"/></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/Admin.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                <alt>System Configuration</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-242.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Parameters</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-347.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Parameter Type</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-372.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Parameter Type Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-373.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Parameter Type</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-374.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The parameter type broadly defines what a parameter is used for.
+            Parameters used for document validation (such as business rules) and parameters used for
+            System Configuration (customizing OLE for your institution) are two types of parameters
+            used in OLE.</para>
+        <para role="Body Text">The Parameter Type document allows you to create new or edit existing
+            parameter types. Code must be developed to support any additional types or changes to
+            existing types.</para>
+        <para role="Body Text">Only members of the KR-SYS Technical Administrator or OLE-SYS Manager
+            role can create or edit Parameter Type documents and they do not route for
+            approval.</para>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Parameter Type Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-375.jpg" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <section>
+                <title>Edit Parameter Type Tab</title>
+                <para role="Body Text">The Parameter Type document includes the <emphasis
+                        role="bold">Edit Parameter Type </emphasis>tab.</para>
+                <para role="TableHeading"><emphasis role="bold">Edit Parameter Type tab
+                        definition</emphasis></para>
+                <informaltable frame="top">
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1"/>
+                        <colspec colname="c1" colnum="1"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Parameter Type Code</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the code by which this
+                                        parameter type will be identified.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Parameter Type Name</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the long descriptive
+                                        name for this parameter type.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Active Indicator</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Check the box to make this
+                                        parameter type active and available for selection when
+                                        creating parameters. Uncheck the box if you wish to
+                                        inactivate this type of parameter and prevent its selection
+                                        when creating new parameters.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+        </section>
+    </section>
+</chapter>

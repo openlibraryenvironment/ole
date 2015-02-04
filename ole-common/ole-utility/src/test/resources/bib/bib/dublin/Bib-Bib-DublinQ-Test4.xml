@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<dublin_core schema="dc">
+  <dcvalue element="contributor" qualifier="author">Seligman, Samuel K.</dcvalue>
+  <dcvalue element="contributor" qualifier="author">Cuddy, Thomas W.</dcvalue>
+  <dcvalue element="contributor" qualifier="author">Chisholm, Amelia G.</dcvalue>
+  <dcvalue element="contributor" qualifier="author">Beadenkopf, Kristofer M.</dcvalue>
+  <dcvalue element="contributor" qualifier="author">Palus, Matthew</dcvalue>
+  <dcvalue element="contributor" qualifier="author">Leone, Mark P.</dcvalue>
+  <dcvalue element="date" qualifier="accessioned">2010-12-03T17:06:41Z</dcvalue>
+  <dcvalue element="date" qualifier="available">2010-12-03T17:06:41Z</dcvalue>
+  <dcvalue element="date" qualifier="issued">2006</dcvalue>
+  <dcvalue element="identifier" qualifier="uri">http://hdl.handle.net/1903/11002</dcvalue>
+  <dcvalue element="description" qualifier="abstract">In the summers of 1998 and 1999, the Archaeology in Annapolis project carried out archaeological investigation at the eighteenth century Dr. Upton Scott House site (18AP18)located at 4 Shipwright Street in the historic district of Annapolis, Anne Arundel County, Maryland. The Upton Scott House is significant as one of only a few Georgian houses with remnants of its original plantation-inspired landscape still visible (Graham 1998:147). Investigation was completed in agreement with the owners of the historic property, Mr. and Mrs. Paul Christian, who were interested in determining the condition and arrangement of Dr. Upton Scott’s well-documented pleasure gardens. Betty Cosans’ 1972 Archaeological Feasibility Report, the first real archaeological study of the Upton Scott House site, guided the research design and recovery efforts. Cosans determined that testing and survey in the back and side yards of the Scott property would yield important information on the use and history of the property, including that of Scott’s famous gardens. Excavation units and trenches were placed within three separate areas of backyard activity on the site which included Area One: extant brick stables in the southwest of the property; Area Two: the brick foundations of a small outbuilding located in the northwest area of the site; and Area Three: the area of Scott’s formal gardens. The research design included an interest in recovering evidence of African-American spiritual practice and domestic life at the site. Also of significant importance was an analysis of Scott’s garden beds, concerning the order and layout. Also sought was an understanding of the change in perception and use of the backyard by the various owners of the property.</dcvalue>
+  <dcvalue element="description" qualifier="provenance">Submitted by Joan Kaminer (jgibson@umd.edu) on 2010-12-02T18:35:19Z
+No. of bitstreams: 2
+18AP18 Upton Scott 2006.pdf: 3547590 bytes, checksum: 5de0602b95bc966f861162b052aac40f (MD5)
+18AP18catalog-report.xls: 785920 bytes, checksum: 107d3b68dd96b240e5e5d84938ee6722 (MD5)</dcvalue>
+  <dcvalue element="description" qualifier="provenance">Approved for entry into archive by Manager for faculty self-deposit collections(drum-help@umd.edu) on 2010-12-03T17:06:41Z (GMT) No. of bitstreams: 2
+18AP18 Upton Scott 2006.pdf: 3547590 bytes, checksum: 5de0602b95bc966f861162b052aac40f (MD5)
+18AP18catalog-report.xls: 785920 bytes, checksum: 107d3b68dd96b240e5e5d84938ee6722 (MD5)</dcvalue>
+  <dcvalue element="description" qualifier="provenance">Made available in DSpace on 2010-12-03T17:06:41Z (GMT). No. of bitstreams: 2
+18AP18 Upton Scott 2006.pdf: 3547590 bytes, checksum: 5de0602b95bc966f861162b052aac40f (MD5)
+18AP18catalog-report.xls: 785920 bytes, checksum: 107d3b68dd96b240e5e5d84938ee6722 (MD5)
+  Previous issue date: 2006</dcvalue>
+  <dcvalue element="subject" qualifier="none">Archaeology</dcvalue>
+  <dcvalue element="subject" qualifier="none">Annapolis, Maryland</dcvalue>
+  <dcvalue element="subject" qualifier="none">Dr. Upton Scott House</dcvalue>
+  <dcvalue element="subject" qualifier="none">18AP18</dcvalue>
+  <dcvalue element="subject" qualifier="none">artifact catalog</dcvalue>
+  <dcvalue element="subject" qualifier="none">Shipwright Street</dcvalue>
+  <dcvalue element="subject" qualifier="none">Georgian house</dcvalue>
+  <dcvalue element="subject" qualifier="none">gardens</dcvalue>
+  <dcvalue element="title" qualifier="none">Final Report of the Phase III Archaeological Investigations at the Dr. Upton Scott House (18AP18), Annapolis, Anne Arundel County, Maryland, 1998-1999</dcvalue>
+  <dcvalue element="relation" qualifier="isAvailableAt">University of Maryland (College Park, Md)</dcvalue>
+  <dcvalue element="relation" qualifier="isAvailableAt">Digital Repository at the University of Maryland</dcvalue>
+</dublin_core>

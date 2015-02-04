@@ -1,0 +1,1202 @@
+<data xmlns="ns:workflow" xsi:schemaLocation="ns:workflow resource:WorkflowData" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>OLE_AD</name>
+      <parent>OLEFinancialProcessingTransactionalDocument</parent>
+      <label>
+        Advance Deposit
+      </label>
+      <docHandler>
+        ${ole.url}/financialAdvanceDeposit.do?methodToCall=docHandler
+      </docHandler>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fadvancedeposit.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>OLE_CMD</name>
+      <parent>OLEFinancialProcessingTransactionalDocument</parent>
+      <label>
+        Cash Management
+      </label>
+      <docHandler>
+        ${ole.url}/financialCashManagement.do?methodToCall=docHandler
+      </docHandler>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fcashmanagement.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>OLE_CR</name>
+      <parent>OLEFinancialProcessingTransactionalDocument</parent>
+      <label>
+        Cash Receipt
+      </label>
+      <docHandler>
+        ${ole.url}/financialCashReceipt.do?methodToCall=docHandler
+      </docHandler>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fcashreceipt.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="CashManagement"/>
+          <role name="CashManagement"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="CashManagement">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <mandatoryRoute>
+            true
+          </mandatoryRoute>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>OLE_CCR</name>
+      <parent>OLEFinancialProcessingTransactionalDocument</parent>
+      <label>
+        Credit Card Receipt
+      </label>
+      <docHandler>
+        ${ole.url}/financialCreditCardReceipt.do?methodToCall=docHandler
+      </docHandler>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fcreditcardreceipt.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>OLE_JV</name>
+      <parent>OLEFinancialProcessingTransactionalDocument</parent>
+      <label>
+        Journal Voucher
+      </label>
+      <docHandler>
+        ${ole.url}/financialJournalVoucher.do?methodToCall=docHandler
+      </docHandler>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fjournalvoucher.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>OLE_SB</name>
+      <parent>OLEFinancialProcessingTransactionalDocument</parent>
+      <label>
+        Service Billing
+      </label>
+      <docHandler>
+        ${ole.url}/financialServiceBilling.do?methodToCall=docHandler
+      </docHandler>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fservicebilling.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>OLE_AV</name>
+      <parent>OLEFinancialProcessingTransactionalDocument</parent>
+      <label>
+        Auxiliary Voucher
+      </label>
+      <docHandler>
+        ${ole.url}/financialAuxiliaryVoucher.do?methodToCall=docHandler
+      </docHandler>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fauxiliaryvoucher.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Account"/>
+          <role name="Account" nextNode="AccountingOrganizationHierarchy"/>
+          <role name="AccountingOrganizationHierarchy"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="Account">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+        <role name="AccountingOrganizationHierarchy">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>OLE_BA</name>
+      <parent>OLEFinancialProcessingTransactionalDocument</parent>
+      <label>
+        Budget Adjustment
+      </label>
+      <docHandler>
+        ${ole.url}/financialBudgetAdjustment.do?methodToCall=docHandler
+      </docHandler>
+      <helpDefinitionURL>
+        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch06s05.html
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="RequiresFullApproval"/>
+          <split name="RequiresFullApproval" nextNode="BudgetAdjustment">
+            <branch name="True">
+              <role name="Account" nextNode="AccountingOrganizationHierarchy"/>
+              <role name="AccountingOrganizationHierarchy" nextNode="SubFund"/>
+              <role name="SubFund" nextNode="Award"/>
+              <role name="Award" nextNode="JoinRequiresFullApproval"/>
+            </branch>
+            <branch name="False">
+              <simple name="Do Nothing" nextNode="JoinRequiresFullApproval"/>
+            </branch>
+            <join name="JoinRequiresFullApproval"/>
+          </split>
+          <role name="BudgetAdjustment"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <split name="RequiresFullApproval">
+          <type>
+            org.kuali.ole.sys.document.workflow.SimpleBooleanSplitNode
+          </type>
+        </split>
+        <role name="Account">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+        <role name="AccountingOrganizationHierarchy">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+        <role name="SubFund">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+        <role name="Award">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+        <join name="JoinRequiresFullApproval"/>
+        <simple name="Do Nothing">
+          <type>
+            org.kuali.rice.kew.engine.node.NoOpNode
+          </type>
+        </simple>
+         <role name="BudgetAdjustment">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>        
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>OLE_DI</name>
+      <parent>OLEFinancialProcessingTransactionalDocument</parent>
+      <label>
+        Distribution Of Income And Expense
+      </label>
+      <docHandler>
+        ${ole.url}/oleFinancialDistributionOfIncomeAndExpense.do?methodToCall=docHandler
+      </docHandler>
+      <helpDefinitionURL>
+        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch14s02.html
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Account"/>
+          <role name="Account" nextNode="AccountingOrganizationHierarchy"/>
+          <role name="AccountingOrganizationHierarchy" nextNode="FinancialAccount"/>
+          <role name="FinancialAccount" nextNode="HasVendorDepositAccount"/>
+          <split name = "HasVendorDepositAccount">
+           <branch name="True">
+              <role name="VendorDepositAccount" nextNode="JoinHasVendorDepositAccount"/>
+            </branch>
+            <branch name="False">
+              <simple name="NoOpHasVendorDepositAccount" nextNode="JoinHasVendorDepositAccount"/>
+            </branch>
+            <join name="JoinHasVendorDepositAccount"/>
+          </split>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="Account">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+        <role name="AccountingOrganizationHierarchy">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+        <role name="FinancialAccount">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+        <role name="VendorDepositAccount">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>        
+        <split name="HasVendorDepositAccount">
+          <type>
+            org.kuali.ole.sys.document.workflow.SimpleBooleanSplitNode
+          </type>
+        </split>
+        <join name="JoinHasVendorDepositAccount"/>
+        <simple name="NoOpHasVendorDepositAccount">
+          <type>
+            org.kuali.rice.kew.engine.node.NoOpNode
+          </type>
+        </simple>        
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>OLE_GEC</name>
+      <parent>OLEFinancialProcessingTransactionalDocument</parent>
+      <label>
+        General Error Correction
+      </label>
+      <docHandler>
+        ${ole.url}/oleFinancialGeneralErrorCorrection.do?methodToCall=docHandler
+      </docHandler>
+      <helpDefinitionURL>
+        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch14s07.html
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Account"/>
+          <role name="Account" nextNode="AccountingOrganizationHierarchy"/>
+          <role name="AccountingOrganizationHierarchy" nextNode="SubFund"/>
+          <role name="SubFund" nextNode="Award"/>
+          <role name="Award" nextNode="FinancialAccount"/>
+          <role name="FinancialAccount" nextNode="HasVendorDepositAccount"/>
+          <split name = "HasVendorDepositAccount">
+           <branch name="True">
+              <role name="VendorDepositAccount" nextNode="JoinHasVendorDepositAccount"/>
+            </branch>
+            <branch name="False">
+              <simple name="NoOpHasVendorDepositAccount" nextNode="JoinHasVendorDepositAccount"/>
+            </branch>
+            <join name="JoinHasVendorDepositAccount"/>
+          </split>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="Account">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+        <role name="AccountingOrganizationHierarchy">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+        <role name="SubFund">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+        <role name="Award">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+        <role name="FinancialAccount">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+        <role name="VendorDepositAccount">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>        
+        <split name="HasVendorDepositAccount">
+          <type>
+            org.kuali.ole.sys.document.workflow.SimpleBooleanSplitNode
+          </type>
+        </split>
+        <join name="JoinHasVendorDepositAccount"/>
+        <simple name="NoOpHasVendorDepositAccount">
+          <type>
+            org.kuali.rice.kew.engine.node.NoOpNode
+          </type>
+        </simple>       
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>OLE_ICA</name>
+      <parent>OLEFinancialProcessingTransactionalDocument</parent>
+      <label>
+        Indirect Cost Adjustment
+      </label>
+      <docHandler>
+        ${ole.url}/financialIndirectCostAdjustment.do?methodToCall=docHandler
+      </docHandler>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Findirectcostadjustment.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Account"/>
+          <role name="Account" nextNode="AccountingOrganizationHierarchy"/>
+          <role name="AccountingOrganizationHierarchy" nextNode="SubFund"/>
+          <role name="SubFund" nextNode="Award"/>
+          <role name="Award"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="Account">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+        <role name="AccountingOrganizationHierarchy">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+        <role name="SubFund">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+        <role name="Award">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>OLE_ND</name>
+      <parent>OLEFinancialProcessingTransactionalDocument</parent>
+      <label>
+        Non-Check Disbursement
+      </label>
+      <docHandler>
+        ${ole.url}/financialNonCheckDisbursement.do?methodToCall=docHandler
+      </docHandler>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fnoncheckdisbursement.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Account"/>
+          <role name="Account" nextNode="AccountingOrganizationHierarchy"/>
+          <role name="AccountingOrganizationHierarchy" nextNode="SubFund"/>
+          <role name="SubFund" nextNode="Award"/>
+          <role name="Award"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="Account">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+        <role name="AccountingOrganizationHierarchy">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+        <role name="SubFund">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+        <role name="Award">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>OLE_PE</name>
+      <parent>OLEFinancialProcessingTransactionalDocument</parent>
+      <label>
+        Pre-Encumbrance
+      </label>
+      <docHandler>
+        ${ole.url}/financialPreEncumbrance.do?methodToCall=docHandler
+      </docHandler>
+      <helpDefinitionURL>
+        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch14s10.html
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Account"/>
+          <role name="Account" nextNode="AccountingOrganizationHierarchy"/>
+          <role name="AccountingOrganizationHierarchy" nextNode="SubFund"/>
+          <role name="SubFund"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="Account">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+        <role name="AccountingOrganizationHierarchy">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+        <role name="SubFund">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>OLE_PCDO</name>
+      <parent>OLEFinancialProcessingTransactionalDocument</parent>
+      <label>
+        Procurement Card
+      </label>
+      <docHandler>
+        ${ole.url}/financialProcurementCard.do?methodToCall=docHandler
+      </docHandler>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fprocurementcard.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="AccountFullEdit"/>
+          <role name="AccountFullEdit" nextNode="Account"/>
+          <role name="Account" nextNode="AccountingOrganizationHierarchy"/>
+          <role name="AccountingOrganizationHierarchy" nextNode="SubFund"/>
+          <role name="SubFund"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="AccountFullEdit">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+        </role>
+        <role name="Account">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+        <role name="AccountingOrganizationHierarchy">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+        <role name="SubFund">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>OLE_TF</name>
+      <parent>OLEFinancialProcessingTransactionalDocument</parent>
+      <label>
+        Transfer Of Funds
+      </label>
+      <docHandler>
+        ${ole.url}/financialTransferOfFunds.do?methodToCall=docHandler
+      </docHandler>
+      <helpDefinitionURL>
+        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch06s07.html
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Account"/>
+          <role name="Account" nextNode="AccountingOrganizationHierarchy"/>
+          <role name="AccountingOrganizationHierarchy" nextNode="SubFund"/>
+          <role name="SubFund" nextNode="Award"/>
+          <role name="Award" nextNode="TransferFund"/>
+          <role name="TransferFund" />
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="Account">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+        <role name="AccountingOrganizationHierarchy">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+        <role name="SubFund">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+        <role name="Award">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+         <role name="TransferFund">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>OLE_FPYE</name>
+      <parent>OLEFinancialProcessingTransactionalDocument</parent>
+      <label>
+        FinancialProcessingYearEndTransactionalDocument
+      </label>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="AccountingOrganizationHierarchy"/>
+          <role name="AccountingOrganizationHierarchy" nextNode="SubFund"/>
+          <role name="SubFund" nextNode="Award"/>
+          <role name="Award"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="AccountingOrganizationHierarchy">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+        <role name="SubFund">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+        <role name="Award">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>OLE_IB</name>
+      <parent>OLEFinancialProcessingTransactionalDocument</parent>
+      <label>
+        Internal Billing
+      </label>
+      <docHandler>
+        ${ole.url}/financialInternalBilling.do?methodToCall=docHandler
+      </docHandler>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Finternalbilling.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Account"/>
+          <role name="Account" nextNode="AccountingOrganizationHierarchy"/>
+          <role name="AccountingOrganizationHierarchy" nextNode="SubFund"/>
+          <role name="SubFund"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="Account">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+        <role name="AccountingOrganizationHierarchy">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+        <role name="SubFund">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>
+        OLE_DV
+      </name>
+      <parent>
+        OLEFinancialProcessingTransactionalDocument
+      </parent>
+      <label>
+        Disbursement Voucher
+      </label>
+      <docHandler>
+        ${ole.url}/oleFinancialDisbursementVoucher.do?methodToCall=docHandler
+      </docHandler>
+      <helpDefinitionURL>
+        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch14s01.html
+      </helpDefinitionURL>
+      <docSearchHelpURL>
+        default.htm?turl=WordDocuments%2Fdisbursementvouchers.htm
+      </docSearchHelpURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="HasClearingAccountType"/>
+          <split name="HasClearingAccountType" nextNode="Payment">
+          	<branch name="True">
+          		<role name="ClearingAccountType" nextNode="JoinHasClearingAccountType"/>
+          	</branch>
+          	<branch name="False">
+          		<simple name="NoOpClearingAccountType" nextNode="JoinHasClearingAccountType"/>
+          	</branch>
+          	<join name="JoinHasClearingAccountType"/>
+          </split>
+          <role name="Payment" nextNode="PayeeIsPurchaseOrderVendor"/>
+          <split name="PayeeIsPurchaseOrderVendor" nextNode="Account">
+            <branch name="True">
+              <role name="Purchasing" nextNode="JoinPayeeIsPurchaseOrderVendor"/>
+            </branch>
+            <branch name="False">
+              <simple name="NoOpPayee" nextNode="JoinPayeeIsPurchaseOrderVendor"/>
+            </branch>
+            <join name="JoinPayeeIsPurchaseOrderVendor"/>
+          </split>
+          <role name="Account" nextNode="AccountingOrganizationHierarchy"/>
+          <role name="AccountingOrganizationHierarchy" nextNode="RequiresTaxReview"/>
+          <split name="RequiresTaxReview" nextNode="Award">
+            <branch name="True">
+              <role name="Tax" nextNode="JoinRequiresTaxReview"/>
+            </branch>
+            <branch name="False">
+              <simple name="NoOpTaxReview" nextNode="JoinRequiresTaxReview"/>
+            </branch>
+            <join name="JoinRequiresTaxReview"/>
+          </split>
+          <role name="Award" nextNode="RequiresTravelReview"/>
+          <split name="RequiresTravelReview" nextNode="Campus">
+            <branch name="True">
+              <role name="Travel" nextNode="JoinRequiresTravelReview"/>
+            </branch>
+            <branch name="False">
+              <simple name="NoOpTravelReview" nextNode="JoinRequiresTravelReview"/>
+            </branch>
+            <join name="JoinRequiresTravelReview"/>
+          </split>
+          <role name="Campus" nextNode="PaymentMethod"/>
+          <role name="PaymentMethod" nextNode="RequiresSeparationOfDutiesReview"/>
+          <split name="RequiresSeparationOfDutiesReview">
+            <branch name="True">
+              <role name="SeparationOfDuties" nextNode="Join"/>
+            </branch>
+            <branch name="False">
+              <simple name="NoOp" nextNode="Join"/>
+            </branch>
+            <join name="Join"/>
+          </split>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <split name="PayeeIsPurchaseOrderVendor">
+          <type>
+            org.kuali.ole.sys.document.workflow.SimpleBooleanSplitNode
+          </type>
+        </split>
+        <role name="Purchasing">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+        <join name="JoinPayeeIsPurchaseOrderVendor"/>
+        <simple name="NoOpPayee">
+          <type>
+            org.kuali.rice.kew.engine.node.NoOpNode
+          </type>
+        </simple>
+        <role name="Account">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+        <role name="AccountingOrganizationHierarchy">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+        <split name="RequiresTaxReview">
+          <type>
+            org.kuali.ole.sys.document.workflow.SimpleBooleanSplitNode
+          </type>
+        </split>
+        <role name="Tax">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+        <join name="JoinRequiresTaxReview"/>
+        <simple name="NoOpTaxReview">
+          <type>
+            org.kuali.rice.kew.engine.node.NoOpNode
+          </type>
+        </simple>
+        <role name="Award">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+        <split name="RequiresTravelReview">
+          <type>
+            org.kuali.ole.sys.document.workflow.SimpleBooleanSplitNode
+          </type>
+        </split>
+        <role name="Travel">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+        <join name="JoinRequiresTravelReview"/>
+        <simple name="NoOpTravelReview">
+          <type>
+            org.kuali.rice.kew.engine.node.NoOpNode
+          </type>
+        </simple>
+        <role name="Campus">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+        <role name="PaymentMethod">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+        <split name="RequiresSeparationOfDutiesReview">
+          <type>
+            org.kuali.ole.sys.document.workflow.SimpleBooleanSplitNode
+          </type>
+        </split>
+        <role name="SeparationOfDuties">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+        </role>
+        <join name="Join"/>
+        <simple name="NoOp">
+          <type>
+            org.kuali.rice.kew.engine.node.NoOpNode
+          </type>
+        </simple>
+        <split name="HasClearingAccountType">
+          <type>
+            org.kuali.ole.sys.document.workflow.SimpleBooleanSplitNode
+          </type>
+        </split>
+        <role name="ClearingAccountType">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+        </role>
+        <join name="JoinHasClearingAccountType"/>
+        <simple name="NoOpClearingAccountType">
+          <type>
+            org.kuali.rice.kew.engine.node.NoOpNode
+          </type>
+        </simple>
+        <role name="Payment">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>OLE_YEBA</name>
+      <parent>OLE_FPYE</parent>
+      <label>
+        Year End Budget Adjustment
+      </label>
+      <docHandler>
+        ${ole.url}/financialYearEndBudgetAdjustment.do?methodToCall=docHandler
+      </docHandler>
+      <helpDefinitionURL>
+        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch14s11.html
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
+    <documentType>
+      <name>OLE_YEDI</name>
+      <parent>OLE_FPYE</parent>
+      <label>
+        Year End Distribution Of Income And Expense
+      </label>
+      <docHandler>
+        ${ole.url}/financialYearEndDistributionOfIncomeAndExpense.do?methodToCall=docHandler
+      </docHandler>
+      <helpDefinitionURL>
+        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch14s11.html
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
+    <documentType>
+      <name>OLE_YEGE</name>
+      <parent>OLE_FPYE</parent>
+      <label>
+        Year End General Error Correction
+      </label>
+      <docHandler>
+        ${ole.url}/financialYearEndGeneralErrorCorrection.do?methodToCall=docHandler
+      </docHandler>
+      <helpDefinitionURL>
+        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch14s11.html
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
+    <documentType>
+      <name>OLE_YETF</name>
+      <parent>OLE_FPYE</parent>
+      <label>
+        Year End Transfer Of Funds
+      </label>
+      <docHandler>
+        ${ole.url}/financialYearEndTransferOfFunds.do?methodToCall=docHandler
+      </docHandler>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Ffinancialprocessingyearend.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
+  </documentTypes>
+</data>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+<!--
+ Copyright 2006-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean id="OffsetAccountMaintenanceDocument" parent="OffsetAccountMaintenanceDocument-parentBean"/>
+
+  <bean id="OffsetAccountMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.ole.fp.businessobject.OffsetAccount"/>
+    <property name="maintainableClass" value="org.kuali.ole.sys.document.FinancialSystemMaintainable"/>
+    <property name="maintainableSections">
+      <list>
+        <ref bean="OffsetAccountMaintenanceDocument-EditOffsetAccount"/>
+      </list>
+    </property>
+    <property name="defaultExistenceChecks">
+      <list>
+        <bean parent="ReferenceDefinition" p:attributeName="chart" p:attributeToHighlightOnFail="chartOfAccountsCode" p:displayFieldName="Chart of Accounts"/>
+        <bean parent="ReferenceDefinition" p:attributeName="account" p:attributeToHighlightOnFail="accountNumber" p:displayFieldName="Account"/>
+        <bean parent="ReferenceDefinition" p:attributeName="objectCodeCurrent" p:attributeToHighlightOnFail="financialOffsetObjectCode" p:displayFieldName="Offset Object Code"/>
+        <bean parent="ReferenceDefinition" p:attributeName="financialOffsetChartOfAccount" p:attributeToHighlightOnFail="financialOffsetChartOfAccountCode" p:displayFieldName="Offset Chart of Accounts"/>
+        <bean parent="ReferenceDefinition" p:attributeName="financialOffsetAccount" p:attributeToHighlightOnFail="financialOffsetAccountNumber" p:displayFieldName="Offset Account"/>
+      </list>
+    </property>
+    <property name="lockingKeys">
+      <list>
+        <value>chartOfAccountsCode</value>
+        <value>accountNumber</value>
+        <value>financialOffsetObjectCode</value>
+      </list>
+    </property>
+    
+    <property name="documentTypeName" value="OLE_OFAC"/>
+    <property name="documentAuthorizerClass" value="org.kuali.ole.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
+
+    <property name="webScriptFiles">
+      <list>
+        <value>../dwr/interface/AccountService.js</value>
+        <value>../scripts/coa/accountDocument.js</value>
+      </list>
+    </property>
+    
+    <property name="workflowAttributes">
+    	<ref bean="OffsetAccountMaintenanceDocument-workflowAttributes"/>
+    </property>
+  </bean>
+
+<!-- Maintenance Section Definitions -->
+
+  <bean id="OffsetAccountMaintenanceDocument-EditOffsetAccount" parent="OffsetAccountMaintenanceDocument-EditOffsetAccount-parentBean"/>
+
+  <bean id="OffsetAccountMaintenanceDocument-EditOffsetAccount-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Offset Account"/>
+    <property name="title" value="Edit Offset Account"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="accountNumber" p:required="true" p:webUILeaveFieldFunction="onblur_accountNumber">
+			<property name="webUILeaveFieldFunctionParameters">
+				<list>
+					<value>chartOfAccountsCode</value>
+				</list>
+			</property> 
+		</bean> 
+        <bean parent="MaintainableFieldDefinition" p:name="financialOffsetObjectCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="financialOffsetChartOfAccountCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="financialOffsetAccountNumber" p:required="true" p:webUILeaveFieldFunction="onblur_accountNumber">
+			<property name="webUILeaveFieldFunctionParameters">
+				<list>
+					<value>financialOffsetChartOfAccountCode</value>
+				</list>
+			</property> 
+		</bean>        
+        <bean parent="MaintainableFieldDefinition" p:defaultValue="true" p:name="active"/>
+      </list>
+    </property>
+  </bean>
+  
+  <!-- workflow attributes -->
+  <bean id="OffsetAccountMaintenanceDocument-workflowAttributes" parent="OffsetAccountMaintenanceDocument-workflowAttributes-parentBean"/>
+  
+  <bean id="OffsetAccountMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true"/>
+  
+</beans>

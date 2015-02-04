@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+<!--
+ Copyright 2006-2008 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean id="PurchaseOrderItemCapitalAsset" parent="PurchaseOrderItemCapitalAsset-parentBean"/>
+
+  <bean id="PurchaseOrderItemCapitalAsset-parentBean" abstract="true" parent="BusinessObjectEntry" p:businessObjectClass="org.kuali.ole.module.purap.businessobject.PurchaseOrderItemCapitalAsset" p:objectLabel="Purchase Order Item Capital Asset" p:inquiryDefinition-ref="PurchaseOrderItemCapitalAsset-inquiryDefinition" p:lookupDefinition-ref="PurchaseOrderItemCapitalAsset-lookupDefinition">
+    <property name="attributes">
+      <list>
+        <ref bean="PurchaseOrderItemCapitalAsset-capitalAssetNumber"/>
+        <ref bean="PurchaseOrderItemCapitalAsset-capitalAssetSystemIdentifier"/>
+        <ref bean="PurchaseOrderItemCapitalAsset-itemCapitalAssetIdentifier"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="PurchaseOrderItemCapitalAsset-capitalAssetNumber" parent="PurchaseOrderItemCapitalAsset-capitalAssetNumber-parentBean"/>
+  <bean id="PurchaseOrderItemCapitalAsset-capitalAssetNumber-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.ole.integration.cam.CapitalAssetManagementAsset" p:sourceAttributeName="capitalAssetNumber">
+      <property name="name" value="capitalAssetNumber"/>
+      <property name="label" value="Asset Numbers"/>
+      <property name="shortLabel" value="Asset Numbers"/>
+  </bean>
+
+  <bean id="PurchaseOrderItemCapitalAsset-capitalAssetSystemIdentifier" parent="PurchaseOrderItemCapitalAsset-capitalAssetSystemIdentifier-parentBean"/>
+  <bean id="PurchaseOrderItemCapitalAsset-capitalAssetSystemIdentifier-parentBean" parent="AttributeDefinition" abstract="true" p:name="capitalAssetSystemIdentifier" p:forceUppercase="false" p:label="Capital Asset System Identifier" p:shortLabel="Capital Asset System Identifier" p:maxLength="10" p:required="false">
+    <property name="validationPattern">
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
+    </property>
+    <property name="control">
+      <ref bean="TenCharacterTextControl" />
+    </property>
+  </bean>
+
+  <bean id="PurchaseOrderItemCapitalAsset-itemCapitalAssetIdentifier" parent="PurchaseOrderItemCapitalAsset-itemCapitalAssetIdentifier-parentBean"/>
+  <bean id="PurchaseOrderItemCapitalAsset-itemCapitalAssetIdentifier-parentBean" parent="AttributeDefinition" abstract="true" p:name="itemCapitalAssetIdentifier" p:forceUppercase="false" p:label="Purchase Order Item Capital Asset Identifier" p:shortLabel="Purchase Order Item Capital Asset Identifier" p:maxLength="10" p:required="false">
+    <property name="validationPattern">
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
+    </property>
+    <property name="control">
+      <ref bean="TenCharacterTextControl" />
+    </property>
+  </bean>
+
+  <bean id="PurchaseOrderItemCapitalAsset-inquiryDefinition" parent="PurchaseOrderItemCapitalAsset-inquiryDefinition-parentBean"/>
+
+  <bean id="PurchaseOrderItemCapitalAsset-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition" p:title="Purchase Order Item Capital Asset Inquiry">
+    <property name="inquirySections">
+      <list>
+		<ref bean="PurchaseOrderItemCapitalAsset-inquirySectionDefinition"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="PurchaseOrderItemCapitalAsset-inquirySectionDefinition" parent="PurchaseOrderItemCapitalAsset-inquirySectionDefinition-parentBean"/>
+  <bean id="PurchaseOrderItemCapitalAsset-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" p:title="Purchase Order Item Capital Asset Attributes" p:numberOfColumns="1" abstract="true">
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="itemCapitalAssetIdentifier"/>
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="PurchaseOrderItemCapitalAsset-lookupDefinition" parent="PurchaseOrderItemCapitalAsset-lookupDefinition-parentBean"/>
+
+  <bean id="PurchaseOrderItemCapitalAsset-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition" p:title="Purchase Order Item Capital Asset Lookup">
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+        <property name="attributeNames">
+          <list>
+            <value>itemCapitalAssetIdentifier</value>
+          </list>
+        </property>
+        <property name="sortAscending" value="true"/>
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="itemCapitalAssetIdentifier"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="itemCapitalAssetIdentifier"/>
+      </list>
+    </property>
+  </bean>
+
+</beans>

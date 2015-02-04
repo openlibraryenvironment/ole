@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="profile" type="profileType"/>
+    <xs:complexType name="rulesType">
+        <xs:sequence>
+            <xs:element type="ruleType" name="rule"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="ruleType">
+        <xs:sequence>
+            <xs:element type="xs:string" name="name"/>
+            <xs:element type="xs:string" name="term"/>
+            <xs:element type="xs:string" name="matchType"/>
+            <xs:element type="xs:string" name="docType"/>
+            <xs:element type="incomingFieldType" name="incomingField"/>
+            <xs:element type="existingFieldType" name="existingField"/>
+            <xs:element type="falseActionsType" name="falseActions"/>
+            <xs:element type="trueActionsType" name="trueActions"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="routesType">
+        <xs:sequence>
+            <xs:element type="routeToType" name="routeTo"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="falseActionsType">
+        <xs:sequence>
+            <xs:element type="actionType" name="action"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="profileType">
+        <xs:sequence>
+            <xs:element type="xs:string" name="name"/>
+            <xs:element type="xs:string" name="description"/>
+            <xs:element type="xs:string" name="contextName"/>
+            <xs:element type="xs:string" name="categoryName"/>
+            <xs:element type="profileAttributesType" name="profileAttributes"/>
+            <xs:element type="rulesType" name="rules"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="existingFieldType">
+        <xs:sequence>
+            <xs:element type="xs:string" name="field"/>
+            <xs:element type="xs:string" name="subfield"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="incomingFieldType">
+        <xs:sequence>
+            <xs:element type="xs:string" name="field"/>
+            <xs:element type="xs:string" name="subfield"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="profileAttributesType">
+        <xs:sequence>
+            <xs:element type="attributeType" name="attribute" maxOccurs="unbounded" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="trueActionsType">
+        <xs:sequence>
+            <xs:element type="actionType" name="action" maxOccurs="unbounded" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="actionType">
+        <xs:sequence>
+            <xs:element name="name">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="createBib"/>
+                        <xs:enumeration value="exception"/>
+                        <xs:enumeration value="updateItem"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="description">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="Create Bibliographic Record Action"/>
+                        <xs:enumeration value="Exception handling"/>
+                        <xs:enumeration value="Update Item Record for an existing Bibliographic record"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="sequenceNumber">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="0"/>
+                        <xs:enumeration value="1"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element type="routesType" name="routes" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="attributeType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute type="xs:string" name="name" use="optional"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    <xs:complexType name="routeToType">
+        <xs:sequence>
+            <xs:element type="xs:string" name="name"/>
+            <xs:element type="xs:string" name="type"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

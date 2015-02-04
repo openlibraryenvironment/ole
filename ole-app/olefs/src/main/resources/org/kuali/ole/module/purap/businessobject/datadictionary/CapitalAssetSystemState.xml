@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+
+  <bean id="CapitalAssetSystemState" parent="CapitalAssetSystemState-parentBean"/>
+
+  <bean id="CapitalAssetSystemState-parentBean" abstract="true" parent="BusinessObjectEntry" p:businessObjectClass="org.kuali.ole.module.purap.businessobject.CapitalAssetSystemState" p:objectLabel="Capital Asset System State" p:inquiryDefinition-ref="CapitalAssetSystemState-inquiryDefinition" p:lookupDefinition-ref="CapitalAssetSystemState-lookupDefinition">
+    <property name="titleAttribute" value="capitalAssetSystemStateCode" />
+    <property name="attributes">
+      <list>
+        <ref bean="CapitalAssetSystemState-active"/>
+        <ref bean="CapitalAssetSystemState-capitalAssetSystemStateCode"/>
+        <ref bean="CapitalAssetSystemState-capitalAssetSystemStateDescription"/>
+      </list>
+    </property>
+  </bean>
+
+  <!-- Attribute Definitions -->
+
+  <bean id="CapitalAssetSystemState-active" parent="CapitalAssetSystemState-active-parentBean"/>
+  <bean id="CapitalAssetSystemState-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator" p:name="active" p:required="false"/>
+
+  <bean id="CapitalAssetSystemState-capitalAssetSystemStateCode" parent="CapitalAssetSystemState-capitalAssetSystemStateCode-parentBean"/>
+  <bean id="CapitalAssetSystemState-capitalAssetSystemStateCode-parentBean" parent="AttributeDefinition" abstract="true" p:name="capitalAssetSystemStateCode" p:forceUppercase="false" p:label="Capital Asset System State" p:shortLabel="Capital Asset System State" p:maxLength="10" p:required="false">
+    <property name="validationPattern">
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="45"/>
+    </property>
+  </bean>
+
+  <bean id="CapitalAssetSystemState-capitalAssetSystemStateDescription" parent="CapitalAssetSystemState-capitalAssetSystemStateDescription-parentBean"/>
+  <bean id="CapitalAssetSystemState-capitalAssetSystemStateDescription-parentBean" parent="AttributeDefinition" abstract="true" p:name="capitalAssetSystemStateDescription" p:forceUppercase="false" p:label="Capital Asset System State Description" p:shortLabel="Capital Asset System State Description" p:maxLength="45" p:required="false">
+    <property name="validationPattern">
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="45"/>
+    </property>
+  </bean>
+
+  <!-- Business Object Inquiry Definition -->
+
+  <bean id="CapitalAssetSystemState-inquiryDefinition" parent="CapitalAssetSystemState-inquiryDefinition-parentBean"/>
+
+  <bean id="CapitalAssetSystemState-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition" p:title="Capital Asset System State Inquiry">
+    <property name="inquirySections">
+      <list>
+		<ref bean="CapitalAssetSystemState-inquirySectionDefinition"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="CapitalAssetSystemState-inquirySectionDefinition" parent="CapitalAssetSystemState-inquirySectionDefinition-parentBean"/>
+  <bean id="CapitalAssetSystemState-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" p:title="Capital Asset System State Attributes" p:numberOfColumns="1" abstract="true">
+    <property name="inquiryFields">
+      <list>              
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemStateCode"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemStateDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+  </bean>
+        
+  <!-- Business Object Lookup Definition -->
+
+  <bean id="CapitalAssetSystemState-lookupDefinition" parent="CapitalAssetSystemState-lookupDefinition-parentBean"/>
+
+  <bean id="CapitalAssetSystemState-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition" p:title="Capital Asset System State Lookup">
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>        
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemStateCode"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemStateDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>        
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemStateCode"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemStateDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+  </bean>
+
+</beans>

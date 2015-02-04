@@ -1,0 +1,416 @@
+<collection>
+    <record>
+        <leader>00407nam 2200145z 4500</leader>
+        <controlfield tag="003">InU</controlfield>
+        <controlfield tag="008">110630n xx | u||| ||               und u</controlfield>
+        <datafield tag="020" ind1=" " ind2=" ">
+            <subfield code="a">9780748636358</subfield>
+        </datafield>
+        <datafield tag="020" ind1=" " ind2=" ">
+            <subfield code="z">221175</subfield>
+        </datafield>
+        <datafield tag="022" ind1=" " ind2=" ">
+            <subfield code="a">123456789</subfield>
+        </datafield>
+        <datafield tag="022" ind1=" " ind2=" ">
+            <subfield code="z">98765</subfield>
+        </datafield>
+        <datafield tag="100" ind1=" " ind2=" ">
+            <subfield code="a">WHONG, MELINDA</subfield>
+            <subfield code="6">880-03</subfield>
+        </datafield>
+        <datafield tag="110" ind1=" " ind2=" ">
+            <subfield code="a">MELINDA,WHONG</subfield>
+        </datafield>
+        <datafield tag="111" ind1="2" ind2="0">
+            <subfield code="a">Urban Summit</subfield>
+            <subfield code="d">(1990 :</subfield>
+            <subfield code="c">New York, N.Y.)</subfield>
+            <subfield code="t">xyz</subfield>
+        </datafield>
+        <datafield tag="700" ind1="1" ind2="0">
+            <subfield code="a">Schaeffer, Pierre,</subfield>
+            <subfield code="d">1910-1995</subfield>
+        </datafield>
+        <datafield tag="710" ind1="2" ind2="0">
+            <subfield code="a">Radiodiffusion-Tlvision franaise.</subfield>
+            <subfield code="b">Groupe de recherches musicales.</subfield>
+            <subfield code="4">prf</subfield>
+        </datafield>
+        <datafield tag="800" ind1="1" ind2=" ">
+            <subfield code="a">Rheinberger, Josef,</subfield>
+            <subfield code="d">1839-1901.</subfield>
+            <subfield code="t">Organ music.</subfield>
+            <subfield code="k">Selections (Novello &amp; Co.)</subfield>
+        </datafield>
+        <datafield tag="810" ind1="2" ind2=" ">
+            <subfield code="a">Indiana University, Bloomington.</subfield>
+            <subfield code="b">School of Music.</subfield>
+            <subfield code="t">Program ;</subfield>
+            <subfield code="v">1991-1992, no. 847.</subfield>
+        </datafield>
+        <datafield tag="811" ind1="2" ind2=" ">
+            <subfield code="a">Congrès national des sociétés savantes.</subfield>
+            <subfield code="p">Commission de pré- et protohistoire ;</subfield>
+            <subfield code="v">114.</subfield>
+        </datafield>
+        <datafield tag="400" ind1="2" ind2=" ">
+            <subfield code="a">International Congress on Quaternary</subfield>
+            <subfield code="d">1965 :</subfield>
+        </datafield>
+        <datafield tag="410" ind1="1" ind2=" ">
+            <subfield code="a">Raddatz, Fritz Joachim.</subfield>
+            <subfield code="v">2.</subfield>
+        </datafield>
+        <datafield tag="411" ind1="2" ind2=" ">
+            <subfield code="a">Indiana University</subfield>
+        </datafield>
+        <datafield tag="245" ind1=" " ind2=" ">
+            <subfield code="a">LANGUAGE TEACHING : LINGUISTIC THEORY IN PRACTICE.</subfield>
+            <subfield code="b">CAMBRIDGE INTRODUCTIONS TO LITERATURE.</subfield>
+            <subfield code="c">INTRODUCTIONS</subfield>
+            <subfield code="6">LANGUAGE</subfield>
+        </datafield>
+        <datafield tag="130" ind1="0" ind2=" ">
+            <subfield code="a">Castle of Andalusia.</subfield>
+            <subfield code="s">Vocal score.</subfield>
+        </datafield>
+        <datafield tag="240" ind1="1" ind2="0">
+            <subfield code="a">Scke,</subfield>
+            <subfield code="m">piano, winds, string</subfield>
+        </datafield>
+        <datafield tag="246" ind1="3" ind2="0">
+            <subfield code="a">Blokovskii sbornik</subfield>
+        </datafield>
+        <datafield tag="247" ind1="1" ind2="0">
+            <subfield code="a">Marquis Who's Who index to Who's Who books.</subfield>
+        </datafield>
+        <datafield tag="440" ind1=" " ind2="0">
+            <subfield code="a">Tartu Riikliku likooli toimetised</subfield>
+        </datafield>
+        <datafield tag="490" ind1="0" ind2=" ">
+            <subfield code="a">Myo quarto ;</subfield>
+            <subfield code="v">3</subfield>
+        </datafield>
+        <datafield tag="730" ind1="0" ind2="2">
+            <subfield code="a">Castle of Andalusia.</subfield>
+            <subfield code="s">Libretto.</subfield>
+        </datafield>
+        <datafield tag="740" ind1="0" ind2="1">
+            <subfield code="a">Educating tomorrow's workforce.</subfield>
+        </datafield>
+        <datafield tag="773" ind1="0" ind2=" ">
+            <subfield code="t">The narrative history of King James</subfield>
+            <subfield code="d">London, 1651</subfield>
+            <subfield code="w">(OCoLC)13510619</subfield>
+        </datafield>
+        <datafield tag="774" ind1="0" ind2="1">
+            <subfield code="a">Educating workforce.</subfield>
+        </datafield>
+        <datafield tag="780" ind1="0" ind2="0">
+            <subfield code="a">Nauchnai</subfield>
+            <subfield code="t">Blokovskii sbornik</subfield>
+            <subfield code="w">(DLC) 65051053</subfield>
+        </datafield>
+        <datafield tag="785" ind1="0" ind2="0">
+            <subfield code="t">Blokovskii</subfield>
+            <subfield code="w">(OCoLC)25560454</subfield>
+        </datafield>
+        <datafield tag="830" ind1=" " ind2="0">
+            <subfield code="a">Publicacions del Departament de Música,</subfield>
+            <subfield code="v">1.</subfield>
+        </datafield>
+        <datafield tag="840" ind1=" " ind2="0">
+            <subfield code="a">Tendencias (Barcelona, Spain)</subfield>
+        </datafield>
+        <datafield tag="260" ind1=" " ind2=" ">
+            <subfield code="a">EDINBURGH</subfield>
+            <subfield code="b">EDINBURGH UNIV PRESS</subfield>
+            <subfield code="c">2011</subfield>
+        </datafield>
+        <datafield tag="505" ind1=" " ind2=" ">
+            <subfield code="a">score (20 p.) and 4 parts.</subfield>
+        </datafield>
+        <datafield tag="505" ind1="" ind2=" ">
+            <subfield code="a">Sonatas for flute and harpsichord</subfield>
+        </datafield>
+        <datafield tag="600" ind1="1" ind2="0">
+            <subfield code="a">Blok, Aleksandr Aleksandrovich,</subfield>
+            <subfield code="d">1880-1921.</subfield>
+            <subfield code="6">LANGUAGE</subfield>
+        </datafield>
+        <datafield tag="600" ind1="1" ind2="0">
+            <subfield code="a">Herzen, Aleksandr,</subfield>
+            <subfield code="d">1812-1870.</subfield>
+        </datafield>
+        <datafield tag="610" ind1="1" ind2="0">
+            <subfield code="a">United States.</subfield>
+            <subfield code="b">Dept. of Defense</subfield>
+            <subfield code="x">Appropriations and expenditures.</subfield>
+        </datafield>
+        <datafield tag="611" ind1="1" ind2="0">
+            <subfield code="a">Century 21 Exposition</subfield>
+            <subfield code="d">(1962 :</subfield>
+            <subfield code="c">Seattle, Wash.)</subfield>
+        </datafield>
+        <datafield tag="630" ind1="0" ind2="0">
+            <subfield code="a">Nag Hammadi codices.</subfield>
+        </datafield>
+        <datafield tag="650" ind1=" " ind2="0">
+            <subfield code="a">Asbestos</subfield>
+            <subfield code="x">Health aspects</subfield>
+            <subfield code="x">Congresses.</subfield>
+        </datafield>
+        <datafield tag="650" ind1=" " ind2="2">
+            <subfield code="a">Environmental Exposure</subfield>
+            <subfield code="x">prevention &amp; control</subfield>
+            <subfield code="x">congresses.</subfield>
+        </datafield>
+        <datafield tag="651" ind1=" " ind2="0">
+            <subfield code="a">United States</subfield>
+            <subfield code="x">Foreign relations</subfield>
+            <subfield code="y">1945-1989.</subfield>
+        </datafield>
+        <datafield tag="653" ind1="1" ind2=" ">
+            <subfield code="a">traffic signs</subfield>
+        </datafield>
+        <datafield tag="690" ind1=" " ind2="0">
+            <subfield code="a">Traffic signs and signals</subfield>
+            <subfield code="x">Design and construction.</subfield>
+        </datafield>
+        <datafield tag="655" ind1=" " ind2="7">
+            <subfield code="a">Cuir-ciselé bindings (Binding)</subfield>
+            <subfield code="z">France</subfield>
+            <subfield code="y">19th century.</subfield>
+        </datafield>
+        <datafield tag="655" ind1=" " ind2="7">
+            <subfield code="v">20th century.</subfield>
+        </datafield>
+        <datafield tag="250" ind1=" " ind2=" ">
+            <subfield code="a">New and enl. ed.</subfield>
+        </datafield>
+        <datafield tag="250" ind1=" " ind2=" ">
+            <subfield code="a">2nd ed. /</subfield>
+            <subfield code="b">rev. and expanded by Andrew Oram.</subfield>
+        </datafield>
+        <datafield tag="960" ind1=" " ind2=" ">
+            <subfield code="a">65</subfield>
+        </datafield>
+        <datafield tag="980" ind1=" " ind2=" ">
+            <subfield code="b">32.00</subfield>
+            <subfield code="q">1</subfield>
+        </datafield>
+        <datafield tag="982" ind1=" " ind2=" ">
+            <subfield code="a">99943744781</subfield>
+            <subfield code="b">524010</subfield>
+            <subfield code="d">Paper</subfield>
+            <subfield code="f">CM</subfield>
+        </datafield>
+        <datafield tag="984" ind1=" " ind2=" ">
+            <subfield code="a">20110629</subfield>
+            <subfield code="c">US</subfield>
+        </datafield>
+        <datafield tag="987" ind1=" " ind2=" ">
+            <subfield code="a">100552240</subfield>
+        </datafield>
+        <datafield tag="856" ind1="4" ind2="1">
+            <subfield code="a">IUPUI</subfield>
+            <subfield code="u">http://atoz.ebsco.com/titles.asp?KW=1056-8719&amp;id=792&amp;SF=ISSN&amp;ST=Contains</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">ACJ8747</subfield>
+            <subfield code="w">ASIS</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">30000038431048</subfield>
+            <subfield code="d">1/16/2009</subfield>
+            <subfield code="e">1/16/2009</subfield>
+            <subfield code="j">4</subfield>
+            <subfield code="l">_MUFRSCOR</subfield>
+            <subfield code="m">B-MUSIC</subfield>
+            <subfield code="n">7</subfield>
+            <subfield code="q">1</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">NORMAL</subfield>
+            <subfield code="u">11/5/2000</subfield>
+            <subfield code="o">.STAFF. "TO HAVE PREPARED FOR YOUR USE, ASK LIBRARY STAFF"</subfield>
+            <subfield code="o">.STAFF. Trumpet part missing 1/16/09 - WDH</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>01168ccm a2200265 45 0</leader>
+        <controlfield tag="001">a246794</controlfield>
+        <controlfield tag="003">InU</controlfield>
+        <controlfield tag="008">750321s1962 gw a n abcde           eng</controlfield>
+        <datafield tag="028" ind1="3" ind2="0">
+            <subfield code="a">3312</subfield>
+            <subfield code="b">Edition Schott</subfield>
+        </datafield>
+        <datafield tag="035" ind1=" " ind2=" ">
+            <subfield code="a">(InU)ACJ8747BM</subfield>
+        </datafield>
+        <datafield tag="035" ind1=" " ind2=" ">
+            <subfield code="a">(OCoLC)ocm01227440</subfield>
+        </datafield>
+        <datafield tag="040" ind1=" " ind2=" ">
+            <subfield code="c">CIN</subfield>
+            <subfield code="d">m.c.</subfield>
+            <subfield code="d">OCL</subfield>
+        </datafield>
+        <datafield tag="048" ind1=" " ind2=" ">
+            <subfield code="a">ka01</subfield>
+            <subfield code="a">wc01</subfield>
+            <subfield code="a">bb01</subfield>
+            <subfield code="a">sa01</subfield>
+            <subfield code="a">sd01</subfield>
+        </datafield>
+        <datafield tag="049" ind1=" " ind2=" ">
+            <subfield code="a">IULA</subfield>
+        </datafield>
+        <datafield tag="090" ind1=" " ind2=" ">
+            <subfield code="a">M522.H55</subfield>
+            <subfield code="b">S8 1962</subfield>
+        </datafield>
+        <datafield tag="100" ind1="1" ind2="0">
+            <subfield code="a">Hindemith, Paul,</subfield>
+            <subfield code="d">1895-1963.</subfield>
+        </datafield>
+        <datafield tag="245" ind1="0" ind2="0">
+            <subfield code="a">Drei Sxfbcke</subfield>
+            <subfield code="b">Klarinette in B</subfield>
+        </datafield>
+        <datafield tag="260" ind1="0" ind2=" ">
+            <subfield code="a">Mainz,</subfield>
+            <subfield code="b">B. Schott's Scdfhne;</subfield>
+            <subfield code="c">c1964</subfield>
+        </datafield>
+        <datafield tag="505" ind1=" " ind2=" ">
+            <subfield code="a">Edition Schott, 3312.</subfield>
+        </datafield>
+        <datafield tag="650" ind1=" " ind2="0">
+            <subfield code="a">Quintets (Piano, clarinet, trumpet, violin, double bass)</subfield>
+        </datafield>
+        <datafield tag="650" ind1=" " ind2="0">
+            <subfield code="a">Instrumental ensembles.</subfield>
+        </datafield>
+        <datafield tag="998" ind1=" " ind2=" ">
+            <subfield code="a">3/19/1992</subfield>
+            <subfield code="b">3/19/1992</subfield>
+            <subfield code="c">3/19/1992</subfield>
+        </datafield>
+        <datafield tag="596" ind1=" " ind2=" ">
+            <subfield code="a">20</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">ACJ8747</subfield>
+            <subfield code="w">ASIS</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">30000038431064</subfield>
+            <subfield code="d">1/16/2009</subfield>
+            <subfield code="e">1/16/2009</subfield>
+            <subfield code="j">4</subfield>
+            <subfield code="l">_MUFRSCOR</subfield>
+            <subfield code="m">B-MUSIC</subfield>
+            <subfield code="n">7</subfield>
+            <subfield code="q">1</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">NORMAL</subfield>
+            <subfield code="u">11/5/2000</subfield>
+            <subfield code="o">.STAFF. "TO HAVE PREPARED FOR YOUR USE, ASK LIBRARY STAFF"</subfield>
+            <subfield code="o">.STAFF. Trumpet part missing 1/16/09 - WDH</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>01168ccm a2200265 45 0</leader>
+        <controlfield tag="001">a246794</controlfield>
+        <controlfield tag="003">InU</controlfield>
+        <controlfield tag="008">750321s1971 gw a n abcde           glv</controlfield>
+        <datafield tag="028" ind1="3" ind2="0">
+            <subfield code="a">3312</subfield>
+            <subfield code="b">Edition Schott</subfield>
+        </datafield>
+        <datafield tag="035" ind1=" " ind2=" ">
+            <subfield code="a">(InU)ACJ8747BM</subfield>
+        </datafield>
+        <datafield tag="035" ind1=" " ind2=" ">
+            <subfield code="a">(OCoLC)ocm01227440</subfield>
+        </datafield>
+        <datafield tag="040" ind1=" " ind2=" ">
+            <subfield code="c">CIN</subfield>
+            <subfield code="d">m.c.</subfield>
+            <subfield code="d">OCL</subfield>
+        </datafield>
+        <datafield tag="048" ind1=" " ind2=" ">
+            <subfield code="a">ka01</subfield>
+            <subfield code="a">wc01</subfield>
+            <subfield code="a">bb01</subfield>
+            <subfield code="a">sa01</subfield>
+            <subfield code="a">sd01</subfield>
+        </datafield>
+        <datafield tag="049" ind1=" " ind2=" ">
+            <subfield code="a">IULA</subfield>
+        </datafield>
+        <datafield tag="090" ind1=" " ind2=" ">
+            <subfield code="a">M522.H55</subfield>
+            <subfield code="b">S8 1962</subfield>
+        </datafield>
+        <datafield tag="100" ind1="1" ind2="0">
+            <subfield code="a">Gillette, F. L.</subfield>
+            <subfield code="q">(Fanny Lemira),</subfield>
+            <subfield code="d">1828-1926.</subfield>
+        </datafield>
+        <datafield tag="245" ind1="0" ind2="0">
+            <subfield code="a">HTC Global Services</subfield>
+            <subfield code="b">Software Company</subfield>
+        </datafield>
+        <datafield tag="260" ind1="0" ind2=" ">
+            <subfield code="a">New York,</subfield>
+            <subfield code="b">Schott Music Corp. (Associated Music Publishers),</subfield>
+            <subfield code="c">c1964.</subfield>
+        </datafield>
+        <datafield tag="505" ind1="0" ind2=" ">
+            <subfield code="a">Introduction, free trade and the decline of democracy</subfield>
+        </datafield>
+
+        <datafield tag="500" ind1=" " ind2=" ">
+            <subfield code="a">"Edition Schott, 3312."</subfield>
+        </datafield>
+        <datafield tag="610" ind1="2" ind2="0">
+            <subfield code="a">Catholic Church</subfield>
+            <subfield code="x">Periodicals</subfield>
+        </datafield>
+        <datafield tag="610" ind1="1" ind2="0">
+            <subfield code="a">Canada.</subfield>
+            <subfield code="t">Treaties, etc.</subfield>
+            <subfield code="d">1992 Oct. 7.</subfield>
+        </datafield>
+        <datafield tag="998" ind1=" " ind2=" ">
+            <subfield code="a">3/19/1992</subfield>
+            <subfield code="b">3/19/1992</subfield>
+            <subfield code="c">3/19/1992</subfield>
+        </datafield>
+        <datafield tag="596" ind1=" " ind2=" ">
+            <subfield code="a">20</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">ACJ8747</subfield>
+            <subfield code="w">ASIS</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">30000038431065</subfield>
+            <subfield code="d">1/16/2009</subfield>
+            <subfield code="e">1/16/2009</subfield>
+            <subfield code="j">4</subfield>
+            <subfield code="l">_MUFRSCORS</subfield>
+            <subfield code="m">B-MUSICS</subfield>
+            <subfield code="n">7</subfield>
+            <subfield code="q">1</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">NORMAL</subfield>
+            <subfield code="u">11/5/2000</subfield>
+            <subfield code="o">.STAFF. "TO HAVE PREPARED FOR YOUR USE, ASK LIBRARY STAFF"</subfield>
+            <subfield code="o">.STAFF. Trumpet part missing 1/16/09 - WDH</subfield>
+        </datafield>
+    </record>
+</collection>

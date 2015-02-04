@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="ObjectCodeGlobalDetail" parent="ObjectCodeGlobalDetail-parentBean"/>
+
+  <bean id="ObjectCodeGlobalDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.ole.coa.businessobject.ObjectCodeGlobalDetail"/>
+    <property name="objectLabel" value="Object Code Change Detail"/>
+    <property name="attributes">
+      <list>
+        <ref bean="ObjectCodeGlobalDetail-universityFiscalYear"/>
+        <ref bean="ObjectCodeGlobalDetail-chartOfAccountsCode"/>
+        <bean parent="GenericAttributes-newCollectionRecord" />
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="ObjectCodeGlobalDetail-universityFiscalYear" parent="ObjectCodeGlobalDetail-universityFiscalYear-parentBean"/>
+  <bean id="ObjectCodeGlobalDetail-universityFiscalYear-parentBean" abstract="true" parent="ObjectCodeGlobal-universityFiscalYear">
+    <property name="required" value="false"/>
+  </bean>
+
+  <bean id="ObjectCodeGlobalDetail-chartOfAccountsCode" parent="ObjectCodeGlobalDetail-chartOfAccountsCode-parentBean"/>
+  <bean id="ObjectCodeGlobalDetail-chartOfAccountsCode-parentBean" abstract="true" parent="ObjectCodeGlobal-chartOfAccountsCode">
+    <property name="required" value="false"/>
+  </bean>
+</beans>

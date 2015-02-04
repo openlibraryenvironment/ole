@@ -1,0 +1,144 @@
+<item resourceIdentifier="string" analytic="string">
+  <itemIdentifier>string</itemIdentifier>
+  <purchaseOrderLineItemIdentifier>string</purchaseOrderLineItemIdentifier>
+  <vendorLineItemIdentifier>string</vendorLineItemIdentifier>
+  <accessInformation>
+    <barcode>string</barcode>
+    <uri resolvable="string">string</uri>
+  </accessInformation>
+  <barcodeARSL>string</barcodeARSL>
+  <!--Zero or more repetitions:-->
+  <formerIdentifier>
+    <identifier source="string">
+      <identifierValue>string</identifierValue>
+    </identifier>
+    <identifierType>string</identifierType>
+  </formerIdentifier>
+  <!--Zero or more repetitions:-->
+  <statisticalSearchingCode>
+    <codeValue>string</codeValue>
+    <fullValue>string</fullValue>
+    <typeOrSource>
+      <!--Optional:-->
+      <pointer>string</pointer>
+      <!--Optional:-->
+      <text>string</text>
+    </typeOrSource>
+  </statisticalSearchingCode>
+  <itemType>
+    <codeValue>string</codeValue>
+    <fullValue>string</fullValue>
+    <typeOrSource>
+      <!--Optional:-->
+      <pointer>string</pointer>
+      <!--Optional:-->
+      <text>string</text>
+    </typeOrSource>
+  </itemType>
+  <!--Optional:-->
+  <location status="string" primary="string">
+    <locationLevel>
+      <name>string</name>
+      <level>string</level>
+      <!--Optional:-->
+      <code>string</code>
+      <!--Optional:-->
+      <locationLevel/>
+    </locationLevel>
+  </location>
+  <!--Zero or more repetitions:-->
+  <donorInfo>
+    <donorCode>string</donorCode>
+    <donorPublicDisplay>string</donorPublicDisplay>
+    <donorNote>string</donorNote>
+  </donorInfo>
+  <copyNumber>string</copyNumber>
+  <copyNumberLabel>string</copyNumberLabel>
+  <volumeNumber>string</volumeNumber>
+  <volumeNumberLabel>string</volumeNumberLabel>
+  <!--Zero or more repetitions:-->
+  <note type="string">string</note>
+  <enumeration>string</enumeration>
+  <chronology>string</chronology>
+  <highDensityStorage>
+    <row>string</row>
+    <module>string</module>
+    <shelf>string</shelf>
+    <tray>string</tray>
+  </highDensityStorage>
+  <temporaryItemType>
+    <codeValue>string</codeValue>
+    <fullValue>string</fullValue>
+    <typeOrSource>
+      <!--Optional:-->
+      <pointer>string</pointer>
+      <!--Optional:-->
+      <text>string</text>
+    </typeOrSource>
+  </temporaryItemType>
+  <fund>string</fund>
+  <callNumber>
+    <type>string</type>
+    <prefix>string</prefix>
+    <number>string</number>
+    <classificationPart>string</classificationPart>
+    <itemPart>string</itemPart>
+    <shelvingScheme>
+      <codeValue>string</codeValue>
+      <fullValue>string</fullValue>
+      <typeOrSource>
+        <!--Optional:-->
+        <pointer>string</pointer>
+        <!--Optional:-->
+        <text>string</text>
+      </typeOrSource>
+    </shelvingScheme>
+    <shelvingOrder>
+      <codeValue>string</codeValue>
+      <fullValue>string</fullValue>
+      <typeOrSource>
+        <!--Optional:-->
+        <pointer>string</pointer>
+        <!--Optional:-->
+        <text>string</text>
+      </typeOrSource>
+    </shelvingOrder>
+  </callNumber>
+  <price>string</price>
+  <numberOfPieces>string</numberOfPieces>
+  <itemStatus>
+    <codeValue>string</codeValue>
+    <fullValue>string</fullValue>
+  </itemStatus>
+  <itemStatusEffectiveDate>string</itemStatusEffectiveDate>
+  <checkinNote>string</checkinNote>
+  <staffOnlyFlag>false</staffOnlyFlag>
+  <fastAddFlag>true</fastAddFlag>
+  <extension displayLabel="string">
+    cum
+    <!--You may enter ANY elements at this point-->
+    <AnyElement/>
+    sonoras
+  </extension>
+  <!--Optional:-->
+  <numberOfCirculations>
+    <!--Zero or more repetitions:-->
+    <checkInLocation>
+      <name>string</name>
+      <count>3</count>
+      <inHouseCount>3</inHouseCount>
+    </checkInLocation>
+  </numberOfCirculations>
+  <currentBorrower>string</currentBorrower>
+  <proxyBorrower>string</proxyBorrower>
+  <dueDateTime>string</dueDateTime>
+  <claimsReturnedFlag>true</claimsReturnedFlag>
+  <claimsReturnedFlagCreateDate>string</claimsReturnedFlagCreateDate>
+  <claimsReturnedNote>string</claimsReturnedNote>
+  <itemDamagedStatus>true</itemDamagedStatus>
+  <damagedItemNote>string</damagedItemNote>
+  <missingPieceFlagNote>string</missingPieceFlagNote>
+  <missingPieceFlag>true</missingPieceFlag>
+  <missingPiecesCount>string</missingPiecesCount>
+  <missingPieceEffectiveDate>string</missingPieceEffectiveDate>
+</item>

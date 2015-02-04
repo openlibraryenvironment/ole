@@ -1,0 +1,221 @@
+/*
+ * Copyright 2011 The Kuali Foundation.
+ * 
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.opensource.org/licenses/ecl2.php
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+body {
+border:0; 
+margin:0; 
+padding:0; 
+background:#F2F5FE url("../images/bg.gif") 0 0 repeat-x; 
+font:70%/160% "verdana",sans-serif; color:#192666; 
+_text-align:center;
+}
+
+#mainHdr1 {width:994px; margin:10px auto 0 auto; }
+/* Header - Search */
+/* Header */
+#header {position:relative; width:994px; height:85px; margin:0px auto 0 auto; padding:0; background:#233C9B url("../images/header.jpg") 0 0 no-repeat; color:#FFF;}
+
+    /* Header - logo */
+    #header #logo {position:absolute; height:20px; top:32px; left:35px; margin:0; font-size:26px;color:#FFF;}
+    #header #logo #copyright {position:absolute;  top:25px; left:35px; font-size:11px; color:#FFF;}
+    
+    /* Header - Search */
+    #header #search {position:absolute; top:32px; right:20px;}
+    #header #search form {position:relative;}
+    #header #search #search-input-out {position:absolute; top:0; right:45px; width:155px; height:28px; margin:0; padding:0; border:0; background:url("../images/search_input.gif") 0 0 no-repeat; font:bold 90%/100% "verdana",sans-serif; color:#192666;}
+    #header #search #search-input {width:140px; margin:5px 8px; padding:3px 0; border:0; background:#FFF; font:bold 100%/100% "verdana",sans-serif; color:#192666;}
+    #header #search #search-submit {position:absolute; top:0; right:0px;}
+    #header #search fieldset {margin:0; padding:0; border:0;width:200px;}
+    #header #search legend {display:none;}
+    #header #search #help {margin:3px 0px; padding:0px 0px 0px 0px; border:0; font-size:10px; font:bold 100%/100% "verdana",sans-serif; color:#FFF;}
+.noscreen {display:none;}
+
+td#title {
+    background:#233C9B url("../images/header.jpg") 0 0 no-repeat; color:#FFF;
+	text-align: left;
+	margin-left: 10px;
+	background-color: #FEF4D9;
+	font-size:26px;
+	
+}
+
+td#header {
+    background:#192666;
+    font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	font-weight: bold;
+	color: #FEF4D9; 
+}
+
+a#menu, a#menu:visited {
+	color: #FEF4D9;
+	text-decoration:none;
+}
+
+a#menu:hover {
+	color:#6182D1;
+	text-decoration:none;
+}
+
+a#link, a#link:visited {
+	color:#E18B6B;
+	text-decoration:underline;
+	font-weight:bold;
+}
+
+a#link:hover {
+	color: #192666;
+	text-decoration:underline;
+	font-weight:bold;	
+}
+
+table#sidebar {
+    background:#CEDBF9 url("../images/col_bg.gif") 0 0 repeat-x;
+	text-align: center;
+	font-family: verdana, sans-serif;
+	font-weight: bold;
+	font-size: 14px;
+	margin-top: 0;
+}
+
+table#results {
+	background:#E8F0FF;
+	border-collapse: collapse;
+	text-align: center;
+font:90%/160% "verdana",sans-serif; color:#192666; 
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+td#results {
+	background:#E8F0FF;
+	text-align: center;
+font:90%/160% "verdana",sans-serif; color:#192666; 
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+td#result{
+        background:#E8F0FF;
+		text-align: left;
+		padding:0px 0px 7px 5px;
+}
+
+td#resultcriteria{
+	text-align: center;
+	font-family: verdana, sans-serif;
+	font-weight: bold;
+	color: #192666;
+}
+
+table#navigation {
+	background:#E8F0FF;
+	text-align: center;
+	font:90%/160% "verdana",sans-serif; color:#192666; 
+	margin-top: 0;
+	margin-bottom: 0;
+	del-table-layout:fixed;
+	overflow:hidden;
+}
+
+table#main {
+    background:#E8F0FF;
+    font:90%/160% "verdana",sans-serif; 
+	color:#192666; 
+}
+
+table#error {
+	text-align: center;
+	font:90%/160% "verdana",sans-serif;
+	font-weight: bold;
+	color:#192666;
+	background:#CEDBF9 url("../images/col_bg.gif") 0 0 repeat-x;
+	margin-top: 0;
+}
+
+.inputbox {
+	border:0.5px solid #B1AA98;
+	font-family: verdana, sans-serif;
+	padding:1px 3px;
+	font-size:12px;
+}
+
+form {border:0; margin:0; padding:0;}
+fieldset {border:1px solid #ccc; margin-bottom: 20px; padding:4px;}
+legend {margin-left:10px; font-size:100%; font-weight:bold; color:#008;}
+
+div.hr { 
+width: 100%; 
+height: 1px;
+line-height: 1px; 
+margin-top:0px; margin-bottom:-2px;
+background:#FFF; border:0 solid #FFF; color:#FFF;
+} 
+
+h1 {
+	margin: 0;
+}
+
+sep{
+border-bottom:1px solid #E0E8FA;
+}
+
+table#footer{
+	font-size: 11px;
+	background:url("../images/footer.jpg") 0 0 no-repeat;
+	text-decoration: none;
+	text-align:center;
+}
+table#footer2{
+	font-size: 11px;
+	background:url("../images/footer2.jpg") 0 0 no-repeat;
+	text-decoration: none;
+	text-align:center;
+}
+.buttonLong {
+	width:120px;
+	height:25px;
+	border: none;
+	background-color: #B10707;
+	color: #FFFFFF;
+	font-weight:bold;
+	background-image:url(button.png);
+	padding:0 1px 6px 0;
+	font-family: "Trebuchet MS", Verdana, Arial, "MS Sans Serif";
+	cursor: pointer;
+}
+
+.round {
+        cursor:pointer; 
+        cursor:hand; 
+        line-height:22px;
+        height:22px;
+        background:url("../images/button.gif") no-repeat right top; 
+        padding-right:20px; 
+        display:inline-block;
+}
+.round ins { 
+        background:url("../images/button.gif") no-repeat left top; 
+        height:22px;
+        line-height:22px;
+        display:inline-block;
+        padding-left:20px;
+        text-decoration:none;
+        color:black;
+        font: "verdana",sans-serif;
+}
+a.round  {text-decoration:none;}
+a.round:hover {background-position:right -159px;}
+a.round:hover ins {background-position:left -159px;}

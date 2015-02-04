@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="CallNumberBrowseView" parent="CallNumberBrowseView-parentBean" />
+    <bean id="CallNumberBrowseView-parentBean" parent="Uif-OLEFormView">
+        <property name="headerText" value="Call Number Browse"/>
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="@{#ConfigProperties['externalizable.help.url']}/reference/html/CG.html#_Call_Number_Browse"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="CallNumberBrowseViewPage" parent="Uif-Page" >
+                    <property name="items">
+                        <list>
+                          <ref bean ="CallNumberBrowseSearchPanel"/>
+                          <ref bean ="CallNumberBrowseSearchResultsPanel"/>
+                          <ref bean="closeBtnShowFlag"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>ole/describe/css/callNumberBrowse.css</value>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>ole/describe/scripts/callNumberBrowse.js</value>
+            </list>
+        </property>
+        <property name="footer">
+            <ref bean="ClearFooterView-buttons" />
+        </property>
+        <property name="formClass" value="org.kuali.ole.describe.form.CallNumberBrowseForm"/>
+    </bean>
+    <bean id="ClearFooterView-buttons" parent="ClearFooterView-buttons-parentBean"/>
+    <bean id="ClearFooterView-buttons-parentBean" parent="Uif-HorizontalBoxSection" p:disclosure.render="false">
+        <property name="items">
+            <list>
+            </list>
+        </property>
+    </bean>
+    <bean id="CallNumberBrowseSearchPanel" parent="CallNumberBrowseSearchPanel-parentBean"/>
+    <bean id="CallNumberBrowseSearchPanel-parentBean" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="headerText" value=""/>
+        <property name="items">
+            <list>
+                <ref bean="CallNumberDetailedSection"/>
+                <ref bean="CallNumberDetailedSearchSection"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CallNumberDetailedSection" parent="Uif-Disclosure-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <ref bean="CallNumberInformationSection"/>
+                <ref bean="CallNumberBrowse-docType-Section"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CallNumberDetailedSearchSection" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <ref bean="CallNumberBrowseSearchConditionSection1"/>
+                <ref bean="CallNumberBrowse-buttonSection" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CallNumberInformationSection" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="calNumMessageFieldSection" parent="Uif-MessageField" p:messageText="@{information}" p:cssClasses="messageClass"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CallNumberBrowse-docType-Section" parent="Uif-InputField" p:propertyName="docType" p:label="Document Type">
+        <property name="control">
+            <bean parent="Uif-HorizontalRadioControl">
+                <property name="options">
+                    <list>
+                         <bean parent="Uif-KeyLabelPair" p:key="holdings" p:value="Holdings"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="item" p:value="Item"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="CallNumberBrowseSearchConditionSection1"  parent="CallNumberBrowseSearchConditionSection1-parent"/>
+    <bean id="CallNumberBrowseSearchConditionSection1-parent"  parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="addTitle" parent="Uif-InputField" p:label="Call Number starting with"
+                      p:propertyName="callNumberBrowseText" p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl"/>
+                    </property>
+                </bean>
+
+                <bean id="calNumLocation" parent="Uif-InputField" p:propertyName="location"
+                      p:label="Location    " p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.describe.keyvalue.CallNumberBrowseLocationValuesBuilder"/>
+                    </property>
+                </bean>
+
+                <bean id="calNumClassification" parent="Uif-InputField" p:propertyName="classificationScheme"
+                      p:label="Call Number Type" p:required="false"  p:defaultValue="LCC">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.describe.keyvalue.ShelvingScheme"/>
+                    </property>
+                </bean>
+
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="CallNumberBrowse-buttonSection"  parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <ref bean="CallNumberBrowseOperation-buttonSection"/>
+                <ref bean="CallNumberBrowseClose-buttonSection"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="CallNumberBrowseOperation-buttonSection"  parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="CallNumberBrowsePrevious_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:10em" p:methodToCall="previous" p:actionLabel="BrowsePrevious" p:hidden="true" p:ajaxSubmit="true"  p:successCallback="browse()" />
+                <bean id="CallNumberBrowseNext_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:10em" p:methodToCall="next" p:actionLabel="BrowseNext" p:hidden="true" p:ajaxSubmit="true"  p:successCallback="browse()" />
+                <bean id="CallNumberBrowseSearchRows_button" parent="Uif-SecondaryActionButton-Small" p:methodToCall="rowsBrowse" p:style="float:left;margin-left:10em" p:actionLabel="Browse" p:hidden="true" p:ajaxSubmit="true"  p:successCallback="browse()" />
+                <bean id="CallNumberBrowseSearch_button" parent="Uif-SecondaryActionButton" p:methodToCall="browse" p:style="float:left;margin-left:2em" p:actionLabel="Browse" p:ajaxSubmit="true"  p:successCallback="browse()" />
+                <bean id="CallNumberClear_button" parent="Uif-SecondaryActionButton" p:style="float:left;margin-left:0.2em" p:methodToCall="clear" p:actionLabel="Clear" p:ajaxSubmit="true"  p:successCallback="clear()"/>
+                <bean id="CallNumberParentWindowClose_button" parent="Uif-SecondaryActionButton" p:actionLabel="Close" p:actionScript="parent.window.close();" p:style="float:left;margin-left:0.2em"/>
+             </list>
+        </property>
+    </bean>
+
+    <bean id="CallNumberBrowseClose-buttonSection"  parent="Uif-HorizontalBoxSection">
+        <property name="items">
+             <list>
+                 <bean id="CallNumberClose_button" parent="Uif-SecondaryActionButton" p:actionLabel="Close" p:actionScript="window.history.back()" p:style="float:left;margin-left:0.2em"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CallNumberBrowseSearchResultsPanel" parent="CallNumberBrowseSearchResultsPanel-ParentBean"/>
+    <bean id="CallNumberBrowseSearchResultsPanel-ParentBean" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="headerText" value="Browse Results:"/>
+        <property name="items">
+            <list>
+                <ref bean ="nextFlag"/>
+                <ref bean ="previousFlag"/>
+                <ref bean ="pageSize"/>
+                <ref bean ="pageShowEntries"/>
+                <ref bean ="docType"/>
+                <ref bean="CallNumber-BrowseResults-Item" />
+                <ref bean="CallNumber-BrowseResults-Holdings" />
+            </list>
+        </property>
+
+    </bean>
+
+    <bean id="CallNumber-BrowseResults-Item" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="2" p:style="width:1000px" p:render="@{DocType eq 'item'}">
+        <property name="collectionObjectClass" value="org.kuali.ole.docstore.common.document.Item"/>
+        <property name="propertyName" value="itemList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.generateAutoSequence" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.applyDefaultCellWidths" value="false"/>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="aaSorting" value="[[0,'asc']]"/>
+                <entry key="iDisplayLength" value="@{pageSize}"/>
+                <entry key="aoColumns"
+                       value="[
+                  {'bSortable':true, 'sWidth':'1%'},
+                  {'bSortable':false, 'sWidth':'30%'},
+                  {'bSortable':false, 'sWidth':'20%'},
+                  {'bSortable':false, 'sWidth':'30%'},
+                  {'bSortable':false, 'sWidth':'20%'}
+                ]"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:label="" p:propertyName="chronology" p:defaultValue="false" p:width="50px">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-LinkField" p:label="Call Number" p:style="font-weight:bold;border:0px;"
+                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=item&amp;docFormat=oleml&amp;docId=@{#line.localId}&amp;bibId=@{#line.holding.bib.id}&amp;instanceId=@{#line.holding.id}&amp;editable=true"
+                      p:linkText="@{#line.callNumber}" p:target="_blank"/>
+                <bean parent="Uif-DataField" p:label="Location" p:width="20%"
+                      p:propertyName="locationName"/>
+                <bean id="Title" p:label="Title" parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
+                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=@{#line.holding.bib.category}&amp;docType=@{#line.holding.bib.type}&amp;docFormat=@{#line.holding.bib.format}&amp;docId=@{#line.holding.bib.id}&amp;editable=true"
+                      p:linkText="@{#line.holding.bib.title}" p:target="_blank"/>
+                <bean parent="Uif-DataField" p:label="Author" p:width="20%" p:propertyName="holding.bib.author"/>
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+    <bean id="CallNumber-BrowseResults-Holdings" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="2" p:style="width:1000px" p:render="@{DocType eq 'holdings'}">
+        <property name="collectionObjectClass" value="org.kuali.ole.docstore.common.document.Holdings"/>
+        <property name="propertyName" value="holdingsList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.generateAutoSequence" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.applyDefaultCellWidths" value="false"/>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="aaSorting" value="[[0,'asc']]"/>
+                <entry key="iDisplayLength" value="@{pageSize}"/>
+                <entry key="aoColumns"
+                       value="[
+                  {'bSortable':true, 'sWidth':'1%'},
+                  {'bSortable':false, 'sWidth':'30%'},
+                  {'bSortable':false, 'sWidth':'20%'},
+                  {'bSortable':false, 'sWidth':'30%'},
+                  {'bSortable':false, 'sWidth':'20%'}
+                ]"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:label="" p:propertyName="copyNumber" p:defaultValue="false" p:width="50px">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-LinkField" p:label="Call Number" p:style="font-weight:bold;border:0px;"
+                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=holdings&amp;docFormat=oleml&amp;docId=@{#line.localId}&amp;bibId=@{#line.bib.id}&amp;editable=true"
+                      p:linkText="@{#line.callNumber}" p:target="_blank"/>
+                <bean parent="Uif-DataField" p:label="Location" p:width="20%"
+                      p:propertyName="locationName"/>
+                <bean parent="Uif-LinkField" p:label="Title" p:style="font-weight:bold;border:0px;"
+                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=@{#line.bib.category}&amp;docType=@{#line.bib.type}&amp;docFormat=@{#line.bib.format}&amp;docId=@{#line.bib.id}&amp;editable=true"
+                      p:linkText="@{#line.bib.title}" p:target="_blank"/>
+                <bean parent="Uif-DataField" p:label="Author" p:width="20%" p:propertyName="bib.author"/>
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+    <bean id="workBibDocumentList" parent="Uif-InputField" p:propertyName="workBibDocumentList">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
+    <bean id="nextFlag" parent="Uif-InputField" p:propertyName="nextFlag">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
+    <bean id="previousFlag" parent="Uif-InputField" p:propertyName="previousFlag">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
+    <bean id="pageSize" parent="Uif-InputField" p:propertyName="pageSize">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
+    <bean id="pageShowEntries" parent="Uif-InputField" p:propertyName="pageShowEntries">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
+    <bean id="docType" parent="Uif-InputField" p:propertyName="docType">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
+    <bean id="closeBtnShowFlag" parent="Uif-InputField" p:propertyName="closeBtnShowFlag">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
+</beans>

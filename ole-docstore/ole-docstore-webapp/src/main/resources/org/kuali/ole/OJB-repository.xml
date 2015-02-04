@@ -1,0 +1,541 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<descriptor-repository version="1.0">
+
+    <!-- BIB -->
+
+    <class-descriptor class="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord" table="OLE_DS_BIB_T">
+        <field-descriptor name="bibId" column="BIB_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_DS_BIB_S"/>
+        <field-descriptor name="formerId" column="FORMER_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="fassAddFlag" column="FAST_ADD" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="staffOnlyFlag" column="STAFF_ONLY" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="createdBy" column="CREATED_BY" jdbc-type="VARCHAR"/>
+        <field-descriptor name="dateCreated" column="DATE_CREATED" jdbc-type="TIMESTAMP"/>
+        <field-descriptor name="updatedBy" column="UPDATED_BY" jdbc-type="VARCHAR"/>
+        <field-descriptor name="dateEntered" column="DATE_UPDATED" jdbc-type="TIMESTAMP"/>
+        <field-descriptor name="status" column="STATUS" jdbc-type="VARCHAR"/>
+        <field-descriptor name="statusUpdatedBy" column="STATUS_UPDATED_BY" jdbc-type="VARCHAR"/>
+        <field-descriptor name="statusUpdatedDate" column="STATUS_UPDATED_DATE" jdbc-type="TIMESTAMP"/>
+        <field-descriptor name="uniqueIdPrefix" column="UNIQUE_ID_PREFIX" jdbc-type="VARCHAR"/>
+        <field-descriptor name="content" column="CONTENT" jdbc-type="CLOB"/>
+        <!--<collection-descriptor name="holdingsRecords" proxy="true" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">-->
+            <!--<inverse-foreignkey field-ref="bibId" />-->
+        <!--</collection-descriptor>-->
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibInfoRecord" table="OLE_DS_BIB_INFO_T">
+        <field-descriptor name="bibId" column="BIB_ID" jdbc-type="INTEGER" />
+        <field-descriptor name="bibIdStr" column="BIB_ID_STR" jdbc-type="VARCHAR" primarykey="true"/>
+        <field-descriptor name="title" column="TITLE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="author" column="AUTHOR" jdbc-type="VARCHAR"/>
+        <field-descriptor name="publisher" column="PUBLISHER" jdbc-type="VARCHAR"/>
+        <field-descriptor name="isxn" column="ISXN" jdbc-type="VARCHAR"/>
+    </class-descriptor>
+
+
+    <!-- BIB HOLDINGS -->
+
+    <class-descriptor class="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibHoldingsRecord" table="OLE_DS_BIB_HOLDINGS_T">
+        <field-descriptor name="bibHoldingsId" column="BIB_HOLDINGS_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_DS_BIB_HOLDINGS_S"/>
+        <field-descriptor name="bibId" column="BIB_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="holdingsId" column="HOLDINGS_ID" jdbc-type="VARCHAR"/>
+        <!--<collection-descriptor name="holdingsRecords" proxy="true" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">-->
+            <!--<inverse-foreignkey field-ref="holdingsId" />-->
+        <!--</collection-descriptor>-->
+        <!--<collection-descriptor name="bibRecords" proxy="true" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">-->
+            <!--<inverse-foreignkey field-ref="bibId" />-->
+        <!--</collection-descriptor>-->
+    </class-descriptor>
+
+    <!-- HOLDINGS ITEM -->
+
+    <class-descriptor class="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsItemRecord" table="OLE_DS_ITEM_HOLDINGS_T">
+        <field-descriptor name="itemHoldingsId" column="ITEM_HOLDINGS_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_DS_ITEM_HOLDINGS_S"/>
+        <field-descriptor name="holdingsId" column="HOLDINGS_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="itemId" column="ITEM_ID" jdbc-type="VARCHAR"/>
+        <!--<collection-descriptor name="itemRecords" proxy="true" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">-->
+            <!--<inverse-foreignkey field-ref="itemId" />-->
+        <!--</collection-descriptor>-->
+        <!--<collection-descriptor name="holdingsRecords" proxy="true" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">-->
+            <!--<inverse-foreignkey field-ref="holdingsId" />-->
+        <!--</collection-descriptor>-->
+    </class-descriptor>
+
+    <!-- HOLDINGS -->
+
+
+
+    <class-descriptor class="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord" table="OLE_DS_HOLDINGS_T">
+        <field-descriptor name="holdingsId" column="HOLDINGS_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_DS_HOLDINGS_S"/>
+        <field-descriptor name="holdingsType" column="HOLDINGS_TYPE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="formerHoldingsId" column="FORMER_HOLDINGS_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="staffOnlyFlag" column="STAFF_ONLY" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="location" column="LOCATION" jdbc-type="VARCHAR"/>
+        <field-descriptor name="locationLevel" column="LOCATION_LEVEL" jdbc-type="VARCHAR"/>
+        <field-descriptor name="content" column="SOURCE_HOLDINGS_CONTENT" jdbc-type="CLOB"/>
+        <field-descriptor name="uniqueIdPrefix" column="UNIQUE_ID_PREFIX" jdbc-type="VARCHAR"/>
+        <field-descriptor name="callNumberTypeId" column="CALL_NUMBER_TYPE_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="bibId" column="BIB_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="receiptStatusId" column="RECEIPT_STATUS_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="callNumberPrefix" column="CALL_NUMBER_PREFIX" jdbc-type="VARCHAR"/>
+        <field-descriptor name="callNumber" column="CALL_NUMBER" jdbc-type="VARCHAR"/>
+        <field-descriptor name="shelvingOrder" column="SHELVING_ORDER" jdbc-type="VARCHAR"/>
+        <field-descriptor name="copyNumber" column="COPY_NUMBER" jdbc-type="VARCHAR"/>
+        <field-descriptor name="createdDate" column="DATE_CREATED" jdbc-type="TIMESTAMP"/>
+        <field-descriptor name="updatedDate" column="DATE_UPDATED" jdbc-type="TIMESTAMP"/>
+        <field-descriptor name="createdBy" column="CREATED_BY" jdbc-type="VARCHAR"/>
+        <field-descriptor name="updatedBy" column="UPDATED_BY" jdbc-type="VARCHAR"/>
+        <field-descriptor name="platform" column="PLATFORM" jdbc-type="VARCHAR"/>
+        <field-descriptor name="accessStatus" column="ACCESS_STATUS" jdbc-type="VARCHAR"/>
+        <field-descriptor name="imprint" column="IMPRINT" jdbc-type="VARCHAR"/>
+        <field-descriptor name="publisherId" column="PUBLISHER" jdbc-type="VARCHAR"/>
+        <field-descriptor name="subscriptionStatus" column="SUBSCRIPTION_STATUS" jdbc-type="VARCHAR"/>
+        <field-descriptor name="currentSubscriptionStartDate" column="CURRENT_SBRCPTN_START_DT" jdbc-type="TIMESTAMP"/>
+        <field-descriptor name="currentSubscriptionEndDate" column="CURRENT_SBRCPTN_END_DT" jdbc-type="TIMESTAMP"/>
+        <field-descriptor name="initialSubscriptionStartDate" column="INITIAL_SBRCPTN_START_DT" jdbc-type="TIMESTAMP"/>
+        <field-descriptor name="cancellationDecisionDate" column="CANCELLATION_DECISION_DT" jdbc-type="TIMESTAMP"/>
+        <field-descriptor name="cancellationEffectiveDate" column="CANCELLATION_EFFECTIVE_DT" jdbc-type="TIMESTAMP"/>
+        <field-descriptor name="cancellationReason" column="CANCELLATION_REASON" jdbc-type="VARCHAR"/>
+        <field-descriptor name="adminUserName" column="ADMIN_USERNAME" jdbc-type="VARCHAR"/>
+        <field-descriptor name="adminPassword" column="ADMIN_PASSWORD" jdbc-type="VARCHAR"/>
+        <field-descriptor name="adminUrl" column="ADMIN_URL" jdbc-type="VARCHAR"/>
+        <field-descriptor name="localPersistentUri" column="LOCAL_PERSISTENT_URI" jdbc-type="VARCHAR"/>
+        <field-descriptor name="allowIll" column="ALLOW_ILL" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="authenticationTypeId" column="AUTHENTICATION_TYPE_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="proxiedResource" column="PROXIED_RESOURCE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="numberSimultaneousUsers" column="NUMBER_SIMULT_USERS" jdbc-type="VARCHAR"/>
+        <field-descriptor name="accessUserName" column="ACCESS_USERNAME" jdbc-type="VARCHAR"/>
+        <field-descriptor name="accessPassword" column="ACCESS_PASSWORD" jdbc-type="VARCHAR"/>
+        <field-descriptor name="statusDate" column="ACCESS_STATUS_DATE_UPDATED" jdbc-type="TIMESTAMP"/>
+        <field-descriptor name="eResourceId" column="E_RESOURCE_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="gokbIdentifier" column="GOKB_IDENTIFIER" jdbc-type="INTEGER"/>
+
+        <reference-descriptor name="callNumberTypeRecord" class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.CallNumberTypeRecord" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="callNumberTypeId" />
+        </reference-descriptor>
+        <reference-descriptor name="receiptStatusRecord" class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ReceiptStatusRecord" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="receiptStatusId" />
+        </reference-descriptor>
+        <collection-descriptor name="extentOfOwnerShipRecords" proxy="true" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ExtentOfOwnerShipRecord" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="false" auto-update="none" auto-delete="none">
+            <inverse-foreignkey field-ref="holdingsId" />
+        </collection-descriptor>
+        <collection-descriptor name="holdingsNoteRecords" proxy="true" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsNoteRecord" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <inverse-foreignkey field-ref="holdingsId" />
+        </collection-descriptor>
+        <collection-descriptor name="holdingsUriRecords" proxy="true" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsUriRecord" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <inverse-foreignkey field-ref="holdingsId" />
+        </collection-descriptor>
+
+        <collection-descriptor name="eInstanceCoverageRecordList" proxy="true" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.EInstanceCoverageRecord" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <inverse-foreignkey field-ref="holdingsId"/>
+        </collection-descriptor>
+
+        <collection-descriptor name="eInstancePerpetualAccessRecordList" proxy="true" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.EInstancePerpetualAccessRecord" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <inverse-foreignkey field-ref="holdingsId"/>
+        </collection-descriptor>
+        <reference-descriptor name="authenticationType" class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.AuthenticationTypeRecord" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="authenticationTypeId" />
+        </reference-descriptor>
+
+        <!--<collection-descriptor name="itemRecords" proxy="true" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">-->
+            <!--<inverse-foreignkey field-ref="holdingsId" />-->
+        <!--</collection-descriptor>-->
+
+         <collection-descriptor name="holdingsStatisticalSearchRecords" proxy="true" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsStatisticalSearchRecord" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <inverse-foreignkey field-ref="holdingsId" />
+         </collection-descriptor>
+
+         <collection-descriptor name="holdingsAccessLocations" proxy="true" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsAccessLocation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <inverse-foreignkey field-ref="holdingsId" />
+         </collection-descriptor>
+
+        <!--<collection-descriptor name="itemRecords" proxy="true" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">-->
+            <!--<inverse-foreignkey field-ref="holdingsId" />-->
+        <!--</collection-descriptor>-->
+        <!--<collection-descriptor name="bibRecords" proxy="true" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.BibRecord" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">-->
+            <!--<inverse-foreignkey field-ref="bibId" />-->
+        <!--</collection-descriptor>-->
+        <collection-descriptor name="donorList" proxy="true" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.OLEHoldingsDonorRecord" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <inverse-foreignkey field-ref="holdingsId" />
+        </collection-descriptor>
+
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.CallNumberTypeRecord" table="OLE_CAT_SHVLG_SCHM_T">
+        <field-descriptor name="callNumberTypeId" column="SHVLG_SCHM_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_CAT_SHVLG_SCHM_S"/>
+        <field-descriptor name="code" column="SHVLG_SCHM_CD" jdbc-type="VARCHAR"/>
+        <field-descriptor name="name" column="SHVLG_SCHM_NM" jdbc-type="VARCHAR"/>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ReceiptStatusRecord" table="OLE_CAT_RCPT_STAT_T">
+        <field-descriptor name="receiptStatusId" column="RCPT_STAT_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_CAT_RCPT_STAT_S"/>
+        <field-descriptor name="code" column="RCPT_STAT_CD" jdbc-type="VARCHAR"/>
+        <field-descriptor name="name" column="RCPT_STAT_NM" jdbc-type="VARCHAR"/>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsUriRecord" table="OLE_DS_HOLDINGS_URI_T">
+        <field-descriptor name="accessUriId" column="HOLDINGS_URI_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_DS_HOLDINGS_URI_S"/>
+        <field-descriptor name="text" column="TEXT" jdbc-type="VARCHAR"/>
+        <field-descriptor name="uri" column="URI" jdbc-type="VARCHAR"/>
+        <field-descriptor name="holdingsId" column="HOLDINGS_ID" jdbc-type="VARCHAR"/>
+    </class-descriptor>
+
+
+    <class-descriptor class="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ExtentOfOwnerShipRecord" table="OLE_DS_EXT_OWNERSHIP_T">
+        <field-descriptor name="extOfOwnerShipId" column="EXT_OWNERSHIP_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_DS_EXT_OWNERSHIP_S"/>
+        <field-descriptor name="extOfOwnerShipTypeId" column="EXT_OWNERSHIP_TYPE_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="text" column="TEXT" jdbc-type="VARCHAR"/>
+        <field-descriptor name="ord" column="ORD" jdbc-type="INTEGER"/>
+        <field-descriptor name="holdingsId" column="HOLDINGS_ID" jdbc-type="VARCHAR"/>
+
+        <reference-descriptor name="extentOfOwnerShipTypeRecord" class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ExtentOfOwnerShipTypeRecord" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="extOfOwnerShipTypeId" />
+        </reference-descriptor>
+        <collection-descriptor name="extentNoteRecords" proxy="true" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ExtentNoteRecord" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <inverse-foreignkey field-ref="extOfOwnerShipId" />
+        </collection-descriptor>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ExtentOfOwnerShipTypeRecord" table="OLE_CAT_TYPE_OWNERSHIP_T">
+        <field-descriptor name="extOfOwnerShipTypeId" column="TYPE_OWNERSHIP_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_CAT_TYPE_OWNERSHIP_S"/>
+        <field-descriptor name="code" column="TYPE_OWNERSHIP_CD" jdbc-type="VARCHAR"/>
+        <field-descriptor name="name" column="TYPE_OWNERSHIP_NM" jdbc-type="VARCHAR"/>
+    </class-descriptor>
+
+
+
+    <class-descriptor class="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ExtentNoteRecord" table="OLE_DS_EXT_OWNERSHIP_NOTE_T">
+        <field-descriptor name="extentNoteId" column="EXT_OWNERSHIP_NOTE_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_DS_EXT_OWNERSHIP_NOTE_S"/>
+        <field-descriptor name="type" column="TYPE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="note" column="NOTE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="extOfOwnerShipId" column="EXT_OWNERSHIP_ID" jdbc-type="VARCHAR"/>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsNoteRecord" table="OLE_DS_HOLDINGS_NOTE_T">
+        <field-descriptor name="noteId" column="HOLDINGS_NOTE_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_DS_HOLDINGS_NOTE_S"/>
+        <field-descriptor name="type" column="TYPE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="note" column="NOTE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="holdingsId" column="HOLDINGS_ID" jdbc-type="VARCHAR"/>
+    </class-descriptor>
+
+
+
+    <!-- ITEM -->
+
+
+    <class-descriptor class="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord" table="OLE_DS_ITEM_T">
+        <field-descriptor name="itemId" column="ITEM_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_DS_ITEM_S"/>
+        <field-descriptor name="staffOnlyFlag" column="STAFF_ONLY" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="barCodeArsl" column="BARCODE_ARSL" jdbc-type="VARCHAR"/>
+        <field-descriptor name="barCode" column="BARCODE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="enumeration" column="ENUMERATION" jdbc-type="VARCHAR"/>
+        <field-descriptor name="chronology" column="CHRONOLOGY" jdbc-type="VARCHAR"/>
+        <field-descriptor name="copyNumber" column="COPY_NUMBER" jdbc-type="VARCHAR"/>
+        <field-descriptor name="uri" column="URI" jdbc-type="VARCHAR"/>
+        <field-descriptor name="numberOfPieces" column="NUM_PIECES" jdbc-type="VARCHAR"/>
+        <field-descriptor name="uniqueIdPrefix" column="UNIQUE_ID_PREFIX" jdbc-type="VARCHAR"/>
+        <field-descriptor name="purchaseOrderItemLineId" column="PURCHASE_ORDER_LINE_ITEM_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="vendorLineItemId" column="VENDOR_LINE_ITEM_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="price" column="PRICE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="fund" column="FUND" jdbc-type="VARCHAR"/>
+        <field-descriptor name="checkInNote" column="CHECK_IN_NOTE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="effectiveDate" column="ITEM_STATUS_DATE_UPDATED" jdbc-type="TIMESTAMP"/>
+        <field-descriptor name="fastAddFlag" column="FAST_ADD" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="location" column="LOCATION" jdbc-type="VARCHAR"/>
+        <field-descriptor name="locationLevel" column="LOCATION_LEVEL" jdbc-type="VARCHAR"/>
+        <field-descriptor name="holdingsId" column="HOLDINGS_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="itemTypeId" column="ITEM_TYPE_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="tempItemTypeId" column="TEMP_ITEM_TYPE_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="itemStatusId" column="ITEM_STATUS_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="callNumberPrefix" column="CALL_NUMBER_PREFIX" jdbc-type="VARCHAR"/>
+        <field-descriptor name="callNumber" column="CALL_NUMBER" jdbc-type="VARCHAR"/>
+        <field-descriptor name="shelvingOrder" column="SHELVING_ORDER" jdbc-type="VARCHAR"/>
+        <field-descriptor name="callNumberTypeId" column="CALL_NUMBER_TYPE_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="highDensityStorageId" column="HIGH_DENSITY_STORAGE_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="currentBorrower" column="CURRENT_BORROWER" jdbc-type="VARCHAR"/>
+        <field-descriptor name="proxyBorrower" column="PROXY_BORROWER" jdbc-type="VARCHAR"/>
+        <field-descriptor name="dueDateTime" column="DUE_DATE_TIME" jdbc-type="TIMESTAMP"/>
+        <field-descriptor name="checkOutDateTime" column="CHECK_OUT_DATE_TIME" jdbc-type="TIMESTAMP"/>
+        <field-descriptor name="claimsReturnedFlag" column="CLAIMS_RETURNED" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="itemDamagedStatus" column="ITEM_DAMAGED_STATUS" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="missingPieceFlag" column="MISSING_PIECES" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="missingPieceEffectiveDate" column="MISSING_PIECES_EFFECTIVE_DATE" jdbc-type="TIMESTAMP"/>
+        <field-descriptor name="missingPiecesCount" column="MISSING_PIECES_COUNT" jdbc-type="VARCHAR"/>
+        <field-descriptor name="missingPieceFlagNote" column="MISSING_PIECES_NOTE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="damagedItemNote" column="ITEM_DAMAGED_NOTE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="claimsReturnedFlagCreateDate" column="CLAIMS_RETURNED_DATE_CREATED"
+                          jdbc-type="TIMESTAMP"/>
+        <field-descriptor name="claimsReturnedNote" column="CLAIMS_RETURNED_NOTE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="numberOfRenew" column="NUM_OF_RENEW" jdbc-type="INTEGER"/>
+        <field-descriptor name="createdDate" column="DATE_CREATED" jdbc-type="TIMESTAMP"/>
+        <field-descriptor name="updatedDate" column="DATE_UPDATED" jdbc-type="TIMESTAMP"/>
+        <field-descriptor name="createdBy" column="CREATED_BY" jdbc-type="VARCHAR"/>
+        <field-descriptor name="updatedBy" column="UPDATED_BY" jdbc-type="VARCHAR"/>
+        <reference-descriptor name="itemStatusRecord" class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemStatusRecord" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="itemStatusId" />
+        </reference-descriptor>
+        <reference-descriptor name="itemTypeRecord" class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemTypeRecord" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="itemTypeId" />
+        </reference-descriptor>
+        <reference-descriptor name="itemTempTypeRecord" class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemTypeRecord" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="tempItemTypeId" />
+        </reference-descriptor>
+
+        <reference-descriptor name="callNumberTypeRecord" class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.CallNumberTypeRecord" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="callNumberTypeId" />
+        </reference-descriptor>
+        <reference-descriptor name="highDensityStorageRecord" class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HighDensityStorageRecord" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="highDensityStorageId" />
+        </reference-descriptor>
+
+        <collection-descriptor name="formerIdentifierRecords" proxy="true" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.FormerIdentifierRecord" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <inverse-foreignkey field-ref="itemId" />
+        </collection-descriptor>
+        <collection-descriptor name="itemNoteRecords" proxy="true" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemNoteRecord" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <inverse-foreignkey field-ref="itemId" />
+        </collection-descriptor>
+        <collection-descriptor name="locationsCheckinCountRecords" proxy="true" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.LocationsCheckinCountRecord" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <inverse-foreignkey field-ref="itemId" />
+        </collection-descriptor>
+        <collection-descriptor name="donorList" proxy="true" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.OLEItemDonorRecord" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <inverse-foreignkey field-ref="itemId" />
+        </collection-descriptor>
+        <collection-descriptor name="itemStatisticalSearchRecords" proxy="true" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemStatisticalSearchRecord" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <inverse-foreignkey field-ref="itemId" />
+        </collection-descriptor>
+        <collection-descriptor name="holdingsItemRecords" proxy="true" element-class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsItemRecord" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <inverse-foreignkey field-ref="itemId" />
+        </collection-descriptor>
+    </class-descriptor>
+
+
+    <class-descriptor class="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.StatisticalSearchRecord" table="OLE_CAT_STAT_SRCH_CD_T">
+        <field-descriptor name="statisticalSearchId" column="STAT_SRCH_CD_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_CAT_STAT_SRCH_CD_S"/>
+        <field-descriptor name="code" column="STAT_SRCH_CD" jdbc-type="VARCHAR"/>
+        <field-descriptor name="name" column="STAT_SRCH_NM" jdbc-type="VARCHAR"/>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemTypeRecord" table="OLE_CAT_ITM_TYP_T">
+        <field-descriptor name="itemTypeId" column="ITM_TYP_CD_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_CAT_ITM_TYP_S"/>
+        <field-descriptor name="code" column="ITM_TYP_CD" jdbc-type="VARCHAR"/>
+        <field-descriptor name="name" column="ITM_TYP_NM" jdbc-type="VARCHAR"/>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemStatusRecord" table="OLE_DLVR_ITEM_AVAIL_STAT_T">
+        <field-descriptor name="itemStatusId" column="ITEM_AVAIL_STAT_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_DLVR_ITEM_AVAIL_STAT_S"/>
+        <field-descriptor name="code" column="ITEM_AVAIL_STAT_CD" jdbc-type="VARCHAR"/>
+        <field-descriptor name="name" column="ITEM_AVAIL_STAT_NM" jdbc-type="VARCHAR"/>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HighDensityStorageRecord" table="OLE_DS_HIGH_DENSITY_STORAGE_T">
+        <field-descriptor name="highDensityStorageId" column="HIGH_DENSITY_STORAGE_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_DS_HIGH_DENSITY_STORAGE_S"/>
+        <field-descriptor name="row" column="HIGH_DENSITY_ROW" jdbc-type="VARCHAR"/>
+        <field-descriptor name="module" column="HIGH_DENSITY_MODULE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="shelf" column="HIGH_DENSITY_SHELF" jdbc-type="VARCHAR"/>
+        <field-descriptor name="tray" column="HIGH_DENSITY_TRAY" jdbc-type="VARCHAR"/>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemNoteRecord" table="OLE_DS_ITEM_NOTE_T">
+        <field-descriptor name="noteId" column="ITEM_NOTE_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_DS_ITEM_NOTE_S"/>
+        <field-descriptor name="type" column="TYPE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="note" column="NOTE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="itemId" column="ITEM_ID" jdbc-type="VARCHAR"/>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.FormerIdentifierRecord" table="OLE_DS_ITM_FORMER_IDENTIFIER_T">
+        <field-descriptor name="formerId" column="ITEM_FORMER_IDENTIFIER_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_DS_ITM_FORMER_IDENTIFIER_S"/>
+        <field-descriptor name="value" column="VALUE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="type" column="TYPE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="itemId" column="ITEM_ID" jdbc-type="VARCHAR"/>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.LocationsCheckinCountRecord" table="OLE_DS_LOC_CHECKIN_COUNT_T">
+        <field-descriptor name="locationCountId" column="CHECK_IN_LOCATION_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_DS_LOC_CHECKIN_COUNT_S"/>
+        <field-descriptor name="locationName" column="LOCATION_NAME" jdbc-type="VARCHAR"/>
+        <field-descriptor name="locationCount" column="LOCATION_COUNT" jdbc-type="INTEGER"/>
+        <field-descriptor name="locationInhouseCount" column="LOCATION_IN_HOUSE_COUNT" jdbc-type="INTEGER"/>
+        <field-descriptor name="itemId" column="ITEM_ID" jdbc-type="VARCHAR"/>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.EInstanceCoverageRecord" table="OLE_DS_HOLDINGS_COVERAGE_T">
+        <field-descriptor name="eInstanceCoverageId" column="HOLDINGS_COVERAGE_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_DS_HOLDINGS_COVERAGE_S"/>
+        <field-descriptor name="holdingsId" column="HOLDINGS_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="coverageStartDate" column="COVERAGE_START_DATE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="coverageStartVolume" column="COVERAGE_START_VOLUME" jdbc-type="VARCHAR"/>
+        <field-descriptor name="coverageStartIssue" column="COVERAGE_START_ISSUE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="coverageEndDate" column="COVERAGE_END_DATE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="coverageEndVolume" column="COVERAGE_END_VOLUME" jdbc-type="VARCHAR"/>
+        <field-descriptor name="coverageEndIssue" column="COVERAGE_END_ISSUE" jdbc-type="VARCHAR"/>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.EInstancePerpetualAccessRecord" table="OLE_DS_PERPETUAL_ACCESS_T">
+        <field-descriptor name="eInstancePerpetualAccessId" column="HOLDINGS_PERPETUAL_ACCESS_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_DS_PERPETUAL_ACCESS_S"/>
+        <field-descriptor name="holdingsId" column="HOLDINGS_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="perpetualAccessStartDate" column="PERPETUAL_ACCESS_START_DATE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="perpetualAccessStartVolume" column="PERPETUAL_ACCESS_START_VOLUME" jdbc-type="VARCHAR"/>
+        <field-descriptor name="perpetualAccessStartIssue" column="PERPETUAL_ACCESS_START_ISSUE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="perpetualAccessEndDate" column="PERPETUAL_ACCESS_END_DATE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="perpetualAccessEndVolume" column="PERPETUAL_ACCESS_END_VOLUME" jdbc-type="VARCHAR"/>
+        <field-descriptor name="perpetualAccessEndIssue" column="PERPETUAL_ACCESS_END_ISSUE" jdbc-type="VARCHAR"/>
+    </class-descriptor>
+
+
+    <class-descriptor class="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.AccessLocation" table="OLE_DS_ACCESS_LOCATION_CODE_T">
+        <field-descriptor name="accessLocationId" column="ACCESS_LOCATION_CODE_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_DS_ACCESS_LOCATION_S"/>
+        <field-descriptor name="code" column="CODE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="value" column="NAME" jdbc-type="VARCHAR"/>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsAccessLocation" table="OLE_DS_ACCESS_LOCATION_T">
+        <field-descriptor name="holdingsAccessLocationId" column="ACCESS_LOCATION_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_DS_HOLDINGS_ACCESS_LOC_S"/>
+        <field-descriptor name="holdingsId" column="HOLDINGS_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="accessLocationId" column="ACCESS_LOCATION_CODE_ID" jdbc-type="VARCHAR"/>
+
+        <reference-descriptor name="accessLocation" class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.AccessLocation" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="accessLocationId" />
+        </reference-descriptor>
+
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsStatisticalSearchRecord" table="OLE_DS_HOLDINGS_STAT_SEARCH_T">
+        <field-descriptor name="holdingsStatisticalSearchId" column="HOLDINGS_STAT_SEARCH_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_DS_HOLDINGS_STAT_SEARCH_S"/>
+        <field-descriptor name="holdingsId" column="HOLDINGS_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="statisticalSearchId" column="STAT_SEARCH_CODE_ID" jdbc-type="VARCHAR"/>
+
+        <reference-descriptor name="statisticalSearchRecord" class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.StatisticalSearchRecord" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="statisticalSearchId" />
+        </reference-descriptor>
+
+        <reference-descriptor name="holdingsRecord" class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.HoldingsRecord" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="holdingsId" />
+        </reference-descriptor>
+
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemStatisticalSearchRecord" table="OLE_DS_ITEM_STAT_SEARCH_T">
+        <field-descriptor name="itemStatisticalSearchId" column="ITEM_STAT_SEARCH_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_DS_ITEM_STAT_SEARCH_S"/>
+        <field-descriptor name="itemId" column="ITEM_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="statisticalSearchId" column="STAT_SEARCH_CODE_ID" jdbc-type="VARCHAR"/>
+
+        <reference-descriptor name="statisticalSearchRecord" class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.StatisticalSearchRecord" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="statisticalSearchId" />
+        </reference-descriptor>
+
+        <reference-descriptor name="itemRecord" class-ref="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.ItemRecord" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="itemId" />
+        </reference-descriptor>
+
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.AuthenticationTypeRecord" table="OLE_DS_AUTHENTICATION_TYPE_T">
+        <field-descriptor name="authenticationTypeId" column="AUTHENTICATION_TYPE_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_DS_AUTHENTICATION_TYPE_S"/>
+        <field-descriptor name="name" column="NAME" jdbc-type="VARCHAR"/>
+        <field-descriptor name="code" column="CODE" jdbc-type="VARCHAR"/>
+
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.OLEItemDonorRecord" table="OLE_DS_ITEM_DONOR_T">
+        <field-descriptor name="donorId" column="ITEM_DONOR_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_DS_ITEM_DONOR_S"/>
+        <field-descriptor name="donorCode" column="DONOR_CODE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="donorPublicDisplay" column="DONOR_DISPLAY_NOTE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="donorNote" column="DONOR_NOTE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="itemId" column="ITEM_ID" jdbc-type="VARCHAR"/>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.OLEHoldingsDonorRecord" table="OLE_DS_HOLDINGS_DONOR_T">
+        <field-descriptor name="donorId" column="HOLDINGS_DONOR_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_DS_HOLDINGS_DONOR_S"/>
+        <field-descriptor name="donorCode" column="DONOR_CODE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="donorPublicDisplay" column="DONOR_DISPLAY_NOTE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="donorNote" column="DONOR_NOTE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="holdingsId" column="HOLDINGS_ID" jdbc-type="VARCHAR"/>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.docstore.engine.service.storage.rdbms.pojo.LicenseRecord"
+                      table="OLE_DS_LICENSE_T">
+        <field-descriptor name="licenseId" column="LICENSE_ID" jdbc-type="VARCHAR" primarykey="true"
+                          autoincrement="true" sequence-name="OLE_DS_LICENSE_S"/>
+        <field-descriptor name="createdBy" column="CREATED_BY" jdbc-type="VARCHAR"/>
+        <field-descriptor name="dateCreated" column="DATE_CREATED" jdbc-type="TIMESTAMP"/>
+        <field-descriptor name="updatedBy" column="UPDATED_BY" jdbc-type="VARCHAR"/>
+        <field-descriptor name="dateUpdated" column="DATE_UPDATED" jdbc-type="TIMESTAMP"/>
+        <field-descriptor name="fileName" column="FILE_NAME" jdbc-type="VARCHAR"/>
+        <field-descriptor name="documentTitle" column="DOCUMENT_TITLE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="documentMimeType" column="DOCUMENT_MIME_TYPE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="documentNote" column="DOCUMENT_NOTE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="agreementType" column="AGREEMENT_TYPE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="agreementNote" column="AGREEMENT_NOTE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="uniqueIdPrefix" column="UNIQUE_ID_PREFIX" jdbc-type="VARCHAR"/>
+        <field-descriptor name="content" column="CONTENT" jdbc-type="BLOB"/>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.docstore.common.document.config.DocTypeConfig" table="ole_ds_doc_type_t">
+        <field-descriptor name="id" column="DOC_TYPE_ID" jdbc-type="INTEGER" primarykey="true" index="true"
+                          autoincrement="true" sequence-name="OLE_DS_DOC_TYPE_S"></field-descriptor>
+        <field-descriptor name="name" column="NAME" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="label" column="DISPLAY_LABEL" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.docstore.common.document.config.DocFormatConfig" table="ole_ds_doc_format_t">
+        <field-descriptor name="id" column="DOC_FORMAT_ID" jdbc-type="INTEGER" primarykey="true" index="true"
+                          autoincrement="true" sequence-name="OLE_DS_DOC_FORMAT_S"></field-descriptor>
+        <field-descriptor name="docTypeId" column="DOC_TYPE_ID" jdbc-type="INTEGER"></field-descriptor>
+        <field-descriptor name="name" column="NAME" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="label" column="DISPLAY_LABEL" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <reference-descriptor name="docType" class-ref="org.kuali.ole.docstore.common.document.config.DocTypeConfig" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="docTypeId" />
+        </reference-descriptor>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.docstore.common.document.config.DocFieldConfig" table="ole_ds_doc_field_t">
+        <field-descriptor name="id" column="DOC_FIELD_ID" jdbc-type="INTEGER" primarykey="true" index="true"
+                          autoincrement="true" sequence-name="OLE_DS_DOC_FIELD_S"></field-descriptor>
+        <field-descriptor name="docTypeId" column="DOC_TYPE_ID" jdbc-type="INTEGER"></field-descriptor>
+        <field-descriptor name="docFormatId" column="DOC_FORMAT_ID" jdbc-type="INTEGER"></field-descriptor>
+        <field-descriptor name="name" column="NAME" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="label" column="DISPLAY_LABEL" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="includePath" column="INCLUDE_PATH" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="excludePath" column="EXCLUDE_PATH" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="searchable" column="IS_SEARCH" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="displayable" column="IS_DISPLAY" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="globallyEditable" column="IS_GLOBAL_EDIT" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="exportable" column="IS_EXPORT" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="facet" column="IS_FACET" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <reference-descriptor name="docType" class-ref="org.kuali.ole.docstore.common.document.config.DocTypeConfig" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="docTypeId" />
+        </reference-descriptor>
+        <reference-descriptor name="docFormat" class-ref="org.kuali.ole.docstore.common.document.config.DocFormatConfig" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="docFormatId" />
+        </reference-descriptor>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.docstore.common.document.config.SearchResultPage" table="ole_ds_search_result_page_t">
+        <field-descriptor name="id" column="DOC_SEARCH_PAGE_SIZE_ID" jdbc-type="INTEGER" primarykey="true" index="true"
+                          autoincrement="true" sequence-name="OLE_DS_SEARCH_RESULT_PAGE_S"></field-descriptor>
+        <field-descriptor name="size" column="PAGE_SIZE" jdbc-type="INTEGER"></field-descriptor>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.docstore.common.document.config.SearchFacetPage" table="ole_ds_search_facet_size_t">
+        <field-descriptor name="id" column="DOC_SEARCH_FACET_SIZE_ID" jdbc-type="INTEGER" primarykey="true" index="true"
+                          autoincrement="true" sequence-name="OLE_DS_SEARCH_FACET_SIZE_S"></field-descriptor>
+        <field-descriptor name="shotSize" column="SHORT_SIZE" jdbc-type="INTEGER"></field-descriptor>
+        <field-descriptor name="longSize" column="LONG_SIZE" jdbc-type="INTEGER"></field-descriptor>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    </class-descriptor>
+
+</descriptor-repository>

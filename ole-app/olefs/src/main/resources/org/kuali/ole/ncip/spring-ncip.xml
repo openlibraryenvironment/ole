@@ -1,0 +1,330 @@
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:beans="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:jms="http://www.springframework.org/schema/jms"
+       xmlns:lang="http://www.springframework.org/schema/lang"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:oxm="http://www.springframework.org/schema/oxm"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+                           http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context-3.0.xsd
+                           http://www.springframework.org/schema/jdbc
+                           http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+                           http://www.springframework.org/schema/jee
+                           http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+                           http://www.springframework.org/schema/jms
+                           http://www.springframework.org/schema/jms/spring-jms-3.0.xsd
+                           http://www.springframework.org/schema/lang
+                           http://www.springframework.org/schema/lang/spring-lang-3.0.xsd
+                           http://www.springframework.org/schema/mvc
+                           http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+                           http://www.springframework.org/schema/oxm
+                           http://www.springframework.org/schema/oxm/spring-oxm-3.0.xsd
+                           http://www.springframework.org/schema/task
+                           http://www.springframework.org/schema/task/spring-task-3.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+                           http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+    <!--*********************************************NCIP*****************************************-->
+
+    <bean name="ToolkitAppContext" class="org.extensiblecatalog.ncip.v2.common.ToolkitAppContext" scope="singleton"/>
+
+    <bean id="coreConfigurer" class="org.extensiblecatalog.ncip.v2.common.ToolkitPropertyPlaceholderConfigurer">
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+        <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE"/>
+        <property name="ignoreResourceNotFound" value="true"/>
+        <property name="locations">
+            <list>
+                <value>classpath:org/kuali/ole/ncip/toolkit.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Construct a CoreConfiguration object from those properties. -->
+    <bean id="coreConfigurationProperties" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="targetObject"><ref local="coreConfigurer"/></property>
+        <property name="targetMethod"><value>getProperties</value></property>
+    </bean>
+
+    <!-- Construct a CoreConfigurationFactory that will use the CoreConfiguration object. -->
+    <bean id="coreConfigurationFactory" class="org.extensiblecatalog.ncip.v2.common.CoreConfigurationFactory">
+        <constructor-arg index="0" ref="coreConfigurationProperties"/>
+    </bean>
+
+    <!-- The NCIP Services handled by our MessageHandler. -->
+<!--
+    <bean id="acceptItemService" class="org.extensiblecatalog.ncip.v2.dummy.DummyAcceptItemService"/>
+    <bean id="cancelRequestItemService" class="org.extensiblecatalog.ncip.v2.dummy.DummyCancelRequestItemService"/>
+    <bean id="checkInItemService" class="org.extensiblecatalog.ncip.v2.dummy.DummyCheckInItemService"/>
+    <bean id="checkOutItemService" class="org.extensiblecatalog.ncip.v2.dummy.DummyCheckOutItemService"/>
+    <bean id="lookupItemService" class="org.extensiblecatalog.ncip.v2.dummy.DummyLookupItemService"/>
+    <bean id="lookupItemSetService" class="org.extensiblecatalog.ncip.v2.dummy.DummyLookupItemSetService"/>
+    <bean id="lookupUserService" class="org.extensiblecatalog.ncip.v2.dummy.DummyLookupUserService"/>
+    <bean id="renewItemService" class="org.extensiblecatalog.ncip.v2.dummy.DummyRenewItemService"/>
+    <bean id="requestItemService" class="org.extensiblecatalog.ncip.v2.dummy.DummyRequestItemService"/>
+    <bean id="updateRequestItemService" class="org.extensiblecatalog.ncip.v2.dummy.DummyUpdateRequestItemService"/>
+-->
+    <bean id="oleLookupUserConverter" class="org.kuali.ole.ncip.converter.OLELookupUserConverter"/>
+    <bean id="oleCheckInItemConverter" class="org.kuali.ole.ncip.converter.OLECheckInItemConverter"/>
+    <bean id="oleCheckOutItemConverter" class="org.kuali.ole.ncip.converter.OLECheckOutItemConverter"/>
+
+    <bean id="oleSIAPIHelperService" class="org.kuali.ole.ncip.service.impl.OLESIAPIHelperServiceImpl">
+        <property name="parameterService" ref="parameterService" />
+    </bean>
+
+    <bean id="oleCirculationHelperService" class="org.kuali.ole.ncip.service.impl.OLECirculationHelperServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService"/>
+<!--
+        <property name="oleSIAPIHelperService" ref="oleSIAPIHelperService"/>
+-->
+    </bean>
+
+    <bean id="oleCirculationService" class="org.kuali.ole.ncip.service.impl.OLECirculationServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService"/>
+        <property name="oleCirculationHelperService" ref="oleCirculationHelperService"/>
+        <property name="oleLookupUserConverter" ref="oleLookupUserConverter"/>
+        <property name="oleCheckInItemConverter" ref="oleCheckInItemConverter"/>
+        <property name="oleCheckOutItemConverter" ref="oleCheckOutItemConverter"/>
+    </bean>
+
+    <bean id="lookupUserService" class="org.kuali.ole.ncip.service.impl.OLELookupUserServiceImpl">
+        <property name="oleCirculationService" ref="oleCirculationService"/>
+        <property name="oleCirculationHelperService" ref="oleCirculationHelperService"/>
+    </bean>
+
+    <bean id="acceptItemService" class="org.kuali.ole.ncip.service.impl.OLEAcceptItemServiceImpl">
+        <property name="oleCirculationService" ref="oleCirculationService"/>
+        <property name="oleCirculationHelperService" ref="oleCirculationHelperService"/>
+    </bean>
+
+    <bean id="checkInItemService" class="org.kuali.ole.ncip.service.impl.OLECheckInItemServiceImpl">
+        <property name="oleCirculationService" ref="oleCirculationService"/>
+        <property name="oleCirculationHelperService" ref="oleCirculationHelperService"/>
+        <property name="oleCheckInItemConverter" ref="oleCheckInItemConverter"/>
+    </bean>
+
+    <bean id="checkOutItemService" class="org.kuali.ole.ncip.service.impl.OLECheckOutItemServiceImpl">
+        <property name="oleCirculationService" ref="oleCirculationService"/>
+        <property name="oleCirculationHelperService" ref="oleCirculationHelperService"/>
+        <property name="oleCheckOutItemConverter" ref="oleCheckOutItemConverter"/>
+    </bean>
+    <bean id="requestItemService" class="org.kuali.ole.ncip.service.impl.OLERequestItemServiceImpl">
+        <property name="oleCirculationService" ref="oleCirculationService"/>
+        <property name="oleCirculationHelperService" ref="oleCirculationHelperService"/>
+    </bean>
+
+    <bean id="renewItemService" class="org.kuali.ole.ncip.service.impl.OLERenewItemServiceImpl">
+        <property name="oleCirculationService" ref="oleCirculationService"/>
+        <property name="oleCirculationHelperService" ref="oleCirculationHelperService"/>
+    </bean>
+
+
+    <bean id="cancelRequestItemService" class="org.kuali.ole.ncip.service.impl.OLECancelRequestItemServiceImpl">
+        <property name="oleCirculationService" ref="oleCirculationService"/>
+        <property name="oleCirculationHelperService" ref="oleCirculationHelperService"/>
+    </bean>
+
+
+    <bean id="oleCirculationWebService.exporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition"
+                  p:service-ref="oleCirculationService"
+                  p:serviceNameSpaceURI="http://service.ole.kuali.org/"
+                  p:localServiceName="oleCirculationService"
+                  p:busSecurity="false"
+                  p:jaxWsService="true"
+                  p:serviceVersion="1.0"/>
+        </property>
+    </bean>
+
+    <!-- The services supported by our MessageHandler. -->
+    <bean id="supportedServices" class="org.springframework.beans.factory.config.MapFactoryBean">
+        <property name="sourceMap">
+            <map>
+<!--                <entry key="org.extensiblecatalog.ncip.v2.service.AcceptItemInitiationData" value-ref="acceptItemService"/>
+                <entry key="org.extensiblecatalog.ncip.v2.service.CheckOutItemInitiationData" value-ref="checkOutItemService"/>
+                <entry key="org.extensiblecatalog.ncip.v2.service.CheckInItemInitiationData" value-ref="checkInItemService"/>
+                <entry key="org.extensiblecatalog.ncip.v2.service.LookupItemInitiationData" value-ref="lookupItemService"/>
+                <entry key="org.extensiblecatalog.ncip.v2.service.LookupItemSetInitiationData" value-ref="lookupItemSetService"/>
+                <entry key="org.extensiblecatalog.ncip.v2.service.LookupUserInitiationData" value-ref="lookupUserService"/>
+                <entry key="org.extensiblecatalog.ncip.v2.service.RenewItemInitiationData" value-ref="renewItemService"/>
+                <entry key="org.extensiblecatalog.ncip.v2.service.RequestItemInitiationData" value-ref="requestItemService"/>
+                <entry key="org.extensiblecatalog.ncip.v2.service.UpdateRequestItemInitiationData" value-ref="updateRequestItemService"/>-->
+                <entry key="org.extensiblecatalog.ncip.v2.service.RenewItemInitiationData" value-ref="renewItemService"/>
+                <entry key="org.extensiblecatalog.ncip.v2.service.CancelRequestItemInitiationData" value-ref="cancelRequestItemService"/>
+                <entry key="org.extensiblecatalog.ncip.v2.service.RequestItemInitiationData" value-ref="requestItemService"/>
+                <entry key="org.extensiblecatalog.ncip.v2.service.AcceptItemInitiationData" value-ref="acceptItemService"/>
+                <entry key="org.extensiblecatalog.ncip.v2.service.LookupUserInitiationData" value-ref="lookupUserService"/>
+                <entry key="org.extensiblecatalog.ncip.v2.service.CheckInItemInitiationData" value-ref="checkInItemService"/>
+                <entry key="org.extensiblecatalog.ncip.v2.service.CheckOutItemInitiationData" value-ref="checkOutItemService"/>
+            </map>
+        </property>
+    </bean>
+
+    <!-- NCIP remote services manager  -->
+    <!--<bean id="remoteServiceManager" class="org.extensiblecatalog.ncip.v2.dummy.DummyRemoteServiceManager"/>-->
+
+    <!-- The MessageHandler. -->
+<!--    <bean id="messageHandler" class="org.extensiblecatalog.ncip.v2.common.MappedMessageHandler">
+        <constructor-arg index="0" ref="supportedServices"/>
+        <constructor-arg index="1" ref="remoteServiceManager"/>
+    </bean>-->
+
+    <!-- An example of a locally-defined Scheme, in this case for ItemIdentifierType. -->
+    <!--    <bean id="exampleItemIdentifierTypes" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+            <property name="staticMethod"><value>org.extensiblecatalog.ncip.v2.examples.ExampleItemIdentifierType.loadAll</value></property>
+        </bean>-->
+
+    <!--
+         An example of some Schemes for which we don't need the Scheme URI - it's agreed by convention between
+         the initiator and the responder.
+    -->
+    <bean id="allowNullScheme" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="staticMethod"><value>org.extensiblecatalog.ncip.v2.service.SchemeValuePair.allowNullScheme</value></property>
+        <property name="arguments">
+            <list>
+                <value>org.extensiblecatalog.ncip.v2.service.AgencyElementType</value>
+                <value>org.extensiblecatalog.ncip.v2.service.ItemElementType</value>
+                <value>org.extensiblecatalog.ncip.v2.service.RequestElementType</value>
+                <value>org.extensiblecatalog.ncip.v2.service.UserElementType</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- An example of how to disable Scheme/Value validation for some Schemes -->
+    <bean id="setBehaviorForAgencyId" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="staticMethod"><value>org.extensiblecatalog.ncip.v2.service.SchemeValuePair.mapBehavior</value></property>
+        <property name="arguments">
+            <list>
+                <value>org.extensiblecatalog.ncip.v2.service.AgencyId</value>
+                <value>ALLOW_ANY</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="setBehaviorForApplicationProfileType" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="staticMethod"><value>org.extensiblecatalog.ncip.v2.service.SchemeValuePair.mapBehavior</value></property>
+        <property name="arguments">
+            <list>
+                <value>org.extensiblecatalog.ncip.v2.service.ApplicationProfileType</value>
+                <value>ALLOW_ANY</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="setBehaviorAuthenticationDataFormatType" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="staticMethod"><value>org.extensiblecatalog.ncip.v2.service.SchemeValuePair.mapBehavior</value></property>
+        <property name="arguments">
+            <list>
+                <value>org.extensiblecatalog.ncip.v2.service.AuthenticationDataFormatType</value>
+                <value>ALLOW_ANY</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="setBehaviorAuthenticationInputType" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="staticMethod"><value>org.extensiblecatalog.ncip.v2.service.SchemeValuePair.mapBehavior</value></property>
+        <property name="arguments">
+            <list>
+                <value>org.extensiblecatalog.ncip.v2.service.AuthenticationInputType</value>
+                <value>ALLOW_ANY</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="setBehaviorForFromSystemId" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="staticMethod"><value>org.extensiblecatalog.ncip.v2.service.SchemeValuePair.mapBehavior</value></property>
+        <property name="arguments">
+            <list>
+                <value>org.extensiblecatalog.ncip.v2.service.FromSystemId</value>
+                <value>ALLOW_ANY</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="setBehaviorForPickupLocation" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="staticMethod"><value>org.extensiblecatalog.ncip.v2.service.SchemeValuePair.mapBehavior</value></property>
+        <property name="arguments">
+            <list>
+                <value>org.extensiblecatalog.ncip.v2.service.PickupLocation</value>
+                <value>ALLOW_ANY</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="setBehaviorForRequestIdentifierType" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="staticMethod"><value>org.extensiblecatalog.ncip.v2.service.SchemeValuePair.mapBehavior</value></property>
+        <property name="arguments">
+            <list>
+                <value>org.extensiblecatalog.ncip.v2.service.RequestIdentifierType</value>
+                <value>ALLOW_ANY</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="setBehaviorForToSystemId" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="staticMethod"><value>org.extensiblecatalog.ncip.v2.service.SchemeValuePair.mapBehavior</value></property>
+        <property name="arguments">
+            <list>
+                <value>org.extensiblecatalog.ncip.v2.service.ToSystemId</value>
+                <value>ALLOW_ANY</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="dozerMapper" class="org.dozer.DozerBeanMapper">
+        <property name="mappingFiles" value="ncipv2_02_mappings.xml"/>
+    </bean>
+
+    <bean id="marshallerFactory" class="org.extensiblecatalog.ncip.v2.binding.jaxb.MarshallerFactory">
+        <property name="canonicalSchemaURLMap">
+            <map>
+                <entry key="www.niso.org/ncip/v2_0/imp1/xsd/ncip_v2_0.xsd" value="ncip_v2_0.xsd"/>
+                <entry key="www.niso.org/ncip/v2_0/imp1/xsd/ncip_v2_01.xsd" value="ncip_v2_01.xsd"/>
+                <entry key="www.niso.org/ncip/v2_0/imp1/xsd/ncip_v2_02.xsd" value="ncip_v2_02.xsd"/>
+            </map>
+        </property>
+        <property name="schemaURLsToPackageMap">
+            <map>
+                <entry key="ncip_v2_0.xsd" value="org.extensiblecatalog.ncip.v2.binding.ncipv2_02.jaxb.elements"/>
+                <entry key="ncip_v2_01.xsd" value="org.extensiblecatalog.ncip.v2.binding.ncipv2_02.jaxb.elements"/>
+                <entry key="ncip_v2_02.xsd" value="org.extensiblecatalog.ncip.v2.binding.ncipv2_02.jaxb.elements"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="statisticsBean" class="org.extensiblecatalog.ncip.v2.common.StatisticsBean"/>
+
+    <bean id="translator" class="org.extensiblecatalog.ncip.v2.binding.ncipv2_02.jaxb.dozer.NCIPv2_02JAXBDozerTranslator">
+        <property name="mapper" ref="dozerMapper"/>
+        <property name="marshallerFactory" ref="marshallerFactory"/>
+        <property name="statisticsBean" ref="statisticsBean"/>
+        <property name="logMessages" value="true"/>
+    </bean>
+
+    <!--*********************************************NCIP*****************************************-->
+
+</beans>

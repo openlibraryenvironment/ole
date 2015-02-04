@@ -1,0 +1,18 @@
+div.blockOverlay{
+    display:none !important;
+}
+
+div.blockUI{
+    display:none !important;
+}
+
+.messageClass{
+    color: red;
+    font-size: 18px;
+}
+
+.dataTables_filter {
+    float: right;
+    text-align: right;
+    width: 50%;
+}

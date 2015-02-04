@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="AlertDocumentType" parent="AlertDocumentType-parentBean"/>
+
+    <bean id="AlertDocumentType-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.alert.bo.AlertDocumentType"/>
+        <property name="titleAttribute" value="alertDocumentTypeName"/>
+        <property name="objectLabel" value="Alert Document Type"/>
+        <property name="attributes">
+            <list>
+                <ref bean="AlertDocumentType-alertDocumentId"/>
+                <ref bean="AlertDocumentType-alertDocumentTypeName"/>
+                <ref bean="AlertDocumentType-alertDocumentTypeDescription"/>
+                <ref bean="AlertDocumentType-alertDocumentClass"/>
+                <ref bean="AlertDocumentType-activeIndicator"/>
+                <ref bean="AlertDocumentType-alertReminderInterval"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+
+    <bean id="AlertDocumentType-alertDocumentId" parent="AlertDocumentType-alertDocumentId-parentBean"/>
+
+    <bean id="AlertDocumentType-alertDocumentId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Alert Document Id"/>
+        <property name="maxLength" value="10"/>
+        <property name="name" value="alertDocumentId"/>
+        <property name="label" value="Alert Document Type Id"/>
+        <property name="description" value="Alert Document Type Id"/>
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+    </bean>
+
+
+    <bean id="AlertDocumentType-alertDocumentTypeName" parent="AlertDocumentType-alertDocumentTypeName-parentBean"/>
+
+    <bean id="AlertDocumentType-alertDocumentTypeName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Alert Document Type Name"/>
+        <property name="maxLength" value="40"/>
+        <property name="name" value="alertDocumentTypeName"/>
+        <property name="label" value="Alert Document Type Name"/>
+        <property name="description" value="Alert Document Type Name"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+
+    <bean id="AlertDocumentType-alertDocumentTypeDescription" parent="AlertDocumentType-alertDocumentTypeDescription-parentBean"/>
+
+    <bean id="AlertDocumentType-alertDocumentTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Alert Document Type Description"/>
+        <property name="maxLength" value="100"/>
+        <property name="name" value="alertDocumentTypeDescription"/>
+        <property name="label" value="Alert Document Type Description"/>
+        <property name="description" value="Alert Document Type Description"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="AlertDocumentType-alertDocumentClass" parent="AlertDocumentType-alertDocumentClass-parentBean"/>
+
+    <bean id="AlertDocumentType-alertDocumentClass-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Alert Document Class"/>
+        <property name="maxLength" value="100"/>
+        <property name="name" value="alertDocumentClass"/>
+        <property name="label" value="Alert Document Type Class"/>
+        <property name="description" value="Alert Document Type Class"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="AlertDocumentType-activeIndicator" parent="AlertDocumentType-activeIndicator-parentBean"/>
+
+    <bean id="AlertDocumentType-activeIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="activeIndicator"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="active"/>
+        <property name="maxLength" value="1"/>
+        <property name="summary" value="Active Indicator"/>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+        <property name="label" value="Active Indicator"/>
+        <property name="description" value="This attribute is used to describe whether the associated object is active or inactive."/>
+        <property name="validCharactersConstraint">
+            <bean  parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean  parent="Uif-CheckboxControl"/>
+        </property>
+
+    </bean>
+
+    <bean id="AlertDocumentType-alertReminderInterval" parent="AlertDocumentType-alertReminderInterval-parentBean"/>
+
+    <bean id="AlertDocumentType-alertReminderInterval-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="alertReminderInterval"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Alert Reminder Interval"/>
+        <property name="shortLabel" value="Alert Interval"/>
+        <property name="maxLength" value="10"/>
+        <property name="required" value="false"/>
+        <property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint"/>
+        </property>
+
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+
+    <bean id="AlertDocumentType-InquiryView" parent="Uif-OLEInquiryView">
+        <property name="headerText" value="Alert Document Type Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.alert.bo.AlertDocumentType" />
+
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-VerticalBoxSection">
+                    <property name="header.headerText" value="Alert Document Type" />
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-GridGroup">
+                                <property name="items">
+                                    <list>
+                                        <!--<bean id="inquiry_alertDocumentId" parent="Uif-InputField" p:propertyName="alertDocumentId" />-->
+                                        <bean id="inquiry_alertDocumentTypeName" parent="Uif-InputField" p:propertyName="alertDocumentTypeName" />
+                                        <bean id="inquiry_alertDocumentTypeDescription" parent="Uif-InputField" p:propertyName="alertDocumentTypeDescription"/>
+                                        <bean id="inquiry_alertDocumentClass" parent="Uif-InputField" p:propertyName="alertDocumentClass"/>
+                                        <bean id="inquiry_alertReminderIntervals" parent="Uif-InputField" p:propertyName="alertReminderInterval" />
+                                        <bean id="inquiry_activeIndicator" parent="Uif-InputField" p:propertyName="activeIndicator" />
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <!-- Business Object Lookup Definition -->
+
+
+    <bean id="AlertDocumentType-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="Alert Document Type Lookup" />
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/BASICS/content/ch02s04.html#_lookupHelp"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="dataObjectClassName" value="org.kuali.ole.alert.bo.AlertDocumentType" />
+        <property name="criteriaFields">
+            <list>
+                <bean id="alertDocumentTypeName" parent="Uif-LookupCriteriaInputField" p:propertyName="alertDocumentTypeName" p:enableAutoDirectInquiry="false"/>
+                <bean id="alertDocumentTypeDescription" parent="Uif-LookupCriteriaInputField" p:propertyName="alertDocumentTypeDescription" />
+                <bean id="alertDocumentClass" parent="Uif-LookupCriteriaInputField" p:propertyName="alertDocumentClass" />
+                <bean id="alertReminderIntervals" parent="Uif-LookupCriteriaInputField" p:propertyName="alertReminderInterval" />
+                <bean id="activeIndicator" parent="Uif-LookupCriteriaInputField" p:propertyName="activeIndicator" />
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean id="searchResult_alertDocumentTypeName" parent="Uif-DataField" p:propertyName="alertDocumentTypeName" />
+                <bean id="searchResult_alertDocumentTypeDescription" parent="Uif-DataField" p:propertyName="alertDocumentTypeDescription" />
+                <bean id="searchResult_alertDocumentClass" parent="Uif-DataField" p:propertyName="alertDocumentClass" />
+                <bean id="searchResult_alertReminderIntervals" parent="Uif-DataField" p:propertyName="alertReminderInterval" />
+                <bean id="searchResult_activeIndicator" parent="Uif-DataField" p:propertyName="activeIndicator" />
+            </list>
+        </property>
+    </bean>
+
+</beans>

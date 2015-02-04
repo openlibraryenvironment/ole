@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   - Copyright 2011 The Kuali Foundation.
+   - 
+   - Licensed under the Educational Community License, Version 2.0 (the "License");
+   - you may not use this file except in compliance with the License.
+   - You may obtain a copy of the License at
+   - 
+   - http://www.opensource.org/licenses/ecl2.php
+   - 
+   - Unless required by applicable law or agreed to in writing, software
+   - distributed under the License is distributed on an "AS IS" BASIS,
+   - WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   - See the License for the specific language governing permissions and
+   - limitations under the License.
+ -->
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+    <record xmlns="http://www.loc.gov/MARC21/slim">
+        <leader>00552cz a2200145n 4500</leader>
+        <controlfield tag="001">2228130</controlfield>
+        <datafield tag="035" ind1=" " ind2=" ">
+            <subfield code="a">(OCoLC)01701951</subfield>
+        </datafield>
+        <controlfield tag="005">20040601164400.0</controlfield>
+        <controlfield tag="008">861030n| acannaab |a aaa</controlfield>
+        <datafield tag="010" ind1=" " ind2=" ">
+            <subfield code="a">n 86861761</subfield>
+        </datafield>
+        <datafield tag="040" ind1=" " ind2=" ">
+            <subfield code="a">DLC</subfield>
+            <subfield code="c">DLC</subfield>
+            <subfield code="d">DLC</subfield>
+        </datafield>
+        <datafield tag="100" ind1="1" ind2=" ">
+            <subfield code="a">Gorokhoff, Gérard,</subfield>
+            <subfield code="d">1947-</subfield>
+        </datafield>
+        <datafield tag="400" ind1="1" ind2=" ">
+            <subfield code="a">Gorokhov, Zherar,</subfield>
+            <subfield code="d">1947-</subfield>
+        </datafield>
+        <datafield tag="670" ind1=" " ind2=" ">
+            <subfield code="a">His La Garde impériale russe, 1896-1914, c1986:</subfield>
+            <subfield code="b">t.p. (Gérard Gorokhoff) jacket (b. 1947)</subfield>
+        </datafield>
+        <datafield tag="670" ind1=" " ind2=" ">
+            <subfield code="a">Russkiĭ ėkspodit͡sionnyĭ korpus vo Frant͡sii i v Salonikakh, 1916-1918, 2003:</subfield>
+            <subfield code="b">t.p. (Zherar Gorokhov [romanized])</subfield>
+        </datafield>
+    </record>
+    <record xmlns="http://www.loc.gov/MARC21/slim">
+        <leader>00552cz a2200145n 4500</leader>
+        <controlfield tag="001">2228130</controlfield>
+        <datafield tag="035" ind1=" " ind2=" ">
+            <subfield code="a">(OCoLC)01701951</subfield>
+        </datafield>
+        <controlfield tag="005">20040601164400.0</controlfield>
+        <controlfield tag="008">861030n| acannaab |a aaa</controlfield>
+        <datafield tag="010" ind1=" " ind2=" ">
+            <subfield code="a">n 86861761</subfield>
+        </datafield>
+        <datafield tag="040" ind1=" " ind2=" ">
+            <subfield code="a">DLC</subfield>
+            <subfield code="c">DLC</subfield>
+            <subfield code="d">DLC</subfield>
+        </datafield>
+        <datafield tag="100" ind1="1" ind2=" ">
+            <subfield code="a">Gorokhoff, Gérard,</subfield>
+            <subfield code="d">1947-</subfield>
+        </datafield>
+        <datafield tag="400" ind1="1" ind2=" ">
+            <subfield code="a">Gorokhov, Zherar,</subfield>
+            <subfield code="d">1947-</subfield>
+        </datafield>
+        <datafield tag="670" ind1=" " ind2=" ">
+            <subfield code="a">His La Garde impériale russe, 1896-1914, c1986:</subfield>
+            <subfield code="b">t.p. (Gérard Gorokhoff) jacket (b. 1947)</subfield>
+        </datafield>
+        <datafield tag="670" ind1=" " ind2=" ">
+            <subfield code="a">Russkiĭ ėkspodit͡sionnyĭ korpus vo Frant͡sii i v Salonikakh, 1916-1918, 2003:</subfield>
+            <subfield code="b">t.p. (Zherar Gorokhov [romanized])</subfield>
+        </datafield>
+    </record>
+    <record xmlns="http://www.loc.gov/MARC21/slim">
+        <leader>00552cz a2200145n 4500</leader>
+        <controlfield tag="001">2228130</controlfield>
+        <datafield tag="035" ind1=" " ind2=" ">
+            <subfield code="a">(OCoLC)01701951</subfield>
+        </datafield>
+        <controlfield tag="005">20040601164400.0</controlfield>
+        <controlfield tag="008">861030n| acannaab |a aaa</controlfield>
+        <datafield tag="010" ind1=" " ind2=" ">
+            <subfield code="a">n 86861761</subfield>
+        </datafield>
+        <datafield tag="040" ind1=" " ind2=" ">
+            <subfield code="a">DLC</subfield>
+            <subfield code="c">DLC</subfield>
+            <subfield code="d">DLC</subfield>
+        </datafield>
+        <datafield tag="100" ind1="1" ind2=" ">
+            <subfield code="a">Gorokhoff, Gérard,</subfield>
+            <subfield code="d">1947-</subfield>
+        </datafield>
+        <datafield tag="400" ind1="1" ind2=" ">
+            <subfield code="a">Gorokhov, Zherar,</subfield>
+            <subfield code="d">1947-</subfield>
+        </datafield>
+        <datafield tag="670" ind1=" " ind2=" ">
+            <subfield code="a">His La Garde impériale russe, 1896-1914, c1986:</subfield>
+            <subfield code="b">t.p. (Gérard Gorokhoff) jacket (b. 1947)</subfield>
+        </datafield>
+        <datafield tag="670" ind1=" " ind2=" ">
+            <subfield code="a">Russkiĭ ėkspodit͡sionnyĭ korpus vo Frant͡sii i v Salonikakh, 1916-1918, 2003:</subfield>
+            <subfield code="b">t.p. (Zherar Gorokhov [romanized])</subfield>
+        </datafield>
+    </record>
+    <record xmlns="http://www.loc.gov/MARC21/slim">
+        <leader>00552cz a2200145n 4500</leader>
+        <controlfield tag="001">2228130</controlfield>
+        <datafield tag="035" ind1=" " ind2=" ">
+            <subfield code="a">(OCoLC)01701951</subfield>
+        </datafield>
+        <controlfield tag="005">20040601164400.0</controlfield>
+        <controlfield tag="008">861030n| acannaab |a aaa</controlfield>
+        <datafield tag="010" ind1=" " ind2=" ">
+            <subfield code="a">n 86861761</subfield>
+        </datafield>
+        <datafield tag="040" ind1=" " ind2=" ">
+            <subfield code="a">DLC</subfield>
+            <subfield code="c">DLC</subfield>
+            <subfield code="d">DLC</subfield>
+        </datafield>
+        <datafield tag="100" ind1="1" ind2=" ">
+            <subfield code="a">Gorokhoff, Gérard,</subfield>
+            <subfield code="d">1947-</subfield>
+        </datafield>
+        <datafield tag="400" ind1="1" ind2=" ">
+            <subfield code="a">Gorokhov, Zherar,</subfield>
+            <subfield code="d">1947-</subfield>
+        </datafield>
+        <datafield tag="670" ind1=" " ind2=" ">
+            <subfield code="a">His La Garde impériale russe, 1896-1914, c1986:</subfield>
+            <subfield code="b">t.p. (Gérard Gorokhoff) jacket (b. 1947)</subfield>
+        </datafield>
+        <datafield tag="670" ind1=" " ind2=" ">
+            <subfield code="a">Russkiĭ ėkspodit͡sionnyĭ korpus vo Frant͡sii i v Salonikakh, 1916-1918, 2003:</subfield>
+            <subfield code="b">t.p. (Zherar Gorokhov [romanized])</subfield>
+        </datafield>
+    </record>
+    <record xmlns="http://www.loc.gov/MARC21/slim">
+        <leader>00552cz a2200145n 4500</leader>
+        <controlfield tag="001">2228130</controlfield>
+        <datafield tag="035" ind1=" " ind2=" ">
+            <subfield code="a">(OCoLC)01701951</subfield>
+        </datafield>
+        <controlfield tag="005">20040601164400.0</controlfield>
+        <controlfield tag="008">861030n| acannaab |a aaa</controlfield>
+        <datafield tag="010" ind1=" " ind2=" ">
+            <subfield code="a">n 86861761</subfield>
+        </datafield>
+        <datafield tag="040" ind1=" " ind2=" ">
+            <subfield code="a">DLC</subfield>
+            <subfield code="c">DLC</subfield>
+            <subfield code="d">DLC</subfield>
+        </datafield>
+        <datafield tag="100" ind1="1" ind2=" ">
+            <subfield code="a">Gorokhoff, Gérard,</subfield>
+            <subfield code="d">1947-</subfield>
+        </datafield>
+        <datafield tag="400" ind1="1" ind2=" ">
+            <subfield code="a">Gorokhov, Zherar,</subfield>
+            <subfield code="d">1947-</subfield>
+        </datafield>
+        <datafield tag="670" ind1=" " ind2=" ">
+            <subfield code="a">His La Garde impériale russe, 1896-1914, c1986:</subfield>
+            <subfield code="b">t.p. (Gérard Gorokhoff) jacket (b. 1947)</subfield>
+        </datafield>
+        <datafield tag="670" ind1=" " ind2=" ">
+            <subfield code="a">Russkiĭ ėkspodit͡sionnyĭ korpus vo Frant͡sii i v Salonikakh, 1916-1918, 2003:</subfield>
+            <subfield code="b">t.p. (Zherar Gorokhov [romanized])</subfield>
+        </datafield>
+    </record>
+    <record xmlns="http://www.loc.gov/MARC21/slim">
+        <leader>00552cz a2200145n 4500</leader>
+        <controlfield tag="001">2228130</controlfield>
+        <datafield tag="035" ind1=" " ind2=" ">
+            <subfield code="a">(OCoLC)01701951</subfield>
+        </datafield>
+        <controlfield tag="005">20040601164400.0</controlfield>
+        <controlfield tag="008">861030n| acannaab |a aaa</controlfield>
+        <datafield tag="010" ind1=" " ind2=" ">
+            <subfield code="a">n 86861761</subfield>
+        </datafield>
+        <datafield tag="040" ind1=" " ind2=" ">
+            <subfield code="a">DLC</subfield>
+            <subfield code="c">DLC</subfield>
+            <subfield code="d">DLC</subfield>
+        </datafield>
+        <datafield tag="100" ind1="1" ind2=" ">
+            <subfield code="a">Gorokhoff, Gérard,</subfield>
+            <subfield code="d">1947-</subfield>
+        </datafield>
+        <datafield tag="400" ind1="1" ind2=" ">
+            <subfield code="a">Gorokhov, Zherar,</subfield>
+            <subfield code="d">1947-</subfield>
+        </datafield>
+        <datafield tag="670" ind1=" " ind2=" ">
+            <subfield code="a">His La Garde impériale russe, 1896-1914, c1986:</subfield>
+            <subfield code="b">t.p. (Gérard Gorokhoff) jacket (b. 1947)</subfield>
+        </datafield>
+        <datafield tag="670" ind1=" " ind2=" ">
+            <subfield code="a">Russkiĭ ėkspodit͡sionnyĭ korpus vo Frant͡sii i v Salonikakh, 1916-1918, 2003:</subfield>
+            <subfield code="b">t.p. (Zherar Gorokhov [romanized])</subfield>
+        </datafield>
+    </record>
+    <record xmlns="http://www.loc.gov/MARC21/slim">
+        <leader>00552cz a2200145n 4500</leader>
+        <controlfield tag="001">2228130</controlfield>
+        <datafield tag="035" ind1=" " ind2=" ">
+            <subfield code="a">(OCoLC)01701951</subfield>
+        </datafield>
+        <controlfield tag="005">20040601164400.0</controlfield>
+        <controlfield tag="008">861030n| acannaab |a aaa</controlfield>
+        <datafield tag="010" ind1=" " ind2=" ">
+            <subfield code="a">n 86861761</subfield>
+        </datafield>
+        <datafield tag="040" ind1=" " ind2=" ">
+            <subfield code="a">DLC</subfield>
+            <subfield code="c">DLC</subfield>
+            <subfield code="d">DLC</subfield>
+        </datafield>
+        <datafield tag="100" ind1="1" ind2=" ">
+            <subfield code="a">Gorokhoff, Gérard,</subfield>
+            <subfield code="d">1947-</subfield>
+        </datafield>
+        <datafield tag="400" ind1="1" ind2=" ">
+            <subfield code="a">Gorokhov, Zherar,</subfield>
+            <subfield code="d">1947-</subfield>
+        </datafield>
+        <datafield tag="670" ind1=" " ind2=" ">
+            <subfield code="a">His La Garde impériale russe, 1896-1914, c1986:</subfield>
+            <subfield code="b">t.p. (Gérard Gorokhoff) jacket (b. 1947)</subfield>
+        </datafield>
+        <datafield tag="670" ind1=" " ind2=" ">
+            <subfield code="a">Russkiĭ ėkspodit͡sionnyĭ korpus vo Frant͡sii i v Salonikakh, 1916-1918, 2003:</subfield>
+            <subfield code="b">t.p. (Zherar Gorokhov [romanized])</subfield>
+        </datafield>
+    </record>
+    <record xmlns="http://www.loc.gov/MARC21/slim">
+        <leader>00552cz a2200145n 4500</leader>
+        <controlfield tag="001">2228130</controlfield>
+        <datafield tag="035" ind1=" " ind2=" ">
+            <subfield code="a">(OCoLC)01701951</subfield>
+        </datafield>
+        <controlfield tag="005">20040601164400.0</controlfield>
+        <controlfield tag="008">861030n| acannaab |a aaa</controlfield>
+        <datafield tag="010" ind1=" " ind2=" ">
+            <subfield code="a">n 86861761</subfield>
+        </datafield>
+        <datafield tag="040" ind1=" " ind2=" ">
+            <subfield code="a">DLC</subfield>
+            <subfield code="c">DLC</subfield>
+            <subfield code="d">DLC</subfield>
+        </datafield>
+        <datafield tag="100" ind1="1" ind2=" ">
+            <subfield code="a">Gorokhoff, Gérard,</subfield>
+            <subfield code="d">1947-</subfield>
+        </datafield>
+        <datafield tag="400" ind1="1" ind2=" ">
+            <subfield code="a">Gorokhov, Zherar,</subfield>
+            <subfield code="d">1947-</subfield>
+        </datafield>
+        <datafield tag="670" ind1=" " ind2=" ">
+            <subfield code="a">His La Garde impériale russe, 1896-1914, c1986:</subfield>
+            <subfield code="b">t.p. (Gérard Gorokhoff) jacket (b. 1947)</subfield>
+        </datafield>
+        <datafield tag="670" ind1=" " ind2=" ">
+            <subfield code="a">Russkiĭ ėkspodit͡sionnyĭ korpus vo Frant͡sii i v Salonikakh, 1916-1918, 2003:</subfield>
+            <subfield code="b">t.p. (Zherar Gorokhov [romanized])</subfield>
+        </datafield>
+    </record>
+    <record xmlns="http://www.loc.gov/MARC21/slim">
+        <leader>00552cz a2200145n 4500</leader>
+        <controlfield tag="001">2228130</controlfield>
+        <datafield tag="035" ind1=" " ind2=" ">
+            <subfield code="a">(OCoLC)01701951</subfield>
+        </datafield>
+        <controlfield tag="005">20040601164400.0</controlfield>
+        <controlfield tag="008">861030n| acannaab |a aaa</controlfield>
+        <datafield tag="010" ind1=" " ind2=" ">
+            <subfield code="a">n 86861761</subfield>
+        </datafield>
+        <datafield tag="040" ind1=" " ind2=" ">
+            <subfield code="a">DLC</subfield>
+            <subfield code="c">DLC</subfield>
+            <subfield code="d">DLC</subfield>
+        </datafield>
+        <datafield tag="100" ind1="1" ind2=" ">
+            <subfield code="a">Gorokhoff, Gérard,</subfield>
+            <subfield code="d">1947-</subfield>
+        </datafield>
+        <datafield tag="400" ind1="1" ind2=" ">
+            <subfield code="a">Gorokhov, Zherar,</subfield>
+            <subfield code="d">1947-</subfield>
+        </datafield>
+        <datafield tag="670" ind1=" " ind2=" ">
+            <subfield code="a">His La Garde impériale russe, 1896-1914, c1986:</subfield>
+            <subfield code="b">t.p. (Gérard Gorokhoff) jacket (b. 1947)</subfield>
+        </datafield>
+        <datafield tag="670" ind1=" " ind2=" ">
+            <subfield code="a">Russkiĭ ėkspodit͡sionnyĭ korpus vo Frant͡sii i v Salonikakh, 1916-1918, 2003:</subfield>
+            <subfield code="b">t.p. (Zherar Gorokhov [romanized])</subfield>
+        </datafield>
+    </record>
+    <record xmlns="http://www.loc.gov/MARC21/slim">
+        <leader>00552cz a2200145n 4500</leader>
+        <controlfield tag="001">2228130</controlfield>
+        <datafield tag="035" ind1=" " ind2=" ">
+            <subfield code="a">(OCoLC)01701951</subfield>
+        </datafield>
+        <controlfield tag="005">20040601164400.0</controlfield>
+        <controlfield tag="008">861030n| acannaab |a aaa</controlfield>
+        <datafield tag="010" ind1=" " ind2=" ">
+            <subfield code="a">n 86861761</subfield>
+        </datafield>
+        <datafield tag="040" ind1=" " ind2=" ">
+            <subfield code="a">DLC</subfield>
+            <subfield code="c">DLC</subfield>
+            <subfield code="d">DLC</subfield>
+        </datafield>
+        <datafield tag="100" ind1="1" ind2=" ">
+            <subfield code="a">Gorokhoff, Gérard,</subfield>
+            <subfield code="d">1947-</subfield>
+        </datafield>
+        <datafield tag="400" ind1="1" ind2=" ">
+            <subfield code="a">Gorokhov, Zherar,</subfield>
+            <subfield code="d">1947-</subfield>
+        </datafield>
+        <datafield tag="670" ind1=" " ind2=" ">
+            <subfield code="a">His La Garde impériale russe, 1896-1914, c1986:</subfield>
+            <subfield code="b">t.p. (Gérard Gorokhoff) jacket (b. 1947)</subfield>
+        </datafield>
+        <datafield tag="670" ind1=" " ind2=" ">
+            <subfield code="a">Russkiĭ ėkspodit͡sionnyĭ korpus vo Frant͡sii i v Salonikakh, 1916-1918, 2003:</subfield>
+            <subfield code="b">t.p. (Zherar Gorokhov [romanized])</subfield>
+        </datafield>
+    </record>
+    <record xmlns="http://www.loc.gov/MARC21/slim">
+        <leader>00552cz a2200145n 4500</leader>
+        <controlfield tag="001">2228130</controlfield>
+        <datafield tag="035" ind1=" " ind2=" ">
+            <subfield code="a">(OCoLC)01701951</subfield>
+        </datafield>
+        <controlfield tag="005">20040601164400.0</controlfield>
+        <controlfield tag="008">861030n| acannaab |a aaa</controlfield>
+        <datafield tag="010" ind1=" " ind2=" ">
+            <subfield code="a">n 86861761</subfield>
+        </datafield>
+        <datafield tag="040" ind1=" " ind2=" ">
+            <subfield code="a">DLC</subfield>
+            <subfield code="c">DLC</subfield>
+            <subfield code="d">DLC</subfield>
+        </datafield>
+        <datafield tag="100" ind1="1" ind2=" ">
+            <subfield code="a">Gorokhoff, Gérard,</subfield>
+            <subfield code="d">1947-</subfield>
+        </datafield>
+        <datafield tag="400" ind1="1" ind2=" ">
+            <subfield code="a">Gorokhov, Zherar,</subfield>
+            <subfield code="d">1947-</subfield>
+        </datafield>
+        <datafield tag="670" ind1=" " ind2=" ">
+            <subfield code="a">His La Garde impériale russe, 1896-1914, c1986:</subfield>
+            <subfield code="b">t.p. (Gérard Gorokhoff) jacket (b. 1947)</subfield>
+        </datafield>
+        <datafield tag="670" ind1=" " ind2=" ">
+            <subfield code="a">Russkiĭ ėkspodit͡sionnyĭ korpus vo Frant͡sii i v Salonikakh, 1916-1918, 2003:</subfield>
+            <subfield code="b">t.p. (Zherar Gorokhov [romanized])</subfield>
+        </datafield>
+    </record>
+    <record xmlns="http://www.loc.gov/MARC21/slim">
+        <leader>00552cz a2200145n 4500</leader>
+        <controlfield tag="001">2228130</controlfield>
+        <datafield tag="035" ind1=" " ind2=" ">
+            <subfield code="a">(OCoLC)01701951</subfield>
+        </datafield>
+        <controlfield tag="005">20040601164400.0</controlfield>
+        <controlfield tag="008">861030n| acannaab |a aaa</controlfield>
+        <datafield tag="010" ind1=" " ind2=" ">
+            <subfield code="a">n 86861761</subfield>
+        </datafield>
+        <datafield tag="040" ind1=" " ind2=" ">
+            <subfield code="a">DLC</subfield>
+            <subfield code="c">DLC</subfield>
+            <subfield code="d">DLC</subfield>
+        </datafield>
+        <datafield tag="100" ind1="1" ind2=" ">
+            <subfield code="a">Gorokhoff, Gérard,</subfield>
+            <subfield code="d">1947-</subfield>
+        </datafield>
+        <datafield tag="400" ind1="1" ind2=" ">
+            <subfield code="a">Gorokhov, Zherar,</subfield>
+            <subfield code="d">1947-</subfield>
+        </datafield>
+        <datafield tag="670" ind1=" " ind2=" ">
+            <subfield code="a">His La Garde impériale russe, 1896-1914, c1986:</subfield>
+            <subfield code="b">t.p. (Gérard Gorokhoff) jacket (b. 1947)</subfield>
+        </datafield>
+        <datafield tag="670" ind1=" " ind2=" ">
+            <subfield code="a">Russkiĭ ėkspodit͡sionnyĭ korpus vo Frant͡sii i v Salonikakh, 1916-1918, 2003:</subfield>
+            <subfield code="b">t.p. (Zherar Gorokhov [romanized])</subfield>
+        </datafield>
+    </record>
+    <record xmlns="http://www.loc.gov/MARC21/slim">
+        <leader>00552cz a2200145n 4500</leader>
+        <controlfield tag="001">2228130</controlfield>
+        <datafield tag="035" ind1=" " ind2=" ">
+            <subfield code="a">(OCoLC)01701951</subfield>
+        </datafield>
+        <controlfield tag="005">20040601164400.0</controlfield>
+        <controlfield tag="008">861030n| acannaab |a aaa</controlfield>
+        <datafield tag="010" ind1=" " ind2=" ">
+            <subfield code="a">n 86861761</subfield>
+        </datafield>
+        <datafield tag="040" ind1=" " ind2=" ">
+            <subfield code="a">DLC</subfield>
+            <subfield code="c">DLC</subfield>
+            <subfield code="d">DLC</subfield>
+        </datafield>
+        <datafield tag="100" ind1="1" ind2=" ">
+            <subfield code="a">Gorokhoff, Gérard,</subfield>
+            <subfield code="d">1947-</subfield>
+        </datafield>
+        <datafield tag="400" ind1="1" ind2=" ">
+            <subfield code="a">Gorokhov, Zherar,</subfield>
+            <subfield code="d">1947-</subfield>
+        </datafield>
+        <datafield tag="670" ind1=" " ind2=" ">
+            <subfield code="a">His La Garde impériale russe, 1896-1914, c1986:</subfield>
+            <subfield code="b">t.p. (Gérard Gorokhoff) jacket (b. 1947)</subfield>
+        </datafield>
+        <datafield tag="670" ind1=" " ind2=" ">
+            <subfield code="a">Russkiĭ ėkspodit͡sionnyĭ korpus vo Frant͡sii i v Salonikakh, 1916-1918, 2003:</subfield>
+            <subfield code="b">t.p. (Zherar Gorokhov [romanized])</subfield>
+        </datafield>
+    </record>
+    <record xmlns="http://www.loc.gov/MARC21/slim">
+        <leader>00552cz a2200145n 4500</leader>
+        <controlfield tag="001">2228130</controlfield>
+        <datafield tag="035" ind1=" " ind2=" ">
+            <subfield code="a">(OCoLC)01701951</subfield>
+        </datafield>
+        <controlfield tag="005">20040601164400.0</controlfield>
+        <controlfield tag="008">861030n| acannaab |a aaa</controlfield>
+        <datafield tag="010" ind1=" " ind2=" ">
+            <subfield code="a">n 86861761</subfield>
+        </datafield>
+        <datafield tag="040" ind1=" " ind2=" ">
+            <subfield code="a">DLC</subfield>
+            <subfield code="c">DLC</subfield>
+            <subfield code="d">DLC</subfield>
+        </datafield>
+        <datafield tag="100" ind1="1" ind2=" ">
+            <subfield code="a">Gorokhoff, Gérard,</subfield>
+            <subfield code="d">1947-</subfield>
+        </datafield>
+        <datafield tag="400" ind1="1" ind2=" ">
+            <subfield code="a">Gorokhov, Zherar,</subfield>
+            <subfield code="d">1947-</subfield>
+        </datafield>
+        <datafield tag="670" ind1=" " ind2=" ">
+            <subfield code="a">His La Garde impériale russe, 1896-1914, c1986:</subfield>
+            <subfield code="b">t.p. (Gérard Gorokhoff) jacket (b. 1947)</subfield>
+        </datafield>
+        <datafield tag="670" ind1=" " ind2=" ">
+            <subfield code="a">Russkiĭ ėkspodit͡sionnyĭ korpus vo Frant͡sii i v Salonikakh, 1916-1918, 2003:</subfield>
+            <subfield code="b">t.p. (Zherar Gorokhov [romanized])</subfield>
+        </datafield>
+    </record>
+
+</collection>

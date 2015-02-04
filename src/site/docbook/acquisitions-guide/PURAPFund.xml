@@ -1,0 +1,1489 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"
+    version="5.0" xml:lang="en-US">
+    <title>Fund</title>
+    <para role="Body Text"><inlinemediaobject>
+            <alt>Select/Acquire</alt>
+            <imageobject>
+                <imagedata fileref="../images/SelectAcquire.png"/>
+            </imageobject>
+        </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+                <alt>Fund</alt>
+                <imageobject>
+                    <imagedata
+                        fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-95a.png"/>
+                </imageobject>
+            </inlinemediaobject> &gt;<inlinemediaobject>
+                <alt>Fund Links</alt>
+                <imageobject>
+                    <imagedata fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-7d.png"
+                    />
+                </imageobject>
+            </inlinemediaobject></emphasis></para>
+    <para role="Body Text">On the Select/Acquire tab, the Fund submenu provides access for users to
+        import manage library funds.</para>
+    <section>
+        <title><anchor xml:id="_GeneralLedger"/>General Ledger</title>
+        <para role="Normal">The General Ledger (GL) contains numerous processes that ensure that OLE
+            runs correctly. For users processing e-doc transactions, the most apparent of these
+            processes are the generation of offsets and the posting of transactions to the balance
+            tables. Other important General Ledger processes are less apparent to users. These
+            processes ensure that transaction data are valid, that capitalization entries are
+            created, and that indirect cost recovery and cost share transfers occur. OLE also offers
+            related features such as sufficient funds checking and flexible offsets for institutions
+            that want to utilize this functionality.</para>
+        <para role="Normal">OLE will apply encumbrances and expenses to the General Ledger as a
+            result of OLE implemented functionality for encumbrances, expenses, budget adjustments
+            and transfers of funds. Real-time GL posting is made available, with certain GL entries
+            updating their status through nightly “batch jobs”.</para>
+        <para><emphasis role="bold">Requisition</emphasis></para>
+        <itemizedlist mark="disc" spacing="normal">
+            <listitem>
+                <para role="List Paragraph">No GL entries for this form of “pre-order”</para>
+            </listitem>
+        </itemizedlist>
+        <para><emphasis role="bold">Purchase Order, Purchase Order Amendment, other forms of
+                PO</emphasis></para>
+        <itemizedlist mark="disc" spacing="normal">
+            <listitem>
+                <para role="List Paragraph">A final, “approved” Purchase Order will apply an
+                    encumbrance to the General Ledger as “pending”. During nightly batch jobs, the
+                    pending entry goes to “final”. Pending GL entries will be visible on the PO’s
+                    General Ledger Pending Entries tab, and be reflected in balance inquiries when
+                    “pending” or “all” transactions included.</para>
+            </listitem>
+            <listitem>
+                <para role="List Paragraph">Sample: pending GL entry from approved PO with default
+                    (OLE Sample Data/object code 9892- RESV OUTSTANDING ORDR EXTRNL ENCUMBRNCES,
+                    Credit offset to the purchase order Debit) Offset- not yet processed through
+                    nightly batch job</para>
+                <para role="List Paragraph"/>
+                <para role="List Paragraph">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Sample General Ledger Pending Entries Tab from an Approved PO</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-246.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+            </listitem>
+            <listitem>
+                <para role="List Paragraph">Sample: PO that has processed to nightly batch job- no
+                    pending GL entries</para>
+                <para role="List Paragraph"/>
+                <para role="Normal">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Sample General Ledger Pending Entries Tab from a processed PO</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-247.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+            </listitem>
+        </itemizedlist>
+        <para><emphasis role="bold">Payment Request</emphasis></para>
+        <itemizedlist mark="disc" spacing="normal">
+            <listitem>
+                <para role="List Paragraph">As PREQ’s are payments to vendors, any PREQ created with
+                    accounting lines will post to the GL as “pending” whether it has completed
+                    workflow or not (unlike PO which must be final/approved).</para>
+            </listitem>
+            <listitem>
+                <para role="List Paragraph">PREQ will reverse the encumbrance, as noted on the
+                    e-Doc, and apply the expense immediately. </para>
+            </listitem>
+            <listitem>
+                <para role="List Paragraph">Nightly batch jobs will take approved PREQ’s to final
+                    status, and also apply liabilities to the balance sheet.</para>
+            </listitem>
+            <listitem>
+                <para role="List Paragraph">Sample, PREQ with relieved encumbrance:</para>
+                <para role="List Paragraph"/>
+                <para role="List Paragraph">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Sample Payment Request with Relieved Encumbrance</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-248.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="List Paragraph"/>
+            </listitem>
+            <listitem>
+                <para role="List Paragraph">Sample: General Ledger Pending entries on approved PREQ
+                    (encumbrance and initial offset from PO are reversed. Expense applied with
+                    offset to Acct Payable/liability object code 9041):</para>
+                <para role="List Paragraph"/>
+                <para role="Normal">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Sample Payment Request General Ledger Pending Entries Tab</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-249.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+            </listitem>
+        </itemizedlist>
+    </section>
+    <section>
+        <title><anchor xml:id="_fundLookup"/>Fund Lookup</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Select/Acquire</alt>
+                <imageobject>
+                    <imagedata fileref="../images/SelectAcquire.png"/>
+                </imageobject>
+            </inlinemediaobject> &gt;<inlinemediaobject>
+                <alt>Fund</alt>
+                <imageobject>
+                    <imagedata
+                        fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-95a.png"/>
+                </imageobject>
+            </inlinemediaobject> &gt;<inlinemediaobject>
+                <alt>Fund Balances</alt>
+                <imageobject>
+                    <imagedata fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-253.png"
+                    />
+                </imageobject>
+            </inlinemediaobject>&gt;<inlinemediaobject>
+                <alt>Fund Lookup</alt>
+                <imageobject>
+                    <imagedata fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-113.png"
+                    />
+                </imageobject>
+            </inlinemediaobject></para>
+        <note>
+            <para>Future enhancements are to be made to the Fund Lookup.  See <link
+                    xlink:href="https://jira.kuali.org/browse/OLE-2824">OLE-2824</link>: Custom
+                Account Query Dashboard.</para>
+        </note>
+        <para>Fund Lookup allows Libraries to monitor funds to ensure there are adequate balances
+            available for encumbering and invoicing. Fund Lookup is also used to analyze
+            allocations, encumbrances and expenditures.</para>
+        <para role="Illustration">
+            <screenshot>
+                <mediaobject>
+                    <alt>OLE Fund Lookup Screen</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-254.png"/>
+                    </imageobject>
+                </mediaobject>
+            </screenshot>
+        </para>
+        <section>
+            <title>Search Results</title>
+            <para role="Body Text">The system returns a list of funds with balance, encumbrance and
+                expense information. There is no drill down available from this inquiry. Below is
+                only a small sampling of results.</para>
+            <para role="Normal">
+                <screenshot>
+                    <mediaobject>
+                        <alt>OLE Fund Lookup Screen Search Results</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-334.png"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="TableHeading"><emphasis role="bold">Search Results
+                definitions</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Description</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Chart Code</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">A unique identifying code assigned to a
+                                    chart.  (Chart of Accounts is a reporting structure to group
+                                    accounts and financial activity together in one set of
+                                    workbooks, or documents, within OLE.) </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Account Number</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">An account is used to identify a pool of
+                                    funds assigned to a specific univeristy organziational entity
+                                    for a specific purpose.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Account Name</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">The familiar title of an account.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Organization Code</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">The Organization defines the entites
+                                    representing units at many different levels within the
+                                    institution (for example, a department, a responsibility center,
+                                    or a campus).</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Object Code</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">The Object Code represents all expense
+                                    classifications that are assigned to transactions and help
+                                    identify the nature of the transaction.  Object codes are
+                                    specific to a chart and a fiscal year and contain several
+                                    attributes for financial reporting at the detail and
+                                    consolidation levels.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Cash Balance</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">This is the Total Allocations minus Sum
+                                    Paid Invoices.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Free Balance</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">This is the Total Allocations minus
+                                    Encumbrances, Sum Paid Invoices, and Sum Unpaid Invoices.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Initial Budget Allocation</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">This is the amount available to be spent on
+                                    this budget.</para>
+                                <para>A university will commonly budget operating funds for library
+                                    acquisitions in one lump sum.  The library then commonly
+                                    subdivides that money into smaller chunks, according to the
+                                    perceived needs of its users. The most common ways to subdivide
+                                    the collection budget are:</para>
+                                <para>by school or administrative unit -- $X for the School of
+                                    Medicine, for instance, $X for the School of Arts and Sciences,
+                                    $X for the Business School, etc.</para>
+                                <para>by subject -- with the library deciding how many subject funds
+                                    to subdivide the money into</para>
+                                <para>by material type -- dividing the budget among monographs,
+                                    print serials, e-serials, other e-resources, rare materials,
+                                    etc.</para>
+                                <para>or by a combination of these categories.</para>
+                                <para/>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Net Allocation</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Total of all allocations.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Encumbrance</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">This is the total of all
+                                    Requisitions/Purchase Orders charged to this Fund that have not
+                                    been invoiced or paid.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Sum Paid Invoices</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">This is the total of all paid invoices
+                                    charged to this Fund.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Sum Unpaid Invoices</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">This is the sum of invoices that have been
+                                    created but not approved.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">% Expended</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">This is the percent of the amount allocated
+                                    that has been expended.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">% Expended and Encumbered</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">This is the percent of the amount allocated
+                                    that has been expended and encumbered.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+    <section>
+        <title>Flexible Offset Options<indexterm significance="normal">
+                <primary>flexible offset</primary>
+            </indexterm></title>
+        <para role="Body Text">OLE uses the Offset Generation table inherited from KFS to generate
+            appropriate offsets for transactions. This table indicates the object code used in
+            offset generation, based on the transaction's chart, fiscal year, document type, and the
+            balance type it affects. Offsets are generated automatically by a OLE e-doc or in
+            'Scrubber' during GL processing (i.e. batch jobs).</para>
+        <para role="Body Text">Normally, offsets are applied to the same account as the transaction
+            that generated the offset. But OLE has a flexible offset feature that allows
+            institutions to have offset entries applied to different accounts. This OLE feature
+            includes two functions:</para>
+        <itemizedlist mark="disc" spacing="normal">
+            <listitem>
+                <para role="C1H Bullet">Flexible banking offset</para>
+            </listitem>
+            <listitem>
+                <para role="C1H Bullet">Flexible offsets by account</para>
+            </listitem>
+        </itemizedlist>
+        <note>
+            <para> Offsets and full General Ledger functions in OLE will continue to be reviewed
+                with Select &amp; Acquire teams as we continue to build queries and budget
+                functionality.</para>
+        </note>
+        <section>
+            <title>Flexible Banking Offsets<indexterm significance="normal">
+                    <primary>flexible banking offsets</primary>
+                </indexterm></title>
+            <para role="Body Text">Document types that require a user to specify a bank account
+                number (such as the Advance Deposit or Credit Card Receipt documents) can apply
+                offset entries to a special account associated with this bank account number. If the
+                ENABLE_BANK_SPECIFICATION_IND parameter is set to 'Y,' an additional set of cash
+                entries is created to a designated accounting string (chart, account, sub-account,
+                object code, and sub-object code) defined in the Bank document. These entries occur
+                in addition to the normally generated cash offsets created to balance a set of
+                transactions. In effect, they reclassify the generic cash entry to a bank-specific
+                cash entry for reconciliation and tracking purposes. If the
+                ENABLE_BANK_SPECIFICATION_IND parameter is set to 'N,' the normal balancing cash
+                entries are created but the reclassification of cash to a bank-specific entry is not
+                performed.</para>
+            <para role="Body Text">This option allows the user to specify the document types on
+                which a bank code should appear. This information, which is specified in the
+                BANK_CODE_DOCUMENT_TYPES parameter, allows you to specify bank information on
+                additional document types that create disbursements or record revenue. A default
+                Bank Code value should be established for each document type by using the
+                DEFAULT_BANK_BY_DOCUMENT_TYPE parameter.</para>
+        </section>
+        <section>
+            <title>Flexible Offsets by Account<indexterm significance="normal">
+                    <primary>flexible offset</primary>
+                    <secondary> by account</secondary>
+                </indexterm></title>
+            <para role="Body Text">This option allows OLE to redirect offset entries for an account
+                to another specified account. It allows OLE to accommodate tracking offsets such as
+                cash or liabilities in central designated accounts as opposed to tracking such
+                offset entries in every account. The Offset Account document identifies the offset
+                account for an object code and account number combination.</para>
+            <para role="Body Text">If the offsets by account option is enabled within the parameter
+                USE_FLEXIBLE_OFFSET_IND, OLE goes through a special process in e-docs and in
+                'Scrubber' during GL processing to determine the account that the offsets should be
+                made to for a given transaction.</para>
+            <para role="Body Text">When the flexible offsets function is enabled, generation of
+                offsets on e-docs occurs as follows:</para>
+            <orderedlist numeration="arabic" continuation="continues" spacing="normal">
+                <listitem>
+                    <para role="C1H Number">The offset object code is defined in the Offset
+                            Definition<indexterm significance="normal">
+                            <primary>Offset Definition</primary>
+                        </indexterm> table.</para>
+                </listitem>
+                <listitem>
+                    <para role="C1H Number">The object code and account number are searched from the
+                        Offset Account table.</para>
+                </listitem>
+                <listitem>
+                    <para role="C1H Number">If a match is found in the Offset Account table, the
+                        offset is made in the offset account defined there.</para>
+                </listitem>
+                <listitem>
+                    <para role="C1H Number">If no match is found, the offset is made in the same
+                        account on which the original transaction occurred.</para>
+                </listitem>
+            </orderedlist>
+            <para role="Body Text">Generation of offsets in 'Scrubber' when the flexible offsets
+                function is enabled occurs as follows:</para>
+            <orderedlist numeration="arabic" continuation="continues" spacing="normal">
+                <listitem>
+                    <para role="C1H Number">'Scrubber' looks up the document type for a transaction
+                        in the Document Type table.</para>
+                </listitem>
+                <listitem>
+                    <para role="C1H Number">'Scrubber' checks the document type of the entry against
+                        the document types defined in the parameter.</para>
+                    <itemizedlist mark="disc" spacing="normal">
+                        <listitem>
+                            <para role="C1H Bullet 2">OFFSET_GENERATION_DOCUMENT_TYPES: If the
+                                document type is found in this parameter, 'Scrubber' does not
+                                generate offsets for this entry. This ensures that document types
+                                that should not generate offset entries (like journal voucher) do
+                                not have offsets generated during 'Scrubber' processing.</para>
+                        </listitem>
+                        <listitem>
+                            <para role="C1H Bullet 2"
+                                >DOCUMENT_TYPES_REQUIRING_FLEXIBLE_OFFSET_BALANCING_ENTRIES: If the
+                                document type is found in this parameter, 'Scrubber' generates
+                                offsets even if the document type appears to be balanced. This
+                                allows 'Scrubber' to generate the proper flexible offsets for
+                                transactions that originate outside of OLE.</para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+                <listitem>
+                    <para role="C1H Number">If you are using flexible offsets (parameter
+                        USE_FLEXIBLE_OFFSET_IND is set to 'Y'), 'Scrubber' checks the document type
+                        against those found in the parameter.</para>
+                </listitem>
+                <listitem>
+                    <para role="C1H Number">If 'Scrubber' determines in the previous steps that an
+                        offset is to be generated, it determines the transaction's offset object
+                        code using the Offset Definition table.</para>
+                </listitem>
+                <listitem>
+                    <para role="C1H Number">If you are using flexible offsets (parameter
+                        USE_FLEXIBLE_OFFSET_IND is set to 'Y'), 'Scrubber' searches for the object
+                        code and account number in the Offset Account table.</para>
+                </listitem>
+                <listitem>
+                    <para role="C1H Number">If a match is found in the Offset Account table, the
+                        offset is made in the offset account defined there. If no match is found,
+                        the offset is made in the same account on which the original transaction
+                        occurred.</para>
+                </listitem>
+            </orderedlist>
+        </section>
+    </section>
+    <section>
+        <title>Budget Adjustment Search</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Select/Acquire</alt>
+                <imageobject>
+                    <imagedata fileref="../images/SelectAcquire.png"/>
+                </imageobject>
+            </inlinemediaobject> &gt;<inlinemediaobject>
+                <alt>Fund</alt>
+                <imageobject>
+                    <imagedata
+                        fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-95a.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+                    <alt>Budget Adjustment</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-44.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt;<inlinemediaobject>
+                    <alt>Search</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-164.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">OLE offers a customized document search related to budget
+            adjustments. The search screen contains the standard search fields along with special
+            fields that are unique to this type of e-doc.</para>
+        <note>
+            <para> For information about performing a search for one or more requisitions, see <link
+                    xlink:href="../../../webhelp/BASICS/content/ch02s04.html#_PerformingSearchesOnFinancialDocs"
+                    >Performing Searches on Financial Docs</link> on the <link
+                    xlink:href="../../../webhelp/BASICS/content/pr01.html"><emphasis>Guide to OLE
+                        Basic Functionality and Key Concepts</emphasis></link></para>
+        </note>
+        <note>
+            <para> For information about Document lookup fields that are specific to requisitions,
+                see “Document Layout” under <link linkend="_REQDocumentLayout">Requisition</link>.
+            </para>
+        </note>
+    </section>
+    <section>
+        <title><anchor xml:id="_BudgetAdjustment"/>Budget Adjustment<indexterm significance="normal">
+                <primary>Budget Adjustment (BA) document</primary>
+            </indexterm><indexterm significance="normal">
+                <primary>Financial Processing</primary>
+                <secondary>Budget Adjustment (BA) document</secondary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Select/Acquire</alt>
+                <imageobject>
+                    <imagedata fileref="../images/SelectAcquire.png"/>
+                </imageobject>
+            </inlinemediaobject> &gt;<inlinemediaobject>
+                <alt>Fund</alt>
+                <imageobject>
+                    <imagedata
+                        fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-95a.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+                    <alt>Budget Adjustment</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-44.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold">&gt;<inlinemediaobject>
+                    <alt>Create</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-137.png"/>
+                    </imageobject>
+                </inlinemediaobject>&gt;<inlinemediaobject>
+                    <alt>Budget Adjustment</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-46.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The Budget Adjustment (BA) document is used to record income and
+            expense transactions not processed through other e-docs, against an existing budget. It
+            can be used to modify a base budget, a current budget or both. It is a financial
+            planning tool that allows an organization to adjust the current and base budget figures
+            for a given account as circumstances may change throughout the fiscal year. It may be
+            used to create a budget for a new account established after the beginning of a new
+            fiscal year.</para>
+        <itemizedlist mark="disc" spacing="normal">
+            <listitem>
+                <para role="C1H Bullet">Base budgets are established during the budget construction
+                    process, and designate an ongoing fiscal commitment.</para>
+            </listitem>
+            <listitem>
+                <para role="C1H Bullet">Current budgets designate budgetary authority for the
+                    current fiscal year.</para>
+            </listitem>
+            <listitem>
+                <para role="C1H Bullet">A BA document is normally used to:</para>
+                <itemizedlist mark="disc" spacing="normal">
+                    <listitem>
+                        <para role="C1H Bullet 2A">reallocate current budget as necessary throughout
+                            the fiscal year</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet 2A">transfer funds from one general fund account to
+                            another</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet 2A">establish budget lines in new accounts created
+                            after the fiscal year begins</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet 2A">make long-term adjustments to the base
+                            budget</para>
+                    </listitem>
+                </itemizedlist>
+            </listitem>
+            <listitem>
+                <para role="C1H Bullet">The document allows for the establishment of monthly
+                    budgeted amounts for users that wish to maintain budget information at this
+                    level.</para>
+            </listitem>
+        </itemizedlist>
+        <note>
+            <para role="C1H Bullet"> Budget Adjustments continue to be reviewed for OLE use.</para>
+        </note>
+        <section>
+            <title>Document Layout</title>
+            <para role="Body Text">The BA document only has the standard financial transaction
+                document tabs and does not have any unique tabs. Two field exceptions are the
+                    <emphasis role="bold">Year </emphasis>field in the <emphasis role="bold"
+                    >Document Overview</emphasis> tab and the <emphasis role="bold">Monthly Lines
+                </emphasis>section in the <emphasis role="bold">Accounting Lines </emphasis>tab,
+                which are explained later in this section.</para>
+            <note>
+                <para> For more information about the standard tabs, see <link
+                        xlink:href="../../../webhelp/BASICS/content/ch02s02.html">Standard
+                        Tabs</link> on the <link
+                        xlink:href="../../../webhelp/BASICS/content/pr01.html"><emphasis>Guide to
+                            OLE Basic Functionality and Key Concepts</emphasis></link>. </para>
+            </note>
+            <para/>
+            <para>
+                <screenshot>
+                    <mediaobject>
+                        <alt>Budget Adjustment Document</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-49.jpg"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <section>
+                <title>Document Overview Tab</title>
+                <para role="Body Text">The <emphasis role="bold">Document Overview</emphasis> tab
+                    includes one unique field called <emphasis role="bold">Year</emphasis>.</para>
+                <para role="TableHeading"><emphasis role="bold">BA Document Overview tab
+                        definition</emphasis></para>
+                <informaltable frame="topbot">
+                    <tgroup cols="3">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <colspec colname="col3" colnum="3"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title</para>
+                                </entry>
+                                <entry colsep="1" nameend="col3" namest="col2" rowsep="1"
+                                    valign="top">
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Year</para>
+                                </entry>
+                                <entry colsep="1" nameend="col3" namest="col2" rowsep="1"
+                                    valign="top">
+                                    <para role="Table Cells">Required. Select the fiscal year this
+                                        adjustment should apply to from the <emphasis role="bold"
+                                            >Fiscal Year</emphasis> list. Most budget adjustments
+                                        are made to the current fiscal year but in some cases you
+                                        may be able to choose a fiscal year that has not yet
+                                        begun.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+                <para role="Body Text">If you change the fiscal year, click <inlinemediaobject>
+                        <alt>Refresh</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-50.png"
+                            />
+                        </imageobject>
+                    </inlinemediaobject> to make sure that all the fields on the document are
+                    available for that fiscal year. For example, you might not be able to do base
+                    budget changes to a particular fiscal year. Clicking <emphasis role="bold"
+                        >refresh </emphasis>assures that the system disables fields that aren't
+                    valid for that year.</para>
+            </section>
+            <section>
+                <title>Accounting Lines Tab<indexterm significance="normal">
+                        <primary>Budget Adjustment (BA) document</primary>
+                        <secondary>Accounting Lines tab</secondary>
+                    </indexterm><indexterm significance="normal">
+                        <primary>Budget Adjustment (BA) document</primary>
+                        <secondary>Monthly Lines section, Accounting Lines tab</secondary>
+                    </indexterm></title>
+                <para role="Body Text">The <emphasis role="bold">Accounting Lines</emphasis> tab in
+                    the BA document is also different from the other financial transaction documents
+                    in that it has the <emphasis role="bold">Monthly Lines</emphasis> section that
+                    can be expanded by clicking <emphasis role="bold">show</emphasis>.</para>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Budget Adjustment Document: Accounting Lines Tab</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-51.jpg"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="Body Text">To distribute an accounting lines current budget amount into
+                    monthly periods, click <inlinemediaobject>
+                        <alt>Show</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-52.png"
+                            />
+                        </imageobject>
+                    </inlinemediaobject> on the <emphasis role="bold">Monthly Lines</emphasis>
+                    section.</para>
+                <para role="Body Text">This opens a series of twelve monthly periods where you can
+                    specify how much of the current amount for this account line should be
+                    distributed to each month. The total of all monthly distributions must equal the
+                    total current amount for this accounting line.</para>
+                <para role="Body Text">Use of the <emphasis role="bold">From/Decrease</emphasis>
+                    section automatically decreases the budget associated with the account,
+                    sub-account, and object code combination entered. The current budget, base
+                    budget, or both may be affected.</para>
+                <note>
+                    <para>Many OLE libraries will not need to use “base” budgets, unless they
+                        anticipate needing to track changes between an expected budget and the
+                        actual amount allocated. Libraries not needing base budgets can just use the
+                        “current” budget to track their allocations.</para>
+                </note>
+                <para role="Body Text">Use of the <emphasis role="bold">To/Increase</emphasis>
+                    section automatically increases the budget associated with the account,
+                    sub-account, and object code combination entered. The current budget, base
+                    budget, or both may be affected.</para>
+                <note>
+                    <para> The <emphasis role="bold">From/Decrease</emphasis> and <emphasis
+                            role="bold">To/Increase</emphasis> sections do not contain totals.
+                        Increases and decreases must balance in the document with relation to object
+                        code types in order to route the document. This rule applies to the
+                            <emphasis role="bold">From </emphasis>and <emphasis role="bold">To
+                        </emphasis>sections affecting the current changed amount(s) and the
+                            <emphasis role="bold">From</emphasis> and <emphasis role="bold">To
+                        </emphasis>sections affecting the base changed amount(s).</para>
+                    <para/>
+                    <para>
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Budget Adjustment Document: Accounting Lines Tab with Sample
+                                    To/From Data</alt>
+                                <imageobject>
+                                    <imagedata
+                                        fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-54.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                </note>
+                <para role="List Paragraph"/>
+                <tip>
+                    <para role="Normal">Try This Budget Setup: </para>
+                    <orderedlist numeration="arabic" spacing="normal">
+                        <listitem>
+                            <para role="List Paragraph">Instead of typing in many accounting detail
+                                lines, users can use the BA spreadsheet template via the “Import
+                                Lines” option. </para>
+                        </listitem>
+                        <listitem>
+                            <para role="List Paragraph">Simply fill in all accounting lines with
+                                required Chart, Account, Object, and Amounts </para>
+                        </listitem>
+                        <listitem>
+                            <para role="List Paragraph">Import into the BA (or Transfer) documents
+                                in lieu of manual typing. </para>
+                            <para role="List Paragraph"><link
+                                    xlink:href="https://docs.google.com/a/kuali.org/spreadsheet/ccc?key=0AlzG4eNDtxYpdElsczBhNi1oVXU2bHluTFUzeHdrRFE#gid%3D0"
+                                    >BA-YEBA Import</link> template</para>
+                            <para role="Normal"/>
+                            <para role="Normal">
+                                <screenshot>
+                                    <mediaobject>
+                                        <alt>Budget Adjustment Document: Accounting Lines Tab</alt>
+                                        <imageobject>
+                                            <imagedata
+                                                fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-57.png"
+                                                width="100%"/>
+                                        </imageobject>
+                                    </mediaobject>
+                                </screenshot>
+                            </para>
+                            <para role="Normal"/>
+                        </listitem>
+                        <listitem>
+                            <para role="List Paragraph">Click <inlinemediaobject>
+                                    <alt>Submit</alt>
+                                    <imageobject>
+                                        <imagedata
+                                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-58.png"
+                                        />
+                                    </imageobject>
+                                </inlinemediaobject> or <inlinemediaobject>
+                                    <alt>Blanket Approve</alt>
+                                    <imageobject>
+                                        <imagedata
+                                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-59.png"
+                                        />
+                                    </imageobject>
+                                </inlinemediaobject>.</para>
+                        </listitem>
+                        <listitem>
+                            <para role="List Paragraph">Review the <emphasis role="bold">General
+                                    Ledger Pending Entries</emphasis> tab.</para>
+                            <para role="Normal"/>
+                            <para role="List Paragraph">
+                                <screenshot>
+                                    <mediaobject>
+                                        <alt>Budget Adjustment Document: General Ledger Pending
+                                            Entries Tab</alt>
+                                        <imageobject>
+                                            <imagedata
+                                                fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-60.png"
+                                                width="100%"/>
+                                        </imageobject>
+                                    </mediaobject>
+                                </screenshot>
+                            </para>
+                            <para role="List Paragraph"/>
+                        </listitem>
+                        <listitem>
+                            <para role="List Paragraph">Review the <emphasis role="bold">Route
+                                    Log</emphasis> tab.</para>
+                        </listitem>
+                        <listitem>
+                            <para role="List Paragraph">The document is routed to the fiscal officer
+                                for each account used in the Accounting Lines. The Route Status
+                                shows 'ENROUTE'.</para>
+                        </listitem>
+                        <listitem>
+                            <para role="List Paragraph">Appropriate fiscal officers and organization
+                                reviewers approve the document.</para>
+                        </listitem>
+                    </orderedlist>
+                </tip>
+                <section>
+                    <title>Income Stream Adjustments<indexterm significance="normal">
+                            <primary>income stream adjustments</primary>
+                        </indexterm><indexterm significance="normal">
+                            <primary>Budget Adjustment (BA) document</primary>
+                            <secondary>income stream adjustments</secondary>
+                        </indexterm></title>
+                    <para role="Body Text">If a Budget Adjustment involves two or more accounts with
+                        different Income Stream Accounts, OLE can be configured to create an
+                        automated Transfer of Funds transaction to properly adjust cash between
+                        those Income Stream accounts. This Transfer of Funds is generated by OLE
+                        after the Budget Adjustment is approved and does not route for approval
+                        itself.</para>
+                </section>
+            </section>
+        </section>
+        <section>
+            <title>Process Overview</title>
+            <section>
+                <title>Business Rules<indexterm significance="normal">
+                        <primary>business rules</primary>
+                        <secondary>Budget Adjustment (BA) document</secondary>
+                    </indexterm><indexterm significance="normal">
+                        <primary>Budget Adjustment (BA) document</primary>
+                        <secondary>business rules</secondary>
+                    </indexterm></title>
+                <itemizedlist mark="disc" spacing="normal">
+                    <listitem>
+                        <para role="C1H Bullet">Only accounts that have the recording level
+                            attribute of 'Budget' accept budget adjustment transactions. The budget
+                            adjustment document cannot be used on a cash control (non-budgeted)
+                            account.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet">Negative amounts are not allowed except when using
+                            the <emphasis role="bold">Error Correction</emphasis> option.</para>
+                    </listitem>
+                </itemizedlist>
+                <note>
+                    <para> For information about the error correction, see <link
+                            xlink:href="../../../webhelp/BASICS/content/ch04s03.html#_correctingErrorsAfterApproval"
+                            >Correcting Errors After Approval</link> on the <link
+                            xlink:href="../../../webhelp/BASICS/content/pr01.html"><emphasis>Guide
+                                to OLE Basic Functionality and Key
+                        Concepts</emphasis></link>.</para>
+                </note>
+                <itemizedlist mark="disc" spacing="normal">
+                    <listitem>
+                        <para role="C1H Bullet">Increases and decreases must balance in the document
+                            with relation to object code types. Increases in income may be balanced
+                            by decreases in other income lines or by increases in expenditures.
+                            Decreases in income may be balanced by increases in other income lines
+                            or by decreases in expenditures. Similar logic applies to changes in
+                            expenditures</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet">If Base Adjustments have not been enabled for the
+                            selected Fiscal Year on the document then base changes are not
+                            allowed.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet">The fund group and sub-fund group attributes on an
+                            account contain an attribute (Budget Adjustment Restriction Code – BARC)
+                            for determining how budget adjustments within that group can be made.
+                            These attributes limit the mixing of accounts on the same BA
+                            documents.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet">BARC values for fund group are: <emphasis
+                                role="bold">C</emphasis> (Chart), <emphasis role="bold">O</emphasis>
+                            (Organization), <emphasis role="bold">A</emphasis> (Account), or
+                                <emphasis role="bold">F</emphasis> (Fund).</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet">BARC values for sub-fund group are: <emphasis
+                                role="bold">C</emphasis> (Chart), <emphasis role="bold">O</emphasis>
+                            (Organization), <emphasis role="bold">A</emphasis> (Account), <emphasis
+                                role="bold">S</emphasis> (Sub-Fund), or <emphasis role="bold">N
+                            </emphasis>(None).</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet">If the BARC value of the sub-fund group is none, the
+                            BARC value of the sub-fund group’s parent fund group applies to the
+                            account.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet">The budget adjustment applies the following rules
+                            using these values:</para>
+                        <itemizedlist mark="disc" spacing="normal">
+                            <listitem>
+                                <para role="C1H Bullet 2A">If an account on the BA has an effective
+                                    BARC of Account, then no other account can be used on that
+                                    Budget Adjustment document, i.e. all adjustments
+                                    (increases/decreases) must be to the same account.</para>
+                            </listitem>
+                            <listitem>
+                                <para role="C1H Bullet 2A">If an account on the BA has an effective
+                                    BARC of Organization, then the only other accounts on that
+                                    Budget Adjustment document must belong to the same Organization,
+                                    i.e. allowing adjustments among accounts in the same
+                                    organization.</para>
+                            </listitem>
+                            <listitem>
+                                <para role="C1H Bullet 2A">If an account on the BA has an effective
+                                    BARC of Chart, then the only other accounts on that Budget
+                                    Adjustment document must belong to the same Chart, i.e. allowing
+                                    adjustments across accounts belonging to different Organizations
+                                    but within the same Chart.</para>
+                            </listitem>
+                            <listitem>
+                                <para role="C1H Bullet 2A">If an account on the BA has an effective
+                                    BARC of Sub-Fund, then the only accounts on that Budget
+                                    Adjustment document must belong to the same Sub-Fund Group, i.e.
+                                    allowing adjustments across accounts belonging to different
+                                    Organizations and Charts but with the same Sub-Fund Group
+                                    Code.</para>
+                            </listitem>
+                            <listitem>
+                                <para role="C1H Bullet 2A">If an account on the BA has an effective
+                                    BARC of Fund, then the only accounts on that Budget Adjustment
+                                    document must belong to the same Fund Group, i.e. allowing
+                                    adjustments across accounts belonging to different Organizations
+                                    and Charts and Sub-Fund Groups but with the same Fund Group
+                                    Code.</para>
+                            </listitem>
+                        </itemizedlist>
+                    </listitem>
+                </itemizedlist>
+                <para role="Body Text">The use of certain balance sheet object codes and certain
+                    object sub-types may be prohibited according to your institution's business
+                    rules.</para>
+            </section>
+            <section>
+                <title>Routing<indexterm significance="normal">
+                        <primary>Budget Adjustment (BA) document</primary>
+                        <secondary>routing</secondary>
+                    </indexterm></title>
+                <para role="Body Text">The BA document is approved as final by the initiator if the
+                    following conditions are met:</para>
+                <itemizedlist mark="disc" spacing="normal">
+                    <listitem>
+                        <para role="C1H Bullet">The document only adjusts a single account</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet">The document only adjusts current budget
+                            amount</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet">The Initiator is the fiscal officer for the
+                            account</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet">The total decrease amount is not greater than the
+                            current budget balance for the object code being decreased</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet">If previous conditions are not met, the document
+                            continues with standard financial document routing, based on the account
+                            numbers used on the document as follows:</para>
+                        <itemizedlist mark="disc" spacing="normal">
+                            <listitem>
+                                <para role="C1H Bullet 2A">The fiscal officer for each account must
+                                    approve.</para>
+                            </listitem>
+                            <listitem>
+                                <para role="C1H Bullet 2A">Organization review routing occurs for
+                                    the organization that owns each account.</para>
+                            </listitem>
+                            <listitem>
+                                <para role="C1H Bullet 2A">Sub-fund routing occurs based on the
+                                    sub-fund of each account.</para>
+                            </listitem>
+                        </itemizedlist>
+                    </listitem>
+                </itemizedlist>
+                <para role="Body Text">The document status becomes 'FINAL' when the required
+                    approvals are obtained and the transaction is posted to the G/L during the next
+                    G/L batch process.</para>
+                <para role="Illustration"><inlinemediaobject>
+                        <alt>Budget Adjustment Document Workflow</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-62.png"
+                            />
+                        </imageobject>
+                    </inlinemediaobject></para>
+            </section>
+            <section>
+                <title>Initiating a Budget Adjustment Document<indexterm significance="normal">
+                        <primary>Budget Adjustment (BA) document</primary>
+                        <secondary>initiating</secondary>
+                    </indexterm></title>
+                <orderedlist numeration="arabic" spacing="normal">
+                    <listitem>
+                        <para role="C1H Number">Select <emphasis role="bold">Budget
+                                Adjustment</emphasis> from the <emphasis role="bold">Financial
+                                Transactions</emphasis> menu. </para>
+                        <para role="C1H Continue">A blank BA document with a new document ID
+                            appears.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Number">Complete the standard tabs.</para>
+                        <note>
+                            <para> For information about the standard tabs such as <emphasis
+                                    role="bold">Document Overview</emphasis>, <emphasis role="bold"
+                                    >Notes and Attachments</emphasis>, <emphasis role="bold">Ad Hoc
+                                    Recipients</emphasis>, <emphasis role="bold">Route
+                                    Log</emphasis>, and <emphasis role="bold">Accounting
+                                    Lines</emphasis> tabs, see <link
+                                    xlink:href="../../../webhelp/BASICS/content/ch02s02.html"
+                                    >Standard Tabs</link> on the <link
+                                    xlink:href="../../../webhelp/BASICS/content/pr01.html"
+                                        ><emphasis>Guide to OLE Basic Functionality and Key
+                                        Concepts</emphasis></link>.</para>
+                        </note>
+                    </listitem>
+                    <listitem>
+                        <para>Click <inlinemediaobject>
+                                <alt>Submit</alt>
+                                <imageobject>
+                                    <imagedata
+                                        fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-64.png"
+                                    />
+                                </imageobject>
+                            </inlinemediaobject>.</para>
+                        <para role="C1H Continue">The document is routed to the fiscal officers of
+                            the accounts as well as any approvers in the Organizational Review
+                            hierarchy.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Number">Review the <emphasis role="bold">General Ledger
+                                Pending Entries</emphasis> tab.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Number">Review the <emphasis role="bold">Route
+                                Log</emphasis> tab.</para>
+                        <note>
+                            <para> For information about the Route Log tab, see <link
+                                    xlink:href="../../../webhelp/BASICS/content/ch04s03.html#_routeLog"
+                                    >Route Log</link> on the <link
+                                    xlink:href="../../../webhelp/BASICS/content/pr01.html"
+                                        ><emphasis>Guide to OLE Basic Functionality and Key
+                                        Concepts</emphasis></link>.</para>
+                        </note>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Number">Appropriate fiscal officers and organization
+                            reviewers approve the document.</para>
+                        <note>
+                            <para> For more information about how to approve a document, see <link
+                                    xlink:href="../../../webhelp/BASICS/content/ch04s03.html#_workflowActionButtons"
+                                    >Workflow Action Buttons</link> on the <link
+                                    xlink:href="../../../webhelp/BASICS/content/pr01.html"
+                                        ><emphasis>Guide to OLE Basic Functionality and Key
+                                        Concepts</emphasis></link>.</para>
+                        </note>
+                    </listitem>
+                </orderedlist>
+            </section>
+        </section>
+    </section>
+    <section>
+        <title>Transfer of Funds Search</title>
+        <para role="Body Text"><inlinemediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/SelectAcquire.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-95a.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt;<inlinemediaobject>
+                    <alt>Transfer of Funds</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-228.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt;<inlinemediaobject>
+                    <alt>Search</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-164.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">OLE offers a customized document search related to transfer of funds.
+            The search screen contains the standard search fields along with special fields that are
+            unique to this type of e-doc.</para>
+        <note>
+            <para> For information about performing a search for one or more requisitions, see <link
+                    xlink:href="../../../webhelp/BASICS/content/ch02s04.html#_PerformingSearchesOnFinancialDocs"
+                    >Performing Searches on Financial Docs</link> on the <link
+                    xlink:href="../../../webhelp/BASICS/content/pr01.html"><emphasis>Guide to OLE
+                        Basic Functionality and Key Concepts</emphasis></link>.</para>
+        </note>
+        <note>
+            <para> For information about Document lookup fields that are specific to requisitions,
+                see “Document Layout” under <link linkend="_REQDocumentLayout">Requisition</link>.
+            </para>
+        </note>
+    </section>
+    <section>
+        <title><anchor xml:id="_TransferOfFunds"/>Transfer of Funds</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Select/Acquire</alt>
+                <imageobject>
+                    <imagedata fileref="../images/SelectAcquire.png"/>
+                </imageobject>
+            </inlinemediaobject> &gt;<inlinemediaobject>
+                <alt>Fund</alt>
+                <imageobject>
+                    <imagedata
+                        fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-95a.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+                    <alt>Budget Adjustment</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-44.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold">&gt;<inlinemediaobject>
+                    <alt>Create</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-137.png"/>
+                    </imageobject>
+                </inlinemediaobject>&gt;<inlinemediaobject>
+                    <alt>Transfer of Funds</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-230.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="List Paragraph"/>
+        <para role="Body Text">The Transfer of Funds (TF) document is used to transfer funds (cash)
+            between accounts. The TF could be used to cover an overdraft, reimburse an account for
+            an expense, or to fulfill a funding commitment.</para>
+        <section>
+            <title>Document Layout</title>
+            <para role="Body Text">The TF document has only the standard financial transaction
+                document tabs and does not have any unique tabs of its own.</para>
+            <note>
+                <para> For information about the standard tabs such as <emphasis role="bold"
+                        >Document Overview</emphasis>, <emphasis role="bold">Notes and
+                        Attachments</emphasis>, <emphasis role="bold">Ad Hoc Recipients</emphasis>,
+                        <emphasis role="bold">Route Log</emphasis>, and <emphasis role="bold"
+                        >Accounting Lines</emphasis> tabs, see <link
+                        xlink:href="../../../webhelp/BASICS/content/ch02s02.html">Standard
+                        Tabs</link> on the <link
+                        xlink:href="../../../webhelp/BASICS/content/pr01.html"><emphasis>Guide to
+                            OLE Basic Functionality and Key Concepts</emphasis></link>. </para>
+            </note>
+            <para>
+                <screenshot>
+                    <mediaobject>
+                        <alt>Transfer of Funds Document</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-232.jpg"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+        </section>
+        <section>
+            <title>Process Overview</title>
+            <section>
+                <title>Business Rules<indexterm significance="normal">
+                        <primary>business rules</primary>
+                        <secondary>Transfer of Funds (TF) document</secondary>
+                    </indexterm><indexterm significance="normal">
+                        <primary>Transfer of Funds (TF) document</primary>
+                        <secondary>business rules</secondary>
+                    </indexterm></title>
+                <itemizedlist mark="disc" spacing="normal">
+                    <listitem>
+                        <para role="C1H Bullet">There must be at least one accounting line in the
+                                <emphasis role="bold">From </emphasis>section and one accounting
+                            line in the <emphasis role="bold">To</emphasis> section.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet">The total in the <emphasis role="bold"
+                                >From</emphasis> section must equal the total in the <emphasis
+                                role="bold">To</emphasis> section in the <emphasis role="bold"
+                                >Accounting Lines</emphasis> tab.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet">$0 accounting line amounts are not allowed.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet">Negative amounts are not allowed (unless it is an
+                            Error Correction TF).</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet">OLE automatically generates cash object code offset
+                            entries as defined by the information entered into the document.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet">Object codes representing assets, liabilities, and
+                            fund balances (as indicated by the object code's object consolidation)
+                            may not be used.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet">The Object code restrictions are as follows.</para>
+                    </listitem>
+                </itemizedlist>
+                <para role="TableHeading"><emphasis role="bold">Restricted object type code in the
+                        Transfer of Funds document</emphasis></para>
+                <informaltable frame="topbot">
+                    <tgroup cols="3">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <colspec colname="col3" colnum="3"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Object Type Codes</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                                <entry colname="col3" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Restrictions</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">ES</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Expense Not Expenditure</para>
+                                </entry>
+                                <entry colname="col3" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Unallowable</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">IC</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Income Not Cash</para>
+                                </entry>
+                                <entry colname="col3" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Unallowable</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+                <itemizedlist mark="disc" spacing="normal">
+                    <listitem>
+                        <para role="C1H Bullet">The object sub-types used must be sub-types of
+                            mandatory transfers and non-mandatory transfers.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet"><emphasis role="bold">From</emphasis> accounting
+                            lines with an object sub-type of mandatory transfer must balance with
+                                <emphasis role="bold">To</emphasis> accounting lines with an object
+                            sub-type of 'Mandatory Transfer'.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet"><emphasis role="bold">From </emphasis>accounting
+                            lines with an object sub-type of non-mandatory Transfer must balance
+                            with <emphasis role="bold">To</emphasis> accounting lines with an object
+                            sub-type of 'Non-Mandatory Transfer'.</para>
+                    </listitem>
+                </itemizedlist>
+            </section>
+            <section>
+                <title>Routing<indexterm significance="normal">
+                        <primary>Transfer of Funds (TF) document</primary>
+                        <secondary>routing</secondary>
+                    </indexterm></title>
+                <para role="Body Text">The document routes based on the account numbers used on the
+                    document as follows:</para>
+                <itemizedlist mark="disc" spacing="normal">
+                    <listitem>
+                        <para role="C1H Bullet">The fiscal officer for each account must
+                            approve.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet">Organization review routing occurs for the
+                            organization that owns each account.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet">Sub-fund routing occurs based on the sub-fund of
+                            each account.</para>
+                    </listitem>
+                </itemizedlist>
+                <para role="Body Text">The document status becomes 'FINAL' when the required
+                    approvals are obtained and the transaction is posted to the G/L during the next
+                    G/L batch process.</para>
+                <para role="Illustration"><inlinemediaobject>
+                        <alt>Transfer of Funds Workflow</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-233.png"
+                            />
+                        </imageobject>
+                    </inlinemediaobject></para>
+            </section>
+            <section>
+                <title>Initiating a Transfer of Funds Document<indexterm significance="normal">
+                        <primary>Transfer of Funds (TF) document</primary>
+                        <secondary>initiating </secondary>
+                    </indexterm></title>
+                <orderedlist numeration="arabic" continuation="continues" spacing="normal">
+                    <listitem>
+                        <para role="C1H Number">Select <emphasis role="bold">Create</emphasis> under
+                                <emphasis role="bold">Transfer of Funds</emphasis> in the <emphasis
+                                role="bold">Fund</emphasis> submenu on the <emphasis role="bold"
+                                >Select/Acquire</emphasis> tab.</para>
+                        <para role="C1H Continue">A blank TF document with a new document ID
+                            appears.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Number">Complete the standard tabs.</para>
+                        <para role="C1H Continue">All accounting lines in the <emphasis role="bold"
+                                >To </emphasis>section generate credits and all accounting lines in
+                            the <emphasis role="bold">From</emphasis> section generate
+                            debits.</para>
+                        <note>
+                            <para> For information about the standard tabs such as <emphasis
+                                    role="bold">Document Overview</emphasis>, <emphasis role="bold"
+                                    >Notes and Attachments</emphasis>, <emphasis role="bold">Ad Hoc
+                                    Recipients</emphasis>, <emphasis role="bold">Route
+                                    Log</emphasis>, and <emphasis role="bold">Accounting
+                                    Lines</emphasis> tabs, see <link
+                                    xlink:href="../../../webhelp/BASICS/content/ch02s02.html"
+                                    >Standard Tabs</link> on the <link
+                                    xlink:href="../../../webhelp/BASICS/content/pr01.html"
+                                        ><emphasis>Guide to OLE Basic Functionality and Key
+                                        Concepts</emphasis></link>.</para>
+                        </note>
+                        <orderedlist numeration="loweralpha" spacing="normal">
+                            <listitem>
+                                <para role="List Paragraph">Use sample Accounts &amp; Objects in the
+                                        <link linkend="_Sample_Chart-Account_Codes">Appendix</link>,
+                                    such as moving $$ from Account 2947496 to 2947490 (note: using
+                                    Non-Mandatory Object Sub-Type, TN, with specialized Object Codes
+                                    for Transfer In and Transfer Out)</para>
+                                <para role="List Paragraph"/>
+                                <para role="List Paragraph">
+                                    <screenshot>
+                                        <mediaobject>
+                                            <alt>Transfer of Funds Document with Sample Data</alt>
+                                            <imageobject>
+                                                <imagedata
+                                                  fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-235.png"
+                                                  width="100%"/>
+                                            </imageobject>
+                                        </mediaobject>
+                                    </screenshot>
+                                </para>
+                            </listitem>
+                            <listitem>
+                                <para role="List Paragraph">Or from Accounts 2947486 to 2948482
+                                    (both of object code 7112 Monographs, with object sub-type of
+                                    TN-Non Mandatory Transfer)</para>
+                            </listitem>
+                        </orderedlist>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Number">Click <inlinemediaobject>
+                                <alt>Submit</alt>
+                                <imageobject>
+                                    <imagedata
+                                        fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-236.png"
+                                    />
+                                </imageobject>
+                            </inlinemediaobject>.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Number">Review the <emphasis role="bold">General Ledger
+                                Pending Entries</emphasis> tab.</para>
+                        <para role="C1H Continue">The pending entries include the offset generation
+                            to cash or fund balance object codes.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Number">Review the <emphasis role="bold">Route
+                                Log</emphasis> tab.</para>
+                        <para role="C1H Continue">The document is routed to the fiscal officer for
+                            each account used in the Accounting Lines. The Route Status shows
+                            'ENROUTE'.</para>
+                        <note>
+                            <para role="Normal"> For more information about the Route Log, see For
+                                information about the Route Log tab, see <link
+                                    xlink:href="../../../webhelp/BASICS/content/ch04s03.html#_routeLog"
+                                    >Route Log</link> on the <link
+                                    xlink:href="../../../webhelp/BASICS/content/pr01.html"
+                                        ><emphasis>Guide to OLE Basic Functionality and Key
+                                        Concepts</emphasis></link>.</para>
+                        </note>
+                    </listitem>
+                    <listitem>
+                        <para>Appropriate fiscal officers and organization reviewers approve the
+                            document.</para>
+                        <note>
+                            <para> For more information about how to approve a document, see <link
+                                    xlink:href="../../../webhelp/BASICS/content/ch04s03.html#_workflowActionButtons"
+                                    >Workflow Action Buttons</link> on the <link
+                                    xlink:href="../../../webhelp/BASICS/content/pr01.html"
+                                        ><emphasis>Guide to OLE Basic Functionality and Key
+                                        Concepts</emphasis></link>.</para>
+                        </note>
+                    </listitem>
+                </orderedlist>
+            </section>
+        </section>
+    </section>
+</chapter>

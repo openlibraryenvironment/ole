@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <bean id="OleCirculationDeskMaintenanceDocument-workflowProperties-parentBean" abstract="true"
+          parent="WorkflowProperties">
+        <property name="workflowPropertyGroups">
+            <list>
+                <bean parent="WorkflowPropertyGroup">
+                    <property name="workflowProperties">
+                        <list>
+                            <bean id="oldMaintainableObject" parent="WorkflowProperty" p:path="oldMaintainableObject.businessObject"/>
+                            <bean id="newMaintainableObject" parent="WorkflowProperty" p:path="newMaintainableObject.businessObject"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="OleCirculationDesk-MaintenanceView" parent="Uif-OLEMaintenanceView">
+        <property name="dataObjectClassName" value="org.kuali.ole.deliver.bo.OleCirculationDesk"/>
+        <property name="headerText" value="Circulation Desk"/>
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="${ole.externalizable.help.url}/reference/webhelp/CIRC/content/ch04s05.html"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="items">
+            <list merge="true">
+                <bean parent="Uif-MaintenanceGridSection">
+                    <property name="headerText" value="Add/Edit Circulation Desk"/>
+                    <property name="items">
+                        <list>
+                            <bean id="create_circulationDeskCode" parent="Uif-InputField" p:propertyName="circulationDeskCode" p:enableAutoDirectInquiry="false"/>
+                            <bean id="create_circulationDeskPublicName" parent="Uif-InputField" p:propertyName="circulationDeskPublicName"/>
+                            <bean id="create_circulationDeskStaffName" parent="Uif-InputField" p:propertyName="circulationDeskStaffName"/>
+                            <bean id="create_onHoldDays" parent="Uif-InputField" p:propertyName="onHoldDays" p:required="true"/>
+                            <bean id="create_shelvingLagTime" parent="Uif-InputField" p:propertyName="shelvingLagTime" p:required="true"/>
+                            <bean id="create_isPickUpLocation" parent="Uif-InputField" p:propertyName="pickUpLocation"/>
+                            <bean id="create_asrPickupLocation" parent="Uif-InputField" p:propertyName="asrPickupLocation"/>
+                            <bean id="create_printSlip" parent="Uif-InputField" p:propertyName="printSlip"/>
+                            <bean id="create_active" parent="Uif-InputField" p:propertyName="active" p:defaultValue="true"/>
+                            <bean id="CalendarGroupId" parent="Uif-InputField" p:propertyName="calendarGroupId" p:label="Group Name">
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.deliver.calendar.finder.OLECalendarGroupNameValuesFinder" />
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-20-select"/>
+                                </property>
+                                <property name="quickfinder">       <!--juli-->
+                                    <null></null>
+                                </property>
+                            </bean>
+                            <bean id="create_holdFormat" parent="Uif-InputField" p:propertyName="holdFormat">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="ReceiptPrinter" p:value="Receipt Printer"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="NormalPrinter" p:value="Normal Printer"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                            <bean id="create_holdQueue" parent="Uif-InputField" p:propertyName="holdQueue"/>
+                        </list>
+                    </property>
+                </bean>
+                <ref bean="OleCirculationDesk-Locations" />
+            </list>
+        </property>
+    </bean>
+    <bean id="OleCirculationDeskMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
+        <property name="dataObjectClass" value="org.kuali.ole.deliver.bo.OleCirculationDesk"/>
+        <property name="documentTypeName" value="OLE_CIRC_DESK_MD"/>
+        <property name="documentAuthorizerClass"
+                  value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+        <property name="businessRulesClass" value="org.kuali.ole.deliver.rule.OleCirculationDeskRule"/>
+        <property name="lockingKeys">
+            <list>
+                <value>circulationDeskId</value>
+            </list>
+        </property>
+    </bean>
+    <!--<bean id="OleCirculationDesk-Locations-view" parent="Uif-MaintenanceVerticalBoxSection" >
+        <property name="headerText" value="Location" />
+        <property name="items">
+            <list>
+                &lt;!&ndash;<ref bean="errorSection_ck" />&ndash;&gt;
+                <ref bean="OleCirculationDesk-Locations" />
+            </list>
+        </property>
+    </bean>-->
+    <bean id="OleCirculationDesk-Locations" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="1" p:disclosure.defaultOpen="true">
+        <!--p:fieldBindingObjectPath="document.newMaintainableObject.dataObject"-->
+        <property name="headerText" value="Location" />
+
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleCirculationDeskLocation" />
+        <property name="propertyName" value="oleCirculationDeskLocations" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="items">
+            <list>
+                <!--<bean parent="Uif-InputField" p:propertyName="circulationFullLocationCode" p:label="Location" p:required="true">
+                    <property name="quickfinder.dataObjectClassName" value="org.kuali.ole.describe.bo.OleLocation"/>
+                    <property name="quickfinder.fieldConversions">
+                        <map>
+                            <entry key="locationId" value="circulationDeskLocation"/>
+                            <entry key="locationCode" value="circulationLocationCode"/>
+                        </map>
+                    </property>
+                    <property name="quickfinder.lookupParameters">
+                        <map>
+                            <entry key="circulationDeskLocation" value="locationId"/>
+                            <entry key="circulationLocationCode" value="locationCode"/>
+                        </map>
+                    </property>
+                </bean>-->
+                <bean id="shelvingLocation" parent="Uif-InputField" p:propertyName="circulationFullLocationCode"
+                      p:label="Location  (Type * for all locations, other letters for matching locations)"  p:required="true">
+                    <property name="suggest">
+                        <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
+                            <property name="suggestQuery">
+                                <bean parent="Uif-AttributeQueryConfig"
+                                      p:queryMethodToCall="retrieveLocationDetailsForSuggest"
+                                      p:queryMethodInvokerConfig.targetClass="org.kuali.ole.describe.keyvalue.LocationValuesBuilder"/>
+                            </property>
+                            <property name="templateOptions">
+                                <map merge="true">
+                                    <entry key="minLength" value="1"/>
+                                </map>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="addLineActions">
+            <list>
+                <bean id="CKDSK_addLine" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addCirculationLine" p:actionLabel="Add" p:title="Add" p:ajaxSubmit="true"/>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="CKDSK_deleteLine" parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteCirculationLine" p:actionLabel="Delete"  />
+            </list>
+        </property>
+    </bean>
+</beans>

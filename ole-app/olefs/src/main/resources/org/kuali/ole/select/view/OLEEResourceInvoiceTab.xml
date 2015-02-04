@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="OLEEResourceRecordView-E-ResourceInvoiceTab" parent="E-Res-Uif-DocumentPage">
+        <property name="headerText" value="Invoices"/>
+        <property name="items">
+            <list>
+                <ref bean="OLEEResourceRecordView-Overview"/>
+                <ref bean="OLEEResourceRecordView-InvoiceDetails"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordView-InvoiceDetails" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="1" >
+        <property name="headerText" value="Invoice Details" />
+        <property name="collectionObjectClass" value="org.kuali.ole.select.document.OLEEResourceInvoices" />
+        <property name="propertyName" value="oleERSInvoices" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="layoutManager.richTable.disableTableSort" value="false" />
+       <!-- <property name="layoutManager.columnCalculations">
+            <list>
+                <bean parent="Uif-ColumnCalculationInfo-Sum" p:propertyName="paidAmountCurrentFY"/>
+                <bean parent="Uif-ColumnCalculationInfo-Average" p:propertyName="paidAmountPreviousFY"/>
+                <bean parent="Uif-ColumnCalculationInfo-Min" p:propertyName="paidAmountTwoYearsPreviousFY"/>
+            </list>
+        </property>-->
+        <property name="items">
+            <list>
+               <!-- <bean id="olePOItemId" parent="Uif-LinkField" p:label="PO Item Id" p:width="10%" p:linkText="@{#line.olePOItemId}" p:target="_blank" p:href="" />-->
+                <bean id="invoiceDate-invoice" parent="Uif-DataField" p:propertyName="invoiceDate" p:label="Invoice Date"/>
+                <bean id="invoiceNumber-invoice" parent="Uif-LinkField" p:linkText="@{#line.invoiceNumber}" p:target="_blank" p:label="Invoice Number" p:href="@{#line.redirectUrl}"/>
+                <bean id="vendorName-invoice" parent="Uif-DataField" p:propertyName="vendorName" p:label="Vendor"/>
+                <bean id="invoiceAmount-invoice" parent="Uif-DataField" p:propertyName="invoicedAmount" p:label="Amount"/>
+                <bean id="invoiceNote-invoice" parent="Uif-DataField" p:propertyName="invoiceNote" p:label="Note"/>
+                <bean id="invoice-fundCode" parent="Uif-DataField" p:propertyName="fundCode" p:label="Fund Code(invoice)"/>
+                <bean id="invoiceStatus-invoice" parent="Uif-DataField" p:propertyName="invoiceStatus" p:label="Invoice Status"/>
+                <bean id="paidDate-invoice" parent="Uif-DataField" p:propertyName="paidDate" p:label="Paid Date"/>
+                <bean id="checkClearedDate-invoice" parent="Uif-DataField" p:propertyName="checkClearedDate" p:label="Date Check Cleared"/>
+                <bean id="checkNumber-invoice" parent="Uif-DataField" p:propertyName="checkNumber" p:label="Check Number"/>
+                <!--<bean id="Remove" parent="Uif-LinkField" p:style="font-weight:bold;" p:link.href="@{#line.removeInstance()}"  p:link.linkText="X"  p:target="_blank"  p:label="Remove"/>-->
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+</beans>

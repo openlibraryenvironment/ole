@@ -1,0 +1,698 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2007-2008 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+                           
+    <bean id="pdpModuleConfiguration" parent="pdpModuleConfiguration-parentBean" />
+
+    <bean id="pdpModuleConfiguration-parentBean" class="org.kuali.ole.sys.FinancialSystemModuleConfiguration" abstract="true">
+    	<property name="namespaceCode" value="OLE-PDP"/>
+		<property name="initializeDataDictionary" value="true" />
+        <property name="packagePrefixes">
+            <list>
+                <value>org.kuali.ole.pdp</value>
+            </list>
+        </property>
+		<property name="dataDictionaryPackages">
+			<list>
+                <value>org/kuali/ole/pdp/businessobject/datadictionary</value>
+                <value>org/kuali/ole/pdp/document/datadictionary</value>
+			</list>
+		</property>
+		<property name="databaseRepositoryFilePaths">
+			<list>
+				<value>org/kuali/ole/pdp/ojb-pdp.xml</value>
+			</list>
+		</property>
+		<property name="scriptConfigurationFilePaths">
+			<list>
+				<value>org/kuali/ole/pdp/dwr-pdp.xml</value>
+			</list>
+		</property>
+		<property name="jobNames">
+			<list>
+				<value>pdpLoadFederalReserveBankDataJob</value>
+				<value>pdpInactivatePayeeAchAccountsJob</value>
+				<value>pdpExtractGlTransactionsStepJob</value>
+				<value>pdpExtractAchPaymentsJob</value>
+				<value>pdpExtractCanceledChecksJob</value>
+				<value>pdpExtractChecksJob</value>
+				<value>pdpDailyReportJob</value>
+				<value>pdpLoadPaymentsJob</value>
+				<value>pdpNightlyLoadPaymentsJob</value>
+				<value>pdpClearPendingTransactionsJob</value>
+				<value>processPdpCancelsAndPaidJob</value>
+				<value>pdpSendAchAdviceNotificationsJob</value>
+			</list>
+		</property>
+		<property name="triggerNames">
+			<list>
+				<!--<value>pdpInactivatePayeeAchAccountsJobTrigger</value>-->
+				<value>pdpLoadPaymentsJobTrigger</value>
+				<!--<value>pdpExtractAchPaymentsJobTrigger</value>-->
+				<value>pdpExtractCanceledChecksJobTrigger</value>
+			</list>
+		</property>
+        <property name="batchFileDirectories">
+          	<list>
+            	<value>${reports.directory}/pdp</value>
+            	<value>${staging.directory}/pdp</value>
+          	</list>
+        </property>
+
+	</bean>
+
+    <bean id="pdpModuleService" parent="pdpModuleService-parentBean"/>
+
+    <bean id="pdpModuleService-parentBean" class="org.kuali.ole.sys.service.impl.OleModuleServiceImpl" abstract="true">
+		<property name="moduleConfiguration" ref="pdpModuleConfiguration" />
+	</bean>
+	
+	<bean id="pdpBatchMaintenanceDao" parent="platformAwareDao" class="org.kuali.ole.pdp.dataaccess.impl.BatchMaintenanceDaoOjb"/>
+
+	<bean id="pdpFormatPaymentDao" parent="platformAwareDao" class="org.kuali.ole.pdp.dataaccess.impl.FormatPaymentDaoOjb"/>
+
+	<bean id="pdpGlPendingTransactionDao" parent="platformAwareDao" class="org.kuali.ole.pdp.dataaccess.impl.PendingTransactionDaoOjb"/>
+
+	<bean id="pdpPaymentDetailDao" parent="platformAwareDao" class="org.kuali.ole.pdp.dataaccess.impl.PaymentDetailDaoOjb"/>
+
+	<bean id="pdpPaymentFileLoadDao" parent="platformAwareDao" class="org.kuali.ole.pdp.dataaccess.impl.PaymentFileLoadDaoOjb"/>
+
+	<bean id="pdpPaymentGroupDao" parent="platformAwareDao" class="org.kuali.ole.pdp.dataaccess.impl.PaymentGroupDaoOjb" />
+	
+	<bean id="pdpPaymentGroupHistoryDao" parent="platformAwareDao" class="org.kuali.ole.pdp.dataaccess.impl.PaymentGroupHistoryDaoOjb"/>
+
+	<bean id="pdpProcessDao" parent="platformAwareDao" class="org.kuali.ole.pdp.dataaccess.impl.ProcessDaoOjb" />
+	
+	
+	<bean id="pdpLoadPaymentsJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="pdpLoadPaymentsStep" />
+			</list>
+		</property>
+		<property name="dependencies">
+			<map>
+				<entry key="purchasingPreDisbursementImmediatesExtractJob" value="softDependency"/>
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="pdpLoadPaymentsJobTrigger" parent="cronTrigger">
+		<property name="jobName" value="pdpLoadPaymentsJob" />
+		<property name="cronExpression" value="00 00 05,11,15 ? * *" />
+	</bean>
+
+	<bean id="pdpNightlyLoadPaymentsJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="pdpLoadPaymentsStep" />
+			</list>
+		</property>
+		<property name="dependencies">
+			<map>
+				<entry key="disbursementVoucherPreDisbursementProcessorExtractJob" value="softDependency"/>
+				<entry key="purchasingPreDisbursementExtractJob" value="softDependency"/>
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="pdpDailyReportJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="pdpDailyReportStep" />
+			</list>
+		</property>
+		<property name="dependencies">
+			<map>
+				<entry key="pdpNightlyLoadPaymentsJob" value="softDependency"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="pdpLoadFederalReserveBankDataJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="pdpDownloadFederalReserveBankFileStep" />
+				<ref bean="pdpLoadFederalReserveBankDataStep" />
+			</list>
+		</property>
+	</bean>
+
+<!--	<bean id="pdpInactivatePayeeAchAccountsJobTrigger" parent="cronTrigger">
+		<property name="jobName" value="pdpInactivatePayeeAchAccountsJob" />
+		<property name="cronExpression" value="00 00 23 ? * THU" />
+	</bean>-->
+
+	<bean id="pdpInactivatePayeeAchAccountsJob" parent="unscheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="pdpInactivatePayeeAchAccountsStep" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="pdpExtractGlTransactionsStepJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="pdpExtractGlTransactionsStep" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="pdpExtractAchPaymentsJob" parent="unscheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="pdpExtractAchPaymentsStep" />
+			</list>
+		</property>
+	</bean>
+
+<!--	<bean id="pdpExtractAchPaymentsJobTrigger" parent="cronTrigger">
+		<property name="jobName" value="pdpExtractAchPaymentsJob" />
+		<property name="cronExpression" value="00 30 14 ? * *" />
+	</bean>-->
+
+	<bean id="pdpExtractCanceledChecksJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="pdpExtractCanceledChecksStep" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="pdpExtractCanceledChecksJobTrigger" parent="cronTrigger">
+		<property name="jobName" value="pdpExtractCanceledChecksJob" />
+		<property name="cronExpression" value="00 00 16 ? * *" />
+	</bean>
+
+	<bean id="pdpExtractChecksJob" parent="unscheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="pdpExtractChecksStep" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="pdpClearPendingTransactionsJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="pdpClearPendingTransactionsStep" />
+			</list>
+		</property>
+		<property name="dependencies">
+			<map>
+				<entry key="pdpExtractGlTransactionsStepJob" value="softDependency"/>
+				<entry key="posterJob" value="hardDependency"/>
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="processPdpCancelsAndPaidJob" parent="scheduledJobDescriptor">
+	    <property name="steps">
+			<list>
+				<ref bean="processPdpCancelsAndPaidStep" />
+			</list>
+		</property>
+	</bean>
+	
+    <bean id="pdpSendAchAdviceNotificationsJob" parent="scheduledJobDescriptor">
+	    <property name="steps">
+			<list>
+				<ref bean="pdpSendAchAdviceNotificationsStep" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="processPdpCancelsAndPaidStep" class="org.kuali.ole.pdp.batch.ProcessPdPCancelsAndPaidStep" parent="step">
+		<property name="processPdpCancelPaidService">
+			<ref bean="processPdpCancelPaidService"/>
+		</property>
+	</bean>
+
+	<bean id="pdpLoadPaymentsStep" class="org.kuali.ole.pdp.batch.LoadPaymentsStep" parent="step">
+		<property name="paymentFileService" ref="paymentFileService"/>
+		<property name="paymentInputFileType" ref="paymentInputFileType" />
+	</bean>
+
+	<bean id="pdpDailyReportStep" class="org.kuali.ole.pdp.batch.DailyReportStep" parent="step">
+		<property name="dailyReportService" ref="pdpDailyReportService"/>
+	</bean>
+
+	<bean id="pdpDownloadFederalReserveBankFileStep" class="org.kuali.ole.pdp.batch.DownLoadFileViaHttpsStep" parent="step">
+		<property name="targetDirectoryPath" value="${staging.directory}/pdp/bankFederalReserve/" />
+	</bean>
+
+	<bean id="pdpLoadFederalReserveBankDataStep" class="org.kuali.ole.pdp.batch.LoadFederalReserveBankDataStep" parent="step">
+		<property name="achBankService" ref="pdpAchBankService"/>
+		<property name="directoryName" value="${staging.directory}/pdp/bankFederalReserve/" />
+	</bean>
+
+	<bean id="pdpInactivatePayeeAchAccountsStep" class="org.kuali.ole.pdp.batch.InactivatePayeeAchAccountsStep" parent="wrappedStep">
+		<property name="wrappingBatchServices">
+			<list>
+				<ref bean="pdpInactivatedPayeeAchAccountsReportWriterService" />
+			</list>
+		</property>    	
+    	<property name="inactivatePayeeAchAccountsService" ref="pdpInactivatePayeeAchAccountsService"/>	
+	</bean>
+
+	<bean id="pdpExtractGlTransactionsStep" class="org.kuali.ole.pdp.batch.ExtractGlTransactionsStep" parent="wrappedStep">
+		<property name="wrappingBatchServices">
+			<list>
+				<ref bean="pdpExtractGlTransactionsReportWriterService" />
+			</list>
+		</property>
+		<property name="extractGlTransactionService" ref="pdpExtractGlTransactionService" />
+	</bean>
+
+	<bean id="pdpExtractAchPaymentsStep" class="org.kuali.ole.pdp.batch.ExtractAchPaymentsStep" parent="step">
+		<property name="extractPaymentService" ref="pdpExtractPaymentService" />
+	</bean>
+
+	<bean id="pdpExtractCanceledChecksStep" class="org.kuali.ole.pdp.batch.ExtractCanceledChecksStep" parent="step">
+		<property name="extractPaymentService" ref="pdpExtractPaymentService" />
+	</bean>
+
+	<bean id="pdpExtractChecksStep" class="org.kuali.ole.pdp.batch.ExtractChecksStep" parent="step">
+		<property name="extractPaymentService" ref="pdpExtractPaymentService" />
+	</bean>
+
+    <bean id="pdpClearPendingTransactionsStep" class="org.kuali.ole.pdp.batch.ClearPendingTransactionsStep" parent="step">
+		<property name="pendingTransactionService" ref="pdpGlPendingTransactionService" />
+	</bean>
+	
+	<bean id="pdpSendAchAdviceNotificationsStep" class="org.kuali.ole.pdp.batch.SendAchAdviceNotificationsStep" parent="step">
+		<property name="achAdviceNotificationService" ref="pdpAchAdviceNotificationService" />
+	</bean>
+
+	<bean id="pdpInactivatePayeeAchAccountsService" parent="pdpInactivatePayeeAchAccountsService-parentBean" />
+	<bean id="pdpInactivatePayeeAchAccountsService-parentBean" class="org.kuali.ole.pdp.batch.service.impl.InactivatePayeeAchAccountsServiceImpl" abstract="true">
+    	<property name="businessObjectService" ref="businessObjectService"/>
+		<property name="dateTimeService" ref="dateTimeService"/>
+    	<property name="identityManagementService" ref="kimIdentityManagementService"/>
+    	<property name="personService" ref="personService"/>    	
+    	<property name="vendorService" ref="vendorService"/>
+		<property name="achService" ref="pdpAchService"/>	
+		<property name="reportWriterService" ref="pdpInactivatedPayeeAchAccountsReportWriterService"/>			
+	</bean>
+	
+	
+	<bean id="pdpDailyReportService" parent="pdpDailyReportService-parentBean"/>
+	<bean id="pdpDailyReportService-parentBean" class="org.kuali.ole.pdp.batch.service.impl.DailyReportServiceImpl" abstract="true">
+		<property name="directoryName" value="${reports.directory}/pdp/"/>
+		<property name="dateTimeService" ref="dateTimeService"/>
+		<property name="paymentDetailDao" ref="pdpPaymentDetailDao"/>
+		<property name="paymentGroupService" ref="pdpPaymentGroupService"/>
+		<property name="configurationService" ref="kualiConfigurationService"/>
+	</bean>
+
+	<bean id="pdpExtractPaymentService" parent="pdpExtractPaymentService-parentBean"/>
+    <bean id="pdpExtractPaymentService-parentBean" abstract="true"  parent="PdpExtractPaymentService-parentBean"/>
+    
+    <bean id="PdpExtractPaymentService-parentBean" abstract="true" class="org.kuali.ole.pdp.batch.service.impl.ExtractPaymentServiceImpl">
+		<property name="parameterService" ref="parameterService"/>
+		<property name="directoryName" value="${staging.directory}/pdp/paymentExtract"/>
+		<property name="paymentGroupService" ref="pdpPaymentGroupService"/>
+		<property name="paymentDetailService" ref="pdpPaymentDetailService"/>
+		<property name="processDao" ref="pdpProcessDao"/>
+		<property name="dateTimeService" ref="dateTimeService"/>
+		<property name="paymentGroupHistoryDao" ref="pdpPaymentGroupHistoryDao"/>
+		<property name="paymentFileEmailService" ref="pdpEmailService"/>
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="configurationService" ref="kualiConfigurationService"/>
+		<property name="countryService" ref="countryService"/>		
+	</bean>
+    <bean id="pdpExtractGlTransactionService" parent="pdpExtractGlTransactionService-parentBean"/>
+
+	<bean id="pdpExtractGlTransactionService-parentBean" class="org.kuali.ole.pdp.batch.service.impl.ExtractTransactionsServiceImpl" abstract="true">
+		<property name="glPendingTransactionService" ref="pdpGlPendingTransactionService" />
+		<property name="originEntryGroupService" ref="originEntryGroupService" />
+		<property name="originEntryService" ref="originEntryService" />
+		<property name="dateTimeService" ref="dateTimeService" />
+		<property name="configurationService" ref="kualiConfigurationService"/>
+		<property name="batchFileDirectoryName" value="${staging.directory}/gl/originEntry"/>
+		<property name="reportWriterService" ref="pdpExtractGlTransactionsReportWriterService" />
+	</bean>
+    <bean id="pdpAchBankService" parent="pdpAchBankService-parentBean"/>
+
+	<bean id="pdpAchBankService-parentBean" class="org.kuali.ole.pdp.service.impl.AchBankServiceImpl" abstract="true">
+		<property name="businessObjectService" ref="businessObjectService" />
+		
+	</bean>
+    <bean id="pdpAchService" parent="pdpAchService-parentBean"/>
+
+	<bean id="pdpAchService-parentBean" class="org.kuali.ole.pdp.service.impl.AchServiceImpl" abstract="true">
+		<property name="businessObjectService" ref="businessObjectService"/>
+	</bean>
+    <bean id="pdpBatchMaintenanceService" parent="pdpBatchMaintenanceService-parentBean"/>
+
+	<bean id="pdpBatchMaintenanceService-parentBean" class="org.kuali.ole.pdp.service.impl.BatchMaintenanceServiceImpl" abstract="true">
+		<property name="batchMaintenanceDao" ref="pdpBatchMaintenanceDao"/>
+		<property name="businessObjectService" ref="businessObjectService"/>
+		<property name="paymentGroupService" ref="pdpPaymentGroupService"/>
+	</bean>
+    <bean id="pdpCustomerProfileService" parent="pdpCustomerProfileService-parentBean"/>
+
+	<bean id="pdpCustomerProfileService-parentBean" class="org.kuali.ole.pdp.service.impl.CustomerProfileServiceImpl" abstract="true">
+		<property name="businessObjectService" ref="businessObjectService" />
+	</bean>
+    <bean id="pdpFormatService" parent="pdpFormatService-parentBean"/>
+
+	<bean id="pdpFormatService-parentBean" class="org.kuali.ole.pdp.service.impl.FormatServiceImpl" abstract="true">
+		<property name="paymentDetailDao" ref="pdpPaymentDetailDao"/>
+		<property name="paymentGroupDao" ref="pdpPaymentGroupDao"/>
+		<property name="processDao" ref="pdpProcessDao"/>
+		<property name="achService" ref="pdpAchService"/>
+		<property name="glPendingTransactionService" ref="pdpGlPendingTransactionService"/>
+		<property name="parameterService" ref="parameterService" />
+		<property name="formatPaymentDao" ref="pdpFormatPaymentDao"/>
+		<property name="schedulerService" ref="schedulerService"/>
+		<property name="businessObjectService" ref="businessObjectService"/>
+		<property name="paymentGroupService" ref="pdpPaymentGroupService"/>
+		<property name="dateTimeService" ref="dateTimeService"/>
+		<property name="extractPaymentService" ref="pdpExtractPaymentService" />
+	</bean>
+    <bean id="pdpGlPendingTransactionService" parent="pdpGlPendingTransactionService-parentBean"/>
+	
+	<bean id="pdpGlPendingTransactionService-parentBean" class="org.kuali.ole.pdp.service.impl.PendingTransactionServiceImpl" abstract="true">
+		<property name="glPendingTransactionDao" ref="pdpGlPendingTransactionDao"/>
+		<property name="accountingPeriodService" ref="accountingPeriodService"/>
+		<property name="configurationService" ref="kualiConfigurationService"/>
+		<property name="dateTimeService" ref="dateTimeService"/>
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="bankService" ref="bankService"/>
+	</bean>
+    <bean id="pdpPaymentDetailService" parent="pdpPaymentDetailService-parentBean"/>
+
+	<bean id="pdpPaymentDetailService-parentBean" class="org.kuali.ole.pdp.service.impl.PaymentDetailServiceImpl" abstract="true">
+		<property name="paymentDetailDao" ref="pdpPaymentDetailDao"/>
+		<property name="businessObjectService" ref="businessObjectService" />
+	</bean>
+    <bean id="paymentFileService" parent="paymentFileService-parentBean"/>
+
+	<bean id="paymentFileService-parentBean" class="org.kuali.ole.pdp.service.impl.PaymentFileServiceImpl" abstract="true">
+		<property name="parameterService" ref="parameterService" />
+		<property name="customerProfileService" ref="pdpCustomerProfileService"/>
+		<property name="batchInputFileService" ref="batchInputFileService"/>
+		<property name="paymentFileValidationService" ref="paymentFileValidationService" />
+		<property name="businessObjectService" ref="businessObjectService"/>
+		<property name="dateTimeService" ref="dateTimeService" />
+		<property name="paymentFileEmailService" ref="pdpEmailService"/>
+		<property name="configurationService" ref="kualiConfigurationService" />
+		<property name="outgoingDirectoryName" value="${staging.directory}/pdp/paymentLoadSummary"/>
+	</bean>
+    <bean id="pdpEmailService" parent="pdpEmailService-parentBean"/>
+	
+	<bean id="pdpEmailService-parentBean" class="org.kuali.ole.pdp.service.impl.PdpEmailServiceImpl" abstract="true">
+		<property name="parameterService" ref="parameterService" />
+		<property name="customerProfileService" ref="pdpCustomerProfileService"/>
+		<property name="mailService" ref="mailService" />
+		<property name="dataDictionaryService" ref="dataDictionaryService"/>
+		<property name="configurationService" ref="kualiConfigurationService" />
+		<property name="achBankService" ref="pdpAchBankService" />
+	</bean>
+    <bean id="paymentFileValidationService" parent="paymentFileValidationService-parentBean"/>
+	
+    <bean id="paymentFileValidationService-parentBean" class="org.kuali.ole.pdp.service.impl.PaymentFileValidationServiceImpl" abstract="true">
+		<property name="customerProfileService" ref="pdpCustomerProfileService"/>
+		<property name="paymentFileLoadDao" ref="pdpPaymentFileLoadDao" />
+		<property name="parameterService" ref="parameterService" />
+		<property name="configurationService" ref="kualiConfigurationService"/>
+		<property name="dateTimeService" ref="dateTimeService" />
+		<property name="accountService" ref="accountService" />
+		<property name="subAccountService" ref="subAccountService"/>
+		<property name="objectCodeService" ref="objectCodeService" />
+		<property name="subObjectCodeService" ref="subObjectCodeService"/>
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="bankService" ref="bankService" />
+		<property name="originationCodeService" ref="originationCodeService" />
+		<property name="documentTypeService" ref="rice.kew.documentTypeService" />
+	</bean>
+	
+	<bean id="paymentInputFileType" parent="paymentInputFileType-parentBean"/>
+	<bean id="paymentInputFileType-parentBean" class="org.kuali.ole.pdp.batch.PaymentInputFileType">
+    	<property name="directoryPath">
+	       <value>${staging.directory}/pdp/paymentImport</value>
+	    </property>
+	    <property name="fileExtension">
+	       <value>xml</value>
+	    </property>
+	    <property name="digestorRulesFileName">
+	       <value>org/kuali/ole/pdp/batch/paymentDigesterRules.xml</value>
+	    </property>
+	    <property name="schemaLocation">
+	       <value>${externalizable.static.content.url}/xsd/pdp/payment.xsd</value>
+	    </property>
+	    <property name="dateTimeService">
+	       <ref bean="dateTimeService"/>
+	    </property>
+	    <property name="paymentFileService">
+	       <ref bean="paymentFileService"/>
+	    </property>
+	</bean>
+    <bean id="pdpPaymentGroupService" parent="pdpPaymentGroupService-parentBean"/>
+
+	<bean id="pdpPaymentGroupService-parentBean" class="org.kuali.ole.pdp.service.impl.PaymentGroupServiceImpl" abstract="true">
+		<property name="paymentGroupDao" ref="pdpPaymentGroupDao"/>
+		<property name="parameterService" ref="parameterService"/>
+		<property name="dataDictionaryService" ref="dataDictionaryService"/>
+		<property name="businessObjectService" ref="businessObjectService" />
+	</bean>
+    <bean id="pdpPaymentMaintenanceService" parent="pdpPaymentMaintenanceService-parentBean"/>
+
+	<bean id="pdpPaymentMaintenanceService-parentBean" class="org.kuali.ole.pdp.service.impl.PaymentMaintenanceServiceImpl" abstract="true">
+		<property name="paymentGroupDao" ref="pdpPaymentGroupDao"/>
+		<property name="paymentDetailDao" ref="pdpPaymentDetailDao"/>
+		<property name="glPendingTransactionService" ref="pdpGlPendingTransactionService"/>
+		<property name="mailService" ref="mailService"/>
+		<property name="parameterService" ref="parameterService"/>
+		<property name="bankService" ref="bankService"/>
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="paymentGroupService" ref="pdpPaymentGroupService" />
+		<property name="emailService" ref="pdpEmailService"/>
+		<property name="pdpAuthorizationService" ref="pdpAuthorizationService" />
+	</bean>
+    <bean id="pdpAchAdviceNotificationService" parent="pdpAchAdviceNotificationService-parentBean"/>
+	
+	<bean id="pdpAchAdviceNotificationService-parentBean" class="org.kuali.ole.pdp.batch.service.impl.AchAdviceNotificationServiceImpl" abstract="true">
+		<property name="pdpEmailService" ref="pdpEmailService"/>
+		<property name="paymentGroupService" ref="pdpPaymentGroupService"/>
+		<property name="dateTimeService" ref="dateTimeService"/>
+		<property name="businessObjectService" ref="businessObjectService"/>
+	</bean>
+    <bean id="processPdpCancelPaidService" parent="processPdpCancelPaidService-parentBean"/>
+	
+	<bean id="processPdpCancelPaidService-parentBean" class="org.kuali.ole.pdp.batch.service.impl.ProcessPdpCancelPaidServiceImpl" abstract="true">
+		<property name="paymentGroupService">
+			<ref bean="pdpPaymentGroupService"/>
+		</property>
+		<property name="paymentDetailService">
+			<ref bean="pdpPaymentDetailService"/>
+		</property>
+		<property name="purchasingAccountsPayableModuleService">
+			<ref bean="purchasingAccountsPayableModuleService"/>
+		</property>
+		<property name="parameterService">
+			<ref bean="parameterService"/>
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService"/>
+		</property>
+		<property name="dvExtractService">
+			<ref bean="disbursementVoucherExtractService" />
+		</property>
+	</bean>
+    <bean id="batchLookupableHelperService" parent="batchLookupableHelperService-parentBean"  scope="prototype"/>
+
+	<bean id="batchLookupableHelperService-parentBean" class="org.kuali.ole.pdp.businessobject.lookup.BatchLookupableHelperService"  parent="lookupableHelperService" scope="prototype" abstract="true">
+        <property name="configurationService" ref="kualiConfigurationService" />
+        <property name="batchMaintenanceService">
+            <ref bean="pdpBatchMaintenanceService"/>
+        </property>
+        <property name="lookupDao">
+            <ref bean="lookupDao"/>
+        </property>
+        <property name="pdpAuthorizationService">
+            <ref bean="pdpAuthorizationService" />
+        </property>
+	</bean>
+    <bean id="batchLookupable" parent="batchLookupable-parentBean"/>
+
+	<bean id="batchLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" abstract="true">
+		<property name="lookupableHelperService">
+			<ref bean="batchLookupableHelperService" />
+		</property>
+	</bean>	
+    <bean id="paymentDetailLookupableHelperService" parent="paymentDetailLookupableHelperService-parentBean" scope="prototype"/>
+	
+	<bean id="paymentDetailLookupableHelperService-parentBean" class="org.kuali.ole.pdp.businessobject.lookup.PaymentDetailLookupableHelperService"  parent="lookupableHelperService" scope="prototype" abstract="true">
+        <property name="configurationService">
+            <ref bean="kualiConfigurationService" />
+        </property>
+        <property name="pdpAuthorizationService">
+            <ref bean="pdpAuthorizationService" />
+        </property>
+	</bean>
+    <bean id="paymentDetailLookupable" parent="paymentDetailLookupable-parentBean"/>
+
+	<bean id="paymentDetailLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" abstract="true">
+		<property name="lookupableHelperService">
+			<ref bean="paymentDetailLookupableHelperService" />
+		</property>
+	</bean>	
+    <bean id="purchasingPaymentDetailLookupableHelperService" parent="purchasingPaymentDetailLookupableHelperService-parentBean" scope="prototype"/>
+	
+	<bean id="purchasingPaymentDetailLookupableHelperService-parentBean" class="org.kuali.ole.pdp.businessobject.lookup.PurchasingPaymentDetailLookupableHelperService" parent="paymentDetailLookupableHelperService" abstract="true" />
+	
+	<bean id="purchasingPaymentDetailLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+		<property name="lookupableHelperService">
+			<ref bean="purchasingPaymentDetailLookupableHelperService" />
+		</property>
+	</bean>	
+    <bean id="formatProcessLookupableHelperService" parent="formatProcessLookupableHelperService-parentBean" scope="prototype" />
+	
+	<bean id="formatProcessLookupableHelperService-parentBean" class="org.kuali.ole.pdp.businessobject.lookup.FormatProcessLookupableHelperService" parent="lookupableHelperService" scope="prototype" abstract="true">
+        <property name="configurationService" ref="kualiConfigurationService" />
+        <property name="pdpAuthorizationService" ref="pdpAuthorizationService" />
+	</bean>
+    <bean id="formatProcessLookupable" parent="formatProcessLookupable-parentBean"/>
+
+	<bean id="formatProcessLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" abstract="true">
+		<property name="lookupableHelperService">
+			<ref bean="formatProcessLookupableHelperService" />
+		</property>
+	</bean>		
+    <bean id="paymentProcessLookupableHelperService" parent="paymentProcessLookupableHelperService-parentBean"  scope="prototype" />
+	
+	<bean id="paymentProcessLookupableHelperService-parentBean" class="org.kuali.ole.pdp.businessobject.lookup.PaymentProcessLookupableHelperService" parent="lookupableHelperService" scope="prototype" abstract="true">
+	    <property name="persistenceStructureService">
+            <ref bean="persistenceStructureService" />
+        </property>
+        <property name="lookupService">
+            <ref bean="lookupService" />
+        </property>
+        <property name="businessObjectMetaDataService">
+            <ref bean="businessObjectMetaDataService" />
+        </property>
+        <property name="businessObjectDictionaryService">
+            <ref bean="businessObjectDictionaryService" />
+        </property>
+        <property name="dataDictionaryService">
+            <ref bean="dataDictionaryService" />
+        </property>
+	</bean>
+    <bean id="paymentProcessLookupable" parent="paymentProcessLookupable-parentBean"/>
+
+	<bean id="paymentProcessLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" abstract="true">
+		<property name="lookupableHelperService">
+			<ref bean="paymentProcessLookupableHelperService" />
+		</property>
+	</bean>			
+    <bean id="bankChangeHistoryLookupableHelperService" parent="bankChangeHistoryLookupableHelperService-parentBean"  scope="prototype" />
+	
+	<bean id="bankChangeHistoryLookupableHelperService-parentBean" class="org.kuali.ole.pdp.businessobject.lookup.BankChangeHistoryLookupableHelperServiceImpl" parent="lookupableHelperService" scope="prototype" abstract="true">
+	</bean>
+    <bean id="bankChangeHistoryLookupable" parent="bankChangeHistoryLookupable-parentBean"/>
+	
+	<bean id="bankChangeHistoryLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
+		<property name="lookupableHelperService">
+			<ref bean="bankChangeHistoryLookupableHelperService" />
+		</property>
+	</bean>	
+
+    <bean id="achPayeeLookupable" parent="achPayeeLookupable-parentBean"/>	
+	<bean id="achPayeeLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" abstract="true">
+		<property name="lookupableHelperService">
+			<ref bean="achPayeeLookupableHelperService" />
+		</property>
+	</bean>
+	
+     <bean id="achPayeeLookupableHelperService" parent="achPayeeLookupableHelperService-parentBean" scope="prototype" />
+ 	<bean id="achPayeeLookupableHelperService-parentBean" class="org.kuali.ole.pdp.businessobject.lookup.ACHPayeeLookupableHelperServiceImpl" scope="prototype" parent="payeeLookupableHelperServiceImpl-parentBean" abstract="true" />
+
+    <bean id="payeeACHAccountLookupable" parent="payeeACHAccountLookupable-parentBean"/>	
+	<bean id="payeeACHAccountLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" abstract="true">
+		<property name="lookupableHelperService">
+			<ref bean="payeeACHAccountLookupableHelperService" />
+		</property>
+	</bean>
+	
+    <bean id="payeeACHAccountLookupableHelperService" parent="payeeACHAccountLookupableHelperService-parentBean" scope="prototype" />
+	<bean id="payeeACHAccountLookupableHelperService-parentBean" class="org.kuali.ole.pdp.businessobject.lookup.PayeeACHAccountLookupableHelperServiceImpl" scope="prototype" parent="payeeLookupableHelperServiceImpl-parentBean" abstract="true" />
+
+    <bean id="customerRoleTypeService" parent="customerRoleTypeService-parentBean"/>
+    <bean id="customerRoleTypeService-parentBean" class="org.kuali.ole.pdp.identity.CustomerRoleTypeServiceImpl" abstract="true" />
+	
+    <bean id="pdpAuthorizationService" parent="pdpAuthorizationService-parentBean" />
+    <bean id="pdpAuthorizationService-parentBean" class="org.kuali.ole.pdp.service.impl.PdpAuthorizationServiceImpl" abstract="true" />
+
+    <bean id="pdpExtractGlTransactionsReportWriterService" parent="pdpExtractGlTransactionsReportWriterService-parentBean"/>
+
+    <bean id="payeeACHAccountRoleTypeService" parent="payeeACHAccountRoleTypeService-parentBean"/>
+    <bean id="payeeACHAccountRoleTypeService-parentBean" class="org.kuali.ole.pdp.identity.PayeeACHAccountRoleTypeServiceImpl" abstract="true" />
+
+	<bean id="pdpExtractGlTransactionsReportWriterService-parentBean" parent="reportWriterService" abstract="true">
+		<property name="filePath" value="${reports.directory}/pdp"/>
+		<property name="fileNamePrefix" value="pdp_ledger_"/>
+        <property name="title" value="PDP Transactions"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.ole.gl.businessobject.LedgerSummaryTotalLine" value="ledgerSummaryTotalLineReportHelper" />
+        		<entry key="org.kuali.ole.gl.businessobject.LedgerBalanceTypeSummaryTotalLine" value="ledgerBalanceTypeSummaryTotalLineReportHelper" />
+        		<entry key="org.kuali.ole.gl.businessobject.LedgerSummaryDetailLine" value="ledgerSummaryDetailLineReportHelper" />
+        	</map>
+        </property>
+	</bean>
+	<bean id="pdpInactivatedPayeeAchAccountsReportWriterService" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/pdp"/>
+		<property name="fileNamePrefix" value="pdp_payee_ach_account_"/>
+        <property name="title" value="Inactivated Payee ACH Accounts"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.ole.pdp.businessobject.PayeeACHAccount" value="pdpInactivatedPayeeAchAccountsReportHelper" />
+        	</map>
+        </property>
+	</bean>
+	
+	<bean id="pdpInactivatedPayeeAchAccountsReportHelper" parent="businessObjectReportHelper">
+		<property name="dataDictionaryBusinessObjectClass" value="org.kuali.ole.pdp.businessobject.PayeeACHAccount" />
+		<property name="orderedPropertyNameToHeaderLabelMap">
+			<map>
+				<entry key="payeeIdentifierTypeCode" value="Payee ID Type" />
+				<entry key="payeeIdNumber" value="Payee ID Number" />
+				<entry key="achTransactionType" value="Transaction Type" />
+				<entry key="payeeName" value="Payee Name" />
+				<entry key="payeeEmailAddress" value="Payee Email Address" />
+			</map>
+		</property>
+		<property name="columnCount" value="5" />
+	</bean>			
+
+
+	<import resource="spring-pdp-bus-exports.xml"/>
+</beans>
+

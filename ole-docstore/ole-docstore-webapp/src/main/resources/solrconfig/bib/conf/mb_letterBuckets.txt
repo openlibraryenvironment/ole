@@ -1,0 +1,10 @@
+#for type bucketFirstLetter
+
+a,b,c=>A-C
+d,e,f=>D-F
+g,h,i=>G-I
+j,k,l=>J-L
+m,n,o=>M-O
+p,q,r=>P-R
+s,t,u=>S-U
+v,w,x,y,z=>V-Z

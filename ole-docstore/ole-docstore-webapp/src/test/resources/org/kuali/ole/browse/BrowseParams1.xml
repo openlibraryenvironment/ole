@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<browseParams>
+    <pageSize>0</pageSize>
+    <searchConditions>
+        <searchCondition>
+            <operator>AND</operator>
+            <searchField>
+                <docType>holdings</docType>
+                <fieldName>DocType</fieldName>
+                <fieldValue>holdings</fieldValue>
+            </searchField>
+            <searchScope>AND</searchScope>
+        </searchCondition>
+    </searchConditions>
+    <searchResultFields>
+        <searchResultField>
+            <docType>holdings</docType>
+            <fieldName>LocalId_display</fieldName>
+        </searchResultField>
+        <searchResultField>
+            <docType>holdings</docType>
+            <fieldName>Location_search</fieldName>
+        </searchResultField>
+        <searchResultField>
+            <docType>holdings</docType>
+            <fieldName>CallNumber_search</fieldName>
+        </searchResultField>
+    </searchResultFields>
+    <sortConditions>
+        <sortCondition>
+            <sortField>CallNumber</sortField>
+            <sortOrder>asc</sortOrder>
+        </sortCondition>
+    </sortConditions>
+    <startIndex>0</startIndex>
+    <totalCount>0</totalCount>
+</browseParams>

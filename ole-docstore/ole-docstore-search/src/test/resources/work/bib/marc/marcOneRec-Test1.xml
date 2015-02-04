@@ -1,0 +1,142 @@
+<request>
+    <user>ole-khuntley</user>
+    <operation>ingest</operation>
+    <requestDocuments>
+        <ingestDocument id="1" category="work" type="bibliographic" format="marc">
+            <content><![CDATA[
+			<collection xmlns="http://www.loc.gov/MARC21/slim">
+    <record>
+        <leader>ocm62378465</leader>
+        <controlfield tag="003">OCoLC</controlfield>
+        <controlfield tag="005">20090213152530.7</controlfield>
+		<controlfield tag="008">051130c20049999bs fr p 0 0eng</controlfield>
+        <datafield tag="035" ind1=" " ind2=" ">
+            <subfield code="a">(OCoLC)ocm62378465</subfield>
+        </datafield>
+        <datafield tag="040" ind1=" " ind2=" ">
+             <subfield code="a">DLC</subfield>
+			 <subfield code="c">DLC</subfield>
+			 <subfield code="d">DLC</subfield>
+			 <subfield code="d">HLS</subfield>
+			 <subfield code="d">IUL</subfield>
+        </datafield>
+         <datafield tag="022" ind1=" " ind2=" ">
+            <subfield code="a">1729-1070|20</subfield>
+        </datafield>
+        <datafield tag="029" ind1="1" ind2=" ">
+            <subfield code="a">AU@|b000040176476</subfield>
+			<subfield code="b">000040176476</subfield>
+        </datafield>
+        <datafield tag="037" ind1=" " ind2=" ">
+            <subfield code="b">The Managing Editor, BIAC Journal, P.O. Box 10026, Gaborone, Botswana</subfield>
+        </datafield>
+        <datafield tag="042" ind1=" " ind2=" ">
+            <subfield code="a">lc</subfield>
+        </datafield>
+        <datafield tag="043" ind1="1" ind2="0">
+            <subfield code="a">f-bs---</subfield>
+        </datafield>
+        <datafield tag="050" ind1="0" ind2="0">
+            <subfield code="a">HD70.B55|bB53</subfield>
+        </datafield>
+        <datafield tag="049" ind1=" " ind2=" ">
+            <subfield code="a">IULA</subfield>
+        </datafield>
+         <datafield tag="210" ind1="1" ind2=" ">
+            <subfield code="a">BIAC j.</subfield>
+        </datafield>
+         <datafield tag="222" ind1=" " ind2="0">
+            <subfield code="a">BIAC journal</subfield>
+        </datafield>
+         <datafield tag="245" ind1="0" ind2="0">
+            <subfield code="a">BIAC journal.</subfield>
+        </datafield>
+         <datafield tag="246" ind1="1" ind2="3">
+            <subfield code="a">Botswana Institute of Administration and Commerce journal</subfield>
+        </datafield>
+        <datafield tag="260" ind1=" " ind2=" ">
+            <subfield code="a">Gaborone, Botswana :|bBotswana Institute of Administration and Commerce</subfield>
+			<subfield code="b">Botswana Institute of Administration and Commerce</subfield>
+        </datafield>
+        <datafield tag="300" ind1=" " ind2=" ">
+            <subfield code="a">v. ;</subfield>
+			<subfield code="c">24 cm.</subfield>
+        </datafield>
+		<datafield tag="300" ind1=" " ind2=" ">
+            <subfield code="a">v. ;</subfield>
+			<subfield code="c">24 cm.</subfield>
+        </datafield>
+		<datafield tag="300" ind1=" " ind2=" ">
+            <subfield code="a">v. ;</subfield>
+			<subfield code="c">24 cm.</subfield>
+        </datafield>
+		<datafield tag="310" ind1=" " ind2=" ">
+            <subfield code="a">Semiannual</subfield>
+        </datafield>
+		<datafield tag="362" ind1="1" ind2=" ">
+            <subfield code="a"> Began in 2004.</subfield>
+        </datafield>
+		<datafield tag="500" ind1=" " ind2=" ">
+            <subfield code="a">Description based on: Vol. 1, no. 1 (May. 2004); title from cover.</subfield>
+        </datafield>
+		<datafield tag="500" ind1=" " ind2=" ">
+            <subfield code="a">Latest issue consulted: Vol. 3, no. 1 (May 2006).</subfield>
+        </datafield>
+		<datafield tag="650" ind1="0" ind2=" ">
+            <subfield code="a">Industrial management</subfield>
+			<subfield code="z">Botswana</subfield>
+			<subfield code="v">Periodicals.</subfield>
+        </datafield>
+		<datafield tag="650" ind1="0" ind2=" ">
+            <subfield code="a">Occupational training</subfield>
+			<subfield code="z">Botswana</subfield>
+			<subfield code="v">Periodicals.</subfield>
+        </datafield>
+		<datafield tag="710" ind1="2" ind2=" ">
+            <subfield code="a">Botswana Institute of Administration and Commerce.</subfield>
+        </datafield>
+		<datafield tag="850" ind1=" " ind2=" ">
+            <subfield code="a">DLC</subfield>
+        </datafield>
+		<datafield tag="891" ind1="2" ind2="0">
+            <subfield code="a">9853|81.1</subfield>
+			<subfield code="a">v.</subfield>
+			<subfield code="b">no</subfield>
+			<subfield code="u">2</subfield>
+			<subfield code="v">r</subfield>
+			<subfield code="i">(year)</subfield>
+			<subfield code="j">(month)</subfield>
+			<subfield code="w">f</subfield>
+			<subfield code="x">05</subfield>
+        </datafield>
+		<datafield tag="891" ind1="4" ind2="1">
+            <subfield code="a">9863|81.1</subfield>
+			<subfield code="a">1</subfield>
+			<subfield code="b">1</subfield>
+			<subfield code="i">2004</subfield>
+			<subfield code="j">05</subfield>
+        </datafield>
+		<datafield tag="000" ind1=" " ind2=" ">
+            <subfield code="a">as a a</subfield>
+        </datafield>
+		<datafield tag="596" ind1=" " ind2=" ">
+            <subfield code="a">1</subfield>
+        </datafield>
+    </record>
+</collection>
+                ]]>
+            </content>
+            <!--optional -->
+            <additionalAttributes>
+                <dateEntered></dateEntered>
+                <lastUpdated></lastUpdated>
+                <fastAddFlag></fastAddFlag>
+                <supressFromPublic></supressFromPublic>
+                <harvestable></harvestable>
+                <status></status>
+            </additionalAttributes>
+            <linkedIngestDocuments>
+            </linkedIngestDocuments>
+        </ingestDocument>
+    </requestDocuments>
+</request>

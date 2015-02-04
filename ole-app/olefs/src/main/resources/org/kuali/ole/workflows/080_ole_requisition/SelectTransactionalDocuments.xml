@@ -1,0 +1,126 @@
+<data xmlns="ns:workflow" xsi:schemaLocation="ns:workflow resource:WorkflowData" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+     <documentType>
+      <name>OLE_DFTTABCL</name>
+      <parent>OLESelectTransactionalDocument</parent>
+      <label>Default Table Column Value</label>
+    </documentType>
+    
+    <documentType>
+      <name>OLE_ACQBTHUPLOAD</name>
+      <parent>OLESelectTransactionalDocument</parent>
+      <label>
+        Acquisition Batch Upload
+      </label>
+      <docHandler>
+        ${ole.url}/acqBatchUpload.do?methodToCall=docHandler
+      </docHandler>
+      <helpDefinitionURL>
+          ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch11s01.html
+      </helpDefinitionURL>
+      <docSearchHelpURL>
+        default.htm?turl=WordDocuments%2Fcustomdocumentsearches.htm
+      </docSearchHelpURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="IsFailureRecords"/>
+          <split name= "IsFailureRecords" >          
+          <branch name="True">
+              <role name="Approval" nextNode="Final"/>
+           </branch>
+          <branch name="False"> 
+               <role name="ForFYI" nextNode="Final"/>
+          </branch>
+          <join name="Final"/>
+          </split>  
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="Approval">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+        </role>
+         <role name="ForFYI">
+         <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+        </role>
+         <join name="Final"/>
+         <split name="IsFailureRecords">
+          <type>
+            org.kuali.ole.sys.document.workflow.SimpleBooleanSplitNode
+          </type>
+        </split>
+      </routeNodes>
+  </documentType>
+    <documentType>
+      <name>OLE_QUEUESEARCH</name>
+      <parent>OLESelectTransactionalDocument</parent>
+      <label>Receiving and Claiming Queue Search</label>
+       <helpDefinitionURL>
+           ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch05s05.html
+       </helpDefinitionURL>
+    </documentType>
+
+	<documentType>
+		<name>OLE_ORDQU</name>
+		<parent>OLESelectTransactionalDocument</parent>
+		<label>
+			OrderQueueDocument
+		</label>
+        <helpDefinitionURL>
+            ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch03s11.html
+        </helpDefinitionURL>
+        <docSearchHelpURL>
+            ${ole.externalizable.help.url}/default.htm?turl=WordDocuments%2Frequisitions.htm
+        </docSearchHelpURL>
+		<active>
+			true
+		</active>
+		<routingVersion>
+			2
+		</routingVersion>
+	</documentType>
+	<documentType>
+		<name>OLE_ACQS</name>
+		<parent>OLESelectTransactionalDocument</parent>
+		<label>
+			Acquisitions Search
+		</label>
+        <helpDefinitionURL>
+            ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch12s01.html
+        </helpDefinitionURL>
+		<active>
+			true
+		</active>
+		<routingVersion>
+			2
+		</routingVersion>
+	</documentType>        
+	<documentType>
+		<name>OLE_FLU</name>
+		<parent>OLESelectTransactionalDocument</parent>
+		<label>
+			Fund Lookup
+		</label>
+        <helpDefinitionURL>
+            ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch06s02.html
+        </helpDefinitionURL>
+		<active>
+			true
+		</active>
+		<routingVersion>
+			2
+		</routingVersion>
+	</documentType>       
+
+  </documentTypes>
+</data>

@@ -1,0 +1,743 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  - Copyright 2011 The Kuali Foundation.
+  -
+  - Licensed under the Educational Community License, Version 2.0 (the "License");
+  - you may not use this file except in compliance with the License.
+  - You may obtain a copy of the License at
+  -
+  - http://www.opensource.org/licenses/ecl2.php
+  -
+  - Unless required by applicable law or agreed to in writing, software
+  - distributed under the License is distributed on an "AS IS" BASIS,
+  - WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  - See the License for the specific language governing permissions and
+  - limitations undeor the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx" xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+    <bean id="selectModuleConfiguration" parent="selectModuleConfiguration-parentBean" />
+
+    <bean id="selectModuleConfiguration-parentBean" class="org.kuali.ole.sys.FinancialSystemModuleConfiguration" abstract="true">
+        <property name="namespaceCode" value="OLE-SELECT" />
+        <property name="initializeDataDictionary" value="true" />
+        <property name="packagePrefixes">
+            <list>
+                <value>org.kuali.ole.select</value>
+            </list>
+        </property>
+        <property name="dataDictionaryPackages">
+            <list>
+                <value>org/kuali/ole/select/businessobject/datadictionary</value>
+                <value>org/kuali/ole/select/document/datadictionary</value>
+                <value>org/kuali/ole/select/document/view</value>
+                <value>org/kuali/ole/select/uif</value>
+                <value>org/kuali/ole/select/view</value>
+                <value>org/kuali/ole/select/gokb</value>
+            </list>
+        </property>
+        <property name="databaseRepositoryFilePaths">
+            <list>
+                <value>org/kuali/ole/select/ojb-select.xml</value>
+            </list>
+        </property>
+        <!--
+          <property name="scriptConfigurationFilePaths">
+          <list>
+          <value>org/kuali/ole/select/dwr-select.xml</value>
+          </list>
+          </property>
+        -->
+        <!-- <property name="jobNames">
+          <list>
+          <value>vendorToOleExtractJob</value>
+          </list>
+          </property>
+
+          <property name="triggerNames">
+          <list>
+          <value>vendorToOleJobTrigger</value>
+          </list>
+          </property> -->
+
+        <!-- Modified for Jira OLE-2357 starts -->
+
+        <property name="jobNames">
+            <list>
+                <value>accountTemporaryRestrictedNotifyJob</value>
+            </list>
+        </property>
+
+        <property name="triggerNames">
+            <list>
+                <value>accountTemporaryRestrictedNotifyJobTrigger</value>
+            </list>
+        </property>
+
+        <!-- Modified for Jira OLE-2357 ends -->
+
+        <property name="batchFileDirectories">
+            <list>
+                <value>${reports.directory}/select</value>
+                <value>${staging.directory}/select</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="selectModuleService" parent="selectModuleService-parentBean" />
+
+    <bean id="selectModuleService-parentBean" class="org.kuali.ole.sys.service.impl.OleModuleServiceImpl" abstract="true">
+        <property name="moduleConfiguration" ref="selectModuleConfiguration" />
+    </bean>
+
+    <bean id="preOrderService" parent="preOrderService-parentBean" />
+    <bean id="preOrderService-parentBean" abstract="true" class="org.kuali.ole.select.service.impl.PreOrderServiceImpl"></bean>
+
+    <!-- bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter" p:serviceBus-ref="rice.ksb.serviceBus">
+      <property name="serviceDefinition">
+      <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition"
+      p:localServiceName="preOrderService"
+      p:service-ref="preOrderService"
+      p:jaxWsService="true"
+      p:serviceNameSpaceURI="http://service.select.ole.kuali.org/"
+      p:serviceInterface="org.kuali.ole.select.service.PreOrderService" />
+      </property>
+      </bean -->
+    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition" p:localServiceName="preOrderService" p:service-ref="preOrderService" p:jaxWsService="true" p:serviceNameSpaceURI="http://service.select.ole.kuali.org/" p:busSecurity="false" p:serviceVersion="1.0" />
+        </property>
+    </bean>
+
+    <bean id="docStoreService" parent="docStoreService-parentBean" />
+    <bean id="docStoreService-parentBean" abstract="true" class="org.kuali.ole.select.service.impl.DocStoreServiceImpl"></bean>
+
+    <!-- bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter" p:serviceBus-ref="rice.ksb.serviceBus">
+      <property name="serviceDefinition">
+      <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition"
+      p:localServiceName="docStoreService"
+      p:service-ref="docStoreService"
+      p:jaxWsService="true"
+      p:serviceNameSpaceURI="http://service.select.ole.kuali.org/"
+      p:serviceInterface="org.kuali.ole.select.service.DocStoreService" />
+      </property>
+      </bean -->
+    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition" p:localServiceName="docStoreService" p:service-ref="docStoreService" p:jaxWsService="true" p:serviceNameSpaceURI="http://service.select.ole.kuali.org/" p:busSecurity="false" p:serviceVersion="1.0" />
+        </property>
+    </bean>
+
+    <!-- <bean id="vendorToOleExtractJob" parent="scheduledJobDescriptor">
+      <property name="steps">
+      <list>
+      <ref bean="vendorToOleExtractStep" />
+      <ref bean="requisitionLoadStep" />
+      </list>
+      </property>
+      </bean>
+      <bean id="vendorToOleJobTrigger" parent="cronTrigger">
+      <property name="jobName" value="vendorToOleExtractJob" />
+      <property name="cronExpression" value="0 0/1 * * * ?" />
+      </bean>
+
+      <bean id="vendorToOleExtractStep" class="org.kuali.ole.select.batch.VendorToOleExtractStep" parent="step">
+      <property name="batchInputFileService">
+      <ref bean="batchInputFileService" />
+      </property>
+      <property name="marcInputFileType">
+      <ref bean="marcInputFileType" />
+      </property>
+      <property name="vendorToOleExtractService" ref="vendorToOleExtractService"/>
+      </bean>
+
+      <bean id="vendorToOleExtractService" class="org.kuali.ole.select.batch.service.impl.VendorToOleExtractServiceImpl"></bean> -->
+
+        <!-- Modified for Jira OLE-2357 starts -->
+
+    <bean id="accountTemporaryRestrictedNotifyJob" parent="scheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="oleAccountTemporaryRestrictedStep" />
+            </list>
+        </property>
+    </bean>
+    <bean id="accountTemporaryRestrictedNotifyJobTrigger" parent="cronTrigger">
+        <property name="jobName" value="accountTemporaryRestrictedNotifyJob" />
+        <property name="cronExpression" value="0 00 02 * * ?" />   <!-- With This Cron Expression it will fire everyday at 02:00 A.M -->
+    </bean>
+
+    <bean id="oleAccountTemporaryRestrictedStep" class="org.kuali.ole.select.batch.OleAccountTemporaryRestrictedStep" parent="step">
+    </bean>
+
+        <!-- Modified for Jira OLE-2357 ends -->
+
+    <bean id="marcInputFileType" class="org.kuali.ole.select.batch.MarcInputFileType">
+        <property name="directoryPath">
+            <value>${staging.directory}/batchingest/</value>
+        </property>
+        <property name="fileExtension">
+            <value>mrk</value>
+        </property>
+        <property name="dateTimeService">
+            <ref bean="dateTimeService" />
+        </property>
+    </bean>
+
+    <bean id="oleBatchIngest" class="org.kuali.ole.select.service.impl.OleBatchIngestServiceImpl"></bean>
+
+    <bean id="processVendor" class="org.kuali.batchingest.ProcessVendorFile"></bean>
+
+    <bean id="ordInputFileType" class="org.kuali.ole.select.batch.OrdInputFileType">
+        <property name="directoryPath">
+            <value>${staging.directory}/batchingest/</value>
+        </property>
+        <property name="fileExtension">
+            <value>ord</value>
+        </property>
+        <property name="dateTimeService">
+            <ref bean="dateTimeService" />
+        </property>
+    </bean>
+
+    <!-- <bean id="requisitionLoadStep" class="org.kuali.ole.select.batch.RequisitionLoadStep" parent="step">
+      <property name="requisitionLoadTransactionsService">
+      <ref bean="requisitionLoadTransactionsService" />
+      </property>
+      <property name="batchInputFileService">
+      <ref bean="batchInputFileService" />
+      </property>
+      <property name="requisitionInputFileType">
+      <ref bean="requisitionInputFileType" />
+      </property>
+      </bean> -->
+
+    <bean id="requisitionLoadTransactionsService" parent="requisitionLoadTransactionsService-parentBean" />
+    <bean id="requisitionLoadTransactionsService-parentBean" abstract="true" class="org.kuali.ole.select.batch.service.impl.RequisitionLoadTransactionsServiceImpl">
+        <property name="oleRequisitionCreateDocumentService">
+            <ref bean="oleRequisitionCreateDocumentService" />
+        </property>
+        <property name="batchInputFileService">
+            <ref bean="batchInputFileService" />
+        </property>
+        <property name="buildVendorBibInfoBean">
+            <ref bean="buildVendorBibInfoBean" />
+        </property>
+        <property name="configurationService">
+            <ref bean="configurationService" />
+        </property>
+    </bean>
+
+    <bean id="oleRequisitionCreateDocumentService" parent="oleRequisitionCreateDocumentService-parentBean" />
+    <bean id="oleRequisitionCreateDocumentService-parentBean" abstract="true" class="org.kuali.ole.select.batch.service.impl.OleRequisitionCreateDocumentServiceImpl" parent="RequisitionCreateDocumentService-parentBean">
+        <property name="requisitionCreateDocumentService">
+            <ref bean="requisitionCreateDocumentService" />
+        </property>
+        <property name="oleRequestorService">
+            <ref bean="oleRequestorService" />
+        </property>
+        <property name="oleRequestSourceService">
+            <ref bean="oleRequestSourceService" />
+        </property>
+        <property name="vendorService">
+            <ref bean="vendorService" />
+        </property>
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
+        <property name="documentService">
+            <ref bean="documentService" />
+        </property>
+        <property name="bibInfoService">
+            <ref bean="bibInfoService" />
+        </property>
+        <property name="configurationService">
+            <ref bean="configurationService" />
+        </property>
+    </bean>
+
+    <bean id="requisitionCreateDocumentService" parent="RequisitionCreateDocumentService-parentBean" />
+    <bean id="RequisitionCreateDocumentService-parentBean" abstract="true" class="org.kuali.ole.select.batch.service.impl.RequisitionCreateDocumentServiceImpl">
+        <property name="documentService">
+            <ref bean="documentService" />
+        </property>
+    </bean>
+
+    <bean id="oleRequestorService" parent="oleRequestorService-parentBean" />
+    <bean id="oleRequestorService-parentBean" abstract="true" class="org.kuali.ole.select.document.service.impl.OleRequestorServiceImpl">
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
+    </bean>
+
+    <bean id="oleNoteTypeService" parent="oleNoteTypeService-parentBean" />
+    <bean id="oleNoteTypeService-parentBean" abstract="true" class="org.kuali.ole.select.document.service.impl.OleNoteTypeServiceImpl">
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
+    </bean>
+
+    <bean id="oleLineItemReceivingService" parent="oleLineItemReceivingService-parentBean" />
+    <bean id="oleLineItemReceivingService-parentBean" abstract="true" class="org.kuali.ole.select.document.service.impl.OleLineItemReceivingServiceImpl">
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
+        <property name="parameterService" ref="parameterService" />
+    </bean>
+
+    <bean id="olePurchaseOrderDocumentHelperService" parent="olePurchaseOrderDocumentHelperService-parentBean" />
+    <bean id="olePurchaseOrderDocumentHelperService-parentBean" abstract="true" class="org.kuali.ole.select.document.service.impl.OlePurchaseOrderDocumentHelperServiceImpl">
+    </bean>
+
+    <bean id="requisitionInputFileType" class="org.kuali.ole.select.batch.RequisitionInputFileType">
+        <property name="directoryPath">
+            <value>${staging.directory}/select/bibInfo/</value>
+        </property>
+        <property name="fileExtension">
+            <value>xml</value>
+        </property>
+        <property name="digestorRulesFileName">
+            <value>org/kuali/ole/select/batch/requisitionDigesterRules.xml</value>
+        </property>
+        <property name="schemaLocation">
+            <value>${externalizable.static.content.url}/xsd/select/requisition.xsd</value>
+        </property>
+        <property name="dateTimeService">
+            <ref bean="dateTimeService" />
+        </property>
+    </bean>
+
+    <bean id="bibInfoBean" class="org.kuali.ole.select.businessobject.BibInfoBean"></bean>
+    <!-- lookupable -->
+
+    <bean id="docLookupDao" parent="platformAwareDao" class="org.kuali.ole.select.lookup.DocLookupSearch">
+
+    </bean>
+
+    <bean id="docLookupService" parent="docLookupService-parentBean" />
+    <bean id="docLookupService-parentBean" abstract="true" class="org.kuali.ole.select.lookup.DocLookupServiceImpl">
+        <property name="lookupDao">
+            <ref bean="docLookupDao" />
+        </property>
+        <property name="lookupDaoOjb" ref="lookupDao" />
+        <property name="configurationService">
+            <ref bean="configurationService" />
+        </property>
+        <property name="dataDictionaryService">
+            <ref bean="dataDictionaryService" />
+        </property>
+        <property name="persistenceStructureService">
+            <ref bean="persistenceStructureService" />
+        </property>
+    </bean>
+
+    <bean id="bibInfoWrapperServiceImpl" parent="bibInfoWrapperServiceImpl-parentBean" />
+    <bean id="bibInfoWrapperServiceImpl-parentBean" abstract="true" class="org.kuali.ole.select.service.impl.BibInfoWrapperServiceImpl">
+        <property name="bibInfoService">
+            <ref bean="bibInfoService" />
+        </property>
+    </bean>
+
+    <bean id="batchLoadService" parent="batchLoadService-parentBean" />
+    <bean id="batchLoadService-parentBean" abstract="true" class="org.kuali.ole.select.service.impl.BatchLoadServiceImpl" />
+
+    <bean id="bibInfoService" parent="bibInfoService-parentBean" />
+    <bean id="bibInfoService-parentBean" abstract="true" class="org.kuali.ole.select.service.impl.BibInfoServiceImpl">
+        <property name="webClientService">
+            <ref bean="webClientService" />
+        </property>
+        <property name="bibMarcXMLGenerationService">
+            <ref bean="bibMarcXMLGenerationService" />
+        </property>
+        <property name="itemMarcXMLGenerationService">
+            <ref bean="itemMarcXMLGenerationService" />
+        </property>
+        <property name="fileProcessingService">
+            <ref bean="fileProcessingService" />
+        </property>
+        <property name="configurationService">
+            <ref bean="configurationService" />
+        </property>
+    </bean>
+
+    <bean id="populateBibInfoService" parent="populateBibInfoService-parentBean" />
+    <bean id="populateBibInfoService-parentBean" abstract="true" class="org.kuali.ole.select.service.impl.PopulateBibInfoServiceImpl">
+        <property name="configurationService">
+            <ref bean="configurationService" />
+        </property>
+    </bean>
+
+    <bean id="buildCitationBibInfoBean" class="org.kuali.ole.select.service.impl.BuildCitationBibInfoBean"></bean>
+    <bean id="buildOpenUrlBibInfoBean" class="org.kuali.ole.select.service.impl.BuildOpenUrlBibInfoBean"></bean>
+    <bean id="buildFormBibInfoBean" class="org.kuali.ole.select.service.impl.BuildFormBibInfoBean"></bean>
+
+    <bean id="bibMarcXMLGenerationService" parent="bibMarcXMLGenerationService-parentBean" />
+    <bean id="bibMarcXMLGenerationService-parentBean" abstract="true" class="org.kuali.ole.select.service.impl.BibMarcXMLGenerationServiceImpl"></bean>
+
+    <bean id="itemMarcXMLGenerationService" parent="itemMarcXMLGenerationService-parentBean" />
+    <bean id="itemMarcXMLGenerationService-parentBean" abstract="true" class="org.kuali.ole.select.service.impl.ItemMarcXMLGenerationServiceImpl"></bean>
+
+    <bean id="docStoreResponseHandlerObject" parent="docStoreResponseHandlerObject-parentBean" />
+    <bean id="docStoreResponseHandlerObject-parentBean" abstract="true" class="org.kuali.ole.docstore.model.xstream.ingest.ResponseHandler"></bean>
+
+    <bean id="fileProcessingService" parent="fileProcessingService-parentBean" />
+    <bean id="fileProcessingService-parentBean" abstract="true" class="org.kuali.ole.select.service.impl.FileProcessingServiceImpl"></bean>
+
+    <bean id="purchaseOrderEdi" class="org.kuali.ole.module.purap.edi.PurchaseOrderEdi"></bean>
+
+    <bean id="purchaseOrderPdf" class="org.kuali.ole.module.purap.pdf.PurchaseOrderPdf"></bean>
+
+    <bean id="webClientService" parent="webClientService-parentBean" />
+    <bean id="webClientService-parentBean" abstract="true" class="org.kuali.ole.select.service.impl.WebClientServiceImpl"></bean>
+
+    <bean id="oleRequestSourceService" parent="oleRequestSourceService-parentBean" />
+    <bean id="oleRequestSourceService-parentBean" abstract="true" class="org.kuali.ole.select.document.service.impl.OleRequestSourceServiceImpl"></bean>
+
+    <bean id="purchaseOrderTypeService" parent="purchaseOrderTypeService-parentBean" />
+    <bean id="purchaseOrderTypeService-parentBean" abstract="true" class="org.kuali.ole.select.document.service.impl.PurchaseOrderTypeServiceImpl"></bean>
+
+    <bean id="transmissionService" parent="transmissionService-parentBean" />
+    <bean id="transmissionService-parentBean" abstract="true" class="org.kuali.ole.select.service.transmission.OleTransmissionServiceImpl"></bean>
+
+    <bean id="docLookupServiceImpl" parent="docLookupServiceImpl-parentBean" />
+    <bean id="docLookupServiceImpl-parentBean" abstract="true" class="org.kuali.ole.select.lookup.DocLookupServiceImpl"></bean>
+
+    <bean id="olePurapService" parent="olePurapService-parentBean" />
+    <bean id="olePurapService-parentBean" abstract="true" class="org.kuali.ole.module.purap.document.service.impl.OlePurapServiceImpl">
+        <property name="parameterService" ref="parameterService" />
+    </bean>
+    <!-- documet store lookupable -->
+    <bean id="buildVendorBibInfoBean" class="org.kuali.ole.select.service.impl.BuildVendorBibInfoBean"></bean>
+    <!--<bean id="oleVendorCustomerNumberAddress" class="org.kuali.ole.vnd.businessobject.OleVendorCustomerNumberAddress"></bean> -->
+
+    <!-- Changes for OLE-1890 Receiving Search Queue -->
+    <bean id="oleDocStoreLookupDao" parent="platformAwareDao" class="org.kuali.ole.select.service.impl.OleDocStoreSearchService" />
+
+    <bean id="oleDocStoreLookupService" parent="oleDocStoreLookupService-parentBean" />
+    <bean id="oleDocStoreLookupService-parentBean" abstract="true" class="org.kuali.ole.select.service.impl.OleDocStoreLookupServiceImpl">
+        <property name="lookupDao">
+            <ref bean="oleDocStoreLookupDao" />
+        </property>
+        <property name="lookupDaoOjb" ref="lookupDao" />
+        <property name="configurationService">
+            <ref bean="configurationService" />
+        </property>
+        <property name="dataDictionaryService">
+            <ref bean="dataDictionaryService" />
+        </property>
+        <property name="persistenceStructureService">
+            <ref bean="persistenceStructureService" />
+        </property>
+    </bean>
+    <!-- Change for 2172 -->
+    <bean id="olePaymentRequestService" parent="olePaymentRequestService-parentBean" />
+    <bean id="olePaymentRequestService-parentBean" abstract="true" class=" org.kuali.ole.select.document.service.impl.OlePaymentRequestServiceImpl" parent="paymentRequestService">
+        <property name="documentService" ref="documentService" />
+        <property name="purapService" ref="purapService" />
+        <property name="noteService" ref="noteService" />
+        <property name="purchaseOrderService" ref="purchaseOrderService" />
+        <property name="olePurapAccountingService" ref="olePurapAccountingService" />
+        <property name="purapAccountingService" ref="purapAccountingService" />
+    </bean>
+    <!-- bean id="olePurchaseOrderService" class="org.kuali.ole.select.document.service.impl.OlePurchaseOrderServiceImpl" parent="org.kuali.ole.module.purap.document.service.impl.PurchaseOrderServiceImpl"/ -->
+
+
+    <bean id="oleInvoiceService" parent="oleInvoiceService-parentBean" />
+    <bean id="oleInvoiceService-parentBean" abstract="true" class=" org.kuali.ole.select.document.service.impl.OleInvoiceServiceImpl" parent="invoiceService">
+        <property name="documentService" ref="documentService" />
+        <property name="purapService" ref="purapService" />
+        <property name="noteService" ref="noteService" />
+        <property name="purchaseOrderService" ref="purchaseOrderService" />
+        <property name="olePurapAccountingService" ref="olePurapAccountingService" />
+        <property name="purapAccountingService" ref="purapAccountingService" />
+    </bean>
+
+    <bean id="olePurchaseOrderService" parent="olePurchaseOrderService-parentBean" />
+    <bean id="olePurchaseOrderService-parentBean" abstract="true" class="org.kuali.ole.select.document.service.impl.OlePurchaseOrderServiceImpl" parent="purchaseOrderService-parentBean" />
+
+    <bean id="olePurapAccountingService" parent="olePurapAccountingService-parentBean" />
+    <bean id="olePurapAccountingService-parentBean" abstract="true" class="org.kuali.ole.select.document.service.impl.OlePurapAccountingServiceImpl" parent="purapAccountingService">
+        <property name="purapService" ref="purapService" />
+    </bean>
+
+    <bean id="foriegnVendorPhoneNumberService" parent="foriegnVendorPhoneNumberService-parentBean" />
+    <bean id="foriegnVendorPhoneNumberService-parentBean" abstract="true" class="org.kuali.ole.select.service.impl.OleForiegnVendorPhoneNumberServiceImpl" >
+        <property name="parameterService" ref="parameterService" />
+    </bean>
+    <!-- Changes for OLE-1890 Receiving Search Queue - Ends -->
+
+    <import resource="document/validation/configuration/oleValidatorDefinitions.xml" />
+    <import resource="document/validation/configuration/OleRequisitionValidation.xml" />
+    <import resource="document/validation/configuration/OrderQueueValidation.xml" />
+    <import resource="document/validation/configuration/OlePaymentRequestValidation.xml" />
+    <import resource="document/validation/configuration/OlePurapValidatorDefinition.xml" />
+    <import resource="document/validation/configuration/OleVendorCreditMemoValidation.xml" />
+    <import resource="document/validation/configuration/OleDisbursementVoucherValidation.xml" />
+    <import resource="document/validation/configuration/OleInvoiceValidation.xml" />
+    <import resource="document/validation/configuration/OlePurchaseOrderValidation.xml" />
+
+
+    <bean id="olePersonRequestorLookupable" parent="olePersonRequestorLookupable-parentBean" />
+    <bean id="olePersonRequestorLookupable-parentBean" abstract="true" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService">
+            <ref bean="olePersonRequestorLookupableService" />
+        </property>
+    </bean>
+    <bean id="olePersonRequestorLookupableService" parent="olePersonRequestorLookupableService-parentBean" scope="prototype" />
+    <bean id="olePersonRequestorLookupableService-parentBean" abstract="true" class="org.kuali.ole.select.service.impl.OlePersonRequestorLookupableServiceImpl">
+
+        <!-- bean id="olePersonRequestorLookupableService" class="org.kuali.ole.select.service.impl.OlePersonRequestorLookupableServiceImpl" scope="prototype" -->
+    </bean>
+
+    <bean id="oleLoadSumRecordLookupable" parent="oleLoadSumRecordLookupable-parentBean" />
+    <bean id="oleLoadSumRecordLookupable-parentBean" abstract="true" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService">
+            <ref bean="oleLoadSumRecordLookupableService" />
+        </property>
+    </bean>
+
+    <bean id="oleLoadSumRecordLookupableService" parent="oleLoadSumRecordLookupableService-parentBean" scope="prototype" />
+    <bean id="oleLoadSumRecordLookupableService-parentBean" abstract="true" class="org.kuali.ole.select.lookup.OleLoadSumRecordLookupableHelperServiceImpl" />
+
+
+    <bean id="oleAcquisitionSearchService" parent="oleAcquisitionSearchService-parentBean" scope="prototype" />
+    <bean id="oleAcquisitionSearchService-parentBean" abstract="true" class="org.kuali.ole.select.document.service.impl.OleAcquisitionSearchServiceImpl" />
+
+    <bean id="oleCopyHelperService" parent="oleCopyHelperService-parentBean" scope="prototype" />
+    <bean id="oleCopyHelperService-parentBean" abstract="true" class="org.kuali.ole.select.document.service.impl.OleCopyHelperServiceImpl">
+    </bean>
+
+    <!-- Modified for OLE-2840 -->
+    <bean id="oleDocstoreHelperService" parent="oleDocstoreHelperService-parentBean" scope="prototype" />
+    <bean id="oleDocstoreHelperService-parentBean" abstract="true" class="org.kuali.ole.select.document.service.impl.OleDocstoreHelperServiceImpl">
+        <property name="configurationService">
+            <ref bean="configurationService" />
+        </property>
+        <property name="webClientService">
+            <ref bean="webClientService" />
+        </property>
+    </bean>
+    <!-- Modified for OLE-2840 -->
+
+    <!-- Modified for Jira OLE-2357 starts -->
+
+    <bean id="oleAccountService" parent="oleAccountService-parentBean" />
+
+    <bean id="oleAccountService-parentBean" abstract="true" class="org.kuali.ole.select.service.impl.OleAccountServiceImpl" />
+
+    <bean id="oleGenericService" parent="oleGenericService-parentBean" />
+    <bean id="oleGenericService-parentBean" abstract="true" class="org.kuali.ole.select.service.impl.OleGenericServiceImpl" />
+
+    <bean id="oleInvocationHandler" parent="oleInvocationHandler-parentBean" />
+    <bean id="oleInvocationHandler-parentBean" abstract="true" class="org.kuali.ole.select.service.impl.OleInvocationHandler">
+        <constructor-arg>
+            <ref bean="oleGenericService" />
+        </constructor-arg>
+    </bean>
+
+    <bean id="oleNotifyService" parent="oleNotifyService-parentBean" />
+    <bean id="oleNotifyService-parentBean" abstract="true" class="org.kuali.ole.select.service.impl.OleNotifyServiceImpl">
+
+        <property name="oleInvocationHandler">
+            <ref bean="oleInvocationHandler" />
+        </property>
+    </bean>
+
+    <!-- Modified for Jira OLE-2357 ends -->
+
+    <!-- Modified for Jira OLE-2437 starts -->
+    <bean id="oleExposedWebService" parent="oleExposedWebService-parentBean" />
+    <bean id="oleExposedWebService-parentBean" abstract="true" class="org.kuali.ole.select.service.impl.OleExposedWebServiceImpl">
+        <property name="oleReqPOLoadTransactionsService">
+            <ref bean="oleReqPOLoadTransactionsService" />
+        </property>
+    </bean>
+    <!--bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter" p:serviceBus-ref="rice.ksb.serviceBus">
+      <property name="serviceDefinition">
+      <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition"
+      p:localServiceName="oleExposedWebService"
+      p:service-ref="oleExposedWebService"
+      p:jaxWsService="true"
+      p:serviceNameSpaceURI="http://service.select.ole.kuali.org/"
+      p:serviceInterface="org.kuali.ole.select.service.OleExposedWebService" />
+      </property>
+      </bean -->
+<!--    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition" p:localServiceName="oleExposedWebService" p:service-ref="oleExposedWebService" p:jaxWsService="true" p:serviceNameSpaceURI="http://service.select.ole.kuali.org/" p:busSecurity="false" p:serviceVersion="1.0" />
+        </property>
+    </bean>-->
+    <!-- Modified for Jira OLE-2437 ends -->
+    <bean id="oleReqPOLoadTransactionsService" parent="oleReqPOLoadTransactionsService-parentBean" />
+    <bean id="oleReqPOLoadTransactionsService-parentBean" abstract="true" class="org.kuali.ole.select.service.impl.OleReqPOLoadTransactionsServiceImpl">
+        <property name="oleReqPOCreateDocumentService">
+            <ref bean="oleReqPOCreateDocumentService" />
+        </property>
+        <property name="batchInputFileService">
+            <ref bean="batchInputFileService" />
+        </property>
+        <property name="buildVendorBibInfoBean">
+            <ref bean="buildVendorBibInfoBean" />
+        </property>
+        <property name="configurationService">
+            <ref bean="configurationService" />
+        </property>
+    </bean>
+
+    <bean id="oleReqPOCreateDocumentService" parent="oleReqPOCreateDocumentService-parentBean" />
+    <bean id="oleReqPOCreateDocumentService-parentBean" abstract="true" class="org.kuali.ole.select.service.impl.OleReqPOCreateDocumentServiceImpl" parent="RequisitionCreateDocumentService-parentBean">
+        <property name="requisitionCreateDocumentService">
+            <ref bean="requisitionCreateDocumentService" />
+        </property>
+        <property name="oleRequestorService">
+            <ref bean="oleRequestorService" />
+        </property>
+        <property name="oleRequestSourceService">
+            <ref bean="oleRequestSourceService" />
+        </property>
+        <property name="vendorService">
+            <ref bean="vendorService" />
+        </property>
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
+        <property name="documentService">
+            <ref bean="documentService" />
+        </property>
+        <property name="bibInfoService">
+            <ref bean="bibInfoService" />
+        </property>
+        <property name="configurationService">
+            <ref bean="configurationService" />
+        </property>
+        <property name="olePurapService">
+            <ref bean="olePurapService" />
+        </property>
+    </bean>
+
+    <!-- Modified for Jira OLE-2853 starts -->
+
+    <bean id="oleUuidCheckWebService" parent="oleUuidCheckWebService-parentBean" />
+    <bean id="oleUuidCheckWebService-parentBean" abstract="true" class="org.kuali.ole.select.service.impl.OleUuidCheckWebServiceImpl"></bean>
+    <!-- bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter" p:serviceBus-ref="rice.ksb.serviceBus">
+      <property name="serviceDefinition">
+      <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition"
+      p:localServiceName="oleUuidCheckWebService"
+      p:service-ref="oleUuidCheckWebService"
+      p:jaxWsService="true"
+      p:serviceNameSpaceURI="http://service.select.ole.kuali.org/"
+      p:serviceInterface="org.kuali.ole.select.service.OleUuidCheckWebService" />
+      </property>
+      </bean -->
+    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition" p:localServiceName="oleUuidCheckWebService" p:service-ref="oleUuidCheckWebService" p:jaxWsService="true" p:serviceNameSpaceURI="http://service.select.ole.kuali.org/" p:busSecurity="false" p:serviceVersion="1.0" />
+        </property>
+    </bean>
+
+    <!-- Modified for Jira OLE-2853 ends -->
+
+    <bean id="oleLicensingRequirementService" parent="oleLicensingRequirementService-parentBean" />
+    <bean id="oleLicensingRequirementService-parentBean" abstract="true" class="org.kuali.ole.select.document.service.impl.OleLicensingRequirementServiceImpl"></bean>
+
+    <bean id="oleWebServiceProvider" class="org.kuali.ole.select.document.service.impl.OleWebServiceProviderImpl" scope="singleton" />
+
+    <bean id="oleRequisitionWebService" parent="oleRequisitionWebService-parentBean" />
+    <bean id="oleRequisitionWebService-parentBean" abstract="true" class="org.kuali.ole.select.service.impl.OleRequisitionWebServiceImpl">
+        <!-- property name="oleReqPOLoadTransactionsService">
+          <ref bean="oleReqPOLoadTransactionsService" />
+          </property -->
+    </bean>
+
+    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition" p:localServiceName="oleRequisitionWebService" p:service-ref="oleRequisitionWebService" p:jaxWsService="true" p:serviceNameSpaceURI="http://service.select.ole.kuali.org/" p:busSecurity="false" p:serviceVersion="1.0" />
+        </property>
+    </bean>
+
+    <!--
+      <bean id="workflowFileHandler" class="org.kuali.ole.workflow.WorfklowFileHandler">
+      <property name="workflowXMLSrcDir" value="org/kuali/ole/workflow" />
+      <property name="workflowXMLDestDir" value="${user.home}/kuali/main/dev/olerice2/workflow/pending" />
+      </bean>
+
+      <bean id="loadDefaultWorkflowsBean" class="org.kuali.ole.LoadDefaultWorkflowsBean">
+      <property name="workflowFileHandler" ref="workflowFileHandler" />
+      </bean>
+    -->
+
+    <bean id="oleCreditMemoService" parent="oleCreditMemoService-parentBean"/>
+    <bean id="oleCreditMemoService-parentBean" abstract="true" class="org.kuali.ole.select.document.service.impl.OleCreditMemoServiceImpl">
+        <property name="accountsPayableService" ref="accountsPayableService" />
+        <property name="creditMemoDao" ref="creditMemoDao" />
+        <property name="dataDictionaryService" ref="dataDictionaryService" />
+        <property name="documentService" ref="documentService" />
+        <property name="configurationService" ref="kualiConfigurationService" />
+        <property name="noteService" ref="noteService" />
+        <property name="paymentRequestService" ref="paymentRequestService" />
+        <property name="purapAccountingService" ref="purapAccountingService" />
+        <property name="purapGeneralLedgerService" ref="purapGeneralLedgerService" />
+        <property name="purapService" ref="purapService" />
+        <property name="purchaseOrderService" ref="purchaseOrderService" />
+        <property name="vendorService" ref="vendorService" />
+        <property name="workflowDocumentService" ref="workflowDocumentService" />
+        <property name="olePaymentRequestService" ref="olePaymentRequestService" />
+        <property name="olePurchaseOrderService" ref="olePurchaseOrderService" />
+        <property name="oleInvoiceService" ref="oleInvoiceService"/>
+        <property name="olePurapAccountingService" ref="olePurapAccountingService" />
+
+    </bean>
+
+    <bean id="olePatronLookupable" parent="olePatronLookupable-parentBean"/>
+    <bean id="olePatronLookupable-parentBean" abstract="true" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService">
+            <ref bean="olePatronLookupableService" />
+        </property>
+    </bean>
+    <bean id="olePatronLookupableService" parent="olePatronLookupableService-parentBean" scope="prototype" />
+    <bean id="olePatronLookupableService-parentBean" abstract="true" class="org.kuali.ole.select.service.impl.OlePatronLookupableServiceImpl" >
+    </bean>
+
+    <bean id="oleSelectDocumentService" class="org.kuali.ole.select.document.service.impl.OleSelectDocumentServiceImpl" scope="singleton" />
+
+    <bean id="olePatronDocumentList" class="org.kuali.ole.select.businessobject.OlePatronDocumentList" scope="singleton" />
+
+    <bean id="olePaymentRequestFundCheckService" parent="olePaymentRequestFundCheckService-parentBean" />
+    <bean id="olePaymentRequestFundCheckService-parentBean" abstract="true" class="org.kuali.ole.select.document.service.impl.OlePaymentRequestFundCheckServiceImpl"/>
+
+    <bean id="oleRequisitionDocumentService" parent="oleRequisitionDocumentService-parentBean" />
+    <bean id="oleRequisitionDocumentService-parentBean" abstract="true" class="org.kuali.ole.select.document.service.impl.OleRequisitionDocumentServiceImpl"/>
+
+    <bean id="oleInvoiceItemService" parent="oleInvoiceItemService-parentBean" />
+    <bean id="oleInvoiceItemService-parentBean" abstract="true" class="org.kuali.ole.select.document.service.impl.OleInvoiceItemServiceImpl"/>
+
+    <bean id="oleInvoiceFundCheckService" parent="oleInvoiceFundCheckService-parentBean" />
+    <bean id="oleInvoiceFundCheckService-parentBean" abstract="true" class="org.kuali.ole.select.document.service.impl.OleInvoiceFundCheckServiceImpl"/>
+
+<!--
+   <bean id="docstoreClient" class="org.kuali.ole.docstore.engine.client.DocstoreLocalClient"/>
+   <bean id="restClient" class="org.kuali.ole.docstore.common.client.DocstoreRestClient"/>
+-->
+    <bean id="docstoreClientLocator" class="org.kuali.ole.docstore.common.client.DocstoreClientLocator"/>
+
+    <!--<bean id="olePurchaseOrderItemLookupable" parent="olePurchaseOrderItemLookupable-parentBean"/>
+    <bean id="olePurchaseOrderItemLookupable-parentBean" abstract="true" class="org.kuali.ole.select.lookup.OLEPurchaseOrderItemLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService">
+            <ref bean="olePurchaseOrderItemLookupableHelperService" />
+        </property>
+    </bean>
+
+
+    <bean id="olePurchaseOrderItemLookupableHelperService" parent="olePurchaseOrderItemLookupableHelperService-parentBean" scope="prototype" />
+    <bean id="olePurchaseOrderItemLookupableHelperService-parentBean" abstract="true" class="org.kuali.ole.select.lookup.OLEPurchaseOrderItemLookupableHelperServiceImpl" >
+    </bean>
+-->
+    <bean id="oleHoldingsDao" parent="platformAwareDao" class="org.kuali.ole.service.impl.OLEHoldingsDaoOjb" />
+    <bean id="oleGOKBSearchDaoOjb" parent="platformAwareDao" class="org.kuali.ole.service.OLEGOKBSearchDaoOjb" />
+    <bean id="oleInvoiceDao" parent="platformAwareDao" class="org.kuali.ole.select.service.impl.OLEInvoiceDaoOjb" />
+</beans>

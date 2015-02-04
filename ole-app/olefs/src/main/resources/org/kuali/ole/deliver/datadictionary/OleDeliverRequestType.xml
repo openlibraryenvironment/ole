@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="OleRequestTypeDocument" parent="OleRequestTypeDocument-parentBean"/>
+    <bean id="OleRequestTypeDocument-parentBean" abstract="true" parent="BusinessObjectEntry"
+          p:businessObjectClass="org.kuali.ole.deliver.bo.OleDeliverRequestType" p:titleAttribute="requestTypeCode"
+          p:objectLabel="RequestType">
+        <property name="attributes">
+            <list>
+                <ref bean="OleRequestTypeDocument-requestTypeId"/>
+                <ref bean="OleRequestTypeDocument-requestTypeCode"/>
+                <ref bean="OleRequestTypeDocument-requestTypeName"/>
+                <ref bean="OleRequestTypeDocument-requestTypeDescription"/>
+                <ref bean="OleRequestTypeDocument-active"/>
+            </list>
+        </property>
+        <property name="primaryKeys">
+            <list>
+                <value>requestTypeId</value>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="OleRequestTypeDocument-requestTypeId" parent="OleRequestTypeDocument-requestTypeId-parentBean"/>
+
+    <bean id="OleRequestTypeDocument-requestTypeId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="10"/>
+        <property name="shortLabel" value="Request Id"/>
+        <property name="description" value="Patron Identifier"/>
+        <property name="name" value="requestTypeId"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Request Type Id"/>
+    </bean>
+
+    <bean id="OleRequestTypeDocument-active" parent="OleRequestTypeDocument-active-parentBean"/>
+
+    <bean id="OleRequestTypeDocument-active-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="active"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="active"/>
+        <property name="maxLength" value="1"/>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-CheckboxControl"/>
+        </property>
+        <property name="summary" value="Active Indicator"/>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+        <property name="label" value="Active Indicator"/>
+        <property name="description" value="This attribute is used to describe whether the associated object is active or inactive."/>
+    </bean>
+
+    <bean id="OleRequestTypeDocument-requestTypeCode" parent="OleRequestTypeDocument-requestTypeCode-parentBean"/>
+
+    <bean id="OleRequestTypeDocument-requestTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="30"/>
+        <property name="shortLabel" value="Po Line Item No"/>
+        <property name="description" value="requestTypeCode"/>
+        <property name="name" value="requestTypeCode"/>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Request Type Code"/>
+    </bean>
+    <bean id="OleRequestTypeDocument-requestTypeName" parent="OleRequestTypeDocument-requestTypeName-parentBean"/>
+
+    <bean id="OleRequestTypeDocument-requestTypeName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="30"/>
+        <property name="shortLabel" value="Po Line Item No"/>
+        <property name="description" value="requestTypeName"/>
+        <property name="name" value="requestTypeName"/>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Request Type Name"/>
+    </bean>
+    <bean id="OleRequestTypeDocument-requestTypeDescription" parent="OleRequestTypeDocument-requestTypeDescription-parentBean"/>
+
+    <bean id="OleRequestTypeDocument-requestTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="30"/>
+        <property name="shortLabel" value="Po Line Item No"/>
+        <property name="description" value="requestTypeDescription"/>
+        <property name="name" value="requestTypeDescription"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Request Type Description"/>
+    </bean>
+
+    <bean id="OleRequestTypeDocument-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="Request Type Lookup" />
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/BASICS/content/ch02s04.html#_lookupHelp"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="dataObjectClassName" value="org.kuali.ole.deliver.bo.OleDeliverRequestType" />
+       <property name="viewHelperServiceClass" value="org.kuali.ole.deliver.lookup.OleDeliverRequestTypeLookupableImpl"/>
+        <property name="criteriaFields">
+            <list>
+                <bean id="lookUp_requestTypeId" parent="Uif-LookupCriteriaInputField" p:propertyName="requestTypeId"  />
+                <bean id="lookUp_requestTypeCode" parent="Uif-LookupCriteriaInputField" p:propertyName="requestTypeCode" p:enableAutoDirectInquiry="false"/>
+                <bean id="lookUp_requestTypeName" parent="Uif-LookupCriteriaInputField" p:propertyName="requestTypeName" />
+                <bean id="lookUp_active" parent="Uif-LookupCriteriaInputField" p:propertyName="active" />
+
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+
+                <bean parent="Uif-DataField" p:propertyName="requestTypeCode" />
+                <bean parent="Uif-DataField" p:propertyName="requestTypeName" />
+                <bean parent="Uif-DataField" p:propertyName="requestTypeDescription" />
+                <bean parent="Uif-DataField" p:propertyName="active" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OleRequestTypeDocument-InquiryView" parent="Uif-OLEInquiryView">
+        <property name="title" value="Request Type Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.deliver.bo.OleDeliverRequestType" />
+        <property name="singlePageView" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-VerticalBoxSection">
+                    <property name="header.headerText" value="Request" />
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:propertyName="requestTypeCode" />
+                            <bean parent="Uif-InputField" p:propertyName="requestTypeName" />
+                            <bean parent="Uif-InputField" p:propertyName="requestTypeDescription" />
+                            <bean parent="Uif-InputField" p:propertyName="active" />
+                        </list>
+                    </property>
+                    <property name="title" value="Request Attributes"/>
+                </bean>
+                <ref bean="OLE-AlertInquirySection"/>
+            </list>
+
+        </property>
+    </bean>
+
+
+
+</beans>

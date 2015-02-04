@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+<!--
+ Copyright 2007-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean id="AdvanceDepositDocument" parent="AdvanceDepositDocument-parentBean"/>
+
+  <bean id="AdvanceDepositDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
+    <property name="documentTypeName" value="OLE_AD"/>
+    <property name="documentClass" value="org.kuali.ole.fp.document.AdvanceDepositDocument"/>
+    <property name="baseDocumentClass" value="org.kuali.ole.fp.document.AdvanceDepositDocument"/>
+    <property name="businessRulesClass" value="org.kuali.ole.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
+    <property name="documentAuthorizerClass" value="org.kuali.ole.sys.document.authorization.AccountingDocumentAuthorizerBase"/>
+    <property name="documentPresentationControllerClass" value="org.kuali.ole.fp.document.authorization.AdvanceDepositDocumentPresentationController"/>
+    <property name="promptBeforeValidationClass" value="org.kuali.ole.fp.document.validation.impl.AdvanceDepositDocumentPreRules"/>
+    <property name="importedLineParserClass" value="org.kuali.ole.fp.businessobject.BasicFormatWithLineDescriptionAccountingLineParser" />
+    <property name="sessionDocument" value="true"/>
+    
+    <property name="allowsCopy" value="true"/>
+    <property name="allowsErrorCorrection" value="false"/>
+    
+    <property name="validationMap" ref="AdvanceDepositDocument-validations"/>
+     <property name="accountingLineGroups">
+    	<map>
+    		<entry>
+    			<key><value>source</value></key>
+	    		<ref bean="AdvanceDepositDocument-sourceAccountingLineGroup"/>
+	    	</entry>
+    	</map>
+    </property>
+    <property name="workflowAttributes">
+    	<ref bean="AdvanceDepositDocument-workflowAttributes"/>
+    </property>
+    
+    <property name="defaultExistenceChecks">
+        <bean parent="ReferenceDefinition" p:attributeName="bank" p:collection="advanceDeposits" p:attributeToHighlightOnFail="bank"/>
+    </property>
+    
+  </bean>
+  
+     <!-- Validations -->
+  
+  <bean id="AdvanceDepositDocument-validations" parent="AdvanceDepositDocument-validations-parentBean"/>
+  
+  <bean id="AdvanceDepositDocument-validations-parentBean" abstract="true" class="org.springframework.beans.factory.config.MapFactoryBean">
+  	<property name="sourceMap">
+		<map key-type="java.lang.Class">
+			<entry>
+				<key><value>org.kuali.ole.sys.document.validation.event.AttributedSaveDocumentEvent</value></key>
+				<value>AdvanceDeposit-saveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.ole.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
+				<value>AdvanceDeposit-routeDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.ole.sys.document.validation.event.AddAccountingLineEvent</value></key>
+				<value>AdvanceDeposit-addAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.ole.sys.document.validation.event.DeleteAccountingLineEvent</value></key>
+				<value>AdvanceDeposit-deleteAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.ole.sys.document.validation.event.UpdateAccountingLineEvent</value></key>
+				<value>AdvanceDeposit-updateAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.ole.sys.document.validation.event.ReviewAccountingLineEvent</value></key>
+				<value>AdvanceDeposit-reviewAccountingLineValidation</value>
+			</entry>
+            <entry>
+                <key><value>org.kuali.ole.sys.document.validation.event.AttributedApproveDocumentEvent</value></key>
+                <value>AdvanceDeposit-approveDocumentValidation</value>
+            </entry>
+            <entry>
+                <key><value>org.kuali.ole.sys.document.validation.event.AttributedBlanketApproveDocumentEvent</value></key>
+                <value>AdvanceDeposit-blanketApproveDocumentValidation</value>
+            </entry>
+            <!-- capital accounting lines object sub type check -->		
+			<entry>
+				<key><value>org.kuali.ole.fp.document.validation.event.CapitalAccountingLinesSameObjectCodeSubTypeEvent</value></key>
+				<value>AdvanceDeposit-capitalAccountingLinesObjectSubtypeValidations</value>
+			</entry>
+    	</map>
+    </property>
+  </bean>
+      <!-- accounting line groups -->
+  <bean id="AdvanceDepositDocument-sourceAccountingLineGroup" parent="AdvanceDepositDocument-sourceAccountingLineGroup-parentBean"/>
+  
+  <bean id="AdvanceDepositDocument-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
+	  <property name="accountingLineView" ref="AdvanceDeposit-accountingLineView"/>
+	  <property name="accountingLineClass" value="org.kuali.ole.sys.businessobject.SourceAccountingLine"/>
+	  <property name="groupLabel" value=""/>
+	  <property name="accountingLineAuthorizerClass" value="org.kuali.ole.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer"/>
+	  <property name="importedLinePropertyPrefix" value="source"/>
+	  <property name="totals" ref="AccountingDocument-sourceGroupTotals"/>
+	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*"/> <!-- note people copying this: AV and JV have extra things that belong here -->
+	</bean>
+	<bean id="AdvanceDeposit-accountingLineView" parent="AdvanceDeposit-accountingLineView-parent"/>
+	<bean id="AdvanceDeposit-accountingLineView-parent" parent="AccountingLineView" abstract="true">
+	<property name="elements">
+		<list>
+			<bean parent="AccountingLineView-sequenceNumber"/>
+			<bean parent="AccountingLineView-lines">
+				<property name="lines">
+					<list>
+						<ref bean="accountingInformation"/>
+						<bean parent="AccountingLineView-line">
+							<property name="elementName" value="lineDescription"/>
+							<property name="fields">
+								<list>
+									<bean parent="AccountingLineView-field" p:name="financialDocumentLineDescription" p:overrideColSpan="3"/>
+								</list>
+							</property>
+						</bean>
+					</list>
+				</property>
+			</bean>
+			<bean parent="AccountingLineView-field" p:name="amount" p:required="true"/>
+			<bean parent="AccountingLineView-actions"/>
+		</list>
+	</property>
+</bean>
+
+	<bean id="AdvanceDepositDocument-workflowAttributes" parent="AdvanceDepositDocument-workflowAttributes-parentBean"/>
+	
+	<bean id="AdvanceDepositDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+    	
+	</bean>
+</beans>

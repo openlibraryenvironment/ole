@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="OLEEResourceRecordView-E-ResourceReviewDashBoardTab" parent="E-Res-Uif-DocumentPage">
+        <property name="headerText" value="Review Dashboard"/>
+        <property name="items">
+            <list>
+                <ref bean="EResourceReviewDashBoard-TabSection"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="EResourceReviewDashBoard-TabSection" parent="Uif-TabSection" >
+        <property name="items">
+            <list>
+                <ref bean="EResourceReviewDashBoard-ToDoTab"/>
+                <ref bean="EResourceReviewDashBoard-ChangeLogTab"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="EResourceReviewDashBoard-ToDoTab" parent="Uif-TableCollectionSection">
+        <property name="headerText" value="To-Do" />
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.select.bo.OLEEResourceChangeDashBoard" />
+        <property name="propertyName" value="oleEResourceChangeDashBoards" />
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.generateAutoSequence" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.applyDefaultCellWidths" value="false"/>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="bFilter" value="false"/>
+                <entry key="aoColumns"
+                       value="[ {'bSortable':true, 'sWidth':'1%'},
+                {'bSortable':true, 'sWidth':'30%'},
+                {'bSortable':true, 'sWidth':'10%'},
+                {'bSortable':true, 'sWidth':'60%'},
+                {'bSortable':true, 'sWidth':'10%'},
+                {'bSortable':true, 'sWidth':'10%'}
+                ]"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:label="Date" p:propertyName="date"/>
+                <!--<bean parent="Uif-DataField" p:label="EResource" p:propertyName="eResource"/>-->
+                <bean parent="Uif-DataField" p:label="Title" p:propertyName="title"/>
+                <bean parent="Uif-DataField" p:label="Type" p:propertyName="type"/>
+                <bean parent="Uif-DataField" p:label="Details" p:propertyName="details"/>
+                <bean parent="Uif-InputField" p:label="Approve?" p:propertyName="approve" p:defaultValue="false" p:width="50px">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:label="Clear?" p:propertyName="clear" p:defaultValue="false" p:width="50px">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+    <bean id="EResourceReviewDashBoard-ChangeLogTab" parent="Uif-TableCollectionSection">
+        <property name="headerText" value="Change Log" />
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.select.bo.OLEEResourceChangeDashBoard" />
+        <property name="propertyName" value="oleEResourceChangeDashBoards" />
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.generateAutoSequence" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.applyDefaultCellWidths" value="false"/>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="bFilter" value="false"/>
+                <entry key="aoColumns"
+                       value="[ {'bSortable':true, 'sWidth':'1%'},
+                {'bSortable':true, 'sWidth':'30%'},
+                {'bSortable':true, 'sWidth':'10%'},
+                {'bSortable':true, 'sWidth':'10%'},
+                {'bSortable':false, 'sWidth':'60%'}
+                ]"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:label="Date" p:propertyName="date"/>
+                <!--<bean parent="Uif-DataField" p:label="EResource" p:propertyName="eResource"/>-->
+                <bean parent="Uif-DataField" p:label="Title" p:propertyName="title"/>
+                <bean parent="Uif-DataField" p:label="Type" p:propertyName="type"/>
+                <bean parent="Uif-DataField" p:label="Origin" p:propertyName="origin"/>
+                <bean parent="Uif-DataField" p:label="Details" p:propertyName="details"/>
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+</beans>

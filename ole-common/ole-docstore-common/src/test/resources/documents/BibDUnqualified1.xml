@@ -1,0 +1,49 @@
+<bib>
+    <id>wbm-10000001</id>
+    <category></category>
+    <type></type>
+    <active>false</active>
+    <category>work</category>
+    <fastAdd>false</fastAdd>
+    <format>dublinunq</format>
+    <public>false</public>
+    <staffOnly>false</staffOnly>
+    <type>bibliographic</type>
+
+    <content>
+        &lt;OAI-PMH xmlns=&quot;http://www.openarchives.org/OAI/2.0/&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:schemaLocation=&quot;http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd&quot;&gt;
+        &lt;responseDate&gt;2010-07-25T08:14:49Z&lt;/responseDate&gt;
+        &lt;request verb=&quot;ListRecords&quot; metadataPrefix=&quot;oai_dc&quot; set=&quot;hathitrust&quot;&gt;http://quod.lib.umich.edu/cgi/o/oai/oai&lt;/request&gt;
+        &lt;ListRecords&gt;
+        &lt;record&gt;
+        &lt;header&gt;
+        &lt;identifier&gt;oai:quod.lib.umich.edu:MIU01-000029516&lt;/identifier&gt;
+        &lt;datestamp&gt;2008-12-19T18:45:46Z&lt;/datestamp&gt;
+        &lt;setSpec&gt;hathitrust:pd&lt;/setSpec&gt;
+        &lt;/header&gt;
+        &lt;metadata&gt;
+        &lt;oai_dc:dc xmlns:oai_dc=&quot;http://www.openarchives.org/OAI/2.0/oai_dc/&quot; xmlns:dc=&quot;http://purl.org/dc/elements/1.1/&quot; xmlns:dcterms=&quot;http://purl.org/dc/dc/terms/&quot; xsi:schemaLocation=&quot;http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd&quot;&gt;
+        &lt;dc:title&gt;U.S. Marines in Vietnam : the landing and the buildup, 1965 / by Jack Shulimson and Charles M. Johnson.&lt;/dc:title&gt;
+        &lt;dc:creator&gt;Shulimson, Jack.&lt;/dc:creator&gt;
+        &lt;dc:subject&gt;United States.--History--Vietnam War, 1961-1975&lt;/dc:subject&gt;
+        &lt;dc:subject&gt;Vietnam War, 1961-1975--Campaigns&lt;/dc:subject&gt;
+        &lt;dc:description&gt;xiii, 261 p. :&lt;/dc:description&gt;
+        &lt;dc:publisher&gt;Washington : History and Museums Division, Headquarters, U.S. Marine Corps : for sale by the Supt. of Docs., U.S. Govt. Print. Off.,&lt;/dc:publisher&gt;
+        &lt;dc:date&gt;1978.&lt;/dc:date&gt;
+        &lt;dc:identifier&gt;(LCCN)78600120&lt;/dc:identifier&gt;
+        &lt;dc:identifier&gt;(OCoLC)ocm05346770&lt;/dc:identifier&gt;
+        &lt;dc:identifier&gt;DS558.9.M37 S58&lt;/dc:identifier&gt;
+        &lt;dc:identifier&gt;959.704/34&lt;/dc:identifier&gt;
+        &lt;dc:identifier&gt;DS558.9.M37 S581&lt;/dc:identifier&gt;
+        &lt;dc:identifier&gt;http://hdl.handle.net/2027/mdp.39015003338806&lt;/dc:identifier&gt;
+        &lt;dc:source&gt;http://hdl.handle.net/2027/mdp.39015003338806&lt;/dc:source&gt;
+        &lt;dc:language&gt;eng&lt;/dc:language&gt;
+        &lt;dc:type&gt;text&lt;/dc:type&gt;
+        &lt;dc:rights&gt;We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. The digital version is available for all educational uses worldwide. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.&lt;/dc:rights&gt;
+        &lt;/oai_dc:dc&gt;
+        &lt;/metadata&gt;
+        &lt;/record&gt;
+        &lt;/ListRecords&gt;
+        &lt;/OAI-PMH&gt;
+    </content>
+</bib>

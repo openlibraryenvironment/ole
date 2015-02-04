@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+<!--
+ Copyright 2006-2008 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean id="PurchaseOrderTransmissionMethod" parent="PurchaseOrderTransmissionMethod-parentBean"/>
+
+  <bean id="PurchaseOrderTransmissionMethod-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.ole.module.purap.businessobject.PurchaseOrderTransmissionMethod"/>
+    <property name="inquiryDefinition">
+      <ref bean="PurchaseOrderTransmissionMethod-inquiryDefinition"/>
+    </property>
+    <property name="lookupDefinition">
+      <ref bean="PurchaseOrderTransmissionMethod-lookupDefinition"/>
+    </property>
+    <property name="titleAttribute" value="purchaseOrderTransmissionMethodCode"/>
+    <property name="objectLabel" value="Method of PO Transmission"/>
+    <property name="attributes">
+      <list>
+        <ref bean="PurchaseOrderTransmissionMethod-purchaseOrderTransmissionMethodCode"/>
+        <ref bean="PurchaseOrderTransmissionMethod-purchaseOrderTransmissionMethodDescription"/>
+        <ref bean="PurchaseOrderTransmissionMethod-active"/>
+        <ref bean="PurchaseOrderTransmissionMethod-displayToUser"/>
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="PurchaseOrderTransmissionMethod-purchaseOrderTransmissionMethodCode" parent="PurchaseOrderTransmissionMethod-purchaseOrderTransmissionMethodCode-parentBean"/>
+
+  <bean id="PurchaseOrderTransmissionMethod-purchaseOrderTransmissionMethodCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="purchaseOrderTransmissionMethodCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Method of PO Transmission Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterValidation" />
+    </property>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="6"/>
+    </property>
+  </bean>
+  <bean id="PurchaseOrderTransmissionMethod-purchaseOrderTransmissionMethodDescription" parent="PurchaseOrderTransmissionMethod-purchaseOrderTransmissionMethodDescription-parentBean"/>
+
+  <bean id="PurchaseOrderTransmissionMethod-purchaseOrderTransmissionMethodDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="purchaseOrderTransmissionMethodDescription"/>
+    <property name="label" value="Method of PO Transmission Description"/>
+    <property name="shortLabel" value="Description"/>
+    <property name="maxLength" value="45"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
+    </property>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="47"/>
+    </property>
+  </bean>
+  <bean id="PurchaseOrderTransmissionMethod-active" parent="PurchaseOrderTransmissionMethod-active-parentBean"/>
+
+  <bean id="PurchaseOrderTransmissionMethod-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active"/>
+  </bean>
+
+  <bean id="PurchaseOrderTransmissionMethod-displayToUser" parent="PurchaseOrderTransmissionMethod-displayToUser-parentBean"/>
+
+  <bean id="PurchaseOrderTransmissionMethod-displayToUser-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="displayToUser"/>
+    <property name="label" value="Display To User Indicator"/>
+  </bean>
+  
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="PurchaseOrderTransmissionMethod-inquiryDefinition" parent="PurchaseOrderTransmissionMethod-inquiryDefinition-parentBean"/>
+
+  <bean id="PurchaseOrderTransmissionMethod-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Method of PO Transmission Inquiry"/>
+    <property name="inquirySections">
+      <list>
+		<ref bean="PurchaseOrderTransmissionMethod-inquirySectionDefinition"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="PurchaseOrderTransmissionMethod-inquirySectionDefinition" parent="PurchaseOrderTransmissionMethod-inquirySectionDefinition-parentBean"/>
+  <bean id="PurchaseOrderTransmissionMethod-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderTransmissionMethodCode"/>
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderTransmissionMethodDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+        <bean parent="FieldDefinition" p:attributeName="displayToUser"/>
+      </list>
+    </property>
+  </bean>
+               
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="PurchaseOrderTransmissionMethod-lookupDefinition" parent="PurchaseOrderTransmissionMethod-lookupDefinition-parentBean"/>
+
+  <bean id="PurchaseOrderTransmissionMethod-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Method of PO Transmission Lookup"/>
+    
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderTransmissionMethodCode"/>
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderTransmissionMethodDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+        <bean parent="FieldDefinition" p:attributeName="displayToUser"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderTransmissionMethodCode"/>
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderTransmissionMethodDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+        <bean parent="FieldDefinition" p:attributeName="displayToUser"/>
+      </list>
+    </property>
+  </bean>
+</beans>

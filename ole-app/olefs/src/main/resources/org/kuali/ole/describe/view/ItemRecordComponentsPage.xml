@@ -1,0 +1,592 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="Item" parent="Uif-VerticalBoxGroup" p:fieldBindingObjectPath="selectedItem">
+        <property name="headerText" value="Item"/>
+        <property name="items">
+            <list>
+                <ref bean="itemTabTopSection"/>
+                <!--<ref bean="itemTabRepeatableSection"/>-->
+                <ref bean="itemTabBottomSection"/>
+                <!--<ref bean="itemTabItemNoteSection"/>-->
+            </list>
+        </property>
+    </bean>
+
+    <bean id="itemTabTopSection" parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2">
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="itemRecordMetaData.status"
+                      p:label="Status" p:bindingInfo.bindToForm="true" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.describe.keyvalue.ItemStatus"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="itemRecordMetaData.suppressFromPublic" p:label="Suppress From Public" p:bindingInfo.bindToForm="true" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-VerticalRadioControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="true" p:value="Y"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="false" p:value="N"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="itemRecordMetaData.fastAddFlag" p:label="Fast Add Flag" p:bindingInfo.bindToForm="true" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-VerticalRadioControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="true" p:value="Y"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="false" p:value="N"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="accessInformation.barcode" p:label="Barcode" p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-ActionLink" p:actionLabel="URI"/>
+
+                <!-- Required when docstore changes implemented for URI
+                <bean parent="Uif-InputField" p:propertyName="accessInformation.barcode" p:label="Barcode">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                    <property name="caseConstraint">
+                        <bean parent="CaseConstraint">
+                            <property name="propertyName" value="accessInformation.uri.resolvable" />
+                            <property name="whenConstraint">
+                                <list>
+                                    <bean parent="WhenConstraint">
+                                        <property name="values">
+                                            <list>
+                                                <value></value>
+                                                <value>null</value>
+                                            </list>
+                                        </property>
+                                        <property name="constraint">
+                                            <bean parent="RequiredConstraint" />
+                                        </property>
+                                    </bean>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>-->
+                <!--<bean parent="Uif-InputField" p:propertyName="accessInformation.uri.resolvable" p:label="URI" p:defaultValue="">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                    <property name="caseConstraint">
+                        <bean parent="CaseConstraint">
+                            <property name="propertyName" value="accessInformation.barcode" />
+                            <property name="whenConstraint">
+                                <list>
+                                    <bean parent="WhenConstraint">
+                                        <property name="values">
+                                            <list>
+                                                <value></value>
+                                                <value>null</value>
+                                            </list>
+                                        </property>
+                                        <property name="constraint">
+                                            <bean parent="RequiredConstraint" />
+                                        </property>
+                                    </bean>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>-->
+                <bean parent="Uif-InputField" p:propertyName="barcodeARSL" p:label="Barcode ARSL" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="statisticalSearchingCodes" p:label="Statistical Searching Codes">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="dropdown"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.describe.keyvalue.StatisticalSearchingCodes"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="itemTabBottomSection" parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2">
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="itemType" p:label="Item Type">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="dropdown"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.describe.keyvalue.ItemType"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="copyNumber" p:label="Copy Number">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="3"/>
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="NumericPatternConstraint"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="copyNumberLabel" p:label="Copy Number Label"
+                      p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="volumeNumber" p:label="Volume Number" p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="volumeNumberLabel" p:label="Volume Number Label"
+                      p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="enumeration" p:label="Enumeration" p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="chronology" p:label="Chronology" p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Location" parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2" p:fieldBindingObjectPath="selectedItem.location[0]">
+        <property name="headerText" value="Location"/>
+        <property name="items">
+            <list>
+                <ref bean="locationAutoSuggest"/>
+                <bean parent="Uif-InputField" p:propertyName="locationStatus" p:label="Location Status">
+                    <property name="control">
+                        <bean parent="Uif-VerticalRadioControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="permanent" p:value="Permanent"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="temporary" p:value="Temporary"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <!-- Repeatable Fields:: Start-->
+                <bean parent="Uif-InputField" p:propertyName="formerShelvingLocation" p:label="Former Shelving Location">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.describe.keyvalue.LocationValuesBuilder"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="address" p:label="Address">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="countryCode.value" p:label="Country Code">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="dropdown"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.describe.keyvalue.CountryCode"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="codedLocationQualifier" p:label="Coded Location Qualifier">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="3"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="noncodedLocationQualifier" p:label="Non Coded Location Qualifier">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                </bean>
+                <!-- Repeatable Fields:: End-->
+                <bean id="shelvingScheme" parent="Uif-InputField" p:propertyName="classification[0].shelvingScheme" p:label="Shelving Scheme" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="dropdown"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.describe.keyvalue.ShelvingScheme"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="classification[0].shelvingOrder" p:label="Shelving Order" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="dropdown"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.describe.keyvalue.ShelvingOrder"/>
+                    </property>
+                </bean>
+
+                <!-- Making this field required if the value of ShelvingScheme drop-down is 'source specified in classification or shelving scheme' -->
+                <bean parent="Uif-InputField" p:propertyName="classificationOrShelvingSchemeSource.value"
+                      p:label="Classification Or Shelving Scheme Source">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                    <property name="caseConstraint">
+                        <bean parent="CaseConstraint">
+                            <property name="propertyName" value="classification[0].shelvingScheme" />
+                            <property name="whenConstraint">
+                                <list>
+                                    <bean parent="WhenConstraint">
+                                        <property name="values">
+                                            <list>
+                                                <value>7</value>
+                                            </list>
+                                        </property>
+                                        <property name="constraint">
+                                            <bean parent="RequiredConstraint" />
+                                        </property>
+                                    </bean>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+
+                <ref bean="locationCallNumberSection"/>
+                <bean parent="Uif-InputField" p:propertyName="materialsSpecified" p:label="Materials Specified">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="shelvingControlNumber" p:label="Shelving Control Number">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="shelvingFormOfTitle" p:label="Shelving Form Of Title">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="copyrightArticleFeeCode" p:label="Copyright Article Fee Code">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="copyNumber" p:label="Copy Number">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="pieceDesignation" p:label="Piece Designation">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="piecePhysicalCondition" p:label="Piece Physical Condition">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                </bean>
+                <!--<ref bean="locationNoteSection"/>-->
+            </list>
+        </property>
+    </bean>
+
+    <bean id="locationAutoSuggest" parent="Uif-InputField" p:propertyName="locationLevel[0].locationName.value" p:label="Location">
+        <property name="fieldSuggest.render" value="true"/>
+        <property name="fieldSuggest.sourcePropertyName" value="locationName"/>
+        <property name="fieldSuggest.suggestQuery.dataObjectClassName" value="org.kuali.ole.describe.bo.OleLocation"/>
+    </bean>
+
+    <bean id="locationCallNumberSection" parent="Uif-HorizontalFieldGroup" p:label="Call Number">
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="classification[0].callNumberPrefix" p:label="Prefix">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="5" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="classification[0].classificationPart" p:label="Class">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="5" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="classification[0].itemPart" p:label="Item Part">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="5" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="classification[0].callNumberSuffix" p:label="Suffix">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="5" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ElectronicLA" parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2"
+          p:fieldBindingObjectPath="selectedItem">
+        <property name="headerText" value="Electronic LA"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="electronicLocationAndAccess.materialsSpecified"
+                      p:label="Materials Specified" p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="electronicLocationAndAccess.accessMethod"
+                      p:label="Access Method" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="electronicLocationAndAccess.relationship"
+                      p:label="Relationship">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="dropdown"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.describe.keyvalue.Relationship"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="electronicLocationAndAccess.hostName" p:label="Host Name"
+                      p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="electronicLocationAndAccess.accessNumber"
+                      p:label="Access Number" p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="electronicLocationAndAccess.compressionInformation"
+                      p:label="Compression Information" p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="electronicLocationAndAccess.path" p:label="Path"
+                      p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="electronicLocationAndAccess.electronicName"
+                      p:label="Electronic Name" p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="electronicLocationAndAccess.fileSize" p:label="File Size"
+                      p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="electronicLocationAndAccess.requestProcessor"
+                      p:label="Request Processor" p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="electronicLocationAndAccess.instruction"
+                      p:label="Instruction" p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="electronicLocationAndAccess.bitsPerSecond"
+                      p:label="Bits Per Second" p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="electronicLocationAndAccess.password" p:label="Password"
+                      p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="electronicLocationAndAccess.logon" p:label="Logon"
+                      p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="electronicLocationAndAccess.accessAssistanceContact"
+                      p:label="Access Assistance Contact" p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="electronicLocationAndAccess.locationHostName"
+                      p:label="Location Host Name" p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="electronicLocationAndAccess.operatingSystem"
+                      p:label="Operating System" p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="electronicLocationAndAccess.port" p:label="Port">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="3"/>
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="NumericPatternConstraint"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="electronicLocationAndAccess.electronicFormatType"
+                      p:label="Electronic Format Type" p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="electronicLocationAndAccess.settings" p:label="Settings"
+                      p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="electronicLocationAndAccess.terminalEmulation"
+                      p:label="Terminal Emulation" p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="electronicLocationAndAccess.hoursAccessMethodAvailable"
+                      p:label="Hours Access Method Available" p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="electronicLocationAndAccess.recordControlNumber"
+                      p:label="Record Control Number" p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="electronicLocationAndAccess.linkText" p:label="Link Text"
+                      p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField"
+                      p:propertyName="electronicLocationAndAccess.additionalAccessMethodInformation.value"
+                      p:label="Additional Access Method Information">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="dropdown"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.describe.keyvalue.AdditionalAccessMethodInformation"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="HighDensityStorage" parent="Uif-VerticalBoxGroup" p:fieldBindingObjectPath="selectedItem">
+        <property name="headerText" value="High Density Storage"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:propertyName="highDensityStorage.row" p:label="Row" p:required="false">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="highDensityStorage.module" p:label="Module" p:required="false">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="highDensityStorage.shelf" p:label="Shelf" p:required="false">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="highDensityStorage.hds" p:label="Tray" p:required="false">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="POVendorInfo" parent="Uif-VerticalBoxGroup" p:fieldBindingObjectPath="selectedItem">
+        <property name="headerText" value="PO/Vendor Info"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:propertyName="purchaseOrderLineItemIdentifier" p:label="PO Line Item Identifier" p:required="false">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="vendorLineItemIdentifier" p:label="Vendor Line Item Identifier" p:required="false">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+</beans>

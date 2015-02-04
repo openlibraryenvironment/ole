@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <!--
+
+        Copyright 2005-2012 The Kuali Foundation
+
+        Licensed under the Educational Community License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at
+
+        http://www.opensource.org/licenses/ecl2.php
+
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+
+    -->
+    <bean id="OleInstanceItemType" parent="OleInstanceItemType-parentBean"/>
+
+    <bean id="OleInstanceItemType-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.describe.bo.OleInstanceItemType"/>
+        <property name="titleAttribute" value="instanceItemTypeCode"/>
+        <property name="objectLabel" value="Ole Instance Item Type"/>
+
+        <property name="attributes">
+            <list>
+                <ref bean="OleInstanceItemType-instanceItemTypeId"/>
+                <ref bean="OleInstanceItemType-instanceItemTypeCode"/>
+                <ref bean="OleInstanceItemType-instanceItemTypeName"/>
+                <ref bean="OleInstanceItemType-instanceItemTypeDesc"/>
+                <ref bean="OleInstanceItemType-source"/>
+                <ref bean="OleInstanceItemType-sourceDate"/>
+                <ref bean="OleInstanceItemType-active"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+
+    <bean id="OleInstanceItemType-instanceItemTypeId" parent="OleInstanceItemType-instanceItemTypeId-parentBean"/>
+
+    <bean id="OleInstanceItemType-instanceItemTypeId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Instance Item Type Id"/>
+        <property name="maxLength" value="10"/>
+        <property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+        <property name="name" value="instanceItemTypeId"/>
+        <property name="label" value="Item Type Id"/>
+        <property name="description" value="Instance Item Type Id"/>
+    </bean>
+
+
+    <bean id="OleInstanceItemType-instanceItemTypeCode" parent="OleInstanceItemType-instanceItemTypeCode-parentBean"/>
+
+    <bean id="OleInstanceItemType-instanceItemTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Instance Item Type Code"/>
+        <property name="maxLength" value="30"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="instanceItemTypeCode"/>
+        <property name="label" value="Item Type Code"/>
+        <property name="description" value="Instance Item Type Code"/>
+
+    </bean>
+
+
+    <bean id="OleInstanceItemType-instanceItemTypeName" parent="OleInstanceItemType-instanceItemTypeName-parentBean"/>
+
+    <bean id="OleInstanceItemType-instanceItemTypeName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Instance Item Type Name"/>
+        <property name="maxLength" value="100"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="instanceItemTypeName"/>
+        <property name="label" value="Item Type Name"/>
+        <property name="description" value="Instance Item Type Name"/>
+
+    </bean>
+
+    <bean id="OleInstanceItemType-instanceItemTypeDesc" parent="OleInstanceItemType-instanceItemTypeDesc-parentBean"/>
+
+    <bean id="OleInstanceItemType-instanceItemTypeDesc-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Instance Item Type Desc"/>
+        <property name="maxLength" value="30"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="false"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="instanceItemTypeDesc"/>
+        <property name="label" value="Item Type Desc"/>
+        <property name="description" value="Instance Item Type Desc"/>
+
+    </bean>
+
+
+    <bean id="OleInstanceItemType-source" parent="OleInstanceItemType-source-parentBean"/>
+
+    <bean id="OleInstanceItemType-source-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Source"/>
+        <property name="maxLength" value="100"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="source"/>
+        <property name="label" value="Source"/>
+        <property name="description" value="Source"/>
+
+    </bean>
+
+
+    <bean id="OleInstanceItemType-sourceDate" parent="OleInstanceItemType-sourceDate-parentBean"/>
+    <bean id="OleInstanceItemType-sourceDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+        <property name="shortLabel" value="Source Date"/>
+        <property name="name" value="sourceDate"/>
+        <property name="label" value="Source Date"/>
+        <property name="required" value="true"/>
+    </bean>
+
+
+    <!--<bean id="OleInstanceItemType-active" parent="OleInstanceItemType-active-parentBean"/>
+
+    <bean id="OleInstanceItemType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+        <property name="name" value="active"/>
+    </bean>-->
+
+    <bean id="OleInstanceItemType-active" parent="OleInstanceItemType-active-parentBean"/>
+
+    <bean id="OleInstanceItemType-active-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="active"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="active"/>
+        <property name="maxLength" value="1"/>
+        <property name="validCharactersConstraint">
+            <bean  parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean  parent="Uif-CheckboxControl"/>
+        </property>
+        <property name="summary" value="Active Indicator"/>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+        <property name="label" value="Active Indicator"/>
+        <property name="description" value="This attribute is used to describe whether the associated object is active or inactive."/>
+    </bean>
+    <!-- Business Object Inquiry Definition -->
+
+
+    <bean id="OleInstanceItemType-InquiryView" parent="Uif-OLEInquiryView">
+        <property name="headerText" value="Item Type Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.describe.bo.OleInstanceItemType"/>
+        <property name="singlePageView" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-VerticalBoxSection">
+                    <property name="header.headerText" value="Item Type"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2">
+                                <property name="items">
+                                    <list>
+                                        <bean id="inquiry_instanceItemTypeId" parent="Uif-InputField" p:propertyName="instanceItemTypeId"/>
+                                        <bean id="inquiry_instanceItemTypeCode" parent="Uif-InputField"
+                                              p:propertyName="instanceItemTypeCode"
+                                              p:enableAutoDirectInquiry="false"/>
+                                        <bean id="inquiry_instanceItemTypeName" parent="Uif-InputField" p:propertyName="instanceItemTypeName"/>
+                                        <bean id="inquiry_source" parent="Uif-InputField" p:propertyName="source"/>
+                                        <bean id="inquiry_sourceDate" parent="Uif-InputField" p:propertyName="sourceDate"/>
+                                        <bean id="inquiry_active" parent="Uif-InputField" p:propertyName="active"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                    <property name="headerText" value="Item Type"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <!-- Business Object Lookup Definition -->
+
+
+    <bean id="OleInstanceItemType-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="Item Type Lookup"/>
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="${ole.externalizable.help.url}/reference/webhelp/BASICS/content/ch02s04.html#_lookupHelp"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="dataObjectClassName" value="org.kuali.ole.describe.bo.OleInstanceItemType"/>
+        <property name="viewHelperServiceClass" value="org.kuali.ole.describe.lookup.OleInstanceItemTypeLookupableImpl"/>
+        <property name="criteriaFields">
+            <list>
+                <bean id="instanceItemTypeCode" parent="Uif-LookupCriteriaInputField"
+                      p:propertyName="instanceItemTypeCode" p:enableAutoDirectInquiry="false"/>
+                <bean id="instanceItemTypeName" parent="Uif-LookupCriteriaInputField" p:propertyName="instanceItemTypeName"/>
+                <bean id="instanceItemTypeDesc" parent="Uif-LookupCriteriaInputField" p:propertyName="instanceItemTypeDesc"/>
+                <bean id="source" parent="Uif-LookupCriteriaInputField" p:propertyName="source"/>
+                <bean id="sourceDate" parent="Uif-LookupCriteriaInputField" p:propertyName="sourceDate">
+                    <property name="control">
+                        <bean id="date" parent="Uif-DateControl" p:size="10"/>
+                    </property>
+                </bean>
+                <bean id="activeIndicator" parent="Uif-LookupCriteriaInputField" p:propertyName="active"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <!--<bean id="searchResult_instanceItemTypeId" parent="Uif-DataField" p:propertyName="instanceItemTypeId"/>-->
+                <bean id="searchResult_instanceItemTypeCode" parent="Uif-DataField" p:propertyName="instanceItemTypeCode"/>
+                <bean id="searchResult_instanceItemTypeName" parent="Uif-DataField" p:propertyName="instanceItemTypeName"/>
+                <bean id="searchResult_instanceItemTypeDesc" parent="Uif-DataField" p:propertyName="instanceItemTypeDesc"/>
+                <bean id="searchResult_source" parent="Uif-DataField" p:propertyName="source"/>
+                <bean id="searchResult_sourceDate" parent="Uif-DataField" p:propertyName="sourceDate"/>
+                <bean id="searchResult_active" parent="Uif-DataField" p:propertyName="active"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

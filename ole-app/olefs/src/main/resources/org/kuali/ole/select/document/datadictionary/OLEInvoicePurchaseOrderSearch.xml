@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <!--
+
+        Copyright 2005-2012 The Kuali Foundation
+
+        Licensed under the Educational Community License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at
+
+        http://www.opensource.org/licenses/ecl2.php
+
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+
+    -->
+    <bean id="OLEInvoicePurchaseOrderSearch" parent="OLEInvoicePurchaseOrderSearch-parentBean"/>
+
+    <bean id="OLEInvoicePurchaseOrderSearch-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.select.document.OLEInvoicePurchaseOrderSearch" />
+        <property name="objectLabel" value="Purchase Order Search"/>
+        <property name="attributes">
+            <list>
+
+                <ref bean="OLEInvoicePurchaseOrderSearch-documentNumber"/>
+                <ref bean="OLEInvoicePurchaseOrderSearch-postingYear"/>
+                <ref bean="OLEInvoicePurchaseOrderSearch-amount"/>
+                <ref bean="OLEInvoicePurchaseOrderSearch-purapDocumentIdentifier"/>
+                <ref bean="OLEInvoicePurchaseOrderSearch-vendorHeaderGeneratedIdentifier"/>
+                <ref bean="OLEInvoicePurchaseOrderSearch-vendorDetailAssignedIdentifier"/>
+                <ref bean="OLEInvoicePurchaseOrderSearch-vendorNumber"/>
+                <ref bean="OLEInvoicePurchaseOrderSearch-title"/>
+                <ref bean="OLEInvoicePurchaseOrderSearch-author"/>
+                <ref bean="OLEInvoicePurchaseOrderSearch-isbn"/>
+                <ref bean="OLEInvoicePurchaseOrderSearch-vendorName"/>
+                <!--<ref bean="OLEInvoicePurchaseOrderSearch-publisher"/>
+                <ref bean="OLEInstanceSearch-instanceId"/>
+                <ref bean="OLEInstanceSearch-bibId"/>
+                <ref bean="OLEInstanceSearch-location"/>     -->
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEInvoicePurchaseOrderSearch-documentNumber" parent="OLEInstanceSearch-documentNumber-parentBean"/>
+
+    <bean id="OLEInstanceSearch-documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Document Number"/>
+        <property name="maxLength" value="30"/>
+        <property name="control">
+            <bean id="TextControlDefinition_DocumentNumber" parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean id="Uif-TextControl_DocumentNumber" parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="documentNumber"/>
+        <property name="label" value="Document Number"/>
+        <property name="description" value="Document Number"/>
+    </bean>
+
+     <!-- private Integer postingYear;
+    private KualiDecimal amount;
+    private String purchaseOrderIdentifier; -->
+    <bean id="OLEInvoicePurchaseOrderSearch-postingYear" parent="OLEInvoicePurchaseOrderSearch-postingYear-parentBean"/>
+
+    <bean id="OLEInvoicePurchaseOrderSearch-postingYear-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Posting Year"/>
+        <property name="maxLength" value="40"/>
+        <property name="control">
+            <bean id="TextControlDefinition_PostingYear" parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean id="Uif-TextControl_PostingYear" parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="postingYear"/>
+        <property name="label" value="Posting Year"/>
+        <property name="description" value="Posting Year"/>
+    </bean>
+
+    <bean id="OLEInvoicePurchaseOrderSearch-amount" parent="OLEInstanceSearch-amount-parentBean"/>
+
+    <bean id="OLEInstanceSearch-amount-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="PO Amount"/>
+        <property name="maxLength" value="30"/>
+        <property name="control">
+            <bean  id="TextControlDefinition_Amount" parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean id="Uif-TextControl_Amount" parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="amount"/>
+        <property name="label" value="PO Amount"/>
+        <property name="description" value="PO Amount"/>
+
+    </bean>
+
+
+
+   <bean id="OLEInvoicePurchaseOrderSearch-purapDocumentIdentifier" parent="OLEInvoicePurchaseOrderSearch-purapDocumentIdentifier-parentBean"/>
+
+    <bean id="OLEInvoicePurchaseOrderSearch-purapDocumentIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="purapDocumentIdentifier"/>
+        <property name="maxLength" value="30"/>
+        <property name="control">
+            <bean  id="TextControlDefinition_PurapDocumentIdentifier" parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean id="Uif-TextControl_PurapDocumentIdentifier" parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="purapDocumentIdentifier"/>
+        <property name="label" value="PO #"/>
+        <property name="description" value="Purchase Order Identifier"/>
+
+    </bean>
+
+    <bean id="OLEInvoicePurchaseOrderSearch-vendorHeaderGeneratedIdentifier" parent="OLEInvoicePurchaseOrderSearch-vendorHeaderGeneratedIdentifier-parentBean"/>
+    <bean id="OLEInvoicePurchaseOrderSearch-vendorHeaderGeneratedIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="vendorHeaderGeneratedIdentifier"/>
+        <property name="maxLength" value="30"/>
+        <!--<property name="control">-->
+            <!--<bean  id="TextControlDefinition_vendorHeaderGeneratedIdentifier" parent="HiddenControl" />-->
+        <!--</property>-->
+        <property name="controlField">
+            <bean id="Uif-TextControl_vendorHeaderGeneratedIdentifier" parent="Uif-HiddenControl" />
+        </property>
+        <property name="name" value="vendorHeaderGeneratedIdentifier"/>
+        <!--<property name="label" value="Vendor Header #"/>-->
+        <!--<property name="description" value="Vendor Header"/>-->
+    </bean>
+
+    <bean id="OLEInvoicePurchaseOrderSearch-vendorDetailAssignedIdentifier" parent="OLEInvoicePurchaseOrderSearch-vendorDetailAssignedIdentifier-parentBean"/>
+    <bean id="OLEInvoicePurchaseOrderSearch-vendorDetailAssignedIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="vendorDetailAssignedIdentifier"/>
+        <property name="maxLength" value="30"/>
+        <!--<property name="control">-->
+            <!--<bean  id="TextControlDefinition_vendorDetailAssignedIdentifier" parent="TextControlDefinition" p:size="30"/>-->
+        <!--</property>-->
+        <property name="controlField">
+            <bean id="Uif-TextControl_vendorDetailAssignedIdentifier" parent="Uif-HiddenControl" />
+        </property>
+        <property name="name" value="vendorDetailAssignedIdentifier"/>
+        <!--<property name="label" value="Vendor Detail #"/>-->
+        <!--<property name="description" value="Vendor Detail"/>-->
+    </bean>
+
+    <bean id="OLEInvoicePurchaseOrderSearch-vendorNumber" parent="OLEInvoicePurchaseOrderSearch-vendorNumber-parentBean"/>
+    <bean id="OLEInvoicePurchaseOrderSearch-vendorNumber-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="vendorNumber"/>
+        <property name="maxLength" value="30"/>
+        <property name="control">
+            <bean  id="TextControlDefinition_vendorNumber" parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean id="Uif-TextControl_vendorNumber" parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="vendorNumber"/>
+        <property name="label" value="vendorNumber"/>
+        <property name="description" value="vendorNumber"/>
+    </bean>
+
+    <bean id="OLEInvoicePurchaseOrderSearch-title" parent="OLEInvoicePurchaseOrderSearch-title-parentBean"/>
+    <bean id="OLEInvoicePurchaseOrderSearch-title-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="title"/>
+        <property name="maxLength" value="30"/>
+        <property name="control">
+            <bean  id="TextControlDefinition_title" parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean id="Uif-TextControl_title" parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="title"/>
+        <property name="label" value="title"/>
+        <property name="description" value="title"/>
+    </bean>
+
+    <bean id="OLEInvoicePurchaseOrderSearch-author" parent="OLEInvoicePurchaseOrderSearch-author-parentBean"/>
+    <bean id="OLEInvoicePurchaseOrderSearch-author-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="author"/>
+        <property name="maxLength" value="30"/>
+        <property name="control">
+            <bean  id="TextControlDefinition_author" parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean id="Uif-TextControl_author" parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="author"/>
+        <property name="label" value="author"/>
+        <property name="description" value="author"/>
+    </bean>
+
+    <bean id="OLEInvoicePurchaseOrderSearch-isbn" parent="OLEInvoicePurchaseOrderSearch-isbn-parentBean"/>
+    <bean id="OLEInvoicePurchaseOrderSearch-isbn-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="isbn"/>
+        <property name="maxLength" value="30"/>
+        <property name="control">
+            <bean  id="TextControlDefinition_isbn" parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean id="Uif-TextControl_isbn" parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="isbn"/>
+        <property name="label" value="isbn"/>
+        <property name="description" value="isbn"/>
+    </bean>
+
+    <bean id="OLEInvoicePurchaseOrderSearch-vendorName" parent="OLEInvoicePurchaseOrderSearch-vendorName-parentBean"/>
+    <bean id="OLEInvoicePurchaseOrderSearch-vendorName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="vendorName"/>
+        <property name="maxLength" value="30"/>
+        <property name="control">
+            <bean  id="TextControlDefinition_vendorName" parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean id="Uif-TextControl_vendorName" parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="vendorName"/>
+        <property name="label" value="vendorName"/>
+        <property name="description" value="vendorName"/>
+    </bean>
+
+    <!--<bean id="OLEInstanceSearch-bibId" parent="OLEInstanceSearch-bibId-parentBean"/>
+
+    <bean id="OLEInstanceSearch-bibId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="bibId"/>
+        <property name="maxLength" value="30"/>
+        <property name="control">
+            <bean  id="TextControlDefinition_bibId" parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean id="Uif-TextControl_bibId" parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="bibId"/>
+        <property name="label" value="bibId"/>
+        <property name="description" value="BIBID"/>
+
+    </bean>
+
+    <bean id="OLEInstanceSearch-location" parent="OLEInstanceSearch-location-parentBean"/>
+
+    <bean id="OLEInstanceSearch-location-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="location"/>
+        <property name="maxLength" value="30"/>
+        <property name="control">
+            <bean  id="TextControlDefinition_location" parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean id="Uif-TextControl_location" parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="location"/>
+        <property name="label" value="location"/>
+        <property name="description" value="location"/>
+
+    </bean>
+              -->
+
+
+
+    <!-- Business Object Lookup Definition -->
+
+    <bean id="OLEInvoicePurchaseOrderSearch-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="Purchase Order LookUp" />
+        <property name="dataObjectClassName" value="org.kuali.ole.select.document.OLEInvoicePurchaseOrderSearch" />
+        <property name="viewHelperServiceClass" value="org.kuali.ole.select.lookup.OLEInvoicePurchaseOrderSearchLookupableImpl"/>
+        <property name="criteriaFields">
+            <list>
+                <bean id="search_vendorHeaderGeneratedIdentifier" parent="Uif-LookupCriteriaInputField" p:propertyName="vendorHeaderGeneratedIdentifier" p:hidden="true"/>
+                <bean id="search_vendorName" parent="Uif-LookupCriteriaInputField" p:propertyName="vendorName" p:label="Vendor Name" p:readOnly="true"/>
+                <bean id="search_documentNumber" parent="Uif-LookupCriteriaInputField" p:propertyName="documentNumber" />
+                <bean id="search_purapDocumentIdentifier" parent="Uif-LookupCriteriaInputField" p:propertyName="purapDocumentIdentifier" p:label="Purchase Order Number"/>
+                <!--<bean id="search_vendorNumber" parent="Uif-LookupCriteriaInputField" p:propertyName="vendorNumber" p:label="Vendor ID" />-->
+                <bean id="search_title" parent="Uif-LookupCriteriaInputField" p:propertyName="title" p:label="Title" />
+                <bean id="search_author" parent="Uif-LookupCriteriaInputField" p:propertyName="author" p:label="Author" />
+                <bean id="search_isbn" parent="Uif-LookupCriteriaInputField" p:propertyName="isbn" p:label="ISBN" />
+                <bean id="search_vendorDetailAssignedIdentifier" parent="Uif-LookupCriteriaInputField" p:propertyName="vendorDetailAssignedIdentifier" p:hidden="true"/>
+                </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean id="result_documentNumber" parent="Uif-DataField" p:propertyName="documentNumber" />
+                <bean id="result_purapDocumentIdentifier" parent="Uif-DataField" p:propertyName="purapDocumentIdentifier"  p:label="Purchase Order Number" />
+                <bean id="result_amount" parent="Uif-DataField" p:propertyName="amount" />
+                <bean id="result_postingYear" parent="Uif-DataField" p:propertyName="postingYear" />
+                <bean id="result_title" parent="Uif-DataField" p:propertyName="title" p:label="Title"/>
+                <bean id="result_author" parent="Uif-DataField" p:propertyName="author" p:label="Author"/>
+                <bean id="result_isbn" parent="Uif-DataField" p:propertyName="isbn" p:label="ISBN"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

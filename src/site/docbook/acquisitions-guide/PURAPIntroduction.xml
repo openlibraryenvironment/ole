@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0"
+    xml:lang="en-US">
+    <title>Introduction</title>
+    <para role="Body Text">The Purchasing and Accounts Payable module allows users to request materials,
+        generate and transmit purchase orders, and process invoices and credit memos received from vendors.
+        The requisition, purchase order, payment request, purchase order amendment, and credit memo
+        documents use the workflow Kuali Enterprise Workflow component for document approval followed by
+        encumbrance, expense and liability entries in the General Ledger as required.</para>
+    <note>
+        <para> To learn more about the Select and Acquire Module, see the <emphasis>Select
+            and Acquire Overview</emphasis>.</para>
+    </note>
+    <para role="Body Text">This guide provides information about using Purchasing and Accounts Payable
+        functions. It is organized as follows.</para>
+    <itemizedlist mark="disc" spacing="normal">
+        <listitem>
+            <para role="C1H Bullet">The first section provides an overview of key Purchasing and Accounts
+                Payable batch processes.</para>
+        </listitem>
+        <listitem>
+            <para role="C1H Bullet">The next section, Standard Transaction E-Docs, summarizes the options
+                available to users and indicates how they are grouped on the OLE menus. </para>
+        </listitem>
+        <listitem>
+            <para role="C1H Bullet">Each of the remaining sections presents background information and
+                instructions specific to a group of functions on the menu. </para>
+        </listitem>
+    </itemizedlist>
+    <para role="C1H Bullet">These sections are divided into subsections covering individual functions.
+        For each function, the applicable subsection presents a breadcrumb trail showing how to access the
+        function and information on the layout and fields on the related screen(s). As appropriate, some
+        subsections include business rules and routing information for e-docs and/or special instructions
+        for performing activities.</para>
+    <note>
+        <para role="Note"> In order to work efficiently in the system’s Purchasing and Accounts
+            Payable screens, you need to understand the basics of the user interface. For
+            information and instructions on logging on and off, navigating, understanding the
+            components of screens, and performing basic operations in the screens, see the <link
+                xlink:href="../../../webhelp/BASICS/content/pr01.html">OLE Basic Functionality and Key Concepts.</link></para>
+        <para role="Note"> This guide as well as guides to other OLE modules are available for
+            download from the <link xlink:href="../../../html/Index.html">OLE Documentation
+            Portal</link>.</para>
+        <para role="Note"/>
+    </note>
+</chapter>

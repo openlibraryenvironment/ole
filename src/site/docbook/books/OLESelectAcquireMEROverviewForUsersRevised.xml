@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?><article xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en-US"><title>OLE Select and Acquire Overview</title><para role="No Spacing"><emphasis role="bold">September 2014, Milestone Release
+        1.5</emphasis></para><section><title>Introduction</title><para role="Normal">The Select &amp; Acquire module encompasses Financial, Selection, Acquisitions, Receiving, Payment/Invoicing, Licensing, and Electronic Resource Management (ERM), a component that support operational processes for demand-driven acquisitions of library resources. The module manages pre-order and selection of all types of order requests for library materials, and upholds the complete purchasing, receiving and payment operations of ordered library materials.  Select &amp; Acquire components will also provide workflow design and functionality to encompass print and electronic serials, subscriptions, interval check-in, and productivity reports. </para><para role="Normal"/><para role="Normal">Financial and budgeting structures within the system will allow flexibility for
+            library materials to be purchased outright, leased, or licensed. OLE offers fully
+            automated EDI features for direct data exchange with vendors. In the 3.0 release, the
+            ERM component will support the lifecycle of electronic resources and packages including
+            licensing, purchasing, and daily administration. The Global Open Knowledgebase (GOKb), a
+            community-managed knowledge base of subscribed resources, will be tightly integrated
+            with OLE for ingesting and maintaining acquired electronic books and serials. </para>
+        <section>
+            <title>Overview Diagram</title>
+            <para role="Normal"/>
+            <para role="Normal"><inlinemediaobject>
+                    <imageobject>
+                        <imagedata width="622px" depth="271px"
+                            fileref="../images/OLESelectAcquireMEROverviewForUsersRevised-3.png"/>
+                    </imageobject>
+                </inlinemediaobject></para>
+            <para role="Normal"/>
+            <para role="Normal">Select and Acquire Features:</para>
+            <itemizedlist mark="disc" spacing="normal">
+                <listitem>
+                    <para role="List Paragraph">Re-examines library business operations</para>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">Focuses on digital-based workflows</para>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">Interoperates and integrates with other enterprise
+                        and network-based systems</para>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">Ability to ingest bibliographic information from
+                        Webform</para>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">Ability to ingest files of bibliographic records and
+                        orders</para>
+                </listitem>
+            </itemizedlist>
+        </section></section><section><title>Financial </title><para role="Normal">In the OLE environment, all acquisitions transactions require fund structures,
+            financial processing, and accurate maintenance of the OLE General Ledger. OLE has
+            adapted Kuali Financial System (KFS) for Budget Adjustment documents, and continues to
+            modify various Fiscal Year End e-documents to manage budgets. OLE uses the adapted KFS
+            Pre-Disbursement Processor (PDP) to export encumbrances, expenses/invoices, credits, and
+            prepayment requests/disbursement vouchers, which can then be batch exported to
+            university financial systems. In a future release, OLE will be developing an
+            import/incoming financial integration tool that allows the library to receive updates
+            from the university financial office.</para><para role="Normal"/><para role="Normal">Financial Features:</para><itemizedlist mark="disc" spacing="normal"><listitem><para role="List Paragraph">Chart of Accounts/Financial Structures</para></listitem><listitem><para role="List Paragraph">Budget Adjustment, Transfers, Pre-Encumbrance</para></listitem><listitem><para role="List Paragraph">Accounts: Block, Restrict, SFC, +/-, Fund checks, Access Security</para></listitem><listitem><para role="List Paragraph">Fiscal Year Rollover transactions</para></listitem><listitem><para role="List Paragraph">Foreign Currency exchange</para></listitem><listitem><para role="List Paragraph">Vendor/Publisher record management</para></listitem><listitem><para role="List Paragraph">Will communicate with campus financial system</para></listitem><listitem><para role="List Paragraph">Load budgets, account structures</para></listitem><listitem><para role="List Paragraph">OLE Attributes of Legacy Fund Codes, Stewardship</para></listitem></itemizedlist>
+        <section>
+            <title>Chart of Accounts</title>
+            <para role="Normal">Acquisitions transactional documents within OLE require a fund to
+                pay for items in the order process. OLE relies on a variety of Chart of Accounts
+                (COA) tables to function. These tables define attributes and values used by the
+                system to validate transactions. They also control the often complex relationships
+                between elements in the Chart of Accounts that must be leveraged for internal and
+                external reporting. For example, tables store basic information such as the sub-fund
+                groups to which new accounts may be assigned and the calendar month that correlates
+                to the first month of your institution's fiscal year. This type of flexibility is
+                one of the features that make OLE a highly configurable application to support
+                Acquisitions.</para>
+            <section>
+                <title>Sufficient Funds Check</title>
+                <para role="Normal">OLE adds over and under tolerances for encumbrances and for
+                    expenses. Sufficient funds checking for encumbrances and expenses are formulated
+                    differently within OLE. OLE allows sufficient funds check options like KFS (at
+                    Object Code, Object Level, Consolidation, Account, Cash), but also allows users
+                    to set a block when the fund check equals the set limit, block/notify within a
+                    %/$ range of depletion, or allow overages to a $/%.  Sufficient fund checks can
+                    occur on Requisitions (REQ), Purchase Orders (PO), Purchase Order Amend (POA),
+                    Payment or Prepayment Requests (PREQ/PPRQ).</para>
+                <para role="Normal"/>
+                <note>
+                    <para role="Normal"> To learn more about managing <link
+                            xlink:href="../webhelp/AG/content/ch15.html">Chart of Accounts</link>
+                        and the associated E-documents, see the relevant section of <link
+                            xlink:href="../webhelp/AG/content/pr01.html"><emphasis>Guide to
+                                the OLE Select and Acquire Module</emphasis></link>.</para>
+                </note>
+            </section>
+        </section>
+        <section>
+            <title>General Ledger</title>
+            <para role="Normal">OLE is adapting the KFS General Ledger (GL) for use in the
+                generation of offsets and the posting of transactions to the balance tables, from
+                various acquisitions transactions. The GL is the official repository for all of OLE
+                financial and budget information. It stores account balance and budget information
+                for multiple fiscal years and stores a detailed record of all financial
+                transactions. Users interact with the GL by creating electronic documents that, when
+                fully approved, are posted to the GL. The OLE General Ledger is a batch processing
+                application that expects all GL pending transactions to be collected in batch form
+                from the GL entry files. The daily batch contains transactions generated in OLE as
+                well as transactions created in external applications and converted to the GL entry
+                format.</para>
+            <note>
+                <para role="Normal"> To learn more about the <link
+                    xlink:href="../webhelp/AG/content/ch14s05.html">General Ledger</link> and the
+                    associated E-documents, see the relevant section of <link
+                        xlink:href="../webhelp/AG/content/pr01.html"><emphasis>Guide to the OLE Select and Acquire
+                            Module</emphasis></link><emphasis>. </emphasis></para>
+            </note>
+        </section>
+        <section>
+            <title>Financial Processing</title>
+            <para role="Normal">The Financial Processing (FP) component allows users to create and
+                maintain a variety of e-documents (maintenance and transactional), generate reports,
+                and upload data in batch. Many of the financial processing documents are not
+                dependent on other financial processing module documents and independent of other
+                OLE modules. For example, the Disbursement Voucher is for processing payments that
+                are not transacted through the Acquisitions module of OLE. </para>
+            <note>
+                <para role="Normal"> To learn more about Financial Processing within OLE, see the
+                    <link xlink:href="../webhelp/AG/content/ch14.html">Others</link> section of <link
+                            xlink:href="../webhelp/AG/content/pr01.html"><emphasis>Guide to the OLE Select and Acquire
+                            Module</emphasis></link><emphasis>.</emphasis></para>
+            </note>
+        </section></section><section><title>Selection</title><para role="Normal">OLE Selection supports procuring decisions that library collection managers, patrons or acquisitions staff make through acquisitions workflows. In OLE, select functions are often considered Pre-orders, wherein Requisitions become placeholders for future acquisitions review. Requisitions are managed through action lists, and the Order Holding Queue. </para><para role="Normal"/><para role="Normal">Selection Features:  </para><itemizedlist mark="disc" spacing="normal"><listitem><para role="List Paragraph"><emphasis>Webform</emphasis> allows patrons to enter a request for an item the library does not own </para></listitem><listitem><para role="List Paragraph">Manual requisition allows staff to create an order for an item</para></listitem><listitem><para role="List Paragraph">Enhanced Pre-Order selection</para></listitem><listitem><para role="List Paragraph">Title search capability (Docstore)</para></listitem><listitem><para role="List Paragraph">Initiate patron requests and workflows</para></listitem><listitem><para role="List Paragraph">Order Holding Queue </para></listitem><listitem><para role="List Paragraph">Import Bibliographic records only </para></listitem><listitem><para role="List Paragraph">Import slips</para></listitem></itemizedlist>
+        <note>
+            <para role="Normal"> To learn more about <link xlink:href="../webhelp/AG/content/ch03s02.html"
+                    >Requisitions</link> and the <link
+                        xlink:href="../webhelp/AG/content/ch03s11.html">Order Holding Queue</link>,
+                see the relevant sections in the <link xlink:href="../webhelp/AG/content/pr01.html"><emphasis>Guide
+                        to the OLE Select and Acquire Module</emphasis></link>.</para>
+            <para role="Normal"> To learn more about <link
+                xlink:href="../webhelp/ADMIN/content/ch01.html">importing batch records</link>
+                (Batch Framework), see the relevant section of <link xlink:href="../webhelp/ADMIN/content/pr01.html"
+                        ><emphasis>Guide to the OLE System Administration
+                    Functions</emphasis></link>.</para>
+        </note></section><section><title>Acquisitions</title><para role="Normal">The Acquisitions module or purchasing functions encompass all related encumbrance, expense, ordering, receiving, and payment for titles in a variety of formats. Depending on the format, the acquisition of an item may have an associated license/registry that the system is equipped to manage and document as described in <link linkend="_Licensing">OLE Electronic Resource Management Overview- License Requests</link> documentation.  Brief bibliographic records are created or edited/linked in the system and an order is created for acquisition.  The order is received and paid for upon receipt from the supplier.</para><para role="Normal"/><para role="Normal">The Acquisitions module is used to order, receive and process payments for
+            library materials. Invoices and Credit Memos are sent to the Pre-Disbursement Processing
+            Module (PDP) for disbursement. It includes several e-documents to help libraries manage
+            its acquisitions and accounting processes. OLE users may initiate Requisition
+            e-documents (“Pre-Orders”) to suggest titles for ordering. Fully approved Requisition
+            e-documents are then processed through workflows and become Purchase Orders. Under
+            certain conditions (specified by your library’s business rules in OLE), fully approved
+            Requisitions may become Purchase Orders automatically without any additional processing. </para><para role="Normal"/><para role="Normal">OLE has added an Order Type attribute that provides rules for Purchase Orders, Receiving, and Payments. These order types affect how PO or POA line items are managed, whether Line Item Receiving or new Action-Interval/Serial Receiving are required, and how the order types interact with the Payment Request - especially if advance deposits made. </para><para role="Normal"/>
+        <note>
+            <para role="Normal"> To learn more about <link xlink:href="../webhelp/AG/content/ch03s02.html"
+                >Requisitions</link> and <link xlink:href="../webhelp/AG/content/ch03s04.html"
+                    >Purchase Orders</link>, see the relevant section of <link
+                        xlink:href="../webhelp/AG/content/pr01.html"><emphasis>Guide to the OLE Select and Acquire
+                        Module</emphasis></link>.<emphasis> </emphasis></para>
+        </note>
+        <section>
+            <title>Serials Acquisitions</title>
+            <para role="Normal">Serials Acquisitions support the selection and acquisitions of
+                continuing resources. OLE accommodates receipts for the variety of publishing
+                schedules - annual or irregular, numbered or unnumbered, monographic or
+                non-monographic books in series.</para>
+            <para role="Normal"/>
+            <para role="Normal">Serials Acquisitions Features:</para>
+            <itemizedlist mark="disc" spacing="normal">
+                <listitem>
+                    <para role="List Paragraph">DocStore supports Bibliographic record and Instance
+                        records: Holdings and Items as well as E-Instances for electronic
+                        materials.</para>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">Serials single title order</para>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">Serial bundles, includes print and electronic
+                        versions of title</para>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">View and edit subscriptions</para>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">Action Interval-based receiving record</para>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">Deposits and prepayments</para>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">Claiming reports; Unpaid subscriptions reports
+                        (scheduled for a future release)</para>
+                </listitem>
+            </itemizedlist>
+            <note>
+                <para role="Normal"> To learn more about <link
+                    xlink:href="../webhelp/AG/content/ch05s06.html">Serials
+                        Receiving</link>, see the relevant section of <link
+                            xlink:href="../webhelp/AG/content/pr01.html"><emphasis>Guide to the OLE Select and Acquire
+                            Module</emphasis></link>.<emphasis> </emphasis></para>
+            </note>
+        </section></section><section><title>Receiving</title><para role="Normal">OLE Receiving supports the receiving and cataloging of ordered library materials, as the first step to making library materials available for circulation, following the completion of all required cataloging activities. OLE allows receiving of a quantity and/or parts on line items, as well as offers the ability to report unordered line items, damaged items, or return items. In addition, OLE accepts record annotations such as receiving note(s), and special handling directives. </para><para role="Normal"/><para role="Normal">Receiving Features: </para><itemizedlist mark="disc" spacing="normal"><listitem><para role="List Paragraph">Receiving Queue - global actions promote receiving across Purchase Orders from single Search UI </para></listitem><listitem><para role="List Paragraph">Combined Receiving, Invoicing - interactions prompt auto or manual processing of Invoice while concurrent Line-Item Receiving</para></listitem><listitem><para role="List Paragraph">Create additional Item records for each “copy” received </para></listitem><listitem><para role="List Paragraph">Initial Requisition, Purchase Orders auto-create single items regardless of quantity during ordering </para></listitem><listitem><para role="List Paragraph">Based on the action- interval established for a title, OLE offers an alternative to line item receiving for serials/journals in and optional receiving for multi-part monographs  </para></listitem><listitem><para role="List Paragraph">Receiving staff can update full cataloging records during processing of bibliographic OLE Instance (holding and item) cataloging</para></listitem></itemizedlist>
+        <note>
+            <para role="Normal"> To learn more about <link
+                xlink:href="../webhelp/AG/content/ch05s02.html">Monograph Receiving</link>
+                and  <link xlink:href="../webhelp/AG/content/ch05s05.html">Receiving and Claiming Queue</link>, see
+                the relevant section of <link xlink:href="../webhelp/AG/content/pr01.html"><emphasis>Guide to the
+                        OLE Select and Acquire Module</emphasis></link>.</para>
+        </note>
+        <section>
+            <title>Serials Action Interval-Based Receiving </title>
+            <para role="Normal">Serial subscriptions require repeated receiving of individual issues
+                over time--for purposes of “receiving”, serials are distinct from “receiving”
+                non-serials. The latter are typically “received” by changing a PO line item status
+                and that is all that is required for a receiving process. By contrast, serials are
+                typically “received” by recording receipt of individual issues and--since in most
+                libraries unbound current issues are shelved separate from bound older issues--a
+                distinct type of record is required. The Serial Receiving Record is a new e-document
+                in 1.0 that allows for action interval checkin.</para>
+            <note>
+                <para role="Normal"> To learn more about <link
+                    xlink:href="../webhelp/AG/content/ch05s06.html">Serials
+                        Receiving</link> and action interval checkin within OLE, see the Serials
+                    section of <link xlink:href="../webhelp/AG/content/pr01.html"><emphasis>Guide to the OLE Select
+                            and Acquire Module</emphasis></link>. </para>
+            </note>
+            <para role="Normal"/>
+        </section>
+        <section>
+            <title>Receiving Business Rules:</title>
+            <para role="Normal">OLE can set maximum receiving thresholds ($) to require reception
+                even if the initial order indicates “no Receiving required”. Receiving Requirements
+                for purchase orders can be set at “yes” or “no” on the Requisition indicating
+                whether receiving is required or not for an item. Based on Receiving Required rules,
+                OLE will run checks that display errors if a user attempts to process Invoice/
+                Payment Request for quantities greater than quantities actually received.</para>
+            <para role="Normal"/>
+            <para role="Normal">For items not on the original Purchase Order, users may create
+                Purchase Order Amend (POA) documents. The POA must be processed before the PREQ can
+                be approved.</para>
+            <note>
+                <para role="Normal"> To learn more about how <link xlink:href="../webhelp/AG/content/ch03s05.html"
+                        >Purchase Order Amend</link> documents currently works in OLE, see the
+                    relevant section of <link xlink:href="../webhelp/AG/content/pr01.html"><emphasis>Guide to the
+                            OLE Select and Acquire Module</emphasis></link>. </para>
+            </note>
+            <para role="Normal"/>
+        </section></section><section><title>Payment/Invoicing</title><para role="Normal">Although OLE processes vendor invoices as payment requests, the new OLE Invoice
+            document was created to accommodate many-to-one purchase orders to payment requests.
+            This e-document populates payment requests for staff. OLE will also processes any
+            negative amounts or credits as separate credit memos. Payments (“paid”) display on
+            purchase order line items. Prorating on Invoices and Payment Requests allows users to
+            take a $500 Shipping &amp; Handling charge (or other types)  and optionally assign
+            accounting lines to it (KFS behavior), or prorate it across line items: manually, by
+            quantity, or by dollar amounts. OLE will accommodate advance payments to vendors
+            (deposit accounts), and allow a variety of batch jobs, to ensure accurate information to
+            university financial office. Related document links display on purchase orders and
+            payment requests, linking them, plus Receiving and Requisitions. </para><para role="Normal"/><para role="Normal">Payment/Invoicing Features:</para><itemizedlist mark="disc" spacing="normal"><listitem><para role="List Paragraph">Payment schedules are indicated on initiating Purchase Order</para></listitem><listitem><para role="List Paragraph">Library invoice types and sub-types allow for specialized rules and processing of invoices</para></listitem><listitem><para role="List Paragraph">Many-to-one purchase order to payment request (credit memo in a later release)</para></listitem><listitem><para role="List Paragraph">Prepayments</para></listitem><listitem><para role="List Paragraph">Deposit account</para></listitem><listitem><para role="List Paragraph">Payments charged to credit card</para></listitem><listitem><para role="List Paragraph">Pro-forma Invoicing</para></listitem><listitem><para role="List Paragraph">$0 invoices</para></listitem><listitem><para role="List Paragraph">Prorated additional charges</para></listitem><listitem><para role="List Paragraph">Payment requests process in US Dollar equivalency</para></listitem><listitem><para role="List Paragraph">Payment details from university financial (TBD)</para></listitem><listitem><para role="List Paragraph">Purchase order payment holds (remove hold)</para></listitem><listitem><para role="List Paragraph">Payment methods</para></listitem><listitem><para role="List Paragraph">Payment request (single purchase order or multiple purchase order)</para></listitem><listitem><para role="List Paragraph">Credit memo (single purchase order only in 1.5)</para></listitem></itemizedlist>
+        <note>
+            <para role="Normal"> To learn more about the <link xlink:href="../webhelp/AG/content/ch04s02.html"
+                >Invoice</link> document within OLE, see the <link xlink:href="../webhelp/AG/content/pr01.html"
+                        ><emphasis>Guide to the OLE Select and Acquire Module</emphasis></link>. </para>
+        </note></section><section><title><anchor xml:id="_Licensing"/>Licensing</title><para role="Normal">OLE created extensive specifications for the licensing process. Licensing is a variable step in the electronic acquisitions process. Some resources do not require a license at all and can be used within the guidelines of copyright law, while others require extensive negotiation of business and licensing terms. In lieu of a negotiated license, some vendors use standard Shared Electronic Resource Understanding (SERU) agreements to bypass complicated licensing processes. The goal of the licensing specifications is for a license editor that is flexible enough to encode the rights for a variety of scenarios making them easy to query, rather than recording the terms only for fully negotiated licenses.  License Request e-documents, used to manage negotiations, are available in OLE.</para><para role="Normal"/><para role="Normal">Licensing Process in OLE:</para><itemizedlist mark="disc" spacing="normal"><listitem><para role="List Paragraph">Request a standard license from a publisher for a resource</para></listitem><listitem><para role="List Paragraph">Assign the license to a “shepherd” or license owner</para></listitem><listitem><para role="List Paragraph">Compare the license with standard requirements established by the institution and/or library</para></listitem><listitem><para role="List Paragraph">Back and forth negotiation with the publisher and library administration to modify license language if necessary</para></listitem><listitem><para role="List Paragraph">If approval, final signatures from both parties recorded</para></listitem><listitem><para role="List Paragraph">Storage of final license document (generally a PDF) is stored OLE</para></listitem><listitem><para role="List Paragraph">Coding machine-readable interpretation of license terms in OLE via a license editor (will be stored as ONIX-PL in the DocStore) will be available in a future release.</para></listitem></itemizedlist>
+        <note>
+            <para role="Normal"> To learn more about the current functionality of <link
+                xlink:href="../webhelp/AG/content/ch07.html">Licensing</link> within OLE, see
+                the <link xlink:href="../webhelp/AG/content/pr01.html"><emphasis>Guide to the OLE Select and Acquire
+                        Module</emphasis></link>.</para>
+        </note></section><section><title>Electronic Resource Management (ERM)</title><para role="Normal">Electronic Resource Management covers all aspects of managing titles that are
+            delivered or provided in electronic form. These materials might consist of e-books,
+            e-journals, images, music, video, etc. Many of these resources are continuing serials
+            while others, such as e-books, are one-time purchases. Managing electronic resources is
+            highly complex because they are purchased and billed in many different ways – an
+            institution may be purchasing a single journal title, an aggregated database with 5,000
+            titles that change throughout the year, or a journal package that contains 500
+            individual titles as well as several bundles with several titles each. In addition to
+            purchasing workflows comparable to print counterparts, acquiring electronic resources
+            may involve one (or more) trial periods for evaluation and generally requires complex
+            negotiation of license and business terms. The workflow for making electronic resources
+            accessible to patrons is difficult to manage because there is no physical item being
+            tracked through a cataloging process. Electronic resources also require ongoing
+            monitoring and management over their lifecycle to ensure continuous access in addition
+            to workflows for disabling access to a resource no longer being licensed. While much
+            work will still need to occur in future releases, OLE has taken some initial steps with
+            an E-Resource Record in the 1.0 release, much more development will occur in the 3.0
+            release. </para>
+        <section>
+            <title>E-Resource Records</title>
+            <para role="Normal">The E-Resource Record provides a place to store and view information
+                about an electronic resource acquisition, including the title(s) involved and the
+                content provider. Within the OLE user interface, the E-Resource Record presents a
+                single, unified view of all information related to acquisition of an individual
+                electronic resource or group of electronic resources, including titles, payment,
+                licensing, administrative, and contact information. There are several general
+                workflows that make up the electronic acquisitions process after a selector or
+                patron requests the purchase of an electronic resource, these will be managed with
+                the E-Resource Record. </para>
+            <note>
+                <para role="Normal"> To learn more about the current functionality of <link
+                    xlink:href="../webhelp/AG/content/ch10s01.html">E-Resources</link> within OLE, see
+                    the <link xlink:href="../webhelp/AG/content/pr01.html"><emphasis>Guide to the OLE Select and
+                            Acquire Module</emphasis></link>.</para>
+            </note>
+        </section></section></article>

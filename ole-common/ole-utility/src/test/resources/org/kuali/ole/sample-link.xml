@@ -1,0 +1,122 @@
+<request>
+  <requestDocuments>
+    <ingestDocument id="1" category="work" type="bibliographic" format="marc">
+      <content><![CDATA[ <collection>
+    <record>
+        <leader></leader>
+        <controlfield tag="001"></controlfield>
+        <datafield tag="100">
+            <subfield code="a">Agatha Chrisyie</subfield>
+        </datafield>
+        <datafield tag="245">
+            <subfield code="a">And Then There Where None</subfield>
+        </datafield>
+        <datafield tag="260">
+            <subfield code="b">Bakshi</subfield>
+        </datafield>
+        <datafield tag="020">
+            <subfield code="a">9872540256</subfield>
+        </datafield>
+        <datafield tag="260">
+            <subfield code="c">9/10/2011</subfield>
+        </datafield>
+    </record>
+</collection>
+]]></content>
+        <documentName>LicenseDoc1.pdf</documentName>
+        <documentTitle>Readable Document Title</documentTitle>
+        <documentMimeType>application/pdf</documentMimeType>         
+      <additionalAttributes>
+        <dateEntered>2000-11-05></dateEntered>
+        <dateLastUpdated>12-11-2011</dateLastUpdated>
+        <fastAddFlag>true</fastAddFlag>
+        <supressFromPublic>false</supressFromPublic>
+      </additionalAttributes>
+     </ingestDocument>
+    <ingestDocument id="2" category="work" type="instance" format="oleml">
+      <content><![CDATA[<instanceCollection>
+    <instance>
+        <resourceIdentifier>100000</resourceIdentifier>
+        <holdings>
+            <formerIndentifiers>
+                <identifier>100000-2</identifier>
+                <identifierType>IUHoldings</identifierType>
+            </formerIndentifiers>
+            <suppressFromPublic>false</suppressFromPublic>
+            <fastAddFlag>false</fastAddFlag>
+            <status>c</status>
+            <recordType>u</recordType>
+            <encodingLevel>1</encodingLevel>
+            <lastUpdated>2012-02-03</lastUpdated>
+            <dateEntered>2012-02-03</dateEntered>
+            <receiptStatus>0</receiptStatus>
+            <acquisitionMethod>c</acquisitionMethod>
+            <expectedAcquisitionEndDate>expe</expectedAcquisitionEndDate>
+            <generalRetentionPolicy>0</generalRetentionPolicy>
+            <specificRetentionPolicy>
+                <policyType>#</policyType>
+                <numberOfUnits>#</numberOfUnits>
+                <unitType>m</unitType>
+            </specificRetentionPolicy>
+            <completeness>0</completeness>
+            <copiesReported>50</copiesReported>
+            <lendingPolicy>a</lendingPolicy>
+            <reproductionPolicy>a</reproductionPolicy>
+            <separateOrCompositeReport>0</separateOrCompositeReport>
+            <reportDate>0</reportDate>
+            <extension>
+            </extension>
+        </holdings>
+        <item>
+            <formerIndentifiers>
+                <identifier>100000-2-1</identifier>
+                <identifierType>IUItems</identifierType>
+            </formerIndentifiers>
+            <accessInformation>
+                <barcode>30000067082648</barcode>
+            </accessInformation>
+            <location>
+                <locationStatus>Permanent</locationStatus>
+                <locationName>
+                    <value>B-LILLY</value>
+                </locationName>
+                <levelName>
+                    <value>Library</value>
+                </levelName>
+                <locationName>
+                    <value>_LILLALF</value>
+                </locationName>
+                <levelName>
+                    <value>Location</value>
+                </levelName>
+                <shelvingScheme>LC</shelvingScheme>
+                <classificationPart>PR6052.O5 W92</classificationPart>
+            </location>
+            <purchaseOrderLineItemIdentifier>purchaseOrderLineItemIdentifier0</purchaseOrderLineItemIdentifier>
+            <purchaseOrderLineItemIdentifier>purchaseOrderLineItemIdentifier1</purchaseOrderLineItemIdentifier>
+            <suppressFromPublic>false</suppressFromPublic>
+            <harvestable>true</harvestable>
+            <fastAddFlag>false</fastAddFlag>
+            <dateEntered>2000-11-05</dateEntered>
+            <lastUpdated>2000-11-05</lastUpdated>
+            <nonPublicNote>nonPublicNote0</nonPublicNote>
+            <publicNote>publicNote0</publicNote>
+            <extension>
+            </extension>
+        </item>
+    </instance>
+</instanceCollection>
+]]></content>
+      <additionalAttributes>
+        <dateEntered>2000-11-05</dateEntered>
+        <dateLastUpdated>12-11-2011</dateLastUpdated>
+        <fastAddFlag>true</fastAddFlag>
+        <supressFromPublic>false</supressFromPublic>
+        <type>supplemental, trial, regular</type>
+        <status>ONIX PL: LicenseStatus</status>
+        <method>license, SERU, copyright law, terms of use</method>
+      </additionalAttributes>
+     </ingestDocument>
+  </requestDocuments>
+</request>
+

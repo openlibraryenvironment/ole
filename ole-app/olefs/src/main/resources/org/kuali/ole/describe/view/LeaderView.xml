@@ -1,0 +1,332 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+
+    <bean id="LeaderStructureFields" parent="Uif-Disclosure-VerticalBoxSection" p:layoutManager.orientation="VERTICAL"
+          p:render="@{editable eq 'true'}">
+        <property name="headerText" value="Leader Structured Data Elements"/>
+        <property name="items">
+            <list>
+                <ref bean="LeaderStructureFieldsGroup"/>
+                <ref bean="Control_leader_Buttons"/>
+            </list>
+        </property>
+
+    </bean>
+
+    <bean parent="Uif-HorizontalFieldGroup" id="LeaderStructureFieldsGroup">
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="8">
+                    <property name="items">
+                        <list>
+                            <bean id="Length" parent="Base-Uif-InputField"
+                                  p:propertyName="documentForm.leaderField.length"
+                                  p:label="Length" p:defaultValue="#####">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="4" p:disabled="true"/>
+                                </property>
+                            </bean>
+                            <bean id="RecordStatus" parent="Base-Uif-InputField"
+                                  p:propertyName="documentForm.leaderField.recStatus" p:label="RecStat"
+                                  p:defaultValue="n">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="a"
+                                                      p:value="a - Increase in encoding level"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="c"
+                                                      p:value="c - Corrected or revised"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="d"
+                                                      p:value="d - Deleted"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="n" p:value="n - New"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="p"
+                                                      p:value="p - Increase in encoding level from prepublication"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+
+                            </bean>
+                            <bean id="Type" parent="Base-Uif-InputField" p:propertyName="documentForm.leaderField.type"
+                                  p:label="TypeRec" p:defaultValue="a" p:onClickScript="positionChange();">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="a"
+                                                      p:value="a - Language material"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="c"
+                                                      p:value="c - Notated music"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="d"
+                                                      p:value="d - Manuscript notated music"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="e"
+                                                      p:value="e - Cartographic material"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="f"
+                                                      p:value="f - Manuscript cartographic material"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="g"
+                                                      p:value="g - Projected medium"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="i"
+                                                      p:value="i - Nonmusical sound recording"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="j"
+                                                      p:value="j - Musical sound recording"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="k"
+                                                      p:value="k - Two-dimensional nonprojectable graphic"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="m"
+                                                      p:value="m - Computer file"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="o"
+                                                      p:value="o - Kit"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="p"
+                                                      p:value="p - Mixed materials"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="r"
+                                                      p:value="r - Three-dimensional artifact or naturally occurring object"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="t"
+                                                      p:value="t - Manuscript language material"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                            <bean id="Level" parent="Base-Uif-InputField"
+                                  p:propertyName="documentForm.leaderField.bibLevel" p:label="BibLvl" p:defaultValue="m"
+                                  p:onClickScript="positionChange();">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="a"
+                                                      p:value="a - Monographic component part"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="b"
+                                                      p:value="b - Serial component part"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="c"
+                                                      p:value="c - Collection"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="d"
+                                                      p:value="d - Subunit"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="i"
+                                                      p:value="i - Integrating resource"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="m"
+                                                      p:value="m - Monograph/Item"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="s"
+                                                      p:value="s - Serial"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                            <bean id="Control" parent="Base-Uif-InputField"
+                                  p:propertyName="documentForm.leaderField.typeOfControl" p:label="TypeCtrl"
+                                  p:defaultValue="#"
+                                  p:additionalHiddenPropertyNames="documentForm.leaderField.coding,documentForm.leaderField.indicatorCount,documentForm.leaderField.subfieldCount,documentForm.leaderField.baseAddress,documentForm.leaderField.length">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="#"
+                                                      p:value="# - No specified type"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="a"
+                                                      p:value="a - Archival"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                            <bean id="coding" parent="Base-Uif-InputField"
+                                  p:propertyName="documentForm.leaderField.coding"
+                                  p:label="CharCod" p:defaultValue="a">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="1" p:disabled="true"/>
+                                </property>
+                            </bean>
+
+                            <bean id="indicatorCount" parent="Base-Uif-InputField"
+                                  p:propertyName="documentForm.leaderField.indicatorCount"
+                                  p:label="IndCount" p:defaultValue="2">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="1" p:disabled="true"/>
+                                </property>
+                            </bean>
+
+                            <bean id="subfieldCount" parent="Base-Uif-InputField"
+                                  p:propertyName="documentForm.leaderField.subfieldCount"
+                                  p:label="SubCount" p:defaultValue="2">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="1" p:disabled="true"/>
+                                </property>
+                            </bean>
+
+                            <bean id="baseAddress" parent="Base-Uif-InputField"
+                                  p:propertyName="documentForm.leaderField.baseAddress"
+                                  p:label="BaseAdd" p:defaultValue="#####">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="4" p:disabled="true"/>
+                                </property>
+                            </bean>
+
+
+                            <bean id="Elvl" parent="Base-Uif-InputField"
+                                  p:propertyName="documentForm.leaderField.encodingLevel" p:label="EncLvl"
+                                  p:defaultValue="#">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="#"
+                                                      p:value="# - Full level"/>
+                                                <bean parent="Uif-KeyLabelPair"
+                                                      p:key="1"
+                                                      p:value="1 - Full level, material not examined"/>
+                                                <bean parent="Uif-KeyLabelPair"
+                                                      p:key="2"
+                                                      p:value="2 - Less-than-full level, material not examined"/>
+                                                <bean parent="Uif-KeyLabelPair"
+                                                      p:key="3"
+                                                      p:value="3 - Abbreviated level"/>
+                                                <bean parent="Uif-KeyLabelPair"
+                                                      p:key="4"
+                                                      p:value="4 - Core level"/>
+                                                <bean parent="Uif-KeyLabelPair"
+                                                      p:key="5"
+                                                      p:value="5 - Partial (preliminary) level"/>
+                                                <bean parent="Uif-KeyLabelPair"
+                                                      p:key="7"
+                                                      p:value="7 - Minimal level"/>
+                                                <bean parent="Uif-KeyLabelPair"
+                                                      p:key="8"
+                                                      p:value="8 - Prepublication level"/>
+                                                <bean parent="Uif-KeyLabelPair"
+                                                      p:key="E"
+                                                      p:value="E - System-identified MARC error in a batchloaded record"/>
+                                                <bean parent="Uif-KeyLabelPair"
+                                                      p:key="I"
+                                                      p:value="I - Full level input by OCLC participants"/>
+                                                <bean parent="Uif-KeyLabelPair"
+                                                      p:key="J"
+                                                      p:value="J - Deleted record"/>
+                                                <bean parent="Uif-KeyLabelPair"
+                                                      p:key="K"
+                                                      p:value="K - Less-than-full level input by OCLC participants"/>
+                                                <bean parent="Uif-KeyLabelPair"
+                                                      p:key="L"
+                                                      p:value="L - Full level input added from a batch process"/>
+                                                <bean parent="Uif-KeyLabelPair"
+                                                      p:key="M"
+                                                      p:value="M - Less-than-full level added from a batch process"/>
+                                                <bean parent="Uif-KeyLabelPair"
+                                                      p:key="u"
+                                                      p:value="u - Unknown"/>
+                                                <bean parent="Uif-KeyLabelPair"
+                                                      p:key="z"
+                                                      p:value="z - Not applicable"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                            <bean id="DescCatalogForm" parent="Base-Uif-InputField"
+                                  p:propertyName="documentForm.leaderField.descCatalogForm"
+                                  p:label="DescCat" p:defaultValue="a">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="#"
+                                                      p:value="#-Non-ISBD"/>
+                                                <bean parent="Uif-KeyLabelPair"
+                                                      p:key="a"
+                                                      p:value="a - AACR 2"/>
+                                                <bean parent="Uif-KeyLabelPair"
+                                                      p:key="c"
+                                                      p:value="c - ISBD punctuation omitted"/>
+                                                <bean parent="Uif-KeyLabelPair"
+                                                      p:key="i"
+                                                      p:value="i - ISBD punctuation included"/>
+                                                <bean parent="Uif-KeyLabelPair"
+                                                      p:key="u"
+                                                      p:value="u - Unknown"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                            <bean id="MultipartRecLevel" parent="Base-Uif-InputField"
+                                  p:propertyName="documentForm.leaderField.multipartRecordLevel"
+                                  p:label="MultiRes" p:defaultValue="#"
+                                  p:additionalHiddenPropertyNames="documentForm.leaderField.lengthOfLengthOfField,documentForm.leaderField.lengthOfStartingCharacterPosition,documentForm.leaderField.lengthOfImplementationDefined">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="#"
+                                                      p:value="# - Not specified or not applicable"/>
+                                                <bean parent="Uif-KeyLabelPair"
+                                                      p:key="a"
+                                                      p:value="a - Set"/>
+                                                <bean parent="Uif-KeyLabelPair"
+                                                      p:key="b"
+                                                      p:value="b - Part with independent title"/>
+                                                <bean parent="Uif-KeyLabelPair"
+                                                      p:key="c"
+                                                      p:value="c - Part with dependent title"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                            <bean id="LengthOfField" parent="Base-Uif-InputField"
+                                  p:propertyName="documentForm.leaderField.lengthOfLengthOfField"
+                                  p:label="LengLeng" p:defaultValue="4">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="1" p:disabled="true"/>
+                                </property>
+                            </bean>
+
+                            <bean id="StartingCharacterPos" parent="Base-Uif-InputField"
+                                  p:propertyName="documentForm.leaderField.lengthOfStartingCharacterPosition"
+                                  p:label="LengStar" p:defaultValue="5">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="1" p:disabled="true"/>
+                                </property>
+                            </bean>
+
+                            <bean id="ImplDefined" parent="Base-Uif-InputField"
+                                  p:propertyName="documentForm.leaderField.lengthOfImplementationDefined"
+                                  p:label="LengImp" p:defaultValue="0">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="1" p:disabled="true"/>
+                                </property>
+                            </bean>
+
+                            <bean id="undefinedLeader" parent="Base-Uif-InputField"
+                                  p:propertyName="documentForm.leaderField.undefinedLeader"
+                                  p:label="Undef" p:defaultValue="0">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="1" p:disabled="true"/>
+                                </property>
+                            </bean>
+
+
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Control_leader_Buttons" parent="Uif-HorizontalFieldGroup" p:render="@{editable eq 'true'}">
+        <property name="items">
+            <list>
+                <bean id="set_button" parent="Uif-SecondaryActionButton-Small"
+                      p:style="float:left;margin-left:5em" p:actionLabel="Set Leader Field"
+                      p:actionScript="leaderSet();" p:render="@{editable eq 'true'}"/>
+                <bean id="reset_button" parent="Uif-SecondaryActionButton-Small"
+                      p:style="float:left;margin-left:2em" p:methodToCall="leaderFieldReset"
+                      p:actionLabel="Clear Selections"
+                      p:ajaxSubmit="true" p:successCallback="leaderReset();" p:refreshId="LeaderStructureFieldsGroup"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

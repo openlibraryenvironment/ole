@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+<!--
+ Copyright 2006-2008 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean id="PurchaseOrderType" parent="PurchaseOrderType-parentBean"/>
+
+  <bean id="PurchaseOrderType-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.ole.module.purap.businessobject.PurchaseOrderType"/>
+    <property name="inquiryDefinition">
+      <ref bean="PurchaseOrderType-inquiryDefinition"/>
+    </property>
+    <property name="lookupDefinition">
+      <ref bean="PurchaseOrderType-lookupDefinition"/>
+    </property>
+    <property name="titleAttribute" value="purchaseOrderTypeId"/>
+    <property name="objectLabel" value="Order Type"/>
+    <property name="attributes">
+      <list>
+        <ref bean="PurchaseOrderType-purchaseOrderTypeId"/>
+        <ref bean="PurchaseOrderType-purchaseOrderType"/>
+        <ref bean="PurchaseOrderType-description"/>
+        <ref bean="PurchaseOrderType-active"/>
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="PurchaseOrderType-purchaseOrderTypeId" parent="PurchaseOrderType-purchaseOrderTypeId-parentBean"/>
+
+  <bean id="PurchaseOrderType-purchaseOrderTypeId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="purchaseOrderTypeId"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Order Type Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="8"/>
+    <property name="validationPattern">
+      <ref bean="NumericValidation" />
+    </property>
+     <property name="control">
+      <ref bean="HiddenControl" />
+    </property>
+  </bean>
+  <bean id="PurchaseOrderType-purchaseOrderType" parent="PurchaseOrderType-purchaseOrderType-parentBean"/>
+
+  <bean id="PurchaseOrderType-purchaseOrderType-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="purchaseOrderType"/>
+    <property name="label" value="Order Type"/>
+    <property name="shortLabel" value="Description"/>
+    <property name="maxLength" value="250"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="47"/>
+    </property>
+  </bean>
+  
+  <bean id="PurchaseOrderType-active" parent="PurchaseOrderType-active-parentBean"/>
+  <bean id="PurchaseOrderType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active"/>
+  </bean>
+  
+  <bean id="PurchaseOrderType-description" parent="PurchaseOrderType-description-parentBean"/>
+
+  <bean id="PurchaseOrderType-description-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="description"/>
+    <property name="label" value="Description"/>
+    <property name="shortLabel" value="Description"/>
+    <property name="maxLength" value="500"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
+    </property>
+    <property name="control">
+            <bean parent="TextareaControlDefinition" p:rows="4" p:cols="50"/>
+    </property>
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="PurchaseOrderType-inquiryDefinition" parent="PurchaseOrderType-inquiryDefinition-parentBean"/>
+
+  <bean id="PurchaseOrderType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Order Type Inquiry"/>
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="purchaseOrderTypeId"/>
+              <bean parent="FieldDefinition" p:attributeName="purchaseOrderType"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="PurchaseOrderType-lookupDefinition" parent="PurchaseOrderType-lookupDefinition-parentBean"/>
+
+  <bean id="PurchaseOrderType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Order Type Lookup"/>
+    
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderTypeId"/>
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderType"/>
+        <bean parent="FieldDefinition" p:attributeName="description"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderTypeId"/>
+        <bean parent="FieldDefinition" p:attributeName="purchaseOrderType"/>
+        <bean parent="FieldDefinition" p:attributeName="description"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+  </bean>
+</beans>

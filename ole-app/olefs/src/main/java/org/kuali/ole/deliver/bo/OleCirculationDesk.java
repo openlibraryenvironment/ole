@@ -1,0 +1,232 @@
+package org.kuali.ole.deliver.bo;
+
+import org.kuali.ole.deliver.calendar.bo.OleCalendarGroup;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * OleCirculationDesk is business object class for Circulation Desk Maintenance Document
+ */
+public class OleCirculationDesk extends PersistableBusinessObjectBase {
+
+    private String circulationDeskId;
+    private String circulationDeskCode;
+    private String circulationDeskPublicName;
+    private String circulationDeskStaffName;
+    private boolean pickUpLocation;
+    private boolean asrPickupLocation;
+    private boolean active;
+    private String onHoldDays;
+    private String shelvingLagTime;
+    private List<OleCirculationDeskLocation> oleCirculationDeskLocations = new ArrayList<OleCirculationDeskLocation>();
+    private List<OleCirculationDeskLocation> deleteoleCirculationDeskLocations = new ArrayList<OleCirculationDeskLocation>();
+    private String locationId;
+    private boolean printSlip;
+    private String errorMessage;
+    private OleCalendarGroup oleCalendarGroup;
+    private String calendarGroupId;
+    private String holdFormat;
+    private boolean holdQueue;
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
+
+    public boolean isPrintSlip() {
+        return printSlip;
+    }
+
+    public void setPrintSlip(boolean printSlip) {
+        this.printSlip = printSlip;
+    }
+
+    public String getLocationId() {
+        return locationId;
+    }
+
+    public void setLocationId(String locationId) {
+        this.locationId = locationId;
+    }
+
+    /**
+     * Gets the circulationDeskId attribute.
+     *
+     * @return Returns the circulationDeskId
+     */
+    public String getCirculationDeskId() {
+        return circulationDeskId;
+    }
+
+    /**
+     * Sets the circulationDeskId attribute value.
+     *
+     * @param circulationDeskId The accessMethodId to set.
+     */
+    public void setCirculationDeskId(String circulationDeskId) {
+        this.circulationDeskId = circulationDeskId;
+    }
+
+    /**
+     * Gets the circulationDeskCode attribute.
+     *
+     * @return Returns the circulationDeskCode
+     */
+    public String getCirculationDeskCode() {
+        return circulationDeskCode;
+    }
+
+    /**
+     * Sets the circulationDeskCode attribute value.
+     *
+     * @param circulationDeskCode The circulationDeskCode to set.
+     */
+    public void setCirculationDeskCode(String circulationDeskCode) {
+        this.circulationDeskCode = circulationDeskCode;
+    }
+
+    /**
+     * Gets the circulationDeskPublicName attribute.
+     *
+     * @return Returns the circulationDeskPublicName
+     */
+    public String getCirculationDeskPublicName() {
+        return circulationDeskPublicName;
+    }
+
+    /**
+     * Sets the circulationDeskPublicName attribute value.
+     *
+     * @param circulationDeskPublicName The circulationDeskPublicName to set.
+     */
+    public void setCirculationDeskPublicName(String circulationDeskPublicName) {
+        this.circulationDeskPublicName = circulationDeskPublicName;
+    }
+
+    /**
+     * Gets the circulationDeskStaffName attribute.
+     *
+     * @return Returns the circulationDeskStaffName
+     */
+    public String getCirculationDeskStaffName() {
+        return circulationDeskStaffName;
+    }
+
+    /**
+     * Sets the circulationDeskStaffName attribute value.
+     *
+     * @param circulationDeskStaffName The circulationDeskStaffName to set.
+     */
+    public void setCirculationDeskStaffName(String circulationDeskStaffName) {
+        this.circulationDeskStaffName = circulationDeskStaffName;
+    }
+
+    /**
+     * Gets the active attribute.
+     *
+     * @return Returns the active
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * Sets the active attribute value.
+     *
+     * @param active The active to set.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    /**
+     * Gets the locationId attribute.
+     *
+     * @return Returns the locationId
+     */
+
+    public boolean isPickUpLocation() {
+        return pickUpLocation;
+    }
+
+    public void setPickUpLocation(boolean pickUpLocation) {
+        this.pickUpLocation = pickUpLocation;
+    }
+
+    public String getOnHoldDays() {
+        return onHoldDays;
+    }
+
+    public void setOnHoldDays(String onHoldDays) {
+        this.onHoldDays = onHoldDays;
+    }
+
+    public List<OleCirculationDeskLocation> getOleCirculationDeskLocations() {
+        return oleCirculationDeskLocations;
+    }
+
+    public void setOleCirculationDeskLocations(List<OleCirculationDeskLocation> oleCirculationDeskLocations) {
+        this.oleCirculationDeskLocations = oleCirculationDeskLocations;
+    }
+
+    public String getShelvingLagTime() {
+        return shelvingLagTime;
+    }
+
+    public void setShelvingLagTime(String shelvingLagTime) {
+        this.shelvingLagTime = shelvingLagTime;
+    }
+
+    public OleCalendarGroup getOleCalendarGroup() {
+        return oleCalendarGroup;
+    }
+
+    public void setOleCalendarGroup(OleCalendarGroup oleCalendarGroup) {
+        this.oleCalendarGroup = oleCalendarGroup;
+    }
+
+    public String getCalendarGroupId() {
+        return calendarGroupId;
+    }
+
+    public void setCalendarGroupId(String calendarGroupId) {
+        this.calendarGroupId = calendarGroupId;
+    }
+
+    public List<OleCirculationDeskLocation> getDeleteoleCirculationDeskLocations() {
+        return deleteoleCirculationDeskLocations;
+    }
+
+    public void setDeleteoleCirculationDeskLocations(List<OleCirculationDeskLocation> deleteoleCirculationDeskLocations) {
+        this.deleteoleCirculationDeskLocations = deleteoleCirculationDeskLocations;
+    }
+
+    public boolean isAsrPickupLocation() {
+        return asrPickupLocation;
+    }
+
+    public void setAsrPickupLocation(boolean asrPickupLocation) {
+        this.asrPickupLocation = asrPickupLocation;
+    }
+
+    public String getHoldFormat() {
+        return holdFormat;
+    }
+
+    public void setHoldFormat(String holdFormat) {
+        this.holdFormat = holdFormat;
+    }
+
+    public boolean isHoldQueue() {
+        return holdQueue;
+    }
+
+    public void setHoldQueue(boolean holdQueue) {
+        this.holdQueue = holdQueue;
+    }
+}

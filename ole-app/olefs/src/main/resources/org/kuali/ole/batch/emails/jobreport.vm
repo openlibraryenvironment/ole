@@ -1,0 +1,57 @@
+<html>
+<title>Batch Job Report</title>
+<head><tr><td><b>$job.batchProcessType</b><td></tr></head>
+<body>
+<table>
+    <br/><br/>
+    <tr><td width=25%>Job Id               :</td><td width=75%>  $job.jobId </td></tr>
+    <tr><td width=25%>Job Name             :</td><td width=75%>  $job.jobName </td></tr>
+    <tr><td width=25%>Batch Process Type   :</td><td width=75%>  $job.batchProcessType </td></tr>
+    <tr><td width=25%>Batch Profile Name   :</td><td width=75%>  $job.batchProfileName </td></tr>
+    #if($job.batchProcessType=="Batch Export")
+        <tr><td width=25%>Export Path         :</td>
+            #if($StringUtils.isNotEmpty($job.noOfRecordsProcessed) && $Integer.parseInt($job.noOfRecordsProcessed)>0)
+                <td> <a href="$dataHelper.getExportPathUrl($job)">View Export File(s)</a></td>
+            #end
+        </tr>
+    #else
+        <tr><td width=25%>Upload File Name    :</td><td width=75%>  $job.uploadFileName </td></tr>
+    #end
+    <tr><td width=45%>Create Time          :</td><td width=75%>  $job.createTime </td></tr>
+    <tr><td width=25%>Batch process Id     :</td><td width=75%>  $job.batchProcessId </td></tr>
+    <tr><td width=25%>Username             :</td><td width=75%>  $job.UserName </td></tr>
+    <tr><td width=25%>Total records        :</td><td width=75%>  $job.totalNoOfRecords </td></tr>
+    <tr><td width=45%>Records Processed    :</td><td width=75%>  $job.noOfRecordsProcessed </td></tr>
+    <tr><td width=25%>Success Records      :</td><td width=75%>  $job.noOfSuccessRecords </td></tr>
+    <tr><td width=25%>Failure Records      :</td><td width=75%>  $job.noOfFailureRecords </td></tr>
+    <tr><td width=25%>%Completed           :</td><td width=75%>  $job.perCompleted </td></tr>
+    <tr><td width=25%>Start Time           :</td><td width=75%>  $job.startTime </td></tr>
+    <tr><td width=25%>End Time             :</td><td width=75%>  $job.endTime </td></tr>
+    <tr><td width=25%>Time Spent           :</td><td width=75%>  $job.timeSpent </td></tr>
+    <tr><td width=25%>Status               :</td><td width=75%>  $job.status </td></tr>
+    <tr><td width=25%>Status Desc          :</td><td width=75%>  $job.statusDesc </td></tr>
+    #if ($StringUtils.isNotEmpty($job.oleBatchPrcsScheduleId))
+        <tr><td width=25%>RunNow/Scheduled     :</td><td width=75%>  $job.oleBatchPrcsScheduleId </td></tr>
+    #end
+    #if($job.batchProcessType=="Bib Import")
+        #if($StringUtils.isNotEmpty($job.noOfFailureRecords) && $Integer.parseInt($job.noOfFailureRecords)>0)
+            <tr>
+                <td width=25%>Bib Error File Path :</td width=75%>
+                <td><a href="$dataHelper.getBibPathUrl($job)">View Error File</a></td>
+            </tr>
+        #end
+    #end
+</table>
+<table><div class="none">
+    #if($job.batchProcessType=="Batch Delete")
+        #if($StringUtils.isNotEmpty($job.noOfRecordsProcessed) && $Integer.parseInt($job.noOfRecordsProcessed)>0 && $StringUtils.isNotEmpty($job.totalNoOfRecords) && $Integer.parseInt($job.totalNoOfRecords)>0)
+            <tr>
+                <td width=16%>Delete Path :</td>
+                <td width=75%>The report <b>$processDefDoc.batchProcessName</b> has been completed.Files associated with this job can be found at <a href="$dataHelper.getDeletePathUrl($job)"> Batch Delete Report</a></td>
+            </tr>
+        #end
+    #end
+</div>
+</table>
+</body>
+</html>

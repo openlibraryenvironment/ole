@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <!--
+
+        Copyright 2005-2012 The Kuali Foundation
+
+        Licensed under the Educational Community License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at
+
+        http://www.opensource.org/licenses/ecl2.php
+
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+
+    -->
+    <bean id="OleSourceOfTerm" parent="OleSourceOfTerm-parentBean"/>
+
+    <bean id="OleSourceOfTerm-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.describe.bo.OleSourceOfTerm"/>
+        <property name="titleAttribute" value="sourceOfTermId"/>
+        <property name="objectLabel" value="Ole Source Of Term"/>
+
+        <property name="attributes">
+            <list>
+                <ref bean="OleSourceOfTerm-sourceOfTermId"/>
+                <ref bean="OleSourceOfTerm-sourceOfTermCode"/>
+                <ref bean="OleSourceOfTerm-sourceOfTermName"/>
+                <ref bean="OleSourceOfTerm-source"/>
+                <ref bean="OleSourceOfTerm-sourceDate"/>
+                <ref bean="OleSourceOfTerm-active"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+
+    <bean id="OleSourceOfTerm-sourceOfTermId" parent="OleSourceOfTerm-sourceOfTermId-parentBean"/>
+
+    <bean id="OleSourceOfTerm-sourceOfTermId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Source Of Term Id"/>
+        <property name="maxLength" value="10"/>
+        <property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+        <property name="name" value="sourceOfTermId"/>
+        <property name="label" value="Source Of Term Id"/>
+        <property name="description" value="Source Of Term Id"/>
+    </bean>
+
+
+    <bean id="OleSourceOfTerm-sourceOfTermCode" parent="OleSourceOfTerm-sourceOfTermCode-parentBean"/>
+
+    <bean id="OleSourceOfTerm-sourceOfTermCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Source Of Term Code"/>
+        <property name="maxLength" value="30"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="sourceOfTermCode"/>
+        <property name="label" value="Source Of Term Code"/>
+        <property name="description" value="Source Of Term Code"/>
+
+    </bean>
+
+
+    <bean id="OleSourceOfTerm-sourceOfTermName" parent="OleSourceOfTerm-sourceOfTermName-parentBean"/>
+
+    <bean id="OleSourceOfTerm-sourceOfTermName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Source Of Term Name"/>
+        <property name="maxLength" value="150"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="sourceOfTermName"/>
+        <property name="label" value="Source Of Term Name"/>
+        <property name="description" value="Source Of Term Name"/>
+
+    </bean>
+
+
+    <bean id="OleSourceOfTerm-source" parent="OleSourceOfTerm-source-parentBean"/>
+
+    <bean id="OleSourceOfTerm-source-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Source"/>
+        <property name="maxLength" value="100"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="source"/>
+        <property name="label" value="Source"/>
+        <property name="description" value="Source"/>
+
+    </bean>
+
+
+    <bean id="OleSourceOfTerm-sourceDate" parent="OleSourceOfTerm-sourceDate-parentBean"/>
+    <bean id="OleSourceOfTerm-sourceDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+        <property name="shortLabel" value="Source Date"/>
+        <property name="name" value="sourceDate"/>
+        <property name="label" value="Source Date"/>
+        <property name="required" value="true"/>
+    </bean>
+
+
+    <bean id="OleSourceOfTerm-active" parent="OleSourceOfTerm-active-parentBean"/>
+
+    <bean id="OleSourceOfTerm-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+        <property name="name" value="active"/>
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+
+
+    <bean id="OleSourceOfTerm-InquiryView" parent="Uif-OLEInquiryView">
+        <property name="headerText" value="Source Of Term Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.describe.bo.OleSourceOfTerm"/>
+        <property name="singlePageView" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-VerticalBoxSection">
+                    <property name="header.headerText" value="Source Of Term"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2">
+                                <property name="items">
+                                    <list>
+                                        <bean id="inquiry_sourceOfTermId" parent="Uif-InputField" p:propertyName="sourceOfTermId"/>
+                                        <bean id="inquiry_sourceOfTermCode" parent="Uif-InputField" p:propertyName="sourceOfTermCode"/>
+                                        <bean id="inquiry_sourceOfTermName" parent="Uif-InputField" p:propertyName="sourceOfTermName"/>
+                                        <bean id="inquiry_source" parent="Uif-InputField" p:propertyName="source"/>
+                                        <bean id="inquiry_sourceDate" parent="Uif-InputField" p:propertyName="sourceDate"/>
+                                        <bean id="inquiry_active" parent="Uif-InputField" p:propertyName="active"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                    <property name="headerText" value="Source Of Term"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+
+
+    <bean id="OleSourceOfTerm-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="Source Of Term Lookup"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.describe.bo.OleSourceOfTerm"/>
+        <property name="criteriaFields">
+            <list>
+                <bean id="sourceOfTermCode" parent="Uif-LookupCriteriaInputField" p:propertyName="sourceOfTermCode"/>
+                <bean id="sourceOfTermName" parent="Uif-LookupCriteriaInputField" p:propertyName="sourceOfTermName"/>
+                <bean id="source" parent="Uif-LookupCriteriaInputField" p:propertyName="source"/>
+                <bean id="sourceDate" parent="Uif-LookupCriteriaInputField" p:propertyName="sourceDate">
+                    <property name="control">
+                        <bean id="date" parent="Uif-DateControl" p:size="10"/>
+                    </property>
+                </bean>
+                <bean id="active" parent="Uif-LookupCriteriaInputField" p:propertyName="active"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean id="searchResult_sourceOfTermId" parent="Uif-DataField" p:propertyName="sourceOfTermId"/>
+                <bean id="searchResult_sourceOfTermCode" parent="Uif-DataField" p:propertyName="sourceOfTermCode"/>
+                <bean id="searchResult_sourceOfTermName" parent="Uif-DataField" p:propertyName="sourceOfTermName"/>
+                <bean id="searchResult_source" parent="Uif-DataField" p:propertyName="source"/>
+                <bean id="searchResult_sourceDate" parent="Uif-DataField" p:propertyName="sourceDate"/>
+                <bean id="searchResult_active" parent="Uif-DataField" p:propertyName="active"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

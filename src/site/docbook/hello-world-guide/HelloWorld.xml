@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<chapter xml:id="Hello World" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"
+         version="5.0">
+    <title>Hello World</title>
+    <section>
+        <title>Sample Section</title>
+        <para>This is a sample paragraph</para>
+        <para>
+            <figure>
+                <title>Sample paragraph with image</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/Admin.png" width="100%" scalefit="1"/>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+        </para>
+    </section>
+</chapter>

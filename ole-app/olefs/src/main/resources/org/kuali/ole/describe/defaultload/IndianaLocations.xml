@@ -1,0 +1,1437 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<locationGroup xmlns="http://ole.kuali.org/standards/ole-location">
+    <location>
+        <locationCode>B-AAAMC</locationCode>
+        <locationName>Blmgtn - Archives of African American Music and Culture</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>BAA-GEN</locationCode>
+        <locationName>Blmgtn - Archives of African American Music and Culture - General Collections</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-AAAMC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BAA-REF</locationCode>
+        <locationName>Blmgtn - Archives of African American Music and Culture - Reference</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-AAAMC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>B-ALF</locationCode>
+        <locationName>Blmgtn - Auxiliary Library Facility</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>BAL-STACKS</locationCode>
+        <locationName>Blmgtn - Auxiliary Library Facility - Stacks</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-ALF</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BAL-BRAD</locationCode>
+        <locationName>Blmgtn - IU Libraries Film Archive - Bradley Film Collection</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-ALF</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>B-ATM</locationCode>
+        <locationName>Blmgtn - Archives of Traditional Music</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>BAT-STACKS</locationCode>
+        <locationName>Blmgtn - Archives of Traditional Music - Stacks</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-ATM</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BAT-VARIA</locationCode>
+        <locationName>Blmgtn - Archives of Traditional Music - Variations System (Restricted)</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-ATM</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>B-BCC</locationCode>
+        <locationName>Blmgtn - Neal-Marshall Black Culture Cent. Lib.</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>BCC-REF</locationCode>
+        <locationName>Blmgtn - Neal-Marshall Black Culture Cent. Lib. - Reference</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-BCC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BSP-STACKS</locationCode>
+        <locationName>Blmgtn - Business/SPEA Information Commons - Stacks</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-BUSSPEA</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>B-CEDIR</locationCode>
+        <locationName>Blmgtn - Indiana Institute on Disability</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>BCE-REF</locationCode>
+        <locationName>Blmgtn - Indiana Institute on Disability - Reference</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-CEDIR</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BCE-STACKS</locationCode>
+        <locationName>Blmgtn - Indiana Institute on Disability - Stacks</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-CEDIR</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>B-CHEM</locationCode>
+        <locationName>Blmgtn - Chemistry Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>BCH-REF</locationCode>
+        <locationName>Blmgtn - Chemistry Library - Reference</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-CHEM</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BCH-RES</locationCode>
+        <locationName>Blmgtn - Chemistry Library - Reserves</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-CHEM</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BCH-STACKS</locationCode>
+        <locationName>Blmgtn - Chemistry Library - Stacks</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-CHEM</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BED-CHILDRENS</locationCode>
+        <locationName>Blmgtn - Education Library - Childrens Collection</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-EDUC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BED-REF</locationCode>
+        <locationName>Blmgtn - Education Library - Reference</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-EDUC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BED-RES</locationCode>
+        <locationName>Blmgtn - Education Library - Reserves</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-EDUC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>B-FINEARTS</locationCode>
+        <locationName>Blmgtn - Fine Arts Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>BFI-AUCTCAT</locationCode>
+        <locationName>Blmgtn - Fine Arts Library - Auction Catalogs</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-FINEARTS</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BFI-JOURNALS</locationCode>
+        <locationName>Blmgtn - Fine Arts Library - Journals</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-FINEARTS</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BFI-REF</locationCode>
+        <locationName>Blmgtn - Fine Arts Library - Reference</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-FINEARTS</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BFI-STACKS</locationCode>
+        <locationName>Blmgtn - Fine Arts Library - Stacks</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-FINEARTS</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>B-GEOSCI</locationCode>
+        <locationName>Blmgtn - Geosciences Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>BGE-JOURNALS</locationCode>
+        <locationName>Blmgtn - Geosciences Library - Journals</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-GEOSCI</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BGE-REF</locationCode>
+        <locationName>Blmgtn - Geosciences Library - Reference</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-GEOSCI</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BGE-RES</locationCode>
+        <locationName>Blmgtn - Geosciences Library - Reserves</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-GEOSCI</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BGE-STACKS</locationCode>
+        <locationName>Blmgtn - Geosciences Library - Stacks</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-GEOSCI</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BH-APTLIB</locationCode>
+        <locationName>Blmgtn Res Halls - Apt Housng Comm Lib and Res Ctr</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>BHAP-CD</locationCode>
+        <locationName>Blmgtn Res Halls - Apt Housng Comm Lib and Res Ctr - CD's</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>BH-APTLIB</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BHAP-DVD</locationCode>
+        <locationName>Blmgtn Res Halls - Apt Housng Comm Lib and Res Ctr - DVD's</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>BH-APTLIB</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BH-BRISCOE</locationCode>
+        <locationName>Blmgtn Res Halls - Briscoe Mov Mus More</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>BHBR-CD</locationCode>
+        <locationName>Blmgtn Res Halls - Briscoe Mov Mus More - CD's</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>BH-BRISCOE</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BHBR-DVD</locationCode>
+        <locationName>Blmgtn Res Halls - Briscoe Mov Mus More - DVD's</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>BH-BRISCOE</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BH-COLLINS</locationCode>
+        <locationName>Blmgtn Res Halls - Collins Comm Lib and Res Ctr</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>BHCO-CD</locationCode>
+        <locationName>Blmgtn Res Halls - Collins Comm Lib and Res Ctr - CD's</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>BH-COLLINS</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BHCO-DVD</locationCode>
+        <locationName>Blmgtn Res Halls - Collins Comm Lib and Res Ctr - DVD's</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>BH-COLLINS</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BH-EIGENMN</locationCode>
+        <locationName>Blmgtn Res Halls - Eigenmann Comm Lib and Res Ctr</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>BHEI-CD</locationCode>
+        <locationName>Blmgtn Res Halls - Eigenmann Comm Lib and Res Ctr - CD's</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>BH-EIGENMN</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BHEI-DVD</locationCode>
+        <locationName>Blmgtn Res Halls - Eigenmann Comm Lib and Res Ctr - DVD's</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>BH-EIGENMN</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BH-FOREST</locationCode>
+        <locationName>Blmgtn Res Halls - Forest Mov Mus More</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>BHFR-CD</locationCode>
+        <locationName>Blmgtn Res Halls - Forest Mov Mus More - CD's</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>BH-FOREST</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BHFR - DVD</locationCode>
+        <locationName>Blmgtn Res Halls - Forest Mov Mus More - DVD's</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>BH-FOREST</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BH-FOSTER</locationCode>
+        <locationName>Blmgtn Res Halls - Foster Comm Lib and Res Ctr</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>BHFS-CD</locationCode>
+        <locationName>Blmgtn Res Halls - Foster Comm Lib and Res Ctr - CD's</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>BH-FOSTER</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BHFS-DVD</locationCode>
+        <locationName>Blmgtn Res Halls - Foster Comm Lib and Res Ctr - DVD's</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>BH-FOSTER</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BH-MCNUTT</locationCode>
+        <locationName>Blmgtn Res Halls - McNutt Comm Lib and Res Ctr</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>BHMC-CD</locationCode>
+        <locationName>Blmgtn Res Halls - McNutt Comm Lib and Res Ctr - CD's</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>BH-MCNUTT</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BHMC-DVD</locationCode>
+        <locationName>Blmgtn Res Halls - McNutt Comm Lib and Res Ctr - DVD'S</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>BH-MCNUTT</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BHP-REF</locationCode>
+        <locationName>Blmgtn - Public Health Library - Reference</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-HPER</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BHP-RES</locationCode>
+        <locationName>Blmgtn - Public Health Library - Reserves</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-HPER</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BHP-STACKS</locationCode>
+        <locationName>Blmgtn - Public Health Library - Stacks</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-HPER</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BH-READ</locationCode>
+        <locationName>Blmgtn Res Halls - Read Mov Mus More</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>BHRE-CD</locationCode>
+        <locationName>Blmgtn Res Halls - Read Mov Mus More - CD's</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>BH-READ</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BHRE-DVD</locationCode>
+        <locationName>Blmgtn Res Halls - Read Mov Mus More - DVD's</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>BH-READ</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BH-TETER</locationCode>
+        <locationName>Blmgtn Res Halls - Teter Comm Lib and Res Ctr</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>BHTE-CD</locationCode>
+        <locationName>Blmgtn Res Halls - Teter Comm Lib and Res Ctr - CD's</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>BH-TETER</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BHTE-DVD</locationCode>
+        <locationName>Blmgtn Res Halls - Teter Comm Lib and Res Ctr - DVD's</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>BH-TETER</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BH-UNIONST</locationCode>
+        <locationName>Blmgtn Res Halls - Union St Move Mus More</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>BHUN-CD</locationCode>
+        <locationName>Blmgtn Res Halls - Union St Move Mus More - CD's</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>BH-UNIONST</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BHUN-DVD</locationCode>
+        <locationName>Blmgtn Res Halls - Union St Move Mus More - DVD's</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>BH-UNIONST</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BH-WILLKIE</locationCode>
+        <locationName>Blmgtn Res Halls - Willkie Comm Lib and Res Ctr</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>BHWI-CD</locationCode>
+        <locationName>Blmgtn Res Halls - Willkie Comm Lib and Res Ctr -CD's</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>BH-WILLKIE</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BHWI-DVD</locationCode>
+        <locationName>Blmgtn Res Halls - Willkie Comm Lib and Res Ctr -DVD's</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>BH-WILLKIE</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BH-WRIGHT</locationCode>
+        <locationName>Blmgtn Res Halls - Wright Mov Mus More</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>BHWR-CD</locationCode>
+        <locationName>Blmgtn Res Halls - Wright Mov Mus More - CD's</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>BH-WRIGHT</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BHWR-DVD</locationCode>
+        <locationName>Blmgtn Res Halls - Wright Mov Mus More - DVD's</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>BH-WRIGHT</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>B-KINSEY</locationCode>
+        <locationName>Blmgtn - Kinsey Institute Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>BKI-EROOM</locationCode>
+        <locationName>Blmgtn - Kinsey Institute Library - E Room</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-KINSEY</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BKI-KCOLL</locationCode>
+        <locationName>Blmgtn - Kinsey Institute Library - K Collection</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-KINSEY</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BKI-MONEY</locationCode>
+        <locationName>Blmgtn - Kinsey Institute Library - John Money Room</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-KINSEY</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BKI-PULP</locationCode>
+        <locationName>Blmgtn - Kinsey Institute Library - Pulp</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-KINSEY</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BKI-SM</locationCode>
+        <locationName>Blmgtn - Kinsey Institute Library - SM</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-KINSEY</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BKI-STACKS</locationCode>
+        <locationName>Blmgtn - Kinsey Institute Library - Stacks</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-KINSEY</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>B-LAW</locationCode>
+        <locationName>Blmgtn - Law Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>BLW-INDIANA</locationCode>
+        <locationName>Blmgtn - Law Library - Indiana Collection</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-LAW</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BLW-REF</locationCode>
+        <locationName>Blmgtn - Law Library - Reference</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-LAW</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BLW-RES</locationCode>
+        <locationName>Blmgtn - Law Library - Reserves</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-LAW</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BLW-STACKS</locationCode>
+        <locationName>Blmgtn - Law Library - Stacks</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-LAW</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BLW-USDOC</locationCode>
+        <locationName>Blmgtn - Law Library - US Documents</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-LAW</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>B-LIFESCI</locationCode>
+        <locationName>Blmgtn - Life Sciences Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>BLS-JOURNALS</locationCode>
+        <locationName>Blmgtn - Life Sciences Library - Journals</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-LIFESCI</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BLS-REF</locationCode>
+        <locationName>Blmgtn - Life Sciences Library - Reference</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-LIFESCI</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BLS-RES</locationCode>
+        <locationName>Blmgtn - Life Sciences Library - Reserves</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-LIFESCI</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BLS-SECURE</locationCode>
+        <locationName>Blmgtn - Life Sciences Library - Secure Area</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-LIFESCI</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BLS-STACKS</locationCode>
+        <locationName>Blmgtn - Life Sciences Library - Stacks</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-LIFESCI</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>B-LILLY</locationCode>
+        <locationName>Blmgtn - Lilly Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>BLI- AUB</locationCode>
+        <locationName>Blmgtn - Lilly Library - Aubanel</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-LILLY</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BLI-BALL</locationCode>
+        <locationName>Blmgtn - Lilly Library - Ball Room</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-LILLY</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BLI-BOX</locationCode>
+        <locationName>Blmgtn - Lilly Library - Boxer Reference</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-LILLY</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BLI-ELLI</locationCode>
+        <locationName>Blmgtn - Lilly Library - Ellison Room</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-LILLY</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BLI - LINC</locationCode>
+        <locationName>Blmgtn - Lilly Library - Lincoln Room</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-LILLY</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BLI-MENDEL</locationCode>
+        <locationName>Blmgtn - Lilly Library - Mendel Room</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-LILLY</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BLI-MINI</locationCode>
+        <locationName>Blmgtn - Lilly Library - Miniatures</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-LILLY</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BLI-STACKS</locationCode>
+        <locationName>Blmgtn - Lilly Library - Stacks</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-LILLY</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BLI-WORD</locationCode>
+        <locationName>Blmgtn - Lilly Library - Wordsworth Room</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-LILLY</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>B-MUSIC</locationCode>
+        <locationName>Blmgtn - Cook Music Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>BMU-CD</locationCode>
+        <locationName>Blmgtn - Cook Music Library - CD's</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-MUSIC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BMU-DAT</locationCode>
+        <locationName>Blmgtn - Cook Music Library - Digital Audio Tapes</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-MUSIC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BMU-EHRET</locationCode>
+        <locationName>Blmgtn - Cook Music Library - Ehret</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-MUSIC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BMU-EMACASS</locationCode>
+        <locationName>Blmgtn - Cook Music Library - Early Music Archive - Cassettes</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-MUSIC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BMU-EMACD</locationCode>
+        <locationName>Blmgtn - Cook Music Library - Early Music Archive - CD's</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-MUSIC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BMU-EMALP</locationCode>
+        <locationName>Blmgtn - Cook Music Library - Early Music Archive - LP's</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-MUSIC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BMU-FRBOOK</locationCode>
+        <locationName>Blmgtn - Cook Music Library - Frontlog - Books (to use, ask staff)</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-MUSIC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BMU-FRSCORE</locationCode>
+        <locationName>Blmgtn - Cook Music Library - Frontlog - Scores (to use, ask staff)</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-MUSIC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BMU-IUPERFCD</locationCode>
+        <locationName>Blmgtn - Cook Music Library - IU Performances - CD's</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-MUSIC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BMU-IUPERFDVD</locationCode>
+        <locationName>Blmgtn - Cook Music Library - IU Performances - DVD's</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-MUSIC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BMU-IUPERFTRDISCS</locationCode>
+        <locationName>Blmgtn - Cook Music Library - IU Performances - Transcription Discs</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-MUSIC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BMU-IUPERFTAPES</locationCode>
+        <locationName>Blmgtn - Cook Music Library - IU Performances - Tapes</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-MUSIC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BMU-JBMC</locationCode>
+        <locationName>Blmgtn - Cook Music Library - Bjoerling</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-MUSIC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BMU-RALLEN</locationCode>
+        <locationName>Blmgtn - Cook Music Library - R. Allen</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-MUSIC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BMU-REF</locationCode>
+        <locationName>Blmgtn - Cook Music Library - Reference</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-MUSIC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BMU-RES</locationCode>
+        <locationName>Blmgtn - Cook Music Library</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-MUSIC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BMU-SPEC</locationCode>
+        <locationName>Blmgtn - Cook Music Library - Special Collections</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-MUSIC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BMU-VARIA</locationCode>
+        <locationName>Blmgtn - Cook Music Library - Variations System (restricted access)</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-MUSIC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BMU-WOODCD</locationCode>
+        <locationName>Blmgtn - Cook Music Library - Woodward Collection - CD's</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-MUSIC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>B-OPTOMTRY</locationCode>
+        <locationName>Blmgtn - Optometry Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>BOP-SECURE</locationCode>
+        <locationName>Blmgtn - Optometry Library - Secure Area</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-OPTOMTRY</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BOP-STACKS</locationCode>
+        <locationName>Blmgtn - Optometry Library - Stacks</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-OPTOMTRY</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>B-SWAIN</locationCode>
+        <locationName>Blmgtn - Swain Hall Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>BSW-REF</locationCode>
+        <locationName>Blmgtn - Swain Hall Library - Reference</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-SWAIN</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BSW-RES</locationCode>
+        <locationName>Blmgtn - Swain Hall Library - Reserves</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-SWAIN</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BSW-STACKS</locationCode>
+        <locationName>Blmgtn - Swain Hall Library - Stacks</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-SWAIN</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>B-WELLS</locationCode>
+        <locationName>Blmgtn - Herman B Wells Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>BWE-ARCHIVES</locationCode>
+        <locationName>Blmgtn - Herman B Wells Library - Research Coll. - Archives</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-WELLS</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BWE-EASTASIAN</locationCode>
+        <locationName>Blmgtn - Herman B Wells Library - Research Coll. - East Asian Collection</locationName>
+        <locationLevelCode>COLLECTION</locationLevelCode>
+        <parentLocationCode>B-WELLS</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BWE-RCCHINES</locationCode>
+        <locationName>Blmgtn - Herman B Wells Library - Research Coll. - East Asian Collection - Chinese</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>BWE-EASTASIAN</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BWE-EASTRF</locationCode>
+        <locationName>Blmgtn - Herman B Wells Library - Research Coll. East Asian Collection - Reference</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>BWE-EASTASIAN</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BWE-JAPAN</locationCode>
+        <locationName>Blmgtn - Herman B Wells Library - Research Coll. - East Asian Collection - Japanese</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>BWE-EASTASIAN</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BWE-KOREAN</locationCode>
+        <locationName>Blmgtn - Herman B Wells Library - Research Coll. - East Asian Collection - Korean</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>BWE-EASTASIAN</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BWE-FOLKLORE</locationCode>
+        <locationName>Blmgtn - Herman B Wells Library - Research Coll. - Folklore Collection</locationName>
+        <locationLevelCode>COLLECTION</locationLevelCode>
+        <parentLocationCode>B-WELLS</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BWE-FOLKSTACKS</locationCode>
+        <locationName>Blmgtn - Herman B Wells Library - Research Coll. - Folklore Collection - Stacks</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>BWE-FOLKLORE</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BWE-FOLKREF</locationCode>
+        <locationName>Blmgtn - Herman B Wells Library - Research Coll. - Folklore Collection - Reference</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>BWE-FOLKLORE</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BWE-EJOURNAL</locationCode>
+        <locationName>Blmgtn - Herman B Wells Library - E-Journals</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-WELLS</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BWE-RCSECURE</locationCode>
+        <locationName>Blmgtn - Herman B Wells Library - Research Coll. - Secure Area</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-WELLS</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BWE-RCSLAVRF</locationCode>
+        <locationName>Blmgtn - Herman B Wells Library - Research Coll. - Slavic Reference</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-WELLS</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BWE-RCSTACKS</locationCode>
+        <locationName>Blmgtn - Herman B Wells Library - Research Coll. - Stacks</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-WELLS</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BWE-TIBA</locationCode>
+        <locationName>Blmgtn - Herman B Wells Library - Research Coll. - Tibetan A</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-WELLS</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BWE-TIBB</locationCode>
+        <locationName>Blmgtn - Herman B Wells Library - Research Coll. - Tibetan B</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-WELLS</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BWE-TIBC</locationCode>
+        <locationName>Blmgtn - Herman B Wells Library - Research Coll. - Tibetan C</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-WELLS</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BWE-TIBD</locationCode>
+        <locationName>Blmgtn - Herman B Wells Library - Research Coll. - Tibetan D</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-WELLS</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BWE-UGLIB</locationCode>
+        <locationName>Blmgtn - Herman B Wells Library - Undergraduate Services</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>B-WELLS</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>COLUMBUS</locationCode>
+        <locationName>Columbus - University Library of Columbus</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>COL-CONT</locationCode>
+        <locationName>Columbus Library - Controversial Issues</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>COLUMBUS</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>COL-EJOURNAL</locationCode>
+        <locationName>Columbus Library - E-Journals</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>COLUMBUS</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>COL-IVTRREF</locationCode>
+        <locationName>Ivy Tech Ready Reference</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>COLUMBUS</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>COL-JOURNALS</locationCode>
+        <locationName>Columbus Library - Journals</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>COLUMBUS</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>COL-REF</locationCode>
+        <locationName>Columbus Library - Reference</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>COLUMBUS</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>EAST</locationCode>
+        <locationName>East Library - Richmond</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>EAS-2NDFLR</locationCode>
+        <locationName>Richmond Library - 2nd Floor - Noncirculating</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>EAST</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>EAS-TLC</locationCode>
+        <locationName>Richmond Library - Teaching and Learning Center</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>EAST</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>EAS-EJNL</locationCode>
+        <locationName>Richmond Library - E-Journals</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>EAST</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>EAS-REF</locationCode>
+        <locationName>Richmond Library - Reference</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>EAST</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>EAS-RES</locationCode>
+        <locationName>Richmond Library - Reserves</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>EAST</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>EAS-STACKS</locationCode>
+        <locationName>Richmond Library - Stacks</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>EAST</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>FORTWAYNE</locationCode>
+        <locationName>Fort Wayne Helmke Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>FTW-ARCHIVES</locationCode>
+        <locationName>Fort Wayne - Archives</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>FORTWAYNE</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>FTW-CD</locationCode>
+        <locationName>Fort Wayne - CD's</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>FORTWAYNE</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>FTW - CHILDRENS</locationCode>
+        <locationName>Fort Wayne - Children's Collection</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>FORTWAYNE</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>FTW - GOVPUBS</locationCode>
+        <locationName>Fort Wayne - Government Publications</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>FORTWAYNE</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>FTW-REF</locationCode>
+        <locationName>Fort Wayne - Reference</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>FORTWAYNE</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>FTW-RES</locationCode>
+        <locationName>Fort Wayne - Reserves</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>FORTWAYNE</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>FTW-STACKS</locationCode>
+        <locationName>Fort Wayne - Stacks</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>FORTWAYNE</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>I-ART</locationCode>
+        <locationName>Indpls - Herron Art Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>IAR-ARTBK</locationCode>
+        <locationName>Indpls - Herron Art Library - Artists' Books</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>I-ART</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>IAR-ARTED</locationCode>
+        <locationName>Indpls - Herron Art Library - Art Education</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>I-ART</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>IAR-INDIANA</locationCode>
+        <locationName>Indpls - Herron Art Library - Indiana Reference</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>I-ART</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>IAR-REF</locationCode>
+        <locationName>Indpls - Herron Art Library - Reference</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>I-ART</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>IAR-RES</locationCode>
+        <locationName>Indpls - Herron Art Library - Reserves</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>I-ART</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>IAR-STACKS</locationCode>
+        <locationName>Indpls - Herron Art Library - sTACKS</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>I-ART</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>I-DENTSTRY</locationCode>
+        <locationName>Indpls - Dentistry Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>IDE-JOURNALS</locationCode>
+        <locationName>Indpls - Dentistry Library - Journals</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>I-DENTSTRY</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>IDE-REF</locationCode>
+        <locationName>Indpls - Dentistry Library - Reference</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>I-DENTSTRY</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>IDE-STACKS</locationCode>
+        <locationName>Indpls - Dentistry Library - Stacks</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>I-DENTSTRY</parentLocationCode>
+    </location>
+	<location>
+		<locationCode>IL-ALEXAND</locationCode>
+        <locationName>IU Mckinney School of Law Program, Egypt (Alexandria)</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+	<location>
+		<locationCode>ILAA-STACKS</locationCode>
+        <locationName>IU Mckinney School of Law Program, Egypt (Alexandria) - Stacks</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>IL-ALEXAND</parentLocationCode>
+    </location>
+	<location>
+		<locationCode>I-LAW</locationCode>
+        <locationName>Indpls - Ruth Lilly Law Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+	<location>
+	<locationCode>ILA-GOVPUBS</locationCode>
+        <locationName>Indpls - Ruth Lilly Law Library - Government Publications</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>I-LAW</parentLocationCode>
+    </location>
+	<location>
+		<locationCode>ILA-COMM</locationCode>
+        <locationName>Indpls - Ruth Lilly Law Library - Commonwealth Collection</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>I-LAW</parentLocationCode>
+    </location>
+	<location>
+	<locationCode>ILA-STACKS</locationCode>
+        <locationName>Indpls - Ruth Lilly Law Library - Stacks</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>I-LAW</parentLocationCode>
+    </location>
+	<location>
+		<locationCode>IL-CAIRO</locationCode>
+        <locationName>IU McKinney School of Law Program, Egypt (Cairo)</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+	<location>
+		<locationCode>ILAC-STACKS</locationCode>
+        <locationName>IU McKinney School of Law Program, Egypt (Cairo) - Stacks</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>IL-CAIRO</parentLocationCode>
+    </location>
+	<location>
+		<locationCode>I-MEDICINE</locationCode>
+        <locationName>Indpls - Ruth Lilly Medical Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+	<location>
+		<locationCode>IME-BIOREF</locationCode>
+        <locationName>Indpls - Ruth Lilly Medical Library - Bioethics Reference</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>I-MEDICINE</parentLocationCode>
+    </location>
+	<location>
+		<locationCode>IME-HISTMED</locationCode>
+        <locationName>Indpls - Ruth Lilly Medical Library - History of Medicine</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>I-MEDICINE</parentLocationCode>
+    </location>
+	<location>
+		<locationCode>IME-OPH</locationCode>
+        <locationName>Indpls - Morrison Eye Lib. (access limited call I-MEDICINE)</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>I-MEDICINE</parentLocationCode>
+    </location>
+	<location>
+		<locationCode>IME-RAD</locationCode>
+        <locationName>Indpls -Radiation Oncology Lib. (access limited call I-MEDICINE)</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>I-MEDICINE</parentLocationCode>
+    </location>
+	<location>
+		<locationCode>IME-SERIALS</locationCode>
+        <locationName>Indpls - Ruth Lilly Medical Library - Serials</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>I-MEDICINE</parentLocationCode>
+    </location>
+	<location>
+		<locationCode>IME-REF</locationCode>
+        <locationName>Indpls - Ruth Lilly Medical Library - Reference</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>I-MEDICINE</parentLocationCode>
+    </location>
+	<location>
+		<locationCode>IME-RES</locationCode>
+        <locationName>Indpls - Ruth Lilly Medical Library - Reserves</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>I-MEDICINE</parentLocationCode>
+    </location>
+	<location>
+		<locationCode>IME-STACKS</locationCode>
+        <locationName>Indpls - Ruth Lilly Medical Library - Stacks</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>I-MEDICINE</parentLocationCode>
+    </location>
+	<location>
+		<locationCode>I-UNIVLIB</locationCode>
+        <locationName>Indpls - IUPUI University Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+	<location>
+		<locationCode>IUL-ARCHIVES</locationCode>
+        <locationName>Indpls - IUPUI University Library - Archives</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>I-UNIVLIB</parentLocationCode>
+    </location>
+	<location>
+		<locationCode>IUL-CURRICULUM</locationCode>
+        <locationName>Indpls - IUPUI University Library - Curriculum Materials</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>I-UNIVLIB</parentLocationCode>
+    </location>
+	<location>
+		<locationCode>IUL-EJOURNAL</locationCode>
+        <locationName>Indpls - IUPUI University Library - E-Journal</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>I-UNIVLIB</parentLocationCode>
+    </location>
+	<location>
+		<locationCode>IUL-GOVPUBS</locationCode>
+		<locationName>Indpls - IUPUI University Library - Government Publications</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>I-UNIVLIB</parentLocationCode>
+    </location>
+	<location>
+		<locationCode>IUL-JOURNALS</locationCode>
+		<locationName>Indpls - IUPUI University Library - Journals</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>I-UNIVLIB</parentLocationCode>
+    </location>
+	<location>
+		<locationCode>IUL-PHI</locationCode>
+		<locationName>Indpls - IUPUI University Library - Philanthropic Studies Library</locationName>
+        <locationLevelCode>COLLECTION</locationLevelCode>
+        <parentLocationCode>I-UNIVLIB</parentLocationCode>
+    </location>
+	<location>
+		<locationCode>IUL-COPSTACKS</locationCode>
+		<locationName>Indpls - IUPUI University Library - Philanthropic Studies Library - Stacks</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>IUL-PHI</parentLocationCode>
+    </location>
+	<location>
+		<locationCode>IUL-COPREF</locationCode>
+		<locationName>Indpls - IUPUI University Library - Philanthropic Studies Library - Reference</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>IUL-PHI</parentLocationCode>
+    </location>
+	<location>
+		<locationCode>IUL-REF</locationCode>
+		<locationName>Indpls - IUPUI University Library - Reference</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>I-UNIVLIB</parentLocationCode>
+    </location>
+	<location>
+		<locationCode>IUL-RES</locationCode>
+		<locationName>Indpls - IUPUI University Library - Reserves</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>I-UNIVLIB</parentLocationCode>
+    </location>
+	<location>
+		<locationCode>IUL-STACKS</locationCode>
+		<locationName>Indpls - IUPUI University Library - Stacks</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>I-UNIVLIB</parentLocationCode>
+    </location>
+	<location>
+		<locationCode>KOKOMO</locationCode>
+		<locationName>Kokomo Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+	<location>
+		<locationCode>KOK-CHILDRENS</locationCode>
+		<locationName>Kokomo Library - Childrens Collection</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>KOKOMO</parentLocationCode>
+    </location>
+	<location>
+		<locationCode>KOK-EJOURNAL</locationCode>
+		<locationName>Kokomo Library - E-Journal</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>KOKOMO</parentLocationCode>
+    </location>
+	<location>
+		<locationCode>KOK-GOVPUBS</locationCode>
+		<locationName>Kokomo Library - Government Publications</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>KOKOMO</parentLocationCode>
+    </location>
+	<location>
+		<locationCode>KOK-CULAB</locationCode>
+		<locationName>Kokomo Library - CULAB</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>KOKOMO</parentLocationCode>
+    </location>
+	<location>
+		<locationCode>KOK-REF</locationCode>
+		<locationName>Kokomo Library - Reference</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>KOKOMO</parentLocationCode>
+    </location>
+	<location>
+		<locationCode>KOK-RES</locationCode>
+		<locationName>Kokomo Library - Reserves</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>KOKOMO</parentLocationCode>
+    </location>
+	<location>
+		<locationCode>KOK-STACKS</locationCode>
+		<locationName>Kokomo Library - Stacks</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>KOKOMO</parentLocationCode>
+    </location>
+	<location>
+		<locationCode>NORTHWEST</locationCode>
+		<locationName>Northwest Library (Gary)</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+	<location>
+		<locationCode>NOR-CHILDRENS</locationCode>
+		<locationName>Northwest Library (Gary) - Childrens Collection</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>NORTHWEST</parentLocationCode>
+    </location>
+	<location>
+		<locationCode>NOR-EJOURNAL</locationCode>
+		<locationName>Northwest Library (Gary) - EJOURNAL</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>NORTHWEST</parentLocationCode>
+    </location>
+	<location>
+		<locationCode>NOR-REF</locationCode>
+		<locationName>Northwest Library (Gary) - Reference</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>NORTHWEST</parentLocationCode>
+    </location>
+	<location>
+		<locationCode>NOR-RES</locationCode>
+		<locationName>Northwest Library (Gary) - Reserves</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>NORTHWEST</parentLocationCode>
+    </location>
+	<location>
+		<locationCode>NOR-STACKS</locationCode>
+		<locationName>Northwest Library (Gary) - Stacks</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>NORTHWEST</parentLocationCode>
+    </location>
+	<location>
+		<locationCode>ONLINE</locationCode>
+		<locationName>Electronic resources available in all locations</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+	<location>
+		<locationCode>ONL-WWW</locationCode>
+		<locationName>World Wide Web</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>ONLINE</parentLocationCode>
+    </location>
+	<location>
+		<locationCode>SBEND</locationCode>
+		<locationName>South Bend - Schurz Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+	<location>
+		<locationCode>SBE-EJOURNAL</locationCode>
+		<locationName>South Bend - Schurz Library - E-Journal</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SBEND</parentLocationCode>
+    </location>
+	<location>
+		<locationCode>SBE-GOVPUBS</locationCode>
+		<locationName>South Bend - Schurz Library - Government Publications</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SBEND</parentLocationCode>
+    </location>
+	<location>
+		<locationCode>SBE-LINCOLN</locationCode>
+		<locationName>South Bend - Schurz Library - Lincoln Collection</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SBEND</parentLocationCode>
+    </location>
+	<location>
+		<locationCode>SBE-REF</locationCode>
+		<locationName>South Bend - Schurz Library - Reference</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SBEND</parentLocationCode>
+    </location>
+	<location>
+		<locationCode>SBE-RES</locationCode>
+		<locationName>South Bend - Schurz Library - Reserves</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SBEND</parentLocationCode>
+    </location>
+	<location>
+		<locationCode>SBE-STACKS</locationCode>
+		<locationName>South Bend - Schurz Library - Stacks</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SBEND</parentLocationCode>
+    </location>
+	<location>
+		<locationCode>SBENDLRC</locationCode>
+		<locationName>South Bend - Educational Resource Commons</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+	<location>
+		<locationCode>SBL-ECHILD</locationCode>
+		<locationName>South Bend - Educational Resource Commons - Early Childhood</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SBENDLRC</parentLocationCode>
+    </location>
+	<location>
+		<locationCode>SBL-ENG</locationCode>
+		<locationName>South Bend - Educational Resource Commons - English</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SBENDLRC</parentLocationCode>
+    </location>
+	<location>
+		<locationCode>SOUTHEAST</locationCode>
+		<locationName>Southeast Library (New Albany)</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+	<location>
+		<locationCode>SEA-GOVPUBS</locationCode>
+		<locationName>Southeast Library (New Albany) - Government Publications</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SOUTHEAST</parentLocationCode>
+    </location>
+	<location>
+		<locationCode>SEA-JOURNALS</locationCode>
+		<locationName>Southeast Library (New Albany) - Journals</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SOUTHEAST</parentLocationCode>
+    </location>
+	<location>
+		<locationCode>SEA-REF</locationCode>
+		<locationName>Southeast Library (New Albany) - Reference</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SOUTHEAST</parentLocationCode>
+    </location>
+	<location>
+		<locationCode>SEA-RES</locationCode>
+		<locationName>Southeast Library (New Albany) - Reserves</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SOUTHEAST</parentLocationCode>
+    </location>
+	<location>
+		<locationCode>SEA-STACKS</locationCode>
+		<locationName>Southeast Library (New Albany) - Stacks</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SOUTHEAST</parentLocationCode>
+    </location>
+</locationGroup>

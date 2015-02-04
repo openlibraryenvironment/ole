@@ -1,0 +1,40 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.kuali.ole</groupId>
+        <artifactId>ole</artifactId>
+        <version>2.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>ole-docstore</artifactId>
+    <version>2.0-SNAPSHOT</version>
+    <name>OLE Document Store</name>
+    <packaging>pom</packaging>
+    <modules>
+        <module>ole-docstore-db</module>
+        <module>ole-docstore-search</module>
+        <module>ole-docstore-engine</module>
+        <module>ole-sru</module>
+        <module>ole-docstore-webapp</module>
+    </modules>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.kuali.ole</groupId>
+                <artifactId>ole-utility</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.kuali.ole</groupId>
+                <artifactId>ole-docstore-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.kuali.rice</groupId>
+                <artifactId>${rice.impex.artifactId}</artifactId>
+                <classifier>sql</classifier>
+                <version>${rice.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>

@@ -1,0 +1,1143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<locationGroup xmlns="http://ole.kuali.org/standards/ole-location">
+    <location>
+        <locationCode>LSC</locationCode>
+        <locationName>Library Service Center</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>PSK</locationCode>
+        <locationName>Library Service Center</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LSC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PSKP</locationCode>
+        <locationName>Periodicals</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LSC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PSL</locationCode>
+        <locationName>Library Service Center</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LSC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PSGS</locationCode>
+        <locationName>Perkins Documents US: Lib Service Ctr</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LSC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PSKQ</locationCode>
+        <locationName>Library Service Center</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LSC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PSD</locationCode>
+        <locationName>Library Service Center</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LSC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PSM</locationCode>
+        <locationName>Library Service Center</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LSC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PSKM2</locationCode>
+        <locationName>Library Service Center</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LSC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PSB</locationCode>
+        <locationName>Library Service Center</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LSC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PSBP</locationCode>
+        <locationName>Periodicals</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LSC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PSVP</locationCode>
+        <locationName>Periodicals</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LSC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PSV</locationCode>
+        <locationName>Library Service Center</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LSC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PSV2</locationCode>
+        <locationName>Library Service Center</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LSC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PSV2P</locationCode>
+        <locationName>Periodicals</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LSC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PSCP</locationCode>
+        <locationName>Periodicals</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LSC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PSDP</locationCode>
+        <locationName>Periodicals</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LSC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PSV3P</locationCode>
+        <locationName>Periodicals</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LSC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PSDQ</locationCode>
+        <locationName>Library Service Center</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LSC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PSGZ</locationCode>
+        <locationName>Perkins Documents RAND: Lib Service Ctr</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LSC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PSKE</locationCode>
+        <locationName>Library Service Center</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LSC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PSC</locationCode>
+        <locationName>Library Service Center</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LSC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PSLV2</locationCode>
+        <locationName>Library Service Center</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LSC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PSKJ</locationCode>
+        <locationName>Library Service Center</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LSC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PSKF</locationCode>
+        <locationName>Library Service Center</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LSC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PSMP</locationCode>
+        <locationName>Periodicals</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LSC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PSLP</locationCode>
+        <locationName>Periodicals</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LSC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PSLV1</locationCode>
+        <locationName>Library Service Center</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LSC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PSKEP</locationCode>
+        <locationName>Periodicals</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LSC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PSZP</locationCode>
+        <locationName>Periodicals</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LSC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PSDF</locationCode>
+        <locationName>Library Service Center</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LSC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PSVT</locationCode>
+        <locationName>Library Service Center</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LSC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PSK2</locationCode>
+        <locationName>Library Service Center</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LSC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PSGN</locationCode>
+        <locationName>Perkins Documents UN : Lib Service Ctr</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LSC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PSLVL</locationCode>
+        <locationName>Library Service Center</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LSC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PSLV7</locationCode>
+        <locationName>Library Service Center</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LSC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PSZ</locationCode>
+        <locationName>Library Service Center</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LSC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PSCT</locationCode>
+        <locationName>Library Service Center</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LSC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PKM2</locationCode>
+        <locationName>Microforms Microfilm</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>PERKN</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PKE</locationCode>
+        <locationName>East Asian Collection</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>PERKN</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PKQ</locationCode>
+        <locationName>Stacks</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>PERKN</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PB</locationCode>
+        <locationName>Stacks</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>PERKN</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PKP</locationCode>
+        <locationName>Periodicals</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>PERKN</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PKPI</locationCode>
+        <locationName>Current Periodicals and Newspapers</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>PERKN</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PKR</locationCode>
+        <locationName>Reference</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>PERKN</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PK3</locationCode>
+        <locationName>LOCATIONS AND CALL NUMBERS VARY</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>PERKN</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PKEP</locationCode>
+        <locationName>East Asian Coll. Periodicals</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>PERKN</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>POL</locationCode>
+        <locationName>Off-Site Stacks - Not available</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>PERKN</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>POB</locationCode>
+        <locationName>Off-Site Stacks - Not available</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>PERKN</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PKF</locationCode>
+        <locationName>Stacks Oversize</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>PERKN</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PKEPI</locationCode>
+        <locationName>East Asian Collection Current Periodicals</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>PERKN</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PKRQ</locationCode>
+        <locationName>Reference</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>PERKN</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PBM</locationCode>
+        <locationName>Microforms</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>PERKN</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PKML</locationCode>
+        <locationName>Microforms Locked Stacks</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>PERKN</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PKU</locationCode>
+        <locationName>Reading Room</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>PERKN</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>POK</locationCode>
+        <locationName>Off-Site Stacks - Not available</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>PERKN</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PKW</locationCode>
+        <locationName>New &amp; Noteworthy</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>PERKN</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PK6</locationCode>
+        <locationName>International &amp; Area Studies Reading Room</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>PERKN</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PBF</locationCode>
+        <locationName>StacksOversize</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>PERKN</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>POGS</locationCode>
+        <locationName>Docs Off-Site Stacks</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>PERKN</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PKER</locationCode>
+        <locationName>East Asian Reference</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>PERKN</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>POKP</locationCode>
+        <locationName>Off-Site Stacks - Not available</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>PERKN</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PCR</locationCode>
+        <locationName>Stacks</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>PERKN</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PKR5</locationCode>
+        <locationName>Newspaper Index Area</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>PERKN</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PKEQ</locationCode>
+        <locationName>East Asian Collection</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>PERKN</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PKP3I</locationCode>
+        <locationName>Current Math Periodicals</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>PERKN</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PKXY</locationCode>
+        <locationName>Papyrology Reserve</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>PERKN</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PKRF</locationCode>
+        <locationName>Reference Oversize</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>PERKN</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PKX</locationCode>
+        <locationName>Reserve</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>PERKN</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LAW</locationCode>
+        <locationName>Goodson Law Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>LGEN</locationCode>
+        <locationName>Stacks</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LAW</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LLSC</locationCode>
+        <locationName>Library Service Center</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LAW</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LPER</locationCode>
+        <locationName>Periodicals</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LAW</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LDOC</locationCode>
+        <locationName>Documents</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LAW</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LMICR</locationCode>
+        <locationName>Microform</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LAW</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LSSCO</locationCode>
+        <locationName>Superseded Codes</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LAW</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LGENI</locationCode>
+        <locationName>General (III)</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LAW</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LPERC</locationCode>
+        <locationName>Periodicals, Current Issues</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LAW</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LREPT</locationCode>
+        <locationName>Regional Reporters</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LAW</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LFDR</locationCode>
+        <locationName>Federal Reporters &amp; Digests</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LAW</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LUNCL</locationCode>
+        <locationName>Unclassified Collection</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LAW</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LSSRF</locationCode>
+        <locationName>Superseded Reference</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LAW</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LSCO</locationCode>
+        <locationName>State Codes</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LAW</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LRECB</locationCode>
+        <locationName>Records &amp; Briefs</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LAW</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LSSLO</locationCode>
+        <locationName>Superseded Looseleaf</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LAW</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LPRAC</locationCode>
+        <locationName>Practice &amp; Procedure</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LAW</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LTAXI</locationCode>
+        <locationName>Tax Collection (III)</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LAW</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LTAX</locationCode>
+        <locationName>Tax Collection</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LAW</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LREF</locationCode>
+        <locationName>Reference</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LAW</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LDOCI</locationCode>
+        <locationName>Documents (III)</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LAW</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LCHRI</locationCode>
+        <locationName>Christie Collection</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LAW</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LRES</locationCode>
+        <locationName>Reserves</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LAW</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LNCAL</locationCode>
+        <locationName>NC Alcove</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LAW</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LLRD</locationCode>
+        <locationName>Leisure Reading</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LAW</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LRARE</locationCode>
+        <locationName>Rare Books</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LAW</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LSSTX</locationCode>
+        <locationName>Superseded Tax</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LAW</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LFDAI</locationCode>
+        <locationName>Federal Alcove (III)</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LAW</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LFDAL</locationCode>
+        <locationName>Federal Alcove</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LAW</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LSCOI</locationCode>
+        <locationName>State Codes (Level 3)</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LAW</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LRA1</locationCode>
+        <locationName>Rare Books, Level 1</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LAW</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LFAC</locationCode>
+        <locationName>Faculty Collection</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LAW</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LLFI</locationCode>
+        <locationName>Looseleaf (III)</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LAW</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>SCL</locationCode>
+        <locationName>Rubenstein Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>PRSB</locationCode>
+        <locationName>Library Service Center, Rare Books (Reading Room only)</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PRSMS</locationCode>
+        <locationName>Library Service Center, Manuscripts (Reading Room only)</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PR</locationCode>
+        <locationName>Rubenstein Library</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PRSH</locationCode>
+        <locationName>Library Service Center, Pamphlets</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PRB</locationCode>
+        <locationName>Rare Books</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PRSZL</locationCode>
+        <locationName>Library Service Center, History of Medicine Locked Stacks</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PRMS</locationCode>
+        <locationName>Manuscripts</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PRSZP</locationCode>
+        <locationName>Library Service Center, History of Medicine Journals</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PRSN</locationCode>
+        <locationName>Library Service Center, Newspapers</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PRSZ3</locationCode>
+        <locationName>Library Service Center, History of Medicine Ephemera</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PRDPI</locationCode>
+        <locationName>Duke Press Books</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PRSZQ</locationCode>
+        <locationName>Library Service Center, History of Medicine Locked Stacks Group qll</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PRH</locationCode>
+        <locationName>Pamphlets</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PRL</locationCode>
+        <locationName>Vault</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PRR</locationCode>
+        <locationName>Reference</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>DOCS</locationCode>
+        <locationName>Perkins Public Documents/Maps</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>PGS</locationCode>
+        <locationName>US Documents</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>DOCS</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PGSM</locationCode>
+        <locationName>US Documents Microform</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>DOCS</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PSGL</locationCode>
+        <locationName>Perkins Documents Rare Documents: Lib Service Ctr</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>DOCS</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PGD</locationCode>
+        <locationName>Maps</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>DOCS</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PGN</locationCode>
+        <locationName>UN Documents</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>DOCS</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PGEM</locationCode>
+        <locationName>NC Documents Microfiche</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>DOCS</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PGH</locationCode>
+        <locationName>Pamphlet Collection</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>DOCS</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PGM</locationCode>
+        <locationName>Microforms</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>DOCS</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PGER</locationCode>
+        <locationName>Census Reference</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>DOCS</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PGSC</locationCode>
+        <locationName>US Documents CD-ROM</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>DOCS</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PGNL</locationCode>
+        <locationName>League of Nations</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>DOCS</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>DIV</locationCode>
+        <locationName>Divinity School Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>PD</locationCode>
+        <locationName>Stacks</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>DIV</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PDU</locationCode>
+        <locationName>Stacks</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>DIV</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PDM</locationCode>
+        <locationName>Microforms</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>DIV</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PDPI</locationCode>
+        <locationName>Current Periodicals</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>DIV</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PDR</locationCode>
+        <locationName>Reference</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>DIV</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PDQ</locationCode>
+        <locationName>Stacks</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>DIV</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PDRQ</locationCode>
+        <locationName>Reference Quarto</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>DIV</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PLP</locationCode>
+        <locationName>Periodicals</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LILLY</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PLR</locationCode>
+        <locationName>Reference</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LILLY</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PLL2</locationCode>
+        <locationName>Locked Stacks</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LILLY</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PLVM</locationCode>
+        <locationName>Locked Media</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LILLY</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PLPI</locationCode>
+        <locationName>Current Periodicals</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LILLY</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PLW</locationCode>
+        <locationName>Current Literature</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LILLY</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PLV2</locationCode>
+        <locationName>A-V Video cassette</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LILLY</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PLVL</locationCode>
+        <locationName>A-V Limited Circulation</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LILLY</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PLL1F</locationCode>
+        <locationName>Cage Oversize</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LILLY</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PLX2</locationCode>
+        <locationName>Closed Reserve</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LILLY</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PLV6</locationCode>
+        <locationName>A-V Sound cassette</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LILLY</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>MCL</locationCode>
+        <locationName>Medical Center Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>MOFFS</locationCode>
+        <locationName>Off-Site Stacks</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>MCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>MLSCG</locationCode>
+        <locationName>LSC General</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>MCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>MJNL</locationCode>
+        <locationName>Journal Stacks</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>MCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>MSTKS</locationCode>
+        <locationName>Stacks</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>MCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>MLOS</locationCode>
+        <locationName>On-Site Storage</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>MCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>MARCH</locationCode>
+        <locationName>Archives</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>MCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>MAROF</locationCode>
+        <locationName>Archives Off-Site Stacks - Non Circulating</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>MCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>MHDC</locationCode>
+        <locationName>Hist Lock Stks Duke C</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>MCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>MJNLA</locationCode>
+        <locationName>Shelved in Journal Stacks under Series Title</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>MCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>MUSIC</locationCode>
+        <locationName>Music Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>PM</locationCode>
+        <locationName>Stacks</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>MUSIC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PMMC</locationCode>
+        <locationName>Media</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>MUSIC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PMR</locationCode>
+        <locationName>Reference</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>MUSIC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PMMCM</locationCode>
+        <locationName>Media Microforms</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>MUSIC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PMMS</locationCode>
+        <locationName>Miniature Score</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>MUSIC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PMPI</locationCode>
+        <locationName>Current Periodicals</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>MUSIC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PML</locationCode>
+        <locationName>Vault</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>MUSIC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PMF</locationCode>
+        <locationName>Stacks Oversize</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>MUSIC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>FRDD</locationCode>
+        <locationName>DVD--Limited Circulation</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>FORD</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>FRDR</locationCode>
+        <locationName>Reference</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>FORD</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>FRDPE</locationCode>
+        <locationName>Periodicals - Economics</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>FORD</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>FRDPL</locationCode>
+        <locationName>Periodicals - Leadership and Management</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>FORD</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>FRDCC</locationCode>
+        <locationName>Career Collection</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode></parentLocationCode>
+    </location>
+    <location>
+        <locationCode>FRDPF</locationCode>
+        <locationName>Periodicals - Finance and Accounting</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>FORD</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>FRDPH</locationCode>
+        <locationName>Periodicals - Health Sector Management and Operations</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>FORD</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>ARCH</locationCode>
+        <locationName>University Archives</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>PSAT</locationCode>
+        <locationName>Library Service Center (Reading Room only)</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>ARCH</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PSA</locationCode>
+        <locationName>Library Service Center (Reading Room only)</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>ARCH</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PA</locationCode>
+        <locationName>University Archives</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>ARCH</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PSAP</locationCode>
+        <locationName>Library Service Ctr Periodicals (Reading Room only)</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>ARCH</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>MARIN</locationCode>
+        <locationName>Marine Lab Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>PZ</locationCode>
+        <locationName>Stacks</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>MARIN</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PZP</locationCode>
+        <locationName>Periodicals</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>MARIN</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BES</locationCode>
+        <locationName>Biol-Env. Sciences Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>PBLL1</locationCode>
+        <locationName>Herbarium Collection 1 -- Vascular</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>BES</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PBP</locationCode>
+        <locationName>Periodicals</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>BES</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PBLL3</locationCode>
+        <locationName>Herbarium Collection 3 -- Moss</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>BES</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LINK</locationCode>
+        <locationName>The Link</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>PN</locationCode>
+        <locationName>Link Equipment</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LINK</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>DUKIR</locationCode>
+        <locationName>Duke Internet Resource</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+</locationGroup>

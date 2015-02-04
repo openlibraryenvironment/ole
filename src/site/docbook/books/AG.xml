@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<book xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+    <title>Guide to the OLE Select and Acquire Module</title>
+    <preface>
+        <title>Introduction</title>
+        <para role="Body Text">This guide provides information about using Select and Acquire
+            functions.The Select and Acquire module  encompasses selection, purchasing, receiving,
+            and payment for all library materials, both print and electronic.  Full financial and
+            budgeting structures, batch importing of vendor and bibliographic recors, and tools
+            supporting the lifecycle of electronic recourses are incorporated in the module.</para>
+        <note>
+            <para role="Body Text"> To learn more about the Select and Acquire Module, see the
+                    <emphasis>Select and Acquire Overview</emphasis> on the <link
+                        xlink:href="../../../html/Index.html">OLE Documentation Portal</link>.</para>
+        </note>
+        <para role="Body Text">This guide is organized to follow the layout of the Select/Acquire
+            tab followed by the Licensing tab.  Please note there is a slight difference in
+            Select/Acquire documentation.  To follow the workflow, the documentation covers Order,
+            Paying, Receiving and then returns to addressing each submenu in columns. </para>
+        <itemizedlist mark="disc" spacing="normal">
+            <listitem>
+                <para role="C1H Bullet">Order provides access to the requisitions, purchase orders,
+                    and the order holding queue.  Users initiate requisitions which become purchase
+                    orders sent to vendors.</para>
+            </listitem>
+            <listitem>
+                <para role="C1H Bullet">Paying provides access to invoices and credit memos.  Users
+                    are able to invoice vendors or receive money back via the credit memo.</para>
+            </listitem>
+            <listitem>
+                <para role="C1H Bullet">Receiving provides access to mongraphic and serial
+                    receiving.</para>
+            </listitem>
+            <listitem>
+                <para>Fund allows users to manage library funds.</para>
+            </listitem>
+            <listitem>
+                <para>Acquisition provides access  to search and edit payment requests, create
+                    general error corrections and disbursement vouchers, and search and edit
+                    E-Resources. </para>
+            </listitem>
+            <listitem>
+                <para>Chart of Accounts contains the maintenance documents associated with the chart
+                    of accounts documents.</para>
+            </listitem>
+            <listitem>
+                <para>Lookup and Maintenance provides access to the chart of accounts documents:
+                    accounts, subaccounts, organizations, objects and subobjects.</para>
+            </listitem>
+            <listitem>
+                <para>Vendor provides access to vendor records as well as to search bibliographic
+                    records and acquisition documents.</para>
+            </listitem>
+            <listitem>
+                <para>Vendor (2nd submenu) contains the maintenance documents associated with the
+                    vendor document.</para>
+            </listitem>
+            <listitem>
+                <para>Import provides access to import batch marc and vendor files and view reports
+                    of these loads.</para>
+            </listitem>
+            <listitem>
+                <para>Purchasing/Accounts Payable contains the maintenance documents associated with
+                    ordering, paying, receiving, and e-resources as well as general ledger entry and
+                    available balances lookups. </para>
+            </listitem>
+        </itemizedlist>
+        <para>On the Licensing tab:</para>
+        <itemizedlist>
+            <listitem>
+                <para>Licensing provides access to the license request document.</para>
+            </listitem>
+            <listitem>
+                <para>Licensing Admin contains the maintenance documents associated with license
+                    requests.</para>
+            </listitem>
+            <listitem>
+                <para>Agreement Admin contains the maintenance documents associated with
+                    agreements.</para>
+            </listitem>
+        </itemizedlist>
+        <para role="C1H Bullet">These sections are divided into subsections covering individual
+            functions. For each function, the applicable subsection presents a breadcrumb trail
+            showing how to access the function and information on the layout and fields on the
+            related screen(s). As appropriate, some subsections include business rules and routing
+            information for e-docs and/or special instructions for performing activities.</para>
+        <note>
+            <para> In order to work efficiently in the system’s Select/Acquire and
+                Licensing screens, you need to understand the basics of the user interface. For
+                information and instructions on logging on and off, navigating, understanding the
+                components of screens, and performing basic operations in the screens, see the <link
+                    xlink:href="../../../webhelp/BASICS/index.html"
+                    >OLE Basic Functionality and Key Concepts.</link></para>
+        </note>
+        <para>This guide as well as guides to other OLE modules are available for
+            download from the <link xlink:href="../../../html/Index.html">OLE Documentation
+            Portal</link>.</para>
+        <tip>
+            <para> Bookmark any page within OLE.  This will allow you to easily navigate back to an
+                interface or e-doc in one click, just log in. </para>
+        </tip>
+    </preface>
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../acquisitions-guide/PURAPAccessingFunctions.xml"/>
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../acquisitions-guide/PURAPBatchProcesses.xml"/>
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../acquisitions-guide/PURAPOrderingMaterials.xml"/>
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../acquisitions-guide/PURAPPayingForMaterials.xml"/>
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../acquisitions-guide/PURAPReceivingMaterials.xml"/>
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../acquisitions-guide/PURAPFund.xml"/>
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../acquisitions-guide/licensingOverview.xml"/>
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../acquisitions-guide/licensingStandardDocuments.xml"/>
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../acquisitions-guide/PURAPVendorAndDocSearches.xml"/>
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../acquisitions-guide/electronicResources.xml"/>
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../acquisitions-guide/PURAPImportingRecords.xml"/> 
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../acquisitions-guide/allAcquisitionsRecords.xml"/>
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../acquisitions-guide/reports.xml"/>
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../acquisitions-guide/PURAPAcquisitions.xml"/>  
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../acquisitions-guide/managingStandardCOADocuments.xml"/>
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../acquisitions-guide/managingCOAMaintenanceDocuments.xml"/>
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../acquisitions-guide/vendorMaintenanceDocuments.xml"/>
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../acquisitions-guide/lookup-AccountDelegate.xml"/>
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../acquisitions-guide/electronicAcquisitionsMaintenance.xml"/>
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../acquisitions-guide/PURAPMaintenanceDocuments.xml"/>
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../acquisitions-guide/PDP.xml"/>
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../acquisitions-guide/PURAPAppendix.xml"/> 
+</book>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="DeleteConfirmationView" parent="DeleteConfirmationView-parentBean"/>
+
+    <bean id="DeleteConfirmationView-parentBean" parent="Uif-OLEFormView">
+        <property name="headerText" value="Delete Confirmation"/>
+        <property name="items">
+            <list>
+                <bean id="DeleteViewPage" parent="Uif-Page" >
+                    <property name="headerText" value="Delete Confirmation"/>
+                    <property name="items">
+                        <list>
+                            <ref bean="deleteStatusMessage"/>
+                            <ref bean="buildDocTree"/>
+                            <ref bean="deleteConfirmationButtons"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="footer">
+            <ref bean="ClearFooterView1-buttons"/>
+        </property>
+        <!--<property name="formClass" value="org.kuali.ole.describe.form.EditorForm"/>-->
+    </bean>
+
+<!--    <bean id="DeleteConfirmationView-parentBean" parent="Uif-HorizontalBoxSection">
+    <property name="title" value="Marc Editor"/>
+    <property name="items">
+    <list>
+    <bean id="WorkBibEditorViewPage1" parent="Uif-Page" >
+        <property name="title" value="Marc Editor"/>
+        <property name="items">
+            <list>
+                <bean id="DeleteConfirmationViewPage" parent="Uif-OLEFormView" >
+
+                            <ref bean="buildDocTree"/>
+                            <ref bean="deleteConfirmationButtons"/>
+
+                </bean>
+            </list>
+        </property>
+        <property name="footer">
+            <ref bean="ClearFooterView-buttons" />
+        </property>
+
+    </bean>-->
+
+
+    <bean id="deleteStatusMessage" parent="Uif-Message" p:messageText="@{message}"
+          p:cssClasses="messageClass"/>
+
+    <bean id="buildDocTree" parent="Uif-TreeSection" p:instructionalText="" p:render="@{showDeleteTree eq true}">
+        <property name="headerText" value="The following records will be deleted"/>
+        <property name="propertyName" value="DocTree"/>
+        <property name="defaultNodePrototype">
+            <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
+                <property name="labelPrototype">
+                    <bean parent="Uif-Message"/>
+                </property>
+                <property name="dataGroupPrototype">
+                    <bean parent="Uif-VerticalBoxGroup" p:style="margin-left: 2em;">
+                        <property name="items">
+                            <list>
+                                <bean parent="Uif-HorizontalFieldGroup">
+                                    <property name="items">
+                                        <list>
+                                            <bean id="selectTree1" parent="Uif-InputField" p:propertyName="select"
+                                                  p:label=""
+                                                  p:defaultValue="false" p:align="right">
+                                                <property name="control">
+                                                    <!--<bean parent="Uif-CheckboxControl"/>-->
+                                                    <bean parent="Uif-HiddenControl"/>
+                                                </property>
+                                            </bean
+                                                    >
+                                            <!--                                            <bean id="actionLabel1" parent="Uif-SecondaryActionButton-Small"
+                                                  p:methodToCall="selectTreeNodes"
+                                                  p:actionParameters="treeId:leftTree"
+                                                  p:actionLabel="@{labelText}">
+                                            </bean>-->
+                                        </list>
+                                    </property>
+                                </bean>
+                            </list>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+    <bean id="deleteConfirmationButtons" parent="Uif-FooterBase"  p:render="@{showDeleteTree eq true}">
+        <property name="items">
+           <list>
+              <bean id="deleteVerify" parent="Uif-SecondaryActionButton" p:actionScript="methodToCall('delete')" p:actionLabel="Continue" p:style="float:left;margin-left:30em"/>
+              <bean id="cancelDelete" parent="Uif-SecondaryActionButton" p:methodToCall="cancel" p:actionLabel="Cancel" p:style="float:left;margin-left:0.2em"/>
+           </list>
+        </property>
+    </bean>
+    <bean id="ClearFooterView1-buttons" parent="ClearFooterView-buttons-parentBean"/>
+    <bean id="ClearFooterView-buttons-parentBean" parent="Uif-HorizontalBoxSection" p:disclosure.render="false">
+        <property name="items">
+            <list>
+            </list>
+        </property>
+    </bean>
+</beans>

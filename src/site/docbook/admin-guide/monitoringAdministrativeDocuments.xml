@@ -1,0 +1,1450 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0"
+    xml:lang="en-US">
+<title>Monitoring Administrative Documents</title>
+<para role="Body Text"><emphasis role="bold"><inlinemediaobject>
+                <alt>Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/Admin.png"/>
+                </imageobject>
+            </inlinemediaobject>&gt; <inlinemediaobject>
+                <alt>Monitoring</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-435.png"/>
+                </imageobject>
+            </inlinemediaobject>&gt; </emphasis><inlinemediaobject>
+            <alt>Monitoring Links</alt>
+            <imageobject>
+                <imagedata fileref="../images/admin-433.png"/>
+            </imageobject>
+        </inlinemediaobject></para>
+<para role="Body Text">The items in the Monitoring submenu pertain to the Kuali Service Bus and the
+        Kuali Enterprise Workflow (KEW) as well as the Application Server.</para>
+<para role="Body Text">An Enterprise Service Bus is a middleware architecture construct which allows
+for integrating enterprise applications in an implementation-independent fashion. The Kuali Service
+Bus (KSB) specifically provides a messaging fabric as well as allowing acquisition of services on
+the bus using a service registry and invocation of those services using various protocols (java
+serialization over HTTP and SOAP). Because these are primarily technical operations, they are not
+covered in great detail here.</para>
+<para role="Body Text">Use of these options is restricted to users with the KR-SYS Technical
+Administrator role.</para>
+    <section>
+        <title><anchor xml:id="_cacheAdmin"/>Cache Management</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/Admin.png"/>
+                </imageobject>
+            </inlinemediaobject>&gt; <inlinemediaobject>
+                <alt>Monitoring</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-435.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Service Bus</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-439.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Cache Admin</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-388.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Cache Management</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-389.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Normal">The Cache Management tool is used to clear all or individual local
+            system caches. Users may select specific or all caches and click <inlinemediaobject>
+                <alt>Flush</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-390.png"/>
+                </imageobject>
+            </inlinemediaobject>. </para>
+        <para role="Normal"/>
+        <tip>
+            <para role="Normal">Click the arrow on the left of the checkbox to expand the
+                list.</para>
+        </tip>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Cache Management Screen</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-392.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_configurationViewer"/>Configuration Viewer</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/Admin.png"/>
+                </imageobject>
+            </inlinemediaobject>&gt; <inlinemediaobject>
+                <alt>Monitoring</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-435.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Service Bus</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-439.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Configuration Viewer</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-382.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Configuration Properties</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-383.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Normal">The Configuration Viewer is used to review a table of configured
+            properties. Click <emphasis role="bold">Refresh Page</emphasis> to update the
+            values.</para>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Configuration Properties Sample Display</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-384.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_javaMelody"/>Java Melody</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/Admin.png"/>
+                </imageobject>
+            </inlinemediaobject>&gt; <inlinemediaobject>
+                <alt>Monitoring</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-435.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Service Bus</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-439.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Java Melody</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-55.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Statistics of JavaMelody</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-56.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Normal"/>
+    </section>
+    <section>
+        <title><anchor xml:id="_messageQueue"/>Message Queue<indexterm significance="normal">
+                <primary>Message Queue</primary>
+            </indexterm><indexterm significance="normal">
+                <primary>Service Bus submenu group</primary>
+                <secondary>Message Queue</secondary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/Admin.png"/>
+                </imageobject>
+            </inlinemediaobject>&gt; <inlinemediaobject>
+                <alt>Monitoring</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-435.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; </emphasis><inlinemediaobject>
+                <alt>Service Bus</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-439.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Message Queue</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-440.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The Message Queue allows administrators to monitor messages that are
+            flowing through the Service Bus. Messages can be edited, deleted or forwarded to other
+            machines for processing from this screen.</para>
+        <para role="Illustration">
+            <screenshot>
+                <mediaobject>
+                    <alt>Message Queue Screen</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-441.png" width="100%"/>
+                    </imageobject>
+                </mediaobject>
+            </screenshot>
+        </para>
+        <para role="Illustration">
+            <screenshot>
+                <mediaobject>
+                    <alt>Sample Message from the Message Queue</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-442.png" width="100%"/>
+                    </imageobject>
+                </mediaobject>
+            </screenshot>
+        </para>
+    </section>
+    <section>
+        <title><anchor xml:id="_Quartz"/><anchor xml:id="_D2HTopic_142"/>Quartz</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/Admin.png"/>
+                </imageobject>
+            </inlinemediaobject>&gt; <inlinemediaobject>
+                <alt>Monitoring</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-435.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; </emphasis><inlinemediaobject>
+                <alt>Service Bus</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-439.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Quartz</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-456.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">Quartz provides a means by which an administrator can schedule
+            delayed tasks, including retry attempts for messages that cannot be sent the first
+            time.</para>
+        <para role="Illustration"/>
+    </section>
+    <section>
+        <title><anchor xml:id="_Security_Management"/>Security Management</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/Admin.png"/>
+                </imageobject>
+            </inlinemediaobject>&gt; <inlinemediaobject>
+                <alt>Monitoring</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-435.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; </emphasis><inlinemediaobject>
+                <alt>Service Bus</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-439.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Security Management</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-460.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The Security Management provides a means by which an administrator
+            can generate a keystore in the Kuali Service Bus (KSB).</para>
+        <para role="Illustration">
+            <screenshot>
+                <mediaobject>
+                    <alt>Security Management Screen</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-461.png" width="100%"/>
+                    </imageobject>
+                </mediaobject>
+            </screenshot>
+        </para>
+    </section>
+    <section>
+        <title><anchor xml:id="_serviceRegistry"/>Service Registry<indexterm significance="normal">
+                <primary>Service Registry</primary>
+            </indexterm><indexterm significance="normal">
+                <primary>Service Bus submenu group</primary>
+                <secondary>Service Registry</secondary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/Admin.png"/>
+                </imageobject>
+            </inlinemediaobject>&gt; <inlinemediaobject>
+                <alt>Monitoring</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-435.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; </emphasis><inlinemediaobject>
+                <alt>Service Bus</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-439.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Service Registry</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-446.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The Service Registry displays a read-only view of the Service Bus's
+            Service Registry. The Service Registry shows all services that are exposed on the
+            Service Bus and includes information about them (such as IP Address, endpoint URL,
+            etc.). The Service Registry also includes an administrative function which allows the
+            administrator to refresh its view of the registry.</para>
+        <para role="Illustration">
+            <screenshot>
+                <mediaobject>
+                    <alt>Service Registry Screen</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-447.png" width="100%"/>
+                    </imageobject>
+                </mediaobject>
+            </screenshot>
+        </para>
+    </section>
+    <section>
+        <title><anchor xml:id="_threadPool"/>Thread Pool<indexterm significance="normal">
+                <primary>Thread Pool</primary>
+            </indexterm><indexterm significance="normal">
+                <primary>Service Bus submenu group</primary>
+                <secondary>Thread Pool</secondary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/Admin.png"/>
+                </imageobject>
+            </inlinemediaobject>&gt; <inlinemediaobject>
+                <alt>Monitoring</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-435.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; </emphasis><inlinemediaobject>
+                <alt>Service Bus</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-439.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Thread Pool</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-451.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The Thread Pool provides a means by which an administrator can change
+            the size of the Thread Pool used by the Service Bus for processing messages.</para>
+        <para role="Illustration">
+            <screenshot>
+                <mediaobject>
+                    <alt>Thread Pool Screen</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-452.png"/>
+                    </imageobject>
+                </mediaobject>
+            </screenshot>
+        </para>
+    </section>
+    <section>
+        <title><anchor xml:id="_documentOperation"/>Document Operation<indexterm
+                significance="normal">
+                <primary>Document Operation option</primary>
+            </indexterm><indexterm significance="normal">
+                <primary>Workflow submenu group</primary>
+                <secondary>Document Operation option</secondary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/Admin.png"/>
+                </imageobject>
+            </inlinemediaobject>&gt; <inlinemediaobject>
+                <alt>Monitoring</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-435.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Workflow</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-467.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Document Operation</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-468.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para>The <emphasis role="bold">Document Operation</emphasis> screen allows for low-level
+            modifications to document data; users can manually move a particular document to the
+            next step in the workflow, refresh the document, etc.</para>
+        <para>In certain scenarios or failure cases it may be necessary to make modifications to the
+            document so that the state of the document in the KEW system is consistent with that of
+            OLE. It may also be necessary to make modifications to the XML content of a document if,
+            for example, there is a bug in the application integrating with KEW which results in
+            incomplete or insufficient XML content to allow for proper routing.</para>
+        <tip>
+            <para>In KFS, Document Operation is restricted to very few users and is used primarily
+                to requeue doucments when a fiscal officer leaves and has things remaining in their
+                Action List. After the account is updated with the new fiscal officer, KFS system
+                admin will requeue the documents and then the system puts them in the new fiscal
+                officer's Action List.</para>
+            <para>Instead of trying to push documents through the workflow with Document Operation,
+                KFS users try to use Super User instead.</para>
+        </tip>
+        <para role="Illustration">
+            <screenshot>
+                <mediaobject>
+                    <alt>Document Operation Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-469.png"/>
+                    </imageobject>
+                </mediaobject>
+            </screenshot>
+        </para>
+        <para>Enter the document ID you are searching for and click <inlinemediaobject>
+                <alt>Get Document</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-470.png"/>
+                </imageobject>
+            </inlinemediaobject>.</para>
+        <para role="Body Text">The administrator is then presented with a view of the document and
+            can perform various operations on it. The screen is divided into various sections,
+            including: </para>
+        <itemizedlist>
+            <listitem>
+                <para>Document Actions - Additional functions for reassigning and reprocessing
+                    document</para>
+            </listitem>
+            <listitem>
+                <para>Document - simple data associated with the document</para>
+            </listitem>
+            <listitem>
+                <para>Action Requests - the Action Requests associated with the document, includes
+                    requests for action which have already been satisfied</para>
+            </listitem>
+            <listitem>
+                <para>Actions Taken - The actions that have been taken against this document (i.e.
+                    Approved by user X) </para>
+            </listitem>
+            <listitem>
+                <para>Action Items - Items related to this document that are in users' Action
+                    Lists</para>
+            </listitem>
+            <listitem>
+                <para>Route Node Instances - The node instances that form the document's
+                    instantiated route path</para>
+            </listitem>
+            <listitem>
+                <para>Branch States - The branches on this document and the state of those
+                    branches</para>
+            </listitem>
+            <listitem>
+                <para>Annotation - An annotation that will show up on the Route Log when the
+                    operation is performed.</para>
+            </listitem>
+        </itemizedlist>
+        <section>
+            <title>Document Action</title>
+            <para/>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Document Operation: Document Actions Tab</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-472.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <para role="TableHeading"><emphasis role="bold">Document Action
+                definitions</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Description</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Queue Document</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para>Requeuing and reprocessing the document by the engine</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Index Searchable Attributes</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Update searchable data of the
+                                    document</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Queue Document Requeuer</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Refresh document and regenerate request of
+                                    current node</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Queue Document Blanket Approve</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para>Move blanket approve document forward; User, Action Taken Id,
+                                    and Node Names are required</para>
+                                <itemizedlist>
+                                    <listitem>
+                                        <para>User - Enter initiator's network Id</para>
+                                    </listitem>
+                                    <listitem>
+                                        <para>Action Taken Id - Enter an entry's action taken
+                                            Id</para>
+                                    </listitem>
+                                    <listitem>
+                                        <para>Node Names - Enter a comma separated list of node
+                                            names</para>
+                                    </listitem>
+                                </itemizedlist>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Queue Action Invocation</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para>Reassign action request based on initiator, entry ID, and
+                                    action code; User, Action Item Id, and Action Code are required </para>
+                                <itemizedlist>
+                                    <listitem>
+                                        <para>User - Enter initiator's network Id</para>
+                                    </listitem>
+                                    <listitem>
+                                        <para>Action Item Id - Enter an entry's action item
+                                            Id</para>
+                                    </listitem>
+                                    <listitem>
+                                        <para>Action Code - A, F, K, or C; A for Approve, F for FYI,
+                                            K for acknowledge, and C for Complete</para>
+                                    </listitem>
+                                </itemizedlist>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+        <section>
+            <title>Document </title>
+            <para/>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Document Operations: Document Tab</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-473.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <para role="TableHeading"><emphasis role="bold">Document definitions</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Description</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Document Version</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para>A legacy field</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Initiator ID</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">The workflow id of the initiator</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Initial Route Node Instances</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">The ID of the initial route node instance
+                                    on the document</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Route Status</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para>The current status of the document</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para>Route Level</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para>A legacy field providing a numerical representation of where
+                                    the document is in the route path </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Create Date</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">The initial date the document was created,
+                                    doesn't not reflect whether the document was routed, saved,
+                                    etc.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Doc Status Modification Date</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para>The date at which the document's status was last
+                                    modified</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Approval Date</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">The date at which the document's state
+                                    transitioned to APPROVED</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Finalized Date</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">The date at which the document's state
+                                    transitioned to FINAL</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Route Status Modification Date</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para>Legacy value, similar to Doc Status Modification Date</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Route Level Modification Date</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para>Legacy value, no longer used</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para>Doc Type ID</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para>The ID of the DocumentType definition for this document</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Doc Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">The title of the document</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Application Doc ID</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para>A special id that can be set by client applications to
+                                    associate the document to an ID in their system</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Doc Content</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para>The XML Content of the document</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+        <section>
+            <title>Action Requests</title>
+            <para/>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Document Operation: Action Tab</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-474.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <para role="TableHeading"><emphasis role="bold">Action Request
+                definitions</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Description</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Document Version</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para>A legacy field</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Initiator ID</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">The workflow id of the initiator</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Route Node Instance ID</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">The ID of the node instance that this
+                                    request is attached to</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Action Request</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para>The type of action that is requested</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para>Create Date</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para>The date the request was created</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Status</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">The current status of the request</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Priority</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para>The activation priority of the request</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Route Level</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">A legacy field providing a numerical
+                                    representation of where in the route path the request was
+                                    generated</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Responsibility ID</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">The id of the responsibility associated
+                                    with this request (relates to Rules and/or Route Modules)</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Responsibilty Description</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para>A description of the responsibility of this request</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Action Request Parent ID</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para>ID of the parent action request if there is one</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para>Recipient Type</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para>The type of recipient for this request (user, workgroup, or
+                                    role)</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Person ID</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">If the recipient type is "user", the
+                                    workflow id of the user recipient</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Workgroup ID</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para>If the recipient type is "workgroup", the workgroup id of the
+                                    workgroup recipient</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Role Name</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para>If the recipient type is "role", the name of the role</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Qualified Role Name</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">If the recipient type is "role", the value
+                                    of the qualified role</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Qualified Role Label</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">If the recipient type is "role", the label
+                                    for the qualified role</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Action Taken ID</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para>If this request has been satisfied, the id of the ActionTaken
+                                    that satisfied the request</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Ignore Previous</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para>The ignore previous indicator of the request</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para>Approve Policy</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para>The approve policy of the request (only used by role
+                                    requests)</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Delegation Type</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">If the request is a delegation, the type of
+                                    delegation (primary or secondary)</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Current Indicator</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para>Indicates if the request is "Current" or not</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Annotation</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para>The value of the annotation on the request</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+        <section>
+            <title>Actions Taken</title>
+            <para/>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Document Operations: Actions Taken Tab</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-475.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <para role="TableHeading"><emphasis role="bold">Actions Taken
+                definitions</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Description</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Document ID</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para>The ID of the associated document</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Document Version</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">A legacy field</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Action Taken</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">The type of the action that was
+                                    taken</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Action Date</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para>The date at which the action was taken</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para>Action Taken Person ID</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para>The workflow id of the user or delegate who took action</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Delegator Person ID</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">If this action was performed by a delegate,
+                                    the workflow id of the person whose authority was
+                                    delegated</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Delegator Workgroup ID</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para>If this action was performed by a delegate, the workflow id of
+                                    the Workgroup whose authority was delegated</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Current Indicator</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Indicates if the Action Taken is "Current"
+                                    or not, non-current actions have been revoked by an action such
+                                    as ReturnToPreviousNode</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Annotation</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">The value of the annotation on the Action
+                                    Taken</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+        <section>
+            <title>Action Items</title>
+            <para>It is important to note that the Action Items is a de-normalized representation of
+                an Action Request on the document that is used to render the Action List in an
+                efficient matter. Therefore, it contains some copies of data from both the document
+                and the request itself.</para>
+            <para/>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Document Operations: Action Items Tab</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-476.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <para role="TableHeading"><emphasis role="bold">Actions Items
+                definitions</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Description</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Document ID</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para>The ID of the associated document</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Doc Type Name</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">The name of the DocumentType for this
+                                    item</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Doc Type Label</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">The label of the document type</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Doc Handler URL</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para>The URL used to access the doc handler for this item</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para>Date Assigned</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para>The creation date of the item</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Action Request ID</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">The ID of the Action Request from which
+                                    this item is derived</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Action Requested</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para>The type of action requested by this item</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Responsibility ID</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">The responsibility id of the associated
+                                    request</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Person ID</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">The workflow id of the person responsible
+                                    for the item</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para>Workgroup ID</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para>The workgroup id of the workgroup responsible for the
+                                    item</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Role Name</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">If the item was derived from a role
+                                    request, the name of the role</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Delegator Person ID</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para>If the item was delegated, the workflow id of the delegating
+                                    party</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Delegator Workgroup ID</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">If the item was delegated, the workgroup id
+                                    of the delegating party</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Document Title</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">The title of the document</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+        <section>
+            <title>Route Node Instances</title>
+            <para>The Route Node Instances are modeled as a Directed Acyclic Graph starting at the
+                node instance pointed to by the Initial Route Node Instances field in the Document
+                section. Therefore, if you delete a route node instance, it will follow all links
+                through its set of Next Route Node Instances and delete those as well.</para>
+            <para/>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Document Operations: Route Node Instances Tab</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-477.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <para role="TableHeading"><emphasis role="bold">Route Node Instances
+                    definitions</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Description</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Instance Name</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para>The name of the node</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Indicates if the node is active</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Complete Indicator</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Indicates if the node's processing has
+                                    completed</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Initial Indicator</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para>Indicates if the node has been processed by the engine
+                                    yet</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para>Previous Route Node Instances</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para>A comma-separated display of the IDs of the previous Route
+                                    Node Instances of the node</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Next Route Node Instances</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">A comma-separated display of the IDs of the
+                                    next Route Node Instances of the node</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Route Node States</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para>A representation of the state attached to the node</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+        <section>
+            <title>Branch States</title>
+            <para>All documents are required to have at least one branch that is named PRIMARY.
+                Therefore, it is advisable to not rename the PRIMARY branch. </para>
+            <para/>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Document Operations: Branch States</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-478.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <para role="TableHeading"><emphasis role="bold">Branch States
+                definitions</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Description</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Branch Name</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para>The name of the branch</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Branch State ID</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">The ID of that piece of branch state</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Branch State Key</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">The key of the branch state</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Branch State Value</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para>The value of the branch state</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+        <section>
+            <title>Annotation</title>
+            <para>Here you can enter an annotation explaining the changes being made. This will be
+                logged on the Route Log so that it can be preserved as part of the audit trail for
+                the document.</para>
+            <para/>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Annotation for Admin Change</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-479.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <para>Once the changes have been made on the document operation screen, hit the Save
+                button and the changes will be executed on the server. Remember that in order for a
+                change to take place the appropriate radio button must be selected on the data that
+                requires modification.</para>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_statisticsReport"/>Statistics Report<indexterm significance="normal">
+                <primary>Statistics Report</primary>
+            </indexterm><indexterm significance="normal">
+                <primary>Workflow submenu group</primary>
+                <secondary>Statistics Report</secondary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/Admin.png"/>
+                </imageobject>
+            </inlinemediaobject>&gt; <inlinemediaobject>
+                <alt>Monitoring</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-435.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; </emphasis><inlinemediaobject>
+                <alt>Workflow</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-467.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Statisticas Report</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-483.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The Statistics Report displays the counts of documents and users for
+            various statuses and categories.</para>
+        <para role="caption">
+            <screenshot>
+                <mediaobject>
+                    <alt>Workflow Statistics Sample Display</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-484.png" width="100%"/>
+                    </imageobject>
+                </mediaobject>
+            </screenshot>
+        </para>
+        <para role="Body Text"/>
+        <para role="Normal"/>
+    </section>
+</chapter>

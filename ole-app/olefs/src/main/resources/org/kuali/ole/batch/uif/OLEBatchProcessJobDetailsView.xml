@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="OLEBatchProcessJobDetailsView" parent="Uif-OLEFormView">
+        <property name="headerText" value="Batch Process Job Details" />
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="${ole.externalizable.help.url}/reference/webhelp/ADMIN/content/ch01s04.html"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="BatchProcessViewPage" parent="Uif-Page" >
+                    <property name="items">
+                        <list>
+                            <ref bean="OLEBatchProcessJobDetailsView-listOfItems"/>
+                            <ref bean="hdnStop_button"/>
+                            <ref bean="hdnStart_button"/>
+                            <ref bean="hdnRemove_button"/>
+                            <ref bean="hdnPause_button"/>
+                            <ref bean="hdnResume_button"/>
+                            <ref bean="jobId"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+
+        <property name="additionalScriptFiles">
+            <list>
+                <value>ole/batch/script/batchJob.js</value>
+            </list>
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>ole/batch/css/batch.css</value>
+            </list>
+        </property>
+        <property name="formClass" value="org.kuali.ole.batch.form.OLEBatchProcessJobDetailsForm"/>
+
+    </bean>
+
+    <bean id="OLEBatchProcessJobDetailsView-listOfItems"  parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="15">
+        <property name="headerText" value="Batch Process Job Details" />
+        <property name="collectionObjectClass" value="org.kuali.ole.batch.bo.OLEBatchProcessJobDetailsBo" />
+        <property name="propertyName" value="oLEBatchProcessJobDetailsBoList" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="true" />
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="layoutManager.actionFieldPrototype.group.layoutManager">
+            <bean parent="Uif-HorizontalBoxLayout"/>
+        </property>
+        <property name="layoutManager.richTable.templateOptions">
+            <map>
+                <entry key="aaSorting" value="[[0,'desc']]"/>
+                <entry key="aoColumns"
+                       value="[ {'bSortable':true, 'sWidth':'2%'},
+                  {'bSortable':true, 'sWidth':'5%'},
+                  {'bSortable':true, 'sWidth':'2%'},
+                  {'bSortable':true, 'sWidth':'5%'},
+                  {'bSortable':true, 'sWidth':'8%'},
+                  {'bSortable':true, 'sWidth':'5%'},
+                  {'bSortable':false, 'sWidth':'2%'},
+                  {'bSortable':false, 'sWidth':'2%'},
+                  {'bSortable':false, 'sWidth':'2%'},
+                  {'bSortable':true, 'sWidth':'8%'},
+                  {'bSortable':true, 'sWidth':'8%'},
+                  {'bSortable':false, 'sWidth':'8%'},
+                  {'bSortable':true, 'sWidth':'5%'},
+                  {'bSortable':false, 'sWidth':'16%'},
+                  {'bSortable':false, 'sWidth':'10%'},
+                  {'bSortable':false, 'sWidth':'10%'}
+                ]"/>
+
+            </map>
+        </property>
+
+        <property name="items">
+            <list>
+
+                <bean id="jobIdField" parent="Uif-InputField" p:propertyName="jobIdNum" p:label="Job Id" p:readOnly="true"/>
+                <bean id="jobNameField" parent="Uif-InputField" p:propertyName="jobName" p:label="Job Name" p:readOnly="true"/>
+                <bean id="processId" parent="Uif-InputField" p:propertyName="batchProcessId" p:label="Batch Process Id" p:readOnly="true"/>
+                <bean id="batchProcessTypeField"  parent="Uif-InputField" p:propertyName="batchProcessType" p:label="Batch Process Type" p:readOnly="true"/>
+                <bean id="batchProcessProfileNameField"  parent="Uif-InputField" p:propertyName="batchProfileName" p:label="Batch Process Profile Name" p:readOnly="true"/>
+                <bean id="userNameField" parent="Uif-InputField" p:propertyName="userName" p:label="User Name" p:readOnly="true"/>
+                <bean id="totalNoOfRecordsField" parent="Uif-InputField" p:propertyName="totalNoOfRecords" p:label="Total Records" p:readOnly="true"/>
+                <bean id="noOfRecordsProcessedField" parent="Uif-InputField" p:propertyName="noOfRecordsProcessed" p:label="Records Processed " p:readOnly="true"/>
+                <bean id="perCompletedField" parent="Uif-InputField" p:propertyName="perCompleted" p:label="%Completed" p:readOnly="true"/>
+                <bean id="startTimeField" parent="Uif-DataField" p:propertyName="startTime" p:label="Start Time" p:readOnly="true"/>
+                <bean id="endTimeField" parent="Uif-InputField" p:propertyName="endTime" p:label="End Time" p:readOnly="true"/>
+                <bean id="timeSpentField" parent="Uif-InputField" p:propertyName="timeSpent" p:label="Time Spent" p:readOnly="true"/>
+                <bean id="statusField" parent="Uif-InputField" p:propertyName="status" p:label="Status" p:readOnly="true"/>
+
+
+
+                <bean id="status_buttons_view" parent="Uif-HorizontalFieldGroup">
+                <property name="title" value="Actions"/>
+                <property name="items">
+                    <list>
+
+                        <bean id="stopOne_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em"   p:actionScript="stop(@{#line?.jobId});"  p:actionLabel="Stop"  p:render="@{#line?.status eq 'RUNNING'}" />
+                        <!--bean id="startOne_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em"  p:actionScript="start(@{#line?.jobId});"    p:actionLabel="Start"  p:render="@{#line?.status eq 'STOPPED'}" /-->
+                        <bean id="removeOne_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em"  p:actionScript="remove(@{#line?.jobId});"  p:actionLabel="Remove"  p:render="@{#line?.status eq 'STOPPED' or #line?.status eq 'COMPLETED' or #line?.status eq 'PAUSED'}" />
+                        <bean id="pauseOne_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em"  p:actionScript="pause(@{#line?.jobId});" p:actionLabel="Pause"  p:render="@{#line?.status eq 'RUNNING'}" />
+                        <bean id="resumeOne_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em"  p:actionScript="resume(@{#line?.jobId});" p:actionLabel="Resume"  p:render="@{#line?.status eq 'PAUSED'}" />
+                    </list>
+                </property>
+                </bean>
+                <bean id="status_report_view" parent="Uif-HorizontalFieldGroup">
+                    <property name="title" value="Actions"/>
+                    <property name="items">
+                        <list>
+                            <bean id="viewJobDetails" parent="Uif-LinkField" p:style="font-weight:bold;"  p:linkText="View Job Report" p:target="_blank" p:href="oleBatchProcessJobController?viewId=OLEBatchJobPopup&amp;methodToCall=openViewReport&amp;jobId=@{#line.jobId}" />
+                        </list>
+                    </property>
+                </bean>
+                <bean id="destinationDirectoryPathField" parent="Uif-InputField" p:propertyName="oLEBatchProcessDefinitionDocument.destinationDirectoryPath" p:label="Directory Path" p:readOnly="true"/>
+
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="hdnStop_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em"  p:methodToCall="stopButton" p:actionLabel="Stop"  p:hidden="true" p:successCallback="stopCallback();"/>
+    <bean id="hdnStart_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em"  p:methodToCall="startButton" p:actionLabel="Start"  p:hidden="true" />
+    <bean id="hdnRemove_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em"  p:methodToCall="removeButton" p:actionLabel="Remove"  p:hidden="true" />
+    <bean id="hdnPause_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em"  p:methodToCall="pauseButton" p:actionLabel="Pause"  p:hidden="true" />
+    <bean id="hdnResume_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em"  p:methodToCall="resumeButton" p:actionLabel="Resume"  p:hidden="true" />
+
+
+    <bean id="jobId" parent="Uif-InputField" p:propertyName="jobId">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
+</beans>

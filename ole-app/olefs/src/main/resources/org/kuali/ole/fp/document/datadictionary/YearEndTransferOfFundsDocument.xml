@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+<!--
+ Copyright 2007-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean id="YearEndTransferOfFundsDocument" parent="YearEndTransferOfFundsDocument-parentBean"/>
+
+  <bean id="YearEndTransferOfFundsDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
+    <property name="allowsErrorCorrection" value="true"/>
+    <property name="documentTypeName" value="OLE_YETF"/>
+    <property name="documentClass" value="org.kuali.ole.fp.document.YearEndTransferOfFundsDocument"/>
+    <property name="baseDocumentClass" value="org.kuali.ole.fp.document.YearEndTransferOfFundsDocument"/>
+    <property name="businessRulesClass" value="org.kuali.ole.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
+    <property name="documentAuthorizerClass" value="org.kuali.ole.sys.document.authorization.AccountingDocumentAuthorizerBase"/>
+    <property name="sessionDocument" value="true"/>
+    <property name="allowsCopy" value="true"/>
+    <property name="accountingLineGroups">
+    	<map>
+    		<entry>
+    			<key><value>source</value></key>
+	    		<ref bean="YearEndTransferOfFundsDocument-sourceAccountingLineGroup" parent="AccountingLineGroup"/>
+	    	</entry>
+	    	<entry>
+	    		<key><value>target</value></key>
+	    		<ref bean="YearEndTransferOfFundsDocument-targetAccountingLineGroup" parent="AccountingLineGroup"/>
+	    	</entry>
+    	</map>
+    </property>  
+    <property name="importedLineParserClass" value="org.kuali.ole.sys.businessobject.AccountingLineParserBase"/>
+    <property name="workflowAttributes">
+      <ref bean="YearEndTransferOfFundsDocument-workflowAttributes"/>
+    </property>
+    <property name="validationMap" ref="YearEndTransferOfFundsDocument-validations"/>
+  </bean>
+  
+  <!-- Validations -->
+  
+  <bean id="YearEndTransferOfFundsDocument-validations" parent="YearEndTransferOfFundsDocument-validations-parentBean"/>
+  
+  <bean id="YearEndTransferOfFundsDocument-validations-parentBean" abstract="true"  class="org.springframework.beans.factory.config.MapFactoryBean">
+  	<property name="sourceMap">
+		<map key-type="java.lang.Class">
+			<entry>
+				<key><value>org.kuali.ole.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
+				<value>YearEndTransferOfFunds-routeDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.ole.sys.document.validation.event.AttributedSaveDocumentEvent</value></key>
+				<value>YearEndTransferOfFunds-saveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.ole.sys.document.validation.event.AttributedApproveDocumentEvent</value></key>
+				<value>YearEndTransferOfFunds-approveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.ole.sys.document.validation.event.AttributedBlanketApproveDocumentEvent</value></key>
+				<value>YearEndTransferOfFunds-blanketApproveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.ole.sys.document.validation.event.AddAccountingLineEvent</value></key>
+				<value>YearEndTransferOfFunds-addAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.ole.sys.document.validation.event.DeleteAccountingLineEvent</value></key>
+				<value>YearEndTransferOfFunds-deleteAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.ole.sys.document.validation.event.UpdateAccountingLineEvent</value></key>
+				<value>YearEndTransferOfFunds-updateAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.ole.sys.document.validation.event.ReviewAccountingLineEvent</value></key>
+				<value>YearEndTransferOfFunds-reviewAccountingLineValidation</value>
+			</entry>
+    	</map>
+    </property>
+  </bean>
+  
+  <!-- accounting line groups -->
+  <bean id="YearEndTransferOfFundsDocument-sourceAccountingLineGroup" parent="TransferOfFundsDocument-sourceAccountingLineGroup-parentBean"/>  	
+  <bean id="YearEndTransferOfFundsDocument-targetAccountingLineGroup" parent="TransferOfFundsDocument-targetAccountingLineGroup-parentBean"/>
+  
+  	<!-- workflow attributes for routing -->
+	<bean id="YearEndTransferOfFundsDocument-workflowAttributes" parent="YearEndTransferOfFundsDocument-workflowAttributes-parentBean"/>
+	
+	<bean id="YearEndTransferOfFundsDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+		
+	    <property name="routingTypeDefinitions">
+    		<map>
+    			<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy"/>
+    			<entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund"/>
+    			<entry key="Award" value-ref="RoutingType-AccountingDocument-Award"/>
+    		</map>
+    	</property>
+	</bean>
+</beans>

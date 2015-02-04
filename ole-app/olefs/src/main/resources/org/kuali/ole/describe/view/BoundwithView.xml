@@ -1,0 +1,535 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="BoundwithView" parent="BoundwithView-parentBean"/>
+    <bean id="BoundwithView-parentBean" parent="Uif-OLEFormView">
+        <property name="headerText" value="Bound-with Instance"/>
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/CG/content/ch02s02.html"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="OLESearchViewPage" parent="Uif-Page">
+                    <property name="items">
+                        <list>
+                            <ref bean="DocumentAndSearchSelectionType"/>
+                            <ref bean="SearchAndSearchResultsView"/>
+                            <ref bean="SearchFooterSec"/>
+                            <ref bean="BoundwithSearchResultsSelectPanel"/>
+                            <ref bean="BoundwithSelectionSection"/>
+                            <ref bean="BoundwithSelection-Buttons"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>ole/describe/css/search.css</value>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>ole/describe/scripts/boundwith.js</value>
+                <value>ole/describe/scripts/workbench.js</value>
+                <value>ole/describe/scripts/callNumberBrowse.js</value>
+            </list>
+        </property>
+        <property name="footer">
+            <ref bean="ClearFooterView-buttons"/>
+        </property>
+        <property name="formClass" value="org.kuali.ole.describe.form.BoundwithForm"/>
+    </bean>
+
+    <bean id="BoundwithSelectionSection" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <ref bean="BoundwithTreeSection1"/>
+                <ref bean="BoundwithTreeSection2"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="BoundwithTreeSection1" parent="Uif-TabSection" p:width="500px">
+        <property name="items">
+            <list>
+                <ref bean="LeftTreeSection"/>
+                <ref bean="BoundwithResultsSection"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="BoundwithTreeSection2" parent="Uif-VerticalBoxSection" p:width="500px">
+        <property name="items">
+            <list>
+                <bean id="BoundwithTree2TabSection" parent="Uif-TabSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="BoundwithTree2Section"/>
+
+                            <!--                            <bean parent="BoundwithSection2"/>
+                           <bean parent="BoundwithSection3"/>-->
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="LeftTreeSection" parent="Uif-VerticalBoxSection">
+        <property name="headerText" value="Tree1"/>
+        <property name="items">
+            <list>
+                <ref bean="BoundwithSection1"/>
+                <ref bean="LeftTreeSection-footer"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="BoundwithSection1" parent="Uif-TreeSection" p:instructionalText="" p:render="@{showLeftTree eq true}">
+        <property name="headerText" value=""/>
+        <property name="propertyName" value="leftTree"/>
+        <property name="defaultNodePrototype">
+            <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
+                <property name="labelPrototype">
+                    <bean parent="Uif-Message"/>
+                </property>
+                <property name="dataGroupPrototype">
+                    <bean parent="Uif-VerticalBoxGroup" p:style="margin-left: 2em;">
+                        <property name="items">
+                            <list>
+                                <bean parent="Uif-HorizontalFieldGroup">
+                                    <property name="items">
+                                        <list>
+                                            <bean id="selectTree1" parent="Uif-InputField" p:propertyName="select"
+                                                  p:label=""
+                                                  p:defaultValue="false" p:align="right">
+                                                <!--p:onClickScript="retrieveComponent('BoundwithTreeSection1','submitTree1CheckBoxValues',null,null)">-->
+                                                <property name="control">
+                                                    <bean parent="Uif-CheckboxControl"/>
+                                                </property>
+                                            </bean>
+                                            <!--                                            <bean id="actionLabel1" parent="Uif-SecondaryActionButton-Small"
+                                                  p:methodToCall="selectTreeNodes"
+                                                  p:actionParameters="treeId:leftTree"
+                                                  p:actionLabel="@{labelText}"
+                                                  p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);">
+                                            </bean>-->
+                                        </list>
+                                    </property>
+                                </bean>
+                            </list>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="LeftTreeSection-footer" parent="Uif-HorizontalFieldGroup">
+        <property name="items">
+            <list>
+
+                <bean id="leftTreeRefreshButton" parent="RefreshButton" p:methodToCall="refreshLeftTree"
+                      p:refreshId="LeftTreeSection" p:successCallback="searching()"/>
+
+                <bean id="leftTreeRemoveButton" parent="RemoveButton" p:methodToCall="removeFromLeftTree"
+                      p:refreshId="LeftTreeSection" p:successCallback="searching()"/>
+
+                <bean id="leftTreeUnSelectButton" parent="UnselectAllButton" p:methodToCall="unSelectAllFromLeftTree"
+                      p:refreshId="LeftTreeSection" p:successCallback="searching()"/>
+
+                <bean id="leftTreeClearTree" parent="ClearTreeButton" p:methodToCall="clearTree"
+                      p:actionParameters="treeId:leftTree" p:refreshId="LeftTreeSection"
+                      p:successCallback="searching()"/>
+
+                <bean id="showBibsButton" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em"
+                      p:actionScript="showTabs('showBoundwithBibs');" p:actionLabel="Show Bound-with Bibs"
+                      p:successCallback="searching()">
+                    <property name="toolTip">
+                        <bean parent="Uif-Tooltip">
+                            <property name="tooltipContent"
+                                      value='Show the bibs that are bound to the instances selected in the tree'/>
+                            <property name="templateOptions">
+                                <map merge="true">
+                                    <entry key="selectable" value="true"/>
+                                </map>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="RightTreeSection-footer" parent="Uif-HorizontalFieldGroup">
+        <property name="items">
+            <list>
+                <bean id="rightTreeRefreshButton" parent="RefreshButton" p:methodToCall="refreshRightTree"
+                      p:refreshId="RightTreeSection" p:successCallback="searching()"/>
+
+                <bean id="rightTreeRemoveButton" parent="RemoveButton" p:methodToCall="removeFromRightTree"
+                      p:refreshId="RightTreeSection" p:successCallback="searching()"/>
+
+                <bean id="rightTreeUnSelectButton" parent="UnselectAllButton" p:methodToCall="unSelectAllFromRightTree"
+                      p:refreshId="RightTreeSection" p:successCallback="searching()"/>
+
+                <bean id="rightTreeClearTree" parent="ClearTreeButton" p:methodToCall="clearTree"
+                      p:actionParameters="treeId:rightTree" p:refreshId="RightTreeSection"
+                      p:successCallback="searching()"/>
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="BoundwithTree2Section" parent="Uif-VerticalBoxSection">
+        <property name="headerText" value="Tree2"/>
+        <property name="items">
+            <list>
+                <ref bean="RightTreeSection"/>
+                <ref bean="RightTreeSection-footer"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="RightTreeSection" parent="Uif-TreeSection" p:instructionalText="" p:render="@{showRightTree eq true}">
+        <property name="headerText" value=""/>
+        <property name="propertyName" value="rightTree"/>
+        <property name="defaultNodePrototype">
+            <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
+                <property name="labelPrototype">
+                    <bean parent="Uif-Message"/>
+                </property>
+                <property name="dataGroupPrototype">
+                    <bean parent="Uif-VerticalBoxGroup" p:style="margin-left: 2em;">
+                        <property name="items">
+                            <list>
+                                <bean parent="Uif-HorizontalFieldGroup">
+                                    <property name="items">
+                                        <list>
+                                            <bean id="selectTree2" parent="Uif-InputField" p:propertyName="select"
+                                                  p:label=""
+                                                  p:defaultValue="false" p:align="right">
+                                                <!--p:onClickScript="retrieveComponent('BoundwithTreeSection2','submitTree1CheckBoxValues',null,null)">-->
+                                                <property name="control">
+                                                    <bean parent="Uif-CheckboxControl"/>
+                                                </property>
+                                            </bean>
+                                            <!--                                            <bean id="actionLabel2" parent="Uif-SecondaryActionButton-Small"
+                                                  p:methodToCall="selectTreeNodes"
+                                                  p:actionParameters="treeId:rightTree"
+                                                  p:actionLabel="@{tree2LabelText}"
+                                                  p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);">
+                                            </bean>-->
+                                        </list>
+                                    </property>
+                                </bean>
+                            </list>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="BoundwithResultsSection" parent="Uif-VerticalBoxSection">
+        <property name="headerText" value="Bound-with"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="selectedInstance"/>
+                <ref bean="BoundwithResultsSection-tree"/>
+                <ref bean="BoundwithResultsSection-footer"/>
+                <ref bean="showResultsTab"/>
+                <ref bean="Boundwith-buildDeleteVerifyTree"/>
+                <ref bean="Boundwith-deleteConfirmationButtons"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="BoundwithResultsSection-tree" parent="Uif-TreeSection" p:instructionalText=""
+          p:render="@{showBoundwithTree eq true}">
+        <property name="headerText" value="Bound-with Results"/>
+        <property name="propertyName" value="boundwithTree"/>
+        <property name="defaultNodePrototype">
+
+            <bean id="BoundwithResultsTree" class="org.kuali.rice.krad.uif.container.NodePrototype">
+                <property name="labelPrototype">
+                    <bean parent="Uif-Message"/>
+                </property>
+                <property name="dataGroupPrototype">
+                    <bean id="BoundwithResultsTree1" parent="Uif-VerticalBoxGroup" p:style="margin-left: 2em;">
+                        <property name="items">
+                            <list>
+                                <bean parent="Uif-HorizontalFieldGroup">
+                                    <property name="items">
+                                        <list>
+                                            <bean id="boundwithTree1" parent="Uif-InputField" p:propertyName="select"
+                                                  p:label=""
+                                                  p:defaultValue="false" p:align="right">
+                                                <!--p:onClickScript="retrieveComponent('BoundwithTreeSection1','submitBoundwithTreeCheckBoxValues','null','null')">-->
+                                                <property name="control">
+                                                    <bean parent="Uif-CheckboxControl"/>
+                                                </property>
+                                            </bean>
+                                            <!--                                            <bean id="actionLabel3" parent="Uif-SecondaryActionButton-Small"
+                                                  p:methodToCall="selectTreeNodes"
+                                                  p:actionParameters="treeId:boundwithTree"
+                                                  p:actionLabel="select"
+                                                  p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);">
+                                            </bean>-->
+                                        </list>
+                                    </property>
+                                </bean>
+                            </list>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="BoundwithResultsSection-footer" parent="Uif-HorizontalFieldGroup">
+        <property name="items">
+            <list>
+                <!--
+                                <bean id="unbind_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:25em" p:methodToCall="unbind" p:actionLabel="Unbind" />
+                -->
+                <bean id="delete_button2" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:10em"
+                      p:actionLabel="Delete Instance" p:actionScript="showDeleteTabs('deleteVerify');"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="showResultsTab" parent="Uif-InputField" p:propertyName="documentTreeNode.returnCheck">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
+    <bean id="BoundwithSelection-Buttons" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="boundwith_button" parent="Uif-SecondaryActionButton"
+                      p:style="float:left;margin-left:40em"
+                      p:actionLabel="Bound-with" p:actionScript="showTabs('performBoundwith');"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="Boundwith-buildDeleteVerifyTree" parent="Uif-TreeSection" p:instructionalText=""
+          p:render="@{inDelete eq 'true'}">
+        <property name="headerText" value="The following records will be deleted"/>
+        <property name="propertyName" value="deleteConfirmationTree"/>
+        <property name="defaultNodePrototype">
+            <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
+                <property name="labelPrototype">
+                    <bean parent="Uif-Message"/>
+                </property>
+                <property name="dataGroupPrototype">
+                    <bean parent="Uif-VerticalBoxGroup" p:style="margin-left: 2em;">
+                        <property name="items">
+                            <list>
+                                <bean parent="Uif-HorizontalFieldGroup">
+                                    <property name="items">
+                                        <list>
+                                            <bean id="selectTree1" parent="Uif-InputField" p:propertyName="select"
+                                                  p:label=""
+                                                  p:defaultValue="false" p:align="right">
+                                                <property name="control">
+                                                    <!--<bean parent="Uif-CheckboxControl"/>-->
+                                                    <bean parent="Uif-HiddenControl"/>
+                                                </property>
+                                            </bean>
+                                            <!--                                                <property name="control">
+                                                <bean parent="Uif-CheckboxControl"/>
+                                            </property>-->
+
+                                            <!--                                            <bean id="actionLabel1" parent="Uif-SecondaryActionButton-Small"
+                                                  p:methodToCall="selectTreeNodes"
+                                                  p:actionParameters="treeId:leftTree"
+                                                  p:actionLabel="@{labelText}"
+                                                  p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);">
+                                            </bean>-->
+                                        </list>
+                                    </property>
+                                </bean>
+                            </list>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+
+    <!--    <bean id="Boundwith-buildDeleteVerifyTree" parent="Uif-TreeSection" p:instructionalText=""  p:render="@{inDelete eq 'true'}">
+        <property name="title" value="The following records will be deleted"/>
+        <property name="propertyName" value="deleteConfirmationTree"/>
+        <property name="defaultNodePrototype">
+            <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
+                <property name="labelPrototype">
+                    <bean parent="Uif-MessageField"/>
+                </property>
+                <property name="dataGroupPrototype">
+                    <bean parent="Uif-VerticalBoxGroup" p:style="margin-left: 2em;">
+                        <property name="items">
+                            <list>
+                                <bean parent="Uif-HorizontalFieldGroup">
+                                    <property name="items">
+                                        <list>
+                                            <bean id="selectTree1" parent="Uif-InputField" p:propertyName="select"
+                                                  p:label=""
+                                                  p:defaultValue="false" p:align="right">
+                                                <property name="control">
+                                                    &lt;!&ndash;<bean parent="Uif-CheckboxControl"/>&ndash;&gt;
+                                                    <bean parent="Uif-HiddenControl"/>
+                                                </property>
+                                            </bean
+                                                    >
+                                            &lt;!&ndash;                                            <bean id="actionLabel1" parent="Uif-SecondaryActionButton-Small"
+                                                  p:methodToCall="selectTreeNodes"
+                                                  p:actionParameters="treeId:leftTree"
+                                                  p:actionLabel="@{labelText}">
+                                            </bean>&ndash;&gt;
+                                        </list>
+                                    </property>
+                                </bean>
+                            </list>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>-->
+    <bean id="Boundwith-deleteConfirmationButtons" parent="Uif-FooterBase" p:render="@{inDelete eq 'true'}">
+        <property name="items">
+            <list>
+                <bean id="deleteVerify" parent="Uif-SecondaryActionButton" p:actionScript="showDeleteTabs('delete');"
+                      p:actionLabel="Continue" p:style="float:left;margin-left:10em"/>
+                <bean id="cancelDelete" parent="Uif-SecondaryActionButton" p:methodToCall="cancel"
+                      p:actionLabel="Cancel" p:style="float:left;margin-left:0.2em"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ClearFooterView-buttons" parent="ClearFooterView-buttons-parentBean"/>
+    <bean id="ClearFooterView-buttons-parentBean" parent="Uif-HorizontalBoxSection" p:disclosure.render="false">
+        <property name="items">
+            <list>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="RefreshButton" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em"
+          p:actionLabel="Refresh">
+        <property name="toolTip">
+            <bean parent="Uif-Tooltip">
+                <property name="tooltipContent"
+                          value='Reload the bibs in the tree with the latest info about the holdings and items'/>
+                <property name="templateOptions">
+                    <map merge="true">
+                        <entry key="selectable" value="true"/>
+                    </map>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="RemoveButton" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em"
+          p:actionLabel="Remove">
+        <property name="toolTip">
+            <bean parent="Uif-Tooltip">
+                <property name="tooltipContent"
+                          value='Remove selected bibs from the tree'/>
+                <property name="templateOptions">
+                    <map merge="true">
+                        <entry key="selectable" value="true"/>
+                    </map>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="UnselectAllButton" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em"
+          p:actionLabel="Unselect All">
+        <property name="toolTip">
+            <bean parent="Uif-Tooltip">
+                <property name="tooltipContent"
+                          value='Unselect all nodes in the tree'/>
+                <property name="templateOptions">
+                    <map merge="true">
+                        <entry key="selectable" value="true"/>
+                    </map>
+                </property>
+            </bean>
+        </property>
+    </bean>
+    <bean id="BoundwithSearchResultsSelectPanel"  parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="search_button1" parent="Uif-SecondaryActionButton" p:style="float:left;margin-left:25em" p:methodToCall="copyToTree" p:actionLabel="Copy To Tree1" p:actionParameters="treeId:leftTree" p:refreshId="BoundwithSelectionSection" p:successCallback="searching()"/>
+                <bean id="search_button2" parent="Uif-SecondaryActionButton" p:style="float:left;margin-left:0em" p:methodToCall="copyToTree" p:actionLabel="Copy To Tree2" p:actionParameters="treeId:rightTree" p:refreshId="BoundwithSelectionSection" p:successCallback="searching()"/>
+                <bean id="search_button3" parent="Uif-SecondaryActionButton" p:style="float:left;margin-left:0em" p:methodToCall="unSelectAll" p:actionLabel="Unselect All" p:refreshId="BibSearchResults" p:successCallback="searching()"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ClearTreeButton" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em"
+          p:actionLabel="Clear Tree">
+        <property name="toolTip">
+            <bean parent="Uif-Tooltip">
+                <property name="tooltipContent"
+                          value='Remove all bibs from the tree'/>
+                <property name="templateOptions">
+                    <map merge="true">
+                        <entry key="selectable" value="true"/>
+                    </map>
+                </property>
+            </bean>
+        </property>
+    </bean>
+   <!-- <bean id="hdn_refresh_button" parent="Uif-SecondaryActionButton-Small" p:methodToCall="start" p:hidden="true"/>
+    <bean id="hdn_search_button" parent="Uif-SecondaryActionButton-Small" p:methodToCall="search" p:hidden="true"
+          p:successCallback="searching()"/>
+    <bean id="hdn_NextFlag_button" parent="Uif-SecondaryActionButton-Small" p:methodToCall="nextSearch" p:hidden="true"
+          p:successCallback="searching()"/>
+    <bean id="hdn_PreviousFlag_button" parent="Uif-SecondaryActionButton-Small" p:methodToCall="previousSearch"
+          p:hidden="true" p:successCallback="searching()"/>
+    <bean id="hdnStart" parent="Uif-InputField" p:hidden="true" p:propertyName="start"/>
+    <bean id="hdnRows" parent="Uif-InputField" p:propertyName="pageSize">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+<!--    <bean id="boundwithNextFlag" parent="Uif-InputField" p:hidden="true" p:propertyName="nextFlag"/>
+    <bean id="boundwithPreviousFlag" parent="Uif-InputField" p:hidden="true" p:propertyName="previousFlag"/>
+    <bean id="boundwithPageShowEntries" parent="Uif-InputField" p:hidden="true" p:propertyName="pageShowEntries"/>-->
+
+</beans>

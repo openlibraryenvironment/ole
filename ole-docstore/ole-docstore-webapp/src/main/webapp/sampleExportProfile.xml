@@ -1,0 +1,38 @@
+ <exportProfile>
+<exportFormat>MARC XML</exportFormat>
+<exportType>Batch Job</exportType>
+<exportTo>/home/tomcat/docstore-datadump</exportTo>
+<noOfExportThreads>5</noOfExportThreads>
+<noOfRecords>5</noOfRecords>
+<dataField>999</dataField>
+<exportMappingFields>
+    <exportMappingField>
+        <marcField>t</marcField>
+        <itemField>itemType</itemField>
+    </exportMappingField>
+    <exportMappingField>
+        <marcField>a</marcField>
+        <itemField>Call number</itemField>
+    </exportMappingField>
+    <exportMappingField>
+        <marcField>w</marcField>
+        <itemField>Class scheme</itemField>
+    </exportMappingField>
+    <exportMappingField>
+        <marcField>c</marcField>
+        <itemField>Copy number</itemField>
+    </exportMappingField>
+    <exportMappingField>
+        <marcField>l</marcField>
+        <itemField>Home location</itemField>
+    </exportMappingField>
+    <exportMappingField>
+        <marcField>i</marcField>
+        <itemField>Item Id</itemField>
+    </exportMappingField>
+    <exportMappingField>
+        <marcField>m</marcField>
+        <itemField>library</itemField>
+    </exportMappingField>
+</exportMappingFields>
+</exportProfile>

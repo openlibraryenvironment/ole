@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+<!--
+ Copyright 2007-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean id="Building" parent="Building-parentBean"/>
+
+  <bean id="Building-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.ole.sys.businessobject.Building"/>
+    <property name="inquiryDefinition">
+      <ref bean="Building-inquiryDefinition"/>
+    </property>
+    <property name="lookupDefinition">
+      <ref bean="Building-lookupDefinition"/>
+    </property>
+    <property name="titleAttribute" value="buildingCode"/>
+    <property name="objectLabel" value="Building"/>
+    <property name="attributes">
+      <list>
+        <ref bean="Building-campusCode"/>
+        <ref bean="Building-buildingCode"/>
+        <ref bean="Building-buildingName"/>
+        <ref bean="Building-buildingStreetAddress"/>
+        <ref bean="Building-buildingAddressCityName"/>
+        <ref bean="Building-buildingAddressStateCode"/>
+        <ref bean="Building-buildingAddressZipCode"/>
+        <ref bean="Building-alternateBuildingCode"/>
+        <ref bean="Building-buildingAddressCountryCode"/>
+        <ref bean="Building-active"/>
+      </list>
+    </property>
+    <property name="relationships">
+      <list>
+        <dd:relationship objectAttribute="buildingAddressZip">
+            <dd:primitiveAttribute source="buildingAddressCountryCode" target="countryCode"/> 
+            <dd:primitiveAttribute source="buildingAddressZipCode" target="code"/>
+        </dd:relationship>
+        <dd:relationship objectAttribute="buildingAddressState">
+        	<dd:primitiveAttribute source="buildingAddressCountryCode" target="countryCode"/>
+            <dd:primitiveAttribute source="buildingAddressStateCode" target="code"/>            
+        </dd:relationship>
+        <dd:relationship objectAttribute="buildingAddressCountry">
+            <dd:primitiveAttribute source="buildingAddressCountryCode" target="code"/>
+        </dd:relationship>
+		<dd:relationship objectAttribute="campus">
+        	<dd:primitiveAttribute source="campusCode" target="code"/>
+        </dd:relationship>         
+      </list>
+    </property>    
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="Building-campusCode" parent="Building-campusCode-parentBean"/>
+
+  <bean id="Building-campusCode-parentBean" abstract="true" parent="Campus-code" >
+    <property name="name" value="campusCode"/>
+    <property name="label" value="Campus Code"/>
+    <property name="shortLabel" value="Campus Code"/>
+    <property name="required" value="true"/>
+  </bean>
+
+  <bean id="Building-buildingCode" parent="Building-buildingCode-parentBean"/>
+  <bean id="Building-buildingCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="buildingCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Building Code"/>
+    <property name="shortLabel" value="Building Code"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <ref bean="AlphaNumericValidation" />
+    </property>
+    <property name="required" value="true"/>
+    <property name="control">
+      <ref bean="TenCharacterTextControl" />
+    </property>
+    
+    
+  </bean>
+  <bean id="Building-buildingName" parent="Building-buildingName-parentBean"/>
+
+  <bean id="Building-buildingName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="buildingName"/>
+    <property name="label" value="Building Name"/>
+    <property name="shortLabel" value="Name"/>
+    <property name="maxLength" value="40"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
+    </property>
+    <property name="required" value="true"/>
+    <property name="control">
+      <ref bean="StandardNameTextControl" />
+    </property>
+    
+    
+  </bean>
+  <bean id="Building-buildingStreetAddress" parent="Building-buildingStreetAddress-parentBean"/>
+
+  <bean id="Building-buildingStreetAddress-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="buildingStreetAddress"/>
+    <property name="label" value="Building Street Address"/>
+    <property name="shortLabel" value="Bldg. Street Addr."/>
+    <property name="maxLength" value="40"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
+    </property>
+    <property name="control">
+      <ref bean="StandardNameTextControl" />
+    </property>
+    
+    
+  </bean>
+  <bean id="Building-buildingAddressCityName" parent="Building-buildingAddressCityName-parentBean"/>
+
+  <bean id="Building-buildingAddressCityName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="buildingAddressCityName"/>
+    <property name="label" value="Building Address City Name"/>
+    <property name="shortLabel" value="Bldg. City"/>
+    <property name="maxLength" value="37"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="37"/>
+    </property>
+    
+    
+  </bean>
+
+  <bean id="Building-buildingAddressStateCode" parent="Building-buildingAddressStateCode-parentBean"/>
+  <bean id="Building-buildingAddressStateCode-parentBean" abstract="true" parent="State-code" >
+    <property name="name" value="buildingAddressStateCode"/>
+    <property name="label" value="Building Address State Code"/>
+    <property name="shortLabel" value="Bldg. State"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.location.framework.state.StateValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+    <property name="required" value="false"/>
+  </bean>
+
+  <bean id="Building-buildingAddressZipCode" parent="Building-buildingAddressZipCode-parentBean"/>
+  <bean id="Building-buildingAddressZipCode-parentBean" abstract="true" parent="PostalCode-code" >
+    <property name="name" value="buildingAddressZipCode"/>
+    <property name="label" value="Building Address Postal Code"/>
+    <property name="shortLabel" value="Bldg. Postal Code"/>
+    <property name="required" value="false"/>
+  </bean>
+  
+   <bean id="Building-buildingAddressCountryCode" parent="Building-buildingAddressCountryCode-parentBean"/>
+  <bean id="Building-buildingAddressCountryCode-parentBean" abstract="true" parent="Country-code" >
+    <property name="name" value="buildingAddressCountryCode"/>
+    <property name="label" value="Building Address Country Code"/>
+    <property name="shortLabel" value="Bldg. Country"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.location.framework.country.CountryValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+  </bean>
+  
+  <bean id="Building-alternateBuildingCode" parent="Building-alternateBuildingCode-parentBean"/>
+
+  <bean id="Building-alternateBuildingCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="alternateBuildingCode"/>
+    <property name="label" value="Alternate Building Code"/>
+    <property name="shortLabel" value="Alt. Bldg. Code"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
+    </property>
+    <property name="control">
+      <ref bean="FourCharacterTextControl" />
+    </property>
+    
+    
+  </bean>
+  <bean id="Building-active" parent="Building-active-parentBean"/>
+
+  <bean id="Building-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+      <property name="name" value="active"/>
+  </bean>
+
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="Building-inquiryDefinition" parent="Building-inquiryDefinition-parentBean"/>
+
+  <bean id="Building-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Building Inquiry"/>
+    <property name="inquirySections">
+      <list>
+		<ref bean="Building-inquirySectionDefinition"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Building-inquirySectionDefinition" parent="Building-inquirySectionDefinition-parentBean"/>
+  <bean id="Building-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+  <property name="title" value=""/>
+  <property name="numberOfColumns" value="1"/>
+  <property name="inquiryFields">
+    <list>
+      <bean parent="FieldDefinition" p:attributeName="campusCode"/>
+      <bean parent="FieldDefinition" p:attributeName="buildingCode"/>
+      <bean parent="FieldDefinition" p:attributeName="buildingName"/>
+      <bean parent="FieldDefinition" p:attributeName="buildingStreetAddress"/>
+      <bean parent="FieldDefinition" p:attributeName="buildingAddressCityName"/>
+      <bean parent="FieldDefinition" p:attributeName="buildingAddressStateCode"/>   
+      <bean parent="FieldDefinition" p:attributeName="buildingAddressZipCode"/>
+      <bean parent="FieldDefinition" p:attributeName="buildingAddressCountryCode"/>        
+      <bean parent="FieldDefinition" p:attributeName="alternateBuildingCode"/>                                                                                                     
+      <bean parent="FieldDefinition" p:attributeName="active"/>                                                                                                     
+    </list>
+  </property>
+</bean>
+        
+        
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="Building-lookupDefinition" parent="Building-lookupDefinition-parentBean"/>
+
+  <bean id="Building-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Building Lookup"/>
+    
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+        <property name="attributeNames">
+          <list>
+            <value>buildingCode</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="campusCode"/>
+        <bean parent="FieldDefinition" p:attributeName="buildingCode"/>
+        <bean parent="FieldDefinition" p:attributeName="buildingName"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="campusCode" p:forceInquiry="true"/>
+        <bean parent="FieldDefinition" p:attributeName="buildingCode"/>
+        <bean parent="FieldDefinition" p:attributeName="buildingName"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+    <property name="multipleValuesResultSetLimit" value="-1"/>
+    <property name="resultSetLimit" value="-1"/>
+  </bean>
+</beans>

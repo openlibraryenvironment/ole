@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="OlePackageType" parent="OlePackageType-parentBean"/>
+
+    <bean id="OlePackageType-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.select.bo.OLEPackageType"/>
+        <property name="titleAttribute" value="olePackageTypeName"/>
+        <property name="objectLabel" value="Package Type"/>
+        <property name="attributes">
+            <list>
+                <ref bean="OlePackageType-olePackageTypeId"/>
+                <ref bean="OlePackageType-olePackageTypeName"/>
+                <ref bean="OlePackageType-olePackageTypeDesc"/>
+                <ref bean="OlePackageType-active"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+
+    <bean id="OlePackageType-olePackageTypeId" parent="OlePackageType-olePackageTypeId-parentBean"/>
+
+    <bean id="OlePackageType-olePackageTypeId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Package Type Id"/>
+        <property name="maxLength" value="10"/>
+        <property name="name" value="olePackageTypeId"/>
+        <property name="label" value="Package Type Id"/>
+        <property name="description" value="Package Type Id"/>
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+    </bean>
+
+
+    <bean id="OlePackageType-olePackageTypeName" parent="OlePackageType-olePackageTypeName-parentBean"/>
+
+    <bean id="OlePackageType-olePackageTypeName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Package Type Name"/>
+        <property name="maxLength" value="40"/>
+        <property name="name" value="olePackageTypeName"/>
+        <property name="label" value="Package Type Name"/>
+        <property name="description" value="Package Type Name"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean id="TextControlDefinition_olePackageTypeName" parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean id="Uif-TextControl_olePackageTypeName" parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+
+    <bean id="OlePackageType-olePackageTypeDesc" parent="OlePackageType-olePackageTypeDesc-parentBean"/>
+
+    <bean id="OlePackageType-olePackageTypeDesc-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Package Type Description"/>
+        <property name="maxLength" value="100"/>
+        <property name="name" value="olePackageTypeDesc"/>
+        <property name="label" value="Package Type Description"/>
+        <property name="description" value="Package Type Description"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean id="TextControlDefinition_olePackageTypeDesc" parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean id="Uif-TextControl_olePackageTypeDesc" parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+
+    <bean id="OlePackageType-active" parent="OlePackageType-active-parentBean"/>
+
+    <bean id="OlePackageType-active-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="active"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="active"/>
+        <property name="maxLength" value="1"/>
+        <property name="summary" value="Active Indicator"/>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+        <property name="label" value="Active Indicator"/>
+        <property name="description" value="This attribute is used to describe whether the associated object is active or inactive."/>
+        <property name="validCharactersConstraint">
+            <bean  parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean  parent="Uif-CheckboxControl"/>
+        </property>
+
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+
+    <bean id="OlePackageType-InquiryView" parent="Uif-OLEInquiryView">
+        <property name="headerText" value="Package Type Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OLEPackageType" />
+
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-VerticalBoxSection">
+                    <property name="header.headerText" value="Package Type" />
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-GridGroup">
+                                <property name="items">
+                                    <list>
+                                        <bean id="inquiry_olePackageTypeId" parent="Uif-InputField" p:propertyName="olePackageTypeId" />
+                                        <bean id="inquiry_olePackageTypeName" parent="Uif-InputField" p:propertyName="olePackageTypeName" />
+                                        <bean id="inquiry_olePackageTypeDesc" parent="Uif-InputField" p:propertyName="olePackageTypeDesc"/>
+                                        <bean id="inquiry_active" parent="Uif-InputField" p:propertyName="active" />
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <!-- Business Object Lookup Definition -->
+
+
+    <bean id="OlePackageType-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="Package Type Lookup" />
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/BASICS/content/ch02s04.html#_lookupHelp"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OLEPackageType" />
+        <property name="criteriaFields">
+            <list>
+                <bean id="olePackageTypeName" parent="Uif-LookupCriteriaInputField" p:propertyName="olePackageTypeName" p:enableAutoDirectInquiry="false"/>
+                <bean id="olePackageTypeDesc" parent="Uif-LookupCriteriaInputField" p:propertyName="olePackageTypeDesc" />
+                <bean id="active" parent="Uif-LookupCriteriaInputField" p:propertyName="active" />
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean id="searchResult_olePackageTypeName" parent="Uif-DataField" p:propertyName="olePackageTypeName"/>
+                <bean id="searchResult_olePackageTypeDesc" parent="Uif-DataField" p:propertyName="olePackageTypeDesc" />
+                <bean id="searchResult_active" parent="Uif-DataField" p:propertyName="active" />
+            </list>
+        </property>
+    </bean>
+
+</beans>

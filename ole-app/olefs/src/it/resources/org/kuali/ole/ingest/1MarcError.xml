@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?><collection xmlns="http://www.loc.gov/MARC21/slim">
+  <record>
+    <leader>00337nam  2200109z  4500</leader>
+    <controlfield tag="008">110630n        xx |         u||| ||und u</controlfield>
+    <datafield tag="020" ind1=" " ind2=" ">
+      <subfield code="a">9780348436358</subfield>
+    </datafield>
+    <datafield tag="035" ind1=" " ind2=" ">
+      <subfield code="a">(YBP)100552240</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="a">WHONG, MELINDA</subfield>
+    </datafield>
+    <datafield tag="245" ind1=" " ind2=" ">
+      <subfield code="a">LANGUAGE TEACHING : LINGUISTIC THEORY IN PRACTICE.</subfield>
+    </datafield>
+    <datafield tag="260" ind1=" " ind2=" ">
+      <subfield code="a">EDINBURGH</subfield>
+      <subfield code="b">EDINBURGH UNIV PRESS</subfield>
+      <subfield code="c">2011</subfield>
+    </datafield>
+    <datafield tag="852" ind1=" " ind2=" ">
+      <subfield code="b">IU</subfield>
+      <subfield code="c">LILLY</subfield>
+      <subfield code="4">BOOK</subfield>
+      <subfield code="5">Circulating</subfield>
+    </datafield>
+  </record>
+</collection>

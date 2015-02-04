@@ -1,0 +1,176 @@
+div#SpecialIssue-HorizontalBoxSection{
+    display:none;
+    background: #DDDDDD;
+    padding: 10px;
+    border: 2px solid #ddd;
+    float: left;
+    width: auto;
+    height: auto;
+    position: fixed;
+    top: 10%; left: 50%;
+    z-index: 99999;
+    box-shadow: 0px 0px 20px #999;
+    -moz-box-shadow: 0px 0px 20px #999;
+    -webkit-box-shadow: 0px 0px 20px #999;
+    border-radius:3px 3px 3px 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+
+div#TreatmentInstructionNote-HorizontalBoxSection{
+    display:none;
+    background: #DDDDDD;
+    padding: 10px;
+    border: 2px solid #ddd;
+    float: left;
+    width: auto;
+    height: auto;
+    position: fixed;
+    top: 10%; left: 50%;
+    z-index: 99999;
+    box-shadow: 0px 0px 20px #999;
+    -moz-box-shadow: 0px 0px 20px #999;
+    -webkit-box-shadow: 0px 0px 20px #999;
+    border-radius:3px 3px 3px 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+div#ConfirmReturnToSearch{
+    display:none;
+    background: #DDDDDD;
+    padding: 10px;
+    border: 2px solid #ddd;
+    float: left;
+    width: auto;
+    height: auto;
+    position: fixed;
+    top: 50%; left: 50%;
+    z-index: 99999;
+    box-shadow: 0px 0px 20px #999;
+    -moz-box-shadow: 0px 0px 20px #999;
+    -webkit-box-shadow: 0px 0px 20px #999;
+    border-radius:3px 3px 3px 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+div#UrgentNote-HorizontalBoxSection{
+    display:none;
+    background: #DDDDDD;
+    padding: 10px;
+    border: 2px solid #ddd;
+    float: left;
+    width: auto;
+    height: auto;
+    position: fixed;
+    top: 10%; left: 50%;
+    z-index: 99999;
+    box-shadow: 0px 0px 20px #999;
+    -moz-box-shadow: 0px 0px 20px #999;
+    -webkit-box-shadow: 0px 0px 20px #999;
+    border-radius:3px 3px 3px 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+
+div#ClaimNote-HorizontalBoxSection{
+    display:none;
+    background: #DDDDDD;
+    padding: 10px;
+    border: 2px solid #ddd;
+    float: left;
+    width: auto;
+    height: auto;
+    position: fixed;
+    top: 50%; left: 50%;
+    z-index: 99999;
+    box-shadow: 0px 0px 20px #999;
+    -moz-box-shadow: 0px 0px 20px #999;
+    -webkit-box-shadow: 0px 0px 20px #999;
+    border-radius:3px 3px 3px 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+
+
+
+#mask {
+    display: none;
+    background: #000;
+    position: fixed; left: 0; top: 0;
+    z-index: 10;
+    width: 100%; height: 100%;
+    opacity: 0.8;
+    z-index: 999;
+}
+
+div#OLESerialReceiving-OLESerialRelatedPODocument-HorizontalBoxSection {
+    display:none;
+    background: #DDDDDD;
+    padding: 10px;
+    border: 2px solid #ddd;
+    float: left;
+    width: auto;
+    height: auto;
+    position: fixed;
+    top: 50%; left: 50%;
+    z-index: 99999;
+    box-shadow: 0px 0px 20px #999;
+    -moz-box-shadow: 0px 0px 20px #999;
+    -webkit-box-shadow: 0px 0px 20px #999;
+    border-radius:3px 3px 3px 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+
+.messageClass{
+    color: red;
+    font-size: 20px;
+}
+
+div#titleField a{
+    color: black;
+}
+
+div#serRecField span pre{
+    font-size: 14px;
+}
+
+div#enumerationSaveDialog {
+    display:none;
+    background: #DDDDDD;
+    padding: 10px;
+    border: 2px solid #ddd;
+    float: left;
+    width: auto;
+    height: auto;
+    position: fixed;
+    top: 50%; left: 50%;
+    z-index: 99999;
+    box-shadow: 0px 0px 20px #999;
+    -moz-box-shadow: 0px 0px 20px #999;
+    -webkit-box-shadow: 0px 0px 20px #999;
+    border-radius:3px 3px 3px 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+
+div#chronologySaveDialog {
+    display:none;
+    background: #DDDDDD;
+    padding: 10px;
+    border: 2px solid #ddd;
+    float: left;
+    width: auto;
+    height: auto;
+    position: fixed;
+    top: 50%; left: 50%;
+    z-index: 99999;
+    box-shadow: 0px 0px 20px #999;
+    -moz-box-shadow: 0px 0px 20px #999;
+    -webkit-box-shadow: 0px 0px 20px #999;
+    border-radius:3px 3px 3px 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+
+

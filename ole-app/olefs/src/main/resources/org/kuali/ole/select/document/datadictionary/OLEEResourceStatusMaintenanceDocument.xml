@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <bean id="OleEResourceStatusMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+        <property name="workflowPropertyGroups">
+            <list>
+                <bean parent="WorkflowPropertyGroup">
+                    <property name="workflowProperties">
+                        <list>
+                            <bean parent="WorkflowProperty" p:path="oldMaintainableObject.businessObject"/>
+                            <bean parent="WorkflowProperty" p:path="newMaintainableObject.businessObject"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="OleEResourceStatus-MaintenanceView" parent="Uif-OLEMaintenanceView">
+        <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OLEEResourceStatus"/>
+        <property name="headerText" value="E-Resource Status"/>
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="${ole.externalizable.help.url}/reference/webhelp/AG/content/ch19s09.html"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="items">
+            <list merge="true">
+                <bean parent="Uif-MaintenanceGridSection">
+                    <property name="headerText" value="Add/Edit E-Resource Status"/>
+                    <property name="items">
+                        <list>
+                            <bean id="create_oleEResourceStatusName" parent="Uif-InputField" p:propertyName="oleEResourceStatusName" p:enableAutoDirectInquiry="false"/>
+                            <bean id="create_oleEResourceStatusDesc" parent="Uif-InputField" p:propertyName="oleEResourceStatusDesc"/>
+                            <bean id="create_active" parent="Uif-InputField" p:propertyName="active" p:defaultValue="true"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="OleEResourceStatusMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
+        <property name="dataObjectClass" value="org.kuali.ole.select.bo.OLEEResourceStatus"/>
+        <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+        <property name="documentTypeName" value="OLE_E_RES_STATUS"/>
+        <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+        <property name="businessRulesClass" value="org.kuali.ole.select.rule.OLEEResourceStatusRule"/>
+        <property name="lockingKeys">
+            <list>
+                <value>oleEResourceStatusId</value>
+            </list>
+        </property>
+    </bean>
+</beans>

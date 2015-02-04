@@ -1,0 +1,4 @@
+PRBLM_TYPE_ID,NAME,DESCRIPTION,ROW_ACT_IND,OBJ_ID,VER_NBR
+"1","Billing","Billing","Y","PRBLMTYP1","1"
+"2","Access","Access","Y","PRBLMTYP2","1"
+"3","Maintenance","Maintenance","Y","PRBLMTYP3","1"

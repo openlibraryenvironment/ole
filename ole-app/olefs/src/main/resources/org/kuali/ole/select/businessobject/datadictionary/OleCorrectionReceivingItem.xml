@@ -1,0 +1,703 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+    <!--
+       - Copyright 2011 The Kuali Foundation.
+       -
+       - Licensed under the Educational Community License, Version 2.0 (the "License");
+       - you may not use this file except in compliance with the License.
+       - You may obtain a copy of the License at
+       -
+       - http://www.opensource.org/licenses/ecl2.php
+       -
+       - Unless required by applicable law or agreed to in writing, software
+       - distributed under the License is distributed on an "AS IS" BASIS,
+       - WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+       - See the License for the specific language governing permissions and
+       - limitations under the License.
+     -->
+
+    <bean id="CorrectionReceivingItem" parent="OleCorrectionReceivingItem-parentBean"/>
+    <bean id="OleCorrectionReceivingItem-parentBean" abstract="true" parent="CorrectionReceivingItem-parentBean">
+        <property name="businessObjectClass" value="org.kuali.ole.select.businessobject.OleCorrectionReceivingItem"/>
+        <property name="baseBusinessObjectClass"	value="org.kuali.ole.module.purap.businessobject.CorrectionReceivingItem" />
+        <property name="attributes">
+            <list merge="true">
+                <ref bean="CorrectionReceivingItem-itemFormatId"/>
+                <ref bean="CorrectionReceivingItem-itemOriginalReceivedTotalParts"/>
+                <ref bean="CorrectionReceivingItem-itemOriginalReturnedTotalParts"/>
+                <ref bean="CorrectionReceivingItem-itemOriginalDamagedTotalParts"/>
+                <ref bean="CorrectionReceivingItem-itemReceivedTotalParts"/>
+                <ref bean="CorrectionReceivingItem-itemReturnedTotalParts"/>
+                <ref bean="CorrectionReceivingItem-itemDamagedTotalParts"/>
+                <ref bean="CorrectionReceivingItem-exceptionTypeId"/>
+                <ref bean="CorrectionReceivingItem-exceptionNotes"/>
+                <ref bean="CorrectionReceivingItem-noteTypeId"/>
+                <ref bean="CorrectionReceivingItem-receiptNotes"/>
+                <ref bean="CorrectionReceivingItem-isNotesAck"/>
+                <ref bean="CorrectionReceivingItem-itemTitleId"/>
+                <ref bean="CorrectionReceivingItem-bibUUID"/>
+                <ref bean="CorrectionReceivingItem-donorCode"/>
+                <ref bean="CorrectionReceivingItem-docData.publisher"/>
+                <ref bean="CorrectionReceivingItem-docData.title"/>
+                <ref bean="CorrectionReceivingItem-docData.author"/>
+                <ref bean="CorrectionReceivingItem-docData.placeOfPublication"/>
+                <ref bean="CorrectionReceivingItem-docData.publicationDate"/>
+                <ref bean="CorrectionReceivingItem-docData.format"/>
+                <ref bean="CorrectionReceivingItem-docData.price"/>
+                <ref bean="CorrectionReceivingItem-docData.isbn"/>
+                <ref bean="CorrectionReceivingItem-correctionReceivingDocument.documentNumber"/>
+                <ref bean="CorrectionReceivingItem-notes"/>
+                <ref bean="CorrectionReceivingItem-localTitleId"/>
+                <!--Added for jira OLE-1900  -->
+                <ref bean="CorrectionReceivingItem-parts"/>
+                <ref bean="CorrectionReceivingItem-itemCopies"/>
+                <ref bean="CorrectionReceivingItem-partEnumeration"/>
+                <ref bean="CorrectionReceivingItem-locationCopies"/>
+                <ref bean="CorrectionReceivingItem-startingCopyNumber"/>
+                <ref bean="CorrectionReceivingItem-itemLocation"/>
+                <ref bean="CorrectionReceivingItem-oleItemOriginalReceivedTotalQuantity"/>
+                <ref bean="CorrectionReceivingItem-oleItemOriginalReturnedTotalQuantity"/>
+                <ref bean="CorrectionReceivingItem-oleItemOriginalDamagedTotalQuantity"/>
+                <ref bean="CorrectionReceivingItem-oleItemReceivedTotalQuantity"/>
+                <ref bean="CorrectionReceivingItem-oleItemReturnedTotalQuantity"/>
+                <ref bean="CorrectionReceivingItem-oleItemDamagedTotalQuantity"/>
+                <ref bean="CorrectionReceivingItem-oleItemOriginalReceivedTotalParts"/>
+                <ref bean="CorrectionReceivingItem-oleItemOriginalReturnedTotalParts"/>
+                <ref bean="CorrectionReceivingItem-oleItemOriginalDamagedTotalParts"/>
+                <ref bean="CorrectionReceivingItem-oleItemReceivedTotalParts"/>
+                <ref bean="CorrectionReceivingItem-oleItemReturnedTotalParts"/>
+                <ref bean="CorrectionReceivingItem-oleItemDamagedTotalParts"/>
+
+                <ref bean="CorrectionReceivingItem-enumeration"/>
+                <ref bean="CorrectionReceivingItem-location"/>
+                <ref bean="CorrectionReceivingItem-copyNumber"/>
+                <ref bean="CorrectionReceivingItem-receiptStatus"/>
+
+            </list>
+        </property>
+        <property name="relationships">
+            <list>
+                <bean parent="RelationshipDefinition"  p:objectAttributeName="docData">
+                    <property name="primitiveAttributes">
+                        <list>
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="itemTitleId"
+                                  p:targetName="titleId" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+
+    <bean id="CorrectionReceivingItem-itemFormatId" parent="CorrectionReceivingItem-itemFormatId-parentBean"/>
+    <bean id="CorrectionReceivingItem-itemFormatId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="itemFormatId"/>
+        <property name="label" value="Format"/>
+        <property name="shortLabel" value="Format"/>
+        <property name="maxLength" value="5"/>
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.ole.select.businessobject.options.OleFormatTypeValuesFinder" p:includeKeyInLabel="false"/>
+        </property>
+    </bean>
+
+    <bean id="CorrectionReceivingItem-itemOriginalReceivedTotalParts" parent="CorrectionReceivingItem-itemOriginalReceivedTotalParts-parentBean"/>
+    <bean id="CorrectionReceivingItem-itemOriginalReceivedTotalParts-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="itemOriginalReceivedTotalParts"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Item Prior Parts Received"/>
+        <property name="shortLabel" value="Prior Parts Received"/>
+        <property name="maxLength" value="11"/>
+        <property name="validationPattern">
+            <ref bean="FloatingPointValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="13"/>
+        </property>
+    </bean>
+
+    <bean id="CorrectionReceivingItem-donorCode" parent="CorrectionReceivingItem-donorCode-parentBean"/>
+    <bean id="CorrectionReceivingItem-donorCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="donorCode"/>
+        <property name="label" value="Donor"/>
+        <property name="shortLabel" value="Donor"/>
+        <property name="maxLength" value="10"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="10"/>
+        </property>
+    </bean>
+    <bean id="CorrectionReceivingItem-localTitleId" parent="CorrectionReceivingItem-localTitleId-parentBean"/>
+    <bean id="CorrectionReceivingItem-localTitleId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="localTitleId"/>
+        <property name="label" value="Title ID"/>
+        <property name="shortLabel" value="Title ID"/>
+        <property name="maxLength" value="200"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+    <bean id="CorrectionReceivingItem-itemOriginalReturnedTotalParts" parent="CorrectionReceivingItem-itemOriginalReturnedTotalParts-parentBean"/>
+    <bean id="CorrectionReceivingItem-itemOriginalReturnedTotalParts-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="itemOriginalReturnedTotalParts"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Item Prior Parts Returned"/>
+        <property name="shortLabel" value="Prior Parts Returned"/>
+        <property name="maxLength" value="11"/>
+        <property name="validationPattern">
+            <ref bean="FloatingPointValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="13"/>
+        </property>
+    </bean>
+
+    <bean id="CorrectionReceivingItem-itemOriginalDamagedTotalParts" parent="CorrectionReceivingItem-itemOriginalDamagedTotalParts-parentBean"/>
+    <bean id="CorrectionReceivingItem-itemOriginalDamagedTotalParts-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="itemOriginalDamagedTotalParts"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Item Prior Parts Damaged"/>
+        <property name="shortLabel" value="Prior Parts Damaged"/>
+        <property name="maxLength" value="11"/>
+        <property name="validationPattern">
+            <ref bean="FloatingPointValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="13"/>
+        </property>
+    </bean>
+
+    <bean id="CorrectionReceivingItem-itemReceivedTotalParts" parent="CorrectionReceivingItem-itemReceivedTotalParts-parentBean"/>
+    <bean id="CorrectionReceivingItem-itemReceivedTotalParts-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="itemReceivedTotalParts"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Item Corrected Parts Received"/>
+        <property name="shortLabel" value="Corrected Parts Received"/>
+        <property name="maxLength" value="11"/>
+        <property name="validationPattern">
+            <ref bean="FloatingPointValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="13"/>
+        </property>
+    </bean>
+
+    <bean id="CorrectionReceivingItem-itemReturnedTotalParts" parent="CorrectionReceivingItem-itemReturnedTotalParts-parentBean"/>
+    <bean id="CorrectionReceivingItem-itemReturnedTotalParts-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="itemReturnedTotalParts"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Item Corrected Parts Returned"/>
+        <property name="shortLabel" value="Correct Parts Returned"/>
+        <property name="maxLength" value="11"/>
+        <property name="validationPattern">
+            <ref bean="FloatingPointValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="13"/>
+        </property>
+    </bean>
+
+    <bean id="CorrectionReceivingItem-itemDamagedTotalParts" parent="CorrectionReceivingItem-itemDamagedTotalParts-parentBean"/>
+    <bean id="CorrectionReceivingItem-itemDamagedTotalParts-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="itemDamagedTotalParts"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Item Corrected Parts Damaged"/>
+        <property name="shortLabel" value="Correct Parts Damaged"/>
+        <property name="maxLength" value="11"/>
+        <property name="validationPattern">
+            <ref bean="FloatingPointValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="13"/>
+        </property>
+    </bean>
+
+    <bean id="CorrectionReceivingItem-exceptionTypeId" parent="CorrectionReceivingItem-exceptionTypeId-parentBean"/>
+    <bean id="CorrectionReceivingItem-exceptionTypeId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="exceptionTypeId"/>
+        <property name="label" value="Exception Type"/>
+        <property name="shortLabel" value="Exception Type"/>
+        <property name="maxLength" value="50"/>
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.ole.select.businessobject.options.OleExceptionTypeValuesFinder" p:includeKeyInLabel="false"/>
+        </property>
+    </bean>
+
+    <bean id="CorrectionReceivingItem-exceptionNotes" parent="CorrectionReceivingItem-exceptionNotes-parentBean"/>
+    <bean id="CorrectionReceivingItem-exceptionNotes-parentBean" abstract="true" parent="OleCorrectionReceivingItemExceptionNotes-exceptionNotes">
+        <property name="name" value="exceptionNotes"/>
+        <property name="label" value="Note"/>
+        <property name="shortLabel" value="Note"/>
+    </bean>
+
+    <bean id="CorrectionReceivingItem-noteTypeId" parent="CorrectionReceivingItem-noteTypeId-parentBean"/>
+    <bean id="CorrectionReceivingItem-noteTypeId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="noteTypeId"/>
+        <property name="label" value="Note Type"/>
+        <property name="shortLabel" value="Note Type"/>
+        <property name="maxLength" value="50"/>
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.ole.select.businessobject.options.OleNoteTypeValuesFinder" p:includeKeyInLabel="false"/>
+        </property>
+    </bean>
+
+    <bean id="CorrectionReceivingItem-receiptNotes" parent="CorrectionReceivingItem-receiptNotes-parentBean"/>
+    <bean id="CorrectionReceivingItem-receiptNotes-parentBean" abstract="true" parent="OleCorrectionReceivingItemReceiptNotes-notes">
+        <property name="name" value="receiptNotes"/>
+        <property name="label" value="Note"/>
+        <property name="shortLabel" value="Note"/>
+    </bean>
+
+    <bean id="CorrectionReceivingItem-isNotesAck" parent="CorrectionReceivingItem-isNotesAck-parentBean"/>
+    <bean id="CorrectionReceivingItem-isNotesAck-parentBean" abstract="true" parent="OleLineItemReceivingReceiptNotes-isNotesAck">
+        <property name="name" value="notesAck"/>
+        <property name="label" value="Notes Acknowledge"/>
+        <property name="shortLabel" value="Acknowledge"/>
+        <property name="maxLength" value="10"/>
+        <property name="control">
+            <bean parent="CheckboxControlDefinition"/>
+        </property>
+    </bean>
+
+    <bean id="CorrectionReceivingItem-itemTitleId" parent="CorrectionReceivingItem-itemTitleId-parentBean" />
+    <bean id="CorrectionReceivingItem-itemTitleId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="itemTitleId"/>
+        <property name="label" value="Title ID"/>
+        <property name="shortLabel" value="Title ID"/>
+        <property name="maxLength" value="200"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="CorrectionReceivingItem-bibUUID" parent="CorrectionReceivingItem-bibUUID-parentBean"/>
+    <bean id="CorrectionReceivingItem-bibUUID-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="bibUUID"/>
+        <property name="label" value="Title Bib ID"/>
+        <property name="shortLabel" value="Title Bib ID"/>
+        <property name="maxLength" value="200"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="CorrectionReceivingItem-docData.title" parent="CorrectionReceivingItem-docData.title-parentBean" />
+    <bean id="CorrectionReceivingItem-docData.title-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="docData.title"/>
+        <property name="label" value="Title"/>
+        <property name="shortLabel" value="Title"/>
+        <property name="maxLength" value="200"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="CorrectionReceivingItem-docData.author" parent="CorrectionReceivingItem-docData.author-parentBean" />
+    <bean id="CorrectionReceivingItem-docData.author-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="docData.author"/>
+        <property name="label" value="Author"/>
+        <property name="shortLabel" value="Author"/>
+        <property name="maxLength" value="200"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="CorrectionReceivingItem-docData.publisher" parent="CorrectionReceivingItem-docData.publisher-parentBean" />
+    <bean id="CorrectionReceivingItem-docData.publisher-parentBean" parent="DocData-publisher" abstract="true"
+          p:name="docData.publisher"
+          p:forceUppercase="false"
+          p:label="Publisher"
+          p:shortLabel="Publisher"
+          p:required="false" >
+    </bean>
+
+    <bean id="CorrectionReceivingItem-docData.placeOfPublication" parent="CorrectionReceivingItem-docData.placeOfPublication-parentBean" />
+    <bean id="CorrectionReceivingItem-docData.placeOfPublication-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="docData.placeOfPublication"/>
+        <property name="label" value="Place Of Publication"/>
+        <property name="shortLabel" value="Place Of Publication"/>
+        <property name="maxLength" value="200"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="CorrectionReceivingItem-docData.publicationDate" parent="CorrectionReceivingItem-docData.publicationDate-parentBean" />
+    <bean id="CorrectionReceivingItem-docData.publicationDate-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="docData.publicationDate"/>
+        <property name="label" value="Publication Date"/>
+        <property name="shortLabel" value="Publication Date"/>
+        <property name="maxLength" value="200"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="CorrectionReceivingItem-docData.format" parent="CorrectionReceivingItem-docData.format-parentBean" />
+    <bean id="CorrectionReceivingItem-docData.format-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="docData.format"/>
+        <property name="label" value="Format"/>
+        <property name="shortLabel" value="Format"/>
+        <property name="maxLength" value="200"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="CorrectionReceivingItem-docData.price" parent="CorrectionReceivingItem-docData.price-parentBean" />
+    <bean id="CorrectionReceivingItem-docData.price-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="docData.price"/>
+        <property name="label" value="Price"/>
+        <property name="shortLabel" value="Price"/>
+        <property name="maxLength" value="200"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="CorrectionReceivingItem-docData.isbn" parent="CorrectionReceivingItem-docData.isbn-parentBean"/>
+    <bean id="CorrectionReceivingItem-docData.isbn-parentBean" abstract="true" parent="DocData-isbn">
+        <property name="name" value="docData.isbn"/>
+        <property name="label" value="ISBN"/>
+        <property name="shortLabel" value="ISBN"/>
+        <property name="maxLength" value="200"/>
+        <property name="validationPattern">
+            <ref bean="AnyCharacterValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="CorrectionReceivingItem-correctionReceivingDocument.documentNumber" parent="CorrectionReceivingItem-correctionReceivingDocument.documentNumber-parentBean"/>
+    <bean id="CorrectionReceivingItem-correctionReceivingDocument.documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="correctionReceivingDocument.documentNumber"/>
+        <property name="label" value="Document Number"/>
+        <property name="shortLabel" value="Document Number"/>
+        <property name="maxLength" value="200"/>
+        <property name="validationPattern">
+            <ref bean="NumericValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="CorrectionReceivingItem-notes" parent="CorrectionReceivingItem-notes-parentBean"/>
+    <bean id="CorrectionReceivingItem-notes-parentBean" abstract="true" parent="OleLineItemReceivingReceiptNotes-notes">
+        <property name="name" value="notes"/>
+        <property name="label" value="Note"/>
+        <property name="shortLabel" value="Note"/>
+    </bean>
+
+    <bean id="CorrectionReceivingItem-parts" parent="CorrectionReceivingItem-parts-parentBean" />
+    <bean id="CorrectionReceivingItem-parts-parentBean" abstract="true"
+          parent="AttributeDefinition">
+        <property name="name" value="parts" />
+        <property name="forceUppercase" value="true" />
+        <property name="label" value="Parts" />
+        <property name="shortLabel" value="Parts" />
+        <property name="maxLength" value="50" />
+        <property name="validationPattern">
+            <ref bean="NumericValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30" />
+        </property>
+    </bean>
+
+    <bean id="CorrectionReceivingItem-itemCopies" parent="CorrectionReceivingItem-itemCopies-parentBean" />
+    <bean id="CorrectionReceivingItem-itemCopies-parentBean" abstract="true"
+          parent="AttributeDefinition">
+        <property name="name" value="itemCopies" />
+        <property name="forceUppercase" value="true" />
+        <property name="label" value="Copies" />
+        <property name="shortLabel" value="Copies" />
+        <property name="maxLength" value="4" />
+        <property name="validationPattern">
+            <ref bean="NumericValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="3" />
+        </property>
+    </bean>
+
+    <bean id="CorrectionReceivingItem-partEnumeration" parent="CorrectionReceivingItem-partEnumeration-parentBean" />
+    <bean id="CorrectionReceivingItem-partEnumeration-parentBean"
+          abstract="true" parent="AttributeDefinition">
+        <property name="name" value="partEnumeration" />
+        <property name="forceUppercase" value="true" />
+        <property name="label" value="Part Enumeration" />
+        <property name="shortLabel" value="Part Enumeration" />
+        <property name="maxLength" value="50" />
+        <property name="validationPattern">
+            <ref bean="AnyCharacterWithWhitespaceValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30" />
+        </property>
+    </bean>
+
+    <bean id="CorrectionReceivingItem-locationCopies" parent="CorrectionReceivingItem-locationCopies-parentBean" />
+    <bean id="CorrectionReceivingItem-locationCopies-parentBean"
+          abstract="true" parent="AttributeDefinition">
+        <property name="name" value="locationCopies" />
+        <property name="forceUppercase" value="true" />
+        <property name="label" value="Location Copies" />
+        <property name="shortLabel" value="Location Copies" />
+        <property name="maxLength" value="200" />
+        <property name="control">
+            <bean parent="SelectControlDefinition"
+                  p:valuesFinderClass="org.kuali.ole.select.businessobject.options.OleLocationKeyValueFinder"
+                  p:includeKeyInLabel="false" />
+        </property>
+    </bean>
+
+    <bean id="CorrectionReceivingItem-startingCopyNumber" parent="CorrectionReceivingItem-startingCopyNumber-parentBean" />
+
+    <bean id="CorrectionReceivingItem-startingCopyNumber-parentBean"
+          abstract="true" parent="AttributeDefinition">
+        <property name="name" value="startingCopyNumber" />
+        <property name="forceUppercase" value="true" />
+        <property name="label" value="Starting Copy" />
+        <property name="shortLabel" value="Starting Copy" />
+        <property name="maxLength" value="4" />
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="3" />
+        </property>
+    </bean>
+
+    <bean id="CorrectionReceivingItem-itemLocation" parent="CorrectionReceivingItem-itemLocation-parentBean"/>
+
+    <bean id="CorrectionReceivingItem-itemLocation-parentBean"  abstract="true" parent="AttributeDefinition">
+        <property name="name" value="itemLocation"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Location"/>
+        <property name="shortLabel" value="Location"/>
+        <property name="maxLength" value="200"/>
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.ole.select.businessobject.options.OleLocationKeyValueFinder" p:includeKeyInLabel="false"/>
+        </property>
+    </bean>
+
+    <bean id="CorrectionReceivingItem-oleItemOriginalReceivedTotalParts" parent="CorrectionReceivingItem-oleItemOriginalReceivedTotalParts-parentBean"/>
+    <bean id="CorrectionReceivingItem-oleItemOriginalReceivedTotalParts-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="oleItemOriginalReceivedTotalParts"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Item Prior Parts Received"/>
+        <property name="shortLabel" value="Prior Parts Received"/>
+        <property name="maxLength" value="11"/>
+        <property name="validationPattern">
+            <ref bean="FloatingPointValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="13"/>
+        </property>
+    </bean>
+
+    <bean id="CorrectionReceivingItem-oleItemOriginalReturnedTotalParts" parent="CorrectionReceivingItem-oleItemOriginalReturnedTotalParts-parentBean"/>
+    <bean id="CorrectionReceivingItem-oleItemOriginalReturnedTotalParts-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="oleItemOriginalReturnedTotalParts"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Item Prior Parts Returned"/>
+        <property name="shortLabel" value="Prior Parts Returned"/>
+        <property name="maxLength" value="11"/>
+        <property name="validationPattern">
+            <ref bean="FloatingPointValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="13"/>
+        </property>
+    </bean>
+
+    <bean id="CorrectionReceivingItem-oleItemOriginalDamagedTotalParts" parent="CorrectionReceivingItem-oleItemOriginalDamagedTotalParts-parentBean"/>
+    <bean id="CorrectionReceivingItem-oleItemOriginalDamagedTotalParts-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="oleItemOriginalDamagedTotalParts"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Item Prior Parts Damaged"/>
+        <property name="shortLabel" value="Prior Parts Damaged"/>
+        <property name="maxLength" value="11"/>
+        <property name="validationPattern">
+            <ref bean="FloatingPointValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="13"/>
+        </property>
+    </bean>
+
+    <bean id="CorrectionReceivingItem-oleItemReceivedTotalParts" parent="CorrectionReceivingItem-oleItemReceivedTotalParts-parentBean"/>
+    <bean id="CorrectionReceivingItem-oleItemReceivedTotalParts-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="oleItemReceivedTotalParts"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Item Corrected Parts Received"/>
+        <property name="shortLabel" value="Corrected Parts Received"/>
+        <property name="maxLength" value="11"/>
+        <property name="validationPattern">
+            <ref bean="FloatingPointValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="13"/>
+        </property>
+    </bean>
+
+    <bean id="CorrectionReceivingItem-oleItemReturnedTotalParts" parent="CorrectionReceivingItem-oleItemReturnedTotalParts-parentBean"/>
+    <bean id="CorrectionReceivingItem-oleItemReturnedTotalParts-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="oleItemReturnedTotalParts"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Item Corrected Parts Returned"/>
+        <property name="shortLabel" value="Correct Parts Returned"/>
+        <property name="maxLength" value="11"/>
+        <property name="validationPattern">
+            <ref bean="FloatingPointValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="13"/>
+        </property>
+    </bean>
+
+    <bean id="CorrectionReceivingItem-oleItemDamagedTotalParts" parent="CorrectionReceivingItem-oleItemDamagedTotalParts-parentBean"/>
+    <bean id="CorrectionReceivingItem-oleItemDamagedTotalParts-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="oleItemDamagedTotalParts"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Item Corrected Parts Damaged"/>
+        <property name="shortLabel" value="Correct Parts Damaged"/>
+        <property name="maxLength" value="11"/>
+        <property name="validationPattern">
+            <ref bean="FloatingPointValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="13"/>
+        </property>
+    </bean>
+
+    <bean id="CorrectionReceivingItem-oleItemDamagedTotalQuantity" parent="CorrectionReceivingItem-oleItemDamagedTotalQuantity-parentBean"/>
+
+    <bean id="CorrectionReceivingItem-oleItemDamagedTotalQuantity-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="oleItemDamagedTotalQuantity"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Item Corrected Damaged Total Quantity"/>
+        <property name="shortLabel" value="Correct Qty Damaged"/>
+        <property name="maxLength" value="11"/>
+        <property name="validationPattern">
+            <ref bean="FloatingPointValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="13"/>
+        </property>
+    </bean>
+
+    <bean id="CorrectionReceivingItem-oleItemReceivedTotalQuantity" parent="CorrectionReceivingItem-oleItemReceivedTotalQuantity-parentBean"/>
+
+    <bean id="CorrectionReceivingItem-oleItemReceivedTotalQuantity-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="oleItemReceivedTotalQuantity"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Item Corrected Received Total Quantity"/>
+        <property name="shortLabel" value="Correct Qty Received"/>
+        <property name="maxLength" value="11"/>
+        <property name="validationPattern">
+            <ref bean="FloatingPointValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="13"/>
+        </property>
+    </bean>
+
+    <bean id="CorrectionReceivingItem-oleItemReturnedTotalQuantity" parent="CorrectionReceivingItem-oleItemReturnedTotalQuantity-parentBean"/>
+
+    <bean id="CorrectionReceivingItem-oleItemReturnedTotalQuantity-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="oleItemReturnedTotalQuantity"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Item Corrected Returned Total Quantity"/>
+        <property name="shortLabel" value="Correct Qty Returned"/>
+        <property name="maxLength" value="11"/>
+        <property name="validationPattern">
+            <ref bean="FloatingPointValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="13"/>
+        </property>
+    </bean>
+
+    <bean id="CorrectionReceivingItem-oleItemOriginalDamagedTotalQuantity" parent="CorrectionReceivingItem-oleItemOriginalDamagedTotalQuantity-parentBean"/>
+
+    <bean id="CorrectionReceivingItem-oleItemOriginalDamagedTotalQuantity-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="oleItemOriginalDamagedTotalQuantity"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Item Original Damaged Total Quantity"/>
+        <property name="shortLabel" value="Prior Qty Damaged"/>
+        <property name="maxLength" value="11"/>
+        <property name="validationPattern">
+            <ref bean="FloatingPointValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="13"/>
+        </property>
+    </bean>
+
+    <bean id="CorrectionReceivingItem-oleItemOriginalReceivedTotalQuantity" parent="CorrectionReceivingItem-oleItemOriginalReceivedTotalQuantity-parentBean"/>
+
+    <bean id="CorrectionReceivingItem-oleItemOriginalReceivedTotalQuantity-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="oleItemOriginalReceivedTotalQuantity"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Item Original Received Total Quantity"/>
+        <property name="shortLabel" value="Prior Qty Received"/>
+        <property name="maxLength" value="11"/>
+        <property name="validationPattern">
+            <ref bean="FloatingPointValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="13"/>
+        </property>
+    </bean>
+
+    <bean id="CorrectionReceivingItem-oleItemOriginalReturnedTotalQuantity" parent="CorrectionReceivingItem-oleItemOriginalReturnedTotalQuantity-parentBean"/>
+
+    <bean id="CorrectionReceivingItem-oleItemOriginalReturnedTotalQuantity-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="oleItemOriginalReturnedTotalQuantity"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Item Original Returned Total Quantity"/>
+        <property name="shortLabel" value="Prior Qty Returned"/>
+        <property name="maxLength" value="11"/>
+        <property name="validationPattern">
+            <ref bean="FloatingPointValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="13"/>
+        </property>
+    </bean>
+
+    <bean id="CorrectionReceivingItem-enumeration" parent="CorrectionReceivingItem-enumeration-parentBean"/>
+
+    <bean id="CorrectionReceivingItem-enumeration-parentBean"  abstract="true" parent="OleCopy-enumeration">
+        <property name="name" value="enumeration"/>
+        <property name="label" value="Enumeration"/>
+        <property name="shortLabel" value="Enum"/>
+    </bean>
+
+
+    <bean id="CorrectionReceivingItem-location" parent="CorrectionReceivingItem-location-parentBean"/>
+
+    <bean id="CorrectionReceivingItem-location-parentBean"  abstract="true" parent="OleCopy-location">
+        <property name="name" value="location"/>
+        <property name="label" value="Location"/>
+        <property name="shortLabel" value="Location"/>
+    </bean>
+
+    <bean id="CorrectionReceivingItem-copyNumber" parent="CorrectionReceivingItem-copyNumber-parentBean"/>
+
+    <bean id="CorrectionReceivingItem-copyNumber-parentBean"  abstract="true" parent="OleCopy-copyNumber">
+        <property name="name" value="copyNumber"/>
+        <property name="label" value="Copy Number"/>
+        <property name="shortLabel" value="Copy Number"/>
+    </bean>
+
+    <bean id="CorrectionReceivingItem-receiptStatus" parent="CorrectionReceivingItem-receiptStatus-parentBean"/>
+
+    <bean id="CorrectionReceivingItem-receiptStatus-parentBean"  abstract="true" parent="OleCopy-receiptStatus">
+        <property name="name" value="receiptStatus"/>
+        <property name="label" value="Receipt Status"/>
+        <property name="shortLabel" value="Receipt Status"/>
+    </bean>
+
+
+</beans>

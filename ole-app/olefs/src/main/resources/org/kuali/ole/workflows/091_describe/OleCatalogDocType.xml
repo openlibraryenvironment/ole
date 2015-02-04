@@ -1,0 +1,697 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+    <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+         <documentType>
+            <name>OLE_RPMD</name>
+            <parent>RiceDocument</parent>
+            <description>Ole Reproduction Policy</description>
+            <label>Ole Reproduction Policy</label>
+            <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+            <superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+            <blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+            <defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+            <docHandler>${kr.krad.url}/maintenance?methodToCall=docHandler</docHandler>
+            <active>true</active>
+            <routingVersion>2</routingVersion>
+            <routePaths>
+                <routePath>
+                    <start name="Initiated" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="Initiated">
+                    <activationType>P</activationType>
+                </start>
+            </routeNodes>
+        </documentType>
+
+        <documentType>
+            <name>OLE_SOMD</name>
+            <parent>RiceDocument</parent>
+            <description>Ole Shelving Order</description>
+            <label>Ole Shelving Order</label>
+            <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+            <superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+            <blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+            <defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+            <docHandler>${kr.krad.url}/maintenance?methodToCall=docHandler</docHandler>
+            <active>true</active>
+            <routingVersion>2</routingVersion>
+            <routePaths>
+                <routePath>
+                    <start name="Initiated" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="Initiated">
+                    <activationType>P</activationType>
+                </start>
+            </routeNodes>
+        </documentType>
+
+        <documentType>
+            <name>OLE_SSMD</name>
+            <parent>RiceDocument</parent>
+            <description>Ole Shelving Scheme</description>
+            <label>Ole Shelving Scheme</label>
+            <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+            <superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+            <blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+            <defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+            <docHandler>${kr.krad.url}/maintenance?methodToCall=docHandler</docHandler>
+            <active>true</active>
+            <routingVersion>2</routingVersion>
+            <routePaths>
+                <routePath>
+                    <start name="Initiated" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="Initiated">
+                    <activationType>P</activationType>
+                </start>
+            </routeNodes>
+        </documentType>
+
+        <documentType>
+            <name>OLE_SRPTMD</name>
+            <parent>RiceDocument</parent>
+            <description>Ole Specific Retention Policy Type</description>
+            <label>Ole Specific Retention Policy Type</label>
+            <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+            <superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+            <blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+            <defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+            <docHandler>${kr.krad.url}/maintenance?methodToCall=docHandler</docHandler>
+            <active>true</active>
+            <routingVersion>2</routingVersion>
+            <routePaths>
+                <routePath>
+                    <start name="Initiated" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="Initiated">
+                    <activationType>P</activationType>
+                </start>
+            </routeNodes>
+        </documentType>
+
+        <documentType>
+            <name>OLE_SOCRMD</name>
+            <parent>RiceDocument</parent>
+            <description>Ole Seperate Or Composite Report</description>
+            <label>Ole Seperate Or Composite Report</label>
+            <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+            <superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+            <blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+            <defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+            <docHandler>${kr.krad.url}/maintenance?methodToCall=docHandler</docHandler>
+            <active>true</active>
+            <routingVersion>2</routingVersion>
+            <routePaths>
+                <routePath>
+                    <start name="Initiated" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="Initiated">
+                    <activationType>P</activationType>
+                </start>
+            </routeNodes>
+        </documentType>
+
+        <documentType>
+            <name>OLE_RTMD</name>
+            <parent>RiceDocument</parent>
+            <description>Ole Record Type</description>
+            <label>Ole Record Type</label>
+            <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+            <superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+            <blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+            <defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+            <docHandler>${kr.krad.url}/maintenance?methodToCall=docHandler</docHandler>
+            <active>true</active>
+            <routingVersion>2</routingVersion>
+            <routePaths>
+                <routePath>
+                    <start name="Initiated" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="Initiated">
+                    <activationType>P</activationType>
+                </start>
+            </routeNodes>
+        </documentType>
+
+        <documentType>
+            <name>OLE_LPMD</name>
+            <parent>RiceDocument</parent>
+            <description>Ole Lending Policy</description>
+            <label>Ole Lending Status</label>
+            <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+            <superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+            <blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+            <defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+            <docHandler>${kr.krad.url}/maintenance?methodToCall=docHandler</docHandler>
+            <active>true</active>
+            <routingVersion>2</routingVersion>
+            <routePaths>
+                <routePath>
+                    <start name="Initiated" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="Initiated">
+                    <activationType>P</activationType>
+                </start>
+            </routeNodes>
+        </documentType>
+
+        <documentType>
+            <name>OLE_IITMD</name>
+            <parent>RiceDocument</parent>
+            <description>Ole Instance Item Type</description>
+            <label>Ole Instance Item Type</label>
+            <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+            <superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+            <blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+            <defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+            <docHandler>${kr.krad.url}/maintenance?methodToCall=docHandler</docHandler>
+            <active>true</active>
+            <routingVersion>2</routingVersion>
+            <routePaths>
+                <routePath>
+                    <start name="Initiated"/>
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="Initiated">
+                    <activationType>P</activationType>
+                </start>
+            </routeNodes>
+        </documentType>
+
+        <documentType>
+            <name>OLE_SRPTYMD</name>
+            <parent>RiceDocument</parent>
+            <description>Ole Specific Retention Policy Type Unit</description>
+            <label>Ole Specific Retention Policy Type Unit</label>
+            <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+            <superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+            <blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+            <defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+            <docHandler>${kr.krad.url}/maintenance?methodToCall=docHandler</docHandler>
+            <active>true</active>
+            <routingVersion>2</routingVersion>
+            <routePaths>
+                <routePath>
+                    <start name="Initiated"/>
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="Initiated">
+                    <activationType>P</activationType>
+                </start>
+            </routeNodes>
+        </documentType>
+
+        <documentType>
+            <name>OLE_SOTMD</name>
+            <parent>RiceDocument</parent>
+            <description>Ole Source Of Term</description>
+            <label>Ole Source Of Term</label>
+            <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+            <superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+            <blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+            <defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+            <docHandler>${kr.krad.url}/maintenance?methodToCall=docHandler</docHandler>
+            <active>true</active>
+            <routingVersion>2</routingVersion>
+            <routePaths>
+                <routePath>
+                    <start name="Initiated"/>
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="Initiated">
+                    <activationType>P</activationType>
+                </start>
+            </routeNodes>
+        </documentType>
+
+        <documentType>
+            <name>OLE_NTMD</name>
+            <parent>RiceDocument</parent>
+            <description>Ole Notation Type</description>
+            <label>Ole Notation Type</label>
+            <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+            <superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+            <blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+            <defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+            <docHandler>${kr.krad.url}/maintenance?methodToCall=docHandler</docHandler>
+            <active>true</active>
+            <routingVersion>2</routingVersion>
+            <routePaths>
+                <routePath>
+                    <start name="Initiated"/>
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="Initiated">
+                    <activationType>P</activationType>
+                </start>
+            </routeNodes>
+        </documentType>
+
+        <documentType>
+            <name>OLE_PMD</name>
+            <parent>RiceDocument</parent>
+            <description>Ole Privacy</description>
+            <label>Ole Privacy</label>
+            <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+            <superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+            <blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+            <defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+            <docHandler>${kr.krad.url}/maintenance?methodToCall=docHandler</docHandler>
+            <active>true</active>
+            <routingVersion>2</routingVersion>
+            <routePaths>
+                <routePath>
+                    <start name="Initiated"/>
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="Initiated">
+                    <activationType>P</activationType>
+                </start>
+            </routeNodes>
+        </documentType>
+
+        <documentType>
+            <name>OLE_RSMD</name>
+            <parent>RiceDocument</parent>
+            <description>Ole Receipt Status</description>
+            <label>Ole Receipt Status</label>
+            <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+            <superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+            <blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+            <defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+            <docHandler>${kr.krad.url}/maintenance?methodToCall=docHandler</docHandler>
+            <active>true</active>
+            <routingVersion>2</routingVersion>
+            <routePaths>
+                <routePath>
+                    <start name="Initiated"/>
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="Initiated">
+                    <activationType>P</activationType>
+                </start>
+            </routeNodes>
+        </documentType>
+
+        <documentType>
+            <name>OLE_CMPLT</name>
+            <parent>RiceDocument</parent>
+            <description>CompletenessDocument</description>
+            <label>CompletenessDocument</label>
+            <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+            <superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+            <blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+            <defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+            <docHandler>${kr.krad.url}/maintenance?methodToCall=docHandler</docHandler>
+            <active>true</active>
+            <routingVersion>2</routingVersion>
+            <routePaths>
+                <routePath>
+                    <start name="Initiated" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="Initiated">
+                    <activationType>P</activationType>
+                </start>
+            </routeNodes>
+        </documentType>
+
+
+        <documentType>
+            <name>OLE_ELARD</name>
+            <parent>RiceDocument</parent>
+            <description>ELARelatioshipDocument</description>
+            <label>ELARelatioshipDocument</label>
+            <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+            <superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+            <blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+            <defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+            <docHandler>${kr.krad.url}/maintenance?methodToCall=docHandler</docHandler>
+            <active>true</active>
+            <routingVersion>2</routingVersion>
+            <routePaths>
+                <routePath>
+                    <start name="Initiated" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="Initiated">
+                    <activationType>P</activationType>
+                </start>
+            </routeNodes>
+        </documentType>
+
+        <documentType>
+            <name>OLE_ELD</name>
+            <parent>RiceDocument</parent>
+            <description>EncodingLevelDocument</description>
+            <label>EncodingLevelDocument</label>
+            <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+            <superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+            <blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+            <defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+            <docHandler>${kr.krad.url}/maintenance?methodToCall=docHandler</docHandler>
+            <active>true</active>
+            <routingVersion>2</routingVersion>
+            <routePaths>
+                <routePath>
+                    <start name="Initiated" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="Initiated">
+                    <activationType>P</activationType>
+                </start>
+            </routeNodes>
+        </documentType>
+
+        <documentType>
+            <name>OLE_FELD</name>
+            <parent>RiceDocument</parent>
+            <description>FieldEncodingLevelDocument</description>
+            <label>FieldEncodingLevelDocument</label>
+            <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+            <superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+            <blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+            <defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+            <docHandler>${kr.krad.url}/maintenance?methodToCall=docHandler</docHandler>
+            <active>true</active>
+            <routingVersion>2</routingVersion>
+            <routePaths>
+                <routePath>
+                    <start name="Initiated" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="Initiated">
+                    <activationType>P</activationType>
+                </start>
+            </routeNodes>
+        </documentType>
+
+
+        <documentType>
+            <name>OLE_GRPD</name>
+            <parent>RiceDocument</parent>
+            <description>GeneralRetentionPolicyDocument</description>
+            <label>GeneralRetentionPolicyDocument</label>
+            <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+            <superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+            <blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+            <defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+            <docHandler>${kr.krad.url}/maintenance?methodToCall=docHandler</docHandler>
+            <active>true</active>
+            <routingVersion>2</routingVersion>
+            <routePaths>
+                <routePath>
+                    <start name="Initiated" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="Initiated">
+                    <activationType>P</activationType>
+                </start>
+            </routeNodes>
+        </documentType>
+
+
+        <documentType>
+            <name>OLE_STSRC</name>
+            <parent>RiceDocument</parent>
+            <description>Ole Statistical Searching Codes</description>
+            <label>Ole Statistical Searching Codes</label>
+            <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+            <superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+            <blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+            <defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+            <docHandler>${kr.krad.url}/maintenance?methodToCall=docHandler</docHandler>
+            <active>true</active>
+            <routingVersion>2</routingVersion>
+            <routePaths>
+                <routePath>
+                    <start name="Initiated" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="Initiated">
+                    <activationType>P</activationType>
+                </start>
+            </routeNodes>
+        </documentType>
+
+        <documentType>
+            <name>OLE_CNTC</name>
+            <parent>RiceDocument</parent>
+            <description>Ole Country Codes</description>
+            <label>Ole Country Codes</label>
+            <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+            <superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+            <blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+            <defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+            <docHandler>${kr.krad.url}/maintenance?methodToCall=docHandler</docHandler>
+            <active>true</active>
+            <routingVersion>2</routingVersion>
+            <routePaths>
+                <routePath>
+                    <start name="Initiated" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="Initiated">
+                    <activationType>P</activationType>
+                </start>
+            </routeNodes>
+        </documentType>
+
+        <documentType>
+            <name>OLE_TYPO</name>
+            <parent>RiceDocument</parent>
+            <description>Ole Type Of Ownership</description>
+            <label>Ole Type Of Ownership</label>
+            <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+            <superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+            <blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+            <defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+            <docHandler>${kr.krad.url}/maintenance?methodToCall=docHandler</docHandler>
+            <active>true</active>
+            <routingVersion>2</routingVersion>
+            <routePaths>
+                <routePath>
+                    <start name="Initiated" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="Initiated">
+                    <activationType>P</activationType>
+                </start>
+            </routeNodes>
+        </documentType>
+
+        <documentType>
+            <name>OLE_ACT</name>
+            <parent>RiceDocument</parent>
+            <description>Ole Action</description>
+            <label>Ole Action</label>
+            <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+            <superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+            <blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+            <defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+            <docHandler>${kr.krad.url}/maintenance?methodToCall=docHandler</docHandler>
+            <active>true</active>
+            <routingVersion>2</routingVersion>
+            <routePaths>
+                <routePath>
+                    <start name="Initiated" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="Initiated">
+                    <activationType>P</activationType>
+                </start>
+            </routeNodes>
+        </documentType>
+
+        <documentType>
+            <name>OLE_ACSM</name>
+            <parent>RiceDocument</parent>
+            <description>Ole Access Method</description>
+            <label>Ole Access Method</label>
+            <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+            <superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+            <blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+            <defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+            <docHandler>${kr.krad.url}/maintenance?methodToCall=docHandler</docHandler>
+            <active>true</active>
+            <routingVersion>2</routingVersion>
+            <routePaths>
+                <routePath>
+                    <start name="Initiated" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="Initiated">
+                    <activationType>P</activationType>
+                </start>
+            </routeNodes>
+        </documentType>
+
+        <documentType>
+            <name>OLE_ACQM</name>
+            <parent>RiceDocument</parent>
+            <description>Ole Acquisition Method</description>
+            <label>Ole Acquisition Method</label>
+            <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+            <superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+            <blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+            <defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+            <docHandler>${kr.krad.url}/maintenance?methodToCall=docHandler</docHandler>
+            <active>true</active>
+            <routingVersion>2</routingVersion>
+            <routePaths>
+                <routePath>
+                    <start name="Initiated" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="Initiated">
+                    <activationType>P</activationType>
+                </start>
+            </routeNodes>
+        </documentType>
+
+        <documentType>
+            <name>OLE_ITAS</name>
+            <parent>RiceDocument</parent>
+            <description>Ole Item Available Status</description>
+            <label>Ole Item Available Status</label>
+            <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+            <superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+            <blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+            <defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+            <docHandler>${kr.krad.url}/maintenance?methodToCall=docHandler</docHandler>
+            <active>true</active>
+            <routingVersion>2</routingVersion>
+            <routePaths>
+                <routePath>
+                    <start name="Initiated"/>
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="Initiated">
+                    <activationType>P</activationType>
+                </start>
+            </routeNodes>
+        </documentType>
+
+        <documentType>
+            <name>OLE_EDMD</name>
+            <parent>RiceDocument</parent>
+            <description>Ole External DatSource Config</description>
+            <label>Ole External DatSource</label>
+            <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+            <superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+            <blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+            <defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+            <docHandler>${kr.krad.url}/maintenance?methodToCall=docHandler</docHandler>
+            <active>true</active>
+            <routingVersion>2</routingVersion>
+            <routePaths>
+                <routePath>
+                    <start name="Initiated" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="Initiated">
+                    <activationType>P</activationType>
+                </start>
+            </routeNodes>
+        </documentType>
+
+        <documentType>
+            <name>OLE_UPMD</name>
+            <parent>RiceDocument</parent>
+            <description>Ole User Preferences</description>
+            <label>Ole User Preferences</label>
+            <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+            <superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+            <blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+            <defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+            <docHandler>${kr.krad.url}/maintenance?methodToCall=docHandler</docHandler>
+            <active>true</active>
+            <routingVersion>2</routingVersion>
+            <routePaths>
+                <routePath>
+                    <start name="Initiated" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="Initiated">
+                    <activationType>P</activationType>
+                </start>
+            </routeNodes>
+        </documentType>
+
+        <documentType>
+            <name>OLE_BRSMD</name>
+            <parent>RiceDocument</parent>
+            <description>Ole Receipt Status</description>
+            <label>Ole Bibliographic Record Status</label>
+            <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+            <superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+            <blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+            <defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+            <docHandler>${kr.krad.url}/maintenance?methodToCall=docHandler</docHandler>
+            <active>true</active>
+            <routingVersion>2</routingVersion>
+            <routePaths>
+                <routePath>
+                    <start name="Initiated"/>
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="Initiated">
+                    <activationType>P</activationType>
+                </start>
+            </routeNodes>
+        </documentType>
+
+    </documentTypes>
+</data>

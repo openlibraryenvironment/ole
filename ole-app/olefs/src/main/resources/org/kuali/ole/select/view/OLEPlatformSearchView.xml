@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="OLEPlatformSearchView" parent="Uif-OLEFormView">
+        <property name="headerText" value="Platform Search"/>
+        <property name="items">
+            <list>
+                <bean id="OLEPlatformSearchViewPage" parent="Uif-Page">
+                    <property name="items">
+                        <list>
+                            <ref bean="PlatformSearchPanel"/>
+                            <ref bean="PlatformSearchButtons"/>
+                            <bean parent="Uif-Disclosure-VerticalBoxSection">
+                                <property name="items">
+                                    <list>
+                                        <ref bean="PlatformResultsPanel"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="formClass" value="org.kuali.ole.select.form.OLEPlatformSearchForm"/>
+    </bean>
+
+    <bean id="PlatformSearchPanel" parent="Uif-TableCollectionSection" p:style="margin-left:250px;margin-right:400px">
+        <property name="headerText" value=""/>
+        <property name="collectionObjectClass" value="org.kuali.ole.select.bo.OLESearchCondition"/>
+        <property name="propertyName" value="oleSearchParams.searchFieldsList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="items">
+            <list>
+                <bean id="PlatformSearch_ItemSection" parent="Uif-HorizontalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean id="PlatformSearchBy_Id" parent="Uif-InputField" p:label="Search By"
+                                  p:propertyName="searchBy" p:required="false"
+                                  p:optionsFinderClass="org.kuali.ole.select.keyvalue.OLEPlatformSearchFinder">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl"/>
+                                </property>
+                            </bean>
+                            <bean id="PlatformSearchCriteria_Id" parent="Uif-InputField"
+                                  p:label="Search Criteria"
+                                  p:propertyName="searchCriteria" p:required="false">
+                            </bean>
+                            <bean id="PlatformSearchScope_Id" parent="Uif-InputField" p:propertyName="operator"
+                                  p:label="">
+                                <property name="control">
+                                    <bean parent="Uif-HorizontalRadioControl">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="AND" p:value="AND"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="OR" p:value="OR"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="NOT" p:value="NOT"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+        <property name="layoutManager.actionFieldPrototype.group.layoutManager">
+            <bean parent="Uif-HorizontalBoxLayout"/>
+        </property>
+        <property name="layoutManager.actionFieldPrototype.label" value=""/>
+    </bean>
+
+    <bean id="PlatformSearchButtons" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="platform_search_button" parent="Uif-SecondaryActionButton-Small"
+                      p:style="float:left;margin-left:40em"
+                      p:methodToCall="search" p:actionLabel="Search"/>
+                <bean id="platform_searchCriteria_button" parent="Uif-SecondaryActionButton-Small"
+                      p:style="float:left;margin-left:0em" p:methodToCall="addSearchCriteria"
+                      p:actionLabel="Add Search Criteria"/>
+                <bean id="platform_clear_button" parent="Uif-SecondaryActionButton-Small"
+                      p:style="float:left;margin-left:0em"
+                      p:methodToCall="clearSearch" p:actionLabel="Clear"/>
+                <bean id="platform_close_button" parent="Uif-SecondaryActionButton-Small"
+                      p:style="float:left;margin-left:0em"
+                      p:methodToCall="cancel" p:actionLabel="Cancel"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PlatformResultsPanel" parent="Uif-TableCollectionSection">
+        <property name="collectionObjectClass" value="org.kuali.ole.select.document.OLEPlatformRecordDocument"/>
+        <property name="propertyName" value="platformDocumentList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.generateAutoSequence" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="aaSorting" value="[[1,'asc']]"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-LinkField" p:label="Name" p:linkText="@{#line.name}" p:target="_blank"
+                      p:href="@{#ConfigProperties['ole.platform.url']}platformRecordController?viewId=OLEPlatformRecordView&amp;methodToCall=docHandler&amp;docId=@{#line.documentNumber}&amp;command=displayDocSearchView"/>
+                <bean parent="Uif-DataField" p:label="DocID" p:propertyName="documentNumber"/>
+                <bean parent="Uif-DataField" p:label="OLE ID" p:propertyName="olePlatformId"/>
+                <bean parent="Uif-DataField" p:label="GOKb ID" p:propertyName="gokbId"/>
+                <bean parent="Uif-DataField" p:label="Platform Provider" p:propertyName="platformProviderName"/>
+                <bean parent="Uif-DataField" p:label="Status" p:propertyName="statusName"/>
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+</beans>

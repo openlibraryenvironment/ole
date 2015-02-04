@@ -1,0 +1,1097 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2007-2008 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="financialSystemModuleConfiguration" parent="financialSystemModuleConfiguration-parentBean" />
+		
+    <bean id="financialSystemModuleConfiguration-parentBean" class="org.kuali.ole.sys.FinancialSystemModuleConfiguration" abstract="true">
+    	<property name="namespaceCode" value="OLE-SYS" />
+        <property name="initializeDataDictionary" value="true" />
+        <property name="packagePrefixes">
+            <list>
+                <value>org.kuali.ole.sys</value>
+                <value>org.kuali.ole.sys.businessobject</value>
+            </list>
+        </property>
+        <property name="dataDictionaryPackages">
+            <list>
+                <value>org/kuali/ole/sys/businessobject/datadictionary</value>
+                <value>org/kuali/ole/sys/document/datadictionary</value>
+            </list>
+        </property>
+        <property name="databaseRepositoryFilePaths">
+            <list>
+                <value>org/kuali/ole/sys/ojb-sys.xml</value>
+            </list>
+        </property>
+        <property name="scriptConfigurationFilePaths">
+            <list>
+                <value>org/kuali/ole/sys/dwr-sys.xml</value>
+            </list>
+        </property>
+        <property name="triggerNames">
+            <list>
+				<value>scheduleJobTrigger</value>
+            </list>
+        </property>
+        <property name="jobNames">
+            <list>
+				<value>scheduleJob</value>
+				<value>purgeJob</value>
+				<value>fiscalYearMakerJob</value>
+                <value>clearCacheJob</value>
+				<value>purgeReportsAndStagingJob</value>
+				<value>autoDisapproveJob</value>
+		        <value>dailyEmailJob</value>
+                <value>weeklyEmailJob</value>
+                <value>modulesLockJob</value>
+				<value>modulesUnlockJob</value>
+				<value>actionListBatchJob</value>
+            </list>
+        </property>
+        <property name="fiscalYearMakers">
+          <list>
+            <ref bean="systemOptionsFiscalYearMaker" />
+            <ref bean="universityDateFiscalYearMaker" />
+          </list>	
+        </property>
+        <property name="batchFileDirectories">
+          <list>
+            <value>${reports.directory}/sys</value>
+          </list>
+        </property>
+
+    </bean>
+
+    <bean id="financialSystemModuleService" parent="financialSystemModuleService-parentBean"/>
+
+    <bean id="financialSystemModuleService-parentBean" class="org.kuali.ole.sys.service.impl.OleModuleServiceImpl" abstract="true">
+    	<property name="moduleConfiguration" ref="financialSystemModuleConfiguration" />
+    </bean>
+
+	<bean id="OLEConstants" class="org.kuali.rice.core.api.util.collect.ConstantsMap">
+		<property name="constantClass" value="org.kuali.ole.sys.OLEConstants" />
+	</bean>
+
+	<bean id="OleAuthorizationConstants" class="org.kuali.rice.core.api.util.collect.ConstantsMap">
+		<property name="constantClass" value="org.kuali.ole.sys.OleAuthorizationConstants" />
+	</bean>
+  
+	<bean class="org.springframework.web.context.support.ServletContextAttributeExporter">
+		<property name="attributes">
+			<map>
+				<entry key="OLEConstants" value-ref="OLEConstants" />
+				<entry key="OleAuthorizationConstants" value-ref="OleAuthorizationConstants" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="OLEDocumentSearchCustomizer" class="org.kuali.ole.sys.document.workflow.OLEDocumentSearchCustomizer" />
+	<bean id="OLESearchableAttribute" class="org.kuali.ole.sys.document.workflow.OLEDocumentSearchCustomizer" />
+
+    <!-- begin batch framework -->
+	<bean id="scheduler" parent="scheduler-parentBean"/>	    
+	<bean id="scheduler-parentBean" class="org.kuali.ole.sys.batch.SchedulerFactoryBean" abstract="true">
+		<property name="useQuartzScheduling" value="${use.quartz.scheduling}" />
+		<property name="useJdbcJobstore" value="${use.quartz.jdbc.jobstore}" />
+		<property name="autoStartup" value="false" />
+		<property name="quartzPropertiesReference">
+			<props>
+				<prop key="org.quartz.scheduler.instanceId">AUTO</prop>
+				<prop key="org.quartz.scheduler.instanceName">OLEScheduler</prop>
+				<prop key="org.quartz.threadPool.threadCount">${batch.quartz.thread.pool.size}</prop>
+				<prop key="org.quartz.scheduler.idleWaitTime">${batch.quartz.trigger.check.interval}</prop>
+				<prop key="org.quartz.plugin.triggHistory.class">org.quartz.plugins.history.LoggingTriggerHistoryPlugin</prop>
+				<prop key="org.quartz.plugin.triggHistory.triggerFiredMessage">Trigger {1}.{0} fired job {6}.{5} at: {4, date, HH:mm:ss MM/dd/yyyy}</prop>
+				<prop key="org.quartz.plugin.triggHistory.triggerCompleteMessage">Trigger {1}.{0} completed firing job {6}.{5} at {4, date, HH:mm:ss MM/dd/yyyy} with resulting trigger instruction code: {9}</prop>
+				<prop key="org.quartz.scheduler.skipUpdateCheck">true</prop>
+			</props>
+		</property>
+	</bean>
+	
+    <bean id="kfsService" parent="kfsService-parentBean"/>
+	<bean id="kfsService-parentBean" class="org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition" abstract="true">
+      <property name="serviceNameSpaceURI" value="" />
+      <property name="retryAttempts" value="0" />
+    </bean>
+    
+    <bean id="kfsJaxWsSoapService" parent="kfsJaxWsSoapService-parentBean"/>
+    <bean id="kfsJaxWsSoapService-parentBean" class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition" abstract="true">
+       <property name="serviceNameSpaceURI" value="OLE"/>
+       <property name="jaxWsService" value="true"/>
+       <property name="priority" value="3" />
+       <property name="retryAttempts" value="0" />
+       <!-- TODO: make config property for bus security -->
+       <property name="busSecurity" value="false"/>
+    </bean>
+    
+    <bean id="kfsJaxWsRestService" parent="kfsJaxWsRestService-parentBean"/>
+    <bean id="kfsJaxWsRestService-parentBean" class="org.kuali.rice.ksb.api.bus.support.RestServiceDefinition" abstract="true">
+       <property name="serviceNameSpaceURI" value="OLE"/>
+       <property name="priority" value="3" />
+       <property name="retryAttempts" value="0" />
+       <property name="busSecurity" value="false"/>
+    </bean>
+
+
+    
+    <bean id="schedulerService" parent="schedulerService-parentBean"/>
+	<bean id="schedulerService-parentBean" abstract="true" class="org.kuali.ole.sys.batch.service.impl.SchedulerServiceImpl">
+		<property name="scheduler" ref="scheduler" />
+		<property name="jobListener" ref="jobListener" />
+		<property name="kualiModuleService" ref="kualiModuleService" />
+		<property name="parameterService" ref="parameterService" />
+		<property name="dateTimeService" ref="dateTimeService" />
+		<property name="mailService" ref="mailService" />		
+	</bean>
+
+    <bean id="oleSchedulerService" class="org.kuali.ole.batch.impl.OLEBatchSchedulerServiceImpl" parent="schedulerService-parentBean">
+    </bean>
+	
+    <bean id="jobListener" parent="jobListener-parentBean"/>
+	<bean id="jobListener-parentBean" class="org.kuali.ole.sys.batch.JobListener" abstract="true">
+		<property name="configurationService" ref="kualiConfigurationService" />
+		<property name="mailService" ref="mailService" />
+		<property name="dateTimeService" ref="dateTimeService" />
+	</bean>
+	
+    <bean id="scheduledJobDescriptor" parent="scheduledJobDescriptor-parentBean" abstract="true"/>
+	<bean id="scheduledJobDescriptor-parentBean" abstract="true" class="org.kuali.ole.sys.batch.JobDescriptor">
+		<property name="group" value="scheduled" />
+	</bean>
+	
+    <bean id="unscheduledJobDescriptor" parent="unscheduledJobDescriptor-parentBean" abstract="true"/>
+	<bean id="unscheduledJobDescriptor-parentBean" abstract="true" class="org.kuali.ole.sys.batch.JobDescriptor">
+		<property name="group" value="unscheduled" />
+	</bean>
+
+	<bean id="flatFileSortStep" parent="step" class="org.kuali.ole.sys.batch.FlatFileSortStep" abstract="true"/>
+
+	<bean id="step" abstract="true">
+		<property name="parameterService" ref="parameterService" />
+		<property name="dateTimeService" ref="dateTimeService" />
+	</bean>
+	
+    <bean id="wrappedBatchExecutorService" parent="wrappedBatchExecutorService-parentBean"/>
+	<bean id="wrappedBatchExecutorService-parentBean" class="org.kuali.ole.sys.batch.service.impl.WrappedBatchExecutorServiceImpl" abstract="true" />
+	
+    <bean id="wrappedStep" parent="wrappedStep-parentBean" abstract="true" />	
+	<bean id="wrappedStep-parentBean" parent="step" abstract="true">
+		<property name="wrappedBatchExecutorService" ref="wrappedBatchExecutorService" />
+	</bean>
+	
+    <bean id="scheduleJob" parent="scheduleJob-parentBean"/>
+	<bean id="scheduleJob-parentBean" parent="scheduledJobDescriptor" abstract="true">
+		<property name="steps">
+			<list>
+				<ref bean="scheduleStep" />
+			</list>
+		</property>
+	</bean>
+	
+    <bean id="scheduleStep" parent="scheduleStep-parentBean"/>	
+	<bean id="scheduleStep-parentBean" parent="step" class="org.kuali.ole.sys.batch.ScheduleStep" abstract="true">
+		<property name="schedulerService" ref="schedulerService" />
+	</bean>
+
+	<bean id="trigger" abstract="true">
+		<property name="group" value="scheduled" />
+		<property name="dateTimeService" ref="dateTimeService" />
+	</bean>
+	
+    <bean id="simpleTrigger" parent="simpleTrigger-parentBean" abstract="true" />
+	<bean id="simpleTrigger-parentBean" abstract="true" parent="trigger" class="org.kuali.ole.sys.batch.SimpleTriggerDescriptor" />
+	
+    <bean id="cronTrigger" parent="cronTrigger-parentBean" abstract="true"/>
+	<bean id="cronTrigger-parentBean" abstract="true" parent="trigger" class="org.kuali.ole.sys.batch.CronTriggerDescriptor" />
+	
+    <bean id="scheduleJobTrigger" parent="scheduleJobTrigger-parentBean" />
+  	<bean id="scheduleJobTrigger-parentBean" parent="cronTrigger" abstract="true">
+		<property name="jobName" value="scheduleJob" />
+		<property name="cronExpression" value="${batch.schedule.cron.expression}" />
+	</bean>
+	
+    <bean id="batchJobStatusLookupableHelperService" parent="batchJobStatusLookupableHelperService-parentBean" scope="prototype" />	 
+ 	<bean id="batchJobStatusLookupableHelperService-parentBean" class="org.kuali.ole.sys.businessobject.lookup.BatchJobStatusLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" abstract="true">
+    	<property name="schedulerService" ref="schedulerService" />
+    	<property name="parameterService" ref="parameterService" />
+    	<property name="configurationService" ref="kualiConfigurationService" />
+    </bean>
+
+    <bean id="batchJobStatusLookupable" parent="batchJobStatusLookupable-parentBean" scope="prototype" />	
+	<bean id="batchJobStatusLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" abstract="true">
+	    <property name="lookupableHelperService">
+	        <ref bean="batchJobStatusLookupableHelperService" />
+	    </property>
+	</bean>
+
+    <bean id="batchFileLookupableHelperService" parent="batchFileLookupableHelperService-parentBean" scope="prototype" />	
+	<bean id="batchFileLookupableHelperService-parentBean" class="org.kuali.ole.sys.businessobject.lookup.BatchFileLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" abstract="true">
+		<property name="dateTimeService" ref="dateTimeService" />
+		<property name="batchFileAdminAuthorizationService" ref="batchFileAdminAuthorizationService"/>
+	</bean>
+	
+	<bean id="batchFileAdminAuthorizationService" parent="batchFileAdminAuthorizationService-parentBean" />	
+	<bean id="batchFileAdminAuthorizationService-parentBean" class="org.kuali.ole.sys.batch.service.impl.BatchFileAdminAuthorizationServiceImpl" abstract="true" />
+
+    <bean id="batchFileLookupable" parent="batchFileLookupable-parentBean" scope="prototype" />	
+	<bean id="batchFileLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
+	    <property name="lookupableHelperService">
+	        <ref bean="batchFileLookupableHelperService" />
+	    </property>
+	</bean>
+	
+    <bean id="batchInputFileService" parent="batchInputFileService-parentBean"/>	
+	<bean id="batchInputFileService-parentBean" class="org.kuali.ole.sys.batch.service.impl.BatchInputFileServiceImpl" abstract="true"/>
+
+    <bean id="batchInputFileSetService" parent="batchInputFileSetService-parentBean"/>	
+	<bean id="batchInputFileSetService-parentBean" class="org.kuali.ole.sys.batch.service.impl.BatchInputFileSetServiceImpl" abstract="true">
+		<property name="configurationService">
+			<ref bean="kualiConfigurationService" />
+		</property>
+	</bean>
+	<!-- end batch framework -->
+	
+	<!--  begin core batch jobs -->
+	<!-- RICE20: do we need to restore this?
+    <bean id="postDataLoadEncryptionStep" parent="postDataLoadEncryptionStep-parentBean"/>	
+	<bean id="postDataLoadEncryptionStep-parentBean" parent="step" class="org.kuali.ole.sys.batch.PostDataLoadEncryptionStep" abstract="true">
+		<property name="postDataLoadEncryptionService" ref="postDataLoadEncryptionService" />
+		<property name="attributesToEncryptProperties" value="${encrypt.attributes.properties.file}" />
+	</bean>
+	 -->
+
+    <bean id="purgeOldLookupResultsStep" parent="purgeOldLookupResultsStep-parentBean"/>
+	<bean id="purgeOldLookupResultsStep-parentBean" class="org.kuali.ole.sys.batch.PurgeOldLookupResultsStep" parent="step" abstract="true">
+		<property name="lookupResultsService">
+			<ref bean="lookupResultsService" />
+		</property>
+	</bean>
+
+    <bean id="purgeJob" parent="purgeJob-parentBean"/>
+	<bean id="purgeJob-parentBean" parent="scheduledJobDescriptor" abstract="true">
+		<property name="steps">
+			<list>
+				<ref bean="purgePendingAttachmentsStep" />
+				<ref bean="purgeOldLookupResultsStep" />
+				<ref bean="purgeTempFilesStep" />
+				<ref bean="purgeSessionDocumentsStep" />
+			</list>
+		</property>
+	</bean>
+	
+    <bean id="purgePendingAttachmentsStep" parent="purgePendingAttachmentsStep-parentBean"/>
+	<bean id="purgePendingAttachmentsStep-parentBean" class="org.kuali.ole.sys.batch.PurgePendingAttachmentsStep" parent="step" abstract="true">
+		<property name="attachmentService">
+			<ref bean="attachmentService" />
+		</property>
+	</bean>
+
+    <bean id="purgeTempFilesStep" parent="purgeTempFilesStep-parentBean"/>
+	<bean id="purgeTempFilesStep-parentBean" class="org.kuali.ole.sys.batch.PurgeTempFilesStep" parent="step" abstract="true">
+		<property name="configurationService">
+			<ref bean="kualiConfigurationService" />
+		</property>
+	</bean>
+
+    <bean id="purgeSessionDocumentsStep" parent="purgeSessionDocumentsStep-parentBean"/>	
+	<bean id="purgeSessionDocumentsStep-parentBean" class="org.kuali.ole.sys.batch.PurgeSessionDocumentsStep" parent="step" abstract="true">
+		<property name="sessionDocumentService">
+			<ref bean="sessionDocumentService" />
+		</property>
+	</bean>
+	
+    <bean id="fiscalYearMakerJob" parent="fiscalYearMakerJob-parentBean"/>	
+	<bean id="fiscalYearMakerJob-parentBean" parent="unscheduledJobDescriptor" abstract="true">
+		<property name="steps">
+			<list>
+				<ref bean="fiscalYearMakerStep" />
+			</list>
+		</property>
+	</bean>
+
+    <bean id="fiscalYearMakerStep" parent="fiscalYearMakerStep-parentBean"/>	
+	<bean id="fiscalYearMakerStep-parentBean" class="org.kuali.ole.sys.batch.FiscalYearMakerStep" parent="step" abstract="true">
+		<property name="fiscalYearMakerService">
+			<ref bean="fiscalYearMakerService" />
+		</property>
+	</bean>
+
+    <bean id="purgeReportsAndStagingJob" parent="purgeReportsAndStagingJob-parentBean"/>	
+	<bean id="purgeReportsAndStagingJob-parentBean" parent="scheduledJobDescriptor" abstract="true">
+		<property name="steps">
+			<list>
+				<ref bean="filePurgeStep" />
+			</list>
+		</property>
+	</bean>
+
+    <bean id="filePurgeStep" parent="filePurgeStep-parentBean"/>	
+	<bean id="filePurgeStep-parentBean" class="org.kuali.ole.sys.batch.FilePurgeStep" parent="step" abstract="true">
+		<property name="directories">
+			<list>
+				<value>${reports.directory}</value>
+				<value>${staging.directory}</value>
+				<value>${temp.directory}</value>
+			</list>
+		</property>
+		<property name="customAges">
+			<list>
+				<bean parent="FilePurgeCustomAge">
+					<property name="parameterPrefix" value="TEMPORARY_FILES" />
+					<property name="directory" value="${temp.directory}" />
+				</bean>
+			</list>
+		</property>
+		<property name="filePurgeService" ref="filePurgeService" />
+	</bean>
+
+    <bean id="autoDisapproveJob" parent="autoDisapproveJob-parentBean"/>	
+	<bean id="autoDisapproveJob-parentBean" parent="scheduledJobDescriptor" abstract="true">
+		<property name="steps">
+			<list>
+				<ref bean="autoDisapproveDocumentsStep" />
+			</list>
+		</property>
+	</bean>
+
+    <bean id="autoDisapproveDocumentsStep" parent="autoDisapproveDocumentsStep-parentBean"/>	
+	<bean id="autoDisapproveDocumentsStep-parentBean" class="org.kuali.ole.sys.batch.AutoDisapproveDocumentsStep" parent="wrappedStep" abstract="true">
+		<property name="wrappingBatchServices">
+			<list>
+				<ref bean="autoDisapproveErrorReportWriterService" />
+			</list>
+		</property>
+		<property name="autoDisapproveDocumentsService">
+			<ref bean="autoDisapproveService" />
+		</property>
+		<property name="batchFileDirectoryName" value="${reports.directory}/sys"/>		
+	</bean>
+    <bean id="autoDisapproveService" parent="autoDisapproveService-parentBean"/>
+	
+	<bean id="autoDisapproveService-parentBean" class="org.kuali.ole.sys.batch.service.impl.AutoDisapproveDocumentsServiceImpl" abstract="true">
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>
+    	<property name="parameterService">
+    	 <ref bean="parameterService" />
+		</property>		
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		 <property name="noteService">
+			<ref bean="noteService" />
+		</property>	
+		<property name="autoDisapproveErrorReportWriterService">
+			<ref bean="autoDisapproveErrorReportWriterService" />
+		</property>
+	</bean>
+    <bean id="autoDisapproveErrorReportWriterService" parent="autoDisapproveErrorReportWriterService-parentBean"/>
+	
+	<bean id="autoDisapproveErrorReportWriterService-parentBean" abstract="true" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/sys"/>
+		<property name="fileNamePrefix" value="autoDisapproveErrors"/>
+        <property name="title" value="YEAR END AUTO DISAPPROVAL JOB ERRORS REPORT"/>
+        <property name="aggregationModeOn" value="false"/>
+        <!-- the report does not print out BO's, therefore classToBusinessObjectReportHelperBeanNames not needed-->
+    </bean>
+	
+    <bean id="clearCacheStep" class="org.kuali.ole.sys.batch.ClearCacheStep" parent="step">
+		<property name="cacheService">
+			<ref bean="cacheService" />
+		</property>
+	</bean>
+	
+	<bean id="clearCacheJob" parent="unscheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="clearCacheStep" />
+			</list>
+		</property>
+	</bean>
+	
+	
+	<!-- end core batch jobs -->
+    <bean id="FilePurgeCustomAge" parent="FilePurgeCustomAge-parentBean"/>
+	
+	<bean id="FilePurgeCustomAge-parentBean" class="org.kuali.ole.sys.batch.FilePurgeCustomAge" abstract="true" />
+	
+	<bean id="financialSystemUserService" parent="financialSystemUserService-parentBean" />
+	<bean id="financialSystemUserService-parentBean" abstract="true" class="org.kuali.ole.sys.service.impl.FinancialSystemUserServiceImpl">
+		<property name="chartService" ref="chartService" />
+		<property name="organizationService" ref="organizationService" />
+		<property name="roleService" ref="kimRoleService" />
+		<property name="personService" ref="personService" />	
+	</bean>
+	
+    <bean id="universityDateDao" parent="universityDateDao-parentBean"/>
+
+	<bean id="universityDateDao-parentBean" parent="platformAwareDao" class="org.kuali.ole.sys.dataaccess.impl.UniversityDateDaoOjb" abstract="true" />
+    <bean id="universityDateService" parent="universityDateService-parentBean"/>
+
+	<bean id="universityDateService-parentBean" class="org.kuali.ole.sys.service.impl.UniversityDateServiceImpl" abstract="true">
+		<property name="universityDateDao"><ref bean="universityDateDao" /></property>
+        <property name="dateTimeService" ref="dateTimeService" />
+	</bean>
+    <bean id="accountingLineService" parent="accountingLineService-parentBean"/>
+
+	<bean id="accountingLineService-parentBean" class="org.kuali.ole.sys.service.impl.AccountingLineServiceImpl" abstract="true">
+		<property name="accountingLineDao">
+			<bean parent="platformAwareDao" class="org.kuali.ole.sys.dataaccess.impl.AccountingLineDaoOjb" />
+		</property>
+	</bean>
+	
+    <bean id="originationCodeDao" parent="originationCodeDao-parentBean"/>
+	<bean id="originationCodeDao-parentBean" parent="platformAwareDao" class="org.kuali.ole.sys.dataaccess.impl.OriginationCodeDaoOjb" abstract="true" />
+
+	<bean id="generalLedgerPendingEntryDao" parent="generalLedgerPendingEntryDao-parentBean"/>
+	<bean id="generalLedgerPendingEntryDao-parentBean" parent="platformAwareDao" class="org.kuali.ole.sys.dataaccess.impl.GeneralLedgerPendingEntryDaoOjb" abstract="true"/>
+	
+	<bean id="fiscalYearMakersDao" parent="fiscalYearMakersDao-parentBean"/>	
+	<bean id="fiscalYearMakersDao-parentBean" parent="platformAwareDao" class="org.kuali.ole.sys.batch.dataaccess.impl.FiscalYearMakersDaoOjb" abstract="true" />
+
+	<bean id="fiscalYearMakerService" parent="fiscalYearMakerService-parentBean"/>
+	
+	<bean id="fiscalYearMakerService-parentBean" class="org.kuali.ole.sys.batch.service.impl.FiscalYearMakerServiceImpl" abstract="true">
+		<property name="fiscalYearMakersDao">
+			<ref bean="fiscalYearMakersDao" />
+		</property>
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>		
+	    <property name="kualiModuleService">
+			<ref bean="kualiModuleService" />
+		</property>		
+	</bean>
+	
+	<bean id="FiscalYearMaker" parent="FiscalYearMaker-parentBean" abstract="true"/>
+	<bean id="FiscalYearMaker-parentBean" parent="platformAwareDao" class="org.kuali.ole.sys.batch.dataaccess.impl.FiscalYearMakerImpl" abstract="true" >
+		<property name="persistenceStructureService" ref="persistenceStructureService" />
+		<property name="businessObjectService" ref="businessObjectService" />
+	</bean>
+	
+	<bean id="homeOriginationService" parent="homeOriginationService-parentBean"/>
+	<bean id="homeOriginationService-parentBean" class="org.kuali.ole.sys.service.impl.HomeOriginationServiceImpl" abstract="true">
+		<property name="businessObjectService" ref="businessObjectService" />
+	</bean>
+	
+	<bean id="originationCodeService" parent="originationCodeService-parentBean"/>
+	<bean id="originationCodeService-parentBean" class="org.kuali.ole.sys.service.impl.OriginationCodeServiceImpl" abstract="true">
+		<property name="originationCodeDao">
+			<ref bean="originationCodeDao" />
+		</property>
+	</bean>
+	
+	<bean id="optionsService" parent="optionsService-parentBean"/>
+	<bean id="optionsService-parentBean" class="org.kuali.ole.sys.service.impl.OptionsServiceImpl" abstract="true">
+		<property name="universityDateService" ref="universityDateService" />
+	</bean>
+	<bean id="generalLedgerPendingEntryService" parent="generalLedgerPendingEntryService-parentBean"/>
+	
+	<bean id="generalLedgerPendingEntryService-parentBean" class="org.kuali.ole.sys.service.impl.GeneralLedgerPendingEntryServiceImpl" abstract="true">
+		<property name="generalLedgerPendingEntryDao">
+			<ref bean="generalLedgerPendingEntryDao" />
+		</property>
+		<property name="kualiRuleService">
+			<ref bean="kualiRuleService" />
+		</property>
+		<property name="chartService">
+			<ref bean="chartService" />
+		</property>
+		<property name="optionsService">
+			<ref bean="optionsService" />
+		</property>
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
+		<property name="balanceTypeService">
+			<ref bean="balanceTypService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>
+		<property name="universityDateService">
+			<ref bean="universityDateService" />
+		</property>
+		<property name="persistenceStructureService" ref="persistenceStructureService" />
+	</bean>
+	<bean id="taxService" parent="taxService-parentBean"/>
+	
+	<bean id="taxService-parentBean" class="org.kuali.ole.sys.service.impl.TaxServiceImpl" abstract="true">
+		<property name="taxRegionService">
+			<ref bean="taxRegionService" />
+		</property>
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
+	</bean>	
+	<bean id="taxRegionService" parent="taxRegionService-parentBean"/>
+	
+	<bean id="taxRegionService-parentBean" class="org.kuali.ole.sys.service.impl.TaxRegionServiceImpl" abstract="true">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="postalCodeService">
+			<ref bean="postalCodeService" />
+		</property>		
+	</bean>	
+	<bean id="taxRegionTypeLookupableHelperService" parent="taxRegionTypeLookupableHelperService-parentBean" scope="prototype"/>
+	
+	<bean id="taxRegionTypeLookupableHelperService-parentBean" class="org.kuali.ole.sys.businessobject.lookup.TaxRegionTypeLookupableServiceImpl" parent="lookupableHelperService" abstract="true" />
+	
+    <bean id="taxRegionTypeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl">
+        <property name="lookupableHelperService">
+    		<ref bean="taxRegionTypeLookupableHelperService" /> 
+        </property>
+    </bean>		
+	<bean id="taxRegionLookupable" parent="taxRegionLookupable-parentBean" scope="prototype"/>
+    
+    <bean id="taxRegionLookupable-parentBean" class="org.kuali.ole.sys.businessobject.lookup.TaxRegionLookupableImpl" abstract="true">
+        <property name="lookupableHelperService">
+            <ref bean="lookupableHelperService" />
+        </property>
+    </bean>	    
+	<bean id="moduleLookupable" parent="moduleLookupable-parentBean"/>
+	
+	<bean id="moduleLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" abstract="true">
+		<property name="lookupableHelperService">
+        	<bean class="org.kuali.ole.sys.businessobject.lookup.ModuleLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" >
+        		<property name="configService" ref="kualiConfigurationService" />
+        	</bean>
+		</property>
+	</bean>
+
+	<bean id="financialSystemWorkflowHelperService" parent="financialSystemWorkflowHelperService-parentBean"/>
+	<bean id="financialSystemWorkflowHelperService-parentBean" class="org.kuali.ole.sys.service.impl.FinancialSystemWorkflowHelperServiceImpl" abstract="true">
+		<property name="workflowDocumentService" ref="rice.kew.workflowDocumentService" />
+    </bean>
+
+	<bean id="businessObjectMetaDataDao" parent="businessObjectMetaDataDao-parentBean"/>
+
+    <bean id="businessObjectMetaDataDao-parentBean" class="org.kuali.ole.sys.dataaccess.impl.BusinessObjectMetaDataDaoJdbc" parent="platformAwareDaoJdbc" abstract="true" />
+
+	<bean id="kfsBusinessObjectMetaDataService" parent="kfsBusinessObjectMetaDataService-parentBean"/>
+
+    <bean id="kfsBusinessObjectMetaDataService-parentBean" class="org.kuali.ole.sys.service.impl.OleBusinessObjectMetaDataServiceImpl" abstract="true">
+		<property name="dataDictionaryService" ref="dataDictionaryService" />
+		<property name="parameterService" ref="parameterService" />
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="businessObjectMetaDataService" ref="businessObjectMetaDataService" />
+		<property name="businessObjectMetaDataDao" ref="businessObjectMetaDataDao" />
+		<property name="lookupService" ref="lookupService" />
+    </bean>
+	<bean id="businessObjectComponentLookupable" parent="businessObjectComponentLookupable-parentBean"/>
+
+    <bean id="businessObjectComponentLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
+        <property name="lookupableHelperService">
+			<bean class="org.kuali.ole.sys.businessobject.lookup.BusinessObjectComponentLookupableHelperServiceImpl" parent="lookupableHelperService">
+            	<property name="kfsBusinessObjectMetaDataService" ref="kfsBusinessObjectMetaDataService" />
+            </bean>
+        </property>
+    </bean>
+	<bean id="businessObjectPropertyLookupable" parent="businessObjectPropertyLookupable-parentBean"/>
+    
+    <bean id="businessObjectPropertyLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.ole.sys.businessobject.lookup.BusinessObjectPropertyLookupableHelperServiceImpl" parent="lookupableHelperService">
+            	<property name="kfsBusinessObjectMetaDataService" ref="kfsBusinessObjectMetaDataService" />
+            </bean>
+        </property>
+    </bean>
+	<bean id="functionalFieldDescriptionLookupable" parent="functionalFieldDescriptionLookupable-parentBean"/>
+
+    <bean id="functionalFieldDescriptionLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
+        <property name="lookupableHelperService">
+        	<bean class="org.kuali.ole.sys.businessobject.lookup.FunctionalFieldDescriptionLookupableHelperServiceImpl" parent="lookupableHelperService">
+    	<property name="kfsBusinessObjectMetaDataService" ref="kfsBusinessObjectMetaDataService" />
+    </bean>
+        </property>
+    </bean>
+	<bean id="dataMappingFieldDefinitionLookupable" parent="dataMappingFieldDefinitionLookupable-parentBean"/>
+
+    <bean id="dataMappingFieldDefinitionLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
+        <property name="lookupableHelperService">
+			<bean class="org.kuali.ole.sys.businessobject.lookup.DataMappingFieldDefinitionLookupableHelperServiceImpl" parent="lookupableHelperService">
+            	<property name="kfsBusinessObjectMetaDataService" ref="kfsBusinessObjectMetaDataService" />
+            </bean>
+        </property>
+    </bean>
+
+	<bean id="accountingDocumentRuleHelperService" parent="accountingDocumentRuleHelperService-parentBean"/>
+    
+    <bean id="accountingDocumentRuleHelperService-parentBean" class="org.kuali.ole.sys.document.service.impl.AccountingDocumentRuleHelperServiceImpl" abstract="true">
+    	<property name="dataDictionaryService"><ref bean="dataDictionaryService" /></property>
+    	<property name="objectTypeService"><ref bean="objectTypeService" /></property>
+    </bean>
+	<bean id="debitDeterminerService" parent="debitDeterminerService-parentBean"/>
+    
+    <bean id="debitDeterminerService-parentBean" class="org.kuali.ole.sys.document.service.impl.DebitDeterminerServiceImpl" abstract="true">
+    	<property name="optionsService"><ref bean="optionsService" /></property>
+    	<property name="accountingDocumentRuleUtils"><ref bean="accountingDocumentRuleHelperService" /></property>
+    </bean>
+	<bean id="accountingLineRuleHelperService" parent="accountingLineRuleHelperService-parentBean"/>
+    
+    <bean id="accountingLineRuleHelperService-parentBean" class="org.kuali.ole.sys.document.service.impl.AccountingLineRuleHelperServiceImpl" abstract="true">
+    	<property name="dataDictionaryService"><ref bean="dataDictionaryService" /></property>
+    	<property name="financialSystemDocumentTypeService" ref="financialSystemDocumentTypeService" />
+    </bean>
+	<bean id="financialSystemDocumentTypeService" parent="financialSystemDocumentTypeService-parentBean"/>
+    
+    <bean id="financialSystemDocumentTypeService-parentBean" class="org.kuali.ole.sys.document.service.impl.FinancialSystemDocumentTypeServiceImpl" abstract="true">
+  	  <property name="dataDictionaryService" ref="dataDictionaryService" />
+  	  <property name="maintenanceDocumentDictionaryService" ref="maintenanceDocumentDictionaryService" />
+  	  <property name="documentTypeService" ref="rice.kew.documentTypeService" />
+    </bean>
+	<bean id="electronicPaymentClaimingService" parent="electronicPaymentClaimingService-parentBean"/>
+    
+    <bean id="electronicPaymentClaimingService-parentBean" class="org.kuali.ole.sys.service.impl.ElectronicPaymentClaimingServiceImpl" abstract="true">
+    	<property name="documentService"><ref bean="documentService" /></property>
+    	<property name="businessObjectService"><ref bean="businessObjectService" /></property>
+    	<property name="dateTimeService"><ref bean="dateTimeService" /></property>
+    	<property name="parameterService"><ref bean="parameterService" /></property>
+    </bean>
+    
+    <bean id="electronicFundTransferStartAction" class="org.kuali.ole.sys.service.impl.ElectronicFundTransferStartActionHelper">
+    	<property name="electronicPaymentClaimingService"><ref bean="electronicPaymentClaimingService" /></property>
+    </bean>
+    
+    <bean id="electronicFundTransferRefreshAction" class="org.kuali.ole.sys.service.impl.ElectronicFundTransferRefreshActionHelper">
+    	<property name="dataDictonaryService"><ref bean="dataDictionaryService" /></property>
+    	<property name="electronicPaymentClaimingService"><ref bean="electronicPaymentClaimingService" /></property>
+    	<property name="lookupResultsService"><ref bean="lookupResultsService" /></property>
+    </bean>
+    
+    <bean id="electronicFundTransferClaimAction" class="org.kuali.ole.sys.service.impl.ElectronicFundTransferClaimActionHelper">
+    	<property name="dataDictonaryService"><ref bean="dataDictionaryService" /></property>
+    	<property name="electronicPaymentClaimingService"><ref bean="electronicPaymentClaimingService" /></property>
+    	<property name="businessObjectService"><ref bean="businessObjectService" /></property>
+    	<property name="documentService" ref="documentService" />
+    </bean>
+    
+    <bean id="electronicFundTransferCancelAction" class="org.kuali.ole.sys.service.impl.ElectronicFundTransferCancelActionHelper" />
+	<bean id="electronicPaymentClaimLookupableHelperService" parent="electronicPaymentClaimLookupableHelperService-parentBean"  scope="prototype"/>
+    
+    <bean id="electronicPaymentClaimLookupableHelperService-parentBean" class="org.kuali.ole.sys.businessobject.lookup.ElectronicPaymentClaimLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" abstract="true">
+    	<property name="lookupDao"><ref bean="lookupDao" /></property>
+    </bean>
+    
+    <bean id="electronicPaymentClaimLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService">
+            <ref bean="electronicPaymentClaimLookupableHelperService" />
+        </property>
+    </bean>
+	<bean id="reportGenerationService" parent="reportGenerationService-parentBean"/>
+    
+    <bean id="reportGenerationService-parentBean" class="org.kuali.ole.sys.service.impl.ReportGenerationServiceImpl" abstract="true">
+        <property name="dateTimeService">
+            <ref bean="dateTimeService"/>
+        </property>
+    </bean>
+	<bean id="reportAggregatorService" parent="reportAggregatorService-parentBean"/>
+    
+    <bean id="reportAggregatorService-parentBean" class="org.kuali.ole.sys.service.impl.ReportAggregatorServiceTextImpl" abstract="true">
+    	<property name="newLineCharacter" value="${report.writer.service.new.line.characters}"/>
+	</bean>
+	
+    <bean id="accountingLineAuthorizationTransformer" class="org.kuali.ole.sys.document.service.impl.AccountingLineAuthorizationTransformerImpl" />
+    
+    <bean id="allReadOnlyNoActionsAccountingLineRenderingTransformation" class="org.kuali.ole.sys.document.service.impl.AllReadOnlyNoActionsAccountingLineRenderingTransformationImpl" />
+    
+    <bean id="defaultValuePopulationAccountingLineFieldRenderingTransformation" class="org.kuali.ole.sys.document.service.impl.DefaultValuePopulationAccountingLineFieldRenderingTransformationImpl" />
+    
+    <bean id="hiddenFieldRearrangementAccountingLineRenderingTransformation" class="org.kuali.ole.sys.document.service.impl.HiddenFieldRearrangementAccountingLineRenderingTransformationImpl" />
+    
+    <bean id="removeEmptyCellsAndRowsRenderingTransformation" class="org.kuali.ole.sys.document.service.impl.RemoveEmptyCellsAndRowsRenderingTransformationImpl" />
+	<bean id="accountingLineRenderingService" parent="accountingLineRenderingService-parentBean"/>
+    
+    <bean id="accountingLineRenderingService-parentBean" class="org.kuali.ole.sys.document.service.impl.AccountingLineRenderingServiceImpl" abstract="true">
+    	<property name="dataDictionaryService" ref="dataDictionaryService" />
+    	<property name="accountingLineAuthorizationTransformer" ref="accountingLineAuthorizationTransformer" />
+    	<property name="fieldTransformations">
+    		<list>
+    			<ref bean="defaultValuePopulationAccountingLineFieldRenderingTransformation" />
+    		</list>
+    	</property>
+    	<property name="preTablificationTransformations">
+    		<list>
+    			<ref bean="allReadOnlyNoActionsAccountingLineRenderingTransformation" />
+    		</list>
+    	</property>
+    	<property name="postTablificationTransformations">
+    		<list>
+    			<ref bean="hiddenFieldRearrangementAccountingLineRenderingTransformation" />
+    			<ref bean="removeEmptyCellsAndRowsRenderingTransformation" />
+    		</list>
+    	</property>
+    </bean>
+	<bean id="bankService" parent="bankService-parentBean"/>
+    
+     <bean id="bankService-parentBean" class="org.kuali.ole.sys.service.impl.BankServiceImpl" abstract="true">
+		<property name="businessObjectService" ref="businessObjectService" /> 
+		<property name="dataDictionaryService" ref="dataDictionaryService" /> 
+		<property name="parameterService" ref="parameterService" /> 
+		<property name="parameterEvaluatorService" ref="parameterEvaluatorService" /> 
+	</bean>
+
+	<bean id="postalCodeValidationService" parent="postalCodeValidationService-parentBean"/>
+	
+    <bean id="postalCodeValidationService-parentBean" class="org.kuali.ole.sys.service.impl.PostalCodeValidationServiceImpl" abstract="true" />
+	<bean id="segmentedLookupResultsService" parent="segmentedLookupResultsService-parentBean"/>
+    
+	<bean id="segmentedLookupResultsService-parentBean" class="org.kuali.ole.sys.service.impl.SegmentedLookupResultsServiceImpl" abstract="true">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+        <property name="dateTimeService">
+            <ref bean="dateTimeService"/>
+        </property>
+	</bean>
+
+    <bean id="objectCodeDynamicNameLabelGenerator" class="org.kuali.ole.sys.document.service.impl.ObjectCodeDynamicNameLabelGeneratorImpl" />
+
+    <bean id="subObjectCodeDynamicNameLabelGenerator" class="org.kuali.ole.sys.document.service.impl.SubObjectCodeDynamicNameLabelGeneratorImpl" />
+
+	<bean id="systemOptionsFiscalYearMaker" class="org.kuali.ole.sys.batch.dataaccess.impl.SystemOptionsFiscalYearMakerImpl" parent="FiscalYearMaker">
+		<property name="businessObjectClass" value="org.kuali.ole.sys.businessobject.SystemOptions" /> 
+		<property name="twoYearCopy" value="true" />
+	</bean>	
+
+	<import resource="document/validation/configuration/FinancialSystemValidators.xml" />
+	
+	<bean id="employeeDerivedRoleTypeService" parent="employeeDerivedRoleTypeService-parentBean"/>
+	
+    <bean id="employeeDerivedRoleTypeService-parentBean" class="org.kuali.ole.sys.identity.EmployeeDerivedRoleTypeServiceImpl" abstract="true" />
+		
+	<bean id="batchJobModifierRoleTypeService" parent="batchJobModifierRoleTypeService-parentBean"/>
+
+	<bean id="batchJobModifierRoleTypeService-parentBean"
+		class="org.kuali.rice.krad.kim.PermissionDerivedRoleTypeServiceImpl" abstract="true">
+		<property name="permissionTemplateNamespace" value="KR-NS" />
+		<property name="permissionTemplateName" value="Modify Batch Job" />
+	</bean>
+		
+	<bean id="financialSystemDocumentTypePermissionTypeService" parent="financialSystemDocumentTypePermissionTypeService-parentBean"/>
+
+    <bean id="financialSystemDocumentTypePermissionTypeService-parentBean" class="org.kuali.ole.sys.identity.FinancialSystemDocumentTypePermissionTypeServiceImpl" abstract="true" />
+		
+	<bean id="financialSystemUserRoleTypeService" parent="financialSystemUserRoleTypeService-parentBean"/>
+
+    <bean id="financialSystemUserRoleTypeService-parentBean" class="org.kuali.ole.coa.identity.FinancialSystemUserRoleTypeServiceImpl" abstract="true" />
+		
+  
+    <bean id="universityDateFiscalYearMaker" class="org.kuali.ole.sys.batch.dataaccess.impl.UniversityDateFiscalYearMakerImpl" parent="FiscalYearMaker">
+		<property name="businessObjectClass" value="org.kuali.ole.sys.businessobject.UniversityDate" /> 
+        <property name="twoYearCopy" value="true" />
+	</bean>	
+	
+	<bean id="expenseElectronicPaymentClaimingDocumentHelper" class="org.kuali.ole.sys.service.impl.ElectronicPaymentClaimingDocumentGenerationStrategyImpl">
+		<property name="electronicPaymentClaimingService">
+			<ref bean="electronicPaymentClaimingService" />
+		</property>
+	</bean> 
+	
+	<bean id="cacheService" parent="cacheService-parentBean"/>
+	<bean id="cacheService-parentBean" class="org.kuali.ole.sys.batch.service.impl.CacheServiceImpl" abstract="true" />
+
+	<bean id="preparedStatementCachingDao" parent="platformAwareDaoJdbc" abstract="true" />
+	
+	<bean id="businessObjectReportHelper" abstract="true" class="org.kuali.ole.sys.report.BusinessObjectReportHelper">
+        <property name="minimumMessageLength" value="10" />
+        <property name="messageLabel" value="MESSAGE" />
+        <property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>
+	</bean>
+	<bean id="reportWriterService" parent="reportWriterService-parentBean"/>
+	
+	<bean id="reportWriterService-parentBean" abstract="true" class="org.kuali.ole.sys.service.impl.ReportWriterTextServiceImpl">
+        <property name="fileNameSuffix" value=".txt" />
+        <property name="pageWidth" value="130" />
+        <property name="pageLength" value="57" />
+        <property name="initialPageNumber" value="1" />
+        <property name="errorSubTitle" value="ERROR AND STATISTICS REPORT" />
+        <property name="statisticsLabel" value="                                    S T A T I S T I C S                                    " />
+        <property name="statisticsLeftPadding" value="                             " />
+        <property name="parametersLabel" value="                                    P A R A M E T E R S                                    " />
+        <property name="parametersLeftPadding" value="                             " />
+        <property name="pageLabel" value="PAGE:" />
+        <property name="newLineCharacter" value="${report.writer.service.new.line.characters}" />
+        <property name="dateTimeService">
+            <ref bean="dateTimeService" />
+        </property>
+	</bean>
+	
+	<bean id="systemLedgerReferenceValuePreparedStatementCachingDao" parent="preparedStatementCachingDao" class="org.kuali.ole.sys.batch.dataaccess.impl.LedgerReferenceValuePreparedStatementCachingDaoJdbc" />
+	<bean id="filePurgeService" parent="filePurgeService-parentBean"/>
+	
+	<bean id="filePurgeService-parentBean" class="org.kuali.ole.sys.batch.service.impl.FilePurgeServiceImpl" abstract="true">
+		<property name="parameterService" ref="parameterService" />
+	</bean>
+	
+	<bean id="financialSystemDocumentDao" parent="financialSystemDocumentDao-parentBean" />
+	<bean id="financialSystemDocumentDao-parentBean" abstract="true" parent="platformAwareDao" class="org.kuali.ole.sys.document.dataaccess.impl.FinancialSystemDocumentDaoOjb">
+	</bean>
+	<bean id="financialSystemDocumentService" parent="financialSystemDocumentService-parentBean"/>
+	
+	<bean id="financialSystemDocumentService-parentBean" abstract="true" class="org.kuali.ole.sys.document.service.impl.FinancialSystemDocumentServiceImpl">
+		<property name="documentService" ref="documentService" />
+		<property name="documentAdHocService" ref="documentAdHocService" />
+		<property name="financialSystemDocumentDao" ref="financialSystemDocumentDao" />
+		
+	</bean>
+
+    <!-- Create an unscheduled Daily Mail job -->
+    <bean id="dailyEmailJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="dailyEmailStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="dailyEmailStep" class="org.kuali.ole.sys.batch.DailyEmailStep" parent="step" />
+
+    <!-- Create an unscheduled Weekly Mail job -->
+    <bean id="weeklyEmailJob" parent="unscheduledJobDescriptor">
+        <property name="steps">
+            <list>
+                <ref bean="weeklyEmailStep" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="weeklyEmailStep" class="org.kuali.ole.sys.batch.WeeklyEmailStep" parent="step" />
+    
+    <bean id="modulesLockJob" parent="modulesLockJob-parentBean"/>
+    <bean id="modulesLockJob-parentBean" parent="unscheduledJobDescriptor" abstract="true">
+		<property name="steps">
+			<list>
+				<ref bean="lockARModuleStep" />
+				<ref bean="lockLDModuleStep" />
+				<ref bean="lockGLModuleStep" />
+				<ref bean="lockBCModuleStep" />
+				<ref bean="lockCABModuleStep" />
+				<ref bean="lockCOAModuleStep" />
+				<ref bean="lockCAMModuleStep" />
+				<ref bean="lockPURAPModuleStep" />
+				<ref bean="lockSYSModuleStep" />
+				<ref bean="lockVNDModuleStep" />
+				<ref bean="lockFPModuleStep" />
+				<ref bean="lockECModuleStep" />
+				<ref bean="lockPDPModuleStep" />
+				<ref bean="lockCGModuleStep" />
+				<ref bean="lockENDOWModuleStep" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="lockARModuleStep" parent="lockModuleStep">
+	    <property name="namespaceCode" value="OLE-AR"/>
+	</bean>    
+	<bean id="lockLDModuleStep" parent="lockModuleStep">
+	    <property name="namespaceCode" value="OLE-LD"/>
+	</bean>
+	<bean id="lockGLModuleStep" parent="lockModuleStep">
+	    <property name="namespaceCode" value="OLE-GL"/>
+	</bean>
+	<bean id="lockBCModuleStep" parent="lockModuleStep">
+	    <property name="namespaceCode" value="OLE-BC"/>
+	</bean>
+	<bean id="lockCABModuleStep" parent="lockModuleStep">
+	    <property name="namespaceCode" value="OLE-CAB"/>
+	</bean>
+	<bean id="lockCOAModuleStep" parent="lockModuleStep">
+	    <property name="namespaceCode" value="OLE-COA"/>
+	</bean>
+	<bean id="lockCAMModuleStep" parent="lockModuleStep">
+	    <property name="namespaceCode" value="OLE-CAM"/>
+	</bean>
+	<bean id="lockPURAPModuleStep" parent="lockModuleStep">
+	    <property name="namespaceCode" value="OLE-PURAP"/>
+	</bean>
+	<bean id="lockSYSModuleStep" parent="lockModuleStep">
+	    <property name="namespaceCode" value="OLE-SYS"/>
+	</bean>
+	<bean id="lockVNDModuleStep" parent="lockModuleStep">
+	    <property name="namespaceCode" value="OLE-VND"/>
+	</bean>
+	<bean id="lockFPModuleStep" parent="lockModuleStep">
+	    <property name="namespaceCode" value="OLE-FP"/>
+	</bean>
+	<bean id="lockECModuleStep" parent="lockModuleStep">
+	    <property name="namespaceCode" value="OLE-EC"/>
+	</bean>
+	<bean id="lockPDPModuleStep" parent="lockModuleStep">
+	    <property name="namespaceCode" value="OLE-PDP"/>
+	</bean>
+	<bean id="lockCGModuleStep" parent="lockModuleStep">
+	    <property name="namespaceCode" value="OLE-CG"/>
+	</bean>
+	<bean id="lockENDOWModuleStep" parent="lockModuleStep">
+	    <property name="namespaceCode" value="OLE-ENDOW"/>
+	</bean>
+	
+	<bean id="modulesUnlockJob" parent="modulesUnlockJob-parentBean"/>
+	<bean id="modulesUnlockJob-parentBean" parent="unscheduledJobDescriptor" abstract="true">
+		<property name="steps">
+			<list>
+				<ref bean="unlockARModuleStep" />
+				<ref bean="unlockLDModuleStep" />
+				<ref bean="unlockGLModuleStep" />
+				<ref bean="unlockBCModuleStep" />
+				<ref bean="unlockCABModuleStep" />
+				<ref bean="unlockCOAModuleStep" />
+				<ref bean="unlockCAMModuleStep" />
+				<ref bean="unlockPURAPModuleStep" />
+				<ref bean="unlockSYSModuleStep" />
+				<ref bean="unlockVNDModuleStep" />
+				<ref bean="unlockFPModuleStep" />
+				<ref bean="unlockECModuleStep" />
+				<ref bean="unlockPDPModuleStep" />
+				<ref bean="unlockCGModuleStep" />
+				<ref bean="unlockENDOWModuleStep" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="unlockARModuleStep" parent="unlockModuleStep">
+	    <property name="namespaceCode" value="OLE-AR"/>
+	</bean>
+	<bean id="unlockLDModuleStep" parent="unlockModuleStep">
+	    <property name="namespaceCode" value="OLE-LD"/>
+	</bean>
+	<bean id="unlockGLModuleStep" parent="unlockModuleStep">
+	    <property name="namespaceCode" value="OLE-GL"/>
+	</bean>
+	<bean id="unlockBCModuleStep" parent="unlockModuleStep">
+	    <property name="namespaceCode" value="OLE-BC"/>
+	</bean>
+	<bean id="unlockCABModuleStep" parent="unlockModuleStep">
+	    <property name="namespaceCode" value="OLE-CAB"/>
+	</bean>
+	<bean id="unlockCOAModuleStep" parent="unlockModuleStep">
+	    <property name="namespaceCode" value="OLE-COA"/>
+	</bean>
+	<bean id="unlockCAMModuleStep" parent="unlockModuleStep">
+	    <property name="namespaceCode" value="OLE-CAM"/>
+	</bean>
+	<bean id="unlockPURAPModuleStep" parent="unlockModuleStep">
+	    <property name="namespaceCode" value="OLE-PURAP"/>
+	</bean>
+	<bean id="unlockSYSModuleStep" parent="unlockModuleStep">
+	    <property name="namespaceCode" value="OLE-SYS"/>
+	</bean>
+	<bean id="unlockVNDModuleStep" parent="unlockModuleStep">
+	    <property name="namespaceCode" value="OLE-VND"/>
+	</bean>
+	<bean id="unlockFPModuleStep" parent="unlockModuleStep">
+	    <property name="namespaceCode" value="OLE-FP"/>
+	</bean>
+	<bean id="unlockECModuleStep" parent="unlockModuleStep">
+	    <property name="namespaceCode" value="OLE-EC"/>
+	</bean>
+	<bean id="unlockPDPModuleStep" parent="unlockModuleStep">
+	    <property name="namespaceCode" value="OLE-PDP"/>
+	</bean>
+	<bean id="unlockCGModuleStep" parent="unlockModuleStep">
+	    <property name="namespaceCode" value="OLE-CG"/>
+	</bean>
+	<bean id="unlockENDOWModuleStep" parent="unlockModuleStep">
+	    <property name="namespaceCode" value="OLE-ENDOW"/>
+	</bean>
+	
+	<bean id="lockModuleStep" class="org.kuali.ole.sys.batch.LockModuleStep" parent="step">
+		<property name="lockModuleService" ref="lockModuleService" />
+		<property name="lockModule" value="true" />
+	</bean>
+	
+	<bean id="unlockModuleStep" class="org.kuali.ole.sys.batch.LockModuleStep" parent="step">
+		<property name="lockModuleService" ref="lockModuleService" />
+		<property name="lockModule" value="false" />
+	</bean>
+
+
+    <bean id="actionListBatchJob" parent="actionListBatchJob-parentBean"/>
+    <bean id="actionListBatchJob-parentBean" parent="unscheduledJobDescriptor" abstract="true">
+       <property name="steps">
+           <list>
+               <ref bean="actionListBatchJobStep"/>
+           </list>
+       </property>
+    </bean>
+
+    <bean id="actionListBatchJobStep" class="org.kuali.ole.sys.context.ActionListBatchProcessor" parent="step"/>
+
+	<bean id="lockModuleService" parent="lockModuleService-parentBean"/>
+	<bean id="lockModuleService-parentBean" class="org.kuali.ole.sys.batch.service.impl.LockModuleServiceImpl" abstract="true">
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="parameterService" ref="parameterService" />
+	</bean>
+    
+    <bean id="FlatFileParser" abstract="true" class="org.kuali.ole.sys.batch.FlatFileParserBase">    
+		<property name="dateTimeService" ref="dateTimeService" />
+	</bean>
+
+    <bean id="FlatFileParseTracker" class="org.kuali.ole.sys.batch.FlatFileParseTrackerImpl" scope="prototype" />
+    
+    <bean id="FlatFilePrefixObjectSpecification" abstract="true" class="org.kuali.ole.sys.batch.FlatFilePrefixObjectSpecification" />
+    
+    <bean id="FlatFileRegexObjectSpecification" abstract="true" class="org.kuali.ole.sys.batch.FlatFileRegexObjectSpecification" />
+    
+	<bean id="FixedWidthFlatFileSpecification" abstract="true" class="org.kuali.ole.sys.batch.FixedWidthFlatFileSpecification" />
+    
+    <bean id="FixedWidthFlatFilePropertySpecification" abstract="true" class="org.kuali.ole.sys.batch.FixedWidthFlatFilePropertySpecification" />
+    
+	<bean id="DelimitedFlatFileSpecification" abstract="true" class="org.kuali.ole.sys.batch.DelimitedFlatFileSpecification" />
+	
+    <bean id="DelimitedFlatFilePropertySpecification" abstract="true" class="org.kuali.ole.sys.batch.DelimitedFlatFilePropertySpecification" />
+    
+    <bean id="FixedWidthFlatFileRegexSpecification" abstract="true" class="org.kuali.ole.sys.batch.FixedWidthFlatFileRegexSpecification" />
+    
+    <bean id="batchContainerStep" parent="batchContainerStep-parentBean"/>
+    <bean id="batchContainerStep-parentBean" abstract="true" class="org.kuali.ole.sys.batch.BatchContainerStep" parent="step">
+        <property name="batchContainerDirectory" value="${staging.directory.sys.batchContainer}"/>
+        <property name="batchContainerStopStep" ref="stopBatchContainerStep" />
+	</bean>
+	
+	<bean id="stopBatchContainerStep" class="org.kuali.ole.sys.batch.StopBatchContainerStep" parent="step"/>
+
+	
+	<bean id="semaphoreInputFileTypeError" class="org.kuali.ole.sys.batch.SemaphoreInputFileType">
+    	<property name="directoryPath" value="${staging.directory.sys.batchContainer}"/>
+	 	<property name="fileExtension" value="error"/>
+	 	<property name="fileTypeIdentifier" value="semaphoreInputFileTypeError" />
+	</bean>
+	
+	<bean id="namespaceOrFilePathPermissionTypeService" class="org.kuali.ole.sys.identity.NamespaceWildcardAllowedAndOrStringWildcardAllowedPermissionTypeServiceImpl">
+        <property name="wildcardMatchStringAttributeName" value="filePath"/>
+    	<property name="namespaceRequiredOnStoredAttributeSet" value="false" />
+    </bean>
+    
+    <bean id="excludeSingleActorSeparationOfDutiesRoleTypeService" parent="excludeSingleActorSeparationOfDutiesRoleTypeService-parentBean" />
+    <bean id="excludeSingleActorSeparationOfDutiesRoleTypeService-parentBean" abstract="true" class="org.kuali.ole.sys.identity.ExcludeSingleActorSeparationOfDutiesRoleTypeService" />
+    
+    
+    <import resource="spring-sys-bus-exports.xml"/>
+</beans>

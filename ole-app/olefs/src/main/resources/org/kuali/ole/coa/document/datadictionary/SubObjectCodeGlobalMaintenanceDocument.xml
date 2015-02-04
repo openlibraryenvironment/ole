@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+<!--
+ Copyright 2008-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean id="SubObjectCodeGlobalMaintenanceDocument" parent="SubObjectCodeGlobalMaintenanceDocument-parentBean"/>
+
+  <bean id="SubObjectCodeGlobalMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.ole.coa.businessobject.SubObjectCodeGlobal"/>
+    <property name="maintainableClass" value="org.kuali.ole.coa.document.SubObjCdGlobalMaintainableImpl"/>
+    <property name="maintainableSections">
+      <list>
+        <ref bean="SubObjectCodeGlobalMaintenanceDocument-EditGlobalSubObjectCode"/>
+        <ref bean="SubObjectCodeGlobalMaintenanceDocument-EditObjectCodes"/>
+        <ref bean="SubObjectCodeGlobalMaintenanceDocument-EditAccounts"/>
+      </list>
+    </property>
+    <property name="defaultExistenceChecks">
+      <list>
+        <bean parent="ReferenceDefinition" p:attributeName="chartOfAccounts" p:attributeToHighlightOnFail="chartOfAccountsCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="universityFiscal" p:attributeToHighlightOnFail="universityFiscalYear"/>
+      </list>
+    </property>
+    <property name="lockingKeys">
+      <list>
+        <value>documentNumber</value>
+      </list>
+    </property>
+    <property name="webScriptFiles">
+      <list>
+        <value>../dwr/interface/AccountService.js</value>
+        <value>../scripts/coa/accountDocument.js</value>
+      </list>
+    </property>    
+    <property name="documentTypeName" value="OLE_GSOB"/>
+    <property name="businessRulesClass" value="org.kuali.ole.coa.document.validation.impl.SubObjCdGlobalRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.ole.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
+    <property name="workflowAttributes">
+    	<ref bean="SubObjectCodeGlobalMaintenanceDocument-workflowAttributes"/>
+    </property>
+  </bean>
+
+<!-- Maintenance Section Definitions -->
+
+
+  <bean id="SubObjectCodeGlobalMaintenanceDocument-EditGlobalSubObjectCode" parent="SubObjectCodeGlobalMaintenanceDocument-EditGlobalSubObjectCode-parentBean"/>
+
+  <bean id="SubObjectCodeGlobalMaintenanceDocument-EditGlobalSubObjectCode-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Global Sub Object Code"/>
+    <property name="title" value="Edit Global Sub Object Code"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="universityFiscalYear" p:required="true" p:defaultValueFinderClass="org.kuali.ole.sys.businessobject.defaultvalue.FiscalYearFinder"/>
+        <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="financialSubObjectCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="financialSubObjectCodeName" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="financialSubObjectCodeShortName" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
+      </list>
+    </property>
+  </bean>
+  <bean id="SubObjectCodeGlobalMaintenanceDocument-EditObjectCodes" parent="SubObjectCodeGlobalMaintenanceDocument-EditObjectCodes-parentBean"/>
+
+  <bean id="SubObjectCodeGlobalMaintenanceDocument-EditObjectCodes-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Object Codes"/>
+    <property name="title" value="Edit Object Codes"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableCollectionDefinition">
+          <property name="name" value="subObjCdGlobalDetails"/>
+          <property name="businessObjectClass" value="org.kuali.ole.coa.businessobject.SubObjectCodeGlobalDetail"/>
+          <property name="sourceClassName" value="org.kuali.ole.coa.businessobject.ObjectCode"/>
+          <property name="summaryTitle" value="Object Code"/>
+          <property name="summaryFields">
+            <list>
+              <bean parent="MaintainableFieldDefinition" p:name="financialObjectCode"/>
+            </list>
+          </property>
+          <property name="maintainableFields">
+            <list>
+              <bean parent="MaintainableFieldDefinition" p:name="universityFiscalYear" p:required="true" p:defaultValueFinderClass="org.kuali.ole.sys.businessobject.defaultvalue.FiscalYearFinder" p:readOnlyAfterAdd="true" p:template="universityFiscalYear"/>
+              <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:readOnlyAfterAdd="true" p:template="chartOfAccountsCode"/>
+              <bean parent="MaintainableFieldDefinition" p:name="financialObjectCode" p:required="true" p:template="financialObjectCode"/>
+              <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>
+            </list>
+          </property>
+          <property name="duplicateIdentificationFields">
+          	<list>
+          		<bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode"/>
+          		<bean parent="MaintainableFieldDefinition" p:name="financialObjectCode"/>
+          	</list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+  <bean id="SubObjectCodeGlobalMaintenanceDocument-EditAccounts" parent="SubObjectCodeGlobalMaintenanceDocument-EditAccounts-parentBean"/>
+
+  <bean id="SubObjectCodeGlobalMaintenanceDocument-EditAccounts-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Accounts"/>
+    <property name="title" value="Edit Accounts"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableCollectionDefinition">
+          <property name="name" value="accountGlobalDetails"/>
+          <property name="businessObjectClass" value="org.kuali.ole.coa.businessobject.AccountGlobalDetail"/>
+          <property name="sourceClassName" value="org.kuali.ole.coa.businessobject.Account"/>
+          <property name="summaryTitle" value="Account"/>
+          <property name="summaryFields">
+            <list>
+              <bean parent="MaintainableFieldDefinition" p:name="accountNumber"/>
+              <bean parent="MaintainableFieldDefinition" p:name="account.accountName"/>
+            </list>
+          </property>
+          <property name="maintainableFields">
+            <list>
+              <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:readOnlyAfterAdd="true" p:template="chartOfAccountsCode"/>
+              <bean parent="MaintainableFieldDefinition" p:name="accountNumber" p:required="true" p:template="accountNumber" p:webUILeaveFieldFunction="onblur_accountNumber">
+				<property name="webUILeaveFieldFunctionParameters">
+					<list>
+						<value>chartOfAccountsCode</value>
+					</list>
+				</property> 
+			  </bean>  
+              <bean parent="MaintainableFieldDefinition" p:name="account.accountName" p:unconditionallyReadOnly="true" p:template="accountName"/>
+              <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>
+            </list>
+          </property>
+          <property name="duplicateIdentificationFields">
+          	<list>
+          		<bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode"/>
+          		<bean parent="MaintainableFieldDefinition" p:name="accountNumber"/>
+          	</list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+
+<!-- workflow attributes -->
+  	<bean id="SubObjectCodeGlobalMaintenanceDocument-workflowAttributes" parent="SubObjectCodeGlobalMaintenanceDocument-workflowAttributes-parentBean"/>
+  
+	<bean id="SubObjectCodeGlobalMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+		<property name="routingTypeDefinitions">
+    		<map>
+	    		<entry key="Account" value-ref="SubObjectCodeGlobalMaintenanceDocument-RoutingType-Account"/>
+    			<entry key="OrganizationHierarchy" value-ref="SubObjectCodeGlobalMaintenanceDocument-RoutingType-OrganizationHierarchy"/>
+    			<entry key="Chart" value-ref="SubObjectCodeGlobalMaintenanceDocument-RoutingType-OrganizationHierarchy"/>
+       		</map>
+		</property>
+	</bean>
+
+	<bean id="SubObjectCodeGlobalMaintenanceDocument-DocumentValuePathGroup-ChartOrganization" class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
+    	<property name="documentCollectionPath">
+    		<bean parent="SubObjectCodeGlobalMaintenanceDocument-DocumentCollectionPath-chartOrganization">
+    			<property name="collectionPath" value="newMaintainableObject.businessObject.accountGlobalDetails"/>
+    		</bean>
+    	</property>
+   	</bean>
+   	
+   	<bean id="SubObjectCodeGlobalMaintenanceDocument-DocumentCollectionPath-chartOrganization" class="org.kuali.rice.krad.datadictionary.DocumentCollectionPath" abstract="true">
+		<property name="documentValues">
+	   		<list>
+	   			<value>chartOfAccountsCode</value>
+	   			<value>account.organizationCode</value>
+	   		</list>
+   		</property>
+   	</bean>
+   	
+   	<bean id="SubObjectCodeGlobalMaintenanceDocument-DocumentValuePathGroup-ChartAccount" class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
+    	<property name="documentCollectionPath">
+    		<bean parent="SubObjectCodeGlobalMaintenanceDocument-DocumentCollectionPath-chartAccount">
+    			<property name="collectionPath" value="newMaintainableObject.businessObject.accountGlobalDetails"/>
+    		</bean>
+    	</property>
+   	</bean>
+	
+   	<bean id="SubObjectCodeGlobalMaintenanceDocument-DocumentCollectionPath-chartAccount" class="org.kuali.rice.krad.datadictionary.DocumentCollectionPath" abstract="true">
+		<property name="documentValues">
+	   		<list>
+	   			<value>chartOfAccountsCode</value>
+	   			<value>accountNumber</value>
+	   		</list>
+   		</property>
+   	</bean>
+   	
+   	<bean id="SubObjectCodeGlobalMaintenanceDocument-DocumentValuePathGroup-accountGlobalDetails" class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
+    	<property name="documentCollectionPath">
+    		<bean parent="SubObjectCodeGlobalMaintenanceDocument-DocumentCollectionPath-chart">
+    			<property name="collectionPath" value="newMaintainableObject.businessObject.accountGlobalDetails"/>
+    		</bean>
+    	</property>
+   	</bean>
+   	
+   	<bean id="SubObjectCodeGlobalMaintenanceDocument-DocumentValuePathGroup-subObjCdGlobalDetails" class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
+    	<property name="documentCollectionPath">
+    		<bean parent="SubObjectCodeGlobalMaintenanceDocument-DocumentCollectionPath-chart">
+    			<property name="collectionPath" value="newMaintainableObject.businessObject.subObjCdGlobalDetails"/>
+    		</bean>
+    	</property>
+   	</bean>
+   	
+   	 <bean id="SubObjectCodeGlobalMaintenanceDocument-DocumentCollectionPath-chart" class="org.kuali.rice.krad.datadictionary.DocumentCollectionPath" abstract="true">
+		<property name="documentValues">
+	   		<list>
+	   			<value>chartOfAccountsCode</value>
+	   		</list>
+   		</property>
+   	</bean>
+   	
+   	<bean id="SubObjectCodeGlobalMaintenanceDocument-RoutingType-AccountSupervisor" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+		        <ref bean="RoutingAttribute-Chart"/>
+		        <ref bean="RoutingAttribute-Account"/>
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<ref bean="SubObjectCodeGlobalMaintenanceDocument-DocumentValuePathGroup-ChartAccount"/>
+    		</list>
+    	</property>
+    </bean>
+   	
+   	<bean id="SubObjectCodeGlobalMaintenanceDocument-RoutingType-OrganizationHierarchy" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+		        <ref bean="RoutingAttribute-Chart"/>
+    			<ref bean="RoutingAttribute-Organization"/>
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<ref bean="SubObjectCodeGlobalMaintenanceDocument-DocumentValuePathGroup-ChartOrganization"/>
+    		</list>
+    	</property>
+    </bean>
+   	
+	<bean id="SubObjectCodeGlobalMaintenanceDocument-RoutingType-Account" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+		        <ref bean="RoutingAttribute-Chart"/>
+		        <ref bean="RoutingAttribute-Account"/>
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<ref bean="SubObjectCodeGlobalMaintenanceDocument-DocumentValuePathGroup-ChartAccount"/>
+    		</list>
+    	</property>
+    </bean>
+ 
+	<bean id="SubObjectCodeGlobalMaintenanceDocument-RoutingType-Chart" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+		        <ref bean="RoutingAttribute-Chart"/>
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<ref bean="SubObjectCodeGlobalMaintenanceDocument-DocumentValuePathGroup-accountGlobalDetails"/>
+    			<ref bean="SubObjectCodeGlobalMaintenanceDocument-DocumentValuePathGroup-subObjCdGlobalDetails"/>
+    		</list>
+    	</property>
+    </bean>
+</beans>

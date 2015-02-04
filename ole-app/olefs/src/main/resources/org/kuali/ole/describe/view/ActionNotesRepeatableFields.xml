@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="actionIdentificationField" parent="Uif-StackedSubCollection-WithinSection">
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.docstore.common.document.content.instance.oleml.ActionNote"/>
+        <property name="propertyName" value="actionIdentification"/>
+        <!--<property name="addLineLabel" value=""/>-->
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="actionIdentification" p:label="Action Identification">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="timeDateOfActionField" parent="Uif-StackedSubCollection-WithinSection">
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.docstore.common.document.content.instance.oleml.ActionNote"/>
+        <property name="propertyName" value="timeDateOfAction"/>
+       <!-- <property name="addLineLabel" value=""/>-->
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="timeDateOfAction" p:label="Time/Date of Action">
+                    <property name="control">
+                        <bean parent="Uif-DateControl"/>
+                    </property>
+                 </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="actionIntervalField" parent="Uif-StackedSubCollection-WithinSection">
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.docstore.common.document.content.instance.oleml.ActionNote"/>
+        <property name="propertyName" value="actionInterval"/>
+       <!-- <property name="addLineLabel" value=""/>-->
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="actionInterval" p:label="Action Interval">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="contingencyForActionField" parent="Uif-StackedSubCollection-WithinSection">
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.docstore.common.document.content.instance.oleml.ActionNote"/>
+        <property name="propertyName" value="contingencyForAction"/>
+        <!--<property name="addLineLabel" value=""/>-->
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="contingencyForAction" p:label="Contingency For Action">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="authorizationField" parent="Uif-StackedSubCollection-WithinSection">
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.docstore.common.document.content.instance.oleml.ActionNote"/>
+        <property name="propertyName" value="authorization"/>
+        <!--<property name="addLineLabel" value=""/>-->
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="authorization" p:label="Authorization">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="jurisdictionField" parent="Uif-StackedSubCollection-WithinSection">
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.docstore.common.document.content.instance.oleml.ActionNote"/>
+        <property name="propertyName" value="jurisdiction"/>
+        <!--<property name="addLineLabel" value=""/>-->
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="jurisdiction" p:label="Jurisdiction">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="methodOfActionField" parent="Uif-StackedSubCollection-WithinSection">
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.docstore.common.document.content.instance.oleml.ActionNote"/>
+        <property name="propertyName" value="methodOfAction"/>
+        <!--<property name="addLineLabel" value=""/>-->
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="methodOfAction" p:label="Method of Action">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="siteOfActionField" parent="Uif-StackedSubCollection-WithinSection">
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.docstore.common.document.content.instance.oleml.ActionNote"/>
+        <property name="propertyName" value="siteOfAction"/>
+        <!--<property name="addLineLabel" value=""/>-->
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="siteOfAction" p:label="Site of Action">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="actionAgentField" parent="Uif-StackedSubCollection-WithinSection">
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.docstore.common.document.content.instance.oleml.ActionNote"/>
+        <property name="propertyName" value="actionAgent"/>
+        <!--<property name="addLineLabel" value=""/>-->
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="actionAgent" p:label="Action Agent">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="actionStatusField" parent="Uif-StackedSubCollection-WithinSection">
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.docstore.common.document.content.instance.oleml.ActionNote"/>
+        <property name="propertyName" value="actionStatus"/>
+        <!--<property name="addLineLabel" value=""/>-->
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="actionStatus" p:label="Action Status">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="actionExtentField" parent="Uif-StackedSubCollection-WithinSection">
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.docstore.common.document.content.instance.oleml.ActionNote"/>
+        <property name="propertyName" value="actionExtent"/>
+        <!--<property name="addLineLabel" value=""/>-->
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="actionExtent" p:label="Action Extent">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="5"/>
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="NumericPatternConstraint"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="unitTypeField" parent="Uif-StackedSubCollection-WithinSection">
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.docstore.common.document.content.instance.oleml.ActionNote"/>
+        <property name="propertyName" value="unitType"/>
+        <!--<property name="addLineLabel" value=""/>-->
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="unitType" p:label="Unit Type">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="18" p:maxLength="9950" p:textExpand="true"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="actionURIField" parent="Uif-StackedSubCollection-WithinSection">
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.docstore.common.document.content.instance.oleml.ActionNote"/>
+        <property name="propertyName" value="actionURI"/>
+        <!--<property name="addLineLabel" value=""/>-->
+        <property name="items">
+            <list>
+                <bean parent="Uif-LinkField" p:href="" p:linkText="Action URI"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

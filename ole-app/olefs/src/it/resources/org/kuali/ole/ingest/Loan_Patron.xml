@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<krms>
+	<agenda>
+	    <name>CIRC_POLICY</name>
+	    <description>Circulation Policy for IU</description>
+	    <contextName>CIRC_CONTXT</contextName>
+	    <categoryName>Policies</categoryName>
+        <profileAttributes>
+            <attribute name="borrowerType">Faculty</attribute>
+            <attribute name="BOOK">10-DAY</attribute>
+            <attribute name="AUDIOCD">5-HOUR</attribute>
+            <attribute name="AUDIOTAPE">1-WEEK</attribute>
+            <attribute name="NEWSPAPER"></attribute>
+            <attribute name="MAGAZINE">7-DAY</attribute>
+            <attribute name="NONCIRC">NONCIRC</attribute>
+            <attribute name="PERIOD">1-MONTH</attribute>
+            <attribute name="NORMAL">23-MINUTE</attribute>
+        </profileAttributes>
+	   <rules>
+            <rule>
+                <name>barcodeStatusCheck</name>
+                <proposition>
+                   <term>barcodeStatus</term>
+                   <type>java.lang.String</type>
+                   <operator>=</operator>
+                   <constant>true</constant>
+                   <function>NO</function>
+                </proposition>
+            </rule>
+            <rule>
+                <name>membershipExpirationDateCheck</name>
+                <proposition>
+                   <term>expirationDate</term>
+                   <type>java.util.Date</type>
+                   <function>YES</function>
+                </proposition>
+            </rule>
+            <rule>
+                <name>borrowerLimitCheck</name>
+                <proposition>
+                   <term>loanedItems</term>
+                   <type>java.lang.Integer</type>
+                   <operator>&lt;=</operator>
+                   <constant>5</constant>
+                   <function>NO</function>
+                </proposition>
+            </rule>
+            <rule>
+                <name>itemAvailableCheck</name>
+                <proposition>
+                   <term>itemStatus</term>
+                   <type>java.lang.String</type>
+                   <operator>=</operator>
+                   <constant>AVAILABLE</constant>
+                   <function>NO</function>
+                </proposition>
+            </rule>
+            <rule>
+                <name>itemUnAvailableCheck</name>
+                <compoundProposition>
+                    <propositionType>&amp;</propositionType>
+                    <proposition>
+                            <term>itemStatus</term>
+                            <type>java.lang.String</type>
+                            <operator>!=</operator>
+                            <constant>MISSING</constant>
+                            <function>NO</function>
+                    </proposition>
+                    <proposition>
+                            <term>itemStatus</term>
+                            <type>java.lang.String</type>
+                            <operator>!=</operator>
+                            <constant>LOST</constant>
+                            <function>NO</function>
+                    </proposition>
+                    <proposition>
+                            <term>itemStatus</term>
+                            <type>java.lang.String</type>
+                            <operator>!=</operator>
+                            <constant>ONHOLD</constant>
+                            <function>NO</function>
+                    </proposition>
+                    <proposition>
+                            <term>itemStatus</term>
+                            <type>java.lang.String</type>
+                            <operator>!=</operator>
+                            <constant>INTRANSIT</constant>
+                            <function>NO</function>
+                    </proposition>
+                    <proposition>
+                            <term>itemStatus</term>
+                            <type>java.lang.String</type>
+                            <operator>!=</operator>
+                            <constant>LOANED</constant>
+                            <function>NO</function>
+                    </proposition>
+                    <proposition>
+                            <term>itemStatus</term>
+                            <type>java.lang.String</type>
+                            <operator>!=</operator>
+                            <constant>false</constant>
+                            <function>NO</function>
+                    </proposition>
+                    <proposition>
+                            <term>itemStatus</term>
+                            <type>java.lang.String</type>
+                            <operator>!=</operator>
+                            <constant>false</constant>
+                            <function>NO</function>
+                    </proposition>
+                    <proposition>
+                            <term>itemStatus</term>
+                            <type>java.lang.String</type>
+                            <operator>!=</operator>
+                            <constant>ONORDER</constant>
+                            <function>NO</function>
+                    </proposition>
+                </compoundProposition>
+            </rule>
+           <rule>
+               <name>itemDueDateCheck</name>
+                <proposition>
+                       <term>dueDate</term>
+                       <type>java.lang.String</type>
+                       <operator>!=</operator>
+                       <constant>null</constant>
+                       <function>NO</function>
+                </proposition>
+           </rule>
+	    </rules>
+	</agenda>
+</krms>

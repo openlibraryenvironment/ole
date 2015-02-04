@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="FeeType" parent="FeeType-parentBean"/>
+    <bean id="FeeType-parentBean" abstract="true" parent="BusinessObjectEntry"
+          p:businessObjectClass="org.kuali.ole.deliver.bo.FeeType" p:titleAttribute="id"
+          p:objectLabel="Patron Bill">
+        <property name="attributes">
+            <list>
+                <ref bean="PatronBill-feeType"/>
+                <ref bean="PatronBill-feeAmount"/>
+                <ref bean="PatronBill-paymentStatus"/>
+                <ref bean="PatronBill-forgiveErrorNote"/>
+            </list>
+        </property>
+        <property name="primaryKeys">
+            <list>
+                <value>id</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+
+    <bean id="PatronBill-feeType" parent="PatronBill-feeType-parentBean"/>
+
+    <bean id="PatronBill-feeType-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="feeType"/>
+        <property name="label" value="Fee Type"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="PatronBill-feeAmount" parent="PatronBill-feeAmount-parentBean"/>
+    <bean id="PatronBill-feeAmount-parentBean" parent="AttributeDefinition" abstract="true" p:name="feeAmount"
+          p:forceUppercase="false" p:label="Fee Amount" p:shortLabel="Fee Amount" p:maxLength="40" p:required="false">
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+            <!--<bean parent="Uif-TextAreaControl"/>-->
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="PatronBill-paymentStatus" parent="PatronBill-paymentStatus-parentBean"/>
+    <bean id="PatronBill-paymentStatus-parentBean" parent="AttributeDefinition" abstract="true" p:name="paymentStatus"
+          p:forceUppercase="false" p:label="Payment Status" p:shortLabel="Payment Status" p:maxLength="40">
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="PatronBill-forgiveErrorNote" parent="PatronBill-forgiveErrorNote-parentBean"/>
+    <bean id="PatronBill-forgiveErrorNote-parentBean" parent="AttributeDefinition" abstract="true" p:name="forgiveErrorNote"
+          p:label="Forgive/Error Notes" p:shortLabel="Forgive/Error Notes" p:maxLength="500">
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="500"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="500"/>
+        </property>
+    </bean>
+
+
+    <bean id="FeeType-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="Patron" />
+        <property name="dataObjectClassName" value="org.kuali.ole.deliver.bo.FeeType" />
+        <property name="criteriaFields">
+            <list>
+                <bean  parent="Uif-LookupCriteriaInputField" p:propertyName="feeType" />
+                <bean  parent="Uif-LookupCriteriaInputField" p:propertyName="feeAmount" />
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="feeTypeName" p:label="Fee Type"/>
+                <bean parent="Uif-DataField" p:propertyName="feeAmount" p:label="Fee Amount"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

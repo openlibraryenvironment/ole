@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0"
+    xml:lang="en-US">
+    <title><anchor xml:id="ManageTitleHoldingsItems"/>Manage Titles, Holdings, or Items</title>
+    <para role="Normal"><inlinemediaobject>
+            <imageobject>
+                <imagedata fileref="../images/DescribeNoTitlePage-DescribeTab.png"/>
+            </imageobject>
+        </inlinemediaobject>
+        <emphasis role="bold">&gt;</emphasis><inlinemediaobject>
+            <imageobject>
+                <imagedata fileref="../images/DescribeNoTitlePage-6.png"/>
+            </imageobject>
+        </inlinemediaobject><emphasis role="bold">&gt;</emphasis><inlinemediaobject>
+            <imageobject>
+                <imagedata fileref="../images/DescribeNoTitlePage-7.png"/>
+            </imageobject>
+        </inlinemediaobject></para>
+    <para role="Normal"/>
+    <para role="Body Text">On the Describe menu, the Manage Titles, Holdings, or Items submenu
+        provides access for users to transfer and apply global changes to titles, holdings or
+        items.</para>
+</chapter>
+

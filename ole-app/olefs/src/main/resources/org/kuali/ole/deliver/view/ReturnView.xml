@@ -1,0 +1,732 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="ReturnItemView" parent="ReturnItemView-parentBean" />
+    <bean id="ReturnItemView-parentBean" parent="Uif-OLEFormView">
+        <property name="headerText" value="Return" />
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/CIRC/content/ch02s04.html"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="ReturnItemViewPage" parent="Uif-Page" >
+                    <property name="items">
+                        <list>
+                            <ref bean="LoadLoanButton"/>
+
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="footer">
+            <ref bean="ClearFooterView-buttons" />
+        </property>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>ole/deliver/loan/script/loan.js</value>
+            </list>
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>ole/deliver/loan/css/loan.css</value>
+            </list>
+        </property>
+        <property name="formClass" value="org.kuali.ole.deliver.form.OleLoanForm"/>
+    </bean>
+
+    <bean id="LoadLoanButton" parent="Uif-VerticalBoxSection">
+        <property name="items">
+        <list>
+          <ref bean="LoanScreenLinkView-buttons"/>
+           <ref bean="ReturnInformationSection"/>
+          <ref bean="LoadControlForReturn"/>
+        </list>
+        </property>
+    </bean>
+
+    <bean id="LoadControlForReturn" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+        <list>
+        <ref bean="ReturnDetailedSection"/>
+
+
+        </list>
+        </property>
+    </bean>
+
+    <bean id="ReturnCirculationDesk" parent="Return-Uif-InputField" p:propertyName="circulationDesk"
+          p:label="Circulation Desk" p:required="false" p:render="@{loanLoginUserInfo eq null OR loanLoginUserInfo eq ''}">
+        <property name="control">
+            <bean parent="Uif-DropdownControl"/>
+        </property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.ole.deliver.keyvalue.CirculationDeskChangeKeyValue"/>
+        </property>
+    </bean>
+
+
+    <bean id="LoanScreenLinkView-buttons" parent="Uif-PrimaryActionButton" p:methodToCall="gotoLoan" p:actionLabel="Loan" p:style="float:left;margin-left:5em" p:render="@{loanLoginUserInfo eq null OR loanLoginUserInfo eq ''}"  />
+
+    <bean id="ConfirmReturnCirculationLocationChange" parent="ConfirmReturnCirculationLocationChange-parent"/>
+    <bean id="ConfirmReturnCirculationLocationChange-parent" parent="Uif-VerticalBoxSection" p:render="@{changeLocationFlag}">
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <ref bean="ConfirmReturnCirculationLocation-Change"/>
+                            <ref bean="ReturnCirculationLocationButton"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="ConfirmReturnCirculationLocation-Change"  parent="ConfirmReturnCirculationLocation-Change-parent"/>
+    <bean id="ConfirmReturnCirculationLocation-Change-parent" parent="Uif-HorizontalBoxSubSection">
+        <property name="items">
+            <list>
+                <bean id="confirmReturnCirculationLocationMessage" parent="Uif-DataField" p:style="font-weight:bold;" p:propertyName="confirmMessage">
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ReturnCirculationLocationButton" parent="ReturnCirculationLocationButton-parent"/>
+    <bean id="ReturnCirculationLocationButton-parent" parent="Uif-HorizontalBoxSubSection">
+        <property name="items">
+            <list>
+                <bean id="ChangeReturnCirculationLocationBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="clearReturnUI" p:actionLabel="Yes" p:ajaxSubmit="true"  p:successCallback="closeReturnCirculationLocationDialog();dateValidation()" />
+                <bean id="ReturnCirculationLocationCloseBtn" parent="Uif-SecondaryActionButton-Small"  p:methodToCall="resetReturnLocation" p:actionLabel="No" p:ajaxSubmit="true"  p:successCallback="closeReturnCirculationLocationDialog();dateValidation()" />
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ItemAndCheckDate" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+        <list>
+        <ref bean="CheckInItem"/>
+        <ref bean="CheckInDateTime-HorizontalBoxSection"/>
+        <ref bean="ReturnCirculationDesk"/>
+        </list>
+        </property>
+    </bean>
+
+    <bean id="ReturnInformationSection" parent="Uif-VerticalBoxSubSection" p:style="position:absolute;left:300px;top:150px;width:500px">
+        <property name="items">
+            <list>
+                <bean id="AlertBoxSectionForDate-HorizontalBoxSection" parent="Uif-MessageField" p:messageText="@{dateAlertMessage}" p:cssClasses="return-message-date" p:style="position:absolute;left:300px;top:100px;width:250px"/>
+                <bean id="AlertBoxSectionForTime-HorizontalBoxSection" parent="Uif-MessageField" p:messageText="Check-in Time is not a current Time" p:cssClasses="return-messageClass"/>
+                <bean id="AlertBoxSectionForInvalidTime-HorizontalBoxSection" parent="Uif-MessageField" p:messageText="Check-In time must be a valid 24 hour (0-23) time in HH:mm format, seconds are optional" p:cssClasses="messageClass"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ReturnDetailedSection" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+
+                <ref bean="ItemAndCheckDate"/>
+
+                <ref bean="LoginUserInformationSection"/>
+           <!--     <ref bean="LoanLoginMessage"/>-->
+                <ref bean="InformationSectionForReturn"/>
+               <!-- <ref bean="DamagedCheckIn"/>-->
+
+
+
+                <ref bean="EndSessionButton-HorizontalBoxSection"/>
+                <ref bean="MessagePopupSectionForReturn"/>
+               <!-- <ref bean="showMessageForReturn"/>-->
+                <!--<ref bean="showReturn"/>-->
+                <ref bean="ItemReturnedListSearch-HorizontalBoxSection"/>
+                <!--<ref bean="showContinue"/>-->
+                <!--<ref bean="showContinueForCopy"/>-->
+        <!--        <ref bean="mapBillAvailability"/>-->
+               <!-- <ref bean="mapCurrentDate"/>-->
+                <!--<ref bean="mapFormKey"/>-->
+               <!-- <ref bean="mapCheckInNoteExists"/>-->
+               <!-- <ref bean="mapDamagedCheckIn"/>-->
+               <!-- <ref bean="mapMaxTimeForCheckInDate"/>-->
+               <!-- <ref bean="mapCheckInDateMaxTime"/>-->
+                <ref bean="MessagePopupSectionForLoan"/>
+               <!-- <ref bean="showCheckOut"/>-->
+                <!--<ref bean="audioOption"/>-->
+                <!--<ref bean="audioForPastDate"/>-->
+                <ref bean="ConfirmReturnCirculationLocationChange"/>
+                <ref bean="ChangeReturnLocationButton"/>
+                <ref bean="hiddenReturnField"/>
+                <ref bean="OverRideLogInSectionLink"/>
+           <!--     <ref bean="showOverRideLogin"/>-->
+             <!--   <ref bean="newPrincipalId"/>-->
+        <!--        <ref bean="oldPrincipalId"/>-->
+                <ref bean="hiddenLoanField"/>
+                <!--<ref bean="mapPrintBill"/>-->
+                <ref bean="loanLoginBtn"/>
+               <!-- <ref bean="loanLoginName"/>-->
+           <!--     <ref bean="validLogin"/>-->
+               <!-- <ref bean="hdnBackGroundCheckIn" />-->
+                <ref bean="loanLogOutBtn"/>
+             <!--   <ref bean="loginUser"/>-->
+                <ref bean="OLEReturnView-DamagedItem-MessageBox"/>
+               <!-- <ref bean="OLEReturnView-Damaged-status-flag"/>-->
+                <!--<ref bean="OLEReturnView-skipDamagedCheckIn-flag"/>-->
+                <!--<ref bean="OLEReturnView-itemStatus-for-print"/>-->
+                <ref bean="OLEReturnView-refreshReturnLoanList"/>
+                <ref bean="refreshExport_button"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ChangeReturnLocationButton" parent="Uif-SecondaryActionButton-Small" p:methodToCall="changeReturnCirculationDeskLocation" p:hidden="true" p:ajaxSubmit="true"  p:successCallback="changeReturnLocation()" />
+
+    <bean id="hiddenReturnField" parent="Return-Uif-InputField" p:propertyName="inTransit" p:additionalHiddenPropertyNames="audioForPastDate,skipDamagedCheckIn,checkOut,returnSuccess,returnCheck,numberOfPieces,billAvailability,currentDate,copyRequest,oleFormKey,checkInNoteExists,damagedCheckIn,maxTimeForCheckInDate,checkInDateMaxTime,holdSlip,itemDamagedStatus" >
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+    <!--<bean id="hdnBackGroundCheckIn" parent="Uif-InputField" p:propertyName="backGroundCheckIn">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+
+    <bean id="MessagePopupSectionForLoan" parent="Uif-VerticalBoxSection" p:render="@{message ne null and message ne '' and checkOut}" >
+        <property name="headerText" value="Delivery Checkout"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-MessageField" p:messageText="@{message}" />
+                            <ref bean="LoanButtonInReturn-HorizontalBoxSection"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="LoanButtonInReturn-HorizontalBoxSection" parent="LoanButtonInReturn-HorizontalBoxSection-parentBean" />
+    <bean id="LoanButtonInReturn-HorizontalBoxSection-parentBean" parent="Uif-HorizontalBoxSection" p:disclosure.render="false">
+        <property name="items">
+            <list>
+                <bean id="returnLoanBtn" parent="Uif-SecondaryActionButton-Small" p:actionScript="returnLoan();" p:actionLabel="Loan" p:render="@{!overrideRenewItemFlag and !renewalFlag and message ne null and message ne '' and !blockLoan }" p:focusOnIdAfterSubmit="CheckInItem-parentBean"/>
+
+                <bean id="hdnReturnLoanBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="loan" p:actionLabel="Loan" p:hidden="true"  p:ajaxSubmit="true"  p:successCallback="backGroundCheckOut()" p:focusOnIdAfterSubmit="CheckInItem-parentBean"/>
+
+                <bean id="noReturnLoanBtn" parent="Uif-SecondaryActionButton-Small" p:actionScript="doNotReturnLoan();" p:actionLabel="Do not Loan" p:render="@{!overrideRenewItemFlag and !renewalFlag and message ne null and message ne ''}" p:focusOnIdAfterSubmit="CheckInItem-parentBean"/>
+
+                <bean id="hdnNoReturnLoanBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="noLoan" p:actionLabel="Do not Loan" p:hidden="true" p:ajaxSubmit="true"  p:successCallback="backGroundCheckOut()" p:focusOnIdAfterSubmit="CheckInItem-parentBean"/>
+
+            </list>
+        </property>
+    </bean>
+    <bean id="ItemReturnedListSearch-HorizontalBoxSection" parent="ItemReturnedListSearch-HorizontalBoxSection-parentBean" />
+    <bean id="ItemReturnedListSearch-HorizontalBoxSection-parentBean" parent="Uif-VerticalBoxGroup" p:disclosure.render="false">
+        <property name="items">
+            <list>
+                <ref bean="ItemReturnedList-HorizontalBoxSection"/>
+                <bean id="endSessionButton" parent="Uif-SecondaryActionButton" p:methodToCall="endCheckInSession" p:actionLabel="End Session" p:style="float:middle;" p:successCallback="closeMessageBoxForReturn();printHoldSlips();setCheckinItemFocus();" p:focusOnIdAfterSubmit="CheckInItem-parentBean" p:render="@{loanLoginUserInfo eq null OR loanLoginUserInfo eq ''}" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="InformationSectionForReturn" parent="Uif-VerticalBoxSubSection">
+        <property name="items">
+            <list>
+                <bean id="MessageFieldSectionForReturn" parent="Uif-MessageField" p:messageText="@{returnInformation}" p:cssClasses="messageClass"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="BillPaymentOption" parent="BillPaymentOption-parentBean" />
+    <bean id="BillPaymentOption-parentBean" parent="Return-Uif-InputField" p:propertyName="billPaymentOption" p:label="Bill Payment Option" p:labelPlacement="RIGHT">
+        <property name="control">
+            <bean parent="Uif-CheckboxControl"/>
+        </property>
+    </bean>
+
+    <!--<bean id="DamagedCheckIn" parent="DamagedCheckIn-parentBean" />
+    <bean id="DamagedCheckIn-parentBean" parent="Uif-InputField" p:propertyName="damagedCheckInOption" p:label="Damaged CheckIn" p:labelPlacement="RIGHT" p:render="@{loanLoginUserInfo eq null OR loanLoginUserInfo eq ''}" >
+        <property name="control">
+            <bean parent="Uif-CheckboxControl"/>
+        </property>
+    </bean>-->
+    <bean id="CheckInDateTime-HorizontalBoxSection" parent="CheckInDateTime-HorizontalBoxSection-parentBean" />
+    <bean id="CheckInDateTime-HorizontalBoxSection-parentBean" parent="Uif-HorizontalBoxSubSection" p:disclosure.render="false"  p:render="@{loanLoginUserInfo eq null OR loanLoginUserInfo eq ''}" p:componentSecurity.editAuthz="true">
+        <property name="items">
+            <list>
+                <ref bean="CheckInDate"/>
+                <ref bean="CheckInTime"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CheckInDate" parent="CheckInDate-parentBean" />
+    <bean id="CheckInDate-parentBean" parent="Return-Uif-InputField" p:propertyName="checkInDate" p:label="Check-in Date" p:required="true">
+        <property name="control">
+            <bean parent="Uif-DateControl" p:size="10"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="BasicDatePatternConstraint"/>
+        </property>
+    </bean>
+
+    <bean id="CheckInTime" parent="CheckInTime-parentBean" />
+    <bean id="CheckInTime-parentBean" parent="Return-Uif-InputField" p:propertyName="checkInTime" p:label="Time">
+        <property name="control">
+            <bean parent="Uif-TextControl" p:size="6" p:watermarkText="hh:mm"/>
+        </property>
+    </bean>
+
+    <bean id="CheckInItem" parent="CheckInItem-parentBean" />
+    <bean id="CheckInItem-parentBean" parent="Uif-InputField" p:propertyName="checkInItem" p:label="Item" p:style="float:left;" p:enableAutoQuickfinder="@{loanLoginUserInfo eq null or loanLoginUserInfo eq ''}" p:render="@{loanLoginUserInfo eq null OR loanLoginUserInfo eq ''}" >
+        <property name="quickfinder">
+            <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.deliver.bo.OleItemSearch">
+                <property name="fieldConversions">
+                    <map>
+                        <entry key="itemBarCode" value="checkInItem"/>
+                        <entry key="itemUUID" value="returnItemUuid"/>
+                        <entry key="instanceUUID" value="returnInstanceUuid"/>
+                    </map>
+                </property>
+                <property name="lookupParameters">
+                    <map>
+                        <entry key="checkInItem" value="itemBarCode"/>
+                    </map>
+                </property>
+             </bean>
+        </property>
+
+        <property name="control">
+            <bean id="TextControl" parent="Uif-TextControl"/>
+        </property>
+    </bean>
+
+    <bean id="ItemReturnedList-HorizontalBoxSection" parent="ItemReturnedList-HorizontalBoxSection-parentBean" />
+    <bean id="ItemReturnedList-HorizontalBoxSection-parentBean" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="11" p:style="width:1000px"  p:render="@{itemReturnList ne null and itemReturnList.size() > 0}">
+        <property name="header.headerText" value="Item(s) Returned" />
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleLoanDocument"/>
+        <property name="propertyName" value="itemReturnList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <!--<property name="addLineLabel" value="false"/>-->
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.richTable.disableTableSort" value="true" />
+        <property name="items">
+            <list>
+                <!--     <bean id="returnCheckId" parent="Uif-InputField" p:propertyName="checkNo" p:width="1%" p:defaultValue="false">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" />
+                    </property>
+                </bean>    -->
+                <bean id="returnBarcode" parent="Uif-LinkField" p:label="Barcode" p:width="10%" p:linkText="@{#line.itemId}" p:target="_blank" p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=item&amp;editable=false&amp;docFormat=oleml&amp;docId=@{#line.itemUuid}&amp;instanceId=@{#line.instanceUuid}&amp;bibId=@{#line.bibUuid}" >
+
+                </bean>
+                <bean id="returnTitle" parent="Uif-DataField" p:label="Title" p:width="12%" p:propertyName="title">
+
+                </bean>
+                <bean id="returnAuthor" parent="Uif-DataField" p:label="Author" p:width="13%" p:propertyName="author">
+
+                </bean>
+                <bean id="returnItemLocation" parent="Uif-DataField" p:label="Location" p:width="18%" p:propertyName="location">
+
+                </bean>
+                <bean id="returnItemLocationCode" parent="Uif-DataField" p:label="Location Code" p:width="18%" p:propertyName="oleLocationCode">
+
+                </bean>
+                <bean id="returnItemCallNumber" parent="Uif-DataField" p:label="Call Number" p:width="10%" p:propertyName="itemCallNumber">
+
+                </bean>
+                <bean id="returnItemCopyNumber" parent="Uif-DataField" p:label="Copy Number" p:width="10%" p:propertyName="itemCopyNumber">
+
+                </bean>
+
+                <bean id="returnItemEnumeration" parent="Uif-DataField" p:label="Enumeration" p:width="10%" p:propertyName="enumeration">
+
+                </bean>
+                <bean id="returnItemChronology" parent="Uif-DataField" p:label="Chronology" p:width="10%" p:propertyName="chronology">
+
+                </bean>
+                <bean id="returnCheckInDate" parent="Uif-DataField" p:label="Check-in Date" p:width="10%" p:propertyName="checkInDate">
+
+                </bean>
+                <bean id="returnItemStatus" parent="Uif-DataField" p:label="Item Status" p:width="10%" p:propertyName="itemStatus">
+
+                </bean>
+                <bean id="returnBill" parent="Uif-LinkField" p:label="Overdue/Replacement Bill"   p:width="17%" p:linkText="@{#line.billName}"  p:target="_blank" p:href="patronbill?viewId=BillView&amp;methodToCall=start&amp;patronId=@{#line.patronId}" >
+
+                </bean>
+                <bean id="routeToLocation" parent="Uif-DataField" p:label="Route Location" p:width="10%" p:propertyName="routeToLocation"/>
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+    <bean id="EndSessionButton-HorizontalBoxSection" parent="EndSessionButton-HorizontalBoxSection-parentBean"/>
+    <bean id="EndSessionButton-HorizontalBoxSection-parentBean" parent="Uif-HorizontalBoxSubSection">
+        <property name="items">
+            <list>
+                <ref bean="validateItem"/>
+            </list>
+        </property>
+    </bean>
+    <!--<bean id="validateItem" parent="validateItem-parentBean" />-->
+    <bean id="validateItem" parent="Uif-SecondaryActionButton" p:methodToCall="validateItem" p:actionLabel="Validate Item" p:hidden="true" p:ajaxSubmit="true"  p:successCallback="validationsForPop();setCheckinItemFocus();checkDamagedCheckIn();setMissingPieceCount();" p:focusOnIdAfterSubmit="CheckInItem-parentBean" p:jumpToIdAfterSubmit="CheckInItem-parentBean"/>
+
+    <bean id="MessagePopupSectionForReturn" parent="Uif-VerticalBoxSubSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean id="ReturnView-Error-Message" parent="Uif-MessageField" p:messageText="@{errorMessage}" p:render="@{!checkInNoteExists and !copyRequest and !claimsReturned and numberOfPieces and returnMessage ne null and returnMessage ne ''and missingPieceValidationSuccess}"/>
+                            <bean id="check-in_msg" parent="Uif-MessageField" p:messageText="@{returnMessage}" />
+                            <bean id="check-in_info" parent="Uif-MessageField" p:messageText="@{information}" p:cssClasses="messageClass" />
+                            <bean id="matchCheck"  parent="Return-Uif-InputField" p:propertyName="matchCheck" p:label="Verification"  p:render="@{!checkInNoteExists and !copyRequest and !claimsReturned and numberOfPieces and returnMessage ne null and returnMessage ne '' }">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" >
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="true" p:value="Matched"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="false" p:value="Mismatched"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                            <bean id="shelvingLocation_checkin" parent="Return-Uif-InputField" p:propertyName="routeToLocation"
+                                  p:label="Circulation Desk Name for Routing"  p:render="@{(damagedCheckIn or checkInNoteExists) and returnMessage ne null and returnMessage ne '' }">
+                                <property name="suggest">
+                                    <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
+                                        <property name="suggestQuery">
+                                            <bean parent="Uif-AttributeQueryConfig"
+                                                  p:queryMethodToCall="retrieveCirculationDeskDetailsForSuggest"
+                                                  p:queryMethodInvokerConfig.targetClass="org.kuali.ole.deliver.keyvalue.CirculationDeskChangeKeyValue"/>
+                                        </property>
+                                        <property name="templateOptions">
+                                            <map merge="true">
+                                                <entry key="minLength" value="1"/>
+                                            </map>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                            <bean id="descText" parent="Return-Uif-InputField" p:propertyName="missingPieceNote" p:label="Mismatched Check-in Note"  p:render="@{!checkInNoteExists and !copyRequest and !claimsReturned and numberOfPieces and returnMessage ne null and returnMessage ne '' }">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" />
+                                </property>
+                            </bean>
+                            <bean id="ReturnView-missingPieceCount" parent="Return-Uif-InputField" p:propertyName="missingPieceCount" p:label="Missing Pieces" p:render="@{!checkInNoteExists and !copyRequest and !claimsReturned and numberOfPieces and returnMessage ne null and returnMessage ne '' }">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" />
+                                </property>
+                            </bean>
+                            <bean id="copyCheck"  parent="Return-Uif-InputField" p:propertyName="copyCheck" p:onClickScript="displayCopyMessage()" p:label=""  p:render="@{copyRequest and !checkInNoteExists and !claimsReturned and !numberOfPieces and returnMessage ne null and returnMessage ne '' }">
+                                <property name="control">
+                                    <bean parent="Uif-HorizontalRadioControl" >
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="true" p:value="Yes"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="false" p:value="No"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                            <bean id="returnClaimsOption" parent="Return-Uif-InputField" p:propertyName="recordNote"
+                                  p:label="Record a note or not" p:render="@{!copyRequest and !checkInNoteExists and claimsReturned and !numberOfPieces}">
+                                <property name="control">
+                                    <bean parent="Uif-HorizontalRadioControl">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="yes" p:value="Yes"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="no" p:value="No"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                            <bean id="OLEReturnView-MissingPiece-RecordNote" parent="Return-Uif-InputField" p:propertyName="recordMissingPieceNote"
+                                  p:label="Record a note or not" p:render="@{!checkInNoteExists and !copyRequest and !claimsReturned and numberOfPieces and returnMessage ne null and returnMessage ne '' }">
+                                <property name="control">
+                                    <bean parent="Uif-HorizontalRadioControl">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="yes" p:value="Yes"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="no" p:value="No"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                            <ref bean="ReturnButton-HorizontalBoxSection"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ReturnButton-HorizontalBoxSection" parent="ReturnButton-HorizontalBoxSection-parentBean" />
+    <bean id="ReturnButton-HorizontalBoxSection-parentBean" parent="Uif-HorizontalBoxSection" p:disclosure.render="false">
+        <property name="items">
+            <list>
+
+                <bean id="returnBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="returnItem" p:actionLabel="Return" p:render="@{!checkInNoteExists and !copyRequest and !claimsReturned and !numberOfPieces and returnMessage ne null and returnMessage ne '' }" p:successCallback="closeMessageBoxForReturn();setCheckinItemFocus();" p:focusOnIdAfterSubmit="CheckInItem-parentBean"/>
+
+                <bean id="noReturnBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="noReturnItem" p:actionLabel="Do not Return" p:render="@{!checkInNoteExists and !copyRequest and !claimsReturned and !numberOfPieces and returnMessage ne null and returnMessage ne ''}" p:successCallback="closeMessageBoxForReturn();setCheckinItemFocus();" p:focusOnIdAfterSubmit="CheckInItem-parentBean"/>
+
+                <bean id="continueBtn" parent="Uif-SecondaryActionButton-Small" p:actionScript="setDescription();" p:actionLabel="Continue" p:render="@{(copyRequest or numberOfPieces) and returnMessage ne null and returnMessage ne '' }" p:focusOnIdAfterSubmit="CheckInItem-parentBean"/>
+
+                <bean id="hdnContinueBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="continueCheckIn" p:actionLabel="Continue" p:hidden="true" p:ajaxSubmit="true"  p:successCallback="closeMessageBoxForReturn();setCheckinItemFocus();" p:focusOnIdAfterSubmit="CheckInItem-parentBean"/>
+
+                <bean id="okCheckInNoteBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="okCheckInNote" p:actionLabel="OK"  p:render="@{checkInNoteExists and returnMessage ne null and returnMessage ne '' }" p:ajaxSubmit="true"  p:successCallback="closeMessageBoxForReturn();setCheckinItemFocus();refreshLoanList();" p:focusOnIdAfterSubmit="CheckInItem-parentBean"/>
+
+                <bean id="okClaimsBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="continueCheckIn" p:actionLabel="OK"  p:render="@{claimsReturned}" p:ajaxSubmit="true"  p:successCallback="closeMessageBoxForReturn();setCheckinItemFocus();" p:focusOnIdAfterSubmit="CheckInItem-parentBean"/>
+
+                <bean id="checkInNoteBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="checkInNote" p:actionLabel="OK/Remove Note"  p:render="@{checkInNoteExists and returnMessage ne null and returnMessage ne '' and okOrRemoveNote}"  p:successCallback="closeMessageBoxForReturn();setCheckinItemFocus();refreshLoanList();" p:focusOnIdAfterSubmit="CheckInItem-parentBean"/>
+
+                <!--<bean id="damagedCheckIn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="damagedCheckIn" p:actionLabel="OK"  p:render="@{damagedCheckIn and returnMessage ne null and returnMessage ne ''}"  p:successCallback="closeMessageBoxForReturn();setCheckinItemFocus();" p:focusOnIdAfterSubmit="CheckInItem-parentBean"/>-->
+
+                <bean id="cancelBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="noReturnItem" p:actionLabel="Cancel" p:render="@{claimsReturned}" p:successCallback="closeMessageBoxForReturn();setCheckinItemFocus();" p:focusOnIdAfterSubmit="CheckInItem-parentBean"/>
+                <bean id="missingPieceCancelBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="noReturnItem" p:actionLabel="Cancel" p:render="@{!checkInNoteExists and !copyRequest and !claimsReturned and numberOfPieces and returnMessage ne null and returnMessage ne ''}" p:successCallback="closeMessageBoxForReturn();" p:focusOnIdAfterSubmit="CheckInItem-parentBean"/>
+
+            </list>
+        </property>
+    </bean>
+   <!-- <bean id="audioForPastDate" parent="Uif-InputField" p:propertyName="audioForPastDate">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+    <!--<bean id="audioOption" parent="Uif-InputField" p:propertyName="audioEnable">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+    <!--<bean id="showCheckOut" parent="Uif-InputField" p:propertyName="checkOut">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+    <!--<bean id="showMessageForReturn" parent="Uif-InputField" p:propertyName="returnSuccess">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+   <!-- <bean id="showReturn" parent="Uif-InputField" p:propertyName="returnCheck">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+   <!-- <bean id="showContinue" parent="Uif-InputField" p:propertyName="numberOfPieces">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+    <!--    <bean id="mapDescription" parent="Uif-InputField" p:propertyName="description">
+            <property name="control">
+                <bean parent="Uif-HiddenControl"/>
+            </property>
+        </bean>
+        <bean id="mapMatchCheck" parent="Uif-InputField" p:propertyName="matchCheck">
+            <property name="control">
+                <bean parent="Uif-HiddenControl"/>
+            </property>
+        </bean>-->
+
+    <!--<bean id="mapBillAvailability" parent="Uif-InputField" p:propertyName="billAvailability">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+
+    <!--<bean id="mapCurrentDate" parent="Uif-InputField" p:propertyName="currentDate">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+
+    <!--<bean id="showContinueForCopy" parent="Uif-InputField" p:propertyName="copyRequest">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+    <!--<bean id="mapFormKey" parent="Uif-InputField" p:propertyName="oleFormKey">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+    <!--<bean id="mapCheckInNoteExists" parent="Uif-InputField" p:propertyName="checkInNoteExists">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+    <!--<bean id="mapDamagedCheckIn" parent="Uif-InputField" p:propertyName="damagedCheckIn">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+    <!--<bean id="mapMaxTimeForCheckInDate" parent="Uif-InputField" p:propertyName="maxTimeForCheckInDate">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+
+   <!-- <bean id="mapCheckInDateMaxTime" parent="Uif-InputField" p:propertyName="checkInDateMaxTime">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+
+
+    <bean id="AlertBoxSectionForBill-HorizontalBoxSection" parent="Uif-VerticalBoxSection" p:render="true" >
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-MessageField" p:messageText="@{billAlertMessage}" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="AlertBoxSectionForDate-HorizontalBoxSection" parent="Uif-VerticalBoxSubSection" p:render="true" >
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-MessageField" p:messageText="@{dateAlertMessage}" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="AlertBoxSectionForTime-HorizontalBoxSection" parent="Uif-VerticalBoxSubSection" p:render="true" >
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-MessageField" p:messageText="Check-in Time is not a current Time" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="AlertBoxSectionForInvalidTime-HorizontalBoxSection" parent="Uif-VerticalBoxSubSection" p:render="true" >
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-MessageField" p:messageText="Check-In time must be a valid 24 hour (0-23) time in HH:mm format, seconds are optional" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!--<bean id="mapPrintBill" parent="Uif-InputField" p:propertyName="holdSlip">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+
+    <bean id="OLEReturnView-DamagedItem-MessageBox" parent="Uif-VerticalBoxSection" p:render="@{itemDamagedStatus and !skipDamagedCheckIn}">
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField" p:messageText="Item is Damaged .Do you want to continue"/>
+                <bean id="OLEReturnView-DamagedItem-RecordNote" parent="Return-Uif-InputField" p:propertyName="recordDamagedItemNote"
+                      p:label="Record a note or not">
+                    <property name="control">
+                        <bean parent="Uif-HorizontalRadioControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="yes" p:value="Yes"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="no" p:value="No"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <ref bean="OLEReturnView-DamagedItem-Buttons-HorizontalBoxSection"/>
+            </list>
+        </property>
+    </bean>
+    <!--<bean id="OLEReturnView-Damaged-status-flag" parent="Uif-InputField" p:propertyName="itemDamagedStatus">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+
+    <!--<bean id="OLEReturnView-skipDamagedCheckIn-flag" parent="Uif-InputField" p:propertyName="skipDamagedCheckIn">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+
+    <bean id="OLEReturnView-DamagedItem-Buttons-HorizontalBoxSection" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="OLEReturnView-DamagedItem-Loan" parent="Uif-SecondaryActionButton-Small" p:actionScript="continueDamagedCheckIn();" p:actionLabel="Yes" />
+                <bean id="OLEReturnView-DamagedItem-Donot-Loan" parent="Uif-SecondaryActionButton-Small" p:actionScript="closeDamagedCheckIn();" p:actionLabel="No"/>
+            </list>
+        </property>
+    </bean>
+
+    <!--<bean id="OLEReturnView-itemStatus-for-print" parent="Uif-InputField" p:propertyName="inTransit">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+
+    <bean id ="OLEReturnView-refreshReturnLoanList" parent="Uif-SecondaryActionButton" p:methodToCall="refreshReturnLoanList" p:hidden="true" p:ajaxSubmit="true" p:refreshId="ItemReturnedList-HorizontalBoxSection" />
+
+    <bean id="refreshExport_button" parent="Uif-SecondaryActionButton-Small" p:methodToCall="refreshExport" p:hidden="true" p:ajaxSubmit="true"  p:successCallback="refreshExport()" />
+
+    <bean id="Return-Uif-InputField" parent="Uif-InputField">
+        <property name="quickfinder">
+            <null/>
+        </property>
+    </bean>
+
+</beans>

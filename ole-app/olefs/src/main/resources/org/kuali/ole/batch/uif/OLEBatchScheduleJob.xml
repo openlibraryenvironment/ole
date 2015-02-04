@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="OLEBatchScheduleJob" parent="Uif-OLEFormView">
+        <property name="headerText" value="Batch Process Schedule" />
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="${ole.externalizable.help.url}/reference/webhelp/ADMIN/content/ch01s06.html"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="BatchProcessSchedulePage" parent="Uif-Page" >
+                    <property name="items">
+                        <list>
+                            <ref bean="OLEBatchScheduleJob-totalListOfItems"/>
+                           <!-- <ref bean="hdnReschedule_job_button" />-->
+                            <ref bean="hdnRemove_job_button" />
+                            <ref bean="scheduleId" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+
+        <property name="additionalScriptFiles">
+            <list>
+                <value>ole/batch/script/batch.js</value>
+            </list>
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>ole/batch/css/batch.css</value>
+            </list>
+        </property>
+        <property name="formClass" value="org.kuali.ole.batch.form.OLEBatchProcessDefinitionForm"/>
+
+    </bean>
+
+    <bean id="OLEBatchScheduleJob-totalListOfItems"  parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="25">
+        <property name="headerText" value="Batch Process Schedule" />
+        <property name="collectionObjectClass" value="org.kuali.ole.batch.bo.OLEBatchProcessScheduleBo" />
+        <property name="propertyName" value="oleBatchProcessScheduleBoList" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="true" />
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="layoutManager.actionFieldPrototype.group.layoutManager">
+            <bean parent="Uif-HorizontalBoxLayout"/>
+        </property>
+
+        <property name="items">
+            <list>
+
+
+                <bean id="scheduleIdFiled-schedule" parent="Uif-DataField" p:propertyName="scheduleId" p:label="Schedule Id" />
+                <bean id="userNameFiled-schedule" parent="Uif-DataField" p:propertyName="userName" p:label="User Name"  />
+                <bean id="batchProcessId-schedule" parent="Uif-DataField" p:propertyName="batchProcessId" p:label="Batch Process Id"  />
+                <bean id="batchProfileName-schedule" parent="Uif-DataField" p:propertyName="batchProfileName" p:label="Batch Profile Name"  />
+                <bean id="createTimeField-schedule" parent="Uif-DataField" p:propertyName="createTime" p:label="Date Created"  />
+                <bean id="uploadFileNameField-schedule" parent="Uif-DataField" p:propertyName="uploadFileName" p:label="Input File"  />
+                <bean id="uploadOPFileNameField-schedule" parent="Uif-DataField" p:propertyName="uploadOPFileName" p:label="Output File"  />
+                <bean id="batchProcessTypeFiled-schedule" parent="Uif-DataField" p:propertyName="batchProcessType" p:label="Batch Process Type"  />
+                <bean id="oneTimeOrRecurringField-schedule" parent="Uif-DataField" p:propertyName="oneTimeOrRecurring" p:label="Schedule Type"  />
+                <bean id="oneTimeDateField-schedule" parent="Uif-DataField" p:propertyName="nextRunTime" p:label="Next Run Time"  />
+                <bean id="cronExpressionField-schedule" parent="Uif-DataField" p:propertyName="cronExpression" p:label="Cron Expression"  />
+
+
+    <bean id="schedule_buttons_view" parent="Uif-HorizontalFieldGroup">
+        <property name="title" value="Actions"/>
+        <property name="items">
+            <list>
+
+                <bean id="reschedule_schedule_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em"   p:actionScript="rescheduleJob(@{#line?.batchProcessId});" p:actionLabel="Re-Schedule"  p:render="@{#line?.scheduleId ne '0'}"  />
+                <bean id="remove_schedule_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em"  p:actionScript="removeScheduledJob(@{#line?.scheduleId});"    p:actionLabel="Remove"  p:render="@{#line?.scheduleId ne '0'}" />
+            </list>
+        </property>
+    </bean>
+
+            </list>
+        </property>
+    </bean>
+
+
+
+    <bean id="hdnRemove_job_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em"  p:methodToCall="removeScheduleJob" p:actionLabel="Remove"  p:hidden="true" />
+
+
+
+    <bean id="scheduleId" parent="Uif-InputField" p:propertyName="scheduleId">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
+
+</beans>

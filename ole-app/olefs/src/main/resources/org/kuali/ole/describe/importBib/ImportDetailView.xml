@@ -1,0 +1,35 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="ImportDetailView" parent="ImportDetailView-parentBean"/>
+    <bean id="ImportDetailView-parentBean" parent="Uif-OLEFormView">
+        <property name="headerText" value="Details of Marc Record"/>
+        <property name="items">
+            <list>
+                <bean id="SearchBibViewPage" parent="Uif-Page">
+                    <property name="title" value="STEP-1 Locate Record"/>
+                    <property name="items">
+                        <list>
+                            <ref bean="ValidationMessage"/>
+                            <ref bean="closeButton"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="formClass" value="org.kuali.ole.describe.form.ImportBibForm"/>
+    </bean>
+
+    <bean id="ValidationMessage" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="ValidationMessageSection" parent="Uif-MessageField" p:messageText="@{message}"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="closeButton" parent="Uif-SecondaryActionButton-Small"  p:style="float:left;margin-left:0em" p:actionScript="window.close()" p:actionLabel="Close" />
+
+</beans>

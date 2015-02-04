@@ -1,0 +1,25 @@
+[olefile] > nt:file
+- reference
+- instanceIdentifier
+- dateEntered
+- lastUpdated
+- fastAddFlag
+- supressFromPublic
+- harvestable
+- status
+- type
+- agreementStatus
+- method
+- type
+- name
+- fileName
+- dateLoaded
+- owner
+- notes
+- label
+- createdBy
+- lastUpdatedBy
+- dateLastUpdated
+- updatedBy
+- statusUpdatedBy
+- statusUpdatedOn

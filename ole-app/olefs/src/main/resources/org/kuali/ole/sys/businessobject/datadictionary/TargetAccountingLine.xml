@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+ Copyright 2007-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean id="TargetAccountingLine" parent="TargetAccountingLine-parentBean"/>
+
+  <bean id="TargetAccountingLine-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.ole.sys.businessobject.TargetAccountingLine"/>
+    <property name="objectLabel" value="Target Accounting Line"/>
+    <property name="attributes">
+      <list>
+        <ref bean="TargetAccountingLine-balanceTypeCode"/>
+        <ref bean="TargetAccountingLine-referenceNumber"/>
+        <ref bean="TargetAccountingLine-sequenceNumber"/>
+        <ref bean="TargetAccountingLine-financialObjectCode"/>
+        <ref bean="TargetAccountingLine-accountNumber"/>
+        <ref bean="TargetAccountingLine-organizationReferenceId"/>
+        <ref bean="TargetAccountingLine-chartOfAccountsCode"/>
+        <ref bean="TargetAccountingLine-postingYear"/>
+        <ref bean="TargetAccountingLine-referenceOriginCode"/>
+        <ref bean="TargetAccountingLine-overrideCode"/>
+        <ref bean="TargetAccountingLine-amount"/>
+        <ref bean="TargetAccountingLine-subAccountNumber"/>
+        <ref bean="TargetAccountingLine-referenceTypeCode"/>
+        <ref bean="TargetAccountingLine-projectCode"/>
+        <ref bean="TargetAccountingLine-financialSubObjectCode"/>
+        <ref bean="TargetAccountingLine-documentNumber"/>
+        <ref bean="TargetAccountingLine-debitCreditCode"/>
+        <ref bean="TargetAccountingLine-encumbranceUpdateCode"/>
+        <ref bean="TargetAccountingLine-objectTypeCode"/>
+        <ref bean="TargetAccountingLine-accountExpiredOverride"/>
+        <ref bean="TargetAccountingLine-nonFringeAccountOverride"/>
+        <ref bean="TargetAccountingLine-objectBudgetOverride"/>
+        <ref bean="TargetAccountingLine-financialDocumentLineDescription"/>
+        <ref bean="TargetAccountingLine-salesTaxRequired"/>
+        <ref bean="TargetAccountingLine-salesTax.chartOfAccountsCode"/>
+        <ref bean="TargetAccountingLine-salesTax.accountNumber"/>
+        <ref bean="TargetAccountingLine-salesTax.financialDocumentGrossSalesAmount"/>
+        <ref bean="TargetAccountingLine-salesTax.financialDocumentTaxableSalesAmount"/>
+        <ref bean="TargetAccountingLine-salesTax.financialDocumentSaleDate"/>
+        <ref bean="TargetAccountingLine-objectCode.financialObjectLevelCode"/>
+        <ref bean="TargetAccountingLine-objectCode.financialObjectLevel.financialConsolidationObjectCode"/>
+        <ref bean="TargetAccountingLine-account.organizationCode"/>
+      </list>
+    </property>
+    <property name="accessRestrictedAttributes">
+       <list>
+           <bean parent="ChartRestriction"><property name="attribute" ref="TargetAccountingLine-chartOfAccountsCode"/></bean>
+           <bean parent="ChartHierarchyRestriction"><property name="attribute" ref="TargetAccountingLine-chartOfAccountsCode"/></bean>
+           <bean parent="AccountRestriction"><property name="attribute" ref="TargetAccountingLine-accountNumber"/></bean>
+           <bean parent="PrincipalInvestigatorRestriction"><property name="attribute" ref="TargetAccountingLine-accountNumber"/></bean>
+           <bean parent="SubAccountRestriction"><property name="attribute" ref="TargetAccountingLine-subAccountNumber"/></bean>
+           <bean parent="OrganizationRestriction"><property name="attribute" ref="TargetAccountingLine-account.organizationCode"/></bean>
+           <bean parent="OrganizationHierarchyRestriction"><property name="attribute" ref="TargetAccountingLine-account.organizationCode"/></bean>
+           <bean parent="ObjectLevelRestriction"><property name="attribute" ref="TargetAccountingLine-objectCode.financialObjectLevelCode"/></bean>
+           <bean parent="ObjectConsolidationRestriction"><property name="attribute" ref="TargetAccountingLine-objectCode.financialObjectLevel.financialConsolidationObjectCode"/></bean> 
+           <bean parent="ProjectCodeRestriction"><property name="attribute" ref="TargetAccountingLine-projectCode"/></bean>               
+       </list>
+    </property>    
+    <property name="relationships">
+    	<list>
+    		<bean parent="RelationshipDefinition">
+    			<property name="objectAttributeName" value="referenceFinancialSystemDocumentTypeCode"/>
+		        <property name="primitiveAttributes">
+		        	<list>
+		            	<bean parent="PrimitiveAttributeDefinition" p:sourceName="referenceTypeCode" p:targetName="name"/>
+		            </list>
+		        </property>
+    		</bean>
+    	</list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="TargetAccountingLine-balanceTypeCode" parent="TargetAccountingLine-balanceTypeCode-parentBean"/>
+  <bean id="TargetAccountingLine-balanceTypeCode-parentBean" abstract="true" parent="SourceAccountingLine-balanceTypeCode" />
+
+  <bean id="TargetAccountingLine-referenceNumber" parent="TargetAccountingLine-referenceNumber-parentBean"/>
+  <bean id="TargetAccountingLine-referenceNumber-parentBean" abstract="true" parent="SourceAccountingLine-referenceNumber" />
+
+  <bean id="TargetAccountingLine-sequenceNumber" parent="TargetAccountingLine-sequenceNumber-parentBean"/>
+  <bean id="TargetAccountingLine-sequenceNumber-parentBean" abstract="true" parent="SourceAccountingLine-sequenceNumber" />
+
+  <bean id="TargetAccountingLine-financialObjectCode" parent="TargetAccountingLine-financialObjectCode-parentBean"/>
+  <bean id="TargetAccountingLine-financialObjectCode-parentBean" abstract="true" parent="SourceAccountingLine-financialObjectCode" />
+
+  <bean id="TargetAccountingLine-accountNumber" parent="TargetAccountingLine-accountNumber-parentBean"/>
+  <bean id="TargetAccountingLine-accountNumber-parentBean" abstract="true" parent="SourceAccountingLine-accountNumber" />
+
+  <bean id="TargetAccountingLine-organizationReferenceId" parent="TargetAccountingLine-organizationReferenceId-parentBean"/>
+  <bean id="TargetAccountingLine-organizationReferenceId-parentBean" abstract="true" parent="SourceAccountingLine-organizationReferenceId" />
+
+  <bean id="TargetAccountingLine-chartOfAccountsCode" parent="TargetAccountingLine-chartOfAccountsCode-parentBean"/>
+  <bean id="TargetAccountingLine-chartOfAccountsCode-parentBean" abstract="true" parent="SourceAccountingLine-chartOfAccountsCode" />
+
+  <bean id="TargetAccountingLine-postingYear" parent="TargetAccountingLine-postingYear-parentBean"/>
+  <bean id="TargetAccountingLine-postingYear-parentBean" abstract="true" parent="SourceAccountingLine-postingYear" />
+
+  <bean id="TargetAccountingLine-referenceOriginCode" parent="TargetAccountingLine-referenceOriginCode-parentBean"/>
+  <bean id="TargetAccountingLine-referenceOriginCode-parentBean" abstract="true" parent="SourceAccountingLine-referenceOriginCode" />
+
+  <bean id="TargetAccountingLine-overrideCode" parent="TargetAccountingLine-overrideCode-parentBean"/>
+  <bean id="TargetAccountingLine-overrideCode-parentBean" abstract="true" parent="SourceAccountingLine-overrideCode" />
+
+  <bean id="TargetAccountingLine-amount" parent="TargetAccountingLine-amount-parentBean"/>
+  <bean id="TargetAccountingLine-amount-parentBean" abstract="true" parent="SourceAccountingLine-amount" />
+
+  <bean id="TargetAccountingLine-subAccountNumber" parent="TargetAccountingLine-subAccountNumber-parentBean"/>
+  <bean id="TargetAccountingLine-subAccountNumber-parentBean" abstract="true" parent="SourceAccountingLine-subAccountNumber" />
+
+  <bean id="TargetAccountingLine-referenceTypeCode" parent="TargetAccountingLine-referenceTypeCode-parentBean"/>
+  <bean id="TargetAccountingLine-referenceTypeCode-parentBean" abstract="true" parent="SourceAccountingLine-referenceTypeCode"/>
+
+  <bean id="TargetAccountingLine-projectCode" parent="TargetAccountingLine-projectCode-parentBean"/>
+  <bean id="TargetAccountingLine-projectCode-parentBean" abstract="true" parent="SourceAccountingLine-projectCode" />
+
+  <bean id="TargetAccountingLine-financialSubObjectCode" parent="TargetAccountingLine-financialSubObjectCode-parentBean"/>
+  <bean id="TargetAccountingLine-financialSubObjectCode-parentBean" abstract="true" parent="SourceAccountingLine-financialSubObjectCode" />
+
+  <bean id="TargetAccountingLine-documentNumber" parent="TargetAccountingLine-documentNumber-parentBean"/>
+  <bean id="TargetAccountingLine-documentNumber-parentBean" abstract="true" parent="SourceAccountingLine-documentNumber" />
+
+  <bean id="TargetAccountingLine-debitCreditCode" parent="TargetAccountingLine-debitCreditCode-parentBean"/>
+  <bean id="TargetAccountingLine-debitCreditCode-parentBean" abstract="true" parent="SourceAccountingLine-debitCreditCode" />
+
+  <bean id="TargetAccountingLine-encumbranceUpdateCode" parent="TargetAccountingLine-encumbranceUpdateCode-parentBean"/>
+  <bean id="TargetAccountingLine-encumbranceUpdateCode-parentBean" abstract="true" parent="SourceAccountingLine-encumbranceUpdateCode" />
+
+  <bean id="TargetAccountingLine-objectTypeCode" parent="TargetAccountingLine-objectTypeCode-parentBean"/>
+  <bean id="TargetAccountingLine-objectTypeCode-parentBean" abstract="true" parent="SourceAccountingLine-objectTypeCode" />
+
+  <bean id="TargetAccountingLine-accountExpiredOverride" parent="TargetAccountingLine-accountExpiredOverride-parentBean"/>
+  <bean id="TargetAccountingLine-accountExpiredOverride-parentBean" abstract="true" parent="SourceAccountingLine-accountExpiredOverride" />
+  
+  <bean id="TargetAccountingLine-nonFringeAccountOverride" parent="TargetAccountingLine-nonFringeAccountOverride-parentBean"/>
+  <bean id="TargetAccountingLine-nonFringeAccountOverride-parentBean" abstract="true" parent="SourceAccountingLine-nonFringeAccountOverride" />
+  
+  <bean id="TargetAccountingLine-objectBudgetOverride" parent="TargetAccountingLine-objectBudgetOverride-parentBean"/>
+  <bean id="TargetAccountingLine-objectBudgetOverride-parentBean" abstract="true" parent="SourceAccountingLine-objectBudgetOverride" />
+
+  <bean id="TargetAccountingLine-financialDocumentLineDescription" parent="TargetAccountingLine-financialDocumentLineDescription-parentBean"/>
+  <bean id="TargetAccountingLine-financialDocumentLineDescription-parentBean" abstract="true" parent="SourceAccountingLine-financialDocumentLineDescription" />
+
+  <bean id="TargetAccountingLine-salesTaxRequired" parent="TargetAccountingLine-salesTaxRequired-parentBean"/>
+  <bean id="TargetAccountingLine-salesTaxRequired-parentBean" abstract="true" parent="SourceAccountingLine-salesTaxRequired" />
+
+  <bean id="TargetAccountingLine-salesTax.chartOfAccountsCode" parent="TargetAccountingLine-salesTax.chartOfAccountsCode-parentBean"/>
+  <bean id="TargetAccountingLine-salesTax.chartOfAccountsCode-parentBean" abstract="true" parent="SourceAccountingLine-salesTax.chartOfAccountsCode" />
+
+  <bean id="TargetAccountingLine-salesTax.accountNumber" parent="TargetAccountingLine-salesTax.accountNumber-parentBean"/>
+  <bean id="TargetAccountingLine-salesTax.accountNumber-parentBean" abstract="true" parent="SourceAccountingLine-salesTax.accountNumber" />
+
+  <bean id="TargetAccountingLine-salesTax.financialDocumentGrossSalesAmount" parent="TargetAccountingLine-salesTax.financialDocumentGrossSalesAmount-parentBean"/>
+  <bean id="TargetAccountingLine-salesTax.financialDocumentGrossSalesAmount-parentBean" abstract="true" parent="SourceAccountingLine-salesTax.financialDocumentGrossSalesAmount" />
+
+  <bean id="TargetAccountingLine-salesTax.financialDocumentTaxableSalesAmount" parent="TargetAccountingLine-salesTax.financialDocumentTaxableSalesAmount-parentBean"/>
+  <bean id="TargetAccountingLine-salesTax.financialDocumentTaxableSalesAmount-parentBean" abstract="true" parent="SourceAccountingLine-salesTax.financialDocumentTaxableSalesAmount" />
+
+  <bean id="TargetAccountingLine-salesTax.financialDocumentSaleDate" parent="TargetAccountingLine-salesTax.financialDocumentSaleDate-parentBean"/>
+  <bean id="TargetAccountingLine-salesTax.financialDocumentSaleDate-parentBean" abstract="true" parent="SourceAccountingLine-salesTax.financialDocumentSaleDate" />
+
+    <bean id="TargetAccountingLine-objectCode.financialObjectLevelCode" parent="TargetAccountingLine-objectCode.financialObjectLevelCode-parentBean"/>
+    <bean id="TargetAccountingLine-objectCode.financialObjectLevelCode-parentBean" abstract="true" parent="SourceAccountingLine-objectCode.financialObjectLevelCode" />
+        
+    <bean id="TargetAccountingLine-objectCode.financialObjectLevel.financialConsolidationObjectCode" parent="TargetAccountingLine-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean"/>
+    <bean id="TargetAccountingLine-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean" abstract="true" parent="SourceAccountingLine-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean" />
+   
+    <bean id="TargetAccountingLine-account.organizationCode" parent="TargetAccountingLine-account.organizationCode-parentBean"/>
+    <bean id="TargetAccountingLine-account.organizationCode-parentBean" abstract="true" parent="SourceAccountingLine-account.organizationCode" />
+
+</beans>

@@ -1,0 +1,500 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0"
+    xml:lang="en-US">
+    <title><anchor xml:id="singleRecordExportImport"/>Single Record Export/Import</title>
+    <para role="Normal"><inlinemediaobject>
+            <alt>Describe</alt>
+            <imageobject>
+                <imagedata fileref="../images/DescribeNoTitlePage-DescribeTab.png"/>
+            </imageobject>
+        </inlinemediaobject>
+        <emphasis role="bold">&gt;</emphasis><inlinemediaobject>
+            <alt>Single Record Export/Import</alt>
+            <imageobject>
+                <imagedata fileref="../images/DescribeNoTitlePage-3.png"/>
+            </imageobject>
+        </inlinemediaobject><emphasis role="bold">&gt;</emphasis><inlinemediaobject>
+            <alt>Single Record Export/Import Links</alt>
+            <imageobject>
+                <imagedata fileref="../images/DescribeNoTitlePage-4.png"/>
+            </imageobject>
+        </inlinemediaobject></para>
+    <para role="Normal"/>
+    <para role="Body Text">On the Describe menu, the Link Titles, Holdings, or Items submenu provides
+        access for users to create and modify analytics and bound-withs</para>
+    <section>
+        <title><anchor xml:id="_Importing_Bibliographic_Records"/>Single Record Import</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Describe</alt>
+                <imageobject>
+                    <imagedata fileref="../images/DescribeNoTitlePage-DescribeTab.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt;</emphasis><inlinemediaobject>
+                <alt>Single Record Export/Import</alt>
+                <imageobject>
+                    <imagedata fileref="../images/DescribeNoTitlePage-3.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+                    <alt>Single Record Import</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DescribeNoTitlePage-58.png"/>
+                    </imageobject>
+                </inlinemediaobject>&gt;<inlinemediaobject>
+                    <alt>Import Bib</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DescribeNoTitlePage-59.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Normal">This interface provides the ability to import a single Bibliographic
+            Record or a file of Bibliographic Records one at a time into the OLE database. This
+            allows catalogers to download records from outside sources such as OCLC. The import may
+            be to add a new title, in which case, a new OLE holdings record and item record will
+            also be created, or to replace an existing Bibliographic Description from a different
+            source. If the Bibliographic Description is replacing another, no OLE Instance will be
+            created. If you need to add an additional OLE Instance or Item or modify an existing
+            one, you will need to do so through the editor.</para>
+        <para role="Normal"/>
+        <para role="Normal">You will be able to edit both the Bibliographic Description being
+            imported and any OLE Instance(s) linked to it during the import process.  Once the
+            import process has been completed, only those fields designated as “protected from
+            overlay” will remain from the original Bibliographic Description when replacing an
+            existing bibliographic description. Linkages to purchase orders, circulation records,
+            etc. will also be unaffected.</para>
+        <para role="Normal"/>
+        <note>
+            <para role="Normal"> Import Bib is not intended for batch imports.</para>
+            <para role="Normal"> For more information about importing batch records, see the <link
+                xlink:href="../../../webhelp/ADMIN/content/ch01.html">Batch Processes</link> section
+                of the <link xlink:href="../../../webhelp/ADMIN/content/pr01.html"><emphasis>OLE Guide to System
+                        Administration Functions. </emphasis></link>This and other OLE user guides
+                are available for download from <link xlink:href="../../../html/Index.html">OLE
+                    Documentation Portal</link>.</para>
+        </note>
+        <para/>
+        <section>
+            <title>Process Overview</title>
+            <section>
+                <title>Import from Local to Create a New Bibliographic Record</title>
+                <orderedlist>
+                    <listitem>
+                        <para role="Normal">Call up the <emphasis role="bold">Import Bib</emphasis>
+                            interface.</para>
+                        <para/>
+                        <para role="Normal">
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Import Bib Interface</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DescribeNoTitlePage-62.png"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para role="Normal">Click <emphasis role="bold">browse</emphasis> to search
+                            for the file from your local machine.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="Normal">Click <inlinemediaobject>
+                                <alt>Load</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-63.png"/>
+                                </imageobject>
+                            </inlinemediaobject>.</para>
+                        <para role="Normal"><emphasis role="bold">Records in the File</emphasis>
+                            will contain the records loaded.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="Normal">Click <emphasis role="bold">Detail</emphasis> to view
+                            the MARC record.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="Normal">Select the record you wish to load and click<inlinemediaobject>
+                                <alt>Next</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-64.png"/>
+                                </imageobject>
+                            </inlinemediaobject>.</para>
+                        <para role="Normal">
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Import Bib Interface: Sample files loaded and
+                                        displayed</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DescribeNoTitlePage-65.png"
+                                            width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para role="Normal">Confirm the Settings by selecting a<emphasis role="bold"
+                                > Name</emphasis> from the drop down list. This will set the User
+                            Preferences.</para>
+                        <note>
+                            <para> To learn more about creating and modifying User Preferences, see
+                                information about Bib Import Preferences under the <link
+                                    xlink:href="../../../webhelp/ADMIN/content/ch01s05.html">Batch
+                                    Process Profile</link> in the <link
+                                    xlink:href="../../../webhelp/ADMIN/content/pr01.html"
+                                        ><emphasis>OLE Guide to System Administration
+                                        Functions</emphasis></link>.</para>
+                        </note>
+                        <para role="Normal"/>
+                        <para role="Normal">
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Import Bib Interface: Confirm Settings Name</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DescribeNoTitlePage-68.png"
+                                            width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                        <para/>
+                        <para>Click<inlinemediaobject>
+                                <alt>Load</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-67.png"/>
+                                </imageobject>
+                            </inlinemediaobject>.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="Normal">Choose "New Record" as the <emphasis role="bold">Import
+                                Type</emphasis>.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="Normal">Select the <emphasis role="bold">Import
+                                Status</emphasis> and <emphasis role="bold">Permanent Location
+                            </emphasis>information from the drop down lists.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="Normal">Enter any additional tags to remove and/or fields to
+                            protect.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="Normal">Choose the <emphasis role="bold">Classification
+                                Scheme</emphasis> and modify the <emphasis role="bold">Call Number
+                                Source</emphasis> as necessary.</para>
+                        <para/>
+                        <para role="Normal">
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Import Bib Interface: Confirm Settings Import
+                                        Preferences</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DescribeNoTitlePage-72.png"
+                                            width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                        <para/>
+                    </listitem>
+                    <listitem>
+                        <para role="Normal">Click<inlinemediaobject>
+                                <alt>Next</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-69.png"/>
+                                </imageobject>
+                            </inlinemediaobject>.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="Normal">You may edit the incoming Bibliographic Record as needed
+                            when it is displayed. Click <emphasis role="bold">Continue
+                                Process</emphasis> when you are finished editing the Bibliographic
+                            Record.</para>
+                        <note>
+                            <para role="Normal"> For more information about record editors, see
+                                    <link linkend="_Editors">Editors</link></para>
+                        </note>
+                    </listitem>
+                    <listitem>
+                        <para role="Normal">You may enter or modify information on the OLE Holdings
+                            as appropriate and click <emphasis role="bold">Continue
+                                Process</emphasis>.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="Normal">You may enter or modify information on the OLE Item as
+                            appropriate and click <emphasis role="bold">Save</emphasis>. Both the
+                            Item Type and Item Status fields must have values chosen from the
+                            drop-down lists.</para>
+                        <note>
+                            <para role="Normal"> For more information about the Instance Editors,
+                                see the <link linkend="_Instance_Editor_1">Instance
+                                Editor</link></para>
+                        </note>
+                    </listitem>
+                    <listitem>
+                        <para role="Normal">On the <emphasis role="bold">Import Completion
+                            </emphasis>screen, you may choose to import more records or return to
+                            the main menu. You may also continue to modify the bibliographic,
+                            holding and item records by clicking <emphasis role="bold"
+                                >Edit</emphasis>.</para>
+                        <para role="Normal">
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Import Bib Interface: Import Confirmation Screen</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DescribeNoTitlePage-75.png"
+                                            width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                    </listitem>
+                </orderedlist>
+            </section>
+            <section>
+                <title>Import from Local to Overlay an Existing Bibliographic Record</title>
+                <para>
+                    <orderedlist>
+                        <listitem>
+                            <para>Call up the <emphasis role="bold">Import Bib</emphasis>
+                                interface.</para>
+                            <para/>
+                            <para role="Normal">
+                                <screenshot>
+                                    <mediaobject>
+                                        <alt>Import Bib Interface</alt>
+                                        <imageobject>
+                                            <imagedata
+                                                fileref="../images/DescribeNoTitlePage-62.png"/>
+                                        </imageobject>
+                                    </mediaobject>
+                                </screenshot>
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para role="Normal">Click <emphasis role="bold">browse</emphasis> (or
+                                    <emphasis role="bold">Choose File</emphasis> depending on your
+                                browser) to search for the file from your local machine.</para>
+                        </listitem>
+                        <listitem>
+                            <para role="Normal">Click <inlinemediaobject>
+                                    <alt>Load</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DescribeNoTitlePage-63.png"/>
+                                    </imageobject>
+                                </inlinemediaobject>.</para>
+                            <para role="Normal"><emphasis role="bold">Records in the File</emphasis>
+                                will contain the records loaded.</para>
+                        </listitem>
+                        <listitem>
+                            <para role="Normal">Click <emphasis role="bold">Detail</emphasis> to
+                                view the MARC record.</para>
+                        </listitem>
+                        <listitem>
+                            <para role="Normal">Select the record you wish to load or overlay and click<inlinemediaobject>
+                                    <alt>Next</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DescribeNoTitlePage-64.png"/>
+                                    </imageobject>
+                                </inlinemediaobject>.</para>
+                            <para role="Normal">
+                                <screenshot>
+                                    <mediaobject>
+                                        <alt>Import Bib Interface: Sample Records loaded and
+                                            displayed</alt>
+                                        <imageobject>
+                                            <imagedata
+                                                fileref="../images/DescribeNoTitlePage-65.png"
+                                                width="100%"/>
+                                        </imageobject>
+                                    </mediaobject>
+                                </screenshot>
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para role="Normal">Confirm the Settings by selecting a<emphasis
+                                    role="bold"> Name</emphasis> from the drop down list. This will
+                                set the User Preferences.</para>
+                            <note>
+                                <para role="Normal"> To learn more about creating and modifying User
+                                    Preferences, see information about Bib Import Preferences under
+                                    the <link xlink:href="../../../webhelp/ADMIN/content/ch01s05.html">Batch
+                                        Process Profile</link> in the <link
+                                            xlink:href="../../../webhelp/ADMIN/content/pr01.html">><emphasis>OLE Guide to
+                                            System Administration Functions.
+                                    </emphasis></link></para>
+                            </note>
+                            <para/>
+                            <para role="Normal">
+                                <screenshot>
+                                    <mediaobject>
+                                        <alt>Import Bib Interface: Confirm Settings Name</alt>
+                                        <imageobject>
+                                            <imagedata
+                                                fileref="../images/DescribeNoTitlePage-68.png"
+                                                width="100%"/>
+                                        </imageobject>
+                                    </mediaobject>
+                                </screenshot>
+                            </para>
+                            <para role="Normal"/>
+                            <para>Click<inlinemediaobject>
+                                    <alt>Load</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DescribeNoTitlePage-67.png"/>
+                                    </imageobject>
+                                </inlinemediaobject>.</para>
+                        </listitem>
+                        <listitem>
+                            <para role="Normal">Choose "Based on Match Point" as the <emphasis
+                                    role="bold">Import Type</emphasis>.</para>
+                        </listitem>
+                        <listitem>
+                            <para role="Normal">You may change the <emphasis role="bold">Import
+                                    Status</emphasis>, <emphasis role="bold">Permanent
+                                    Location</emphasis>, <emphasis role="bold">Classification
+                                    Scheme</emphasis> and/or modify the <emphasis role="bold">Call
+                                    Number Source</emphasis>, or you may leave any of these
+                                unchanged to retain the settings on the existing record to be
+                                overlaid. </para>
+                        </listitem>
+                        <listitem>
+                            <para role="Normal">Enter any additional tags to remove and/or fields to
+                                protect.</para>
+                            <para/>
+                            <para role="Normal">
+                                <screenshot>
+                                    <mediaobject>
+                                        <alt>Import Bib Interface: Confirm Settings Import
+                                            Preferences</alt>
+                                        <imageobject>
+                                            <imagedata
+                                                fileref="../images/DescribeNoTitlePage-73.png"
+                                                width="100%"/>
+                                        </imageobject>
+                                    </mediaobject>
+                                </screenshot>
+                            </para>
+                            <para/>
+                        </listitem>
+                        <listitem>
+                            <para role="Normal">Click<inlinemediaobject>
+                                    <alt>Next</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DescribeNoTitlePage-69.png"/>
+                                    </imageobject>
+                                </inlinemediaobject>.</para>
+                            <note>
+                                <para>If OLE cannot find the match point to perform an overlay, a
+                                    new record will be created. Match points can be set via the User
+                                    Interface.</para>
+                            </note>
+                            <para/>
+                            <note>
+                                <para role="Normal"> To learn more about creating and modifying User
+                                    Preferences, see information about Bib Import Preferences under
+                                    the <link xlink:href="../../../webhelp/ADMIN/content/ch01s05.html">Batch
+                                        Process Profile</link> in the <link
+                                            xlink:href="../../../webhelp/ADMIN/content/pr01.html"><emphasis>OLE Guide to
+                                            System Administration Functions.
+                                    </emphasis></link></para>
+                            </note>
+                            <para/>
+                        </listitem>
+                        <listitem>
+                            <para>If an existing record is found from the match point, you will see
+                                a confirmation screen with information about both the existing
+                                bibliographic record (to be overlaid) and the incoming bibliographic
+                                record:</para>
+                            <para/>
+                            <para role="Normal">
+                                <screenshot>
+                                    <mediaobject>
+                                        <alt>Import Bib Interface: Confirm Replace Screen</alt>
+                                        <imageobject>
+                                            <imagedata
+                                                fileref="../images/DescribeNoTitlePage-74.png"/>
+                                        </imageobject>
+                                    </mediaobject>
+                                </screenshot>
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para role="Normal">If no bibliographic record is found via the match
+                                point, the screen will indicate that a new bibliographic record will
+                                be created. Click <emphasis role="bold">Next</emphasis> to continue
+                                the process.</para>
+                        </listitem>
+                        <listitem>
+                            <para role="Normal">You may edit the incoming Bibliographic Record as
+                                needed when it is displayed. Click <emphasis role="bold"
+                                    >Submit</emphasis> to save the bibliographic record.</para>
+                            <note>
+                                <para role="Normal"> For more information about record editors, see
+                                        <link linkend="_Editors">Editors</link></para>
+                            </note>
+                        </listitem>
+                        <listitem>
+                            <para role="Normal">In order to edit the Holdings and Item record(s)
+                                attached to the overlaid record, you will need to use the <emphasis
+                                    role="bold">Instance Editor</emphasis>. These records cannot be
+                                edited during the import process when existing records are
+                                overlaid.</para>
+                        </listitem>
+                    </orderedlist>
+                </para>
+            </section>
+            <section>
+                <title> Import from External Data Source</title>
+                <para role="Normal">This interface is here to show the possibility for institutions
+                    to import bibliographic records through a Z39.50 protocol. Because of licensing
+                    restrictions, each institution will have to implement this feature themselves.
+                    For implementation documentation see <link
+                        xlink:href="https://wiki.kuali.org/display/OLE/Searching%2BExternal%2BDatasources%2Bwith%2BZ39.50"
+                        >Searching External Datasources with Z39.50</link>.</para>
+            </section>
+        </section>
+        <section>
+            <title>Business Rules</title>
+            <itemizedlist>
+                <listitem>
+                    <para>Imported MARC bibliographic records must be in UTF8 format.</para>
+                </listitem>
+                <listitem>
+                    <para>Imported MARC bibliographic records must be in a file with the file
+                        extension “.mrc”</para>
+                </listitem>
+                <listitem>
+                    <para>A Bibliographic record may have zero, one, or many OLE Instances.</para>
+                </listitem>
+                <listitem>
+                    <para>An OLE Instance cannot exist without being linked to a Bibliographic
+                        record.</para>
+                </listitem>
+                <listitem>
+                    <para>An OLE Instance must have one Holdings record, but it cannot have more
+                        than one Holdings record.</para>
+                </listitem>
+                <listitem>
+                    <para>A Holdings record may have zero, one, or many Item records.</para>
+                </listitem>
+                <listitem>
+                    <para>An Item record must be linked to a Holdings record.  If there are zero
+                        Holdings records, there must be zero Item records.</para>
+                </listitem>
+                <listitem>
+                    <para>New Bibliographical records created via “Single Bib Import” will by
+                        default have one Holdings record with one Item Record created and attached
+                        to the Bibliographic record upon import.</para>
+                </listitem>
+                <listitem>
+                    <para>Any Holdings or Item records attached to an existing Bibliographic record
+                        replaced via “Single Bib Import” will not be affected by the import
+                        process.</para>
+                </listitem>
+                <listitem>
+                    <para>Linkages to purchase orders, circulation records, etc. will not be
+                        affected by the import process.</para>
+                </listitem>
+            </itemizedlist>
+        </section>
+    </section>
+</chapter>

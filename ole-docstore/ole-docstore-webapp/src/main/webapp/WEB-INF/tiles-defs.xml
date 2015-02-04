@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+    
+<!-- DOCTYPE tiles-definitions PUBLIC
+  "-//Apache Software Foundation//DTD Tiles Configuration//EN"
+  "http://jakarta.apache.org/struts/dtds/tiles-config.dtd" -->
+
+<!DOCTYPE tiles-definitions [
+<!ELEMENT component-definitions (definition+)>
+<!ELEMENT tiles-definitions (definition+)>
+<!ELEMENT definition (put*, putList*)>
+<!ATTLIST definition
+	name CDATA #REQUIRED
+	page CDATA #IMPLIED
+	path CDATA #IMPLIED
+	extends CDATA #IMPLIED
+	role CDATA #IMPLIED
+	template CDATA #IMPLIED
+	controllerClass CDATA #IMPLIED
+	controllerUrl CDATA #IMPLIED
+>
+<!ELEMENT put (#PCDATA)>
+<!ATTLIST put
+	name CDATA #REQUIRED
+	value CDATA #IMPLIED
+	type (string | page | template | definition) #IMPLIED
+	content CDATA #IMPLIED
+	direct (true | false) #IMPLIED
+>
+<!ELEMENT putList ( (add* | item* | bean* | putList*)+) >
+<!ATTLIST putList
+	name CDATA #REQUIRED
+>
+<!ELEMENT putListElements (add | item | bean)>
+
+<!ELEMENT add (#PCDATA)>
+<!ATTLIST add
+	value CDATA #IMPLIED
+	type (string | page | template | definition) #IMPLIED
+	content CDATA #IMPLIED
+	direct (true | false) #IMPLIED
+>
+
+<!ELEMENT bean (#PCDATA)>
+<!ATTLIST bean
+	classtype CDATA #REQUIRED
+>
+
+<!ELEMENT item (#PCDATA)>
+<!ATTLIST item
+	value CDATA #REQUIRED
+	link CDATA #REQUIRED
+	classtype CDATA #IMPLIED
+	icon CDATA #IMPLIED
+	tooltip CDATA #IMPLIED
+>
+
+]>
+
+<!-- Definitions for Tiles documentation   -->
+
+<tiles-definitions>
+  <!--  ***************** LAYOUT DEFINITIONS ********************* -->
+  <definition name=".discovery.baseLayout" path="/jsp/tiles/discoveryBaseLayout.jsp">
+	  <put name="title"  value="" />
+	  <put name="header" value="/jsp/tiles/header.jsp" />
+	  <put name="body"   value="${body}" />
+	  <put name="footer" value="/jsp/tiles/footer.jsp" />
+  </definition>
+  
+  <!--  ***************** PAGE DEFINITIONS ********************* -->
+  <!-- Search page -->
+  <definition name=".tile.discovery.search" extends=".discovery.baseLayout">
+    <put name="body" value="/jsp/discovery/search.jsp" />
+    
+  </definition>
+
+  <!-- Advanced Search page -->
+  <definition name=".tile.discovery.advancedSearch" extends=".discovery.baseLayout">
+    <put name="body" value="/jsp/discovery/advancedSearch.jsp" />
+    
+  </definition>
+
+  <!-- Search Results page -->
+  <definition name=".tile.discovery.searchResults" extends=".discovery.baseLayout">
+    <put name="body" value="/jsp/discovery/searchResults.jsp" />
+    
+  </definition>
+  
+  <!-- Search Results page -->
+  <definition name=".tile.discovery.moreFacets" path="/jsp/discovery/moreFacets.jsp">
+  </definition>
+</tiles-definitions>
+

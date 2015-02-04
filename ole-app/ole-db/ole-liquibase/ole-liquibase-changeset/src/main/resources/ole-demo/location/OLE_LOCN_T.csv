@@ -1,0 +1,748 @@
+LOCN_ID,OBJ_ID,VER_NBR,LOCN_CD,LOCN_NAME,LEVEL_ID,PARENT_LOCN_ID
+1,1,1,B-EDUC,Blmgtn - Education Library,3,null
+10,10,1,FORD,Ford Library,3,null
+11,11,1,LILLY,Lilly Library,3,null
+12,12,1,PERKN,Perkins/Bostock Library,3,null
+13,13,1,PK,Stacks,5,12
+14,14,1,PKM1,Microforms Microfiche,5,12
+15,15,1,PLI,Stacks,5,11
+16,16,1,PLV1,A-V DVD,5,11
+17,17,1,FRD,Stacks,5,10
+18,18,1,FRDOS,Library Service Center,5,null
+19,19,1,UC,University of Chicago,1,null
+2,2,1,B-HPER,Blmgtn - Public Health Library,3,null
+20,20,1,DLL,D&apos;Angelo Law,3,19
+21,21,1,JCL,Crerar,3,19
+22,22,1,JRL,Regenstein,3,19
+23,23,1,Gen,Regenstein  Bookstacks,5,22
+24,24,1,Film,Regenstein  2nd and 3rd Floor Video/DVD Collection,5,22
+25,25,1,JRLRES,Regenstein  1st Floor Reserve Desk,5,22
+26,26,1,SciLg,Crerar  Bookstacks  Oversize,5,21
+27,27,1,SciDDC,Crerar  Dewey Collection,5,21
+28,28,1,Sci,Crerar  Bookstacks,5,21
+29,29,1,Law,D&apos;Angelo Law  Bookstacks,5,20
+3,3,1,B-BUSSPEA,Blmgtn - Business/SPEA Information Commons,3,null
+30,30,1,LawPer,D&apos;Angelo Law,5,20
+31,31,1,LawRes,D&apos;Angelo Law Reserve Room,5,20
+4,4,1,BED-TEACHMAT,Blmgtn - Education Library - Teaching Materials,5,1
+5,5,1,BED-STACKS,Blmgtn - Education Library - Stacks,5,1
+6,6,1,BHP-JOURNALS,Blmgtn - Public Health Library - Journals,5,2
+7,7,1,BHP-DRAK,Blmgtn - Public Health Library - Drake Cookbook Collection,5,2
+8,8,1,BSP-REF,Blmgtn - Business/SPEA Information Commons - Reference,5,3
+9,9,1,BSP-RES,Blmgtn - Business/SPEA Information Commons - Reserves,5,3
+32,32,1,PALCI,PALCI,5,null
+33,33,1,API,API,5,null
+728,96b3a98a-cf4b-459a-b653-2fecf3caf8df,1,LRES,Reserves,5,706
+729,8614c2ff-d663-462b-9e08-d6d26779f7b6,1,LNCAL,NC Alcove,5,706
+730,9e846a7d-db91-4872-9260-026b0d868ae8,1,LLRD,Leisure Reading,5,706
+731,4cb664ce-f00b-453d-9b95-a1a699fc3eff,1,LRARE,Rare Books,5,706
+732,be303ca2-971a-4cc1-a5ca-8f36ab0f5caf,1,LSSTX,Superseded Tax,5,706
+733,d904be56-3e96-44ca-947e-7138a08e1ab3,1,LFDAI,Federal Alcove (III),5,706
+734,e1a2fb8b-6e18-484b-9bc8-9035330bf6de,1,LFDAL,Federal Alcove,5,706
+735,106c4f34-e795-4e49-8853-405e49d32e31,1,LSCOI,State Codes (Level 3),5,706
+736,9377b39a-b612-4cb5-9a56-e1f5cd59716d,1,LRA1,Rare Books  Level 1,5,706
+737,ab8f9b59-d50d-4e82-bc13-bb5a58f5d1b7,1,LFAC,Faculty Collection,5,706
+738,c5d1beb7-6595-40ab-aa34-41fa76e23020,1,LLFI,Looseleaf (III),5,706
+739,0e2f317b-d11d-412e-851a-e38c82a87ec8,1,SCL,Rubenstein Library,3,null
+740,1cfc11bc-61ec-49ec-bbea-496af01754a4,1,PRSB,Library Service Center  Rare Books (Reading Room only),5,739
+741,72f8566a-e752-4860-9233-93e2557e11d7,1,PRSMS,Library Service Center  Manuscripts (Reading Room only),5,739
+742,b0f4e554-5f4d-44f1-900d-7f5ccae0436d,1,PR,Rubenstein Library,5,739
+743,e46cbef9-cbc9-449c-a46c-3ce255be6ee9,1,PRSH,Library Service Center  Pamphlets,5,739
+744,8d9885f0-13eb-48b0-a6cb-26b6151a742c,1,PRB,Rare Books,5,739
+745,05f199ae-d9da-43fd-a003-0af8161ba787,1,PRSZL,Library Service Center  History of Medicine Locked Stacks,5,739
+746,d94b69e9-2735-40cb-a45f-70f60d170168,1,PRMS,Manuscripts,5,739
+747,1bd91647-e70c-4309-a646-da86917dac47,1,PRSZP,Library Service Center  History of Medicine Journals,5,739
+748,03922b03-e808-480e-a2da-b209f702ce87,1,PRSN,Library Service Center  Newspapers,5,739
+749,ed8b3273-61c3-4cb7-9d9a-4a2248697cb3,1,PRSZ3,Library Service Center  History of Medicine Ephemera,5,739
+750,c18adb00-a023-46a0-8281-dceedbc9d6ef,1,PRDPI,Duke Press Books,5,739
+751,76633a84-dcb1-43e9-884a-508a44c51e76,1,PRSZQ,Library Service Center  History of Medicine Locked Stacks Group qll,5,739
+752,7fe35008-fb6b-43cb-bf5c-bfb362a22b22,1,PRH,Pamphlets,5,739
+753,66ed4acf-520f-4b53-b94b-0d3d71e09425,1,PRL,Vault,5,739
+754,366163fc-062c-40c1-92f1-6f445c177ed3,1,PRR,Reference,5,739
+755,c45619d1-6a02-448d-b565-c8bba366019c,1,DOCS,Perkins Public Documents/Maps,3,null
+756,b3b865d0-87b6-4a82-915e-ac24eddf174c,1,PGS,US Documents,5,755
+757,82b7155a-badc-4c00-9bc8-bf1d7e646da0,1,PGSM,US Documents Microform,5,755
+758,418fbd2d-79f9-4ce6-9f10-b4b6b1037bdf,1,PSGL,Perkins Documents Rare Documents: Lib Service Ctr,5,755
+759,f929b53e-3f51-4e67-b7a2-2bee67761d18,1,PGD,Maps,5,755
+760,b76390e0-a696-4295-8355-6cbfc6836202,1,PGN,UN Documents,5,755
+761,4566bfc1-5af9-4a75-b076-fa262a4792ef,1,PGEM,NC Documents Microfiche,5,755
+762,99cc2654-17e4-4102-962e-787b9aa62dd8,1,PGH,Pamphlet Collection,5,755
+763,6ff9da46-c3c1-429e-b914-bf7ac27d935d,1,PGM,Microforms,5,755
+764,a8e7f967-9d7c-4144-978c-da2d06fd6ac6,1,PGER,Census Reference,5,755
+765,565457bc-6aac-47d0-a575-5d91f02340bd,1,PGSC,US Documents CD-ROM,5,755
+766,f5ae8696-d79b-4061-92b0-b646db6f474c,1,PGNL,League of Nations,5,755
+767,13418def-23c7-4495-a4bb-012afd07bf62,1,DIV,Divinity School Library,3,null
+768,011d2cf0-c511-4df6-a8c8-ec5de6f2806a,1,PD,Stacks,5,767
+769,644e8db0-a8e8-48b3-96d8-0ba3cb405cd8,1,PDU,Stacks,5,767
+770,a2f75718-abd1-4c31-915c-35563230845b,1,PDM,Microforms,5,767
+771,c09a1697-9b90-40d9-b8b6-048703ddbebf,1,PDPI,Current Periodicals,5,767
+772,950e2f5d-e7e0-44ea-b618-1054b51a306b,1,PDR,Reference,5,767
+773,f1e2e9e0-94eb-40f6-acf6-6f4d55a2a0dd,1,PDQ,Stacks,5,767
+774,07153eae-e476-46fe-ae00-f9cfb2504d51,1,PDRQ,Reference Quarto,5,767
+775,34508cc7-a098-4d44-bff2-fcb860501bcc,1,PLP,Periodicals,5,11
+776,59baa7a4-f0ae-41f4-81cc-981c4b852d9b,1,PLR,Reference,5,11
+777,cf810f05-76e7-4188-9cbb-9b7ab10392d5,1,PLL2,Locked Stacks,5,11
+778,bd5d817b-7eca-49d8-bd37-256870bd9552,1,PLVM,Locked Media,5,11
+779,67d39ea2-8082-4fdd-8f3a-8538b4cfbc7f,1,PLPI,Current Periodicals,5,11
+780,c7141b07-982b-46b0-9cd9-324d5abd5356,1,PLW,Current Literature,5,11
+781,d9f1f2ad-96d1-4589-851a-71c19c93a960,1,PLV2,A-V Video cassette,5,11
+782,c5e034c3-a063-47cf-8b95-57dbfe989bb3,1,PLVL,A-V Limited Circulation,5,11
+783,5b748ce8-fa20-4027-99ee-ab0758314c69,1,PLL1F,Cage Oversize,5,11
+784,905950f7-3c17-4359-bbce-932af6947eaf,1,PLX2,Closed Reserve,5,11
+785,94c1b17b-6143-42ac-b9aa-bb72a7ec8e07,1,PLV6,A-V Sound cassette,5,11
+786,76b20337-aa54-4ea9-a06f-7296811cb8ff,1,MCL,Medical Center Library,3,null
+787,22f8c577-a155-436b-95c7-958cb917862f,1,MOFFS,Off-Site Stacks,5,786
+788,0353643a-c942-4b1f-ada8-c714e1c5ca2d,1,MLSCG,LSC General,5,786
+789,ac8899bb-a323-4158-a36b-32f08506792a,1,MJNL,Journal Stacks,5,786
+790,122ba2ae-8189-4827-9191-0f388887d482,1,MSTKS,Stacks,5,786
+791,f0812226-d33f-4961-be44-a978b8df8aa3,1,MLOS,On-Site Storage,5,786
+792,ad0de2b3-4284-470a-879a-315705d05eb7,1,MARCH,Archives,5,786
+793,87b91d67-c6cc-4131-a40d-a1b242cdacae,1,MAROF,Archives Off-Site Stacks - Non Circulating,5,786
+794,b9daacd5-d807-4451-9e3d-d56611e1f566,1,MHDC,Hist Lock Stks Duke C,5,786
+795,efdfbaa1-2877-4404-ac77-1b350240d51b,1,MJNLA,Shelved in Journal Stacks under Series Title,5,786
+796,fb4867e0-dc09-4dc2-b79a-c5c31be8c6d2,1,MUSIC,Music Library,3,null
+797,c8b279da-19e8-4b79-823e-3e33753a94de,1,PM,Stacks,5,796
+798,b746c669-9ee5-46c5-86a9-a06de38996d6,1,PMMC,Media,5,796
+799,83b2671e-8622-4553-9504-e3986ab72803,1,PMR,Reference,5,796
+800,f13d8feb-c207-4ed8-82f3-39ce11767c27,1,PMMCM,Media Microforms,5,796
+801,2bbb72ab-1dcf-469a-9c88-7cac5e7a7575,1,PMMS,Miniature Score,5,796
+802,bf3383de-a6b3-44ea-bd46-7f5a26d9cc54,1,PMPI,Current Periodicals,5,796
+803,75b305a0-2282-4bf3-9239-c027d3f70800,1,PML,Vault,5,796
+804,7a6a91e0-25d7-4c15-b91b-1d35f2c7b761,1,PMF,Stacks Oversize,5,796
+805,ba609814-9259-41d4-abe6-d88ea5134c84,1,FRDD,DVD--Limited Circulation,5,10
+806,ab13866f-53f8-4917-b3b6-6949d224ebd3,1,FRDR,Reference,5,10
+807,0b7d4de9-5222-4d1b-a5e2-0d6efc6c8647,1,FRDPE,Periodicals - Economics,5,10
+808,8c4f67fc-3142-489e-b6e2-cab7d8e4f45f,1,FRDPL,Periodicals - Leadership and Management,5,10
+809,098133d5-23ef-4a8c-aad7-4bcca816a828,1,FRDCC,Career Collection,5,null
+810,d2ab919e-0219-4d5b-849b-9cc0a6a1d9a1,1,FRDPF,Periodicals - Finance and Accounting,5,10
+811,18d9aa45-a995-4df4-85a8-5c15ebee0a86,1,FRDPH,Periodicals - Health Sector Management and Operations,5,10
+812,9e4d07fb-3e5e-47f5-8418-a48973a0317b,1,ARCH,University Archives,3,null
+813,8be0d2c9-8585-43c2-8f03-5966474bc7a6,1,PSAT,Library Service Center (Reading Room only),5,812
+814,a512ccb0-4f24-40e2-b521-ad481d315edf,1,PSA,Library Service Center (Reading Room only),5,812
+815,6e7f094e-be13-439e-82b2-d1f1483ccabc,1,PA,University Archives,5,812
+816,01322445-70f8-45f3-a18a-d4d202199805,1,PSAP,Library Service Ctr Periodicals (Reading Room only),5,812
+817,9d6a7486-9e83-4f64-b7b1-78ff3187b07e,1,MARIN,Marine Lab Library,3,null
+818,11eea5a0-97e3-4ef6-b152-953f59fe3e8f,1,PZ,Stacks,5,817
+819,a2872c75-bb04-48bd-88b3-542236be6799,1,PZP,Periodicals,5,817
+820,a6c272a1-3bc2-4c88-b8eb-eb8b9564ac1b,1,BES,Biol-Env. Sciences Library,3,null
+821,3be6d0b7-6e43-4c9b-81d1-b8dbbb1d2b97,1,PBLL1,Herbarium Collection 1 -- Vascular,5,820
+822,bee6381e-cc47-4ca5-a256-cc7ec6f0eec6,1,PBP,Periodicals,5,820
+823,44cdcb47-0181-4237-bc41-69bbb5f77015,1,PBLL3,Herbarium Collection 3 -- Moss,5,820
+824,b0678b6c-ae3f-4618-8da1-4bfee2479d27,1,LINK,The Link,3,null
+825,c0318dfa-67ea-47cc-b78a-7a0e8f89da76,1,PN,Link Equipment,5,824
+826,d33bf0f9-fc54-48d0-a145-0c0267c901cd,1,DUKIR,Duke Internet Resource,3,null
+827,49ed6ffc-39a6-4eb2-8233-fda95787df82,1,B-AAAMC,Blmgtn - Archives of African American Music and Culture,3,null
+828,4cb2009c-c7b2-4d16-b874-a4965b40f697,1,BAA-GEN,Blmgtn - Archives of African American Music and Culture - General Collections,5,827
+829,fdcc94f9-b837-4e28-81bf-cdb7de15cc4f,1,BAA-REF,Blmgtn - Archives of African American Music and Culture - Reference,5,827
+830,4d940ee5-211a-4d17-ad97-4cb4468489c1,1,B-ALF,Blmgtn - Auxiliary Library Facility,3,null
+831,10ba0034-acdd-4586-9726-bc44aefce5f8,1,BAL-STACKS,Blmgtn - Auxiliary Library Facility - Stacks,5,830
+832,b364867f-ac02-4ec3-86f7-c8da512fcea9,1,BAL-BRAD,Blmgtn - IU Libraries Film Archive - Bradley Film Collection,5,830
+833,3f510f32-1a72-432d-878f-44da60aae748,1,B-ATM,Blmgtn - Archives of Traditional Music,3,null
+834,77752ebc-bb76-43b9-a659-c8aa8f346472,1,BAT-STACKS,Blmgtn - Archives of Traditional Music - Stacks,5,833
+835,4ea46176-7a20-40e5-946e-45049a4ef8fb,1,BAT-VARIA,Blmgtn - Archives of Traditional Music - Variations System (Restricted),5,833
+836,862dd840-6c45-4b6a-a620-e3dad3218fa4,1,B-BCC,Blmgtn - Neal-Marshall Black Culture Cent. Lib.,3,null
+837,2a7b6cb2-03e0-4e2e-99c7-3743baa1a67b,1,BCC-REF,Blmgtn - Neal-Marshall Black Culture Cent. Lib. - Reference,5,836
+838,8e4af69a-cc53-409c-bd3f-f5ca351af057,1,BSP-STACKS,Blmgtn - Business/SPEA Information Commons - Stacks,5,3
+839,942009bc-52c5-42e7-880d-3b74c89fa5bb,1,B-CEDIR,Blmgtn - Indiana Institute on Disability,3,null
+840,dfeb0c6d-9cb8-40d7-bf78-1c4fb0be16c9,1,BCE-REF,Blmgtn - Indiana Institute on Disability - Reference,5,839
+841,80b063f2-88ab-4bc8-87b7-899738bed07b,1,BCE-STACKS,Blmgtn - Indiana Institute on Disability - Stacks,5,839
+842,23c4f753-91ce-4ae7-9630-cdaf4188d067,1,B-CHEM,Blmgtn - Chemistry Library,3,null
+843,546b66eb-8278-4e1f-8a81-18671d7b1cd8,1,BCH-REF,Blmgtn - Chemistry Library - Reference,5,842
+844,f6555626-be3a-427d-b556-30f7b196be0f,1,BCH-RES,Blmgtn - Chemistry Library - Reserves,5,842
+845,cdde9d35-c837-4c39-ac23-acfda7a9f47a,1,BCH-STACKS,Blmgtn - Chemistry Library - Stacks,5,842
+846,e5664d6e-f2b7-4844-b0af-d5123b970332,1,BED-CHILDRENS,Blmgtn - Education Library - Childrens Collection,5,1
+847,5a541ced-bd85-4fe5-9862-4fa5a67d56f8,1,BED-REF,Blmgtn - Education Library - Reference,5,1
+848,e37c16c9-6d4f-47b2-92f7-d9361deabed6,1,BED-RES,Blmgtn - Education Library - Reserves,5,1
+849,f5e88e32-85d3-48f7-828e-16f83b565eeb,1,B-FINEARTS,Blmgtn - Fine Arts Library,3,null
+850,bd88658c-b6f7-4dc7-861d-1d6cf743fffd,1,BFI-AUCTCAT,Blmgtn - Fine Arts Library - Auction Catalogs,5,849
+851,4d34f6b9-ea7c-48e7-9ee8-33dae0d5abe7,1,BFI-JOURNALS,Blmgtn - Fine Arts Library - Journals,5,849
+852,e1a68a60-6875-4318-9212-449ebb222d2f,1,BFI-REF,Blmgtn - Fine Arts Library - Reference,5,849
+853,cd64f43c-7101-4e70-8d26-7492a9f8b6c0,1,BFI-STACKS,Blmgtn - Fine Arts Library - Stacks,5,849
+854,7d872406-05d0-4d25-b971-ce5d784e664f,1,B-GEOSCI,Blmgtn - Geosciences Library,3,null
+855,a72da897-68a9-4920-9eb3-1c671fbaece9,1,BGE-JOURNALS,Blmgtn - Geosciences Library - Journals,5,854
+856,6f4b86fc-ab66-4293-8e4b-e9496b65cd17,1,BGE-REF,Blmgtn - Geosciences Library - Reference,5,854
+857,ff4f3e08-7308-48ea-9081-1f0a42f309eb,1,BGE-RES,Blmgtn - Geosciences Library - Reserves,5,854
+858,b1ae5f97-79fd-48c9-b851-41c56a0b5844,1,BGE-STACKS,Blmgtn - Geosciences Library - Stacks,5,854
+859,63557148-32b4-4988-aee1-4cab54acea84,1,BH-APTLIB,Blmgtn Res Halls - Apt Housng Comm Lib and Res Ctr,3,null
+860,f6b79ea2-bb30-4389-8ca7-a5e27cf1e627,1,BHAP-CD,Blmgtn Res Halls - Apt Housng Comm Lib and Res Ctr - CD's,5,859
+861,901d40c1-6c65-462f-a8dd-4e697530263a,1,BHAP-DVD,Blmgtn Res Halls - Apt Housng Comm Lib and Res Ctr - DVD's,5,859
+862,ebe6cc0c-a34f-46ce-addf-056def376d24,1,BH-BRISCOE,Blmgtn Res Halls - Briscoe Mov Mus More,3,null
+863,edf009e9-5f07-4530-8eeb-8fd815504b91,1,BHBR-CD,Blmgtn Res Halls - Briscoe Mov Mus More - CD's,5,862
+864,3e47fb9e-10ba-4e2c-a2ea-769047c1af84,1,BHBR-DVD,Blmgtn Res Halls - Briscoe Mov Mus More - DVD's,5,862
+865,1080e922-8336-4b3f-b686-7353d1f3d057,1,BH-COLLINS,Blmgtn Res Halls - Collins Comm Lib and Res Ctr,3,null
+866,3ff9c1e6-03bb-41b4-abeb-5df3ab67b9b1,1,BHCO-CD,Blmgtn Res Halls - Collins Comm Lib and Res Ctr - CD's,5,865
+867,0b67d8f5-d747-4434-8bb2-041257d78dc9,1,BHCO-DVD,Blmgtn Res Halls - Collins Comm Lib and Res Ctr - DVD's,5,865
+868,593481bb-98a2-47a7-8e90-87af9dfe7932,1,BH-EIGENMN,Blmgtn Res Halls - Eigenmann Comm Lib and Res Ctr,3,null
+869,07b2f676-9529-47f1-9550-f1413cd51c7e,1,BHEI-CD,Blmgtn Res Halls - Eigenmann Comm Lib and Res Ctr - CD's,5,868
+870,76339acb-9e6a-44e7-bc6d-466c79612221,1,BHEI-DVD,Blmgtn Res Halls - Eigenmann Comm Lib and Res Ctr - DVD's,5,868
+871,520218cf-b921-4d54-bbed-ac98188783c4,1,BH-FOREST,Blmgtn Res Halls - Forest Mov Mus More,3,null
+872,6649c5a0-a5d1-411e-aed1-3cefff93f049,1,BHFR-CD,Blmgtn Res Halls - Forest Mov Mus More - CD's,5,871
+873,014a18d6-de8d-4528-8526-012d9f2b24ba,1,BHFR - DVD,Blmgtn Res Halls - Forest Mov Mus More - DVD's,5,871
+874,5aeb962d-0ddf-420f-b544-f82856044723,1,BH-FOSTER,Blmgtn Res Halls - Foster Comm Lib and Res Ctr,3,null
+875,865df7c5-b4d5-4144-8739-1439cd7c83b8,1,BHFS-CD,Blmgtn Res Halls - Foster Comm Lib and Res Ctr - CD's,5,874
+876,b1369e6a-e78f-4a2a-a9b4-149373ccdab5,1,BHFS-DVD,Blmgtn Res Halls - Foster Comm Lib and Res Ctr - DVD's,5,874
+877,94748a93-8118-479e-a623-bb76be462211,1,BH-MCNUTT,Blmgtn Res Halls - McNutt Comm Lib and Res Ctr,3,null
+878,56b912ef-baa8-4363-b751-6421e8a24c99,1,BHMC-CD,Blmgtn Res Halls - McNutt Comm Lib and Res Ctr - CD's,5,877
+879,e145ab0a-e0e7-44b9-9c5e-d9cfa05d472a,1,BHMC-DVD,Blmgtn Res Halls - McNutt Comm Lib and Res Ctr - DVD'S,5,877
+880,f771eaee-4cc6-42e2-b27b-678b46e6120a,1,BHP-REF,Blmgtn - Public Health Library - Reference,5,2
+881,bf808cd5-9830-46c0-8554-1a3d236180f0,1,BHP-RES,Blmgtn - Public Health Library - Reserves,5,2
+882,50816deb-5b2f-4713-9427-b15c2bff0554,1,BHP-STACKS,Blmgtn - Public Health Library - Stacks,5,2
+883,131bf9ab-0814-4fed-895f-88e2cb4c1932,1,BH-READ,Blmgtn Res Halls - Read Mov Mus More,3,null
+884,ec807fd9-5ea5-4ba2-82ee-cf38ba9ec824,1,BHRE-CD,Blmgtn Res Halls - Read Mov Mus More - CD's,5,883
+885,5c1aea05-d6d7-4890-82f1-ba0850d09112,1,BHRE-DVD,Blmgtn Res Halls - Read Mov Mus More - DVD's,5,883
+886,9a9c693b-3ed8-4778-9dc3-a2e82f95d289,1,BH-TETER,Blmgtn Res Halls - Teter Comm Lib and Res Ctr,3,null
+887,7da31dc5-a29c-4c56-b42c-490270711d0a,1,BHTE-CD,Blmgtn Res Halls - Teter Comm Lib and Res Ctr - CD's,5,886
+888,89ed3a43-5e51-4295-a0ed-25bf28cc8627,1,BHTE-DVD,Blmgtn Res Halls - Teter Comm Lib and Res Ctr - DVD's,5,886
+889,f6276248-b022-4132-a003-478a1a010812,1,BH-UNIONST,Blmgtn Res Halls - Union St Move Mus More,3,null
+890,7cdf40e3-5102-4748-99c7-9401dac9412d,1,BHUN-CD,Blmgtn Res Halls - Union St Move Mus More - CD's,5,889
+891,c6197261-6410-4a31-9798-5a7750142264,1,BHUN-DVD,Blmgtn Res Halls - Union St Move Mus More - DVD's,5,889
+892,9ca6ed4a-d1e4-484a-9f76-cb95418ad0c9,1,BH-WILLKIE,Blmgtn Res Halls - Willkie Comm Lib and Res Ctr,3,null
+893,71368e8d-d38a-483b-9044-5404adf93887,1,BHWI-CD,Blmgtn Res Halls - Willkie Comm Lib and Res Ctr -CD's,5,892
+894,fa839374-22c9-4d77-a1b4-7a8fddf7a500,1,BHWI-DVD,Blmgtn Res Halls - Willkie Comm Lib and Res Ctr -DVD's,5,892
+895,f2adf604-2a62-4635-ab8a-968c10f7d5d1,1,BH-WRIGHT,Blmgtn Res Halls - Wright Mov Mus More,3,null
+896,4c485805-92b9-48d6-97e3-8de3db5d7d8d,1,BHWR-CD,Blmgtn Res Halls - Wright Mov Mus More - CD's,5,895
+897,c6fd54e0-8f12-497b-a8d4-e7cae3ec44be,1,BHWR-DVD,Blmgtn Res Halls - Wright Mov Mus More - DVD's,5,895
+898,835fc42f-dacd-4227-b5a5-20effae119d2,1,B-KINSEY,Blmgtn - Kinsey Institute Library,3,null
+899,21356df5-5032-42aa-b2a5-ff2b6abc7c13,1,BKI-EROOM,Blmgtn - Kinsey Institute Library - E Room,5,898
+900,5e68598f-7fb0-4222-801a-ee52cf0ae0e8,1,BKI-KCOLL,Blmgtn - Kinsey Institute Library - K Collection,5,898
+901,a53db29e-614a-4d0c-a31d-e42dc2f0e5c2,1,BKI-MONEY,Blmgtn - Kinsey Institute Library - John Money Room,5,898
+902,d5104eb7-6e16-4bda-8eef-dd6c5d58155d,1,BKI-PULP,Blmgtn - Kinsey Institute Library - Pulp,5,898
+903,217ae4f3-72a0-477c-a59a-768b48c355c0,1,BKI-SM,Blmgtn - Kinsey Institute Library - SM,5,898
+904,5df069ec-a295-4b63-9476-38e2b536a78e,1,BKI-STACKS,Blmgtn - Kinsey Institute Library - Stacks,5,898
+905,c9bee89f-c7ce-453c-9e36-60cc152346b0,1,B-LAW,Blmgtn - Law Library,3,null
+906,edc78c76-4502-4289-b615-08daca303e82,1,BLW-INDIANA,Blmgtn - Law Library - Indiana Collection,5,905
+907,4891f07b-b06e-4b4c-a7a0-96814a452e5e,1,BLW-REF,Blmgtn - Law Library - Reference,5,905
+908,502da379-c447-414e-8665-fcf70c36d925,1,BLW-RES,Blmgtn - Law Library - Reserves,5,905
+909,bbc5aba2-b094-4bf3-b850-1b9df1b40e25,1,BLW-STACKS,Blmgtn - Law Library - Stacks,5,905
+910,ad96622a-0419-4c9b-8d8d-895cc0da81d5,1,BLW-USDOC,Blmgtn - Law Library - US Documents,5,905
+911,91c1aaf7-0210-46e3-aa42-a822ddaeb59f,1,B-LIFESCI,Blmgtn - Life Sciences Library,3,null
+912,2f425000-9e5e-402d-8b28-ed80468b11df,1,BLS-JOURNALS,Blmgtn - Life Sciences Library - Journals,5,911
+913,c4b4212c-f965-4e6b-ae81-7df7376177a5,1,BLS-REF,Blmgtn - Life Sciences Library - Reference,5,911
+914,226108d6-eab8-426c-bd5d-c66d24bb7011,1,BLS-RES,Blmgtn - Life Sciences Library - Reserves,5,911
+915,2ff5314b-cc69-428c-ab44-2cec32dd40f9,1,BLS-SECURE,Blmgtn - Life Sciences Library - Secure Area,5,911
+916,9ef49bb0-cf80-489d-89be-6441acccb83b,1,BLS-STACKS,Blmgtn - Life Sciences Library - Stacks,5,911
+917,22e33807-859b-4228-a8e0-d4b38a8ecab7,1,B-LILLY,Blmgtn - Lilly Library,3,null
+918,0cf5c6b7-df6b-4794-847e-2e1364cb0d99,1,BLI- AUB,Blmgtn - Lilly Library - Aubanel,5,917
+919,9ec1b17e-2365-44f1-ad96-c4fbfc7bd8dc,1,BLI-BALL,Blmgtn - Lilly Library - Ball Room,5,917
+920,2136dec0-3172-4420-90d1-5a259ed40e85,1,BLI-BOX,Blmgtn - Lilly Library - Boxer Reference,5,917
+921,0455a1cc-4cce-4a43-b9f2-1d599fc4eaa2,1,BLI-ELLI,Blmgtn - Lilly Library - Ellison Room,5,917
+922,e2ff5d2e-bd3c-4f1d-9eee-73b1a80faea6,1,BLI - LINC,Blmgtn - Lilly Library - Lincoln Room,5,917
+923,9205f0d0-55b9-4586-9cec-6546c08dc5b9,1,BLI-MENDEL,Blmgtn - Lilly Library - Mendel Room,5,917
+924,9d0ff9d7-8a19-4c19-b498-187dbfa308c5,1,BLI-MINI,Blmgtn - Lilly Library - Miniatures,5,917
+925,f2fb96ef-ed8e-4fd7-9e61-9e116e5e2cf6,1,BLI-STACKS,Blmgtn - Lilly Library - Stacks,5,917
+926,fa87a3d8-3348-42ff-b904-022ec425b77a,1,BLI-WORD,Blmgtn - Lilly Library - Wordsworth Room,5,917
+927,1c19e05b-1d03-4fbe-9311-24f090ef3053,1,B-MUSIC,Blmgtn - Cook Music Library,3,null
+928,d1a5afdf-c8de-4b4b-9391-7bade2ae7eb9,1,BMU-CD,Blmgtn - Cook Music Library - CD's,5,927
+929,53d9241c-0716-49b2-a5d5-62d9a1101893,1,BMU-DAT,Blmgtn - Cook Music Library - Digital Audio Tapes,5,927
+930,0a84bc73-17a1-4179-98ba-27a27a74ceba,1,BMU-EHRET,Blmgtn - Cook Music Library - Ehret,5,927
+931,dad1e02b-91b0-49b9-b39d-b1dd53b5d1d9,1,BMU-EMACASS,Blmgtn - Cook Music Library - Early Music Archive - Cassettes,5,927
+932,3da6ecfc-9293-481a-996c-561e21810787,1,BMU-EMACD,Blmgtn - Cook Music Library - Early Music Archive - CD's,5,927
+933,d53df81b-c5aa-42f0-869c-bf4800e95689,1,BMU-EMALP,Blmgtn - Cook Music Library - Early Music Archive - LP's,5,927
+934,bd16cd57-fc9e-4508-88d5-7f24553449aa,1,BMU-FRBOOK,Blmgtn - Cook Music Library - Frontlog - Books (to use  ask staff),5,927
+935,8d90eeaf-2810-4883-86dc-b4612972c6a9,1,BMU-FRSCORE,Blmgtn - Cook Music Library - Frontlog - Scores (to use  ask staff),5,927
+936,0ae675df-d8b0-4d9a-9128-2772b17cb9fd,1,BMU-IUPERFCD,Blmgtn - Cook Music Library - IU Performances - CD's,5,927
+937,3dfcdba3-54c0-48a5-8138-e9433180a108,1,BMU-IUPERFDVD,Blmgtn - Cook Music Library - IU Performances - DVD's,5,927
+938,fc2c7d89-3b44-4a48-ba8c-4698adb1f4f6,1,BMU-IUPERFTRDISCS,Blmgtn - Cook Music Library - IU Performances - Transcription Discs,5,927
+939,829a7a6c-9cd5-45dc-8867-d6f147d085ae,1,BMU-IUPERFTAPES,Blmgtn - Cook Music Library - IU Performances - Tapes,5,927
+940,c6d1aeb0-84d4-487e-af5c-a0aaecd9c733,1,BMU-JBMC,Blmgtn - Cook Music Library - Bjoerling,5,927
+941,e8efa80e-5027-4615-b2d0-b6f716dd663b,1,BMU-RALLEN,Blmgtn - Cook Music Library - R. Allen,5,927
+942,22df022e-48eb-4467-851a-3fe776cd9946,1,BMU-REF,Blmgtn - Cook Music Library - Reference,5,927
+943,e3595f04-8031-42cb-90a2-4a93340ada27,1,BMU-RES,Blmgtn - Cook Music Library,5,927
+944,5077bd64-6348-4b68-8440-d932cd412f34,1,BMU-SPEC,Blmgtn - Cook Music Library - Special Collections,5,927
+945,801eac37-19c9-449f-99e7-035cfda06d2e,1,BMU-VARIA,Blmgtn - Cook Music Library - Variations System (restricted access),5,927
+946,37679c9e-265b-4d15-87d2-b04dcdf4da75,1,BMU-WOODCD,Blmgtn - Cook Music Library - Woodward Collection - CD's,5,927
+947,1fe2c0b5-668b-47fa-8688-c5b9088b5b7c,1,B-OPTOMTRY,Blmgtn - Optometry Library,3,null
+948,9016c426-8c49-4f84-abbb-8fa7aeee788c,1,BOP-SECURE,Blmgtn - Optometry Library - Secure Area,5,947
+949,e242697b-3156-4c40-b8df-70796b383427,1,BOP-STACKS,Blmgtn - Optometry Library - Stacks,5,947
+950,0ba9d3d6-23e7-4677-8f29-44ce7661fe3b,1,B-SWAIN,Blmgtn - Swain Hall Library,3,null
+951,e1b505fc-79d2-4d44-932c-c92918f58876,1,BSW-REF,Blmgtn - Swain Hall Library - Reference,5,950
+952,60b236da-e7c5-4d82-8b46-b47fee4f5aad,1,BSW-RES,Blmgtn - Swain Hall Library - Reserves,5,950
+953,34410ce5-8c22-403c-acd4-b82f9faaf8ce,1,BSW-STACKS,Blmgtn - Swain Hall Library - Stacks,5,950
+954,10ba7fc7-692e-4c2a-8944-5128794982f6,1,B-WELLS,Blmgtn - Herman B Wells Library,3,null
+955,26bc192c-ce14-4b3f-884f-3f9db26ea4ec,1,BWE-ARCHIVES,Blmgtn - Herman B Wells Library - Research Coll. - Archives,5,954
+956,79623862-31d3-4ccf-ab03-b3a57234e984,1,BWE-EASTASIAN,Blmgtn - Herman B Wells Library - Research Coll. - East Asian Collection,4,954
+957,4d71c00f-3407-40cd-9a2f-4727333b5167,1,BWE-RCCHINES,Blmgtn - Herman B Wells Library - Research Coll. - East Asian Collection - Chinese,5,956
+958,ecc7d7f5-1aec-4aa3-8fbd-d9f1be4ad4e7,1,BWE-EASTRF,Blmgtn - Herman B Wells Library - Research Coll. East Asian Collection - Reference,5,956
+959,018ea518-e640-48b7-bbee-7895d561cc8c,1,BWE-JAPAN,Blmgtn - Herman B Wells Library - Research Coll. - East Asian Collection - Japanese,5,956
+960,f1b6cb92-64eb-44ed-abe2-6c246f62cf40,1,BWE-KOREAN,Blmgtn - Herman B Wells Library - Research Coll. - East Asian Collection - Korean,5,956
+961,5be75a14-b210-47e9-a18a-ff0eae9eb6ca,1,BWE-FOLKLORE,Blmgtn - Herman B Wells Library - Research Coll. - Folklore Collection,4,954
+962,20eaddcd-e69a-48ad-86c0-3b7964609e60,1,BWE-FOLKSTACKS,Blmgtn - Herman B Wells Library - Research Coll. - Folklore Collection - Stacks,5,961
+963,1eacd070-8d04-4efe-a134-0a40e2b6ade1,1,BWE-FOLKREF,Blmgtn - Herman B Wells Library - Research Coll. - Folklore Collection - Reference,5,961
+964,9c85c00b-7713-4a9a-b5cf-c35a23a57e8c,1,BWE-EJOURNAL,Blmgtn - Herman B Wells Library - E-Journals,5,954
+965,59555ef5-db3b-4c63-ba5c-b57d154afaad,1,BWE-RCSECURE,Blmgtn - Herman B Wells Library - Research Coll. - Secure Area,5,954
+966,c856e793-3a4f-4110-b003-0ae11ff92f66,1,BWE-RCSLAVRF,Blmgtn - Herman B Wells Library - Research Coll. - Slavic Reference,5,954
+967,546d0472-78c7-4572-bffc-9ba4d2773494,1,BWE-RCSTACKS,Blmgtn - Herman B Wells Library - Research Coll. - Stacks,5,954
+968,51945c26-f252-4c5f-9bfc-114a76899a0b,1,BWE-TIBA,Blmgtn - Herman B Wells Library - Research Coll. - Tibetan A,5,954
+969,8c69b733-aab6-48c6-85ae-26de14591e00,1,BWE-TIBB,Blmgtn - Herman B Wells Library - Research Coll. - Tibetan B,5,954
+970,73fe4a0d-2f7c-4f1b-a61e-3caea876e832,1,BWE-TIBC,Blmgtn - Herman B Wells Library - Research Coll. - Tibetan C,5,954
+971,602b6b39-056c-4be3-9478-6703fa7b2657,1,BWE-TIBD,Blmgtn - Herman B Wells Library - Research Coll. - Tibetan D,5,954
+972,36743715-abbd-4d51-9a3f-e79045926e83,1,BWE-UGLIB,Blmgtn - Herman B Wells Library - Undergraduate Services,5,954
+973,25a12376-bdde-4c3f-b58d-92822e6c490a,1,COLUMBUS,Columbus - University Library of Columbus,3,null
+974,b544370f-0d29-41f4-b562-ea6a55178fe5,1,COL-CONT,Columbus Library - Controversial Issues,5,973
+975,ea31f9bf-9342-4394-94a4-ceb5b51fb4e9,1,COL-EJOURNAL,Columbus Library - E-Journals,5,973
+976,4ce8b94e-3ffb-45df-ae2a-d1e3fc76a99a,1,COL-IVTRREF,Ivy Tech Ready Reference,5,973
+977,33088e92-9133-4671-be52-7dbd9ae80cc7,1,COL-JOURNALS,Columbus Library - Journals,5,973
+978,5e46882b-e616-442f-bb6d-31dbaf053347,1,COL-REF,Columbus Library - Reference,5,973
+979,506e5434-de66-4058-9fdc-66e6ee97963d,1,EAST,East Library - Richmond,3,null
+980,2260f782-d425-4cea-9f1d-634f6d5289ef,1,EAS-2NDFLR,Richmond Library - 2nd Floor - Noncirculating,5,979
+981,73e065ff-c2fa-4fb6-8769-04d8263518f8,1,EAS-TLC,Richmond Library - Teaching and Learning Center,5,979
+982,567fe874-5f22-40a3-83c7-7f02a5132aad,1,EAS-EJNL,Richmond Library - E-Journals,5,979
+983,a9ff0f83-b581-46b0-ae70-e95c3d6de14d,1,EAS-REF,Richmond Library - Reference,5,979
+984,6a78d176-9570-410a-ae67-abdc1b918e5c,1,EAS-RES,Richmond Library - Reserves,5,979
+985,c591158c-124e-4972-8a96-7111b192d280,1,EAS-STACKS,Richmond Library - Stacks,5,979
+986,f67f32b7-38a8-49e7-93e3-360966003b59,1,FORTWAYNE,Fort Wayne Helmke Library,3,null
+987,38d5f9c3-2e56-4564-abde-42a00a321d7e,1,FTW-ARCHIVES,Fort Wayne - Archives,5,986
+988,c03f4451-b7e8-40c7-886b-def107f9b4e0,1,FTW-CD,Fort Wayne - CD's,5,986
+989,15044554-818d-4ee6-8536-3dd32ddd958c,1,FTW - CHILDRENS,Fort Wayne - Children's Collection,5,986
+990,6c085f0b-3028-49df-9158-d2fe84b9297f,1,FTW - GOVPUBS,Fort Wayne - Government Publications,5,986
+991,81fc65c8-d68b-488d-8869-4a5706e6b518,1,FTW-REF,Fort Wayne - Reference,5,986
+992,92feb3e9-8d65-4223-b30d-0ae6e68aeda6,1,FTW-RES,Fort Wayne - Reserves,5,986
+993,7217d96e-b3ef-4935-8797-fa766f409e85,1,FTW-STACKS,Fort Wayne - Stacks,5,986
+994,da1d01fd-cc81-47c3-88c1-92260898cb88,1,I-ART,Indpls - Herron Art Library,3,null
+995,94a872ed-d71c-455c-9887-bf27615ee4af,1,IAR-ARTBK,Indpls - Herron Art Library - Artists' Books,5,994
+996,4f10aee0-ead9-4afa-b446-89445b3fdae4,1,IAR-ARTED,Indpls - Herron Art Library - Art Education,5,994
+997,4292561b-dfa3-4aff-bcc4-68843231d98d,1,IAR-INDIANA,Indpls - Herron Art Library - Indiana Reference,5,994
+998,1c9d2de3-b566-44e6-aa62-b9aa7f233dd8,1,IAR-REF,Indpls - Herron Art Library - Reference,5,994
+999,a09c71ac-eb21-473d-a532-e3b4ddac49bf,1,IAR-RES,Indpls - Herron Art Library - Reserves,5,994
+1000,4593f186-006b-4f9e-8c15-d251623b52b5,1,IAR-STACKS,Indpls - Herron Art Library - sTACKS,5,994
+1001,59db25ed-05bc-429c-8f09-4a2da510af58,1,I-DENTSTRY,Indpls - Dentistry Library,3,null
+1002,886dd855-6643-48d6-a46b-2ac3d02a9ce9,1,IDE-JOURNALS,Indpls - Dentistry Library - Journals,5,1001
+637,eccc55c8-96ef-4a19-a7f6-1ea2c1e9640e,1,LSC,Library Service Center,3,null
+638,8eb893ae-c9e4-4764-8dc9-89ea42eb5a3f,1,PSK,Library Service Center,5,637
+639,ad5a1633-a954-471c-832f-ee699aa00e95,1,PSKP,Periodicals,5,637
+640,a9f93ebc-dfd9-4d69-b38a-a29279e72bb3,1,PSL,Library Service Center,5,637
+641,90310698-ac39-4e01-9087-7bfecef269a5,1,PSGS,Perkins Documents US: Lib Service Ctr,5,637
+642,1527e133-6fbc-497c-9aff-ae6f88d11e8a,1,PSKQ,Library Service Center,5,637
+643,6b8d53da-b454-4001-8cfb-060d9dd38470,1,PSD,Library Service Center,5,637
+644,1325d4b9-f10e-4b27-86be-38a156404bca,1,PSM,Library Service Center,5,637
+645,a26a97d9-d545-494f-987e-9b7eca1ae0a6,1,PSKM2,Library Service Center,5,637
+646,12c7e452-5dfb-4576-8087-81c7f48129d7,1,PSB,Library Service Center,5,637
+647,5d7af471-b130-45a5-8d8e-a62a245d19a8,1,PSBP,Periodicals,5,637
+648,9b755651-5616-4b47-ae70-c25106c3ee51,1,PSVP,Periodicals,5,637
+649,2a0e6848-e2a9-4c51-ba93-4054f251c22b,1,PSV,Library Service Center,5,637
+650,a1914ca4-19f9-4e54-81d4-998b089bf76f,1,PSV2,Library Service Center,5,637
+651,21541279-f97a-448e-b9b6-7ef497ccab7c,1,PSV2P,Periodicals,5,637
+652,8e325c05-71f6-4d78-b2b8-db11b3ff3bcb,1,PSCP,Periodicals,5,637
+653,2936b952-d708-4a18-9703-55564e00a0fd,1,PSDP,Periodicals,5,637
+654,f8ba73a5-2072-448c-82ea-59a45388cfdb,1,PSV3P,Periodicals,5,637
+655,c5bf356e-3a35-4b45-9d0a-349860538688,1,PSDQ,Library Service Center,5,637
+656,39793f3f-e317-4342-b2d9-5af636ac271e,1,PSGZ,Perkins Documents RAND: Lib Service Ctr,5,637
+657,a9315957-1619-46f3-a540-659aa3beaa6c,1,PSKE,Library Service Center,5,637
+658,6ef3cae7-a27d-45b4-af13-c9953c5bcc28,1,PSC,Library Service Center,5,637
+659,7ce854d3-0dad-40c7-9702-546d438a8221,1,PSLV2,Library Service Center,5,637
+660,387d9b6f-4291-47aa-a8c6-d0b9c674c9a4,1,PSKJ,Library Service Center,5,637
+661,9c9cb645-33c1-4531-b8f6-d45bf25b8f3f,1,PSKF,Library Service Center,5,637
+662,8729ee9a-5181-48b3-99c7-48eb19b71920,1,PSMP,Periodicals,5,637
+663,dec7e21d-6713-4235-9e26-c96dc29df4bd,1,PSLP,Periodicals,5,637
+664,fd14e76d-0937-4252-a5ca-426c19b8bc1e,1,PSLV1,Library Service Center,5,637
+665,ff7818c5-c26e-4674-847a-4e653a2efc27,1,PSKEP,Periodicals,5,637
+666,0ac948ef-47ec-41c4-8ed0-6039db53c069,1,PSZP,Periodicals,5,637
+667,fbc3c5e7-1e3c-4074-9a4d-8b5537728f37,1,PSDF,Library Service Center,5,637
+668,b29a51bf-5546-4560-8408-27fc367e5c24,1,PSVT,Library Service Center,5,637
+669,9e56561d-dd72-425f-9b17-c1face0756d3,1,PSK2,Library Service Center,5,637
+670,179db4dc-915a-4543-acaf-48e7224328c8,1,PSGN,Perkins Documents UN : Lib Service Ctr,5,637
+671,88a99da3-d53e-4f80-a68e-1c44dab53275,1,PSLVL,Library Service Center,5,637
+672,88fc7d14-ed13-409a-aaf4-84520d6bc0c6,1,PSLV7,Library Service Center,5,637
+673,a3b5ce0a-d491-44ff-8abb-e00dc97ea5ca,1,PSZ,Library Service Center,5,637
+674,afa45b00-0d21-427c-9b9c-18ba2a7d082a,1,PSCT,Library Service Center,5,637
+675,001253e4-9fb3-4167-bb8f-0f0bef4288b9,1,PKM2,Microforms Microfilm,5,12
+676,4e90047b-1b6c-4143-b860-0bc0af554d3f,1,PKE,East Asian Collection,5,12
+677,424e6dad-026a-43e9-ad6b-2abbd8bc12c4,1,PKQ,Stacks,5,12
+678,357b21f2-1805-4e19-adee-0a27ea738d12,1,PB,Stacks,5,12
+679,4ace7182-8968-4742-a789-094c060f87a6,1,PKP,Periodicals,5,12
+680,9a35534b-36d9-4bba-acc2-e80e5ce19e88,1,PKPI,Current Periodicals and Newspapers,5,12
+681,fbda3db8-796b-4c94-9d41-5be25b36fc0d,1,PKR,Reference,5,12
+682,7b499c06-e433-4eb3-82f6-a87bbd87e0aa,1,PK3,LOCATIONS AND CALL NUMBERS VARY,5,12
+683,d0e12caa-4c90-48a7-b892-dc574305f917,1,PKEP,East Asian Coll. Periodicals,5,12
+684,08aeb8ef-26b9-4e84-a526-ba7fb0361b9e,1,POL,Off-Site Stacks - Not available,5,12
+685,f4774b83-d725-43ef-877e-2f28c87f3e61,1,POB,Off-Site Stacks - Not available,5,12
+686,08071b1c-647d-4175-b3d1-cab414e58eab,1,PKF,Stacks Oversize,5,12
+687,61b17848-ffd2-4ec9-a231-c6b1b038014d,1,PKEPI,East Asian Collection Current Periodicals,5,12
+688,c7f41641-443a-4137-bd25-9eda109d445c,1,PKRQ,Reference,5,12
+689,d741f492-3000-455a-80dc-d4bef844e34a,1,PBM,Microforms,5,12
+690,c6ad1cee-e55b-487a-bb0d-fd6480a707b8,1,PKML,Microforms Locked Stacks,5,12
+691,95da70d3-ab5b-4fdf-8ca3-fd307f11d451,1,PKU,Reading Room,5,12
+692,bf19d6ee-0cbb-4a73-9034-adb3ca5118d0,1,POK,Off-Site Stacks - Not available,5,12
+693,7e5bd96e-ec8e-4d3a-a5b7-5048ca234b1f,1,PKW,New & Noteworthy,5,12
+694,11fe248d-c5b1-470d-b343-440da8805a26,1,PK6,International & Area Studies Reading Room,5,12
+695,d0e8afd6-7dd2-4c13-a6fe-7af5fcae4cd3,1,PBF,StacksOversize,5,12
+696,621743a6-6544-4e60-a824-f66488d356bc,1,POGS,Docs Off-Site Stacks,5,12
+697,07102e08-9351-497d-9ad9-b2bccf8d93eb,1,PKER,East Asian Reference,5,12
+698,d9f1d17c-7cef-4302-8791-d7a2e84ebdfb,1,POKP,Off-Site Stacks - Not available,5,12
+699,842a4d65-5c8e-4857-95fe-4c18335ef1ec,1,PCR,Stacks,5,12
+700,97fc99cf-6ecc-47ef-b19a-96a863b56ae1,1,PKR5,Newspaper Index Area,5,12
+701,1492772a-a568-4ea0-9300-5858d59c151e,1,PKEQ,East Asian Collection,5,12
+702,04a64297-2296-429d-ad8c-ef78c3e8f9b8,1,PKP3I,Current Math Periodicals,5,12
+703,70137d0a-8296-431b-97af-7e49d308442c,1,PKXY,Papyrology Reserve,5,12
+704,415132a6-7034-4050-b275-eb3840667165,1,PKRF,Reference Oversize,5,12
+705,3f1e7685-3422-4ad1-a950-8e6f416b0381,1,PKX,Reserve,5,12
+706,a4143ad2-465d-4e13-9804-0c138a2bb0a2,1,LAW,Goodson Law Library,3,null
+707,d3c1af0d-99ba-4f0e-ae03-25b6193fa15a,1,LGEN,Stacks,5,706
+708,737328be-9433-40f5-b3bf-899379452644,1,LLSC,Library Service Center,5,706
+709,1f5539db-4073-491a-8b8d-5d22bb47fb31,1,LPER,Periodicals,5,706
+710,673a5703-6723-4c2f-a0cd-345cf14c7412,1,LDOC,Documents,5,706
+711,95853e30-bf6e-4cd0-a481-bfc4373375ec,1,LMICR,Microform,5,706
+712,d24a8c0f-06f5-46fa-bf69-d6783c00c2a3,1,LSSCO,Superseded Codes,5,706
+713,82f031bb-aff6-4b50-9f0f-c935f414cc3f,1,LGENI,General (III),5,706
+714,e11e268e-95b2-42e7-91df-d6952bc932f1,1,LPERC,Periodicals  Current Issues,5,706
+715,18dab344-65fc-45c9-83b1-42f4c6e1df59,1,LREPT,Regional Reporters,5,706
+716,e11539a1-11ee-4881-8935-2677ac668b63,1,LFDR,Federal Reporters & Digests,5,706
+717,e8f69416-821c-4f3c-9a88-e58cfc2770ec,1,LUNCL,Unclassified Collection,5,706
+718,13fcbccf-62a8-4322-b7f1-fa11b76f4e3d,1,LSSRF,Superseded Reference,5,706
+719,5ebedbba-40b0-4362-abbc-1031c9a9568c,1,LSCO,State Codes,5,706
+720,464b513d-7069-4f72-bd42-1c1358822032,1,LRECB,Records & Briefs,5,706
+721,bd878557-58b3-4f7c-b367-9f04deca6183,1,LSSLO,Superseded Looseleaf,5,706
+722,5ca9534f-d9e4-4e7e-8666-f546adbe44d9,1,LPRAC,Practice & Procedure,5,706
+723,f4d141a0-782d-455b-8f40-c35823a88347,1,LTAXI,Tax Collection (III),5,706
+724,72bdb690-ba3d-4a4a-8a72-c9765a036914,1,LTAX,Tax Collection,5,706
+725,0140cf1b-f26e-43cd-9ffd-57282829fed0,1,LREF,Reference,5,706
+726,18544856-a7aa-4433-8c0e-6c22969b055d,1,LDOCI,Documents (III),5,706
+727,09dc8a05-2f1b-4056-970f-272599cb9377,1,LCHRI,Christie Collection,5,706
+1003,79c9ae86-a4d4-40b9-b453-72d516631eba,1,IDE-REF,Indpls - Dentistry Library - Reference,5,1001
+1004,297896ec-d4eb-4adf-90db-aca38ca4fef3,1,IDE-STACKS,Indpls - Dentistry Library - Stacks,5,1001
+1005,a178eab5-213c-4bd4-b7fc-d390bcded47c,1,IL-ALEXAND,IU Mckinney School of Law Program  Egypt (Alexandria),3,null
+1006,2d27bf4b-cf45-4e1f-bfd8-3fabb2fccaf4,1,ILAA-STACKS,IU Mckinney School of Law Program  Egypt (Alexandria) - Stacks,5,1005
+1007,1225d998-287d-4f69-b010-ab5f328e66ae,1,I-LAW,Indpls - Ruth Lilly Law Library,3,null
+1008,0d4748bf-3f0e-4c99-b88b-61e1938bd08f,1,ILA-GOVPUBS,Indpls - Ruth Lilly Law Library - Government Publications,5,1007
+1009,fa8aa023-bc15-49f0-a5fd-1fabfdb431a1,1,ILA-COMM,Indpls - Ruth Lilly Law Library - Commonwealth Collection,5,1007
+1010,d2a65908-767a-4f7e-8864-d7ff1ce4010d,1,ILA-STACKS,Indpls - Ruth Lilly Law Library - Stacks,5,1007
+1011,1b8b13dc-2760-4677-a5d3-d7667f662bea,1,IL-CAIRO,IU McKinney School of Law Program  Egypt (Cairo),3,null
+1012,f0e416f6-3633-4cd4-8d27-aedd40b81949,1,ILAC-STACKS,IU McKinney School of Law Program  Egypt (Cairo) - Stacks,5,1011
+1013,47a7d4b9-b4fc-4a4b-a24c-006404e7ff3c,1,I-MEDICINE,Indpls - Ruth Lilly Medical Library,3,null
+1014,0b3ed782-04f4-443c-b515-d3257f879de5,1,IME-BIOREF,Indpls - Ruth Lilly Medical Library - Bioethics Reference,5,1013
+1015,ab74003f-1ce0-4b12-9f31-68f493c54425,1,IME-HISTMED,Indpls - Ruth Lilly Medical Library - History of Medicine,5,1013
+1016,0cff9de5-a273-49da-b3b2-a3b871025599,1,IME-OPH,Indpls - Morrison Eye Lib. (access limited call I-MEDICINE),5,1013
+1017,cfc6e1ef-b5aa-4402-a00a-dcd1a923f098,1,IME-RAD,Indpls -Radiation Oncology Lib. (access limited call I-MEDICINE),5,1013
+1018,0d6b2192-1ec1-4909-9a58-a5b403034f1e,1,IME-SERIALS,Indpls - Ruth Lilly Medical Library - Serials,5,1013
+1019,1231e91e-4a8a-4fb3-ba8d-55d16a38fa13,1,IME-REF,Indpls - Ruth Lilly Medical Library - Reference,5,1013
+1020,ef65ed96-a55d-4160-9639-c048a3bae2cc,1,IME-RES,Indpls - Ruth Lilly Medical Library - Reserves,5,1013
+1021,ac4e1abd-c314-44b1-9267-9f6547903b83,1,IME-STACKS,Indpls - Ruth Lilly Medical Library - Stacks,5,1013
+1022,8ea64334-5456-477a-8828-e8d38dbfdfbd,1,I-UNIVLIB,Indpls - IUPUI University Library,3,null
+1023,5c767ff9-2867-41b9-8c69-7e934b290af1,1,IUL-ARCHIVES,Indpls - IUPUI University Library - Archives,5,1022
+1024,e94df274-810d-4d67-b900-0eff71709db5,1,IUL-CURRICULUM,Indpls - IUPUI University Library - Curriculum Materials,5,1022
+1025,1f577eac-2631-436d-877c-7942cd5370e3,1,IUL-EJOURNAL,Indpls - IUPUI University Library - E-Journal,5,1022
+1026,351e6e0c-6d05-4ee2-934b-857df7b317ef,1,IUL-GOVPUBS,Indpls - IUPUI University Library - Government Publications,5,1022
+1027,b5803c3c-2aab-4500-a53e-f7f80ed25ac7,1,IUL-JOURNALS,Indpls - IUPUI University Library - Journals,5,1022
+1028,92f50f42-64fa-4d06-9169-62064bff7332,1,IUL-PHI,Indpls - IUPUI University Library - Philanthropic Studies Library,4,1022
+1029,9fb31b93-c4a7-4ca9-8f80-443adb711099,1,IUL-COPSTACKS,Indpls - IUPUI University Library - Philanthropic Studies Library - Stacks,5,1028
+1030,0c04eeaf-81af-4897-b149-0dd6732eabfe,1,IUL-COPREF,Indpls - IUPUI University Library - Philanthropic Studies Library - Reference,5,1028
+1031,e0b6439f-d2c1-4a37-877b-5d48486ca42f,1,IUL-REF,Indpls - IUPUI University Library - Reference,5,1022
+1032,e2ae09af-ebde-4db6-a1a4-ea0c4fab5b5b,1,IUL-RES,Indpls - IUPUI University Library - Reserves,5,1022
+1033,450b5754-8e38-41ad-9705-d8ff0c0bedc2,1,IUL-STACKS,Indpls - IUPUI University Library - Stacks,5,1022
+1034,e3b2a6c9-123c-456f-96dc-2712c79c86fc,1,KOKOMO,Kokomo Library,3,null
+1035,9c83e542-7adb-483b-9e3e-513c534f8864,1,KOK-CHILDRENS,Kokomo Library - Childrens Collection,5,1034
+1036,aaef8349-1629-4605-8cf2-b0e44730db6f,1,KOK-EJOURNAL,Kokomo Library - E-Journal,5,1034
+1037,aebd7ad2-b167-44a8-9d3d-ebd812184528,1,KOK-GOVPUBS,Kokomo Library - Government Publications,5,1034
+1038,641ccbc2-3d6c-4106-87b8-86170eeb8f60,1,KOK-CULAB,Kokomo Library - CULAB,5,1034
+1039,16ab42c8-8fd8-42b7-b6a8-3e98fdc5864c,1,KOK-REF,Kokomo Library - Reference,5,1034
+1040,b3e72398-7908-4586-a0ac-efc93e4667f2,1,KOK-RES,Kokomo Library - Reserves,5,1034
+1041,77429c87-0725-4a85-bbc6-73b60b46fd80,1,KOK-STACKS,Kokomo Library - Stacks,5,1034
+1042,a2f03829-12e4-4962-9dac-0130ff1236fe,1,NORTHWEST,Northwest Library (Gary),3,null
+1043,07d00547-7688-4e76-9a85-3b13c19509d4,1,NOR-CHILDRENS,Northwest Library (Gary) - Childrens Collection,5,1042
+1044,f74e7ce3-8e33-4bc9-80e9-1f5d2f036c1a,1,NOR-EJOURNAL,Northwest Library (Gary) - EJOURNAL,5,1042
+1045,ab820b75-40ca-4ee6-a80d-b0e76d18f9dc,1,NOR-REF,Northwest Library (Gary) - Reference,5,1042
+1046,aa45d023-e7b7-4c63-b9b4-1f624db5cba1,1,NOR-RES,Northwest Library (Gary) - Reserves,5,1042
+1047,a277e057-9090-41ea-b339-e04f56c92563,1,NOR-STACKS,Northwest Library (Gary) - Stacks,5,1042
+1048,0856e140-b1fe-4ee1-9e89-628686c0d907,1,ONLINE,Electronic resources available in all locations,3,null
+1049,02235206-8ffb-4792-9546-8ac836d37871,1,ONL-WWW,World Wide Web,5,1048
+1050,05a58b53-8638-4ef4-ae24-9a4d207a6de0,1,SBEND,South Bend - Schurz Library,3,null
+1051,9973305a-5a64-4688-ba4e-e98907a370d5,1,SBE-EJOURNAL,South Bend - Schurz Library - E-Journal,5,1050
+1052,08ff9d33-1dac-4d18-8181-e2e47d2a55c6,1,SBE-GOVPUBS,South Bend - Schurz Library - Government Publications,5,1050
+1053,3c960993-e76d-4f09-b21a-93ff21ad5397,1,SBE-LINCOLN,South Bend - Schurz Library - Lincoln Collection,5,1050
+1054,9f6ecbaa-f183-4157-9b52-c664536815e0,1,SBE-REF,South Bend - Schurz Library - Reference,5,1050
+1055,c2200496-f3cc-4a61-bcae-362cd82cee49,1,SBE-RES,South Bend - Schurz Library - Reserves,5,1050
+1056,20c25b23-7b2c-44bb-bbf0-b46e40a2daaa,1,SBE-STACKS,South Bend - Schurz Library - Stacks,5,1050
+1057,229fce01-ab69-4b80-8a67-1bcfe41f1709,1,SBENDLRC,South Bend - Educational Resource Commons,3,null
+1058,48663d7d-8dbd-4668-b4b1-39a1171d056d,1,SBL-ECHILD,South Bend - Educational Resource Commons - Early Childhood,5,1057
+1059,0612e0a5-0f86-48d7-89e3-bee58a6606a5,1,SBL-ENG,South Bend - Educational Resource Commons - English,5,1057
+1060,73647c00-7b1c-4bcb-9c53-c204329e1228,1,SOUTHEAST,Southeast Library (New Albany),3,null
+1061,bad20d51-556d-44d0-89da-f34a7a68da33,1,SEA-GOVPUBS,Southeast Library (New Albany) - Government Publications,5,1060
+1062,7dd14e4a-768e-4ddb-92d4-c3be014d2ba6,1,SEA-JOURNALS,Southeast Library (New Albany) - Journals,5,1060
+1063,3ebbef11-c640-42a4-8b19-3a741265b083,1,SEA-REF,Southeast Library (New Albany) - Reference,5,1060
+1064,22f589a8-c8a1-453d-b1d1-3f5e78d7fc28,1,SEA-RES,Southeast Library (New Albany) - Reserves,5,1060
+1065,1b9da396-3e03-4054-b9b9-412bef86b95e,1,SEA-STACKS,Southeast Library (New Albany) - Stacks,5,1060
+1066,ece01b72-c478-4a96-8b19-66392579684d,1,AANet,Internet,3,19
+1067,1c8cc6b0-a25f-495c-baa3-6107584a248c,1,ASR,Mansueto Library,3,19
+1068,78791a63-9ebc-4d17-9b6c-36bd15a89e36,1,Eck,Eckhart,3,19
+1069,dcf27f35-6381-46fe-8ac7-00ccff2a693b,1,SPCL,Special Collections,3,19
+1144,cda41ecf-3d4a-4173-87a5-8b475cce296d,1,CJKRef,Regenstein  Room 520  East Asian Reference Collection,5,22
+1145,7fd4791b-0e94-487f-b780-fa6c17b3baea,1,CJKRfHY,Regenstein  Room 520  East Asian Reference Collection,5,22
+1146,b42713a3-3194-455a-b3b3-c04001061934,1,CJKSem,Wiebolt Hall  East Asia Seminar Room,5,22
+1147,35c00591-8b63-4249-961d-9d5aedf3abdc,1,CJKSPer,Regenstein  Room 520  East Asian Periodicals,5,22
+1148,867757c5-748d-4dde-bc02-993b0d58cb6e,1,CJKSpHY,Regenstein  East Asian Treasure Room: Ask in Room 525,5,22
+1149,1995bb6b-3797-48f8-8e95-2f8abc8542da,1,CJKSpl,Regenstein  East Asian Reading Room  Closed Bookstacks: Ask in Room 525,5,22
+1150,667dc6ad-f2d5-44f5-8616-3dfd26ff9e4a,1,CMC,Regenstein  Room 354  K-12 Curriculum Materials Collection,5,22
+1151,7d4c9c41-bf7c-4436-93ab-c792f53df639,1,GenCS,Regenstein  Closed Bookstack -- Request at 1st Floor Circulation,5,22
+1152,1019f2a5-e43b-44ef-8063-bee93bf8d5d5,1,GenHY,Regenstein  Bookstacks  Harvard Yenching/CJK,5,22
+1153,b41c27a8-0277-40fb-a2f6-d8bec66f8fd8,1,Harp,Regenstein  A-Level Harper Collection,5,22
+1154,a0d8a88c-eba2-4ef7-b4ca-211ae9ee2f60,1,JMedia,Regenstein  4th Floor Digital Media Collection,5,22
+1155,42ade308-09ea-481a-aab9-c4eef4a9b5cb,1,JzAr,Regenstein  Room 360  Chicago Jazz Archive,5,22
+1156,32ff0738-1e7c-4ec7-a02d-602c3c802ae0,1,MapCl,Regenstein  Room 370  Map Collection,5,22
+1157,dfb438dd-db52-42be-aa87-273998d864a6,1,MapRef,Regenstein  Room 370  Map Reference Collection,5,22
+1158,ae3e3c39-e1b0-4adb-97be-a0feec088f72,1,Mic,Regenstein  3rd Floor Microforms,5,22
+1159,1c04fe33-22b2-444d-8b32-f96f6846bd9c,1,MidEMic,Regenstein  5th Floor Middle East Microforms,5,22
+1160,acdb830f-2afd-403c-925d-9e336a6dbf70,1,MSRGen,Temporary Storage--Ask at Regenstein Circulation Desk,5,22
+1161,d9bce5e9-2575-4f25-b294-504d4e98990e,1,Rec,Regenstein  Room 360  Recordings Collection,5,22
+1162,d6e27f7a-805c-49a6-ad47-dbeb0ea2009c,1,RecHP,Regenstein  Headphones: Ask at Room 360,5,22
+1163,49b6e853-8fa4-49ac-a86f-f568c4bc522b,1,Resup,Needed for Reserve Next Quarter: Ask at Regenstein  1st Floor Circulation,5,22
+1164,a60a27c1-d685-46bd-9019-18568ebf2885,1,RR,Regenstein  General Reference: A-L on 2nd Floor  M-Z on 3rd Floor,5,22
+1165,297e379f-eca6-446e-953f-8d628fc7e742,1,RR2,Regenstein  2nd and 3rd Floor General Reference Collection,5,22
+1166,e8ce7f9a-f58b-4752-8755-00c0e49076e1,1,RR2Per,Regenstein  2nd Floor Current Periodicals & Newspapers,5,22
+1167,29600474-45c1-4efc-abb2-104e4b78cfd0,1,RR3,Regenstein  2nd and 3rd Floor General Reference Collection,5,22
+1168,f2f55912-fe1d-412d-a70c-ce94fa7480d2,1,RR4,Regenstein  4th Floor Reference Collection,5,22
+1169,4b4da11d-9919-4975-b186-dc0e3a6c7d5d,1,RR4Cla,Regenstein  Room 470  Classics Reading Room,5,22
+1170,97f4ad63-d985-4f73-b5ec-b313466a89f7,1,RR4J,Regenstein  4th Floor Judaica Reference Collection,5,22
+1171,d4dc422d-196e-4b1e-ac43-9d707f07782b,1,RR5,Regenstein  5th Floor Reference Collection,5,22
+1172,5464d8b1-8b7e-4c8f-93e8-a35bb10acb00,1,RR5EA,Regenstein  Room 520  East Asian Reference Collection  Western  Language,5,22
+1173,c7098248-2e3b-459f-9cc9-01bd166c07c0,1,RR5EPer,Regenstein  Room 520  East Asian Reference Collection  Western Language Periodicals,5,22
+1174,6ca818c2-8a13-45cd-9261-a7f8a6d0ea08,1,RR5Per,Regenstein  5th Floor Middle East & South Asia Current Periodicals & Newspapers,5,22
+1175,5146ea0e-efdd-4fec-acd1-a785511e65f3,1,RRExp,Regenstein  1st Floor Reference Desk Collection,5,22
+1176,52464b53-3683-430f-a2ab-626cfe0b407c,1,RRPer,Regenstein  1st Floor Reference Collection,5,22
+1177,9dd008be-b9c1-406d-bea2-7beb352586d0,1,RRRes,Regenstein  Ask at 1st Floor Reference Desk,5,22
+1178,eb944a4a-35e2-4dcd-b855-b5a787437b18,1,SAsia,Regenstein  Room 560  South Asia Arrearage,5,22
+1179,1a689bf6-6f30-4a97-b17b-3d8fe901509c,1,Ser,Regenstein  Serials Department: Ask at 1st Floor Reference Desk,5,22
+1180,79562d1f-363b-4d87-871b-4e71c3f253e6,1,SerArr,Regenstein  Serials Department: Ask at 1st Floor Reference Desk,5,22
+1181,663205b5-f102-40b3-bf4b-b5297a1eeb2f,1,SerCat,Regenstein  Serials Cataloging Department: Ask at 1st Floor Reference Desk,5,22
+1182,8f04950e-022d-4b9c-904c-1047110be87c,1,Slav,Regenstein  4th Floor Slavic Reference Collection,5,22
+1183,719c302b-8fd0-4998-904e-e140af1fea39,1,SOA,Regenstein  5th Floor Southern Asia Reference Collection,5,22
+1184,dfffb25b-9cbf-42d8-8bff-397d0c6ba13f,1,W,Regenstein  Bookstacks,5,22
+1185,e4616dee-01c9-465f-b370-9d79acbdd8f0,1,WCJK,Regenstein  5th Floor Bookstacks  East Asian/CJK,5,22
+1186,8870972f-85f7-4d08-9bc6-9f92ec37b08e,1,LMCacc,Logan Media Center  Kit Accessories,5,1074
+1187,9231b231-96ce-4b99-b9bf-af49a4169b40,1,LMCcabl,Logan Media Center  Accessories,5,1074
+1188,8e5916bd-8949-4c35-af03-c649ada8791f,1,LMCexib,Logan Media Center  Exhibition Equipment,5,1074
+1189,c15107a9-bed0-46b1-bc58-26556d919c09,1,LMCgear,Logan Media Center Cage,5,1074
+1190,509f4952-9f85-4c41-99d4-363be1add4d4,1,LMCstaf,Logan Media Center  Staff-authorized Equipment,5,1074
+1191,5524ecb6-05de-42d1-9f4c-2e1bef1cb26e,1,MCSX,Monographs classified separately,5,1075
+1192,fb91734e-412f-4f94-95cd-f8db3a48bd89,1,AmDrama,Special Collections  American Drama,5,1069
+1193,9d506366-97fe-4ab6-9e6c-1c759dc99848,1,AmNewsp,Special Collections  American Newspapers,5,1069
+1194,ff85544d-8fce-4868-84e2-159d1477add6,1,Arch,Special Collections  Archives,5,1069
+1195,e5a8f085-4e97-45c8-91a0-a3b83fac2e86,1,ArcMon,Special Collections  Archival Monographs,5,1069
+1196,74e87681-eb63-49e4-9edd-e044eb25bf76,1,ArcRef1,Special Collections  Archival Reference,5,1069
+1197,c9a06ac4-28b3-4853-bff4-c9b2ceaed321,1,ArcSer,Special Collections  Archival Serials,5,1069
+1198,aa32bb07-cb57-4e03-b5e0-b3a492d88d0d,1,Atk,Special Collections  Atkinson Collection of American Drama,5,1069
+1199,e2aec536-c4b5-4ad6-90cc-6be63e5dcadd,1,Aust,Special Collections  Austrian Collection of Drama,5,1069
+1200,1a5566a4-3d29-45c0-8f21-4c18e2c7c741,1,Drama,Special Collections  Drama Collection,5,1069
+1201,bf992492-6e43-411a-b29a-adea15c8f607,1,EB,Special Collections  EB Children's Literature,5,1069
+1202,ab6a11d6-8230-462b-908e-3c8f20473819,1,French,Special Collections  French Plays,5,1069
+1203,80a21e33-1d16-4311-9784-868dfe739a0a,1,Incun,Special Collections  Incunabula,5,1069
+1204,9b113d8c-4fb7-4b38-bb96-ef8962b64274,1,JzMon,Special Collections  Chicago Jazz Archive Monographs,5,1069
+1205,d2d03abc-d594-4fa2-b5f1-c1587ef97e3e,1,JzRec,Chicago Jazz Archive Album Collection: Ask at Special Collections,5,1069
+1206,cf9e4230-c5d9-45e1-a8aa-73a2fa5f97ac,1,Linc,Special Collections  Lincoln Collection,5,1069
+1207,10b915ab-ff2b-4964-8e79-cbe094f64568,1,Lincke,Special Collections  Lincke Collection of Popular German Literature,5,1069
+1208,0665dcbb-aed5-40ee-af7d-2a975ef2ae85,1,MoPoRa,Special Collections  Modern Poetry,5,1069
+1209,ad2cea91-6df1-4cf5-94c5-db70e1e6c142,1,Mss,Special Collections  Manuscripts,5,1069
+1210,2dd63ced-91b0-4beb-92f2-63eb3f2a8318,1,MssBG,Special Collections  Manuscripts  Butler-Gunsaulus Collection,5,1069
+1211,269cf672-18eb-4519-86c3-f8b0d051f2b5,1,MssCdx,Special Collections  Codex Manuscripts,5,1069
+1212,138c9bd0-124a-430b-8a31-3f2c4e535ceb,1,MssCr,Special Collections  Crerar Manuscripts,5,1069
+1213,47336143-9d56-4b2a-aa62-777d2a173cfc,1,MssJay,Special Collections  Manuscripts  Frank Webster Jay Collection,5,1069
+1214,5cdf7c30-5588-456c-811b-7068a6f75526,1,MssLinc,Special Collections  Lincoln Miscellaneous Manuscripts,5,1069
+1215,0bb5f6d7-af8b-4753-98ce-3ebbb816fbad,1,MssMisc,Special Collections  Miscellaneous Manuscripts Collection,5,1069
+1216,bda07c13-f26c-4049-b22d-77bffbbe12df,1,MssSpen,Special Collections  Manuscripts  William M. Spencer Collection,5,1069
+1217,0e7b4325-54a2-4ce2-a25f-0200c2975d41,1,RaCrInc,Special Collections  Crerar Incunabula,5,1069
+1218,3affaaae-6b83-4156-8701-bec832393199,1,Rare,Special Collections  Rare Books,5,1069
+1219,bf8f1949-336e-424d-a619-98f6e9e31328,1,RareCr,Special Collections  Crerar Rare Books,5,1069
+1220,96df79d5-7dd6-4c82-8398-fd1532c4cfda,1,RBMRef,Special Collections  Rare Book and Manuscript Reference,5,1069
+1221,027bdf11-1965-4de7-8dca-4a0c82939d9d,1,RefA,Special Collections  Reference  A-Level,5,1069
+1222,ab67435c-3da8-463a-82a0-7b0fe8742640,1,Rege,Special Collections  Helen and Ruth Regenstein Collection of Rare Books,5,1069
+1223,efe209b8-241d-474b-a633-7bc4d3a03cf6,1,Rosen,Special Collections  Ludwig Rosenberger Library of Judaica,5,1069
+1224,d2265418-0eb1-4104-a106-6d2413d9cd8d,1,SpClAr,Special Collections  Arrearage,5,1069
+1225,d75eecc7-f897-4c3f-8cb8-e1055211251e,1,UCPress,Special Collections  University of Chicago Press Imprint Collection,5,1067
+1226,965980a2-d157-49f7-8d2c-e7b3afac55a6,1,SSAdX,Social Service Administration,5,1070
+1227,e6de72bd-d907-4378-b5f7-3fc05f89debd,1,SSAdBdP,Social Service Administration  Journals,5,1070
+1228,07751fe4-f1af-448b-bf70-7b0e318b3dfe,1,SSAdDep,Social Service Administration: Ask at Circulation,5,1070
+1229,e1184cc1-2664-4e3f-b68c-1095a898f6af,1,SSAdDpY,Social Service Administration  Dissertation Proposals,5,1070
+1230,64929c55-8b8e-4234-940e-ff6ea3006246,1,SSAdMed,Social Service Administration  Multimedia,5,1070
+1231,9a558be5-8506-463b-9176-547ba9ed5ee1,1,SSAdMic,Social Service Administration  Microforms,5,1070
+1232,870ca206-033b-4cc0-b3f3-99a5fb053f48,1,SSAdPam,Social Service Administration  Pamphlet File,5,1070
+1233,4cf0b868-af4f-4701-979e-1115de5f3d99,1,SSAdPer,Social Service Administration  Journals,5,1070
+1234,2ce8bbf1-fb00-4024-a736-6b4240d41ede,1,SSAdRef,Social Service Administration  Reference,5,1070
+1235,7d1b9cd2-c3ce-4e5a-8026-20b76f943c1d,1,SSAdRes,Social Service Administration  Reserve,5,1070
+1236,49f98188-1f99-43ad-8ea5-b8c5c1f152f4,1,Order,On order,5,1071
+1237,bf4aa6e0-1d7b-459a-9d28-2b81c87cb190,1,InProc,Received; in process,5,1071
+1238,da8f2f3c-5393-46ef-9ace-2d8e021f8238,1,Staff,Staff Collection,5,1071
+1239,30e44f65-fe36-47a7-b35b-beaa184c52a7,1,unk,unknown,5,1071
+1070,8d92183b-841e-4988-8a9b-d3cc8866df90,1,SSAd,Social Service Administration,3,19
+1071,b61d4f18-6e0f-4c2e-924d-8b2b79388c0b,1,UCX,Univerity of Chicago,3,19
+1072,a96707ac-4029-4862-bfbf-2d79b303da74,1,ITS,IT Services at Regenstein,3,19
+1073,84a9939d-fed1-4e9c-b49b-5a8590754dc8,1,ITSAVS,AV Services  Stuart Hall,3,19
+1074,022b6a49-a0cd-4758-9c11-050f764328ee,1,LMC,Logan Media Center Cage,3,19
+1075,5e9e17ef-6951-4546-98a5-52c1924e9a6b,1,MCS,MCS,3,19
+1076,d27dbc05-d91d-4067-bd10-e5e074eaa7a3,1,Intrnet,Online,5,1066
+1077,fdcb6475-8e6b-4c49-814b-ed16fc695c6b,1,ASRHP,Headphones: Ask at Mansueto Circulation,5,1067
+1078,89eb958a-9fe1-4ae9-bb2e-9d0ac2b6eed4,1,GameASR,Mansueto  Games,5,1067
+1079,fac2e759-4807-41f8-a0c8-2fdbe3d34b6b,1,HarpASR,Mansueto,5,1067
+1080,cf6724f8-a17e-4312-9592-b144bc8fe402,1,JRLASR,Mansueto,5,1067
+1081,15dbc751-6ddc-4e47-8f95-9d1894574285,1,LawSupr,Mansueto,5,1067
+1082,0108f308-b556-465f-a678-74d59d980603,1,RRADiss,Mansueto,5,1067
+1083,715e4289-1f86-4a57-a914-f1aa7c889403,1,SciASR,Mansueto,5,1067
+1084,e47b84a9-aefb-40b5-a042-40b16adb6a07,1,LawA,D'Angelo Law  Alumni Collection: Request from Storage,5,20
+1085,fa5ac198-50bc-4519-9749-fc35752b6d13,1,LawAcq,D'Angelo Law  Acquisitions Department: Ask at Law Circulation,5,20
+1086,868d889c-5e1b-4698-ba25-e215946e49a7,1,LawAid,D'Angelo Law  Legal Aid Clinic,5,20
+1087,df159587-b75d-4ec2-9a1e-06ae940927ed,1,LawAnxN,D'Angelo Law  North Annex: Request from Storage,5,20
+1088,a7b1fc6d-b66f-4030-b309-0d253b32a048,1,LawAnxS,D'Angelo Law  South Annex: Request from Storage,5,20
+1089,b39cc451-b396-41dc-8fea-c5c572f3ca26,1,LawASR,Mansueto,5,1067
+1090,691e208c-5391-412b-b60c-63d3df07799b,1,LawC,D'Angelo Law  Chicago Collection: Request from Storage,5,20
+1091,798814d2-166c-4dad-9099-2395673eef57,1,LawCat,D'Angelo Law  Cataloging Department: Ask at Law Circulation,5,20
+1092,a39e34d0-0a72-460b-996a-08ce7f64ff9d,1,LawCity,D'Angelo Law  City Collection,5,20
+1093,9339dcce-af91-4f39-9336-0f1886a90a5f,1,LawCS,D'Angelo Law  Career Services,5,20
+1094,35f48606-26c6-4b7f-beca-5d059936117d,1,LawFul,D'Angelo Law  Fulton Room,5,20
+1095,21b69815-0ad1-4e79-b2d9-0cfa77ca40de,1,LawMic,D'Angelo Law  Microforms  Request from Storage,5,20
+1096,cef8fe26-a2b4-4b69-ae13-938b4d529b96,1,LawMicG,Regenstein  3rd Floor Law Microforms,5,20
+1097,1292ec58-d943-4782-b396-cc0b330057e6,1,LawRar,D'Angelo Law  Rare Book Room: Request from Storage,5,20
+1098,43892af6-31bb-4e27-9216-3835b0a28fe9,1,LawRef,D'Angelo Law  Reference,5,20
+1099,f2636231-872d-40ba-9f81-cd31e899a39c,1,LawResC,D'Angelo Law Reserve Room,5,20
+1100,660e11e6-f373-4f50-b39a-f551beceff8f,1,LawResP,D'Angelo Law Reserve Room,5,20
+1101,caa31e6f-31cc-497d-b520-86333fd7972e,1,LawRR,D'Angelo Law  Reading Room,5,20
+1102,862f5fcd-6cac-433d-836a-6e7dbfc41116,1,LawShp,D'Angelo Law  Sharp Collection,5,20
+1103,a9f78930-5945-4636-83fc-375331a70e7c,1,LawStor,D'Angelo Law  Storage: Request from Storage,5,20
+1104,ec1d5c7e-0b39-4e48-a3e0-6300784c6d3f,1,ResupD,D'Angelo Law  Course Reserve,5,20
+1105,c0dab642-59bc-4fd1-98c4-fc4161412586,1,EckX,Eckhart,5,1068
+1106,13388129-3228-49e5-807b-4bcdd843c134,1,EckLg,Eckhart  Oversize,5,1068
+1107,b843cab5-e178-43f8-af83-b8c2db3f05e2,1,EckOffc,Eckhart  Office: Ask at Circulation,5,1068
+1108,39e07ab1-d7e8-4cc8-8c70-b0389fa2de6c,1,EckPer,Eckhart,5,1068
+1109,cac12205-1be3-4d0d-9746-c400adbfc9fd,1,EckRef,Eckhart  Reference,5,1068
+1110,0efe6527-648d-4afc-9f72-84d9cefc5eb4,1,EckRes,Eckhart  Reserve,5,1068
+1111,a0c1be86-bb0e-4571-a91b-6420cec998fa,1,EMedia,Eckhart  Multimedia: Ask at Circulation,5,1068
+1112,2d9f80bc-b17e-4659-9b1a-ef1f17253b4d,1,ERes,On electronic reserve,5,1068
+1113,e5686728-e2be-49fb-a505-7e110c702243,1,ResupE,Needed for Reserve Next Quarter; Ask at Eckhart Circulation Desk,5,1068
+1114,8e075947-7b88-4498-a32c-7ce2bececef0,1,ITSadap,Regenstein  1st Floor  IT Services TECHB@R,5,1072
+1115,60095775-098e-46b6-8e4e-cd1258eb7f76,1,ITScaco,Regenstein  1st Floor  IT Services TECHB@R,5,1072
+1116,c9f0062b-fe1c-4fa0-b763-7a6977963832,1,ITSipad,Regenstein  1st Floor  IT Services TECHB@R,5,1072
+1117,5c1c440e-805d-4db5-b2d1-0c6cade9c0f3,1,ITSlap,Regenstein  1st Floor  IT Services TECHB@R,5,1072
+1118,75ae2fea-09e5-4075-8368-2af00ed3be16,1,AVSasis,Stuart Hall Room 004,5,1073
+1119,f55ede4e-d4e4-4946-9ffa-06af8d0110d5,1,AVSmic,Stuart Hall Room 004,5,1073
+1120,7e985e74-c966-4d11-90f9-b017c528638b,1,AVSport,Stuart Hall Room 004,5,1073
+1121,2f28cf39-9d39-4fb7-8aa9-66477c52a5c6,1,AVSproj,Stuart Hall Room 004,5,1073
+1122,7e7a03b1-26d1-4143-b1f6-99e146c1929d,1,AVSscre,Stuart Hall Room 004,5,1073
+1123,47265ec3-a2ec-421c-a755-13c940b35c0e,1,PerBio,Crerar  1st Floor Biomedical Journals,5,21
+1124,8be9a049-c789-4a9e-a312-a2a36fee9adb,1,PerPhy,Crerar  1st Floor Physical Science Journals,5,21
+1125,027e2ed2-644d-4320-b3cc-9e3f371b70fa,1,ResupC,Needed for Reserve Next Quarter; Ask at Crerar Circulation Desk,5,21
+1126,ce707d49-756d-4dc4-8eda-520796ac7f3c,1,SciMic,Crerar  Microforms,5,21
+1127,9d87706f-5da8-4e34-b083-74ec33210b9c,1,SciRef,Crerar  1st Floor Reference Collection,5,21
+1128,c8e0b6e8-c7a5-41ca-a86b-9c38aa83755f,1,SciRes,Crerar  1st Floor Reserve Desk,5,21
+1129,eed9900a-7b75-400f-8cae-167dac704b35,1,SciTecP,Crerar  Processing: Ask at Reference,5,21
+1130,4dc9d2fa-ec6e-441f-a7d5-b287fb79413c,1,SDDCLg,Crerar  Oversize: Ask at 1st Floor Circulation,5,21
+1131,43c6ec98-488c-4c70-8a29-fb3056ab1151,1,SFilm,Crerar  1st Floor Film/DVD Collection: Take Container to Circulation for Checkout,5,21
+1132,da7fdc8e-f42f-43bb-9dd3-53bf066f8aa2,1,SMedia,Crerar  1st Floor Digital Media,5,21
+1133,1906ed2d-b5ab-486a-b4d0-ed17f4ec802f,1,SMicDDC,Crerar  Microforms,5,21
+1134,c2d8ebb8-fd46-48a8-b5b6-569a311a6e40,1,SRefPer,Crerar  1st Floor Reference Collection,5,21
+1135,95f47b14-5dae-4c08-b407-b71059c35969,1,A,Regenstein  A Level Staging Collection,5,22
+1136,5ad82b91-1ad9-4a5b-9f91-4339b731b539,1,Acq,Regenstein  Acquisitions Department: Ask at 1st Floor Reference Desk,5,22
+1137,e95777c8-3d86-4b94-b9bc-7890f3860618,1,Art420,Regenstein  Room 420  Course Shelves,5,22
+1138,8a2a590d-93fb-4ae7-8a0d-4842aa0b32df,1,ArtResA,Regenstein  Room 420  East Asian Art Collection,5,22
+1139,7aad08d8-1e13-42d4-bbbf-0fe19db8dd1d,1,ArtResC,Regenstein  A Level Staging Collection,5,22
+1140,d1412118-b156-488b-9e15-fdcb868c8760,1,Cat,Regenstein  Cataloging Department: Ask at 1st Floor Reference Desk,5,22
+1141,d6ad8d08-435c-42e8-99e3-efb7f59f7a63,1,CircPer,Ask at Regenstein 1st Floor Circulation,5,22
+1142,c090159b-04ed-4be3-afa6-6e00e93d6204,1,CJK,Regenstein  5th Floor Bookstacks  East Asian/CJK,5,22
+1143,958fb75d-c368-4bc9-a55a-5131eda9dc45,1,CJKRar,Regenstein  East Asian Treasure Room: Ask in Room 525,5,22
+1500,6008b154-f1cf-49d9-bc2f-decdfdc46fa5,1,LEHIGH,Lehigh University,1,null
+1501,87aa4ad0-709f-45a6-9ae3-a7e590260d58,1,CHANDLER,Chandler-Ullmann Hall,3,1500
+1502,ba84d77a-9965-4b0a-82f2-72147b2c1aa9,1,DROWN,Drown Hall,3,1500
+1503,7f3e019d-fb85-44b5-9247-bc12c79cfd70,1,FM,Fairchild Martindale Library,3,1500
+1504,9ae7f444-b56b-4f60-b457-4ad9a97eb236,1,CURRICULUM,Curriculum Collection,4,1503
+1505,fe0fb409-0eab-429f-bda2-065414e9690e,1,FM-1-NORTH,FM-1-N Cirriculum Coll.,5,1504
+1506,725b2670-6fe3-4e03-ad1a-ff04857fd147,1,GOVDOCS,Government Documents,4,1503
+1507,4e7705e5-19d0-4c07-8031-953d7e61e578,1,FM-2-DOC,FM-2-S Government Doc.,5,1506
+1508,09a9b27f-6f45-4cbd-ae82-4e5fd0152908,1,FM-2-DOC-M,FM-2-S Government Doc. Microform,5,1506
+1509,1509,1,PALCI_LEHIGH,Palci Lehigh,4,1503
+1510,39a5f23a-3d4d-422b-8eb8-cfae9787d515,1,FM-0-MEDIA,Media Center Lower Level,5,1503
+1511,1b423bbf-e4cc-470a-ac2f-44c3162e6752,1,FM-185,Software Library FM 8B,5,1503
+1512,067041c9-a3b9-42fb-848f-8f5b5e84cc84,1,FM-1-ANNEX,FM-1 Annex Room 430,5,1503
+1513,9dc04109-cb09-462a-b366-18c0c725d86e,1,FM1DISPLAY,FM-1 Display area	,5,1503
+1514,50ef5555-77cb-4d65-9f96-2a8e0713d7b1,1,FM-1-ILL,FM Interlibrary Loan Office,5,1503
+1515,6f4772c0-5f0c-4169-a14a-a39d56291141,1,FM-1-INDEX,FM-1-N Indexes,5,1503
+1516,70c2a763-fd0f-479f-b888-348c82e36e93,1,FM1LEISURE,FM-1-S Leisure Reading,5,1503
+1517,a545f7e9-5a87-46c2-a912-de7fd04f44d5,1,FM-1-LOBBY,FM-1-N Temp. Lind. Coll,5,1503
+1518,be7889e5-fd28-4144-b318-c3ead62ffb5b,1,FM-1-REF,FM-1-N Reference,5,1503
+1519,5114ea65-93e9-476c-a674-47611221da9a,1,FM-1-R-REF,FM-1-N Ready Ref.,5,1503
+1520,64b70c95-d7b5-44ea-a8e8-b3088dfd2c6d,1,FM-1-S-ANX,FM-1-S Digital Media Studio,5,1503
+1521,26328a79-0308-4d80-8716-678ad825f749,1,FM-1-SOUTH,FM-1-S Leisure Reading,5,1503
+1522,2c8e44ac-fd42-47c4-8d10-e5ede5790309,1,FM-2-ATLAS,FM-2-S Government Doc. Atlas Cases,5,1503
+1523,79a89d8b-2898-4cbf-8370-0408c5537799,1,FM-2-DOC-R,FM-2-S Government Doc. Reference,5,1503
+1524,10f9280c-423e-4c48-92ae-4f17af258b94,1,FM-2-MFORM,FM-2-S Microform,5,1503
+1525,a3946f01-12c5-42b6-9d46-5f5d039203b7,1,FM-2-OVER,FM-2-N Oversize,5,1503
+1526,45bf810a-6d8f-4d4b-af4a-7521b6bf4029,1,FM-2-SOUTH,FM-2-S,5,1503
+1527,20ce3e10-5c96-4fce-b920-e121ee401a19,1,FM-3-MAP,FM-3 Maps,5,1503
+1528,332995e2-4bc8-4484-8c58-13da46fe0f51,1,FM-3-NO-OV,FM-3-N Oversize,5,1503
+1529,437314b4-43f0-451f-acf5-ad6da2ced81a,1,FM-3-NORTH,FM-3-N,5,1503
+1530,5217b94a-7a42-423f-a782-260ddacb4dce,1,FM3-RM-625,FM-3-S Special Collections Rm 625,5,1503
+1531,7dc95e95-e9d4-47da-b2f3-60e515ceca39,1,FM-3-SOUTH,FM-3-S Special Collections,5,1503
+1532,e0e1ae7f-d8da-49f4-b6c7-ea52db0764e3,1,FM-4-NORTH,FM-4-N,5,1503
+1533,2525c18d-6c96-487f-806d-6f2325d6c0b4,1,FM-4-OVER,FM-4-N Oversize,5,1503
+1534,2d4eaa66-8b13-4520-996c-e5402bdcbf42,1,FM-OFFICE,FM Office,5,1503
+1535,18b8d682-503c-4d75-82a6-9ca0dc308b6b,1,FM-RESERVE,FM Reserves,5,1503
+1536,1b779b79-cd0f-4e86-b44d-40ef7b274a46,1,HOLDS,FM Holds Shelf,5,1503
+1537,c17a33f8-d276-469a-8328-3c037cd86352,1,ILL,FM Interlibrary Loan Office,5,1503
+1538,6e0c9d2d-5e42-4bfa-b3b6-a1fa0c6a5d60,1,NET-SERVER,Net-Server,5,1503
+1539,7b02a703-4d4b-41de-9913-5602995a01ae,1,NEWBOOKS_F,FM New Books,5,1503
+1540,799aca03-61f1-4b1c-8fd2-9a0d6965ead5,1,REFERENCE,Reference,5,1503
+1541,8c7b7212-ee2c-4be0-a420-1423ec685ea0,1,STACKS,Stacks,5,1503
+1542,769539ce-9f0c-4d9f-8bf0-fefd65276142,1,STORAGE,Storage,5,1503
+1543,1911b5bc-5992-4bec-a268-86d5bd579925,1,STORAGE-3,Storage-3,5,1503
+1544,15e2a7fb-6c91-4e5d-bce5-7a635311d253,1,STORCOMPCT,Storage Compact,5,1503
+1545,d0857dec-3473-45d1-9828-6555f5ef28a0,1,UNKNOWN,Unknown,5,1503
+1546,4efa4065-3935-4e3f-adeb-e7961391734a,1,LEWIS,Lewis Lab,3,1500
+1547,d9c0fe05-7848-4619-ae10-032abe222676,1,LIND,Linderman Library,3,1500
+1548,73915f61-a6dd-4a93-b57b-5057faa8f630,1,SPCOLL,Lehigh University Special Collections,4,1547
+1549,3a042774-afff-4a4a-a1de-88b0b8dde9d5,1,L-SPCOLL-A,LIND Special Collections A,5,1548
+1550,c6d15be3-2bf6-4572-9294-665e4f454e49,1,L-SPCOLL-B,LIND Special Collections B,5,1548
+1551,11d25bee-e45b-44f6-a3eb-62918fbadfa8,1,L-SPCOLL-C,LIND Special Collections C,5,1548
+1552,640c33c9-649a-4e23-be63-3e9a5d2895ed,1,L-SPCOLL-D,LIND Special Collections D,5,1548
+1553,5be11bd4-2ca4-4a46-9c3e-77cf7fe572da,1,L-SPCOLL-E,LIND Special Collections E,5,1548
+1554,0c4429c8-eea0-41ed-a9cf-163d92df486e,1,L-SPCOLL-F,LIND Special Collections F,5,1548
+1555,9fc37cbb-c8e4-4015-ad09-f2ec3b9cb65e,1,L-SPCOLL-G,LIND Special Collections G  Room 341,5,1548
+1556,3a41cf20-b7b3-461d-9eb6-83e9af6f9a35,1,ANNUAL,Annual,5,1547
+1557,3faf8857-cdcb-4d37-8c4c-e23fb4d891fc,1,LIND-1 Current Journals,L-1-CURRNT,5,1547
+1558,324a4869-63f0-43af-9774-59aad2dd2763,1,LIND-1 Reference Reading Room,L-1-REF,5,1547
+1559,26d6c860-5edd-4575-a6fa-eb65585b3fad,1,LIND-1 Rotunda,L-1-ROTNDA,5,1547
+1560,b4cfb81d-0e3f-42a5-a4f6-a97b979f97d4,1,L-2-ROTNDA,LIND-2 Rotunda,5,1547
+1561,f72d56e2-e7f0-4e03-8d3c-f96da9381ab4,1,L-3-ROTNDA,LIND-3 Rotunda,5,1547
+1562,d930e8d1-7d9f-4489-9b70-0ac1a1236d89,1,L-3ROTND-O,LIND-3 Rotunda Oversize West,5,1547
+1563,b3659a0e-842b-4857-8db8-467cf302f66d,1,L-3-STACKS,LIND-3 Stacks,5,1547
+1564,faa89711-9d3f-4645-bb8b-eeb87c01adc6,1,L-4-ATLAS,LIND-4 Atlas Case - East Wall,5,1547
+1565,6f41908c-ba00-4e10-9b7f-ef8cdb4e284b,1,L-4STACK-O,LIND-4 Stacks Oversize East Wall,5,1547
+1566,d3a51266-b6a9-40be-a67b-f15c5c7e388a,1,L-4-STACKS,LIND-4 Stacks,5,1547
+1567,66585e02-e8c4-4f45-b15c-e80ea606020d,1,L-BAYER,LIND Bayer Galleria,5,1547
+1568,a5c958ce-792c-4f7f-87d6-4489e493476e,1,L-EXHIBIT,LIND Exhibit,5,1547
+1569,5a4b2613-a693-4d32-bf9d-ca4830f44ba8,1,L-G-CAFE,LIND-G Lucy's Cafe,5,1547
+1570,0f848b05-9a58-474e-8c4e-f92c35f36f2f,1,L-GIFTS,LIND Gifts Office,5,1547
+1571,7a560f24-f768-4933-9c75-3d4923bf4d04,1,L-G-LOWER,LIND-G Lower Level,5,1547
+1572,3b821678-730f-4e30-8a50-9108fc82cda7,1,L-G-UPPER,LIND-G Upper Level,5,1547
+1573,99258723-7a5d-4824-9a4f-b64d8a09d455,1,L-G-UPPERO,LIND-G Upper Level Oversize,5,1547
+1574,e0eb1cf3-176c-4153-bea8-5d48e04ff1e7,1,L-MED-PROD,LIND Media Production,5,1547
+1575,e782701a-5a2a-4165-8095-831274c1746d,1,L-OFFICE,LIND Office,5,1547
+1576,1ef7304b-8fd7-4e58-9c09-0020597be967,1,L-ORDER,LIND Acquisitions Office,5,1547
+1577,11ec90f5-d8ff-4067-9831-110bc939b577,1,L-RESERVE,LIND Reserves,5,1547
+1578,d38a4f34-3e12-4d0a-b1a8-d688d4c75eaa,1,LMCLU,Library Media Center (LMC),3,1500
+1579,345b1492-704a-40e9-8c4c-652aded85a3f,1,BINDERY,Bindery,5,1578
+1580,b53db517-a996-47d4-8eeb-0c333f3e01bf,1,LMC_BKOVER,LLMC,5,1578
+1581,7eaee35f-b96a-4ad6-b147-b2b1aeb4aa21,1,LMC_BOOKS,LMC Stacks,5,1578
+1582,4aaa1cfa-8af8-4e6f-bff1-740a2d145f94,1,LMC_FLAT,LMC Flat,5,1578
+1583,da3cbaa0-d3c8-4219-baf5-daea8a4159f4,1,LMC_GOVDOC,LMC Government Documents,5,1578
+1584,61c7378d-ee2e-43d3-908c-54188a894ccc,1,LMC_JRNL_2,LMC Journals 2,5,1578
+1585,27ebd069-52c8-4958-be8d-9dbe011f752c,1,LMC_MEZZ,LMC Mezzanine,5,1578
+1586,d8544921-a85a-4df3-bc3f-d8ea72e32a0c,1,LMC_OVRSIZ,LMC Oversize,5,1578
+1587,9dbc3ca1-fe89-40c0-b03c-68822e660daf,1,LMC1ALCOVE,LMC-1 Alcove,5,1578
+1588,943926db-b232-46d0-a759-1ed2b3212dfe,1,LMC1CMPCT1,LMC-1 Compact Shelving 1,5,1578
+1589,55bc9f5f-3759-46a9-b284-e0c39fe7547a,1,LMC1CMPCT2,LMC-1 Compact Shelving 2,5,1578
+1590,29cbe981-9b59-4968-a713-cd0921eceb50,1,LMC1STNARY,LMC-1 Stationary,5,1578
+1591,6a0b0157-78c4-4e93-8116-adf302160269,1,LMCJOURNAL,LMC Journals,5,1578
+1592,1badf0bd-955e-4fc8-824f-00a6d2ac341a,1,LMCJRNLOVR,LMC Journals Oversize,5,1578
+1593,a2d09a23-b444-4a41-a2f4-d2af2625a623,1,LUCC,LUCC,3,1500
+1594,77b0f64b-2abb-4451-a876-db4aaf733ce3,1,MAGINNES,Maginnes Hall,3,1500
+1595,d2ecb7e9-7496-4e4a-a0f4-1c2d467075ea,1,IMRC,Maginnes Hall - Int'l Multimedia Res. Ctr.,5,1594
+1596,eff1bc52-0861-4985-93f2-de2742e06d59,1,MATH,Math,3,1500
+1597,1fb6b053-1040-4a43-b34e-27fa7cb7d02a,1,MT-LIB,MT-LIB,3,1500
+1598,cd073dcc-8d47-4f10-b445-6c7246c7dced,1,OFFCMPS,Off Campus,3,1500
+1599,b347bce9-385f-477d-ab7a-8de6f5a622b6,1,OFFCAMPBKS,Off Campus Storage - Books,5,1598
+1600,5780bb34-f021-4d80-870f-aa6f6ef7ea14,1,OFFCAMPJNL,Off Campus Storage - Journals,5,1598
+1601,b59f5057-8a68-4667-928d-010f178b4d48,1,PACKARD,Packard Lab,3,1500
+1602,a618631a-3b88-4594-bb94-6609bf013f0d,1,RAUCH,Rauch Business Center,3,1500
+1603,c737019a-81ec-41bb-9a16-b11d0ae0c252,1,SINCLAIR,Sinclair,3,1500
+1604,4c70cdb9-5b9f-4da3-969d-d7d9db8ad78e,1,WHITAKER,Whitaker Lab,3,1500
+1605,f86564fe-8aeb-49cc-b671-90dec898568a,1,WILLIAMS,Williams Hall,3,1500
+1606,43c85dd3-c8bb-42a6-92d5-8ca160e787de,1,WWW,Available Online,3,1500
+1607,677d182e-d7c7-4eb3-b918-6cc5a1a944ab,1,XMASSAUCON,Christmas-Saucon Hall,3,1500
+1608,5477ac7d-ed26-4edb-80e0-86fa1a7a3ec8,1,ZOELLNER,Zoellner Music Library ZAC Room 341,3,1500
+1609,c2896391-54ec-44a0-99c6-fd03f9134988,1,MUSIC-DEPT,Music Department,5,1608
+1610,639657fe-bdb3-4d96-8ad3-62982deb8f17,1,ZAC_TEMP,Zoellner Music Library Circulating Collection,5,1608

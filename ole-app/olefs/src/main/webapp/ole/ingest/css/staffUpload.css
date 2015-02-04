@@ -1,0 +1,12 @@
+.messageClass{
+    color: red;
+    font-size: 16px;
+}
+
+#Patron-name{
+    font-size: 22px;
+}
+
+.fixed-size-20-Check {
+    width:20px;
+}

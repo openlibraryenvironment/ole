@@ -1,0 +1,3036 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"
+    version="5.0" xml:lang="en-US">
+    <title><anchor xml:id="_others"/>Others: Additional Select/Acquire Standard Transactional
+        Documents</title>
+    <para role="Body Text"><inlinemediaobject>
+            <alt>Select/Acquire</alt>
+            <imageobject>
+                <imagedata fileref="../images/SelectAcquire.png"/>
+            </imageobject>
+        </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+                <alt>Others</alt>
+                <imageobject>
+                    <imagedata fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-5c.png"
+                    />
+                </imageobject>
+            </inlinemediaobject> &gt;<inlinemediaobject>
+                <alt>Others Links</alt>
+                <imageobject>
+                    <imagedata fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-7e.png"
+                    />
+                </imageobject>
+            </inlinemediaobject></emphasis></para>
+    <para role="Body Text">On the Select/Acquire tab, the Other submenu provides access for users to
+        search and edit payment requests, create general error corrections and disbursement
+        vouchers, and search and edit E-Resources.</para>
+    <section>
+        <title><anchor xml:id="_DisbursementVoucher"/>Disbursement Voucher<indexterm
+                significance="normal">
+                <primary>Disbursement Voucher (DV) document</primary>
+            </indexterm><indexterm significance="normal">
+                <primary>Financial Processing</primary>
+                <secondary>Disbursement Voucher (DV) document</secondary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Select/Acquire</alt>
+                <imageobject>
+                    <imagedata fileref="../images/SelectAcquire.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+                    <alt>Others</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-5c.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold">&gt;<inlinemediaobject>
+                    <alt>Disbursement Voucher</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-118.png"/>
+                    </imageobject>
+                </inlinemediaobject>&gt;<inlinemediaobject>
+                    <alt>Disbursement Voucher</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-119.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The Disbursement Voucher (DV) document is used to issue payments to
+            vendors using clearing/deposit accounts. The DV is used for recording the Advance
+            Deposits or Prepayments to vendors, when titles or POs are unknown.</para>
+        <para>Making Prepay/Deposit Account arrangements work is a multi-step process and involves
+            more than just the use of the Disbursement Voucher: </para>
+        <orderedlist>
+            <listitem>
+                <para>A unique account(s) must be created for the initial payment. </para>
+            </listitem>
+            <listitem>
+                <para>The initial payment is made via a Disbursement Voucher. </para>
+            </listitem>
+            <listitem>
+                <para>As the actual material is received, requisitions and POs are created using
+                    regular accounts and object codes.</para>
+            </listitem>
+            <listitem>
+                <para>Invoices are created with payment method type “deposit”. </para>
+            </listitem>
+            <listitem>
+                <para>Regular accounting lines are completed. Due to the payment method type
+                    “deposit” an additional accounting line is available to allow for special
+                    accounting to occur. </para>
+            </listitem>
+            <listitem>
+                <para>In the additional accounting line (off-setting account), the user lists the
+                    original account and object code used on the DV ( the one created in step 1 and
+                    used in step 2). Instead of OLE creating the normal (behind the screens)
+                    accounting offset, the user manually defines what to use. Via this manual entry
+                    the deposit account(s) is reduced by the amount of the invoice being created. As
+                    this process continues eventually the deposit account(s) will have a zero or
+                    negative balance, or the predefined deposit account period ends. The balance in
+                    the deposit account(s) is the amount to be settled with the vendor. </para>
+            </listitem>
+            <listitem>
+                <para>A person is assigned the role to monitor, approve and control deposit account
+                    activity.</para>
+            </listitem>
+        </orderedlist>
+        <section>
+            <title>Document Layout</title>
+            <para role="Body Text">The DV document has several unique tabs—<emphasis role="bold"
+                    >Payment Information</emphasis>, <emphasis role="bold">Accounting
+                    Lines</emphasis>, <emphasis role="bold"> Contact Information</emphasis>,
+                    <emphasis role="bold">Special Handling</emphasis>, <emphasis role="bold">Foreign
+                    Draft</emphasis>, <emphasis role="bold">and Pre-Disbursement Processor
+                    Status—</emphasis>in addition to the standard financial transaction tabs.</para>
+            <note>
+                <para> For more information about the standard tabs, see <link
+                    xlink:href="../../../webhelp/BASICS/content/ch02s02.html">Standard Tabs</link> on the
+                        <emphasis>Guide to OLE Basic Functionality and Key Concepts</emphasis>.
+                </para>
+            </note>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Disbursement Voucher Document</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-123.png"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Body Text">In addition to the <emphasis role="bold">Document
+                    Overview</emphasis> and <emphasis role="bold">Accounting Lines</emphasis> tabs,
+                    <emphasis role="bold">Payment Information</emphasis> is always required.</para>
+            <itemizedlist>
+                <listitem>
+                    <para>The <emphasis role="bold">Payment Information</emphasis> tab contains
+                        information regarding the payee, invoice information and payment
+                        method.</para>
+                </listitem>
+            </itemizedlist>
+            <section>
+                <title>Payment Information Tab<indexterm significance="normal">
+                        <primary>Payment Information tab</primary>
+                    </indexterm><indexterm significance="normal">
+                        <primary>Disbursement Voucher (DV) document</primary>
+                        <secondary>Payment Information tab</secondary>
+                    </indexterm></title>
+                <para role="Body Text">The <emphasis role="bold">Payment Information</emphasis> tab
+                    contains important information such as the vendor lookup, invoiced amount,
+                    invoice date, invoice number, payment method, and check enclosure. This section
+                    must be completed for every DV document.</para>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Disbursement Voucher Document: Payment Information Tab</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-124.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="TableHeading"><emphasis role="bold">Payment Information tab
+                        definition</emphasis></para>
+                <informaltable frame="topbot">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Vendor Alias Name</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">If you know the vendor's alias, enter
+                                        the code in the box and click <inlinemediaobject>
+                                            <alt>Select Vendor</alt>
+                                            <imageobject>
+                                                <imagedata
+                                                  fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-146.png"
+                                                />
+                                            </imageobject>
+                                        </inlinemediaobject>. This will prepopulate the Vendor
+                                        address and information.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Payee ID</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Retrieve the payee ID from
+                                        the <emphasis role="bold">Payee </emphasis>Lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata
+                                                  fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-126.png"
+                                                />
+                                            </imageobject>
+                                        </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Payee Name</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Display-only. After you select the
+                                        payee ID from the <emphasis role="bold">Payee</emphasis>
+                                        lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata
+                                                  fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-128.png"
+                                                />
+                                            </imageobject>
+                                        </inlinemediaobject>, the system automatically fills in the
+                                        name.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Address 1</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. The first line of address to
+                                        which the check should be mailed. The system fills in this
+                                        information automatically but you may change it.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Address 2</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Enter the second line of the
+                                        address to which the check should be mailed.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">City</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the city to which the
+                                        check should be mailed.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">State</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required for US. Enter the state to
+                                        which the check should be mailed.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Country</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Select the payee's country
+                                        from the <emphasis role="bold">Country</emphasis>
+                                        list.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Postal Code</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required for US. Enter the postal code
+                                        to which the check should be mailed.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Invoiced Amount</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the total amount due
+                                        from the vendor's invoice.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Invoice Date</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the invoice date from
+                                        the vendor's invoice.  The date can also be selected  from
+                                        the calendar <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata
+                                                  fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-129.png"
+                                                />
+                                            </imageobject>
+                                        </inlinemediaobject>. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Other Consideration</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional.  <emphasis role="bold">Check
+                                            Enclosure</emphasis>: Refers to any documents related to
+                                        the DV document that must accompany the check when it is
+                                        mailed to the payee. Selecting the check box properly
+                                        indicates that there is a form or other attachment that must
+                                        accompany the check.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Invoice Number</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Enter the invoice number from the
+                                        vendor's invoice</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Payment Method</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Select the method in which
+                                        the payment should be made from the <emphasis role="bold"
+                                            >Payment Method</emphasis> list.</para>
+                                    <para><emphasis role="bold">Deposit</emphasis>: This selection
+                                        indicates the payment is for a Deposit Account. (This should
+                                        not be used for DV documents. It should only be used on
+                                        Invoice Type Documents.)</para>
+                                    <para><emphasis role="bold">Check</emphasis>: This selection
+                                        indicates a paper check in US dollars is to be
+                                        issued.</para>
+                                    <para role="Table Cells"><emphasis role="bold">Credit
+                                            Card</emphasis>: This selection indicates the payment is
+                                        to be charged to a procurement card.</para>
+                                    <para role="Table Cells"><emphasis role="bold">Foreign
+                                            Draft</emphasis>: This selection indicates that the
+                                        payment is to be made in a foreign currency. </para>
+                                    <para role="Table Cells"><emphasis role="bold">Wire
+                                            Transfer</emphasis>: This selection indicates you wish
+                                        to have the disbursement wired to the recipient. </para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+                <para role="Body Text">The payee ID is required on the <emphasis role="bold">Payment
+                        Information</emphasis> tab. This identifies the person or business the
+                    disbursement is paid to. Payees <phrase role="Emphasis">must</phrase> exist in
+                    the system in order to be selected on the disbursement voucher. OLE uses the
+                    Vendor table and the Customer Profiles setup in Pre-Disbursement Processor
+                    module for reference. If the payee already exists in the system, you can
+                    identify it by searching for it by using the <emphasis role="bold">Payee
+                    </emphasis>lookup.</para>
+            </section>
+            <section>
+                <title>Accounting Lines Tab</title>
+                <para>The <emphasis role="bold">Accounting Lines</emphasis> tab contains the
+                    accounting information. </para>
+                <para/>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Disbursement Voucher Document: Accounting Lines Tab</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-134.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para/>
+                <para> Add the applicable Chart, the special account set up for this payment, object
+                    code is always 8410 (or your local prepaid expense). Enter the dollar amount of
+                    the deposit payment from the vendor's invoice and click <inlinemediaobject>
+                        <alt>Add</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/VendorNoTitlePage-88.png"/>
+                        </imageobject>
+                    </inlinemediaobject>.</para>
+                <note>
+                    <para> For more information about the filling in accounting lines, see <link
+                        xlink:href="../../../webhelp/BASICS/content/ch02s02.html#_OLEAccountingLines">OLE Financial
+                            Documents Accounting Lines Tab</link> on the <emphasis>Guide to OLE
+                            Basic Functionality and Key Concepts</emphasis>. </para>
+                </note>
+            </section>
+            <section>
+                <title>Contact Information Tab<indexterm significance="normal">
+                        <primary>Contact Information tab</primary>
+                    </indexterm><indexterm significance="normal">
+                        <primary>Disbursement Voucher (DV) document</primary>
+                        <secondary>Contact Information tab</secondary>
+                    </indexterm></title>
+                <para role="Body Text">The <emphasis role="bold">Contact Information</emphasis> tab
+                    is an optional tab that contains information only. When the DV document is first
+                    initiated, the <emphasis role="bold">Contact Name</emphasis> and the <emphasis
+                        role="bold">Campus Code</emphasis> default to those of the
+                    initiator's.</para>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Disbursement Voucher Document: Contact Information Tab</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-139.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="Body Text">The Contact for a DV is typically the initiator, thus the
+                    contact information is typically the name, phone, and email address of the
+                    initiator.</para>
+                <para role="TableHeading"><emphasis role="bold">Contact Information tab
+                        definition</emphasis></para>
+                <informaltable frame="top">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Contact Name</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. This field is pre-filled with
+                                        the name of the document initiator but may be edited.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Phone</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the contact person's
+                                        phone number (including area code)</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Email Address</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the contact person's
+                                        email address</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Campus Code</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Display-only. The code of the campus
+                                        associated with the document's initiator, derived from the
+                                        user's profile.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+                <note>
+                    <para>If you want to include information that only other OLE users can view, add
+                        a note or attachment to the document.  For more information about the
+                            <emphasis role="bold">Notes and Attachments</emphasis> tab, see <link
+                                xlink:href="../../../webhelp/BASICS/content/ch02s02.html#_notesAndAttachmentsTab">Notes and
+                            Attachments Tab</link> on the <emphasis>Guide to OLE Basic Functionality
+                            and Key Concepts</emphasis>.</para>
+                </note>
+            </section>
+            <section>
+                <title>Special Handling Tab<indexterm significance="normal">
+                        <primary>Special Handling tab</primary>
+                    </indexterm><indexterm significance="normal">
+                        <primary>Disbursement Voucher (DV) document</primary>
+                        <secondary>Special Handling tab</secondary>
+                    </indexterm></title>
+                <warning>
+                    <para>This tab still exists from KFS. It is no longer valid in OLE.</para>
+                </warning>
+            </section>
+            <section>
+                <title>Foreign Draft Tab<indexterm significance="normal">
+                        <primary>Foreign Draft tab</primary>
+                    </indexterm><indexterm significance="normal">
+                        <primary>Disbursement Voucher (DV) document</primary>
+                        <secondary>Foreign Draft tab</secondary>
+                    </indexterm></title>
+                <warning>
+                    <para>This tab still exists from KFS. It is no longer valid in OLE.</para>
+                </warning>
+            </section>
+            <section>
+                <title>Pre-Disbursement Processor Status Tab<indexterm significance="normal">
+                        <primary>Disbursement Voucher (DV) document</primary>
+                        <secondary>Pre-Disbursement Processor Status tab</secondary>
+                    </indexterm><indexterm significance="normal">
+                        <primary>Pre-Disbursement Processor Status tab</primary>
+                    </indexterm></title>
+                <para role="Body Text">The <emphasis role="bold">Pre-Disbursement Processor
+                        Status</emphasis> tab displays information from the Pre-Disbursement
+                    Processor (PDP) so you can track the payment status and the status date.</para>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Disbursement Voucher Document: Pre-Disbursement Processor Status
+                                Tab</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-143.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="TableHeading"><emphasis role="bold">Pre-Disbursement Processor Status
+                        tab definition</emphasis></para>
+                <informaltable frame="topbot">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Pre-Disbursement Processor
+                                        Status</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Display-only. Displays the payment
+                                        processing status from the Pre-Disbursement Processor
+                                        (PDP).</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">PDP Extract Date</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Display-only. The date when the
+                                        disbursement voucher was extracted for payment processing by
+                                        the PDP.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">PDP Paid Date</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Display-only. The date when the payment
+                                        was disbursed by PDP.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">PDP Cancellation Date</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Display-only. The date when the payment
+                                        was canceled within PDP.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+        </section>
+        <section>
+            <title>Process Overview</title>
+            <section>
+                <title>Business Rules<indexterm significance="normal">
+                        <primary>business rules</primary>
+                        <secondary>Disbursement Voucher (DV) document</secondary>
+                    </indexterm><indexterm significance="normal">
+                        <primary>Disbursement Voucher (DV) document</primary>
+                        <secondary>business rules</secondary>
+                    </indexterm></title>
+                <itemizedlist mark="disc" spacing="normal">
+                    <listitem>
+                        <para role="C1H Bullet">DV Payee cannot be the same as the initiator.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet">DV Payee must be active.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet">Check amount cannot be negative.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet">There must be at least one accounting line.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet">Account lines total must not be negative. Total of
+                            accounting lines must match the vendor invoiced amount.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet">DVs with Account-Funds designated as
+                            Clearing/Deposit or other Payment method to denote deposit, must be
+                            routed for approval- no automatic approvals.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet">Only a Disbursement Voucher may use Accounts of
+                            “Fund Group, Sub-Fund Group” – Clearing or Deposit. These forms of
+                            accounts will be restricted for use with prepayments. REQ, PO
+                            (versions), INV are prohibited from using this Account Type.</para>
+                    </listitem>
+                </itemizedlist>
+            </section>
+            <section>
+                <title>Routing<indexterm significance="normal">
+                        <primary>Disbursement Voucher (DV) document</primary>
+                        <secondary>routing</secondary>
+                    </indexterm></title>
+                <para role="Body Text">The DV document must route through a series of approvals
+                    before the disbursement is actually made based on the rules set up by the
+                    institution. Due to its unique nature, the DV document has some special routing
+                    issues which are explained below:</para>
+                <itemizedlist mark="disc" spacing="normal">
+                    <listitem>
+                        <para role="C1H Bullet">The DV document first routes to the fiscal officer
+                            for each account in the <emphasis role="bold">Accounting
+                                Lines</emphasis> tab.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet">After it has been approved by all required fiscal
+                            officers, the document routes, as specified by the institution's rule,
+                            to the organization review routing level.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet">After the document has been approved by all
+                            organizational approvers, the DV document goes through any special
+                            routing as required by business rules surrounding the attributes of the
+                            transaction and the payee.</para>
+                    </listitem>
+                </itemizedlist>
+                <para role="Body Text">The document status becomes 'FINAL' when the required
+                    approvals are obtained and the transaction is processed by the institution
+                    defined process, which might include the Pre-Disbursement Processor.</para>
+                <para role="TableHeading"><emphasis role="bold">DV routing</emphasis></para>
+                <informaltable frame="topbot">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Condition</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Special Routing</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Initiator's Campus</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Final approval by members of OLE-FP
+                                        Disbursement Manager role for the appropriate campus. Campus
+                                        is based on the campus associated with the initiator's
+                                        OLE-SYS User role</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+            <section>
+                <title>The process for making a Deposit payment or prepayment to a vendor including
+                    initiating a DV Document.<indexterm significance="normal">
+                        <primary>Disbursement Voucher (DV) document</primary>
+                        <secondary>initiating </secondary>
+                    </indexterm></title>
+                <para><emphasis role="bold">Before creating the DV</emphasis></para>
+                <orderedlist numeration="arabic" spacing="normal">
+                    <listitem>
+                        <para role="C1H Number">Create a unique Account with a sub-fund group code
+                            of CLRREV and assign the vendor to the account in “Vendor for Deposit
+                            Account”. The account does not need to be set up with a fund/budget
+                            before it can be used on the DV. The DV will create the fund
+                            balance.</para>
+                        <note>
+                            <para>The account does not need to be set up with a fund/budget before
+                                it can be used on the DV. The DV will create the fund
+                                balance.</para>
+                        </note>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Number">Object Code 8410-prepaid expense will need to be set
+                            up if there isn’t one:</para>
+                        <para role="Illustration">
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Object Code Display: 8410</alt>
+                                    <imageobject>
+                                        <imagedata
+                                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-135.png"
+                                        />
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                        <para/>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Number">Cache will need to be cleared:</para>
+                        <para role="C1H Continue">Login as Admin.</para>
+                        <para role="C1H Continue">Go to <emphasis role="bold">Admin</emphasis> Tab >
+                            Monitoring > Service Bus > Cache Admin</para>
+                        <para role="C1H Continue">Click Cache Admin </para>
+                        <para role="C1H Continue">Check:</para>
+                        <itemizedlist>
+                            <listitem>
+                                <para>coreServiceDistributedCacheManager</para>
+                            </listitem>
+                            <listitem>
+                                <para>kewDistributedCacheManager</para>
+                            </listitem>
+                            <listitem>
+                                <para>kimDistributedCacheManager</para>
+                            </listitem>
+                            <listitem>
+                                <para>krmsDistributed Cache Manager (DO NOT SELECT)</para>
+                            </listitem>
+                            <listitem>
+                                <para>locationDistributedCacheManager</para>
+                            </listitem>
+                            <listitem>
+                                <para>ole.core.DistributedCacheManager</para>
+                            </listitem>
+                        </itemizedlist>
+                        <para role="C1H Continue"> Click Flush and close Cache Admin.</para>
+                        <para role="C1H Continue">Sign back in as normal user.</para>
+                    </listitem>
+                </orderedlist>
+                <para><emphasis role="bold">Prepare a DV</emphasis></para>
+                <orderedlist numeration="arabic" continuation="continues" spacing="normal">
+                    <listitem>
+                        <para role="C1H Number">On the <emphasis role="bold"
+                                >Select/Acquire</emphasis>tab, under <emphasis role="bold"
+                                >Other</emphasis>, select Disbursement Voucher.</para>
+                        <para>A blank Disbursement Voucher document with a new document ID
+                            appears.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Complete the <emphasis role="bold">Payment Information</emphasis>
+                            tab.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Number">Complete the <emphasis role="bold">Accounting
+                                Lines</emphasis> tab.</para>
+                        <para role="C1H Continue">Enter the chart code for the account set up in
+                            Step 1 above. Enter the Account and use Object code 8410 - prepaid
+                            expense. Click the <emphasis role="bold">ADD</emphasis> button.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Complete the remaining tabs as required.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Number">Click<inlinemediaobject>
+                                <alt>Submit</alt>
+                                <imageobject>
+                                    <imagedata
+                                        fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-150.png"
+                                    />
+                                </imageobject>
+                            </inlinemediaobject>.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Number">Appropriate fiscal officers and organization
+                            reviewers approve the document. </para>
+                        <note>
+                            <para> For more information about how to approve a document, see <link
+                                xlink:href="../../../webhelp/BASICS/content/ch04s03.html#_workflowActionButtons">Workflow
+                                    Action Buttons</link> on the <emphasis>Guide to OLE Basic
+                                    Functionality and Key Concepts</emphasis>.</para>
+                        </note>
+                    </listitem>
+                    <listitem>
+                        <para>The deposit account will now have a ‘fund’ showing the amount of the
+                            deposit payment. </para>
+                    </listitem>
+                </orderedlist>
+                <para><emphasis role="bold">Prepare Requisitions and Invoices</emphasis></para>
+                <orderedlist numeration="arabic" continuation="continues" spacing="normal">
+                    <listitem>
+                        <para role="C1H Number">As the material is received create requisitions and
+                            invoices in OLE. When creating invoices use payment method “deposit”.
+                            After adding the PO, click the details button on the current items tab.
+                            An additional accounting line will be available. </para>
+                    </listitem>
+                    <listitem>
+                        <para>Enter chart code, the deposit account, object code 8410 and add the
+                            amount matching the regular accounting line.</para>
+                        <para>As invoices are processed the amount in the deposit fund will
+                            decrease. The approver will need to monitor the fund balances to
+                            resolves variances and settle the account(s) as all deposit account
+                            funds are exhausted or the deposit period ends, whichever is defined as
+                            the end by the terms of the deposit agreement.</para>
+                    </listitem>
+                </orderedlist>
+            </section>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_DistributionofIncomeandExpense"/>Distribution of Income and
+            Expense</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Select/Acquire</alt>
+                <imageobject>
+                    <imagedata fileref="../images/SelectAcquire.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+                    <alt>Others</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-5c.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold">&gt;<inlinemediaobject>
+                    <alt>Distribution of Income and Expense</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-5.png"/>
+                    </imageobject>
+                </inlinemediaobject>&gt;<inlinemediaobject>
+                    <alt>Distribution of Income and Expense</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-6.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para>Use the DI document to distribute the income or expense assets and liabilities from a
+            holding account to one or more appropriate account(s) when one account has incurred
+            expenses or received income on behalf of one or more other accounts. It can also be used
+            to move income, expenses, assets and liabilities to other sub-accounts, object codes, or
+            sub-object codes. Fiscal officers and support staff, department, responsibility center,
+            and campus administration staff are typical users of the DI documents.</para>
+        <note>
+            <para> Distribution of Income and Expense continues to be reviewed for OLE use.</para>
+        </note>
+        <section>
+            <title>Document Layout</title>
+            <para role="Body Text">The DI document has only the standard financial transaction
+                document tabs and does not have any unique tabs of its own.</para>
+            <note>
+                <para> For more information about the standard tabs, see <link
+                    xlink:href="../../../webhelp/BASICS/content/ch02s02.html">Standard Tabs</link> on the
+                        <emphasis>Guide to OLE Basic Functionality and Key
+                    Concepts</emphasis>.</para>
+            </note>
+            <para/>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Distribution of Income and Expense Document</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-8.png"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <note>
+                <para>The Year-End Distribution of Income (YEDI) document is available only during
+                    the fiscal year-end close.</para>
+            </note>
+        </section>
+        <section>
+            <title>Process Overview</title>
+            <section>
+                <title>Business Rules</title>
+                <itemizedlist mark="disc" spacing="normal">
+                    <listitem>
+                        <para role="C1H Bullet">Debits must equal credits.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet">OLE automatically generates cash object code offset
+                            entries as defined by the information entered into the document</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet">The following object sub-types are prohibited in the
+                            DI document:</para>
+                    </listitem>
+                </itemizedlist>
+                <para role="TableHeading"><emphasis role="bold">Restricted object sub type in the
+                        Distribution of Income and Expenses document</emphasis></para>
+                <informaltable frame="topbot">
+                    <tgroup cols="3">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <colspec colname="col3" colnum="3"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Sub-Type</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                                <entry colname="col3" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Restrictions</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">LD</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Loss of Disposal of Assets</para>
+                                </entry>
+                                <entry colname="col3" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Use CAMS Documents</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">OP</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Other Provisions</para>
+                                </entry>
+                                <entry colname="col3" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Use Auxiliary Voucher (AV)
+                                        document</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">MT</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Mandatory Transfers</para>
+                                </entry>
+                                <entry colname="col3" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Use Transfer of Funds (TF)
+                                        document.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">TF</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Transfer of Funds</para>
+                                </entry>
+                                <entry colname="col3" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Use Transfer of Funds (TF)
+                                        document.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">TN</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Transfer - Generic</para>
+                                </entry>
+                                <entry colname="col3" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Use Transfer of Funds (TF)
+                                        document.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">BU</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Budget Only Object Codes</para>
+                                </entry>
+                                <entry colname="col3" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Use Budget Adjustments (BA)
+                                        document.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">CA</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Cash</para>
+                                </entry>
+                                <entry colname="col3" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Use Journal Voucher (JV)
+                                        document</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">FB</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Fund Balance</para>
+                                </entry>
+                                <entry colname="col3" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Use Journal Voucher (JV)
+                                        document.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+            <section>
+                <title>Routing</title>
+                <para>Fiscal Officers for all <emphasis role="bold">From</emphasis> and <emphasis
+                        role="bold">To</emphasis> accounts must approve the DI document. Additional
+                    approvals may be established within the institution's review hierarchy or
+                    designated through Ad Hoc routing. The document status becomes 'FINAL' when the
+                    required approvals are obtained and the transaction is posted to the G/L during
+                    the next G/L batch process.</para>
+            </section>
+            <section>
+                <title>Initiating a Distribution of Income and Expenses Document</title>
+                <orderedlist numeration="arabic" spacing="normal">
+                    <listitem>
+                        <para role="C1H Number">Select <emphasis role="bold">Distribution of Income
+                                and Expense</emphasis> from the <emphasis role="bold"
+                                >Others</emphasis> submenu. </para>
+                        <para>A blank DI document with a new Document ID appears</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Number">Complete the standard tabs.</para>
+                        <para>In the <emphasis role="bold">Accounting Lines </emphasis>tab,
+                            transactions are entered in the <emphasis role="bold">From</emphasis>
+                            and <emphasis role="bold">To </emphasis>sections. Entries in the From
+                            section are reductions to the account and entries in the <emphasis
+                                role="bold">To</emphasis> section are increases to the account.
+                            Expense object codes in the <emphasis role="bold">From
+                            </emphasis>section are credited while income object codes are debited.
+                            In the <emphasis role="bold">To</emphasis> section, the opposite is
+                            true.</para>
+                        <note>
+                            <para>For information about the standard tabs such as <emphasis
+                                    role="bold">Document Overview</emphasis>, <emphasis role="bold"
+                                    >Notes and Attachments</emphasis>, <emphasis role="bold">Ad Hoc
+                                    Recipients</emphasis><emphasis role="bold">, <emphasis
+                                        role="bold">Route Log</emphasis></emphasis>, and <emphasis
+                                    role="bold">Accounting Lines</emphasis>tabs, see <link
+                                        xlink:href="../../../webhelp/BASICS/content/ch02s02.html">Standard
+                                    Tabs</link> on the <emphasis>Guide to OLE Basic Functionality
+                                    and Key Concepts</emphasis>.</para>
+                        </note>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Number">Click<emphasis role="bold"> </emphasis><inlinemediaobject>
+                                <alt>Submit</alt>
+                                <imageobject>
+                                    <imagedata
+                                        fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-150.png"
+                                    />
+                                </imageobject>
+                            </inlinemediaobject>.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Review the <emphasis role="bold">General Ledger Pending Entries
+                            </emphasis> tab</para>
+                        <para>The pending entries include the offset generated lines to cash or fund
+                            balance object codes. </para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Number">Appropriate fiscal officers and organization
+                            reviewers approve the document. </para>
+                        <note>
+                            <para>For information about the Route Log tab, see <link
+                                xlink:href="../../../webhelp/BASICS/content/ch04s03.html#_routeLog">Route Log</link> on
+                                the <emphasis>Guide to OLE Basic Functionality and Key
+                                    Concepts</emphasis>.</para>
+                            <para>For more information about how to approve a document, see <link
+                                xlink:href="../../../webhelp/BASICS/content/ch04s03.html#_workflowActionButtons">Workflow
+                                    Action Buttons</link>.</para>
+                        </note>
+                    </listitem>
+                </orderedlist>
+            </section>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_DonorAnnualStewardshipReport"/>Donor Annual Stewardship
+            Report</title>
+        <para role="Normal"/>
+        <para role="Normal"><indexterm significance="normal">
+                <primary>General Error Correction (GEC) document</primary>
+            </indexterm><indexterm significance="normal">
+                <primary>Financial Processing</primary>
+                <secondary>General Error Correction (GEC) document</secondary>
+            </indexterm><inlinemediaobject>
+                <alt>Select/Acquire</alt>
+                <imageobject>
+                    <imagedata fileref="../images/SelectAcquire.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+                    <alt>Others</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-5c.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis>&gt;<inlinemediaobject>
+                <alt>Donor Annual Stewardship Report</alt>
+                <imageobject>
+                    <imagedata fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-9.png"/>
+                </imageobject>
+            </inlinemediaobject>&gt;<inlinemediaobject>
+                <alt>Donor Annual Stewardship Report</alt>
+                <imageobject>
+                    <imagedata fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-10.png"
+                    />
+                </imageobject>
+            </inlinemediaobject></para>
+        <para>Donor records in OLE are not coordinated with the accounting strings on purchase order
+            or invoice line items. This gives OLE libraries flexibility to track donors regardless
+            of whether they have money associated with them or not.</para>
+        <para>OLE does has a simplified system of financial tracking connected to donor records,
+            though. This is facilitated by adding Donor Amounts to the Donor record. This is purely
+            for tracking purposes: all budgeting and payment functions are still done using the
+            accounting system and invoices.</para>
+        <para>Donor Amounts only relate to the current fiscal year. At the beginning of each fiscal
+            year, sites using this feature must go into each donor code and add any allocation for
+            the new year.</para>
+        <para>If you add an amount to a Donor record, and then assign that Donor to PO line items,
+            there are two screens that give you tracking information about encumbrances and
+            expenditures:</para>
+        <para>
+            <itemizedlist>
+                <listitem>
+                    <para>Donor Encumbered Report (Described <link linkend="_DonorEncumberedReport"
+                            >Below</link>)</para>
+                </listitem>
+                <listitem>
+                    <para>Annual Stewardship Report </para>
+                </listitem>
+            </itemizedlist>
+        </para>
+        <para>This lookup is available from the <emphasis role="bold">Select &amp;
+                Acquire</emphasis> tab, <emphasis role="bold">Others</emphasis> submenu. Though it’s
+            called “annual”, it can actually be run for any selected time period. The report may be
+            run as often as desired. It does not include any financial tracking, only bibliographic
+            information.</para>
+        <para/>
+        <para>
+            <screenshot>
+                <mediaobject>
+                    <alt>Donor Annual Stewardship Report Lookup Screen with Sample Results</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-298.png"
+                            width="100%"/>
+                    </imageobject>
+                </mediaobject>
+            </screenshot>
+        </para>
+        <para/>
+        <para>This example shows that between 1/1/14 and 6/30/14, the two listed titles were ordered
+            using the donor code BRNO. Since the “status” field was left blank, all titles ordered
+            in that time period are shown. The result set could be limited, though, by choosing a
+            specific status (received, paid, both received and paid).</para>
+        <para>In future releases, this report will be enhanced with additional bibliographic data,
+            and with hyperlinks from the results to the relevant records.</para>
+    </section>
+    <section>
+        <title><anchor xml:id="_DonorEncumberedReport"/>Donor Encumbered Report</title>
+        <para role="Normal"/>
+        <para role="Normal"><indexterm significance="normal">
+                <primary>General Error Correction (GEC) document</primary>
+            </indexterm><indexterm significance="normal">
+                <primary>Financial Processing</primary>
+                <secondary>General Error Correction (GEC) document</secondary>
+            </indexterm><inlinemediaobject>
+                <alt>Select/Acquire</alt>
+                <imageobject>
+                    <imagedata fileref="../images/SelectAcquire.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+                    <alt>Others</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-5c.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis>&gt;<inlinemediaobject>
+                <alt>Donor Encumbered Report</alt>
+                <imageobject>
+                    <imagedata fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-11.png"
+                    />
+                </imageobject>
+            </inlinemediaobject>&gt;<inlinemediaobject>
+                <alt>Donor Encumbered Report</alt>
+                <imageobject>
+                    <imagedata fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-12.png"
+                    />
+                </imageobject>
+            </inlinemediaobject></para>
+        <para>If you add an amount to a Donor record, and then assign that Donor to PO line items,
+            there are two screens that give you tracking information about encumbrances and
+            expenditures:</para>
+        <para>
+            <itemizedlist>
+                <listitem>
+                    <para>Donor Encumbered Report</para>
+                </listitem>
+                <listitem>
+                    <para>Annual Stewardship Report </para>
+                    <para>For additional information about donor reports, see <link
+                            linkend="_DonorAnnualStewardshipReport">Donor Annual Stewardship
+                            Report</link></para>
+                </listitem>
+            </itemizedlist>
+        </para>
+        <para>This “report” is actually a lookup screen, and is accessed from the <emphasis
+                role="bold">Select &amp; Acquire</emphasis> tab, <emphasis role="bold"
+                >Others</emphasis> submenu. This lookup looks at encumbrances and expenditures on PO
+            line items associated with a given donor record.</para>
+        <para/>
+        <para>
+            <screenshot>
+                <mediaobject>
+                    <alt>Donor Encumbered Report Lookup Screen with Sample Results</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-147.png"
+                            width="100%"/>
+                    </imageobject>
+                </mediaobject>
+            </screenshot>
+        </para>
+        <para/>
+        <para>This example shows the donor code BRNO has received $500 so far this fiscal year. In
+            May 2014, books totaling $56.75 were ordered on PO line items with the BRNO donor code.
+            However, no invoices were paid in May using line items with this donor code.</para>
+        <para>In future releases, this report will be enhanced with additional bibliographic data,
+            and with hyperlinks from the results to the relevant records.</para>
+    </section>
+    <section>
+        <title>General Ledger Introduction</title>
+        <para role="Normal">The General Ledger (GL) contains numerous processes that ensure that OLE
+            runs correctly. For users processing e-doc transactions, the most apparent of these
+            processes are the generation of offsets and the posting of transactions to the balance
+            tables. Other important General Ledger processes are less apparent to users. These
+            processes ensure that transaction data are valid, that capitalization entries are
+            created, and that indirect cost recovery and cost share transfers occur. OLE also offers
+            related features such as sufficient funds checking and flexible offsets for institutions
+            that want to utilize this functionality.</para>
+        <para role="Normal">OLE will apply encumbrances and expenses to the General Ledger as a
+            result of OLE implemented functionality for encumbrances, expenses, budget adjustments
+            and transfers of funds. Real-time GL posting is made available, with certain GL entries
+            updating their status through nightly “batch jobs”.</para>
+        <note>
+            <para role="Normal">We continue to reconcile university financial integrations and OLE’s
+                use of Budget vs. Actual (cash) balances in our coding efforts.</para>
+        </note>
+        <para><emphasis role="bold">Requisition</emphasis></para>
+        <itemizedlist mark="disc" spacing="normal">
+            <listitem>
+                <para role="List Paragraph">No GL entries for this form of “pre-order”</para>
+            </listitem>
+        </itemizedlist>
+        <para><emphasis role="bold">Purchase Order, Purchase Order Amendment, other forms of
+                PO</emphasis></para>
+        <itemizedlist mark="disc" spacing="normal">
+            <listitem>
+                <para role="List Paragraph">A final, “approved” Purchase Order will apply an
+                    encumbrance to the General Ledger as “pending”. During nightly batch jobs, the
+                    pending entry goes to “final”. Pending GL entries will be visible on the PO’s
+                    General Ledger Pending Entries tab, and be reflected in balance inquiries when
+                    “pending” or “all” transactions included.</para>
+            </listitem>
+            <listitem>
+                <para role="List Paragraph">Sample: pending GL entry from approved PO with default
+                    (OLE Sample Data/object code 9892- RESV OUTSTANDING ORDR EXTRNL ENCUMBRNCES,
+                    Credit offset to the purchase order Debit) Offset- not yet processed through
+                    nightly batch job</para>
+                <para role="List Paragraph"/>
+                <para role="List Paragraph">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Sample General Ledger Pending Entries from an Approved PO</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-246.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+            </listitem>
+            <listitem>
+                <para role="List Paragraph">Sample: PO that has processed to nightly batch job- no
+                    pending GL entries</para>
+                <para role="List Paragraph"/>
+                <para role="Normal">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Sample General Ledger Pending Entries that has processed to nightly
+                                batch jobs</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-247.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+            </listitem>
+        </itemizedlist>
+        <para><emphasis role="bold">Payment Request</emphasis></para>
+        <itemizedlist mark="disc" spacing="normal">
+            <listitem>
+                <para role="List Paragraph">As PREQ’s are payments to vendors, any PREQ created with
+                    accounting lines will post to the GL as “pending” whether it has completed
+                    workflow or not (unlike PO which must be final/approved).</para>
+            </listitem>
+            <listitem>
+                <para role="List Paragraph">PREQ will reverse the encumbrance, as noted on the
+                    e-Doc, and apply the expense immediately. </para>
+            </listitem>
+            <listitem>
+                <para role="List Paragraph">Nightly batch jobs will take approved PREQ’s to final
+                    status, and also apply liabilities to the balance sheet.</para>
+            </listitem>
+            <listitem>
+                <para role="List Paragraph">Sample, PREQ with relieved encumbrance:</para>
+                <para role="List Paragraph"/>
+                <para role="List Paragraph">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Sample Process Items tab from a PREQ with Relieved
+                                Encumbrance</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-248.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="List Paragraph"/>
+            </listitem>
+            <listitem>
+                <para role="List Paragraph">Sample: General Ledger Pending entries on approved PREQ
+                    (encumbrance and initial offset from PO are reversed. Expense applied with
+                    offset to Acct Payable/liability object code 9041):</para>
+                <para role="List Paragraph"/>
+                <para role="Normal">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Sample General Ledger Pending Entries Tab from a PREQ with expenses
+                                applied</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-249.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+            </listitem>
+        </itemizedlist>
+        <para role="Normal">For all of the above transactions (Requisition to Purchase Order to
+            Receiving to Payment Request), a user can see how the transactions post to the general
+            ledger during the course of one day, i.e. if all docs created in same day, but including
+            filter <emphasis role="bold">All</emphasis> on balance inquiry searches.</para>
+        <tip>
+            <para role="Normal"> OLE is cloud-based, allowing users to have multiple browser windows
+                open. If a user wants to query multiple Account-Objects for available balances,
+                while having a transaction open in another window- that user could jump through
+                multiple queries or details in one window, then just copy/paste preferred Chart,
+                Account, Object codes into the Accounting lines of an open transactional document in
+                another window- Requisition, Purchase Order, Payment Request, Transfer of Funds
+                etc.</para>
+        </tip>
+    </section>
+    <section>
+        <title><anchor xml:id="_GLInquiriesBasicInformation"/>GL Inquiries: Basic
+                Information<indexterm significance="normal">
+                <primary> GL Inquiries</primary>
+                <secondary> Basic Information </secondary>
+            </indexterm></title>
+        <section>
+            <title>Entering Lookup Criteria<indexterm significance="normal">
+                    <primary>balance inquiries</primary>
+                    <secondary>entering lookup criteria</secondary>
+                </indexterm></title>
+            <para role="Body Text">After you select the desired inquiry, you are taken to the lookup
+                criteria screen. The lookup criteria may display some default values, which you may
+                change. To view all General Ledger balances on a specific account you need to enter
+                just the chart and the account number. You can be more specific by including
+                additional criteria. To view specific sub-accounts, object codes or sub-object codes
+                you may enter these criteria. On some of the inquiry screens the balance type may be
+                changed to view something other than actual balances. For example, to view budget
+                transactions, you can change the balance type to either ‘CB’ (current budget), ‘BB’
+                (base budget), or ‘MB’ (monthly budget which may not be available on all
+                accounts).</para>
+            <para role="Body Text">The following is an example of the lookup criteria screen for the
+                General Ledger Balance Lookup.</para>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>General Ledger Balance Lookup Screen Example: Fiscal Year 2010, Balance
+                            Type Code AC, Consolidation Option Consolidation, Amount View Option
+                            Monthly, Include Pending Ledger Entry No</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-254.jpg"
+                            />
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Body Text">Click <inlinemediaobject>
+                    <alt>Search</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-255.png"/>
+                    </imageobject>
+                </inlinemediaobject> when you have entered all necessary criteria and are ready to
+                retrieve the balances.</para>
+        </section>
+        <section>
+            <title>Meaning of Dollar Accumulators<indexterm significance="normal">
+                    <primary>balance inquiries</primary>
+                    <secondary>dollar accumulators</secondary>
+                </indexterm></title>
+            <para role="Body Text">The inquiries contain various dollar accumulators. The following
+                describes the meaning of each of the amounts displayed in the inquiry results, and
+                which inquiries contain the bucket type.</para>
+            <para role="TableHeading"><emphasis role="bold">Dollar Accumulator
+                definition</emphasis></para>
+            <informaltable frame="topbot">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Column Title</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Description</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Account Line Annual Balance Amount</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">The total amount of activity in this
+                                    account for this balance type across all periods of the selected
+                                    fiscal year. Appears in Cash Balances inquiry and the General
+                                    Ledger Balance inquiry.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Actual Amount</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">The total of all actual activity for a
+                                    given balance line of the selected fiscal year. Appears in
+                                    Available Balances inquiry and Balances by Consolidation
+                                    inquiry.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Available Cash Balance</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">The total of the beginning balance and the
+                                    year-to-date balance. Appears in the Cash Balances
+                                    inquiry.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Beginning Balance Line Amount</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">The amount in this account for this balance
+                                    type and object code at the beginning of the selected fiscal
+                                    year. Appears in the General Ledger Balance inquiry.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">[Month] Balance Amount</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">The total of all activity for a given
+                                    accounting period. These fields are labeled as the month to
+                                    which they refer (July, August, September, etc.).</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Budget Amount</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">The current budget amount in this account
+                                    for the selected fiscal year. Appears in Available Balances
+                                    inquiry and Balances by Consolidation inquiry.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Closed Amount</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">The amount of the encumbrance that has been
+                                    closed. Appears in the Open Encumbrances inquiry.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Contracts Grants Beginning Balance
+                                    Amount</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">The cumulative amount in this account for
+                                    this balance type and object code that was carried forward from
+                                    the previous fiscal year. Appears in the Cash Balance inquiry
+                                    and the General Ledger Balance inquiry.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Encumbrances Amount</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">The total of all encumbrance activity for a
+                                    given account for the selected fiscal year. Appears in Available
+                                    Balances inquiry and Balances by Consolidation inquiry.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Ledger Entry Amount</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">The dollar amount associated with a
+                                    particular ledger entry. Appears in General Ledger Entry inquiry
+                                    and Pending General Ledger Entry inquiry.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Open Amount</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">The amount of the original encumbrance.
+                                    Subtracting the Closed Amount from the Open Amounts gives the
+                                    amount of the encumbrance that is still outstanding. Appears in
+                                    the Open Encumbrances inquiry.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Variance</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">The difference between the available budget
+                                    and the actual amounts, plus encumbrances for an object code or
+                                    category. Appears in Available Balances inquiry and Balances by
+                                    Consolidation inquiry.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+        <section>
+            <title><anchor xml:id="_Drilldowns"/>Drilldowns<indexterm significance="normal">
+                    <primary>balance inquiries</primary>
+                    <secondary>drilldowns</secondary>
+                </indexterm></title>
+            <para role="Body Text">The various inquiries display their initial balances at different
+                levels of aggregation. You may drill down into detail when there is the <emphasis
+                    role="bold">Drill Down</emphasis> link available, or if the amount or other
+                attribute (e-doc, for example) is a hyperlink. The following illustrations show the
+                types of drilldowns available in the inquiries.</para>
+            <para>You may drill down to the next level from the <emphasis role="bold">Drill
+                    Down</emphasis> link.</para>
+            <screenshot>
+                <mediaobject>
+                    <alt>Drill Down Sample</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-256.png"/>
+                    </imageobject>
+                </mediaobject>
+            </screenshot>
+            <para>You may drill down to the entries that make up the total from the amount
+                link.</para>
+            <screenshot>
+                <mediaobject>
+                    <alt>Drill Down by Total Amount Sample</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-257.png"/>
+                    </imageobject>
+                </mediaobject>
+            </screenshot>
+            <para>You may drill down to the actual e-doc from the <emphasis role="bold">document
+                    Number</emphasis> link.</para>
+            <screenshot>
+                <mediaobject>
+                    <alt>Drill Down By Clicking on the hyperlinked items in the Results Lists -
+                        Document Number Sample</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-258.png"/>
+                    </imageobject>
+                </mediaobject>
+            </screenshot>
+            <para>Drill down to pending entry</para>
+            <screenshot>
+                <mediaobject>
+                    <alt>Drill Down Sample</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-259.png"/>
+                    </imageobject>
+                </mediaobject>
+            </screenshot>
+        </section>
+        <section>
+            <title>Include or Exclude Pending Entries, Unapproved Entries, and GL Entries<indexterm
+                    significance="normal">
+                    <primary>balance inquiries</primary>
+                    <secondary>including/excluding entries</secondary>
+                </indexterm></title>
+            <para role="Body Text">Balance inquiries allow you to choose to include or exclude
+                pending ledger entries. These entries have been generated by OLE documents that have
+                not yet been posted through the GL accounting cycle. After a financial processing
+                e-doc is saved, it generates pending ledger entries. These entries are considered
+                pending until the document is disapproved (at which point they are removed) or the
+                document is fully approved and the entries are posted to the General Ledger.</para>
+            <para role="Body Text">You can choose to exclude pending ledger entries (the default
+                behavior), include all pending ledger entries, or include only those entries
+                associated with documents that have been approved (documents that have reached
+                'Processed' or 'Final' workflow status). </para>
+            <note>
+                <para>
+                    <emphasis role="bold">Including all pending ledger entries in an inquiry can
+                        generate misleading results. </emphasis>Note that choosing to include all
+                    pending ledger entries in a balance inquiry can generate misleading results
+                    because saved documents may contain incomplete or unbalanced accounting entries.
+                    Choosing to view all pending ledger entries should be done with the
+                    understanding that unapproved entries may change drastically prior to actually
+                    posting or they may not post at all.</para>
+            </note>
+            <para role="Body Text">Refer to the following chart to identify the inquiry that applies
+                to your analysis.</para>
+            <para role="TableHeading"><emphasis role="bold">Inquiry Drilldown
+                Patterns</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="7">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <colspec colname="col3" colnum="3"/>
+                    <colspec colname="col4" colnum="4"/>
+                    <colspec colname="col5" colnum="5"/>
+                    <colspec colname="col6" colnum="6"/>
+                    <colspec colname="col7" colnum="7"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"/>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">By Consolidation</para>
+                            </entry>
+                            <entry colname="col3" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">By Level</para>
+                            </entry>
+                            <entry colname="col4" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">By Object</para>
+                            </entry>
+                            <entry colname="col5" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">GL Balance</para>
+                            </entry>
+                            <entry colname="col6" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">GL Entry Lookup</para>
+                            </entry>
+                            <entry colname="col7" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">By e-doc</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Available Balances</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"/>
+                            </entry>
+                            <entry colname="col3" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"/>
+                            </entry>
+                            <entry colname="col4" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"/>
+                            </entry>
+                            <entry colname="col5" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">a</para>
+                            </entry>
+                            <entry colname="col6" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">a</para>
+                            </entry>
+                            <entry colname="col7" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">a</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Cash Balances</para>
+                            </entry>
+                            <entry colsep="1" nameend="col7" namest="col2" rowsep="1" valign="top">
+                                <para role="Table Cells">Lists cash balances only (no
+                                    drilldown)</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">GL Balances</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"/>
+                            </entry>
+                            <entry colname="col3" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"/>
+                            </entry>
+                            <entry colname="col4" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"/>
+                            </entry>
+                            <entry colname="col5" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">a</para>
+                            </entry>
+                            <entry colname="col6" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">a</para>
+                            </entry>
+                            <entry colname="col7" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">a</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">GL Entry</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"/>
+                            </entry>
+                            <entry colname="col3" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"/>
+                            </entry>
+                            <entry colname="col4" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"/>
+                            </entry>
+                            <entry colname="col5" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"/>
+                            </entry>
+                            <entry colname="col6" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">a</para>
+                            </entry>
+                            <entry colname="col7" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">a</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">GL Pending Entry</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"/>
+                            </entry>
+                            <entry colname="col3" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"/>
+                            </entry>
+                            <entry colname="col4" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"/>
+                            </entry>
+                            <entry colname="col5" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"/>
+                            </entry>
+                            <entry colname="col6" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">a</para>
+                            </entry>
+                            <entry colname="col7" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">a</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Open Encumbrances</para>
+                            </entry>
+                            <entry colsep="1" nameend="col7" namest="col2" rowsep="1" valign="top">
+                                <para role="Table Cells">Lists open encumbrance amounts only (no
+                                    drilldown)</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_GeneralErrorCorrection"/>General Error Correction</title>
+        <para role="Normal"/>
+        <para role="Normal"><indexterm significance="normal">
+                <primary>General Error Correction (GEC) document</primary>
+            </indexterm><indexterm significance="normal">
+                <primary>Financial Processing</primary>
+                <secondary>General Error Correction (GEC) document</secondary>
+            </indexterm><inlinemediaobject>
+                <alt>Select/Acquire</alt>
+                <imageobject>
+                    <imagedata fileref="../images/SelectAcquire.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+                    <alt>Others</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-5c.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis>&gt;<inlinemediaobject>
+                <alt>General Error Correction</alt>
+                <imageobject>
+                    <imagedata fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-169.png"
+                    />
+                </imageobject>
+            </inlinemediaobject>&gt;<inlinemediaobject>
+                <alt>General Error Correction</alt>
+                <imageobject>
+                    <imagedata fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-170.png"
+                    />
+                </imageobject>
+            </inlinemediaobject></para>
+        <para role="Body Text">As an option, the General Error Correction (GEC) document is used to
+            correct inappropriate or erroneous accounting string data for General Ledger entries
+            generated from other financial transactions.</para>
+        <para role="Body Text">By consistently referring to the details of each transaction being
+            corrected, the GEC preserves and maintains the audit trail. Fiscal officers and support
+            staff, department and responsibility center are typical users of the GEC.</para>
+        <section>
+            <title>Document Layout</title>
+            <para role="Body Text">The GEC document only has the standard financial transaction
+                document tabs and does not have any unique tabs of its own </para>
+            <note>
+                <para> For information about the standard tabs such as <emphasis role="bold"
+                        >Document Overview</emphasis>, <emphasis role="bold">Notes and
+                        Attachments</emphasis>, <emphasis role="bold">Ad Hoc Recipients</emphasis>,
+                        <emphasis role="bold">Route Log</emphasis>, and <emphasis role="bold"
+                        >Accounting Lines</emphasis> tabs, see <link
+                            xlink:href="../../../webhelp/BASICS/content/ch02s02.html">Standard Tabs</link> on the
+                        <emphasis>Guide to OLE Basic Functionality and Key
+                    Concepts</emphasis>.</para>
+            </note>
+            <para>
+                <screenshot>
+                    <mediaobject>
+                        <alt>General Error Correction Document</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-172.png"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <note>
+                <para> The Year-End General Correction (YEGE) document is available only during the
+                    fiscal year-end close.</para>
+            </note>
+        </section>
+        <section>
+            <title>Process Overview</title>
+            <section>
+                <title>Business Rules<indexterm significance="normal">
+                        <primary>business rules</primary>
+                        <secondary>General Error Correction (GEC) document</secondary>
+                    </indexterm><indexterm significance="normal">
+                        <primary>General Error Correction (GEC) document</primary>
+                        <secondary>business rules</secondary>
+                    </indexterm></title>
+                <itemizedlist mark="disc" spacing="normal">
+                    <listitem>
+                        <para role="C1H Bullet">Debits must equal credits.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet">OLE automatically generates cash offset entries as
+                            defined by the information entered into the document.</para>
+                    </listitem>
+                </itemizedlist>
+                <para role="Body Text">The following object sub-types are prohibited on this
+                    document:</para>
+                <para role="TableHeading"><emphasis role="bold">Restricted object sub type in the
+                        GEC document</emphasis></para>
+                <informaltable frame="topbot">
+                    <tgroup cols="3">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <colspec colname="col3" colnum="3"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Sub-Type</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                                <entry colname="col3" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Restrictions</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">BU</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Budget Only Object Codes</para>
+                                </entry>
+                                <entry colname="col3" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Use Budget Adjustments (BA)
+                                        document.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">CA</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Cash</para>
+                                </entry>
+                                <entry colname="col3" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Use Journal Voucher (JV)
+                                        document.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">FB</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Fund Balance</para>
+                                </entry>
+                                <entry colname="col3" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Use Journal Voucher (JV)
+                                        document.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">FR</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Fringe Benefits</para>
+                                </entry>
+                                <entry colname="col3" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Use Benefits Expense Transfer
+                                        document.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">HW</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Hourly Wages</para>
+                                </entry>
+                                <entry colname="col3" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Use Salary Expense Transfer
+                                        document.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">LD</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Loss on Disposal of Assets</para>
+                                </entry>
+                                <entry colname="col3" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Use CAMS Documents.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">MT</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Mandatory Transfers</para>
+                                </entry>
+                                <entry colname="col3" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Use Transfer of Funds (TF)
+                                        document.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">OP</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Other Provisions</para>
+                                </entry>
+                                <entry colname="col3" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Use Auxiliary Voucher (AV)
+                                        document.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">SA</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Salaries and Wages</para>
+                                </entry>
+                                <entry colname="col3" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Use Salary Expense Transfer
+                                        document.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">TF</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Transfer of Funds</para>
+                                </entry>
+                                <entry colname="col3" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Use Transfer of Funds (TF)
+                                        document.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">TN</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Transfer - Generic</para>
+                                </entry>
+                                <entry colname="col3" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Use Transfer of Funds (TF)
+                                        document.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">WO</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Write-Off Expense</para>
+                                </entry>
+                                <entry colname="col3" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Use Distribution of Income/Expense (DI)
+                                        document.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+            <section>
+                <title>Routing<indexterm significance="normal">
+                        <primary>General Error Correction (GEC) document</primary>
+                        <secondary>routing</secondary>
+                    </indexterm></title>
+                <para role="Body Text">Fiscal Officers for all accounts must approve the GEC
+                    document. Additional approvals may be established within the institution's
+                    review hierarchy or set up through Ad Hoc routing. The document status becomes
+                    'FINAL' when the required approvals are obtained and the transaction is posted
+                    to the G/L during the next G/L batch process.</para>
+                <para role="Illustration"><inlinemediaobject>
+                        <alt>General Error Correction Document Workflow</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-174.png"
+                            />
+                        </imageobject>
+                    </inlinemediaobject></para>
+            </section>
+            <section>
+                <title>Initiating a GEC Document<indexterm significance="normal">
+                        <primary>General Error Correction (GEC) document</primary>
+                        <secondary>initiating</secondary>
+                    </indexterm></title>
+                <orderedlist numeration="arabic" spacing="normal">
+                    <listitem>
+                        <para role="C1H Number">Select General Error Correction from the <emphasis
+                                role="bold">Others</emphasis> submenu on the <emphasis role="bold"
+                                >Select/Acquire</emphasis> tab.</para>
+                        <para role="C1H Continue">A blank GEC document with a new document ID
+                            appears.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Number">Complete the standard tabs.</para>
+                        <itemizedlist mark="disc" spacing="normal">
+                            <listitem>
+                                <para role="C1H Bullet 2">The <emphasis role="bold">Accounting
+                                        Lines</emphasis> tab of the GEC document varies slightly
+                                    from other types of financial transaction documents:</para>
+                            </listitem>
+                            <listitem>
+                                <para role="C1H Bullet 2">The <emphasis role="bold">Ref
+                                        Number</emphasis> is a required field on the GEC document.
+                                    This field identifies the reference number of the document being
+                                    corrected.</para>
+                            </listitem>
+                            <listitem>
+                                <para role="C1H Bullet 2">The <emphasis role="bold">Line
+                                        Desc</emphasis> box is optional and can be used to enter a
+                                    description specific to that line of the GEC. If left blank, the
+                                    description from the <emphasis role="bold">Document
+                                        Overview</emphasis> tab passes to the G/L for that line of
+                                    the transaction.</para>
+                            </listitem>
+                            <listitem>
+                                <para role="C1H Bullet 2">The <emphasis role="bold">Ref Origin
+                                        Code</emphasis> is a required field. This code identifies
+                                    the system that created the transaction being corrected.</para>
+                                <note>
+                                    <para> For information about the standard tabs such as <emphasis
+                                            role="bold">Document Overview</emphasis>, <emphasis
+                                            role="bold">Notes and Attachments</emphasis>, <emphasis
+                                            role="bold">Ad Hoc Recipients</emphasis>, <emphasis
+                                            role="bold">Route Log</emphasis>, and <emphasis
+                                            role="bold">Accounting Lines</emphasis>, see <link
+                                            xlink:href="../../../webhelp/BASICS/content/ch02s02.html"
+                                            >Standard Tabs</link> on the <emphasis>Guide to OLE
+                                            Basic Functionality and Key Concepts</emphasis>.</para>
+                                </note>
+                            </listitem>
+                        </itemizedlist>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Number">Click <inlinemediaobject>
+                                <alt>Submit</alt>
+                                <imageobject>
+                                    <imagedata
+                                        fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-176.png"
+                                    />
+                                </imageobject>
+                            </inlinemediaobject>.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Number">Review the <emphasis role="bold">General Ledger
+                                Pending Entries</emphasis> tab.</para>
+                        <para role="C1H Continue">This document automatically generates cash offset
+                            entries to cash or fund balance object codes.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Number">Review the <emphasis role="bold">Route
+                                Log</emphasis> tab.</para>
+                        <para role="C1H Continue">The document is routed to the fiscal officer for
+                            each account used in the Accounting Lines. The Route Status shows
+                            'ENROUTE'.</para>
+                        <note>
+                            <para> For information about the Route Log tab, see <link
+                                    xlink:href="../../../webhelp/BASICS/content/ch04s03.html#_routeLog"
+                                    >Route Log</link> on the <emphasis>Guide to OLE Basic
+                                    Functionality and Key Concepts</emphasis>.</para>
+                        </note>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Number">Appropriate fiscal officers and organization
+                            reviewers approve the document. </para>
+                        <note>
+                            <para> For more information about how to approve a document, see <link
+                                    xlink:href="../../../webhelp/BASICS/content/ch04s03.html#_workflowActionButtons"
+                                    >Workflow Action Buttons</link> on the <emphasis>Guide to OLE
+                                    Basic Functionality and Key Concepts</emphasis>.</para>
+                        </note>
+                    </listitem>
+                </orderedlist>
+            </section>
+        </section>
+        <section>
+            <title>Example<indexterm significance="normal">
+                    <primary>General Error Correction (GEC) document</primary>
+                    <secondary>example</secondary>
+                </indexterm></title>
+            <para role="Body Text">Supplies were charged to an incorrect account. Use the <emphasis
+                    role="bold">From</emphasis> section to move the expense (credit expense) from
+                the incorrect account and the <emphasis role="bold">To</emphasis> section to charge
+                expense to the correct account (debit expense). The correct expense is debited and
+                the incorrect expense is credited. The GEC document allows users to easily make
+                corrections to documents previously submitted and approved.</para>
+            <para role="Body Text">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Sample GEC Document</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-179.jpg"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_GeneralLedgerCorrectionProcess"/>General Ledger Correction
+            Process</title>
+        <para role="Normal"/>
+        <para role="Normal"><inlinemediaobject>
+                <alt>Select/Acquire</alt>
+                <imageobject>
+                    <imagedata fileref="../images/SelectAcquire.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+                    <alt>Others</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-5c.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis>&gt;<inlinemediaobject>
+                <alt>General Ledger Correction Process</alt>
+                <imageobject>
+                    <imagedata fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-13.png"
+                    />
+                </imageobject>
+            </inlinemediaobject>&gt;<inlinemediaobject>
+                <alt>General Ledger Correction Process</alt>
+                <imageobject>
+                    <imagedata fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-140.png"
+                    />
+                </imageobject>
+            </inlinemediaobject></para>
+        <para/>
+        <para>If an error is encountered during any part of the validation process, the associated
+            document (s) are not posted. Instead, error records are placed in the ScrbErr file (For
+            more information about this file and other files generated by the GL batch processes,
+            see <link linkend="accountingCycleFiles">Accounting Cycle Files</link>.) This file can
+            be retrieved using a GL Correction Process document. This process allows for the manual
+            correction of errors so the associated documents may be re-posted in a future batch
+            cycle.</para>
+        <section>
+            <title><anchor xml:id="accountingCycleFiles"/>Accounting Cycle Files</title>
+            <para>The GL Correction Process document allows functional users to view accounting
+                cycle files in the Origin Entry Group list.</para>
+            <para/>
+            <para>
+                <screenshot>
+                    <mediaobject>
+                        <alt>General Ledger Correction Process Document: Documents in System
+                            Tab</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-143.png"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para>The following table describes these files based on the names displayed in the
+                Origin Entry Group list.</para>
+            <para role="TableHeading"><emphasis role="bold">Accounting cycle file
+                    descriptions</emphasis></para>
+            <informaltable frame="topbot">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">File Name</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Description</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">balance_forwards</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Year-end entries to populate assets,
+                                    liabilities, fund balance, and inception-to-date balances for
+                                    the new fiscal year. Includes open and expired accounts.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">balance_forwards_closed</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Year-end entries to populate asset,
+                                    liability, fund balance, and inception-to-date balances for the
+                                    new fiscal year. Closed accounts only.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">close_nominal_activity</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Year-end entries to close income and
+                                    expense to fund balance in the fiscal year ending.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">encumbrance_forward</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Year-end entries to bring forward
+                                    outstanding encumbrances to the new fiscal year.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">expaccts</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Expired and closed accounts identified
+                                    during data validation in 'Scrubber.' </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">glbackup</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Backup of all files from the Origin Entry
+                                    directory that will be fed into 'Scrubber' for processing.
+                                    Examples: GLCP, e-docs, PDP, etc.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">glcp_output</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Error correction and file uploads processed
+                                    by the General Ledger Correction Process for input into the
+                                    accounting cycle.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">glentry_coll</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Valid entries from the 'Collector' (which
+                                    shares 'Scrubber' validation and 'Demerger' logic). Notification
+                                    of entries with errors was sent back to the submitting unit for
+                                    re-processing.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">glentry_entp</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Entries processed via the Enterprise Feed
+                                    Upload link in OLE. Entries have not yet passed 'Scrubber'
+                                    validation.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">glentry_ole</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Pending ledger entries from GL e-docs.
+                                    Created by the Nightly Out batch job.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">glentry_pdp</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Entries from check and ACH disbursements,
+                                    cancels, and cancel-and-re-issues processed by the
+                                    Pre-Disbursement Processor.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">icrerrs</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Errors found in the ICRPoster that did not
+                                    update the ledgers.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">icrtrans</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">All indirect cost recovery (ICR) entries
+                                    generated from eligible posted transactions.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">org_reversion_pre_closing,</para>
+                                <para>org_reversion_closing</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Year-end entries to revert and carry
+                                    forward current budget according to the established reversion
+                                    rules.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">posterrs</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Errors found in the 'Main Poster' that did
+                                    not update the ledgers.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">scrberr1</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Error-only transactions identified by
+                                    'Scrubber' (pre-'Demerger').</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">scrberr2</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Error transactions identified by 'Scrubber'
+                                    plus valid transactions for the same document type, origin code,
+                                    and document number pulled by the 'Demerger.' These entries are
+                                    not passed on to the 'Main Poster.' This is the most common file
+                                    used for GLCP for error correction.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">scrbout1</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Valid-only entries from 'Scrubber'
+                                    (pre-'Demerger').</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">scrbout2</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Valid entries from the 'Demerger' after
+                                    pulling entries for any documents with errors that will be
+                                    passed on to the 'Main Poster.'</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">sorticr</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Sorted icrtrans file for input into the ICR
+                                    poster.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">sortpost</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Sorted scrbout2 file for input into the
+                                    'Main Poster.'</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">sortscrb</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Sorted backup data used for validation in
+                                    'Scrubber.' </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Workers</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Errors found in the 'Reversal Poster' that
+                                    did not update the ledgers.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Workfile</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">All automated reversal entries selected for
+                                    processing by the 'Reversal Poster.'</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_General_Ledger_Entry"/>General Ledger Entry<indexterm
+                significance="normal">
+                <primary>General Ledger Entry</primary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Select/Acquire</alt>
+                <imageobject>
+                    <imagedata fileref="../images/SelectAcquire.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+                    <alt>Others</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-5c.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis> &gt;<inlinemediaobject>
+                <alt>General Ledger Entry</alt>
+                <imageobject>
+                    <imagedata fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-302.png"
+                    />
+                </imageobject>
+            </inlinemediaobject> &gt;<inlinemediaobject>
+                <alt>General Ledger Entry Lookup</alt>
+                <imageobject>
+                    <imagedata fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-303.png"
+                    />
+                </imageobject>
+            </inlinemediaobject></para>
+        <note>
+            <para> For general information about entering lookup criteria, interpreting dollar
+                accumulators, drilling down into inquiries to see more detail, and including or
+                excluding pending entries, see <link linkend="_GLInquiriesBasicInformation">GL
+                    Inquiries: Basic Information</link>.</para>
+        </note>
+        <para role="Body Text">The General Ledger Entry inquiry displays the individual transactions
+            that make up the balance in an account. It is the same inquiry that can be displayed by
+            drilling down into the General Ledger Balance report, but instead of drilling down from
+            the General Ledger Balance screen you can go directly to this report by selecting it
+            from the main Balance Inquires menu.</para>
+        <para role="Body Text">The drilldown pattern of this inquiry is as follows:</para>
+        <orderedlist numeration="arabic" continuation="continues" spacing="normal">
+            <listitem>
+                <para role="C1H Number">General Ledger Entry</para>
+            </listitem>
+            <listitem>
+                <para role="C1H Number">E-Doc</para>
+            </listitem>
+        </orderedlist>
+        <section>
+            <title>Lookup Criteria</title>
+            <para role="Body Text">Fill in at least <emphasis role="bold">Fiscal Year</emphasis>,
+                    <emphasis role="bold">Chart Code</emphasis>, <emphasis role="bold">Account
+                    Number</emphasis>, and <emphasis role="bold">Fiscal Period</emphasis> or
+                    <emphasis role="bold">Fiscal Year</emphasis> and <emphasis role="bold">Document
+                    Number</emphasis>. The lookup criteria default to the current fiscal year,
+                balance type of 'AC'(actuals), and the current fiscal period.</para>
+            <para role="Body Text">Use the lookup icon <inlinemediaobject>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-305.png"/>
+                    </imageobject>
+                </inlinemediaobject> as necessary to select the criteria. Select the desired
+                    <emphasis role="bold">Pending Ledger Entry Approved Indicator</emphasis>
+                    option<indexterm significance="normal">
+                    <primary>Pending Ledger Entry Approved Indicator option</primary>
+                </indexterm>. The Pending General Ledger inquiry offers two alternatives for
+                including the pending ledger entries: the ability to include all pending entries by
+                selecting <emphasis role="bold">All</emphasis> or only those pending entries that
+                are fully approved by selecting <emphasis role="bold">Approved</emphasis>. Cancelled
+                and disapproved pending entries are not pulled into the balance inquiry
+                results.</para>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>General Ledger Entry Lookup Screen</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-306.png"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+        </section>
+        <section>
+            <title>Search Results</title>
+            <para role="Body Text">The inquiry results list the transactions that meet your lookup
+                criteria. From here you can drill down into the e-doc that created the
+                transaction.</para>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>General Ledger Entry Lookup Results Sample</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-307.jpg"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <section>
+                <title>E-Doc Drilldown<indexterm significance="normal">
+                        <primary>E-Doc Drilldown</primary>
+                    </indexterm></title>
+                <para role="Body Text">Clicking the document number link from the General Ledger
+                    Entry inquiry results allows you to open the underlying e-doc which makes up the
+                    transaction. You may view, copy or perform error correction once the document is
+                    open, within the constraints of your existing OLE role(s). Note that no link
+                    will be displayed if the document originates from a system other than
+                    OLE.</para>
+            </section>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_Pre-Encumbrance"/>Pre-Encumbrance</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Select/Acquire</alt>
+                <imageobject>
+                    <imagedata fileref="../images/SelectAcquire.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+                    <alt>Others</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-5c.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis> &gt;<inlinemediaobject>
+                <alt>Pre-Encumbrance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-14.png"
+                    />
+                </imageobject>
+            </inlinemediaobject> &gt;<inlinemediaobject>
+                <alt>Pre-Encumbrance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-15.png"
+                    />
+                </imageobject>
+            </inlinemediaobject></para>
+        <para>The Pre-Encumbrance (PE) document may be used in OLE as a “Reserve Option” on a single
+            or group of accounting lines- Account/Objects. An Account could be setup at the
+            beginning of the year, with a Budget allocated to the Account-Object code. Either
+            through Restricted Status or Sufficient Fund check options, or the use of the
+            Pre-Encumbrance, an account could be temporarily restricted, allow spending up to a $/%
+            limit, or be “pre-encumbered” without requiring a Purchase Order or Payment
+            Request.</para>
+        <para>The Pre-Encumbrance (PE) document allows you to add encumbrances using an e-doc
+            instead of relying on information from some system outside OLE. These transactions are
+            for the use of the fiscal officers to earmark funds for which unofficial commitments
+            have already been made, setting aside amounts for future anticipated expenses that might
+            not otherwise be encumbered. The document can also be used to disencumber open
+            encumbrances created with the PE document.</para>
+        <section>
+            <title>Document Layout</title>
+            <para>A PE document has its own unique tab called <emphasis role="bold">Pre-Encumbrance
+                    Details</emphasis> in addition to the standard financial transaction
+                tabs.</para>
+            <note>
+                <para>For more information about the standard tabs, see <link
+                    xlink:href="../../../webhelp/BASICS/content/ch02s02.html">Standard Tabs</link> on the
+                        <emphasis>Guide to OLE Basic Functionality and Key
+                    Concepts</emphasis>.</para>
+            </note>
+            <para/>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Pre-Encumbrance Document</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-16.png"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <section>
+                <title>Pre-Encumbrance Details Tab</title>
+                <para>The <emphasis role="bold">Pre-Encumbrance Details</emphasis> tab contains an
+                    optional <emphasis role="bold">Reversal Date </emphasis>field date. When
+                    entering an encumbrance, a reversal date may be entered to indicate when the
+                    system should automatically reverse the encumbrance. This date must not be
+                    earlier than the current date.</para>
+                <para> Encumbrances entered on a PE document without a reversal date must be
+                    reversed manually by processing another PE document and entering one or more
+                    accounting lines in the <emphasis role="bold">Disencumbrance </emphasis>section
+                    of the document.</para>
+                <para/>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Pre-Encumbrance Document: Pre-Encumbrance Details Tab</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-17.png"
+                                />
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para/>
+                <informaltable frame="topbot">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Reversal Date</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Enter the date when the
+                                        system should automatically reverse the encumbrance. The
+                                        date must not be earlier than the current date.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+        </section>
+        <section>
+            <title>Process Overview</title>
+            <para/>
+            <section>
+                <title>Business Rules</title>
+                <itemizedlist>
+                    <listitem>
+                        <para>There must be at least one accounting line in the document.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Unlike other documents with more than one side, there is no
+                            relationship between the <emphasis role="bold">Encumbrance</emphasis>
+                            and <emphasis role="bold">Disencumbrance</emphasis> sections of
+                            accounting lines. Hence, there are no totals in the <emphasis
+                                role="bold">Accounting Lines</emphasis> tab of the document.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Only object codes with an object type code of Expenditure Not Expense
+                            (EE) or Expense Expenditure (EX) are allowed on this document.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Negative amounts are not allowed. Encumbrances and disencumbrances are
+                            both recorded as positive amounts.</para>
+                    </listitem>
+                    <listitem>
+                        <para>OLE automatically generates offset entries, as defined by information
+                            entered into the document.</para>
+                    </listitem>
+                </itemizedlist>
+                <tip>
+                    <para>If you are using the Sufficient Funds checking feature of OLE, remember
+                        that encumbrances are taken into account in the sufficient funds
+                        calculation. </para>
+                </tip>
+            </section>
+            <section>
+                <title>Routing</title>
+                <para>The PE document routes based on the account numbers used on the document as
+                    follows:</para>
+                <itemizedlist>
+                    <listitem>
+                        <para>The fiscal officer for each account must approve.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Organization review routing occurs for the organization that owns each
+                            account.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Sub-fund routing occurs based on the sub-fund of each account.</para>
+                    </listitem>
+                </itemizedlist>
+                <para>The document status becomes 'FINAL' when the required approvals are obtained
+                    and the transaction is posted to the G/L during the next G/L batch
+                    process.</para>
+            </section>
+            <section>
+                <title>Initiating a PE Document</title>
+                <orderedlist>
+                    <listitem>
+                        <para>Select Pre-Encumbrance from the <emphasis role="bold"
+                                >Others</emphasis> submenu on the <emphasis role="bold"
+                                >Select/Acquire</emphasis> tab.</para>
+                        <para>A blank PE document with a new document ID appears.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Complete the standard tabs. Complete the <emphasis role="bold"
+                                >Accounting Lines</emphasis> tab as follows:</para>
+                        <itemizedlist>
+                            <listitem>
+                                <para>Complete the <emphasis role="bold">Accounting Lines</emphasis>
+                                    tab by entering information into the <emphasis role="bold"
+                                        >Encumbrance </emphasis> section, <emphasis role="bold"
+                                        >Disencumbrance </emphasis> section, or both.</para>
+                            </listitem>
+                            <listitem>
+                                <para><emphasis role="italic">Encumbrance Section:</emphasis>
+                                    Accounting lines entered on the <emphasis role="bold"
+                                        >Encumbrance</emphasis> side of the document generate new
+                                    encumbrances on the specified accounts.</para>
+                            </listitem>
+                            <listitem>
+                                <para><emphasis role="italic">Disencumbrance Section:</emphasis>
+                                    Accounting lines entered on the <emphasis role="bold"
+                                        >Disencumbrance </emphasis>section of the document reverse
+                                    existing encumbrances on the specified accounts.</para>
+                            </listitem>
+                            <listitem>
+                                <para> Lines on the <emphasis role="bold">Disencumbrance</emphasis>
+                                    section require a <emphasis role="bold">Ref Number</emphasis>
+                                    which identifies the document number of the previous
+                                    pre-encumbrance that needs to be removed. Disencumbrances
+                                    entered in the PE document would only be used to remove an
+                                    encumbrance previously established with a PE document.</para>
+                                <note>
+                                    <para>For information about the standard tabs such as <emphasis
+                                            role="bold">Document Overview</emphasis>, <emphasis
+                                            role="bold">Notes and Attachments</emphasis>, <emphasis
+                                            role="bold">Ad Hoc Recipients</emphasis><emphasis
+                                            role="bold">, <emphasis role="bold">Route
+                                            Log</emphasis></emphasis>, and <emphasis role="bold"
+                                            >Accounting Lines</emphasis>tabs, see <link
+                                                xlink:href="../../../webhelp/BASICS/content/ch02s02.html">Standard
+                                            Tabs</link> on the <emphasis>Guide to OLE Basic
+                                            Functionality and Key Concepts</emphasis>.</para>
+                                </note>
+                                <para>Complete the <emphasis role="bold">Pre-Encumbrance
+                                        Details</emphasis> tab.</para>
+                            </listitem>
+                        </itemizedlist>
+                    </listitem>
+                    <listitem>
+                        <para>Click <inlinemediaobject>
+                                <alt>Submit</alt>
+                                <imageobject>
+                                    <imagedata
+                                        fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-150.png"
+                                    />
+                                </imageobject>
+                            </inlinemediaobject>.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Review the <emphasis role="bold">General Ledger Pending
+                                Entries</emphasis> tab.</para>
+                        <para>The pending entries include offset generation lines to a pre-defined
+                            reserve for Encumbrances object code.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Review the <emphasis role="bold">Route Log</emphasis> tab.</para>
+                        <para/>
+                        <note>
+                            <para>For information about the Route Log tab, see <link
+                                xlink:href="../../../webhelp/BASICS/content/ch04s03.html#_routeLog">Route Log</link>  on
+                                the <emphasis>Guide to OLE Basic Functionality and Key
+                                    Concepts</emphasis>.</para>
+                            <para>For more information about how to approve a document, see <link
+                                xlink:href="../../../webhelp/BASICS/content/ch04s03.html#_workflowActionButtons">Workflow
+                                    Action Buttons</link>.</para>
+                        </note>
+                    </listitem>
+                </orderedlist>
+            </section>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_YearEnd"/>Year End E-Docs</title>
+        <para>On the <emphasis role="bold">Select/Acquire</emphasis> tab, the <emphasis role="bold"
+                >Others</emphasis> submenu provides access to year-end versions of the following
+            financial documents:</para>
+        <itemizedlist>
+            <listitem>
+                <para>Budget Adjustment (YEBA)</para>
+            </listitem>
+            <listitem>
+                <para>Distribution of Income/Expense (YEDI)</para>
+            </listitem>
+            <listitem>
+                <para>General Error Correction (YEGEC)</para>
+            </listitem>
+        </itemizedlist>
+        <note>
+            <para>This documentation does not provide a separate section for each individual year
+                end e-doc because these e-docs are similar to each other and are similar to their
+                regular e-doc counterparts. General information about the year-end e-docs is
+                provided below. For information about business rules for each e-doc, see the section
+                on its regular counterpart.</para>
+        </note>
+        <para>The Year-End documents are used to record transactions that occurred during a fiscal
+            year, but were not recorded prior to the end of the final accounting period for that
+            fiscal year. The standard versions of the OLE financial documents post the transaction
+            to the current fiscal year and period during which the document is approved. The
+            Year-End documents are posted to whatever fiscal period of the previous fiscal year is
+            currently open to receive transactions (period 12 or 13 depending on the institution's
+            posting schedule). fiscal officers and support staff, department, responsibility center,
+            and campus administration staff are typical users of the Year-End documents.</para>
+        <para>The Year-End documents are used primarily in the period between the end of a fiscal
+            year and the end of the closing period for that fiscal year. An OLE Superuser (likely a
+            central administrator at the institution) determines when these documents become
+            available and for how long they are active. In most cases they are available for only a
+            brief window of time following the end of an institution's fiscal year, prior to final
+            closing of that fiscal year.</para>
+        <section>
+            <title>Year End E-Doc Business Rules</title>
+            <para>Year-End documents inherit all the business rules of their regular document. For
+                example, a Year-End Distribution of Income and Expense document uses the same
+                business rules as the regular Distribution of Income and Expense document.</para>
+            <note>
+                <para>For more information about the non year-end documents, see the help
+                    documentation for the associated e-doc type.</para>
+            </note>
+        </section>
+        <section>
+            <title>Year End E-Doc Routing</title>
+            <itemizedlist>
+                <listitem>
+                    <para>Year-End documents route differently from their regular counterpart
+                        documents. Most notably they skip the fiscal officer level of routing and go
+                        directly to Org Review. The Year-End documents route as follows:</para>
+                </listitem>
+                <listitem>
+                    <para>Organization review routing occurs for the organization that owns each
+                        account. See note below.</para>
+                </listitem>
+                <listitem>
+                    <para>Sub-fund routing occurs based on the sub-fund of each account.</para>
+                </listitem>
+                <listitem>
+                    <para>The document status becomes 'FINAL' when the required approvals are
+                        obtained and the transaction is posted to the G/L during the next G/L batch
+                        process.</para>
+                </listitem>
+            </itemizedlist>
+        </section>
+        <section>
+            <title>Initiating a Year-End Document</title>
+            <orderedlist>
+                <listitem>
+                    <para>Select the desired year-end document from the <emphasis role="bold"
+                            >Others</emphasis> menu group on the <emphasis role="bold"
+                            >Select/Acquire</emphasis> taab.</para>
+                </listitem>
+                <listitem>
+                    <para>Log into OLE as necessary.</para>
+                    <para>A blank Year-End document with a new document ID appears.</para>
+                </listitem>
+                <listitem>
+                    <para>Complete the standard tabs and the other tabs specific to the document
+                        type.</para>
+                    <note>
+                        <para>For information about the standard tabs such as <emphasis role="bold"
+                                >Document Overview</emphasis>, <emphasis role="bold">Notes and
+                                Attachments</emphasis>, <emphasis role="bold">Ad Hoc
+                                Recipients</emphasis><emphasis role="bold">, <emphasis role="bold"
+                                    >Route Log</emphasis></emphasis>, and <emphasis role="bold"
+                                >Accounting Lines</emphasis>tabs, see <link
+                                    xlink:href="../../../webhelp/BASICS/content/ch02s02.html">Standard Tabs</link>
+                            on the <emphasis>Guide to OLE Basic Functionality and Key
+                                Concepts</emphasis>.</para>
+                    </note>
+                </listitem>
+                <listitem>
+                    <para>Click <inlinemediaobject>
+                            <alt>Submit</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-150.png"
+                                />
+                            </imageobject>
+                        </inlinemediaobject>.</para>
+                </listitem>
+                <listitem>
+                    <para>Review the <emphasis role="bold">General Ledger Pending Entries</emphasis>
+                        tab.</para>
+                    <para>Year-End documents generate General Ledger entries (including offsets) in
+                        the same way their regular counterpart documents do, but all these entries
+                        are posted to the open accounting period of the prior fiscal year, most
+                        often accounting period 13.</para>
+                </listitem>
+                <listitem>
+                    <para>Review the <emphasis role="bold">Route Log </emphasis> tab.</para>
+                    <para>The document is routed to Org Review for each account used in the
+                        Accounting Lines. The Route Status shows 'ENROUTE.'</para>
+                    <note>
+                        <para>For more information about the Route Log, see <link
+                                xlink:href="../../../webhelp/BASICS/content/ch04s03.html#_routeLog"
+                                >Route Log</link> on the <emphasis>Guide to OLE Basic Functionality
+                                and Key Concepts</emphasis>.</para>
+                    </note>
+                </listitem>
+                <listitem>
+                    <para>Appropriate organization reviewers must approve the document.</para>
+                    <note>
+                        <para>For more information about how to approve a document see <link
+                                xlink:href="../../../webhelp/BASICS/content/ch04s03.html#_workflowActionButtons"
+                                >Workflow Action Buttons</link> on the <emphasis>Guide to OLE Basic
+                                Functionality and Key Concepts</emphasis>.</para>
+                    </note>
+                </listitem>
+            </orderedlist>
+        </section>
+    </section>
+</chapter>

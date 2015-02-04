@@ -1,0 +1,63 @@
+<request>
+    <user>ole-khuntley</user>
+    <operation>checkIn</operation>
+    <requestDocuments>
+        <ingestDocument id="ad7a1895-9206-4774-9279-6bd52c6fa6dd" category="work" type="holdings" format="oleml">
+            <content><![CDATA[
+		<ole:oleHoldings primary="string" xmlns:ole="http://ole.kuali.org/standards/ole-instance">
+      <ole:holdingsIdentifier>string</ole:holdingsIdentifier>
+      <!--Zero or more repetitions:-->
+      <ole:extentOfOwnership>
+        <ole:textualHoldings>string</ole:textualHoldings>
+        <!--Zero or more repetitions:-->
+        <ole:note type="string">string</ole:note>
+        <ole:type>string</ole:type>
+      </ole:extentOfOwnership>
+      <ole:receiptStatus>string</ole:receiptStatus>
+      <!--Zero or more repetitions:-->
+      <ole:uri resolvable="string">string</ole:uri>
+      <!--Zero or more repetitions:-->
+      <ole:note type="string">string</ole:note>
+      <ole:location>
+        <ole:locationLevel>
+          <ole:name>string</ole:name>
+          <ole:level>string</ole:level>
+          <!--Optional:-->
+          <ole:locationLevel/>
+        </ole:locationLevel>
+      </ole:location>
+      <ole:extension displayLabel="string">
+        e
+        <!--You may enter ANY elements at this point-->
+        <AnyElement/>
+        gero
+      </ole:extension>
+      <ole:callNumber>
+        <ole:type>string</ole:type>
+        <ole:prefix>string</ole:prefix>
+        <ole:number>string</ole:number>
+        <ole:classificationPart>string</ole:classificationPart>
+        <ole:itemPart>string</ole:itemPart>
+        <ole:shelvingScheme>
+          <ole:codeValue>string</ole:codeValue>
+          <ole:fullValue>string</ole:fullValue>
+          <ole:typeOrSource>
+            <ole:pointer>http://www.your.com/tempestatesque/e</ole:pointer>
+            <ole:text>string</ole:text>
+          </ole:typeOrSource>
+        </ole:shelvingScheme>
+        <ole:shelvingOrder>
+          <ole:codeValue>string</ole:codeValue>
+          <ole:fullValue>string</ole:fullValue>
+          <ole:typeOrSource>
+            <ole:pointer>http://www.your.com/tempestatesque/e</ole:pointer>
+            <ole:text>string</ole:text>
+          </ole:typeOrSource>
+        </ole:shelvingOrder>
+      </ole:callNumber>
+    </ole:oleHoldings>
+           		]]>
+            </content>
+        </ingestDocument>
+    </requestDocuments>
+</request>

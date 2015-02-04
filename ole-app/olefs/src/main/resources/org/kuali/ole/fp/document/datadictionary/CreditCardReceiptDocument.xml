@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+ Copyright 2007-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean id="CreditCardReceiptDocument" parent="CreditCardReceiptDocument-parentBean"/>
+
+  <bean id="CreditCardReceiptDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
+    <property name="documentTypeName" value="OLE_CCR"/>
+    <property name="documentClass" value="org.kuali.ole.fp.document.CreditCardReceiptDocument"/>
+    <property name="baseDocumentClass" value="org.kuali.ole.fp.document.CreditCardReceiptDocument"/>
+    <property name="businessRulesClass" value="org.kuali.ole.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
+    <property name="documentAuthorizerClass" value="org.kuali.ole.sys.document.authorization.AccountingDocumentAuthorizerBase"/>
+    <property name="documentPresentationControllerClass" value="org.kuali.ole.fp.document.authorization.CreditCardReceiptDocumentPresentationController"/>
+    <property name="importedLineParserClass" value="org.kuali.ole.fp.businessobject.BasicFormatWithLineDescriptionAccountingLineParser" />
+    <property name="sessionDocument" value="true"/>
+    <property name="allowsCopy" value="true"/>
+	<property name="allowsErrorCorrection" value="false"/>
+
+    <property name="attributes">
+      <list>
+        <ref bean="CreditCardReceiptDocument-totalCreditCardAmount"/>
+      </list>
+    </property>
+    <property name="validationMap" ref="CreditCardReceiptDocument-validations"/>
+    <property name="accountingLineGroups">
+    	<map>
+    		<entry>
+    			<key><value>source</value></key>
+	    		<ref bean="CreditCardReceiptDocument-sourceAccountingLineGroup" parent="AccountingLineGroup"/>
+	    	</entry>
+    	</map>
+    </property>
+    <property name="workflowAttributes">
+    	<ref bean="CreditCardReceiptDocument-workflowAttributes"/>
+    </property>    
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="CreditCardReceiptDocument-totalCreditCardAmount" parent="CreditCardReceiptDocument-totalCreditCardAmount-parentBean"/>
+
+  <bean id="CreditCardReceiptDocument-totalCreditCardAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    <property name="name" value="totalCreditCardAmount"/>
+    <property name="label" value="Credit Card Receipt Total"/>
+    <property name="shortLabel" value="Credit Card Receipt Total"/>
+    
+  </bean>
+  
+    
+    <!-- Validations -->
+  
+  <bean id="CreditCardReceiptDocument-validations" parent="CreditCardReceiptDocument-validations-parentBean"/>
+  
+  <bean id="CreditCardReceiptDocument-validations-parentBean" abstract="true" class="org.springframework.beans.factory.config.MapFactoryBean">
+  	<property name="sourceMap">
+		<map key-type="java.lang.Class">
+			<entry>
+				<key><value>org.kuali.ole.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
+				<value>CreditCardReceipt-routeDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.ole.sys.document.validation.event.AttributedSaveDocumentEvent</value></key>
+				<value>CreditCardReceipt-saveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.ole.sys.document.validation.event.AddAccountingLineEvent</value></key>
+				<value>CreditCardReceipt-addAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.ole.sys.document.validation.event.DeleteAccountingLineEvent</value></key>
+				<value>CreditCardReceipt-deleteAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.ole.sys.document.validation.event.UpdateAccountingLineEvent</value></key>
+				<value>CreditCardReceipt-updateAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.ole.sys.document.validation.event.ReviewAccountingLineEvent</value></key>
+				<value>CreditCardReceipt-reviewAccountingLineValidation</value>
+			</entry>
+            <!-- capital accounting lines object sub type check -->		
+			<entry>
+				<key><value>org.kuali.ole.fp.document.validation.event.CapitalAccountingLinesSameObjectCodeSubTypeEvent</value></key>
+				<value>CreditCardReceipt-capitalAccountingLinesObjectSubtypeValidations</value>
+			</entry>
+    	</map>
+    </property>
+  </bean>
+  
+  <!-- accounting line groups -->
+  <bean id="CreditCardReceiptDocument-sourceAccountingLineGroup" parent="CreditCardReceiptDocument-sourceAccountingLineGroup-parentBean"/>  
+  <bean id="CreditCardReceiptDocument-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
+	  <property name="accountingLineView" ref="CreditCardReceiptDocument-accountingLineView"/>
+	  <property name="accountingLineClass" value="org.kuali.ole.sys.businessobject.SourceAccountingLine"/>
+	  <property name="groupLabel" value=""/>
+	  <property name="accountingLineAuthorizerClass" value="org.kuali.ole.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer"/>
+	  <property name="importedLinePropertyPrefix" value="source"/>
+	  <property name="totals" ref="AccountingDocument-sourceGroupTotals"/>
+	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*"/> <!-- note people copying this: AV and JV have extra things that belong here -->
+  </bean>
+	
+  <bean id="CreditCardReceiptDocument-accountingLineView" parent="CreditCardReceiptDocument-accountingLineView-parent"/>
+  <bean id="CreditCardReceiptDocument-accountingLineView-parent" parent="AccountingLineView" abstract="true">
+	  <property name="elements">
+		<list>
+			<bean parent="AccountingLineView-sequenceNumber"/>
+			<bean parent="AccountingLineView-lines">
+				<property name="lines">
+					<list>
+						<ref bean="accountingInformation"/>
+						<bean parent="AccountingLineView-line">
+							<property name="elementName" value="lineDescription"/>
+							<property name="fields">
+								<list>
+									<bean parent="AccountingLineView-field" p:name="financialDocumentLineDescription" p:overrideColSpan="2"/>
+								</list>
+							</property>
+						</bean>
+					</list>
+				</property>
+			</bean>
+			<bean parent="AccountingLineView-field" p:name="amount" p:required="true"/>
+			<bean parent="AccountingLineView-actions"/>
+		</list>
+	</property>
+  </bean>
+  
+  <!-- workflow attributes -->
+	<bean id="CreditCardReceiptDocument-workflowAttributes" parent="CreditCardReceiptDocument-workflowAttributes-parentBean"/>
+	
+	<bean id="CreditCardReceiptDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+		
+	</bean>
+</beans>

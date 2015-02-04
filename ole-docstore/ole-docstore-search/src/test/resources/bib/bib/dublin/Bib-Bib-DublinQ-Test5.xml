@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<dublin_core schema="dc">
+  <dcvalue element="contributor" qualifier="author">Cox, C. Jane</dcvalue>
+  <dcvalue element="contributor" qualifier="author">Buckler, John J.</dcvalue>
+  <dcvalue element="contributor" qualifier="author">Little, Barbara J.</dcvalue>
+  <dcvalue element="contributor" qualifier="author">Lev-Tov, Justin</dcvalue>
+  <dcvalue element="contributor" qualifier="author">Leone, Mark P.</dcvalue>
+  <dcvalue element="date" qualifier="accessioned">2010-12-03T17:07:05Z</dcvalue>
+  <dcvalue element="date" qualifier="available">2010-12-03T17:07:05Z</dcvalue>
+  <dcvalue element="date" qualifier="issued">1995</dcvalue>
+  <dcvalue element="identifier" qualifier="uri">http://hdl.handle.net/1903/11005</dcvalue>
+  <dcvalue element="description" qualifier="abstract">18AP29, the Green Family Printshop, also known as the Jonas Green site, was excavated from 1983 to 1986 by Archaeology in Annapolis and Historic Annapolis Foundation. The site is not only the home of a significant figure in colonial Maryland but is also the location of one of the first colonial printing operations in Maryland. This site represents an important pre-industrial business in Annapolis. While this domestic site is complicated and rich, one of the most fascinating aspect of 18AP29 is the discovery of a large quantity of printers' type. Extensive analysis of the printers' type and documentary research on one of the print shop's products, the colonial newspaper, the Maryland Gazette, provides insights into the print culture which was developing during the 18th and 19th centuries. This report summarizes the stratigraphic analysis, minimum vessel counts, and faunal
+analysis. It provides some description of the printers' type.</dcvalue>
+  <dcvalue element="description" qualifier="provenance">Submitted by Joan Kaminer (jgibson@umd.edu) on 2010-12-02T19:01:59Z
+No. of bitstreams: 4
+ap29 1995.pdf: 50609486 bytes, checksum: af1f1d665e473b87877bc731c2d947f4 (MD5)
+AP29 type collection artifact catalog.xls: 144896 bytes, checksum: d4c120fe4a415759a2d6c44b1eaae047 (MD5)
+AP29 artifact catalog.xls: 6863360 bytes, checksum: 8090dc6ff3bf7c76033d186c3ccfa59f (MD5)
+18AP29 artifact catalog.xls: 6137856 bytes, checksum: 0c4b86858b107bcc8882c34a7c708cde (MD5)</dcvalue>
+  <dcvalue element="description" qualifier="provenance">Approved for entry into archive by Manager for faculty self-deposit collections(drum-help@umd.edu) on 2010-12-03T17:07:05Z (GMT) No. of bitstreams: 4
+ap29 1995.pdf: 50609486 bytes, checksum: af1f1d665e473b87877bc731c2d947f4 (MD5)
+AP29 type collection artifact catalog.xls: 144896 bytes, checksum: d4c120fe4a415759a2d6c44b1eaae047 (MD5)
+AP29 artifact catalog.xls: 6863360 bytes, checksum: 8090dc6ff3bf7c76033d186c3ccfa59f (MD5)
+18AP29 artifact catalog.xls: 6137856 bytes, checksum: 0c4b86858b107bcc8882c34a7c708cde (MD5)</dcvalue>
+  <dcvalue element="description" qualifier="provenance">Made available in DSpace on 2010-12-03T17:07:05Z (GMT). No. of bitstreams: 4
+ap29 1995.pdf: 50609486 bytes, checksum: af1f1d665e473b87877bc731c2d947f4 (MD5)
+AP29 type collection artifact catalog.xls: 144896 bytes, checksum: d4c120fe4a415759a2d6c44b1eaae047 (MD5)
+AP29 artifact catalog.xls: 6863360 bytes, checksum: 8090dc6ff3bf7c76033d186c3ccfa59f (MD5)
+18AP29 artifact catalog.xls: 6137856 bytes, checksum: 0c4b86858b107bcc8882c34a7c708cde (MD5)
+  Previous issue date: 1995</dcvalue>
+  <dcvalue element="subject" qualifier="none">Archaeology</dcvalue>
+  <dcvalue element="subject" qualifier="none">Annapolis, Maryland</dcvalue>
+  <dcvalue element="subject" qualifier="none">Jonas Green Print Shop</dcvalue>
+  <dcvalue element="subject" qualifier="none">Green Family</dcvalue>
+  <dcvalue element="subject" qualifier="none">18AP29</dcvalue>
+  <dcvalue element="subject" qualifier="none">artifact catalog</dcvalue>
+  <dcvalue element="subject" qualifier="none">Maryland Gazette</dcvalue>
+  <dcvalue element="title" qualifier="none">A Summary of Archaeological Excavations from 1983-1986 at the Green Family Print Shop, 18AP29, Annapolis, Maryland</dcvalue>
+  <dcvalue element="relation" qualifier="isAvailableAt">University of Maryland (College Park, Md)</dcvalue>
+  <dcvalue element="relation" qualifier="isAvailableAt">Digital Repository at the University of Maryland</dcvalue>
+</dublin_core>

@@ -1,0 +1,47 @@
+<item>
+    <active>false</active>
+    <category>work</category>
+    <content>&lt;item&gt;
+        &lt;barcodeARSL&gt;bararsl&lt;/barcodeARSL&gt;
+        &lt;volumeNumber&gt;123&lt;/volumeNumber&gt;
+        &lt;enumeration&gt;en&lt;/enumeration&gt;
+        &lt;chronology&gt;12344&lt;/chronology&gt;
+        &lt;callNumber&gt;
+        &lt;number&gt;123&lt;/number&gt;
+        &lt;shelvingScheme&gt;
+        &lt;codeValue&gt;LCC&lt;/codeValue&gt;
+        &lt;/shelvingScheme&gt;
+        &lt;/callNumber&gt;
+        &lt;staffOnlyFlag&gt;false&lt;/staffOnlyFlag&gt;
+        &lt;fastAddFlag&gt;false&lt;/fastAddFlag&gt;
+        &lt;claimsReturnedFlag&gt;false&lt;/claimsReturnedFlag&gt;
+        &lt;/item&gt;</content>
+    <fastAdd>false</fastAdd>
+    <format>oleml</format>
+    <public>false</public>
+    <staffOnly>false</staffOnly>
+    <type>item</type>
+</item><item>
+    <active>false</active>
+    <category>work</category>
+    <content>&lt;item&gt;
+        &lt;barcodeARSL&gt;bararsl&lt;/barcodeARSL&gt;
+        &lt;volumeNumber&gt;123&lt;/volumeNumber&gt;
+        &lt;enumeration&gt;en&lt;/enumeration&gt;
+        &lt;chronology&gt;12344&lt;/chronology&gt;
+        &lt;callNumber&gt;
+        &lt;number&gt;123&lt;/number&gt;
+        &lt;shelvingScheme&gt;
+        &lt;codeValue&gt;LCC&lt;/codeValue&gt;
+        &lt;/shelvingScheme&gt;
+        &lt;/callNumber&gt;
+        &lt;staffOnlyFlag&gt;false&lt;/staffOnlyFlag&gt;
+        &lt;fastAddFlag&gt;false&lt;/fastAddFlag&gt;
+        &lt;claimsReturnedFlag&gt;false&lt;/claimsReturnedFlag&gt;
+        &lt;/item&gt;</content>
+    <fastAdd>false</fastAdd>
+    <format>oleml</format>
+    <public>false</public>
+    <staffOnly>false</staffOnly>
+    <type>item</type>
+</item>

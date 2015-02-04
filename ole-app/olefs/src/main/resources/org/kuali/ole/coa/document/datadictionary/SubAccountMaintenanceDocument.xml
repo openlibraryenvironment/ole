@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd      http://rice.kuali.org/dd      http://rice.kuali.org/dd/dd.xsd">
+<!--
+ Copyright 2007-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean id="SubAccountMaintenanceDocument" parent="SubAccountMaintenanceDocument-parentBean"/>
+
+  <bean id="SubAccountMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.ole.coa.businessobject.SubAccount"/>
+    <property name="maintainableClass" value="org.kuali.ole.coa.document.SubAccountMaintainableImpl"/>
+    <property name="maintainableSections">
+      <list>
+        <ref bean="SubAccountMaintenanceDocument-EditSub-AccountCode"/>
+        <ref bean="SubAccountMaintenanceDocument-EditFinancialReportingCode"/>
+        <!--  Modified to remove the Tabs & Elements of Edit CG Cost Sharing; Edit CG ICR, Indirect Cost Recovery Accounts for Jira-2343 -->
+        <!-- 
+        <ref bean="SubAccountMaintenanceDocument-EditCGCostSharing"/>
+        <ref bean="SubAccountMaintenanceDocument-EditCGICR"/>
+        <ref bean="SubAccountMaintenanceDocument-IndirectCostRecoveryAccounts"/>  -->
+      </list>
+    </property>
+    <property name="defaultExistenceChecks">
+      <list>
+        <bean parent="ReferenceDefinition" p:attributeName="chart" p:attributeToHighlightOnFail="chartOfAccountsCode" p:displayFieldName="Chart Code"/>
+        <bean parent="ReferenceDefinition" p:attributeName="account" p:attributeToHighlightOnFail="accountNumber" p:displayFieldName="Account Number"/>
+        <bean parent="ReferenceDefinition" p:attributeName="financialReportChart" p:attributeToHighlightOnFail="financialReportChartCode" p:displayFieldName="Financial Reporting Chart Code"/>
+        <bean parent="ReferenceDefinition" p:attributeName="reportingCode" p:attributeToHighlightOnFail="financialReportingCode" p:displayFieldName="Financial Reporting Code for this Financial Reporting Chart Code and Financial Reporting Org Code combination"/>
+      </list>
+    </property>
+    <property name="lockingKeys">
+      <list>
+        <value>chartOfAccountsCode</value>
+        <value>accountNumber</value>
+        <value>subAccountNumber</value>
+      </list>
+    </property>
+    <property name="documentTypeName" value="OLE_SACC"/>
+    <property name="businessRulesClass" value="org.kuali.ole.coa.document.validation.impl.SubAccountRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.ole.coa.document.authorization.SubAccountDocumentAuthorizer"/>
+    <property name="documentPresentationControllerClass" value="org.kuali.ole.coa.document.authorization.SubAccountMaintenanceDocumentPresentationController"/>
+    <property name="promptBeforeValidationClass" value="org.kuali.ole.coa.document.validation.impl.SubAccountPreRules"/>
+    <property name="webScriptFiles">
+      <list>
+        <value>../dwr/interface/AccountService.js</value>
+        <value>../dwr/interface/A21SubAccountService.js</value>                  
+        <value>../scripts/coa/subAccountDocument.js</value>  
+      </list>
+    </property>
+    <property name="workflowAttributes">
+      <ref bean="SubAccountMaintenanceDocument-workflowAttributes"/>
+    </property>
+  </bean>
+
+  <!-- Maintenance Section Definitions -->
+  <bean id="SubAccountMaintenanceDocument-EditSub-AccountCode" parent="SubAccountMaintenanceDocument-EditSub-AccountCode-parentBean"/>
+
+  <bean id="SubAccountMaintenanceDocument-EditSub-AccountCode-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Sub-Account Code"/>
+    <property name="title" value="Edit Sub-Account Code"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="accountNumber" p:required="true" p:webUILeaveFieldFunction="onblur_accountNumberPK"/>        
+        <bean parent="MaintainableFieldDefinition" p:name="subAccountNumber" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="subAccountName" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="a21SubAccount.subAccountTypeCode" p:defaultValue="EX" p:required="true" p:webUILeaveFieldFunction="onblur_subAccountTypeCode"/>
+      </list>
+    </property>
+  </bean>
+  <bean id="SubAccountMaintenanceDocument-EditFinancialReportingCode" parent="SubAccountMaintenanceDocument-EditFinancialReportingCode-parentBean"/>
+
+  <bean id="SubAccountMaintenanceDocument-EditFinancialReportingCode-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Financial Reporting Code"/>
+    <property name="title" value="Edit Financial Reporting Code"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="financialReportChartCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="finReportOrganizationCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="financialReportingCode"/>
+      </list>
+    </property>
+  </bean>
+  <bean id="SubAccountMaintenanceDocument-EditCGCostSharing" parent="SubAccountMaintenanceDocument-EditCGCostSharing-parentBean"/>
+
+  <bean id="SubAccountMaintenanceDocument-EditCGCostSharing-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit CG Cost Sharing"/>
+    <property name="title" value="Edit CG Cost Sharing"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="a21SubAccount.costShareChartOfAccountCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="a21SubAccount.costShareSourceAccountNumber" p:webUILeaveFieldFunction="onblur_accountNumberA21Sub">        	
+			<property name="webUILeaveFieldFunctionParameters">
+				<list>
+					<value>a21SubAccount.costShareChartOfAccountCode</value>
+				</list>
+			</property>         	
+        </bean>
+        <bean parent="MaintainableFieldDefinition" p:name="a21SubAccount.costShareSourceSubAccountNumber"/>
+      </list>
+    </property>
+  </bean>
+  <bean id="SubAccountMaintenanceDocument-EditCGICR" parent="SubAccountMaintenanceDocument-EditCGICR-parentBean"/>
+
+  <bean id="SubAccountMaintenanceDocument-EditCGICR-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit CG ICR"/>
+    <property name="title" value="Edit CG ICR"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="a21SubAccount.financialIcrSeriesIdentifier" p:overrideFieldConversions="financialIcrSeriesIdentifier:a21SubAccount.financialIcrSeriesIdentifier" p:overrideLookupClass="org.kuali.ole.coa.businessobject.IndirectCostRecoveryRateDetail"/><bean parent="MaintainableFieldDefinition" p:name="a21SubAccount.indirectCostRecoveryTypeCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="a21SubAccount.offCampusCode" p:defaultValue="false"/>
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="SubAccountMaintenanceDocument-IndirectCostRecoveryAccounts" parent="SubAccountMaintenanceDocument-IndirectCostRecoveryAccounts-parentBean"/>
+  
+  <bean id="SubAccountMaintenanceDocument-IndirectCostRecoveryAccounts-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="indirectCostRecoveryAccounts"/>
+    <property name="title" value="Indirect Cost Recovery Accounts"/>
+    <property name="maintainableItems">
+      <list>
+          <bean parent="MaintainableCollectionDefinition">
+            <property name="name" value="a21SubAccount.a21IndirectCostRecoveryAccounts"/>
+            <property name="businessObjectClass" value="org.kuali.ole.coa.businessobject.A21IndirectCostRecoveryAccount"/>
+            <property name="summaryTitle" value="Indirect Cost Recovery Account"/>
+            <property name="summaryFields">
+              <list>
+                <dd:maintField attributeName="indirectCostRecoveryFinCoaCode"/>
+                <dd:maintField attributeName="indirectCostRecoveryAccountNumber"/>
+                <dd:maintField attributeName="accountLinePercent"/>
+              </list>
+            </property>
+            <property name="maintainableFields">
+              <list>
+                <bean parent="MaintainableFieldDefinition" p:name="a21IndirectCostRecoveryAccountGeneratedIdentifier" p:unconditionallyReadOnly="true"/>
+                <dd:maintField attributeName="indirectCostRecoveryFinCoaCode"/>
+                <bean parent="MaintainableFieldDefinition" p:name="indirectCostRecoveryAccountNumber" p:webUILeaveFieldFunction="onblur_accountNumber_newAccount">
+                  <property name="webUILeaveFieldFunctionParameters">
+                    <list>
+                      <value>indirectCostRecoveryFinCoaCode</value>
+                    </list>
+                  </property> 
+                </bean>      
+                <dd:maintField attributeName="accountLinePercent" />
+                <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
+                <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>
+              </list>
+            </property>
+          </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- workflow attributes -->
+  	<bean id="SubAccountMaintenanceDocument-workflowAttributes" parent="SubAccountMaintenanceDocument-workflowAttributes-parentBean"/>
+  
+	<bean id="SubAccountMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+		<property name="routingTypeDefinitions">
+    		<map>
+	    		<entry key="Account" value-ref="RoutingType-MaintenanceDocument-Account"/>
+    			<entry key="OrganizationHierarchy" value-ref="RoutingType-MaintenanceDocument-OrganizationHierarchy-OrgFromAccount"/>
+    		</map>
+		</property>
+	</bean>
+ 
+</beans>

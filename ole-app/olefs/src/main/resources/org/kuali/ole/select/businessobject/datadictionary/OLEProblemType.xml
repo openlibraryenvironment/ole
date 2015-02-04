@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="OLEProblemType" parent="OLEProblemType-parentBean"/>
+    <bean id="OLEProblemType-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.select.bo.OLEProblemType"/>
+        <property name="titleAttribute" value="problemTypeName"/>
+        <property name="objectLabel" value="Problem Type"/>
+        <property name="attributes">
+            <list>
+                <ref bean="OLEProblemType-problemTypeId"/>
+                <ref bean="OLEProblemType-problemTypeName"/>
+                <ref bean="OLEProblemType-problemTypeDesc"/>
+                <ref bean="OLEProblemType-active"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+    <bean id="OLEProblemType-problemTypeId" parent="OLEProblemType-problemTypeId-parentBean"/>
+    <bean id="OLEProblemType-problemTypeId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="problemTypeId"/>
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
+    <bean id="OLEProblemType-problemTypeName" parent="OLEProblemType-problemTypeName-parentBean"/>
+    <bean id="OLEProblemType-problemTypeName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Name"/>
+        <property name="maxLength" value="40"/>
+        <property name="name" value="problemTypeName"/>
+        <property name="label" value="Name"/>
+        <property name="description" value="Name"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLEProblemType-problemTypeDesc" parent="OLEProblemType-problemTypeDesc-parentBean"/>
+    <bean id="OLEProblemType-problemTypeDesc-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Description"/>
+        <property name="maxLength" value="100"/>
+        <property name="name" value="problemTypeDesc"/>
+        <property name="label" value="Description"/>
+        <property name="description" value="Description"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLEProblemType-active" parent="OLEProblemType-active-parentBean"/>
+    <bean id="OLEProblemType-active-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="active"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="active"/>
+        <property name="maxLength" value="1"/>
+        <property name="summary" value="Active Indicator"/>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+        <property name="label" value="Active Indicator"/>
+        <property name="description"
+                  value="This attribute is used to describe whether the associated object is active or inactive."/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-CheckboxControl"/>
+        </property>
+    </bean>
+
+    <!-- Inquiry View -->
+
+    <bean id="OLEProblemType-InquiryView" parent="Uif-OLEInquiryView">
+        <property name="headerText" value="Problem Type Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OLEProblemType"/>
+
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-VerticalBoxSection">
+                    <property name="header.headerText" value="Problem Type"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-GridGroup">
+                                <property name="items">
+                                    <list>
+                                        <bean id="inquiry_problemTypeId" parent="Uif-InputField"
+                                              p:propertyName="problemTypeId"/>
+                                        <bean id="inquiry_problemTypeName" parent="Uif-InputField"
+                                              p:propertyName="problemTypeName"/>
+                                        <bean id="inquiry_problemTypeDesc" parent="Uif-InputField"
+                                              p:propertyName="problemTypeDesc"/>
+                                        <bean id="inquiry_active" parent="Uif-InputField" p:propertyName="active"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Lookup View -->
+
+    <bean id="OLEProblemType-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="Problem Type Lookup"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OLEProblemType"/>
+        <property name="criteriaFields">
+            <list>
+                <bean id="problemTypeName" parent="Uif-LookupCriteriaInputField"
+                      p:propertyName="problemTypeName" p:enableAutoDirectInquiry="false"/>
+                <bean id="problemTypeDesc" parent="Uif-LookupCriteriaInputField"
+                      p:propertyName="problemTypeDesc"/>
+                <bean id="active" parent="Uif-LookupCriteriaInputField" p:propertyName="active"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean id="searchResult_problemTypeName" parent="Uif-DataField"
+                      p:propertyName="problemTypeName"/>
+                <bean id="searchResult_problemTypeDesc" parent="Uif-DataField"
+                      p:propertyName="problemTypeDesc"/>
+                <bean id="searchResult_active" parent="Uif-DataField" p:propertyName="active"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

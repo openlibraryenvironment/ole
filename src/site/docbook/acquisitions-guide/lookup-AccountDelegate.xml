@@ -1,0 +1,959 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"
+    version="5.0" xml:lang="en-US">
+    <title>Lookup (Account Delegate) Maintenance E-Docs</title>
+    <para role="Body Text"><inlinemediaobject>
+            <alt>Maintenance</alt>
+            <imageobject>
+                <imagedata fileref="../images/maintenanceMenu.png"/>
+            </imageobject>
+        </inlinemediaobject><emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+            <alt>Lookup</alt>
+            <imageobject>
+                <imagedata fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-91.png"/>
+            </imageobject>
+        </inlinemediaobject>
+        <emphasis role="bold">&gt;<inlinemediaobject>
+                <alt>Account Delegate Links</alt>
+                <imageobject>
+                    <imagedata fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-92.png"
+                    />
+                </imageobject>
+            </inlinemediaobject>
+        </emphasis></para>
+    <para role="Body Text">Account delegate e-documents are available via the Lookup submenu on the
+            <emphasis role="bold">Maintenance</emphasis> menu. </para>
+    <section>
+        <title><anchor xml:id="_accountDelegate"/>Account Delegate</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                <alt>Lookup</alt>
+                <imageobject>
+                    <imagedata fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-91.png"
+                    />
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Account Delegate</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-93.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Account Delegate Lookup</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-180.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Account Delegate</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-183.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para>The Account Delegate document is used to establish new Account Delegates or to copy or
+            edit existing Account Delegates. Account Delegates are OLE users that are authorized
+            under certain circumstances to take workflow actions on a document in the place of an
+            account's Fiscal Officer. An authorized delegate can take any action that is available
+            to a Fiscal Officer, including the power to approve and disapprove transactions.</para>
+        <para>Account delegation is specific to an account and a document type and may also be
+            limited based on the dollar amount of the document. Delegation only allows a user to
+            approve in the Fiscal Officer's place, when a document is at the account routing level.
+            If for example, a document is routed to an account's Fiscal Officer as part of Org
+            Review Routing, the Delegate would not be authorized to approve that action
+            request.</para>
+        <para>There are two types of delegates that can be established: primary and
+            secondary.</para>
+        <para>Documents route directly to a Primary Delegate's action list. These documents do not
+            appear in the Fiscal Officer's action list unless the Fiscal Officer applies a special
+            filter to their action list allowing them to view the documents routed to the Primary
+            Delegate.</para>
+        <para>Documents do not route directly to a Secondary Delegate's action list. Instead, the
+            documents route to the Fiscal Officer's action list (or the Primary Delegate, if
+            applicable) and the Secondary Delegate must apply a special filter to their action list
+            to see and take action on these documents.</para>
+        <para>The Account Delegate document comes with a global document and model document options.
+            The global document allows you to make certain changes to a group of accounts at once
+            whereas the model option allows you to make a template for a group of global documents.
+            The feature of the Account Delegate Global document and Account Delegate Model document
+            are explained in the section following the Account Delegate document.</para>
+        <note>
+            <para>The Account Delegate Global document replaces all existing delegation for an
+                account instead of updating the existing delegation.</para>
+        </note>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Account Delegate Document</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-181.png"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Body Text">The Billing Address document includes the <emphasis role="bold"
+                    >Edit Billing Address</emphasis> tab. The system automatically enters data into
+                both the <emphasis role="bold">Old</emphasis> and <emphasis role="bold"
+                    >New</emphasis> sections in this tab. Selected data fields are available for
+                editing.</para>
+            <para role="TableHeading"><emphasis role="bold">Edit Billing Address tab
+                    definition</emphasis></para>
+            <informaltable frame="topbot">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Description</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Chart Code </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. Enter the chart code associated
+                                    with the account number for which authority is being delegated
+                                    or search for it from the <emphasis role="bold">Chart
+                                    </emphasis>lookup <inlinemediaobject>
+                                        <imageobject>
+                                            <imagedata fileref="../images/Lookup.png"/>
+                                        </imageobject>
+                                    </inlinemediaobject>.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Account Number</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. Enter the account number for
+                                    which authority is being delegated or search for it from the
+                                        <emphasis role="bold">Account </emphasis>lookup <inlinemediaobject>
+                                        <imageobject>
+                                            <imagedata fileref="../images/Lookup.png"/>
+                                        </imageobject>
+                                    </inlinemediaobject>.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Document Type Code</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. Enter the document type code for
+                                    OLE transaction for which authority is being delegated, or
+                                    search for it from the <emphasis role="bold">Document
+                                        Type</emphasis> lookup <inlinemediaobject>
+                                        <imageobject>
+                                            <imagedata fileref="../images/Lookup.png"/>
+                                        </imageobject>
+                                    </inlinemediaobject>. The higher on the document type hierarchy
+                                    the code is, the more access the user will have. For example,
+                                    you might enter OLET and OLEM to route all transactional and
+                                    maintenance documents with an account number to a
+                                    delegate.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Account Delegate Principal Name</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. Enter the user ID of the person
+                                    to which authority is being delegated, or search for it from the
+                                        <emphasis role="bold">Principal</emphasis> lookup <inlinemediaobject>
+                                        <imageobject>
+                                            <imagedata fileref="../images/Lookup.png"/>
+                                        </imageobject>
+                                    </inlinemediaobject>
+                                </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">From Amount</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Optional Enter the minimum dollar amount of
+                                    a transaction for which the delegate is authorized. For example,
+                                    if a delegate is established with a From amount of $1,000 then a
+                                    transaction for $500 is not eligible for the delegate's action.
+                                    Note that not all OLE documents have a dollar amount associated
+                                    with them.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">To Amount</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Optional. Enter the maximum dollar amount
+                                    of a transaction for which the delegate is authorized. For
+                                    example, if a delegate is established with a To amount of
+                                    $1,000, a transaction for $1,500 is not eligible for the
+                                    delegate's action. The value of zero in this field represents
+                                    infinity.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Account Primary Delegate Route</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Optional. Select the check box if the
+                                    delegate is to be set as a primary delegate who receives
+                                    documents directly in their workflow action list.</para>
+                                <note>
+                                    <para>If this check box is not selected, it indicates the
+                                        delegate is secondary and has to use a filter in their
+                                        workflow action list to see documents they are authorized to
+                                        approve. </para>
+                                </note>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Account Delegate Active</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Optional. Select the check box if the
+                                    delegate is active and can take action on authorized documents.
+                                    Clear the check box to inactivate an existing delegate.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Account Delegate Start Date</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. Enter the date on which the
+                                    delegation is to become effective.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+            <para/>
+            <note>
+                <para>If both <emphasis role="bold">From Amount</emphasis> and <emphasis role="bold"
+                        >To Amount</emphasis> are set to '0.00,' then the delegate is authorized to
+                    take action on the designated documents(s) without any dollar limit. </para>
+            </note>
+            <para/>
+        </section>
+        <section>
+            <title>Process Overview</title>
+            <para/>
+            <section>
+                <title>Business Rules</title>
+                <itemizedlist>
+                    <listitem>
+                        <para>An Account Delegate document establishing a Primary Delegate cannot be
+                            submitted if a Primary Delegate already exists for the account and
+                            document type.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Account Delegate Start Date must be greater than or equal to the
+                            current date.</para>
+                    </listitem>
+                </itemizedlist>
+            </section>
+            <section>
+                <title>Routing</title>
+                <itemizedlist>
+                    <listitem>
+                        <para>Account Delegate documents routes for account level approval to the
+                            Fiscal Officer based on the account on the document.</para>
+                    </listitem>
+                    <listitem>
+                        <para>The Account Delegate document also routes for Org Review based on the
+                            organization associated with the account on the document and then for
+                            chart manager approval based on the chart assigned to the
+                            account.</para>
+                    </listitem>
+                </itemizedlist>
+            </section>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_accountDelegateGlobal"/>Account Delegate Global</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                <alt>Lookup</alt>
+                <imageobject>
+                    <imagedata fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-91.png"
+                    />
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Account Delegate Global</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-97.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Account Delegate Global Lookup</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-184.png"/>
+                    </imageobject>
+                </inlinemediaobject>
+            </emphasis></para>
+        <note>
+            <para>For general information about accessing and working with global documents, see
+                    <link linkend="_globalCOADocuments">Global COA E-Docs</link>. </para>
+        </note>
+        <para>The Account Delegate Global document allows you to create delegates for multiple
+            document types on one or more accounts on a single document. Unlike the other global
+            documents, you may initiate it by entering information from scratch or by populating the
+            document from a model you choose. Although the use of a model document is not a
+            requirement, it is a convenient way of initiating the Account Delegate Global document
+            when you have many delegates to define.</para>
+        <section>
+            <title>Creating New Global from Scratch</title>
+            <orderedlist>
+                <listitem>
+                    <para>From the <emphasis role="bold">Lookup</emphasis> submenu on the <emphasis
+                            role="bold">Maintenance</emphasis> Menu, choose <emphasis role="bold"
+                            >Account Delegate Global</emphasis>.</para>
+                    <para>The system displays the Account Delegate Global document</para>
+                </listitem>
+                <listitem>
+                    <para>Enter values as appropriate and click <inlinemediaobject>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-82.png"/>
+                            </imageobject>
+                        </inlinemediaobject>.</para>
+                </listitem>
+            </orderedlist>
+        </section>
+        <section>
+            <title><anchor xml:id="_creatingNewGlobalFromModel"/>Creating New Global from
+                Model</title>
+            <orderedlist>
+                <listitem>
+                    <para>From the <emphasis role="bold">Lookup</emphasis> submenu on the <emphasis
+                            role="bold">Maintenance</emphasis> Menu, choose <emphasis role="bold"
+                            >Account Delegate Global from Model</emphasis>.</para>
+                    <para>The system displays the Account Delegate Global from Model Lookup.</para>
+                </listitem>
+                <listitem>
+                    <para>Search for the model you want by entering search criteria and clicking <inlinemediaobject>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-70.png"
+                                />
+                            </imageobject>
+                        </inlinemediaobject>.</para>
+                </listitem>
+                <listitem>
+                    <para>When you find the appropriate model name, click the <emphasis role="bold"
+                            >return value</emphasis> link.</para>
+                    <para>The system displays the Account Delegate Global document populated with
+                        data from your selected model.</para>
+                    <para/>
+                    <para role="Illustration">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Edit Global Delegate Tab</alt>
+                                <imageobject>
+                                    <imagedata
+                                        fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-154.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                </listitem>
+            </orderedlist>
+            <tip>
+                <para><emphasis role="bold">The Advantage of Using a Model as a Starting Point:
+                    </emphasis>OLE allows you to add, edit and delete data on the Account Delegate
+                    Global document after the items have been populated from the model. Therefore,
+                    if you find a model that is close to what you want, you can use it as a starting
+                    point for your work.</para>
+            </tip>
+        </section>
+        <section>
+            <title>Document Layout</title>
+            <para>The Account Delegate Global document contains the <emphasis role="bold">Edit
+                    Global Delegate </emphasis>tab and <emphasis role="bold">Edit List of
+                    Accounts</emphasis> tab.</para>
+            <para/>
+            <para>
+                <screenshot>
+                    <mediaobject>
+                        <alt>Account Delegate Global Document</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-155.png"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <section>
+                <title>Edit Global Delegate Tab</title>
+                <para>The <emphasis role="bold">Edit Global Delegate </emphasis>tab works much as
+                    the <emphasis role="bold">Edit Account Delegate</emphasis> tab of the Account
+                    Delegate document works. This tab contains all the non-account attributes that
+                    can be modified on this document. The required fields on the Account Delegate
+                    Global document are the same as the required fields on the Account Delegate
+                    document. </para>
+                <tip>
+                    <para>The Account Delegate Global document does not update existing records; it
+                        creates new records which replace any existing records. For example, if
+                        1031400 account has a CREQ (AP Check Request) delegate, and a Account
+                        Delegate Global document is submitted for 1031400 that creates a delegate
+                        for TF (Transfer of Funds) and DV (Disbursement Voucher) but does not
+                        specify one for CREQ, the existing CREQ delegation becomes inactive. </para>
+                </tip>
+                <para/>
+                <para>
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Edit Global Delegate Tab</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-156.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para/>
+                <note>
+                    <para>For more information about how to complete the <emphasis role="bold">Edit
+                            Global Delegate</emphasis> tab, see <link linkend="_accountDelegate"
+                            >Account Delegate</link>.</para>
+                </note>
+            </section>
+            <section>
+                <title>Edit List of Accounts Tab</title>
+                <para>There are two ways to populate the accounts that you want to update globally
+                    in the <emphasis role="bold">Edit List of Accounts</emphasis> tab. One is by
+                    manually entering or selecting one account at a time from the normal <emphasis
+                        role="bold">Account</emphasis> lookup <inlinemediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/Lookup.png"/>
+                        </imageobject>
+                    </inlinemediaobject>, the other is by using a special multiple value lookup
+                    called the <emphasis role="bold">Look Up / Add Multiple Account Lines</emphasis>
+                    <inlinemediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/Lookup.png"/>
+                        </imageobject>
+                    </inlinemediaobject> to return multiple values.</para>
+                <note>
+                    <para>For information about how to use the multiple value lookup, see <link
+                        xlink:href="../../../webhelp/BASICS/content/ch02s01.html#_multipleValueLookup">Multiple Value
+                        Lookup</link> on the <link xlink:href="../../../webhelp/BASICS/content/pr01.html"><emphasis>Guide to OLE Basic Functionality and Key
+                            Concepts</emphasis></link>.</para>
+                </note>
+            </section>
+        </section>
+        <section>
+            <title>Process Overview</title>
+            <section>
+                <title>Business Rules</title>
+                <itemizedlist>
+                    <listitem>
+                        <para>The Account Delegate Global document is subject to the same business
+                            rules as the Account Delegate document. In addition, at least one
+                            account must be selected on the <emphasis role="bold">Edit List of
+                                Accounts</emphasis> tab.</para>
+                    </listitem>
+                </itemizedlist>
+            </section>
+            <section>
+                <title>Routing</title>
+                <itemizedlist>
+                    <listitem>
+                        <para>The Account Delegate Global document routes to the Chart Manager for
+                            every chart represented in the accounts being modified, and then to the
+                            University Chart Manager.</para>
+                    </listitem>
+                </itemizedlist>
+            </section>
+            <section>
+                <title>Initiating an Account Delegate Global Document</title>
+                <orderedlist>
+                    <listitem>
+                        <para> Complete the <emphasis role="bold">Edit Global Delegate</emphasis>
+                            tab.</para>
+                    </listitem>
+                    <listitem>
+                        <para>To add multiple accounts to the <emphasis role="bold">Edit List of
+                                Accounts</emphasis> tab, click the <emphasis role="bold">Look Up /
+                                Add Multiple Account Lines lookup </emphasis>
+                            <inlinemediaobject>
+                                <imageobject>
+                                    <imagedata fileref="../images/Lookup.png"/>
+                                </imageobject>
+                            </inlinemediaobject>.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Enter the desired search criteria to search for the accounts you want
+                            to include and click <inlinemediaobject>
+                                <alt>Search</alt>
+                                <imageobject>
+                                    <imagedata
+                                        fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-70.png"
+                                    />
+                                </imageobject>
+                            </inlinemediaobject>.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Once the result is returned, select check boxes to make your account
+                            selection and click . The selected accounts are returned to the
+                                <emphasis role="bold">Edit List of Accounts </emphasis> tab.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Click <emphasis role="bold"> submit.</emphasis>.</para>
+                    </listitem>
+                </orderedlist>
+            </section>
+            <section>
+                <title>Adding One Account at a Time</title>
+                <orderedlist>
+                    <listitem>
+                        <para>Complete the <emphasis role="bold">Edit Global Delegate</emphasis>
+                            tab.</para>
+                    </listitem>
+                    <listitem>
+                        <para>To add one account at a time, enter the values or use the <emphasis
+                                role="bold">Account</emphasis> lookup <inlinemediaobject>
+                                <imageobject>
+                                    <imagedata fileref="../images/Lookup.png"/>
+                                </imageobject>
+                            </inlinemediaobject>.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Search for an account and click the <inlinemediaobject>
+                                <alt>return value</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/basic-link.png"/>
+                                </imageobject>
+                            </inlinemediaobject> link associated with the account you want to
+                            select.</para>
+                        <note>
+                            <para> For information about field lookup and multiple value lookup, see
+                                <link xlink:href="../../../webhelp/BASICS/content/ch02s01.html#_fieldLookup">Field
+                                    Lookup</link>and <link
+                                        xlink:href="../../../webhelp/BASICS/content/ch02s01.html#_multipleValueLookup">Multiple
+                                        Value Lookup</link> on the <link xlink:href="../../../webhelp/BASICS/content/pr01.html"><emphasis>Guide to OLE Basic
+                                    Functionality and Key Concepts</emphasis></link>.</para>
+                        </note>
+                    </listitem>
+                    <listitem>
+                        <para>Click <inlinemediaobject>
+                                <imageobject>
+                                    <imagedata fileref="../images/VendorNoTitlePage-88.png"/>
+                                </imageobject>
+                            </inlinemediaobject> to add the account to the list.</para>
+                    </listitem>
+                </orderedlist>
+            </section>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_accountDelegateGlobalFromModel"/>Account Delegate Global From
+            Model</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                <alt>Lookup</alt>
+                <imageobject>
+                    <imagedata fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-91.png"
+                    />
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Account Delegate Global From Model</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-99.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Account Delegate Model Lookup</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-157.png"/>
+                    </imageobject>
+                </inlinemediaobject>
+            </emphasis></para>
+        <note>
+            <para>For information on the Account Delegate Global from Model function, see <link
+                    linkend="_creatingNewGlobalFromModel">Creating New Global From
+                Model</link></para>
+        </note>
+    </section>
+    <section>
+        <title><anchor xml:id="_accountDelegateModel"/>Account Delegate Model</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                <alt>Lookup</alt>
+                <imageobject>
+                    <imagedata fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-91.png"
+                    />
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Account Delegate Model</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-105.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Account Delegate Model Lookup</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-157.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Account Delegate Model</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-160.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para>The Account Delegate Model document allows you to create a model for the Account
+            Global documents so that you can define a common delegation structure for a group of
+            accounts easily. After the models are created, you may use them from the <emphasis
+                role="bold">Create New Global from Model </emphasis>menu option.</para>
+        <note>
+            <para> For information about the Create New Global from Model option, see <link
+                    linkend="_creatingNewGlobalFromModel">Creating New Global From
+                Model</link>.</para>
+        </note>
+        <section>
+            <title>Document Layout</title>
+            <para>The Account Delegate Model document includes the <emphasis role="bold">Edit
+                    Account Delegate Model</emphasis> and the <emphasis role="bold">Edit Delegates
+                    for Model</emphasis> tabs. The former defines the name of the model and the
+                latter defines the characteristics of the model.</para>
+            <para/>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Account Delegate Model Document</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-159.png"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <section>
+                <title>Edit Account Delegate Model Tab</title>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Edit Account Delegate Model Tab</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-168.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para/>
+                <para role="TableHeading"><emphasis role="bold">Edit Account Delegate Model tab
+                        definition</emphasis></para>
+                <informaltable frame="topbot">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Chart of Accounts Code</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the Chart of Accounts
+                                        code that the model is used for or search for it from the
+                                            <emphasis role="bold">Chart </emphasis>lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Organization Code</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the organization code
+                                        that the model is used for or search for it from the
+                                            <emphasis role="bold">Organization </emphasis>lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Account Delegate Model Name</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the name of this
+                                        model.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Active Indicator</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Indicates whether this account delegate
+                                        model is active or inactive. Remove the check mark to
+                                        deactivate this type.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+            <section>
+                <title>Edit Delegates for Model Tab</title>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Edit Delegates for Model Tab</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-161.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para/>
+                <para role="TableHeading"><emphasis role="bold">Edit Delegate for Model tab
+                        definition</emphasis></para>
+                <informaltable frame="topbot">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Document Type Code</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the document type code
+                                        for this delegation or search for it from the <emphasis
+                                            role="bold">Document Type Code </emphasis>lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>.</para>
+                                    <tip>
+                                        <para>Enter 'ALL' to establish the delegation for all
+                                            document types that route to the Account level.</para>
+                                    </tip>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Account Delegate Primary Route</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Select the check box if it is
+                                        a primary delegate. Clear the check box, if it is a
+                                        secondary delegate.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Account Delegate Start Date</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the date on which the
+                                        delegation starts, or select it from the calendar <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata
+                                                  fileref="../images/basic-miniCalendar.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Approval From This Amount</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Enter the minimum range of
+                                        the dollar amount for which this delegation is authorized.
+                                        For example, if a delegate is established with a From amount
+                                        of $1,000 then a transaction for $500 is not eligible for
+                                        the delegate's action. Note that not all OLE documents have
+                                        a dollar amount associated with them. The value of zero
+                                        means that you do not have the minimum range defined for
+                                        this delegation.</para>
+                                    <note>
+                                        <para>Not all OLE financial documents have a dollar amount
+                                            associated with them.</para>
+                                    </note>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Approval To This Amount</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Enter the maximum range of
+                                        the dollar amount for which this delegation is applied to.
+                                        For example, if a delegate is established with a To amount
+                                        of $1,000 a transaction for $1,500 is not eligible for the
+                                        delegate's action. The value of '0' means that you do not
+                                        have the maximum range defined for this delegation.</para>
+                                    <note>
+                                        <para>Not all OLE financial documents have a dollar amount
+                                            associated with them.</para>
+                                    </note>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Account Delegate Primary Name</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the User ID for the
+                                        delegate, or search for it from <emphasis role="bold"
+                                            >User</emphasis> lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Active Indicator</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Indicates whether this account delegate
+                                        model is active or inactive. Remove the check mark to
+                                        deactivate this type.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+        </section>
+        <section>
+            <title>Process Overview</title>
+            <section>
+                <title>Routing</title>
+                <para>The Account Delegate Global Model document routes to Organization Review,
+                    Chart Manager, and University Chart Manager.</para>
+            </section>
+            <section>
+                <title>Initiating an Account Delegate Model Document</title>
+                <orderedlist>
+                    <listitem>
+                        <para>Select <emphasis role="bold">Account Delegate Model</emphasis> from
+                            the <emphasis role="bold">Lookup</emphasis> submenu on the <emphasis
+                                role="bold">Maintenance</emphasis> men.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Click <inlinemediaobject>
+                                <alt>Create New</alt>
+                                <imageobject>
+                                    <imagedata
+                                        fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-281.png"
+                                    />
+                                </imageobject>
+                            </inlinemediaobject>.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Complete the standard tabs such as <emphasis role="bold">Document
+                                Overview</emphasis>, <emphasis role="bold">Notes and
+                                Attachments</emphasis>, and <emphasis role="bold">Ad Hoc
+                                Recipients</emphasis> tabs.</para>
+                        <note>
+                            <para>For information about the common financial transaction tabs such
+                                as <emphasis role="bold">Document Overview</emphasis>, <emphasis
+                                    role="bold">Notes and Attachments</emphasis>, and <emphasis
+                                    role="bold">Ad Hoc Recipients</emphasis><emphasis role="bold">,
+                                        <emphasis role="bold">Route Log</emphasis></emphasis> tabs,
+                                see <link xlink:href="../../../webhelp/BASICS/content/ch02s02.html">Standard
+                                    Tabs</link> on the <link xlink:href="../../../webhelp/BASICS/content/pr01.html"><emphasis>Guide to OLE Basic Functionality
+                                    and Key Concepts</emphasis></link>.</para>
+                        </note>
+                    </listitem>
+                    <listitem>
+                        <para>Complete the <emphasis role="bold">Edit Delegates for Model</emphasis>
+                            tab and click <inlinemediaobject>
+                                <imageobject>
+                                    <imagedata fileref="../images/VendorNoTitlePage-88.png"/>
+                                </imageobject>
+                            </inlinemediaobject>. Repeat this step for as many delegates as
+                            necessary.</para>
+                        <para> </para>
+                    </listitem>
+                    <listitem>
+                        <para>Click <inlinemediaobject>
+                                <alt>Submit</alt>
+                                <imageobject>
+                                    <imagedata
+                                        fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-82.png"
+                                    />
+                                </imageobject>
+                            </inlinemediaobject>.</para>
+                    </listitem>
+                </orderedlist>
+            </section>
+        </section>
+    </section>
+</chapter>

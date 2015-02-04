@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+<!--
+ Copyright 2007-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean id="NonCheckDisbursementDocument" parent="NonCheckDisbursementDocument-parentBean"/>
+
+  <bean id="NonCheckDisbursementDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
+    <property name="allowsErrorCorrection" value="true"/>
+    <property name="documentTypeName" value="OLE_ND"/>
+    <property name="documentClass" value="org.kuali.ole.fp.document.NonCheckDisbursementDocument"/>
+    <property name="baseDocumentClass" value="org.kuali.ole.fp.document.NonCheckDisbursementDocument"/>
+    <property name="businessRulesClass" value="org.kuali.ole.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
+    <property name="documentAuthorizerClass" value="org.kuali.ole.sys.document.authorization.AccountingDocumentAuthorizerBase"/>
+    <property name="documentPresentationControllerClass" value="org.kuali.ole.fp.document.authorization.NonCheckDisbursementDocumentPresentationController"/>
+    <property name="promptBeforeValidationClass" value="org.kuali.ole.fp.document.validation.impl.NonCheckDisbursementDocumentPreRules"/>
+    <property name="importedLineParserClass" value="org.kuali.ole.fp.businessobject.NonCheckDisbursementDocumentAccountingLineParser" />
+    <property name="sessionDocument" value="true"/>
+    <property name="allowsCopy" value="true"/>
+
+    <property name="validationMap" ref="NonCheckDisbursementDocument-validations"/>
+    <property name="accountingLineGroups">
+    	<map>
+    		<entry>
+    			<key><value>source</value></key>
+	    		<ref bean="NonCheckDisbursementDocument-sourceAccountingLineGroup" parent="AccountingLineGroup"/>
+	    	</entry>
+    	</map>
+    </property>
+    <property name="workflowAttributes">
+    	<ref bean="NonCheckDisbursementDocument-workflowAttributes"/>
+    </property>  
+     <property name="defaultExistenceChecks">
+        <bean parent="ReferenceDefinition" p:attributeName="bank" p:attributeToHighlightOnFail="bank"/>
+    </property>
+       
+  </bean>
+  
+     <!-- Validations -->
+  
+  <bean id="NonCheckDisbursementDocument-validations" parent="NonCheckDisbursementDocument-validations-parentBean"/>
+  
+  <bean id="NonCheckDisbursementDocument-validations-parentBean" abstract="true"  class="org.springframework.beans.factory.config.MapFactoryBean">
+  	<property name="sourceMap">
+		<map key-type="java.lang.Class">
+			<entry>
+				<key><value>org.kuali.ole.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
+				<value>NonCheckDisbursement-routeDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.ole.sys.document.validation.event.AttributedSaveDocumentEvent</value></key>
+				<value>NonCheckDisbursement-saveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.ole.sys.document.validation.event.AddAccountingLineEvent</value></key>
+				<value>NonCheckDisbursement-addAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.ole.sys.document.validation.event.DeleteAccountingLineEvent</value></key>
+				<value>NonCheckDisbursement-deleteAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.ole.sys.document.validation.event.UpdateAccountingLineEvent</value></key>
+				<value>NonCheckDisbursement-updateAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.ole.sys.document.validation.event.ReviewAccountingLineEvent</value></key>
+				<value>NonCheckDisbursement-reviewAccountingLineValidation</value>
+			</entry>
+    	</map>
+    </property>
+  </bean>
+
+  <!-- accounting line groups -->
+  <bean id="NonCheckDisbursementDocument-sourceAccountingLineGroup" parent="NonCheckDisbursementDocument-sourceAccountingLineGroup-parentBean"/>  
+  <bean id="NonCheckDisbursementDocument-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
+	  <property name="accountingLineView" ref="NonCheckDisbursementDocument-accountingLineView"/>
+	  <property name="accountingLineClass" value="org.kuali.ole.sys.businessobject.SourceAccountingLine"/>
+	  <property name="groupLabel" value=""/>
+	  <property name="accountingLineAuthorizerClass" value="org.kuali.ole.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer"/>
+	  <property name="importedLinePropertyPrefix" value="source"/>
+	  <property name="totals" ref="AccountingDocument-sourceGroupTotals"/>
+	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*"/> <!-- note people copying this: AV and JV have extra things that belong here -->
+  </bean>
+	
+  <bean id="NonCheckDisbursementDocument-accountingLineView" parent="NonCheckDisbursementDocument-accountingLineView-parent"/>
+  <bean id="NonCheckDisbursementDocument-accountingLineView-parent" parent="AccountingLineView" abstract="true">
+	  <property name="elements">
+		<list>
+			<bean parent="AccountingLineView-sequenceNumber"/>
+			<bean parent="AccountingLineView-lines">
+				<property name="lines">
+					<list>
+						<ref bean="accountingInformation"/>
+						<bean parent="AccountingLineView-line">
+							<property name="elementName" value="lineDescription"/>
+							<property name="fields">
+								<list>
+									<bean parent="AccountingLineView-field" p:name="referenceNumber" p:required="true"/>
+									<bean parent="AccountingLineView-field" p:name="financialDocumentLineDescription" p:overrideColSpan="2"/>
+								</list>
+							</property>
+						</bean>
+					</list>
+				</property>
+			</bean>
+			<bean parent="AccountingLineView-field" p:name="amount" p:required="true"/>
+			<bean parent="AccountingLineView-actions"/>
+		</list>
+	</property>
+  </bean>
+  
+  <!-- workflow attributes for routing -->
+	<bean id="NonCheckDisbursementDocument-workflowAttributes" parent="NonCheckDisbursementDocument-workflowAttributes-parentBean"/>
+	
+	<bean id="NonCheckDisbursementDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+    	
+    	<property name="routingTypeDefinitions">
+    		<map>
+    			<entry key="Account" value-ref="RoutingType-AccountingDocument-Account-sourceOnly"/>
+    			<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy-sourceOnly"/>
+    			<entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund-sourceOnly"/>
+    			<entry key="Award" value-ref="RoutingType-AccountingDocument-Award-sourceOnly"/>
+    		</map>
+    	</property>
+	</bean>
+</beans>

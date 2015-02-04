@@ -1,0 +1,775 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+
+    <import resource="classpath:org/kuali/rice/core/CommonSpringBeans.xml"/>
+    <import resource="classpath:org/kuali/ole/KRMSCommonSpringBeans.xml"/>
+    <!-- <import resource="classpath:org/kuali/rice/krms/config/_KRMSCommonSpringBeans.xml"/>-->
+    <import resource="classpath:org/kuali/rice/krms/config/_KRMSOjbSpringBeans.xml"/>
+    <import resource="classpath:org/kuali/rice/krms/config/_KRMSLocalServiceBusSpringBeans.xml"/>
+
+    <!-- TODO: there is one of these in krad-servlet.xml, remove that one or this one -->
+    <!--<context:component-scan base-package="org.kuali.rice.krms.impl"/>-->
+
+    <import resource="classpath:org/kuali/rice/core/CommonSpringBeans.xml"/>
+
+    <bean class="org.kuali.rice.core.framework.resourceloader.RiceSpringResourceLoaderConfigurer">
+        <property name="localServiceName" value="KRMSContext"/>
+    </bean>
+
+    <bean id="businessObjectService"
+          class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="businessObjectService"/>
+    </bean>
+
+    <bean id="criteriaLookupService"
+          class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="criteriaLookupService"/>
+    </bean>
+
+    <bean id="dataDictionaryService"
+          class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="dataDictionaryService"/>
+    </bean>
+
+    <bean id="persistenceServiceOjb"
+          class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="persistenceServiceOjb"/>
+    </bean>
+
+    <bean id="krmsModuleConfiguration" class="org.kuali.rice.krad.bo.ModuleConfiguration">
+        <property name="namespaceCode" value="krms"/>
+        <property name="dataSourceName" value="krmsDataSource"/>
+        <property name="initializeDataDictionary" value="true"/>
+        <property name="dataDictionaryService" ref="dataDictionaryService"/>
+        <property name="persistenceService" ref="persistenceServiceOjb"/>
+        <property name="dataDictionaryPackages">
+            <list>
+                <value>classpath:org/kuali/rice/krms/datadictionary/ActionBo.xml</value>
+                <value>classpath:org/kuali/rice/krms/datadictionary/ContextBo.xml</value>
+                <value>classpath:org/kuali/rice/krms/datadictionary/ContextMaintenanceDocument.xml</value>
+                <value>classpath:org/kuali/rice/krms/datadictionary/AgendaBo.xml</value>
+                <value>classpath:org/kuali/rice/krms/datadictionary/AgendaMaintenance.xml</value>
+                <value>classpath:org/kuali/rice/krms/datadictionary/AgendaItemBo.xml</value>
+                <value>classpath:org/kuali/rice/krms/datadictionary/RuleBo.xml</value>
+                <value>classpath:org/kuali/rice/krms/datadictionary/RuleAttributeBo.xml</value>
+                <value>classpath:org/kuali/rice/krms/datadictionary/RuleMaintenance.xml</value>
+                <value>classpath:org/kuali/rice/krms/datadictionary/KrmsAttributeDefinitionBo.xml</value>
+                <value>classpath:org/kuali/rice/krms/datadictionary/TermBo.xml</value>
+                <value>classpath:org/kuali/rice/krms/datadictionary/TermParameterBo.xml</value>
+                <value>classpath:org/kuali/rice/krms/datadictionary/TermSpecificationBo.xml</value>
+                <value>classpath:org/kuali/rice/krms/datadictionary/CategoryBo.xml</value>
+                <value>classpath:org/kuali/rice/krms/datadictionary/PropositionBo.xml</value>
+                <value>classpath:org/kuali/rice/krms/datadictionary/PropositionParameterBo.xml</value>
+                <value>classpath:org/kuali/rice/krms/uif/AgendaEditorView.xml</value>
+                <value>classpath:org/kuali/rice/krms/uif/ContextMaintenanceView.xml</value>
+
+            </list>
+        </property>
+        <property name="packagePrefixes">
+            <list>
+                <value>org.kuali.rice.krms.impl.repository</value>
+                <value>org.kuali.rice.krms.impl</value>
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="krmsModuleService" class="org.kuali.rice.krad.service.impl.ModuleServiceBase">
+        <property name="moduleConfiguration" ref="krmsModuleConfiguration"/>
+    </bean>
+
+    <!-- wire up BO services and the like -->
+
+    <bean id="termRepositoryService" class="org.kuali.rice.krms.impl.repository.TermBoServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService"/>
+    </bean>
+
+    <bean id="termBoService" class="org.kuali.rice.krms.impl.repository.TermBoServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService"/>
+    </bean>
+
+    <bean id="contextBoService" class="org.kuali.rice.krms.impl.repository.ContextBoServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService"/>
+    </bean>
+
+    <bean id="krmsTypeRepositoryService" class="org.kuali.rice.krms.impl.repository.KrmsTypeRepositoryServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService"/>
+    </bean>
+
+    <bean id="propositionBoService" class="org.kuali.rice.krms.impl.repository.PropositionBoServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService"/>
+    </bean>
+
+    <bean id="ruleBoService" class="org.kuali.rice.krms.impl.repository.RuleBoServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService"/>
+    </bean>
+
+    <bean id="agendaBoService" class="org.kuali.rice.krms.impl.repository.AgendaBoServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService"/>
+        <property name="attributeDefinitionService" ref="krmsAttributeDefinitionService"/>
+    </bean>
+
+    <bean id="actionBoService" class="org.kuali.rice.krms.impl.repository.ActionBoServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService"/>
+    </bean>
+
+    <bean id="krmsAttributeDefinitionService"
+          class="org.kuali.rice.krms.impl.repository.KrmsAttributeDefinitionServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService"/>
+        <property name="criteriaLookupService" ref="criteriaLookupService"/>
+    </bean>
+
+    <bean id="agendaAuthorizationService" class="org.kuali.rice.krms.impl.authorization.AgendaAuthorizationServiceImpl">
+    </bean>
+
+    <!-- wire up services needed for execution -->
+
+    <bean id="ruleRepositoryService" class="org.kuali.rice.krms.impl.repository.RuleRepositoryServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService"/>
+        <property name="criteriaLookupService" ref="criteriaLookupService"/>
+    </bean>
+
+    <bean id="compoundPropositionTypeService"
+          class="org.kuali.rice.krms.impl.provider.repository.CompoundPropositionTypeService">
+        <property name="translator" ref="repositoryToEngineTranslator"/>
+    </bean>
+
+    <bean id="functionRepositoryService" class="org.kuali.rice.krms.impl.repository.FunctionBoServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService"/>
+    </bean>
+
+    <bean id="krmsTypeResolver" class="org.kuali.rice.krms.impl.type.KrmsTypeResolverImpl">
+        <property name="typeRepositoryService" ref="krmsTypeRepositoryService"/>
+        <property name="defaultCompoundPropositionTypeService" ref="compoundPropositionTypeService"/>
+        <property name="defaultSimplePropositionTypeService">
+            <bean class="org.kuali.rice.krms.impl.provider.repository.SimplePropositionTypeService">
+                <property name="typeResolver" ref="krmsTypeResolver"/>
+                <property name="termRepositoryService" ref="termBoService"/>
+                <property name="functionRepositoryService" ref="functionRepositoryService"/>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="repositoryToEngineTranslator"
+          class="org.kuali.rice.krms.impl.provider.repository.RepositoryToEngineTranslatorImpl">
+        <property name="termRepositoryService" ref="termBoService"/>
+        <property name="ruleRepositoryService" ref="ruleRepositoryService"/>
+        <!--<property name="typeRepositoryService" ref="krmsTypeRepositoryService"/>-->
+        <property name="typeResolver" ref="krmsTypeResolver"/>
+    </bean>
+
+    <bean id="contextProvider" class="org.kuali.rice.krms.impl.provider.repository.RuleRepositoryContextProvider">
+        <property name="ruleRepositoryService" ref="oleRuleRepositoryService"/>
+        <property name="repositoryToEngineTranslator" ref="repositoryToEngineTranslator"/>
+    </bean>
+
+<!--    <bean id="testContextProvider" class="org.kuali.ole.deliver.processor.TestRuleRepositoryContextProvider">
+        <property name="ruleRepositoryService" ref="testRuleRepositoryService"/>
+        <property name="repositoryToEngineTranslator" ref="repositoryToEngineTranslator"/>
+    </bean>-->
+
+    <bean id="oleRuleRepositoryService" class="org.kuali.ole.deliver.service.impl.OLERuleRepositoryServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService"/>
+        <property name="criteriaLookupService" ref="criteriaLookupService" />
+    </bean>
+    <!-- PeopleFlow action type services -->
+
+    <bean id="configurationService"
+          class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="kualiConfigurationService"/>
+    </bean>
+
+    <bean id="notificationPeopleFlowActionTypeService"
+          class="org.kuali.rice.krms.impl.peopleflow.PeopleFlowActionTypeService" factory-method="getInstance">
+        <constructor-arg>
+            <value>NOTIFICATION</value>
+        </constructor-arg>
+        <property name="configurationService" ref="configurationService"/>
+    </bean>
+
+    <bean id="approvalPeopleFlowActionTypeService"
+          class="org.kuali.rice.krms.impl.peopleflow.PeopleFlowActionTypeService" factory-method="getInstance">
+        <constructor-arg>
+            <value>APPROVAL</value>
+        </constructor-arg>
+        <property name="configurationService" ref="configurationService"/>
+    </bean>
+
+    <!-- result logger -->
+
+    <bean id="resultLogger" class="org.kuali.rice.krms.framework.engine.ResultLogger" factory-method="getInstance"/>
+
+    <!-- register result loggers -->
+
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="targetObject">
+            <ref local="resultLogger"/>
+        </property>
+        <property name="targetMethod">
+            <value>addListener</value>
+        </property>
+        <property name="arguments">
+            <list>
+                <bean class="org.kuali.rice.krms.framework.engine.result.EngineResultListener"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="targetObject">
+            <ref local="resultLogger"/>
+        </property>
+        <property name="targetMethod">
+            <value>addListener</value>
+        </property>
+        <property name="arguments">
+            <list>
+                <bean class="org.kuali.rice.krms.framework.engine.result.Log4jResultListener"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="rice.krms.engine" class="org.kuali.rice.krms.framework.engine.ProviderBasedEngine">
+        <property name="contextProvider" ref="contextProvider"/>
+    </bean>
+
+    <bean id="defaultRuleTypeService" class="org.kuali.rice.krms.impl.type.RuleTypeServiceBase"/>
+
+    <bean id="validationRuleTypeService" class="org.kuali.rice.krms.impl.validation.ValidationRuleTypeServiceImpl">
+        <property name="repositoryToEngineTranslator">
+            <ref bean="repositoryToEngineTranslator"/>
+        </property>
+    </bean>
+
+    <bean id="validationActionTypeService" class="org.kuali.rice.krms.impl.validation.ValidationActionTypeServiceImpl"/>
+
+    <bean id="comparisonOperatorService"
+          class="org.kuali.rice.krms.framework.engine.expression.ComparisonOperatorServiceImpl"
+          factory-method="getInstance"/>
+
+    <bean id="dataCarrierService" class="org.kuali.ole.DataCarrierService" scope="singleton"/>
+
+    <bean id="functionLoader" class="org.kuali.ole.ingest.resolver.FunctionLoader"/>
+
+    <bean id="profileTermResolverTypeService" class="org.kuali.ole.ingest.resolver.ProfileTermResolverTypeService"/>
+
+    <bean id="createBibActionTypeService" class="org.kuali.ole.ingest.action.CreateBibActionTypeService">
+        <property name="createBibAction" ref="createBibAction"/>
+        <property name="updateItemAction" ref="updateItemAction"/>
+    </bean>
+
+    <bean id="createBibAction" class="org.kuali.ole.ingest.action.CreateBibAction">
+       <!-- <property name="docstoreHelperService" ref="docstoreHelperService"/>-->
+        <property name="discoveryHelperService" ref="discoveryHelperService"/>
+        <!--<property name="oleOrderRecordService" ref="oleOrderRecordService"/>-->
+        <property name="oleOverlayActionService" ref="oleOverlayActionService"/>
+    </bean>
+
+    <bean id="oleOverlayActionService" class="org.kuali.ole.service.impl.OleOverlayActionServiceImpl"/>
+    <bean id="oleOrderRecordService" class="org.kuali.ole.service.impl.OleOrderRecordServiceImpl" scope="prototype"/>
+
+    <bean id="updateItemAction" class="org.kuali.ole.ingest.action.UpdateItemAction">
+        <!--<property name="docstoreHelperService" ref="docstoreHelperService"/>
+        <property name="discoveryHelperService" ref="discoveryHelperService"/>-->
+        <property name="docstoreClientLocator" ref="docstoreClientLocator"/>
+    </bean>
+
+    <bean id="docstoreClientLocator" class="org.kuali.ole.docstore.common.client.DocstoreClientLocator" />
+
+
+    <bean id="documentService" class="org.kuali.rice.krad.service.impl.DocumentServiceImpl"/>
+
+    <bean id="docstoreHelperService" class="org.kuali.ole.describe.service.DocstoreHelperService" scope="singleton"/>
+
+    <bean id="discoveryHelperService" class="org.kuali.ole.describe.service.DiscoveryHelperService" scope="singleton"/>
+
+    <bean id="olePatronConverterService" class="org.kuali.ole.service.OlePatronConverterService">
+        <property name="olePatronService" ref="olePatronService"/>
+    </bean>
+
+    <bean id="olePatronService" class="org.kuali.ole.service.OlePatronServiceImpl">
+    </bean>
+
+    <bean id="oleCirculationDeskDetailService"
+          class="org.kuali.ole.deliver.service.OleCirculationDeskDetailServiceImpl">
+    </bean>
+    <bean id="oleLocationService" class="org.kuali.ole.service.OleLocationServiceImpl">
+    </bean>
+    <bean id="oleLocationConverterService" class="org.kuali.ole.service.OleLocationConverterService">
+        <property name="oleLocationService" ref="oleLocationService"/>
+    </bean>
+
+    <bean id="batchDeleteServiceImpl" class=" org.kuali.ole.batch.impl.BatchProcessDeleteServiceImpl">
+    </bean>
+
+    <bean id="batchProcessBibImportServiceImpl" class=" org.kuali.ole.batch.impl.BatchProcessBibImportServiceImpl" scope="prototype" />
+
+
+    <bean id="oleClaimNoticeService" class=" org.kuali.ole.batch.service.OLEClaimNoticeService">
+        <property name="businessObjectService" ref="businessObjectService"/>
+    </bean>
+
+    <bean id="olePatronHelperService" class="org.kuali.ole.service.OlePatronHelperServiceImpl">
+    </bean>
+
+    <bean id="olePatronService.exporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition"
+                  p:service-ref="olePatronService"
+                  p:serviceNameSpaceURI="http://service.ole.kuali.org/"
+                  p:localServiceName="olePatronService"
+                  p:busSecurity="false"
+                  p:jaxWsService="true"
+                  p:serviceVersion="1.0"/>
+        </property>
+    </bean>
+    <bean id="oleLicenseRequestWebService" parent="oleLicenseRequestWebService-parentBean"/>
+    <bean id="oleLicenseRequestWebService-parentBean" abstract="true"
+          class="org.kuali.ole.service.impl.OleLicenseRequestWebServiceImpl">
+        <!-- property name="oleReqPOLoadTransactionsService">
+              <ref bean="oleReqPOLoadTransactionsService" />
+          </property-->
+    </bean>
+
+    <bean id="oleLicenseRequestService" parent="oleLicenseRequestService-parentBean"/>
+    <bean id="oleLicenseRequestService-parentBean" abstract="true"
+          class="org.kuali.ole.service.impl.OleLicenseRequestServiceImpl"/>
+
+    <bean id="oleLicenseRequestWebService.exporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition"
+                  p:service-ref="oleLicenseRequestWebService"
+                  p:serviceNameSpaceURI="http://service.ole.kuali.org/"
+                  p:localServiceName="oleLicenseRequestWebService"
+                  p:busSecurity="false"
+                  p:jaxWsService="true"
+                  p:serviceVersion="1.0"/>
+        </property>
+    </bean>
+
+    <bean id="oleLocationWebService" parent="oleLocationWebService-parentBean"/>
+    <bean id="oleLocationWebService-parentBean" abstract="true"
+          class="org.kuali.ole.service.impl.OleLocationWebServiceImpl">
+    </bean>
+
+    <bean id="oleLocationWebService.exporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition"
+                  p:service-ref="oleLocationWebService"
+                  p:serviceNameSpaceURI="http://service.ole.kuali.org/"
+                  p:localServiceName="oleLocationWebService"
+                  p:busSecurity="false"
+                  p:jaxWsService="true"
+                  p:serviceVersion="1.0"/>
+        </property>
+    </bean>
+
+    <bean id="olePatronMaintenanceDocumentService"
+          class="org.kuali.ole.service.OlePatronMaintenanceDocumentServiceImpl">
+        <property name="documentService">
+            <ref bean="documentService"/>
+        </property>
+    </bean>
+
+    <bean id="oleCalendarDocumentService"
+          class="org.kuali.ole.deliver.calendar.service.impl.OleCalendarDocumentServiceImpl">
+        <property name="documentService">
+            <ref bean="documentService"/>
+        </property>
+    </bean>
+
+    <bean id="oleCheckListMaintenanceDocumentService"
+          class="org.kuali.ole.service.OleCheckListMaintenanceDocumentServiceImpl">
+        <property name="documentService">
+            <ref bean="documentService"/>
+        </property>
+    </bean>
+
+    <bean id="oleGloballyProtectedFieldService" class="org.kuali.ole.service.impl.OleGloballyProtectedFieldServiceImpl">
+        <property name="documentService">
+            <ref bean="documentService"/>
+        </property>
+    </bean>
+    <bean id="enDocumentTypePermissionService"
+          class="org.kuali.ole.select.service.LicenseDocumentTypePermissionServiceImpl"/>
+
+    <bean id="krmsActionTypeService" class="org.kuali.ole.ingest.krms.action.OleKrmsActionTypeService">
+        <property name="createBibAction" ref="createBibAction"/>
+        <property name="updateItemAction" ref="updateItemAction"/>
+    </bean>
+
+    <bean id="overlayRetrivalService" parent="overlayRetrivalService-parentBean"/>
+    <bean id="overlayRetrivalService-parentBean" class="org.kuali.ole.service.impl.OverlayRetrivalServiceImpl"/>
+
+    <bean id="overlayDataFieldService" parent="overlayDataFieldService-parentBean"/>
+    <bean id="overlayDataFieldService-parentBean" class="org.kuali.ole.service.impl.OverlayDataFieldServiceImpl"/>
+
+    <bean id="overlayMrcFileReaderService" parent="overlayMrcFileReaderService-parentBean"/>
+    <bean id="overlayMrcFileReaderService-parentBean"
+          class="org.kuali.ole.service.impl.OverlayMrcFileReaderServiceImpl"/>
+
+    <bean id="overlayEdiFileReaderService" parent="overlayEdiFileReaderService-parentBean"/>
+    <bean id="overlayEdiFileReaderService-parentBean"
+          class="org.kuali.ole.service.impl.OverlayEdiFileReaderServiceImpl"/>
+
+    <!--    <bean id="overlayTableLookupService" parent="overlayTableLookupService-parentBean" />
+        <bean id="overlayTableLookupService-parentBean" class="org.kuali.ole.service.impl.OverlayTableLookupServiceImpl"/>-->
+
+    <bean id="overlayDocstoreOutputService" parent="overlayDocstoreOutputService-parentBean"/>
+    <bean id="overlayDocstoreOutputService-parentBean"
+          class="org.kuali.ole.service.impl.OverlayDocstoreOutputServiceImpl"/>
+
+    <bean id="overlayFileReaderFactory" parent="overlayFileReaderFactory-parentBean"/>
+    <bean id="overlayFileReaderFactory-parentBean" class="org.kuali.ole.factory.OverlayFileReaderFactory">
+        <property name="overlayEdiFileReaderService" ref="overlayEdiFileReaderService"/>
+        <property name="overlayMrcFileReaderService" ref="overlayMrcFileReaderService"/>
+    </bean>
+
+    <bean id="overlayOutputServiceFactory" parent="overlayOutputServiceFactory-parentBean"/>
+    <bean id="overlayOutputServiceFactory-parentBean" class="org.kuali.ole.factory.OverlayOutputServiceFactory">
+        <property name="overlayDocstoreOutputService" ref="overlayDocstoreOutputService"/>
+        <property name="overlayTransactionOutputService" ref="overlayTransactionOutputService"/>
+    </bean>
+
+    <bean id="overlayTransactionOutputService" class="org.kuali.ole.service.impl.OverlayTransactionOutputServiceImpl"/>
+
+    <bean id="overlayLookupTableService" parent="overlayLookupTableService-parentBean"/>
+    <bean id="overlayLookupTableService-parentBean" class="org.kuali.ole.service.impl.OverlayLookupTableServiceImpl">
+        <property name="overlayDataFieldService" ref="overlayDataFieldService"/>
+    </bean>
+
+    <bean id="overlayHelperService" parent="overlayHelperService-parentBean"/>
+    <bean id="overlayHelperService-parentBean" class="org.kuali.ole.service.impl.OverlayHelperServiceImpl">
+        <property name="overlayRetrivalService" ref="overlayRetrivalService"/>
+        <property name="overlayDataFieldService" ref="overlayDataFieldService"/>
+        <property name="overlayLookupTableService" ref="overlayLookupTableService"/>
+    </bean>
+
+    <bean id="errorActionTypeService" class="org.kuali.ole.ingest.krms.action.OleErrorActionTypeService"/>
+
+    <bean id="maxNumberItemTypeService" class="org.kuali.ole.ingest.krms.action.OleMaxNumberItemTypeService"/>
+
+    <bean id="permissionActionTypeService" class="org.kuali.ole.ingest.krms.action.OlePermissionActionTypeService"/>
+
+    <bean id="errorsAndPermissionActionTypeService"
+          class="org.kuali.ole.ingest.krms.action.OleErrorPermissionActionTypeService"/>
+
+    <bean id="loanPeriodTypeService" class="org.kuali.ole.ingest.krms.action.OleLoanPeriodTypeService">
+        <property name="dataCarrierService" ref="dataCarrierService" />
+    </bean>
+
+    <bean id="overdueFineTypeService" class="org.kuali.ole.ingest.krms.action.OleOverdueFineTypeService"/>
+
+    <bean id="overdueDayTypeService" class="org.kuali.ole.ingest.krms.action.OleOverdueDayTypeService"/>
+
+    <bean id="maxFineTypeService" class="org.kuali.ole.ingest.krms.action.OleMaxFineTypeService"/>
+
+    <bean id="recallOverdueDayTypeService" class="org.kuali.ole.ingest.krms.action.OleRecallOverdueDayTypeService"/>
+
+    <bean id="replacementBillTypeService" class="org.kuali.ole.ingest.krms.action.OleReplacementBillTypeService"/>
+
+    <bean id="requestExpirationDayTypeService"
+          class="org.kuali.ole.ingest.krms.action.OleRequestExpirationDayTypeService"/>
+
+    <bean id="generateNoticeTypeService" class="org.kuali.ole.ingest.krms.action.OleGenerateNoticeTypeService"/>
+
+    <bean id="deleteTemporaryHistoryRecordTypeService"
+          class="org.kuali.ole.ingest.krms.action.OleDeleteTemporaryHistoryRecord"/>
+
+    <bean id="updateItemStatusTypeService" class="org.kuali.ole.ingest.krms.action.OleUpdateItemStatusTypeService"/>
+
+    <bean id="circulationPolicyFoundTypeService"
+          class="org.kuali.ole.ingest.krms.action.OleCirculationPolicyFoundActionTypeService"/>
+
+    <bean id="recallDueDateTypeService" class="org.kuali.ole.ingest.krms.action.OleRecallDueDateTypeService"/>
+
+
+    <bean id="noticeFormatTypeService" class="org.kuali.ole.ingest.krms.action.OleNoticeFormatTypeService"/>
+    <bean id="profileBuilder" class="org.kuali.ole.ingest.ProfileBuilder"/>
+
+    <bean id="parameterService"
+          class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="parameterService"/>
+    </bean>
+
+    <bean id="loadDefaultIngestProfileBean" class="org.kuali.ole.ingest.LoadDefaultIngestProfileBean">
+        <property name="fileName" value="YBPSample.xml"/>
+        <property name="oleKrmsBuilder" ref="oleKRMSBuilder"/>
+        <property name="parameterService" ref="parameterService"/>
+    </bean>
+
+    <bean id="oleKRMSBuilder" class="org.kuali.ole.ingest.krms.builder.OleKrmsBuilder"/>
+
+    <bean id="krmsBuilder" class="org.kuali.ole.ingest.KrmsBuilder"/>
+
+
+    <bean id="loadDefaultLicensesBean" class="org.kuali.ole.deliver.defaultload.LoadDefaultLicensesBean">
+        <property name="fileName" value="DefaultLicenses.xml"/>
+        <property name="licenseBuilder" ref="krmsBuilder"/>
+        <property name="parameterService" ref="parameterService"/>
+    </bean>
+
+    <bean id="loadDefaultEResourcesBean" class="org.kuali.ole.deliver.defaultload.LoadDefaultEResourceBean">
+        <property name="fileName" value="DefaultEResourceWorkflow.xml"/>
+        <property name="eresourceBuilder" ref="oleKRMSBuilder"/>
+        <property name="parameterService" ref="parameterService"/>
+    </bean>
+
+    <bean id="olePatronBillMaintenanceDocumentService"
+          class="org.kuali.ole.service.impl.OlePatronBillMaintenanceDocumentServiceImpl">
+        <property name="documentService">
+            <ref bean="documentService"/>
+        </property>
+    </bean>
+
+    <!-- Mail Sender Factory -->
+    <bean id="mailSender" class="org.kuali.rice.core.mail.MailSenderFactoryBean" />
+
+    <!-- Mailer -->
+    <bean id="mailer" class="org.kuali.rice.core.mail.MailerImpl">
+        <property name="mailSender" ref="mailSender" />
+    </bean>
+
+    <bean id="oleOverDueNotice" class="org.kuali.ole.deliver.batch.OleOverDueNotice">
+    </bean>
+
+    <bean id="syncOleWithGOKbUpdates" class="org.kuali.ole.select.batch.OLESyncOleWithGOKbUpdates">
+    </bean>
+
+    <bean id="externalDSConfigMaintenanceDocumentService"
+          class="org.kuali.ole.describe.service.impl.ExternalDSConfigMaintenanceDocumentServiceImpl">
+        <property name="documentService">
+            <ref bean="documentService"/>
+        </property>
+    </bean>
+
+
+    <bean id="generateNoticesJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="oleOverDueNotice"/>
+        <property name="targetMethod" value="generateNotices"/>
+        <property name="name" value="generateNotices"/>
+        <property name="group" value="batchJobGroup"/>
+        <property name="concurrent" value="false"/>
+    </bean>
+
+    <bean id="syncOleWithGOKbUpdatesJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="syncOleWithGOKbUpdates"/>
+        <property name="targetMethod" value="synchronizeOleWithGOKb"/>
+        <property name="name" value="synchronizeOleWithGOKb"/>
+        <property name="group" value="batchJobGroup"/>
+        <property name="concurrent" value="false"/>
+    </bean>
+
+    <bean id="deleteTemporaryHistoryRecordJob"
+          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="oleOverDueNotice"/>
+        <property name="targetMethod" value="deleteTemporaryHistoryRecord"/>
+        <property name="name" value="deleteTemporaryHistoryRecord"/>
+        <property name="group" value="batchJobGroup"/>
+        <property name="concurrent" value="false"/>
+    </bean>
+
+    <bean id="generateRequestExpirationNoticeJob"
+          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="oleOverDueNotice"/>
+        <property name="targetMethod" value="generateRequestExpirationNotice"/>
+        <property name="name" value="generateRequestExpirationNotice"/>
+        <property name="group" value="batchJobGroup"/>
+        <property name="concurrent" value="false"/>
+    </bean>
+
+    <bean id="deletingExpiredRequestsJob"
+          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="oleOverDueNotice"/>
+        <property name="targetMethod" value="deletingExpiredRequests"/>
+        <property name="name" value="deletingExpiredRequests"/>
+        <property name="group" value="batchJobGroup"/>
+        <property name="concurrent" value="false"/>
+    </bean>
+
+    <bean id="generateOnHoldNoticeJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="oleOverDueNotice"/>
+        <property name="targetMethod" value="generateOnHoldNotice"/>
+        <property name="name" value="generateOnHoldNotice"/>
+        <property name="group" value="batchJobGroup"/>
+        <property name="concurrent" value="false"/>
+    </bean>
+
+    <bean id="updateStatusIntoAvailableAfterReShelvingJob"
+          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="oleOverDueNotice"/>
+        <property name="targetMethod" value="updateStatusIntoAvailableAfterReShelving"/>
+        <property name="name" value="updateStatusIntoAvailableAfterReShelving"/>
+        <property name="group" value="batchJobGroup"/>
+        <property name="concurrent" value="false"/>
+    </bean>
+
+    <bean id="generateHoldCourtesyNoticeJob"
+          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="oleOverDueNotice"/>
+        <property name="targetMethod" value="generateHoldCourtesyNotice"/>
+        <property name="name" value="generateHoldCourtesyNotice"/>
+        <property name="group" value="batchJobGroup"/>
+        <property name="concurrent" value="false"/>
+    </bean>
+
+
+    <bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+    </bean>
+
+
+    <bean id="olePatronWebService" parent="olePatronWebService-parentBean"/>
+    <bean id="olePatronWebService-parentBean" abstract="true"
+          class="org.kuali.ole.service.impl.OlePatronWebServiceImpl">
+    </bean>
+
+    <bean id="olePatronWebService.exporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition"
+                  p:service-ref="olePatronWebService"
+                  p:serviceNameSpaceURI="http://service.ole.kuali.org/"
+                  p:localServiceName="olePatronWebService"
+                  p:busSecurity="false"
+                  p:jaxWsService="true"
+                  p:serviceVersion="1.0"/>
+        </property>
+    </bean>
+    <bean id="loanProcessor" class="org.kuali.ole.deliver.processor.LoanProcessor"/>
+
+    <!--   <bean id="oleMailSender" class="org.kuali.ole.deliver.batch.OleMailSenderFactoryBean" >
+
+      </bean>-->
+    <!-- Mailer -->
+    <bean id="oleMailer" class="org.kuali.ole.deliver.batch.OleMailer" parent="mailer">
+        <!--        <property name="mailSender" ref="oleMailSender" />-->
+    </bean>
+
+    <!--   <bean id="newMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+       </bean>
+
+       <bean id="mailerImpl" class="org.kuali.rice.core.mail.MailerImpl">
+           <property name="mailSender" ref="newMailSender"/>
+       </bean>-->
+
+    <bean id="oleLoanWebService" parent="oleLoanWebService-parentBean"/>
+    <bean id="oleLoanWebService-parentBean" abstract="true"
+          class="org.kuali.ole.service.impl.OleLoanDocumentWebServiceImpl"/>
+
+    <bean id="oleLoanWebService.exporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition"
+                  p:service-ref="oleLoanWebService"
+                  p:serviceNameSpaceURI="http://service.ole.kuali.org/"
+                  p:localServiceName="oleLoanWebService"
+                  p:busSecurity="false"
+                  p:jaxWsService="true"
+                  p:serviceVersion="1.0"/>
+        </property>
+    </bean>
+
+    <bean id="oleEResourceSearchService" parent="oleEResourceSearchService-parentBean"/>
+    <bean id="oleEResourceSearchService-parentBean" abstract="true"
+          class="org.kuali.ole.service.impl.OLEEResourceSearchServiceImpl"/>
+
+    <bean id="oleLocationsPollerService" class="org.kuali.ole.OleLocationsXMLPollerServiceImpl">
+        <property name="xmlParentDirectory" value="${locations.xml.root.location}"/>
+        <property name="xmlPendingLocation" value="${locations.xml.pending.location}"/>
+        <property name="xmlCompletedLocation" value="${locations.xml.loaded.location}"/>
+        <property name="xmlProblemLocation" value="${locations.xml.problem.location}"/>
+        <property name="locationsIngesterService" ref="locationsIngesterService"/>
+        <property name="pollIntervalSecs">
+            <value>${data.xml.pollIntervalSecs}</value>
+        </property>
+        <property name="initialDelaySecs">
+            <value>${initialDelaySecs}</value>
+        </property>
+    </bean>
+
+    <bean name="locationsIngesterService" class="org.kuali.ole.LocationsIngesterService">
+        <property name="oleLocationConverterService" ref="oleLocationConverterService"/>
+    </bean>
+
+    <bean id="oleCirculationsPollerService" class="org.kuali.ole.OleCircPoliciesXMLPollierServiceImpl">
+        <property name="xmlParentDirectory" value="${circ.xml.root.location}"/>
+        <property name="xmlPendingLocation" value="${circ.xml.pending.location}"/>
+        <property name="xmlCompletedLocation" value="${circ.xml.loaded.location}"/>
+        <property name="xmlProblemLocation" value="${circ.xml.problem.location}"/>
+        <property name="circPoliciesIngesterService" ref="circPoliciesIngesterService"/>
+        <property name="pollIntervalSecs">
+            <value>${data.xml.pollIntervalSecs}</value>
+        </property>
+        <property name="initialDelaySecs">
+            <value>${initialDelaySecs}</value>
+        </property>
+    </bean>
+
+    <bean name="circPoliciesIngesterService" class="org.kuali.ole.CircPoliciesIngesterService">
+        <property name="circPolicyBuilder" ref="oleKRMSBuilder"/>
+    </bean>
+
+    <bean name="patronsIngesterService" class="org.kuali.ole.PatronsIngesterService">
+        <property name="olePatronConverterService" ref="olePatronConverterService"/>
+    </bean>
+
+    <bean id="olePatronsPollerService" class="org.kuali.ole.OlePatronsXMLPollerServiceImpl">
+        <property name="xmlParentDirectory" value="${patrons.xml.root.location}"/>
+        <property name="xmlPendingLocation" value="${patrons.xml.pending.location}"/>
+        <property name="xmlCompletedLocation" value="${patrons.xml.loaded.location}"/>
+        <property name="xmlProblemLocation" value="${patrons.xml.problem.location}"/>
+        <property name="patronsIngesterService" ref="patronsIngesterService"/>
+        <property name="pollIntervalSecs">
+            <value>${data.xml.pollIntervalSecs}</value>
+        </property>
+        <property name="initialDelaySecs">
+            <value>${initialDelaySecs}</value>
+        </property>
+    </bean>
+
+    <bean name="olePollingStandaloneLifecycle" class="org.kuali.ole.sys.context.OlePollingStandaloneLifeCycle">
+        <property name="xmlPollingServices">
+            <list>
+                <ref bean="oleLocationsPollerService"/>
+                <ref bean="oleCirculationsPollerService"/>
+                <ref bean="olePatronsPollerService"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="loadDefaultPatronsBean" class="org.kuali.ole.deliver.defaultload.LoadDefaultPatronsBean">
+        <property name="fileName" value="DefaultPatrons.xml"/>
+        <property name="olePatronIngestService" ref="olePatronConverterService"/>
+        <property name="parameterService" ref="parameterService"/>
+    </bean>
+
+    <bean id="loadDefaultCirculationPoliciesBean" class="org.kuali.ole.deliver.defaultload.LoadDefaultCirculationPoliciesBean">
+        <property name="fileName" value="DefaultCircPolicies.xml"/>
+        <property name="circPolicyBuilder" ref="oleKRMSBuilder"/>
+        <property name="parameterService" ref="parameterService"/>
+    </bean>
+
+</beans>

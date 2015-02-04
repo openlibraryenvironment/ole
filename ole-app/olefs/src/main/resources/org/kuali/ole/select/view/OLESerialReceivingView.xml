@@ -1,0 +1,1402 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="OLESerialReceivingView" parent="SR-Uif-TransactionalDocumentView">
+        <property name="headerText" value="Serial Receiving Transaction"/>
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="${ole.externalizable.help.url}/reference/webhelp/AG/content/ch05s06.html"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="formClass" value="org.kuali.ole.select.form.OLESerialReceivingForm"/>
+        <property name="documentClass" value="org.kuali.ole.select.bo.OLESerialReceivingDocument"/>
+
+        <property name="items">
+            <list>
+                <ref bean="OLESerialReceiving-MainPage"/>
+            </list>
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>ole/receive/css/receive.css</value>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>ole/receive/scripts/receive.js</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="SR-Uif-TransactionalDocumentView" abstract="true" parent="SR-Uif-TransactionalDocumentView-parentBean"/>
+    <bean id="SR-Uif-TransactionalDocumentView-parentBean" abstract="true"
+          class="org.kuali.rice.krad.uif.view.TransactionalDocumentView" parent="SR-Uif-DocumentView">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-transactionalView</value>
+            </list>
+        </property>
+        <property name="viewTypeName" value="TRANSACTIONAL"/>
+        <property name="viewName" value="default"/>
+        <property name="presentationControllerClass"
+                  value="org.kuali.rice.krad.document.TransactionalDocumentViewPresentationControllerBase"/>
+        <property name="authorizerClass" value="org.kuali.rice.krad.document.TransactionalDocumentViewAuthorizerBase"/>
+        <property name="formClass" value="org.kuali.rice.krad.web.form.TransactionalDocumentFormBase"/>
+    </bean>
+
+    <bean id="SR-Uif-DocumentView" abstract="true" parent="SR-Uif-DocumentView-parentBean"/>
+    <!--<bean id="SR-Uif-DocumentView-parentBean" abstract="true"
+          class="org.kuali.rice.krad.uif.view.DocumentView" parent="Uif-FormView-KnsTheme">-->
+    <bean id="SR-Uif-DocumentView-parentBean" abstract="true"
+          class="org.kuali.rice.krad.uif.view.DocumentView" parent="Uif-OLEFormView">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-documentView</value>
+            </list>
+        </property>
+        <property name="viewTypeName" value="DOCUMENT"/>
+        <property name="formClass" value="org.kuali.rice.krad.web.form.DocumentFormBase"/>
+        <property name="defaultBindingObjectPath" value="document"/>
+        <property name="presentationControllerClass"
+                  value="org.kuali.rice.krad.document.DocumentViewPresentationControllerBase"/>
+        <property name="authorizerClass" value="org.kuali.rice.krad.document.DocumentViewAuthorizerBase"/>
+        <property name="viewHelperServiceClass"
+                  value="org.kuali.rice.krad.uif.service.impl.DocumentViewHelperServiceImpl"/>
+        <property name="header">
+            <bean parent="Uif-SerialReceiving-DocumentViewHeader"/>
+        </property>
+    </bean>
+
+    <bean id="Uif-SerialReceiving-DocumentViewHeader" abstract="true" parent="Uif-ViewHeader">
+        <property name="rightGroup">
+            <bean parent="Uif-SerialReceiving-DocumentInfoGroup">
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>uif-docheader</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="Uif-SerialReceiving-DocumentInfoGroup" parent="Uif-GridGroup" p:readOnly="true">
+        <property name="items">
+            <list>
+                <bean parent="Uif-DocumentNumber"/>
+                <bean parent="Uif-DocumentStatus"/>
+                <bean parent="Uif-DocumentInitiatorNetworkId" p:label="Initiator"/>
+                <bean parent="Uif-DocumentCreateDate" p:label="Created"/>
+                <bean id="serRecField" parent="Uif-DataField" p:propertyName="serialReceivingRecord"/>
+            </list>
+        </property>
+        <property name="layoutManager">
+            <bean parent="Uif-GridLayoutBase" p:numberOfColumns="4" p:applyDefaultCellWidths="false"/>
+        </property>
+        <property name="fieldBindingObjectPath" value="document"/>
+        <property name="validationMessages.render" value="false"/>
+    </bean>
+
+
+    <bean id="SR-Uif-DocumentPage" parent="Uif-Disclosure-Page">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-documentPage</value>
+            </list>
+        </property>
+        <property name="defaultItemPosition" value="11"/>
+        <property name="items">
+            <list>
+                <!--   <bean parent="Uif-DocumentOverviewSection" p:order="10"/>-->
+                <bean parent="Uif-DocumentNotesSection" p:disclosure.defaultOpen="false" p:order="30"/>
+                <bean parent="Uif-DocumentRouteLogSection" p:disclosure.defaultOpen="false" p:order="50"/>
+            </list>
+        </property>
+        <property name="footer">
+            <bean parent="SR-Uif-DocumentPageFooter"/>
+        </property>
+    </bean>
+
+    <bean id="SR-Uif-DocumentPageFooter" parent="Uif-FooterBase">
+        <property name="items">
+            <list>
+                <ref bean="OLESerialReceiving-Footer-Buttons"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLESerialReceiving-MainPage" parent="SR-Uif-DocumentPage">
+        <property name="items">
+            <list merge="true">
+                <ref bean="OLESerialReceiving-valueDetails"/>
+                <ref bean="OLESerialReceiving-OLESerialRelatedPODocument-HorizontalBoxSection"/>
+                <ref bean="OLESerialReceiving-receive"/>
+                <ref bean="OLESerialReceiving-Buttons"/>
+                <ref bean="OLESerialReceiving-MainReceiptHistory_Link"/>
+                <ref bean="OLESerialReceiving-MainReceiptHistory_Btn"/>
+                <ref bean="OLESerialReceiving-MainReceiptHistory"/>
+                <ref bean="OLESerialReceiving-SupplementReceiptHistory_Link"/>
+                <ref bean="OLESerialReceiving-SupplementReceiptHistory_Btn"/>
+                <ref bean="OLESerialReceiving-SupplementReceiptHistory"/>
+                <ref bean="OLESerialReceiving-IndexReceiptHistory_Link"/>
+                <ref bean="OLESerialReceiving-IndexReceiptHistory_Btn"/>
+                <ref bean="OLESerialReceiving-IndexReceiptHistory"/>
+                <ref bean="SpecialIssue-HorizontalBoxSection"/>
+                <ref bean="serialHiddenFields"/>
+                <ref bean="TreatmentInstructionNote-HorizontalBoxSection"/>
+               <!-- <ref bean="showTreatmentInstructionNoteDialog"/>-->
+                <ref bean="hdnReceiveHistory_button"/>
+                <ref bean="hdnClaimAgainNote_button"/>
+                <ref bean="hdnCancelClaim_button"/>
+                <ref bean="hdnUnReceiveHistory_button"/>
+              <!--  <ref bean="serialReceiptHistoryId"/>-->
+                <ref bean="instanceIdField"/>
+                <ref bean="pIdField"/>
+         <!--       <ref bean="returnToSearch" />-->
+                <ref bean="ConfirmReturnToSearch"/>
+<!--                <ref bean="createItemItemUUID"/>
+                <ref bean="urgentNoteDialog"/>
+                <ref bean="claimNoteDialog"/>
+                <ref bean="claimAgainNoteDialog"/>-->
+                <ref bean="UrgentNote-HorizontalBoxSection"/>
+                <ref bean="ClaimNote-HorizontalBoxSection"/>
+                <ref bean="serialReceivingVendor_button" />
+            <!--    <ref bean="statusCode"/>-->
+                <ref bean="Link-PO-Button"/>
+           <!--     <ref bean="linkPO"/>-->
+                <ref bean="Link-PO-ErrMsg"/>
+                <ref bean="refreshReceivingRecordTypeBtn"/>
+    <!--            <ref bean="bibIdField"/>
+                <ref bean="item_check"/>
+                <ref bean="tempInstanceId"/>-->
+                <ref bean="enumerationSaveDialog"/>
+                <ref bean="chronologySaveDialog"/>
+                <ref bean="setEnumeration"/>
+                <ref bean="setChronology"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLESerialReceiving-valueDetails"  parent="Uif-Disclosure-VerticalBoxSection" >
+        <property name="headerText" value="Serial Receiving record"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4">
+                    <property name="items">
+                        <list>
+                            <bean id="titleField" parent="Uif-LinkField" p:label="Title" p:style="word-break: break-all;word-wrap: break-word" p:linkText="@{document.title}" p:target="_blank" p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;editable=true&amp;docFormat=marc&amp;docId=@{document.bibId}" />
+                            <bean id="issnField" parent="Uif-DataField" p:propertyName="issn" />
+                            <bean id="authorField" parent="Uif-DataField" p:propertyName="corporateAuthor" />
+                            <bean id="publisherField" parent="Uif-DataField" p:propertyName="publisher" p:required="true" />
+                            <bean parent="Uif-Label" p:labelText="PO ID" />
+                            <bean id="po" parent="Uif-HorizontalBoxSection" >
+                                <property name="items">
+                                    <list>
+                                        <bean id="poIdField" parent="Uif-LinkField" p:width="10%" p:linkText="@{document.poId}" p:target="_blank" p:href="@{document.poIdLink}" />
+                                        <bean id="relink1_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:17em" p:actionScript="poRelink();" p:actionLabel="Relink" />
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean id="local_Id" parent="Uif-DataField" p:propertyName="localId" p:required="true"
+                                  />
+                            <bean parent="Uif-Label" p:labelText="Vendor Alias Name" />
+                            <bean id="vendorAliasNameWithSelectVendor" parent="Uif-HorizontalBoxSection" >
+                                <property name="items">
+                                    <list>
+                                        <bean id="vendorAliasNameInfo" parent="SRR-Uif-InputField" p:propertyName="vendorAliasName" />
+                                        <bean id="selectVendorLink" parent="Uif-SecondaryActionButton-Small"  p:actionLabel="Select Vendor" p:methodToCall="selectVendor" />
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean id="vendorIdField" parent="SRR-Uif-InputField" p:label="Vendor Name(* for claim)"  p:propertyName="vendorId" >
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.select.businessobject.options.OLEInvoiceVendorTypeFinder" />
+                                </property>
+
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" />
+                                </property>
+                            </bean>
+                            <bean parent="Uif-Label" p:labelText="Instance Record" />
+                            <bean id="instanceId_relink" parent="Uif-HorizontalBoxSection">
+                                <property name="items">
+                                    <list>
+                                        <bean id="instanceIdLinkField" parent="Uif-LinkField" p:linkText="@{document.instanceId}" p:target="_blank" p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=instance&amp;editable=true&amp;docFormat=oleml&amp;docId=@{document.instanceId}&amp;bibId=@{document.bibId}" />
+                                        <bean id="relink_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:17em" p:actionScript="relink();" p:actionLabel="Relink" />
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean id="calNumberField" parent="Uif-DataField" p:propertyName="callNumber"  />
+                            <bean id="boundLocField" parent="Uif-DataField" p:propertyName="boundLocation" >
+                              <!--  <property name="suggest">
+                                    <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
+                                        <property name="suggestQuery">
+                                            <bean parent="Uif-AttributeQueryConfig"
+                                                  p:queryMethodToCall="retrieveLocationDetailsForSuggest"
+                                                  p:queryMethodInvokerConfig.targetClass="org.kuali.ole.describe.keyvalue.LocationValuesBuilder"/>
+                                        </property>
+                                        <property name="templateOptions">
+                                            <map merge="true">
+                                                <entry key="minLength" value="1"/>
+                                            </map>
+                                        </property>
+                                    </bean>
+                                </property>-->
+                            </bean>
+                            <bean id="unboundLocField" parent="SRR-Uif-InputField" p:propertyName="unboundLocation">
+                                <property name="suggest">
+                                    <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
+                                        <property name="suggestQuery">
+                                            <bean parent="Uif-AttributeQueryConfig"
+                                                  p:queryMethodToCall="retrieveLocationDetailsForSuggest"
+                                                  p:queryMethodInvokerConfig.targetClass="org.kuali.ole.describe.keyvalue.LocationValuesBuilder"/>
+                                        </property>
+                                        <property name="templateOptions">
+                                            <map merge="true">
+                                                <entry key="minLength" value="1"/>
+                                            </map>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                            <bean id="subStatusField" parent="SRR-Uif-InputField" p:propertyName="subscriptionStatus" p:required="true">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl"/>
+                                </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.describe.keyvalue.ReceiptStatus"/>
+                                </property>
+                            </bean>
+                            <bean id="srLocField" parent="SRR-Uif-InputField" p:propertyName="serialReceiptLocation" />
+                            <bean id="printLabelField" parent="SRR-Uif-InputField" p:propertyName="printLabel" >
+                                <property name="control">
+                                    <bean parent="Uif-CheckboxControl"/>
+                                </property>
+                            </bean>
+                            <bean id="pubDisplayField" parent="SRR-Uif-InputField" p:propertyName="publicDisplay" >
+                                <property name="control">
+                                    <bean parent="Uif-CheckboxControl"/>
+                                </property>
+                            </bean>
+                            <bean id="claimField" parent="SRR-Uif-InputField" p:propertyName="claim">
+                                <property name="control">
+                                    <bean parent="Uif-CheckboxControl"/>
+                                </property>
+                            </bean>
+
+                            <bean id="createItemField" parent="SRR-Uif-InputField" p:propertyName="createItem" >
+                                <property name="control">
+                                    <bean parent="Uif-CheckboxControl" p:cssClasses="createItemCss"/>
+                                </property>
+                            </bean>
+                            <!--    <bean id="actIntvlField" parent="Uif-InputField" p:propertyName="actionInterval"/>-->
+
+                            <bean id="copyNumberField" parent="Uif-DataField" p:propertyName="copyNumber"  />
+
+                            <!-- <bean id="actDateField" parent="Uif-InputField" p:propertyName="actionDate" >
+                                 <property name="control">
+                                     <bean parent="Uif-DateControl" p:size="10"/>
+                                 </property>
+                             </bean>-->
+                            <!--   <bean id="serRecField" parent="Uif-InputField" p:propertyName="serialReceivingRecord" p:readOnly="true"/>-->
+                            <bean id="urgentNoteField" parent="SRR-Uif-InputField" p:propertyName="urgentNote">
+                                <property name="control">
+                                    <bean parent="Uif-TextAreaControl" p:rows="1" p:maxLength="500" p:textExpand="true" p:cols="40"/>
+                                </property>
+                            </bean>
+                            <bean id="genRecField" parent="SRR-Uif-InputField" p:propertyName="generalReceivingNote">
+                                <property name="control">
+                                    <bean parent="Uif-TextAreaControl" p:rows="1" p:maxLength="500" p:textExpand="true" p:cols="40"/>
+                                </property>
+                            </bean>
+                            <bean id="treatmentField" parent="SRR-Uif-InputField" p:propertyName="treatmentInstructionNote">
+                                <property name="control">
+                                    <bean parent="Uif-TextAreaControl" p:rows="1" p:maxLength="500" p:textExpand="true" p:cols="40"/>
+                                </property>
+                            </bean>
+                            <bean id="recRecTypeField" parent="SRR-Uif-InputField" p:propertyName="receivingRecordType" p:required="true">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="Main" p:value="Main"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="Supplementary" p:value="Supplement"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="Index" p:value="Index"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                            <bean id="claimInfoField" parent="SRR-Uif-InputField" p:propertyName="claimIntervalInformation">
+                                <property name="control">
+                                    <bean parent="Uif-TextAreaControl" p:rows="1" p:maxLength="500" p:textExpand="true" p:cols="40"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="instanceIdField" parent="Uif-InputField" p:propertyName="instanceId" p:hidden="true">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+        <property name="quickfinder">
+            <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.select.bo.OLEInstanceSearch"
+                  p:fieldConversions="instanceId:instanceId,title:title,publisher:publisher,author:corporateAuthor,bibId:bibId,callNumber:callNumber,copyNumber:copyNumber,issn:issn,localId:localId"/>
+        </property>
+    </bean>
+
+    <bean id="pIdField" parent="Uif-InputField" p:propertyName="poId" p:hidden="true">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+        <property name="quickfinder">
+            <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.select.bo.OLEPurchaseOrderSearch"
+                  p:fieldConversions="poId:poId,vendorId:vendorId,vendorAliasName:vendorAliasName,instanceId:instanceId,title:title,author:corporateAuthor,bibId:bibId,poIdLink:poIdLink,callNumber:callNumber,copyNumber:copyNumber,issn:issn,publisher:publisher,localId:localId" />
+
+        </property>
+    </bean>
+
+    <bean id="OLESerialReceiving-receive"  parent="Uif-Disclosure-VerticalBoxSection" >
+        <property name="headerText" value="Receive Enum/Chron Captions"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4">
+                    <property name="headerText" value="Action Interval/Date"/>
+                    <property name="items">
+                        <list>
+                            <bean id="actIntvlField" parent="SRR-Uif-InputField" p:propertyName="actionInterval">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="8" />
+                                </property>
+                            </bean>
+                            <bean id="actDateField" parent="SRR-Uif-InputField" p:propertyName="actionDate" >
+                                <property name="control">
+                                    <bean parent="Uif-DateControl" p:size="10"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-HorizontalBoxSection"   >
+                                <property name="headerText" value="Enumeration" />
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-VerticalBoxSection" >
+                                            <property name="items">
+                                                <list>
+                                                    <bean parent="Uif-HorizontalBoxSection"  >
+                                                        <property name="items">
+                                                            <list>
+                                                                <bean id="enumCaption1" parent="SRR-Uif-InputField" p:propertyName="enumCaption1"  p:label="L1" p:fieldLabel.renderColon="false" p:onChangeScript="onChangeEnumCaption1();">
+                                                                    <property name="control">
+                                                                        <bean parent="Uif-TextControl" p:maxLength="20" p:size="5"/>
+                                                                    </property>
+                                                                </bean>
+                                                                <bean id="enumCaption2" parent="SRR-Uif-InputField" p:propertyName="enumCaption2"  p:label="L2" p:fieldLabel.renderColon="false" p:onChangeScript="onChangeEnumCaption2();">
+                                                                    <property name="control">
+                                                                        <bean parent="Uif-TextControl" p:maxLength="20" p:size="5"/>
+                                                                    </property>
+                                                                </bean>
+                                                                <bean id="enumCaption3" parent="SRR-Uif-InputField" p:propertyName="enumCaption3"  p:label="L3" p:fieldLabel.renderColon="false" p:onChangeScript="onChangeEnumCaption3();">
+                                                                    <property name="control">
+                                                                        <bean parent="Uif-TextControl" p:maxLength="20" p:size="5"/>
+                                                                    </property>
+                                                                </bean>
+                                                                <bean id="enumCaption4" parent="SRR-Uif-InputField" p:propertyName="enumCaption4"  p:label="L4" p:fieldLabel.renderColon="false" p:onChangeScript="onChangeEnumCaption4();">
+                                                                    <property name="control">
+                                                                        <bean parent="Uif-TextControl" p:maxLength="20" p:size="5"/>
+                                                                    </property>
+                                                                </bean>
+                                                                <bean id="enumCaption5" parent="SRR-Uif-InputField" p:propertyName="enumCaption5"  p:label="L5" p:fieldLabel.renderColon="false" p:onChangeScript="onChangeEnumCaption5();">
+                                                                    <property name="control">
+                                                                        <bean parent="Uif-TextControl" p:maxLength="20" p:size="5"/>
+                                                                    </property>
+                                                                </bean>
+                                                                <bean id="enumCaption6" parent="SRR-Uif-InputField" p:propertyName="enumCaption6"  p:label="L6" p:fieldLabel.renderColon="false" p:onChangeScript="onChangeEnumCaption6();">
+                                                                    <property name="control">
+                                                                        <bean parent="Uif-TextControl" p:maxLength="20" p:size="5"/>
+                                                                    </property>
+                                                                </bean>
+                                                                <bean id="enumCaption1Length" parent="SRR-Uif-InputField" p:propertyName="enumCaption1Length">
+                                                                    <property name="control">
+                                                                        <bean parent="Uif-HiddenControl"/>
+                                                                    </property>
+                                                                </bean>
+                                                                <bean id="enumCaption2Length" parent="SRR-Uif-InputField" p:propertyName="enumCaption2Length">
+                                                                    <property name="control">
+                                                                        <bean parent="Uif-HiddenControl"/>
+                                                                    </property>
+                                                                </bean>
+                                                                <bean id="enumCaption3Length" parent="SRR-Uif-InputField" p:propertyName="enumCaption3Length">
+                                                                    <property name="control">
+                                                                        <bean parent="Uif-HiddenControl"/>
+                                                                    </property>
+                                                                </bean>
+                                                                <bean id="enumCaption4Length" parent="SRR-Uif-InputField" p:propertyName="enumCaption4Length">
+                                                                    <property name="control">
+                                                                        <bean parent="Uif-HiddenControl"/>
+                                                                    </property>
+                                                                </bean>
+                                                                <bean id="enumCaption5Length" parent="SRR-Uif-InputField" p:propertyName="enumCaption5Length">
+                                                                    <property name="control">
+                                                                        <bean parent="Uif-HiddenControl"/>
+                                                                    </property>
+                                                                </bean>
+                                                                <bean id="enumCaption6Length" parent="SRR-Uif-InputField" p:propertyName="enumCaption6Length">
+                                                                    <property name="control">
+                                                                        <bean parent="Uif-HiddenControl"/>
+                                                                    </property>
+                                                                </bean>
+                                                            </list>
+                                                        </property>
+                                                    </bean>
+                                                    <bean parent="Uif-HorizontalBoxSection"  >
+                                                        <property name="items">
+                                                            <list>
+                                                                <bean id="enumLevel1" parent="SRR-Uif-InputField" p:propertyName="enumLevel1" p:fieldLabel.render="false" >
+                                                                    <property name="control">
+                                                                        <bean parent="Uif-TextControl" p:maxLength="20" p:size="8" />
+                                                                    </property>
+                                                                </bean>
+                                                                <bean id="enumLevel2" parent="SRR-Uif-InputField" p:propertyName="enumLevel2" p:fieldLabel.render="false" >
+                                                                    <property name="control">
+                                                                        <bean parent="Uif-TextControl" p:maxLength="20" p:size="8" />
+                                                                    </property>
+                                                                </bean>
+                                                                <bean id="enumLevel3" parent="SRR-Uif-InputField" p:propertyName="enumLevel3" p:fieldLabel.render="false" >
+                                                                    <property name="control">
+                                                                        <bean parent="Uif-TextControl" p:maxLength="20" p:size="8" />
+                                                                    </property>
+                                                                </bean>
+                                                                <bean id="enumLevel4" parent="SRR-Uif-InputField" p:propertyName="enumLevel4" p:fieldLabel.render="false" >
+                                                                    <property name="control">
+                                                                        <bean parent="Uif-TextControl" p:maxLength="20" p:size="8" />
+                                                                    </property>
+                                                                </bean>
+                                                                <bean id="enumLevel5" parent="SRR-Uif-InputField" p:propertyName="enumLevel5" p:fieldLabel.render="false" >
+                                                                    <property name="control">
+                                                                        <bean parent="Uif-TextControl" p:maxLength="20" p:size="8" />
+                                                                    </property>
+                                                                </bean>
+                                                                <bean id="enumLevel6" parent="SRR-Uif-InputField" p:propertyName="enumLevel6" p:fieldLabel.render="false" >
+                                                                    <property name="control">
+                                                                        <bean parent="Uif-TextControl" p:maxLength="20" p:size="8" />
+                                                                    </property>
+                                                                </bean>
+                                                            </list>
+                                                        </property>
+                                                    </bean>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-HorizontalBoxSection" >
+                                <property name="headerText" value="Chronology" />
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-VerticalBoxSection" >
+                                            <property name="items">
+                                                <list>
+                                                    <bean parent="Uif-HorizontalBoxSection"  >
+                                                        <property name="items">
+                                                            <list>
+                                                                <bean id="chronCaption1" parent="SRR-Uif-InputField" p:propertyName="chronCaption1"  p:label="L1" p:fieldLabel.renderColon="false" p:onChangeScript="onChangeChronCaption1();">
+                                                                    <property name="control">
+                                                                        <bean parent="Uif-TextControl" p:maxLength="20" p:size="5"/>
+                                                                    </property>
+                                                                </bean>
+                                                                <bean id="chronCaption2" parent="SRR-Uif-InputField" p:propertyName="chronCaption2"  p:label="L2" p:fieldLabel.renderColon="false" p:onChangeScript="onChangeChronCaption2();">
+                                                                    <property name="control">
+                                                                        <bean parent="Uif-TextControl" p:maxLength="20" p:size="5"/>
+                                                                    </property>
+                                                                </bean>
+                                                                <bean id="chronCaption3" parent="SRR-Uif-InputField" p:propertyName="chronCaption3"  p:label="L3" p:fieldLabel.renderColon="false" p:onChangeScript="onChangeChronCaption3();">
+                                                                    <property name="control">
+                                                                        <bean parent="Uif-TextControl" p:maxLength="20" p:size="5"/>
+                                                                    </property>
+                                                                </bean>
+                                                                <bean id="chronCaption4" parent="SRR-Uif-InputField" p:propertyName="chronCaption4"  p:label="L4" p:fieldLabel.renderColon="false" p:onChangeScript="onChangeChronCaption4();">
+                                                                    <property name="control">
+                                                                        <bean parent="Uif-TextControl" p:maxLength="20" p:size="5"/>
+                                                                    </property>
+                                                                </bean>
+                                                                <bean id="chronCaption1Length" parent="SRR-Uif-InputField" p:propertyName="chronCaption1Length">
+                                                                    <property name="control">
+                                                                        <bean parent="Uif-HiddenControl"/>
+                                                                    </property>
+                                                                </bean>
+                                                                <bean id="chronCaption2Length" parent="SRR-Uif-InputField" p:propertyName="chronCaption2Length">
+                                                                    <property name="control">
+                                                                        <bean parent="Uif-HiddenControl"/>
+                                                                    </property>
+                                                                </bean>
+                                                                <bean id="chronCaption3Length" parent="SRR-Uif-InputField" p:propertyName="chronCaption3Length">
+                                                                    <property name="control">
+                                                                        <bean parent="Uif-HiddenControl"/>
+                                                                    </property>
+                                                                </bean>
+                                                                <bean id="chronCaption4Length" parent="SRR-Uif-InputField" p:propertyName="chronCaption4Length">
+                                                                    <property name="control">
+                                                                        <bean parent="Uif-HiddenControl"/>
+                                                                    </property>
+                                                                </bean>
+                                                            </list>
+                                                        </property>
+                                                    </bean>
+                                                    <bean parent="Uif-HorizontalBoxSection"  >
+                                                        <property name="items">
+                                                            <list>
+                                                                <bean id="chronLevel1" parent="SRR-Uif-InputField" p:propertyName="chronLevel1" p:fieldLabel.render="false" >
+                                                                    <property name="control">
+                                                                        <bean parent="Uif-TextControl" p:maxLength="20" p:size="8" />
+                                                                    </property>
+                                                                </bean>
+                                                                <bean id="chronLevel2" parent="SRR-Uif-InputField" p:propertyName="chronLevel2" p:fieldLabel.render="false" >
+                                                                    <property name="control">
+                                                                        <bean parent="Uif-TextControl" p:maxLength="20" p:size="8" />
+                                                                    </property>
+                                                                </bean>
+                                                                <bean id="chronLevel3" parent="SRR-Uif-InputField" p:propertyName="chronLevel3" p:fieldLabel.render="false" >
+                                                                    <property name="control">
+                                                                        <bean parent="Uif-TextControl" p:maxLength="20" p:size="8" />
+                                                                    </property>
+                                                                </bean>
+                                                                <bean id="chronLevel4" parent="SRR-Uif-InputField" p:propertyName="chronLevel4" p:fieldLabel.render="false" >
+                                                                    <property name="control">
+                                                                        <bean parent="Uif-TextControl" p:maxLength="20" p:size="8" />
+                                                                    </property>
+                                                                </bean>
+                                                            </list>
+                                                        </property>
+                                                    </bean>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLESerialReceiving-Buttons" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="receive_button" parent="Uif-PrimaryActionButton" p:style="float:left;margin-left:30em" p:methodToCall="receive" p:actionLabel="Receive" p:ajaxSubmit="true"  p:successCallback="treatmentNote()" p:performClientSideValidation="true" />
+                <bean id="special_button" parent="Uif-PrimaryActionButton" p:methodToCall="specialIssue"  p:actionLabel="Special Issue" p:ajaxSubmit="true"  p:successCallback="specialIssue()" p:performClientSideValidation="true" />
+                <bean id="claim_button" parent="Uif-PrimaryActionButton" p:methodToCall="claimNote"   p:actionLabel="Claim" p:performClientSideValidation="true" p:ajaxSubmit="true"  p:successCallback="claimNote()" p:render="@{document.poId ne null and document.poId ne ''}"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="OLESerialReceiving-Footer-Buttons" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="SR-Uif-SaveAction" parent="Uif-PrimaryActionButton" p:style="float:left;margin-left:30em"  p:ajaxSubmit="false" p:methodToCall="save" p:actionLabel="save" p:performClientSideValidation="true"
+                      p:loadingMessageText="Saving..."/>
+                <bean id="return_button" parent="Uif-PrimaryActionButton" p:methodToCall="returnToSearch" p:actionLabel="Return To Search" p:ajaxSubmit="true"  p:successCallback="searchSerialReceiving()"/>
+                <bean id="delete_button" parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route" p:actionLabel="Delete" p:performClientSideValidation="true"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
+                <bean id="approve_button" parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="approve" p:actionLabel="approve" p:performClientSideValidation="true"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]}"/>
+                <bean id="disapprove_button" parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="disapprove" p:actionLabel="disapprove"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_DISAPPROVE]}"/>
+           <!--     <bean id="srr_close_button" parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="close" p:actionLabel="close" />-->
+            </list>
+        </property>
+    </bean>
+
+<!--    <bean id="enum1Field" parent="Uif-InputField" p:propertyName="enumerationCaptionLevel1" p:label="Enumeration Level 1" p:readOnly="true"/>
+    <bean id="enum2Field" parent="Uif-InputField" p:propertyName="enumerationCaptionLevel2" p:label="Enumeration Level 2" p:readOnly="true"/>
+    <bean id="chron1Field" parent="Uif-InputField" p:propertyName="chronologyCaptionLevel1" p:label="Chronology Level 1" p:readOnly="true"/>
+    <bean id="chron2Field" parent="Uif-InputField" p:propertyName="chronologyCaptionLevel2" p:label="Chronology Level 2" p:readOnly="true"/>-->
+    <bean id="recstatField" parent="Uif-DataField" p:propertyName="receiptStatus" p:label="Receipt Status" />
+    <bean id="recDateField" parent="Uif-DataField" p:propertyName="receiptDate" p:label="Receipt Date" />
+    <bean id="pubRecField" parent="SRR-Uif-InputField" p:propertyName="publicReceipt" p:label="Public Receipt Note"/>
+
+
+
+    <bean id="staffField" parent="SRR-Uif-InputField" p:propertyName="staffOnlyReceipt" p:label="Staff Only Receipt Note"/>
+    <bean id="claimDateField" parent="Uif-DataField" p:propertyName="claimDate" p:label="Claim Date" />
+    <bean id="claimCountField" parent="Uif-DataField" p:propertyName="claimCount" p:label="Claim Count" />
+    <bean id="claimTypeField" parent="Uif-DataField" p:propertyName="claimTypeName" p:label="Claim Type" />
+    <bean id="claimNoteField" parent="Uif-DataField" p:propertyName="claimNote" p:label="Claim Note" />
+    <bean id="claimResponseField" parent="Uif-DataField" p:propertyName="claimResponse" p:label="Claim Response" />
+    <bean id="operatorIdField" parent="Uif-DataField" p:propertyName="operatorId" p:label="Operator Name" />
+    <bean id="machineIdField" parent="Uif-DataField" p:propertyName="machineId" p:label="Machine ID" />
+
+    <!--    <bean id="OLESerialReceiving-OLESerialRelatedPODocument" parent="Uif-VerticalBoxSubSection">
+            <property name="items">
+                <list>
+                    <bean parent="Uif-VerticalFieldGroup">
+                        <property name="items">
+                            <list>
+                             &lt;!&ndash;   <bean id="serialPoId" parent="Uif-LinkField" p:label="PO ID" p:linkText="@{#line.poId}" p:target="_blank" p:href="@{#line.poIdLink}" />&ndash;&gt;
+                                <bean id="serialPoId" parent="Uif-InputField" p:propertyName="poId" p:label="Public Display">
+                                    <property name="control">
+                                        <bean parent="Uif-CheckboxControl" p:cssClasses="publicDisplayMainClass"/>
+                                    </property>
+                                </bean>
+                            </list>
+                        </property>
+                    </bean>
+                </list>
+            </property>
+        </bean>-->
+
+
+
+    <bean id="OLESerialReceiving-OLESerialRelatedPODocument-HorizontalBoxSection" parent="OLESerialReceiving-OLESerialRelatedPODocument-HorizontalBoxSection-parentBean" />
+    <bean id="OLESerialReceiving-OLESerialRelatedPODocument-HorizontalBoxSection-parentBean" parent="Uif-VerticalBoxSection" >
+        <property name="headerText" value="Related PO's"/>
+        <!--   <property name="cssClasses" value="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix ui-dialog-title "/>-->
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean id="SerialPOErr" parent="Uif-MessageField" p:messageText="@{document.serialPOErrMsg}" p:cssClasses="messageClass"/>
+                            <ref bean="OLESerialReceiving-OLESerialRelatedPODocument"/>
+                            <ref bean="Link-PO"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLESerialReceiving-OLESerialRelatedPODocument"  parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="1" p:render="@{document.oleSerialRelatedPODocuments ne null and document.oleSerialRelatedPODocuments.size()>0}">
+        <property name="collectionObjectClass" value="org.kuali.ole.select.bo.OLESerialRelatedPODocument" />
+        <property name="propertyName" value="oleSerialRelatedPODocuments" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.richTable.disableTableSort" value="false" />
+        <property name="renderLineActions" value="false"/>
+        <property name="items">
+            <list>
+                <bean id="selectPoId" parent="SRR-Uif-InputField" p:propertyName="selectPO" p:label="Select">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" p:cssClasses="selectPOCheck"/>
+                    </property>
+                </bean>
+                <bean id="serialPoId" parent="Uif-LinkField" p:label="PO ID" p:linkText="@{#line.poId}" p:target="_blank" p:href="@{#line.poIdLink}" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Link-PO" parent="Uif-SecondaryActionButton-Small" p:actionScript="linkPO();" p:actionLabel="Link PO" />
+
+    <bean id="Link-PO-ErrMsg" parent="Uif-SecondaryActionButton-Small" p:methodToCall="linkPOErrMsg" p:hidden="true" p:ajaxSubmit="true" p:successCallback="displayRelatedPOs()"/>
+
+    <bean id="Link-PO-Button" parent="Uif-SecondaryActionButton-Small" p:methodToCall="linkPO"  p:hidden="true" p:ajaxSubmit="true"  p:successCallback="createItemLink()"/>
+
+    <bean id="OLESerialReceiving-MainReceiptHistory_Link" parent="Uif-SecondaryActionButton-Small"
+          p:actionLabel="Show/Hide Main Receipt History" p:actionScript="loadMainHistoryRecords()"
+          p:render="@{document.mainSerialReceivingHistoryList ne null and document.mainSerialReceivingHistoryList.size()>0}"/>
+
+    <bean id="OLESerialReceiving-MainReceiptHistory_Btn" parent="Uif-SecondaryActionButton-Small" p:hidden="true"
+          p:actionLabel="Show Main Receipt History" p:methodToCall="loadHistoryRecords"
+          p:refreshId="OLESerialReceiving-MainReceiptHistory"
+          p:render="@{document.mainSerialReceivingHistoryList ne null and document.mainSerialReceivingHistoryList.size()>0}"/>
+
+    <bean id="OLESerialReceiving-MainReceiptHistory"  parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="8" p:render="@{document.mainSerialReceivingHistoryList ne null and document.mainSerialReceivingHistoryList.size()>0 and document.displayMainHistory eq true}">
+        <property name="headerText" value="Main Receipt History" />
+        <property name="collectionObjectClass" value="org.kuali.ole.select.bo.OLESerialReceivingHistory" />
+        <property name="propertyName" value="mainSerialReceivingHistoryList" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="true" />
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="useServerPaging" value="true"/>
+        <!--<property name="layoutManager.richTable.disableTableSort" value="true" />-->
+        <property name="layoutManager.actionFieldPrototype.group.layoutManager">
+            <bean parent="Uif-HorizontalBoxLayout"/>
+        </property>
+        <property name="layoutManager.actionFieldPrototype.label" value=""/>
+        <property name="items">
+            <list>
+                <bean id="enumMain" parent="enumerationCaption"  p:cssClasses="enumClass enumMainClass"/>
+                <bean id="chronMain" parent="chronologyCaption"  p:cssClasses="chronClass chronMainClass"/>
+                <ref bean ="recstatField"/>
+                <ref bean ="recDateField"/>
+                <ref bean ="pubRecField"/>
+                <bean id="publicDisplayMainHistoryField" parent="SRR-Uif-InputField" p:propertyName="publicDisplay" p:label="Public Display">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" p:cssClasses="publicDisplayMainClass"/>
+                    </property>
+                </bean>
+                <bean id="history_buttons_main" parent="Uif-HorizontalFieldGroup">
+                    <property name="title" value="Actions"/>
+                    <property name="items">
+                        <list>
+                            <bean id="receiveHistory_button_main" parent="Uif-SecondaryActionButton-Small" p:actionScript="receive(@{#line?.serialReceivingRecordHistoryId});" p:actionLabel="Receive" p:render="@{#line?.receiptStatus eq 'Claimed'}"/>
+                            <bean id="claimAgain_button_main" parent="Uif-SecondaryActionButton-Small" p:actionScript="claim(@{#line?.serialReceivingRecordHistoryId});" p:actionLabel="Claim Again" p:render="@{#line?.receiptStatus eq 'Claimed'}" />
+                            <bean id="cancel_button_main" parent="Uif-SecondaryActionButton-Small" p:actionScript="cancelClaim(@{#line?.serialReceivingRecordHistoryId});" p:actionLabel="Cancel" p:render="@{#line?.receiptStatus eq 'Claimed'}" />
+                            <bean id="unReceiveHistory_button_main" parent="Uif-SecondaryActionButton-Small" p:actionScript="unReceive(@{#line?.serialReceivingRecordHistoryId});" p:actionLabel="unreceive" p:render="@{#line?.receiptStatus eq 'Received'}"/>
+                            <bean id="onChangeEnumMain" parent="Uif-SecondaryActionButton-Small" p:actionScript="onChangeEnumerationScript(@{#line?.serialReceivingRecordHistoryId});" p:actionLabel="onChangeEnum" p:hidden="true"/>
+                            <bean id="onChangeChronMain" parent="Uif-SecondaryActionButton-Small" p:actionScript="onChangeChronologyScript(@{#line?.serialReceivingRecordHistoryId});" p:actionLabel="onChangeChron" p:hidden="true"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="layoutManager.rowDetailsGroup" >
+            <bean parent="Uif-HorizontalBoxGroup" >
+                <property name="items">
+                    <list>
+                        <ref bean ="staffField"/>
+                        <ref bean ="claimDateField"/>
+                        <ref bean ="claimCountField"/>
+                        <ref bean ="claimTypeField"/>
+                        <ref bean ="claimNoteField"/>
+                        <ref bean ="claimResponseField"/>
+                        <ref bean ="operatorIdField"/>
+                        <!--       <ref bean ="machineIdField"/>-->
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="false">
+                <!-- infinite scrolling settings from http://datatables.net/examples/basic_init/scroll_y_infinite.html -->
+                <entry key="aaSorting" value="[[3,'asc']]"/>
+                <entry key="iDisplayLength" value="@{document.searchLimit}"/>
+                <entry key="bLengthChange" value="false"/>
+                <entry key="bFilter" value="false"/>
+                <!-- end of infinite scrolling settings -->
+            </map>
+        </property>
+        <property name="footer">
+            <bean id="mainFooters" parent="Uif-LookupResultsFooter">
+                <property name="items">
+                    <list>
+                        <bean id="selectAllMainPublicDisplay" parent="Uif-SecondaryActionButton" p:actionLabel="Select All" p:actionScript="selectAllMainPublicDisplay();"/>
+                        <bean id="deSelectAllMainPublicDisplay" parent="Uif-SecondaryActionButton" p:actionLabel="Deselect All" p:actionScript="deSelectAllMainPublicDisplay();"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="enumerationCaption" parent="SRR-Uif-InputField" p:propertyName="enumerationCaption" p:label="Enumeration" p:componentSecurity.editInLineAuthz="true"  p:cssClasses="enumClass">
+      <!--  <property name="onClickScript" value="onChangeEnumerationScript(@{#line?.serialReceivingRecordHistoryId});" />-->
+    </bean>
+    <bean id="chronologyCaption" parent="SRR-Uif-InputField" p:propertyName="chronologyCaption" p:label="Chronology" p:componentSecurity.editInLineAuthz="true" p:cssClasses="chronClass" >
+     <!--   <property name="onClickScript" value="onChangeChronologyScript(@{#line?.serialReceivingRecordHistoryId});" />-->
+    </bean>
+
+
+    <bean id="OLESerialReceiving-SupplementReceiptHistory_Link" parent="Uif-SecondaryActionButton-Small"
+          p:actionLabel="Show/Hide Supplementary Receipt History" p:actionScript="loadSupplementaryHistoryRecords()"
+          p:render="@{document.supplementSerialReceivingHistoryList ne null and document.supplementSerialReceivingHistoryList.size()>0}"/>
+
+    <bean id="OLESerialReceiving-SupplementReceiptHistory_Btn" parent="Uif-SecondaryActionButton-Small" p:hidden="true"
+          p:actionLabel="Show Supplementary Receipt History" p:methodToCall="loadHistoryRecords"
+          p:refreshId="OLESerialReceiving-SupplementReceiptHistory"
+          p:render="@{document.supplementSerialReceivingHistoryList ne null and document.supplementSerialReceivingHistoryList.size()>0}"/>
+
+    <bean id="OLESerialReceiving-SupplementReceiptHistory"  parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="8" p:render="@{document.supplementSerialReceivingHistoryList ne null and document.supplementSerialReceivingHistoryList.size()>0 and document.displaySupplementaryHistory eq true}">
+        <property name="headerText" value="Supplementary Receipt History" />
+        <property name="collectionObjectClass" value="org.kuali.ole.select.bo.OLESerialReceivingHistory" />
+        <property name="propertyName" value="supplementSerialReceivingHistoryList" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="true" />
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="useServerPaging" value="true"/>
+       <!-- <property name="layoutManager.richTable.disableTableSort" value="true" />-->
+        <property name="layoutManager.actionFieldPrototype.group.layoutManager">
+            <bean parent="Uif-HorizontalBoxLayout"/>
+        </property>
+        <property name="layoutManager.actionFieldPrototype.label" value=""/>
+        <property name="items">
+            <list>
+               <!-- <ref bean ="enumerationCaption"/>-->
+
+                <bean id="enumSupplement" parent="enumerationCaption"  p:cssClasses="enumClass enumSupplementClass"/>
+                <bean id="chronSupplement" parent="chronologyCaption"  p:cssClasses="chronClass chronSupplementClass"/>
+                <ref bean ="recstatField"/>
+                <ref bean ="recDateField"/>
+                <ref bean ="pubRecField"/>
+                <bean id="publicDisplaySupplementHistoryField" parent="SRR-Uif-InputField" p:propertyName="publicDisplay" p:label="Public Display">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" p:cssClasses="publicDisplaySupplementClass"/>
+                    </property>
+                </bean>
+                <bean id="history_buttons_supplement" parent="Uif-HorizontalFieldGroup">
+                    <property name="title" value="Actions"/>
+                    <property name="items">
+                        <list>
+                            <bean id="receiveHistory_button_supplement" parent="Uif-SecondaryActionButton-Small" p:actionScript="receive(@{#line?.serialReceivingRecordHistoryId});" p:actionLabel="Receive" p:render="@{#line?.receiptStatus eq 'Claimed'}"/>
+                            <bean id="claimAgain_button_supplement" parent="Uif-SecondaryActionButton-Small" p:actionScript="claim(@{#line?.serialReceivingRecordHistoryId});" p:actionLabel="Claim Again" p:render="@{#line?.receiptStatus eq 'Claimed'}" />
+                            <bean id="cancel_button_supplement" parent="Uif-SecondaryActionButton-Small" p:actionScript="cancelClaim(@{#line?.serialReceivingRecordHistoryId});" p:actionLabel="Cancel" p:render="@{#line?.receiptStatus eq 'Claimed'}" />
+                            <bean id="unReceiveHistory_button_supplement" parent="Uif-SecondaryActionButton-Small" p:actionScript="unReceive(@{#line?.serialReceivingRecordHistoryId});" p:actionLabel="unreceive" p:render="@{#line?.receiptStatus eq 'Received'}"/>
+                            <bean id="onChangeEnumSupplement" parent="Uif-SecondaryActionButton-Small" p:actionScript="onChangeEnumerationScript(@{#line?.serialReceivingRecordHistoryId});" p:actionLabel="onChangeEnum" p:hidden="true"/>
+                            <bean id="onChangeChronSupplement" parent="Uif-SecondaryActionButton-Small" p:actionScript="onChangeChronologyScript(@{#line?.serialReceivingRecordHistoryId});" p:actionLabel="onChangeChron" p:hidden="true"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="layoutManager.rowDetailsGroup" >
+            <bean parent="Uif-HorizontalBoxGroup" >
+                <property name="items">
+                    <list>
+                        <ref bean ="staffField"/>
+                        <ref bean ="claimDateField"/>
+                        <ref bean ="claimCountField"/>
+                        <ref bean ="claimTypeField"/>
+                        <ref bean ="claimNoteField"/>
+                        <ref bean ="claimResponseField"/>
+                        <ref bean ="operatorIdField"/>
+                        <!--   <ref bean ="machineIdField"/>-->
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="false">
+                <!-- infinite scrolling settings from http://datatables.net/examples/basic_init/scroll_y_infinite.html -->
+                <entry key="aaSorting" value="[[3,'asc']]"/>
+                <entry key="iDisplayLength" value="@{document.searchLimit}"/>
+                <entry key="bLengthChange" value="false"/>
+                <entry key="bFilter" value="false"/>
+                <!-- end of infinite scrolling settings -->
+            </map>
+        </property>
+        <property name="footer">
+            <bean id="supplementFooters" parent="Uif-LookupResultsFooter">
+                <property name="items">
+                    <list>
+                        <bean id="selectAllSupplementPublicDisplay" parent="Uif-SecondaryActionButton" p:actionLabel="Select All" p:actionScript="selectAllSupplementPublicDisplay();"/>
+                        <bean id="deSelectAllSupplementPublicDisplay" parent="Uif-SecondaryActionButton" p:actionLabel="Deselect All" p:actionScript="deSelectAllSupplementPublicDisplay();"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+
+    <bean id="OLESerialReceiving-IndexReceiptHistory_Link" parent="Uif-SecondaryActionButton-Small"
+          p:actionLabel="Show/Hide Index Receipt History" p:actionScript="loadIndexHistoryRecords()"
+          p:render="@{document.indexSerialReceivingHistoryList ne null and document.indexSerialReceivingHistoryList.size()>0}"/>
+
+    <bean id="OLESerialReceiving-IndexReceiptHistory_Btn" parent="Uif-SecondaryActionButton-Small" p:hidden="true"
+          p:actionLabel="Show Index Receipt History" p:methodToCall="loadHistoryRecords"
+          p:refreshId="OLESerialReceiving-IndexReceiptHistory"
+          p:render="@{document.indexSerialReceivingHistoryList ne null and document.indexSerialReceivingHistoryList.size()>0}"/>
+
+
+    <bean id="OLESerialReceiving-IndexReceiptHistory"  parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="8" p:render="@{document.indexSerialReceivingHistoryList ne null and document.indexSerialReceivingHistoryList.size()>0 and document.displayIndexHistory eq true}">
+        <property name="headerText" value="Index Receipt History" />
+        <property name="collectionObjectClass" value="org.kuali.ole.select.bo.OLESerialReceivingHistory" />
+        <property name="propertyName" value="indexSerialReceivingHistoryList" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="true" />
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="useServerPaging" value="true"/>
+        <!--<property name="layoutManager.richTable.disableTableSort" value="true" />-->
+        <property name="layoutManager.actionFieldPrototype.group.layoutManager">
+            <bean parent="Uif-HorizontalBoxLayout"/>
+        </property>
+        <property name="layoutManager.actionFieldPrototype.label" value=""/>
+        <property name="items">
+            <list>
+                <bean id="enumIndex" parent="enumerationCaption"  p:cssClasses="enumClass enumIndexClass"/>
+                <bean id="chronIndex" parent="chronologyCaption"  p:cssClasses="chronClass chronIndexClass"/>
+                <ref bean ="recstatField"/>
+                <ref bean ="recDateField"/>
+                <ref bean ="pubRecField"/>
+                <bean id="publicDisplayIndexHistoryField" parent="SRR-Uif-InputField" p:propertyName="publicDisplay" p:label="Public Display">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" p:cssClasses="publicDisplayIndexClass"/>
+                    </property>
+                </bean>
+                <bean id="history_buttons_index" parent="Uif-HorizontalFieldGroup">
+                    <property name="title" value="Actions"/>
+                    <property name="items">
+                        <list>
+                            <bean id="receiveHistory_button_index" parent="Uif-SecondaryActionButton-Small" p:actionScript="receive(@{#line?.serialReceivingRecordHistoryId});" p:actionLabel="Receive" p:render="@{#line?.receiptStatus eq 'Claimed'}"/>
+                            <bean id="claimAgain_button_index" parent="Uif-SecondaryActionButton-Small" p:actionScript="claim(@{#line?.serialReceivingRecordHistoryId});" p:actionLabel="Claim Again" p:render="@{#line?.receiptStatus eq 'Claimed'}" />
+                            <bean id="cancel_button_index" parent="Uif-SecondaryActionButton-Small" p:actionScript="cancelClaim(@{#line?.serialReceivingRecordHistoryId});" p:actionLabel="Cancel" p:render="@{#line?.receiptStatus eq 'Claimed'}" />
+                            <bean id="unReceiveHistory_button_index" parent="Uif-SecondaryActionButton-Small" p:actionScript="unReceive(@{#line?.serialReceivingRecordHistoryId});" p:actionLabel="unreceive" p:render="@{#line?.receiptStatus eq 'Received'}"/>
+                            <bean id="onChangeEnumIndex" parent="Uif-SecondaryActionButton-Small" p:actionScript="onChangeEnumerationScript(@{#line?.serialReceivingRecordHistoryId});" p:actionLabel="onChangeEnum" p:hidden="true"/>
+                            <bean id="onChangeChronIndex" parent="Uif-SecondaryActionButton-Small" p:actionScript="onChangeChronologyScript(@{#line?.serialReceivingRecordHistoryId});" p:actionLabel="onChangeChron" p:hidden="true"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="layoutManager.rowDetailsGroup" >
+            <bean parent="Uif-HorizontalBoxGroup" >
+                <property name="items">
+                    <list>
+                        <ref bean ="staffField"/>
+                        <ref bean ="claimDateField"/>
+                        <ref bean ="claimCountField"/>
+                        <ref bean ="claimTypeField"/>
+                        <ref bean ="claimNoteField"/>
+                        <ref bean ="claimResponseField"/>
+                        <ref bean ="operatorIdField"/>
+                        <!-- <ref bean ="machineIdField"/>-->
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="false">
+                <!-- infinite scrolling settings from http://datatables.net/examples/basic_init/scroll_y_infinite.html -->
+                <entry key="aaSorting" value="[[3,'asc']]"/>
+                <entry key="iDisplayLength" value="@{document.searchLimit}"/>
+                <entry key="bLengthChange" value="false"/>
+                <entry key="bFilter" value="false"/>
+                <!-- end of infinite scrolling settings -->
+            </map>
+        </property>
+        <property name="footer">
+            <bean id="indexFooters" parent="Uif-LookupResultsFooter">
+                <property name="items">
+                    <list>
+                        <bean id="selectAllIndexPublicDisplay" parent="Uif-SecondaryActionButton" p:actionLabel="Select All" p:actionScript="selectAllIndexPublicDisplay();"/>
+                        <bean id="deSelectAllIndexPublicDisplay" parent="Uif-SecondaryActionButton" p:actionLabel="Deselect All" p:actionScript="deSelectAllIndexPublicDisplay();"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="hdnReceiveHistory_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:2em"  p:methodToCall="receiveHistory" p:actionLabel="Receive"  p:hidden="true" />
+    <bean id="hdnClaimAgainNote_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em"  p:methodToCall="claimAgainNote" p:actionLabel="Claim Again Note"  p:hidden="true" p:ajaxSubmit="true" p:successCallback="claimNote()"/>
+    <bean id="hdnCancelClaim_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em"  p:methodToCall="cancelClaim" p:actionLabel="Cancel Claim"  p:hidden="true" />
+    <bean id="hdnUnReceiveHistory_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em"  p:methodToCall="unReceiveHistory" p:actionLabel="unreceive"  p:hidden="true" />
+    <bean id="serialReceivingVendor_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em"  p:methodToCall="searchVendor" p:actionLabel="Search Vendor"  p:hidden="true" />
+    <bean id="SpecialIssue-HorizontalBoxSection" parent="SpecialIssue-HorizontalBoxSection-parentBean" />
+    <bean id="SpecialIssue-HorizontalBoxSection-parentBean" parent="Uif-VerticalBoxSection" p:render="@{document.specialIssueFlag}">
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <ref bean="SpecialIssueNote" />
+                            <ref bean="SpecialIssueButton" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="SpecialIssueNote" parent="SpecialIssueNote-parentBean" />
+    <bean id="SpecialIssueNote-parentBean" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="spclIssueNote" parent="SRR-Uif-InputField" p:label="Note" p:propertyName="specialIssueNote" p:maxLength="40">
+                    <property name="control">
+                        <bean parent="Uif-TextAreaControl" p:rows="5" p:cols="70" />
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="SpecialIssueButton" parent="SpecialIssueButton-parentBean" />
+    <bean id="SpecialIssueButton-parentBean" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="SpecialIssueBtn" parent="Uif-SecondaryActionButton-Small" p:actionLabel="receive" p:methodToCall="saveNote" p:ajaxSubmit="true"  p:successCallback="closeSpecialIssueDialog();"/>
+                <bean id="SpecialIssueCloseBtn" parent="Uif-SecondaryActionButton-Small" p:actionScript="closeSpecialIssueDialog();" p:actionLabel="Close" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="serialHiddenFields" parent="SRR-Uif-InputField" p:propertyName="specialIssueFlag"
+     p:additionalHiddenPropertyNames="treatmentNoteFlag,serialReceiptHistoryId,returnToSearch,itemUUID,tempInstanceId,urgentNoteFlag,claimNoteFlag,claimAgainNoteFlag,statusCode,linkPO,bibId,itemCheckFlag,displayMainHistory,displaySupplementaryHistory,displayIndexHistory">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
+    <bean id="TreatmentInstructionNote-HorizontalBoxSection" parent="TreatmentInstructionNote-HorizontalBoxSection-parentBean" />
+    <bean id="TreatmentInstructionNote-HorizontalBoxSection-parentBean" parent="Uif-VerticalBoxSection" p:render="@{document.treatmentNoteFlag}">
+        <property name="headerText" value="Treatment Instruction Note"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <ref bean="TreatmentInstructionNote" />
+                            <ref bean="TreatmentInstructionButton" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="TreatmentInstructionNote" parent="TreatmentInstructionNote-parentBean" />
+    <bean id="TreatmentInstructionNote-parentBean" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="treatmentInstructionNoteField" parent="SRR-Uif-InputField" p:label="Note" p:propertyName="treatmentDialogNote">
+                    <property name="control">
+                        <bean parent="Uif-TextAreaControl" p:rows="5" p:cols="70" />
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="TreatmentInstructionButton" parent="TreatmentInstructionButton-parentBean" />
+    <bean id="TreatmentInstructionButton-parentBean" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="receiveAckBtnLbl" parent="Uif-SecondaryActionButton-Small" p:actionLabel="acknowledge" p:actionScript="closeTreatmentNoteDialog();" />
+                <bean id="receiveAckBtn" parent="Uif-SecondaryActionButton-Small" p:actionLabel="acknowledge" p:methodToCall="acknowledgeNote" p:ajaxSubmit="true"  p:successCallback="createItemLink()" p:hidden="true" />
+                <!--  <bean id="treatmentInstructionBtn" parent="Uif-SecondaryActionButton-Small" p:actionScript="closeTreatmentNoteDialog();" p:actionLabel="Close" />-->
+            </list>
+        </property>
+    </bean>
+
+    <bean id="UrgentNote-HorizontalBoxSection" parent="UrgentNote-HorizontalBoxSection-parentBean" />
+    <bean id="UrgentNote-HorizontalBoxSection-parentBean" parent="Uif-VerticalBoxSection" p:render="@{document.urgentNoteFlag}">
+        <property name="headerText" value="Urgent Note"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <ref bean="UrgentNote" />
+                            <ref bean="UrgentNoteButton" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="UrgentNote" parent="UrgentNote-parentBean" />
+    <bean id="UrgentNote-parentBean" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="urgentNoteDialogField" parent="SRR-Uif-InputField" p:propertyName="urgentDialogNote">
+                    <property name="control">
+                        <bean parent="Uif-TextAreaControl" p:rows="3" p:cols="50" />
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="UrgentNoteButton" parent="UrgentNoteButton-parentBean" />
+    <bean id="UrgentNoteButton-parentBean" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="receiveAckBtnForUrgNoteLbl" parent="Uif-SecondaryActionButton-Small" p:actionLabel="acknowledge" p:actionScript="closeUrgentNoteDialog();"/>
+                <bean id="receiveAckBtnForUrgNote" parent="Uif-SecondaryActionButton-Small" p:actionLabel="acknowledge" p:methodToCall="acknowledgeUrgentNote" p:hidden="true" />
+                <!--   <bean id="urgentNoteBtn" parent="Uif-SecondaryActionButton-Small" p:actionScript="parent.window.close();" p:actionLabel="Close" />-->
+            </list>
+        </property>
+    </bean>
+
+
+
+<!--    <bean id="showTreatmentInstructionNoteDialog" parent="Uif-InputField" p:propertyName="treatmentNoteFlag">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+
+<!--    <bean id="serialReceiptHistoryId" parent="Uif-InputField" p:propertyName="serialReceiptHistoryId">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+
+<!--    <bean id="returnToSearch" parent="Uif-InputField" p:propertyName="returnToSearch">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+
+<!--
+    <bean id="createItemItemUUID" parent="Uif-InputField" p:propertyName="itemUUID">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+-->
+
+<!--    <bean id="urgentNoteDialog" parent="Uif-InputField" p:propertyName="urgentNoteFlag">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+
+<!--    <bean id="claimNoteDialog" parent="Uif-InputField" p:propertyName="claimNoteFlag">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+
+<!--    <bean id="claimAgainNoteDialog" parent="Uif-InputField" p:propertyName="claimAgainNoteFlag">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+
+<!--    <bean id="statusCode" parent="Uif-InputField" p:propertyName="statusCode">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+
+<!--    <bean id="linkPO" parent="Uif-InputField" p:propertyName="linkPO">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+
+    <bean id="refreshReceivingRecordTypeBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="refreshReceivingRecordType"  p:hidden="true"  p:refreshId="OLESerialReceiving-receive"/>
+
+<!--    <bean id="bibIdField" parent="Uif-InputField" p:propertyName="bibId" p:required="true"
+          p:readOnly="true" p:hidden="true"/>-->
+<!--    <bean id="item_check" parent="Uif-InputField" p:propertyName="itemCheckFlag" p:hidden="true"/>-->
+
+<!--    <bean id="tempInstanceId" parent="Uif-InputField" p:propertyName="tempInstanceId" p:hidden="true"/>-->
+
+    <bean id="ConfirmReturnToSearch" parent="ConfirmReturnToSearch-parent"/>
+    <bean id="ConfirmReturnToSearch-parent" parent="Uif-VerticalBoxSection" p:render="@{document.returnToSearch}">
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <ref bean="ConfirmReturnToSearch-Message"/>
+                            <ref bean="ConfirmReturnToSearchButton"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ConfirmReturnToSearch-Message"  parent="ConfirmReturnToSearch-Message-parent"/>
+    <bean id="ConfirmReturnToSearch-Message-parent" parent="Uif-HorizontalBoxSubSection">
+        <property name="items">
+            <list>
+                <bean id="ConfirmReturnToSearchMessage" parent="Uif-DataField" p:style="font-weight:bold;" p:propertyName="confirmMessage">
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ConfirmReturnToSearchButton" parent="ConfirmReturnToSearchButton-parent"/>
+    <bean id="ConfirmReturnToSearchButton-parent" parent="Uif-HorizontalBoxSubSection">
+        <property name="items">
+            <list>
+                <bean id="Yes_Btn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="returnToSearch" p:actionLabel="Yes" p:ajaxSubmit="true"  p:successCallback="closeConfirmReturnToSearchDialog();searchSerialReceiving()" />
+                <bean id="No_Btn" parent="Uif-SecondaryActionButton-Small"   p:actionLabel="No" p:actionScript="closeConfirmReturnToSearchDialog();" />
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ClaimNote-HorizontalBoxSection" parent="ClaimNote-HorizontalBoxSection-parentBean" />
+    <bean id="ClaimNote-HorizontalBoxSection-parentBean" parent="Uif-VerticalBoxSection" p:render="@{document.claimNoteFlag or document.claimAgainNoteFlag}">
+        <property name="headerText" value="Claim Type And Note"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <ref bean="claimNote" />
+                            <ref bean="claimNoteButton" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="claimNote" parent="claimNote-parentBean" />
+    <bean id="claimNote-parentBean" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="claimTypeDropDown" parent="SRR-Uif-InputField" p:propertyName="claimType"
+                      p:label="Claim Type" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.select.keyvalue.OLEClaimTypeKeyValuesFinder"/>
+                    </property>
+                </bean>
+                <bean id="claimNoteDialogField" parent="SRR-Uif-InputField" p:propertyName="claimDialogNote">
+                    <property name="control">
+                        <bean parent="Uif-TextAreaControl" p:rows="3" p:cols="50" />
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+
+
+    <bean id="claimNoteButton" parent="claimNoteButton-parentBean" />
+    <bean id="claimNoteButton-parentBean" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="claim_note_button" parent="Uif-PrimaryActionButton"  p:methodToCall="claim"   p:actionLabel="Claim" p:performClientSideValidation="true" p:render="@{document.claimNoteFlag}"/>
+                <bean id="claimAgain_button" parent="Uif-PrimaryActionButton"  p:methodToCall="claimHistory" p:actionLabel="Claim Again"  p:render="@{document.claimAgainNoteFlag}"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="enumerationSaveDialog" parent="enumerationSaveDialog-parent"/>
+    <bean id="enumerationSaveDialog-parent" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <ref bean="Enumeration-HorizontalBoxSection"/>
+                            <ref bean="enumerationSaveDialogButton"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="chronologySaveDialog" parent="chronologySaveDialog-parent"/>
+    <bean id="chronologySaveDialog-parent" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <ref bean="Chronology-HorizontalBoxSection"/>
+                            <ref bean="chronologySaveDialogButton"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="enumerationSaveDialogButton" parent="enumerationSaveDialogButton-parent"/>
+    <bean id="enumerationSaveDialogButton-parent" parent="Uif-HorizontalBoxSubSection">
+        <property name="items">
+            <list>
+                <bean id="saveEnumeration" parent="Uif-SecondaryActionButton-Small" p:methodToCall="saveEnumerationChronology" p:actionLabel="done" p:ajaxSubmit="true"  p:successCallback="closeConfirmEnumerationChange();" />
+                <bean id="resetEnumeration" parent="Uif-SecondaryActionButton-Small"  p:methodToCall="resetEnumerationAndChronology" p:actionLabel="cancel" p:successCallback="closeConfirmEnumerationChange();" />
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Enumeration-HorizontalBoxSection" parent="Enumeration-HorizontalBoxSection-parentBean" />
+    <bean id="Enumeration-HorizontalBoxSection-parentBean" parent="Uif-HorizontalBoxSubSection" >
+        <property name="items">
+            <list>
+                <bean id="enumerationHistoryCaptionLevel1" parent="SRR-Uif-InputField" p:propertyName="enumerationHistoryCaptionLevel1"  p:label="Enum Level1" >
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:maxLength="40" p:size="8" />
+                    </property>
+                </bean>
+                <bean id="enumerationHistoryCaptionLevel2" parent="SRR-Uif-InputField" p:propertyName="enumerationHistoryCaptionLevel2"  p:label="Enum Level2" >
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:maxLength="40" p:size="8" />
+                    </property>
+                </bean>
+                <bean id="enumerationHistoryCaptionLevel3" parent="SRR-Uif-InputField" p:propertyName="enumerationHistoryCaptionLevel3"  p:label="Enum Level3" >
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:maxLength="40" p:size="8" />
+                    </property>
+                </bean>
+                <bean id="enumerationHistoryCaptionLevel4" parent="SRR-Uif-InputField" p:propertyName="enumerationHistoryCaptionLevel4"  p:label="Enum Level4" >
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:maxLength="40" p:size="8" />
+                    </property>
+                </bean>
+                <bean id="enumerationHistoryCaptionLevel5" parent="SRR-Uif-InputField" p:propertyName="enumerationHistoryCaptionLevel5"  p:label="Enum Level5" >
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:maxLength="40" p:size="8" />
+                    </property>
+                </bean>
+                <bean id="enumerationHistoryCaptionLevel6" parent="SRR-Uif-InputField" p:propertyName="enumerationHistoryCaptionLevel6"  p:label="Enum Level6" >
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:maxLength="40" p:size="8" />
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Chronology-HorizontalBoxSection" parent="Chronology-HorizontalBoxSection-parentBean" />
+    <bean id="Chronology-HorizontalBoxSection-parentBean" parent="Uif-HorizontalBoxSubSection" >
+        <property name="items">
+            <list>
+                <bean id="chronologyHistoryCaptionLevel1" parent="SRR-Uif-InputField" p:propertyName="chronologyHistoryCaptionLevel1"  p:label="Chron Level1" >
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:maxLength="40" p:size="8" />
+                    </property>
+                </bean>
+                <bean id="chronologyHistoryCaptionLevel2" parent="SRR-Uif-InputField" p:propertyName="chronologyHistoryCaptionLevel2"  p:label="Chron Level2" >
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:maxLength="40" p:size="8" />
+                    </property>
+                </bean>
+                <bean id="chronologyHistoryCaptionLevel3" parent="SRR-Uif-InputField" p:propertyName="chronologyHistoryCaptionLevel3"  p:label="Chron Level3" >
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:maxLength="40" p:size="8" />
+                    </property>
+                </bean>
+                <bean id="chronologyHistoryCaptionLevel4" parent="SRR-Uif-InputField" p:propertyName="chronologyHistoryCaptionLevel4"  p:label="Chron Level4" >
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:maxLength="40" p:size="8" />
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="chronologySaveDialogButton" parent="chronologySaveDialogButton-parent"/>
+    <bean id="chronologySaveDialogButton-parent" parent="Uif-HorizontalBoxSubSection">
+        <property name="items">
+            <list>
+                <bean id="saveChronology" parent="Uif-SecondaryActionButton-Small" p:methodToCall="saveEnumerationChronology" p:actionLabel="done" p:ajaxSubmit="true"  p:successCallback="closeConfirmChronologyChange();" />
+                <bean id="resetChronology" parent="Uif-SecondaryActionButton-Small"  p:methodToCall="resetEnumerationAndChronology" p:actionLabel="cancel" p:successCallback="closeConfirmChronologyChange();" />
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="setEnumeration" parent="Uif-SecondaryActionButton-Small" p:methodToCall="setEnumerationChronology" p:actionLabel="done" p:ajaxSubmit="true"  p:successCallback="showEnumDialog();" p:hidden="true" />
+    <bean id="setChronology" parent="Uif-SecondaryActionButton-Small" p:methodToCall="setEnumerationChronology" p:actionLabel="done" p:ajaxSubmit="true"  p:successCallback="showChronDialog();" p:hidden="true" />
+
+    <bean id="SRR-Uif-InputField" parent="Uif-InputField">
+        <property name="quickfinder">
+            <null/>
+        </property>
+    </bean>
+
+
+</beans>
+
+

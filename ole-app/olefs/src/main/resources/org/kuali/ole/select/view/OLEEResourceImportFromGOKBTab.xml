@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="OLEEResourceRecordView-E-ResourceImportFromGOKBTab" parent="E-Res-Uif-DocumentPage">
+        <property name="headerText" value="Import From GOKb"/>
+        <property name="items">
+            <list>
+                <ref bean="OLEEResourceRecordView-Overview"/>
+                <ref bean="E-ResourceImportFromGOKBTab-packageSearch"/>
+                <bean id="OLEEResourceRecordView-Package" parent="Uif-InputField" p:propertyName="currentPackageName">
+                    <property name="bindingInfo.bindToForm" value="true"/>
+                    <property name="control">
+                        <bean parent="Uif-HiddenControl"/>
+                    </property>
+                </bean>
+                <bean id="OLEEResourceRecordView-PackageId" parent="Uif-InputField" p:propertyName="packageId">
+                    <property name="bindingInfo.bindToForm" value="true"/>
+                    <property name="control">
+                        <bean parent="Uif-HiddenControl"/>
+                    </property>
+                </bean>
+                <bean id="OLEEResourceRecordView-Platform" parent="Uif-InputField" p:propertyName="currentPlatformName">
+                    <property name="bindingInfo.bindToForm" value="true"/>
+                    <property name="control">
+                        <bean parent="Uif-HiddenControl"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="E-ResourceImportFromGOKBTab-packageSearch" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="headerText" value="Package Search"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <ref bean="packageSearchGroupSection"/>
+                            <ref bean="standardIdentifiersGroupSection"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="packageSearch"
+                      p:actionLabel="Search"/>
+                <ref bean="GOKbPackages"/>
+                <ref bean="platFormSection"/>
+                <ref bean="tiipResults"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="packageSearchGroupSection" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:propertyName="packageName" p:label="Package Name">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="15" p:maxLength=""/>
+                                </property>
+                                <property name="bindingInfo.bindToForm" value="true"/>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="platformName" p:label="Platform Name">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="15" p:maxLength=""/>
+                                </property>
+                                <property name="bindingInfo.bindToForm" value="true"/>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-VerticalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:propertyName="platformProvider"
+                                  p:label="Platform Provider">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="15" p:maxLength=""/>
+                                </property>
+                                <property name="bindingInfo.bindToForm" value="true"/>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="title" p:label="Title">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="15" p:maxLength=""/>
+                                </property>
+                                <property name="bindingInfo.bindToForm" value="true"/>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-VerticalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:propertyName="publisher" p:label="Publisher">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="15" p:maxLength=""/>
+                                </property>
+                                <property name="bindingInfo.bindToForm" value="true"/>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="titleInstanceType"
+                                  p:label="Title Instance Type">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl">
+                                        <property name="options">
+                                            <list>
+                                                <!--<bean parent="Uif-KeyLabelPair" p:key="dataBase" p:value="Database"/>-->
+                                                <!--<bean parent="Uif-KeyLabelPair" p:key="book" p:value="Book"/>-->
+                                                <bean parent="Uif-KeyLabelPair" p:key="Journal" p:value="Journal"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                                <property name="bindingInfo.bindToForm" value="true"/>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="standardIdentifiersGroupSection" parent="Uif-TableCollectionSection">
+        <property name="collectionObjectClass" value="org.kuali.ole.select.bo.OLEStandardIdentifier"/>
+        <property name="propertyName" value="standardIdentifiers"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="identifierType"
+                      p:label="Identifier Type">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="issn" p:value="ISSN"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="isbn" p:value="ISBN"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="identifier" p:label="Identifier">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" p:maxLength=""/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="GOKbPackages" parent="Uif-TableCollectionSection" p:render="@{document.goKbPackageList.size()>0}">
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.select.bo.OLEGOKbPackage"/>
+        <property name="headerText" value="Package Search Result"/>
+        <property name="propertyName" value="goKbPackageList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.generateAutoSequence" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.applyDefaultCellWidths" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalFieldGroup" p:label="Package Name">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-ActionLink"
+                                  p:actionScript="showTippPopup('@{#line.packageName}', '@{#line.packageId}')"
+                                  p:actionLabel="@{#line.packageName}" p:render="@{#line.multiplePlatform eq false}"/>
+                            <bean parent="Uif-ActionLink"
+                                  p:actionScript="showPlatform('@{#line.packageName}', '@{#line.packageId}')"
+                                  p:actionLabel="@{#line.packageName}" p:render="@{#line.multiplePlatform eq true}"/>
+                        </list>
+
+                    </property>
+                </bean>
+                <bean parent="Uif-DataField" p:label="GOKb Status" p:propertyName="gokbStatus"/>
+                <bean parent="Uif-DataField" p:label="OLE Status" p:propertyName="oleStatus"/>
+                <bean parent="Uif-DataField" p:label="Primary Platform" p:propertyName="primaryPlatform"/>
+                <bean parent="Uif-DataField" p:label="Primary Platform Provider"
+                      p:propertyName="primaryPlatformProvider"/>
+                <bean parent="Uif-DataField" p:label="#TIIPS" p:propertyName="tiips"/>
+                <bean parent="Uif-DataField" p:label="Date Created" p:propertyName="dateCreated"/>
+                <bean parent="Uif-DataField" p:label="Date Entered" p:propertyName="dateEntered"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="TIIPSearchResults" parent="Uif-TableCollectionSection">
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.select.bo.OLEGOKbTIPP"/>
+        <property name="headerText" value="TIPPSearchResults"/>
+        <property name="propertyName" value="goKbTIPPList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.generateAutoSequence" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.applyDefaultCellWidths" value="false"/>
+
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:label="" p:propertyName="select" p:defaultValue="false" p:width="50px">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-DataField" p:label="Title" p:propertyName="title"/>
+                <bean parent="Uif-DataField" p:label="GOKb Status" p:propertyName="gokbStatus"/>
+                <bean parent="Uif-DataField" p:label="Type" p:propertyName="type"/>
+                <bean parent="Uif-DataField" p:label="ISSN" p:propertyName="issn"/>
+                <bean parent="Uif-DataField" p:label="Start Date" p:propertyName="startDate"/>
+                <bean parent="Uif-DataField" p:label="End Date" p:propertyName="endDate"/>
+                <bean parent="Uif-DataField" p:label="URL" p:propertyName="url"/>
+                <bean parent="Uif-DataField" p:label="Date Created" p:propertyName="dateCreated"/>
+                <bean parent="Uif-DataField" p:label="Date Updated" p:propertyName="dateUpdated"/>
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+    <bean id="tiipResults" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <ref bean="importPackageMetaData"/>
+                <!--<ref bean="TIIPSearchResults"/>-->
+                <ref bean="platFormSearchResults1"/>
+                <ref bean="GokbButton"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="GokbButton" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+        <list>
+            <ref bean="GokbTippProileSection"/>
+            <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="importData"
+                  p:actionLabel="Import Data" p:style="float:left;margin-left:10em" p:successCallback="displayDialogWindow('div#tiipResults')"/>
+            <bean parent="Uif-SecondaryActionButton-Small" p:actionScript="closeLightBoxComponentTipp('div#tiipResults')"
+                  p:actionLabel="Cancel" p:style="float:left;margin-left:30em"/>
+        </list>
+        </property>
+    </bean>
+
+    <bean id="PlatformTippResults" parent="Uif-VerticalBoxSection" p:render="@{showTippsWithMorePlatform}">
+        <property name="hidden" value="true"/>
+        <property name="items">
+            <list>
+                <ref bean="importPackageMetaData"/>
+                <ref bean="platFormSearchResults1"/>
+                <ref bean="GokbButton"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="GokbTippProileSection" parent="Uif-GridSection">
+        <property name="headerText" value=""/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="profile" p:label="Profile"
+                      p:optionsFinderClass="org.kuali.ole.select.keyvalue.OLEGOKbProfileKeyValueFinder">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="importPackageMetaData" parent="Uif-HorizontalBoxSection">
+        <property name="headerText" value="@{currentPackageName}"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:label="Import package meta data only (no TIPPs)"
+                      p:propertyName="importPackageMetaDataOnly" p:defaultValue="false">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                    <property name="bindingInfo.bindToForm" value="true"/>
+                </bean>
+                <!--<bean parent="Uif-InputField" p:label="Show Deleted/Retired TIPPs"-->
+                      <!--p:propertyName="showDeletedTipps"-->
+                      <!--p:defaultValue="false" p:style="float:right;margin-left:10em">-->
+                    <!--<property name="control">-->
+                        <!--<bean parent="Uif-CheckboxControl"  p:onClickScript="showAllTipps();"/>-->
+                    <!--</property>-->
+                    <!--<property name="bindingInfo.bindToForm" value="true"/>-->
+                <!--</bean>-->
+            </list>
+        </property>
+    </bean>
+
+    <bean id="platFormSection" parent="Uif-VerticalBoxSection"  p:forceSessionPersistence="true" p:render="@{showMultiplePlatforms eq true}">
+        <property name="items">
+            <list>
+                <ref bean="platFormSearchResults"/>
+                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="getTipps"
+                      p:actionLabel="Get TIPPs" p:successCallback="showTippPopup('PLATFORM')"
+                      p:render="@{document.goKbPlatformList.size()>0}"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="platFormSearchResults" parent="Uif-TableCollectionSection" >
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.select.bo.OLEGOKbPlatform"/>
+        <property name="propertyName" value="goKbPlatformList"/>
+        <property name="headerText" value="@{currentPlatformName}"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.generateAutoSequence" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.applyDefaultCellWidths" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="items">
+            <list>
+                <bean id ="selectedPlatForm" parent="Uif-InputField" p:label="" p:propertyName="select"
+                      p:defaultValue="false" p:width="50px">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-DataField" p:propertyName="platformName" p:label="Platform Name"/>
+                <bean parent="Uif-DataField" p:propertyName="platformProvider"
+                      p:label="Platform Provider"/>
+                <bean parent="Uif-DataField" p:propertyName="softwarePlatform"
+                      p:label="Software Platform"/>
+                <bean parent="Uif-DataField" p:propertyName="noOfTiips" p:label="Tiips"/>
+            </list>
+        </property>
+        <!--<property name="subCollections">-->
+        <!--<list>-->
+        <!--<ref bean="TIIPSearchResults-subcollection"/>-->
+        <!--</list>-->
+        <!--</property>-->
+    </bean>
+
+    <bean id="platFormSearchResults1" parent="Uif-TableCollectionSection">
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.select.bo.OLEGOKbPlatform"/>
+        <property name="propertyName" value="goKbPlatformList"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:label="@{#line.label}" p:propertyName="select" p:defaultValue="false" p:width="50px">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+                <!--<bean parent="Uif-DataField" p:propertyName="platformName" p:label="Platform Name"/>-->
+                <!--<bean parent="Uif-DataField" p:propertyName="platformProvider" p:label="Platform Provider"/>
+                <bean parent="Uif-DataField" p:propertyName="softwarePlatform" p:label="Software Platform"/>
+                <bean parent="Uif-DataField" p:propertyName="noOfTiips" p:label="Tiips"/>-->
+            </list>
+        </property>
+        <property name="subCollections">
+            <list>
+                <ref bean="TIIPSearchResults-subcollection"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="TIIPSearchResults-subcollection" parent="Uif-Disclosure-TableSubCollection-WithinSection"
+          p:layoutManager.numberOfColumns="9" p:layoutManager.style="border:1px solid;">
+        <property name="collectionObjectClass" value="org.kuali.ole.select.bo.OLEGOKbTIPP"/>
+        <property name="propertyName" value="goKbTIPPList"/>
+       <!-- <property name="headerText" value="@{#parentLine.platformName}"/>-->
+        <property name="renderLineActions" value="false"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.disableTableSort" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:label="" p:propertyName="select" p:defaultValue="false" p:width="50px" p:render="@{#line.tippExists eq false}">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:label="" p:propertyName="select" p:defaultValue="false" p:width="50px" p:hidden="true" p:render="@{#line.tippExists eq true}">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-DataField" p:label="Title" p:propertyName="title"/>
+                <bean parent="Uif-DataField" p:label="GOKb Status" p:propertyName="gokbStatus"/>
+                <bean parent="Uif-DataField" p:label="Type" p:propertyName="type"/>
+                <bean parent="Uif-DataField" p:label="ISSN" p:propertyName="issn"/>
+                <bean parent="Uif-DataField" p:label="Start Date" p:propertyName="startDate"/>
+                <bean parent="Uif-DataField" p:label="End Date" p:propertyName="endDate"/>
+                <bean parent="Uif-DataField" p:label="URL" p:propertyName="url"/>
+                <bean parent="Uif-DataField" p:label="Date Created" p:propertyName="dateCreated"/>
+                <bean parent="Uif-DataField" p:label="Date Updated" p:propertyName="dateUpdated"/>
+            </list>
+        </property>
+    </bean>
+
+
+</beans>

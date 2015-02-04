@@ -1,0 +1,6 @@
+VNDR_ROLE_ID,NAME,OBJ_ID,VER_NBR
+"1","Licensor","VNDRROLE1","1"
+"2","Publisher","VNDRROLE2","1"
+"3","Platform Provider","VNDRROLE3","1"
+"4","Content Provider","VNDRROLE4","1"
+"5","Vendor","VNDRROLE5","1"

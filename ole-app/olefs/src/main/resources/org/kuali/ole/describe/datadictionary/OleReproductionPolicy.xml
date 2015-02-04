@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <!--
+
+        Copyright 2005-2012 The Kuali Foundation
+
+        Licensed under the Educational Community License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at
+
+        http://www.opensource.org/licenses/ecl2.php
+
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+
+    -->
+    <bean id="OleReproductionPolicy" parent="OleReproductionPolicy-parentBean"/>
+
+    <bean id="OleReproductionPolicy-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.describe.bo.OleReproductionPolicy"/>
+        <property name="titleAttribute" value="reproductionPolicyId"/>
+        <property name="objectLabel" value="Reproduction Policy"/>
+
+        <property name="attributes">
+            <list>
+                <ref bean="OleReproductionPolicy-reproductionPolicyId"/>
+                <ref bean="OleReproductionPolicy-reproductionPolicyCode"/>
+                <ref bean="OleReproductionPolicy-reproductionPolicyName"/>
+                <ref bean="OleReproductionPolicy-source"/>
+                <ref bean="OleReproductionPolicy-sourceDate"/>
+                <ref bean="OleReproductionPolicy-active"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <!-- Attribute Definitions -->
+
+
+    <bean id="OleReproductionPolicy-reproductionPolicyId" parent="OleReproductionPolicy-reproductionPolicyId-parentBean"/>
+
+    <bean id="OleReproductionPolicy-reproductionPolicyId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Reproduction Policy Id"/>
+        <property name="maxLength" value="10"/>
+        <property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+        <property name="name" value="reproductionPolicyId"/>
+        <property name="label" value="Reproduction Policy Id"/>
+        <property name="description" value="Reproduction Policy Id"/>
+    </bean>
+
+
+
+    <bean id="OleReproductionPolicy-reproductionPolicyCode" parent="OleReproductionPolicy-reproductionPolicyCode-parentBean"/>
+
+    <bean id="OleReproductionPolicy-reproductionPolicyCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Reproduction Policy Code"/>
+        <property name="maxLength" value="30"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="reproductionPolicyCode"/>
+        <property name="label" value="Reproduction Policy Code"/>
+        <property name="description" value="Reproduction Policy Code"/>
+
+    </bean>
+
+
+    <bean id="OleReproductionPolicy-reproductionPolicyName" parent="OleReproductionPolicy-reproductionPolicyName-parentBean"/>
+
+    <bean id="OleReproductionPolicy-reproductionPolicyName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Reproduction Policy Name"/>
+        <property name="maxLength" value="30"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="reproductionPolicyName"/>
+        <property name="label" value="Reproduction Policy Name"/>
+        <property name="description" value="Reproduction Policy Name"/>
+
+    </bean>
+
+    <bean id="OleReproductionPolicy-source" parent="OleReproductionPolicy-source-parentBean"/>
+
+    <bean id="OleReproductionPolicy-source-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Source"/>
+        <property name="maxLength" value="100"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="source"/>
+        <property name="label" value="Source"/>
+        <property name="description" value="Source description"/>
+
+    </bean>
+
+    <bean id="OleReproductionPolicy-sourceDate" parent="OleReproductionPolicy-sourceDate-parentBean"/>
+
+    <bean id="OleReproductionPolicy-sourceDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+        <property name="shortLabel" value="Source Date"/>
+        <property name="name" value="sourceDate"/>
+        <property name="label" value="Source Date"/>
+        <property name="required" value="true"/>
+    </bean>
+
+
+
+
+    <bean id="OleReproductionPolicy-active" parent="OleReproductionPolicy-active-parentBean"/>
+
+    <bean id="OleReproductionPolicy-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+        <property name="name" value="active"/>
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+
+    <bean id="OleReproductionPolicy-InquiryView" parent="Uif-OLEInquiryView">
+        <property name="headerText" value="Reproduction Policy Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.describe.bo.OleReproductionPolicy" />
+        <property name="singlePageView" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-VerticalBoxSection">
+                    <property name="header.headerText" value="Reproduction Policy" />
+                    <property name="items">
+                        <list>
+                        <bean parent="Uif-GridGroup">
+                            <property name="items">
+                                <list>
+                                    <bean id="inquiry_reproductionPolicyId" parent="Uif-InputField" p:propertyName="reproductionPolicyId" />
+                                    <bean id="inquiry_reproductionPolicyCode" parent="Uif-InputField" p:propertyName="reproductionPolicyCode" />
+                                    <bean id="inquiry_reproductionPolicyName" parent="Uif-InputField" p:propertyName="reproductionPolicyName" />
+                                    <bean id="inquiry_source" parent="Uif-InputField" p:propertyName="source" />
+                                    <bean id="inquiry_sourceDate" parent="Uif-InputField" p:propertyName="sourceDate" />
+                                    <bean id="inquiry_active" parent="Uif-InputField" p:propertyName="active" />
+                                </list>
+                            </property>
+                        </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+
+    <bean id="OleReproductionPolicy-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="Reproduction Policy Lookup" />
+        <property name="dataObjectClassName" value="org.kuali.ole.describe.bo.OleReproductionPolicy" />
+        <property name="criteriaFields">
+            <list>
+                <bean id="reproductionPolicyCode" parent="Uif-LookupCriteriaInputField" p:propertyName="reproductionPolicyCode" />
+                <bean id="reproductionPolicyName" parent="Uif-LookupCriteriaInputField" p:propertyName="reproductionPolicyName" />
+                <bean id="source" parent="Uif-LookupCriteriaInputField" p:propertyName="source" />
+                <bean id="sourceDate" parent="Uif-LookupCriteriaInputField" p:propertyName="sourceDate">
+                    <property name="control">
+                        <bean id="date" parent="Uif-DateControl" p:size="10"/>
+                    </property>
+                </bean>
+                <bean id="active" parent="Uif-LookupCriteriaInputField" p:propertyName="active" />
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean id="searchResult_reproductionPolicyId" parent="Uif-DataField" p:propertyName="reproductionPolicyId" />
+                <bean id="searchResult_reproductionPolicyCode" parent="Uif-DataField" p:propertyName="reproductionPolicyCode" />
+                <bean id="searchResult_reproductionPolicyName" parent="Uif-DataField" p:propertyName="reproductionPolicyName" />
+                <bean id="searchResult_source" parent="Uif-DataField" p:propertyName="source" />
+                <bean id="searchResult_sourceDate" parent="Uif-DataField" p:propertyName="sourceDate" />
+                <bean id="searchResult_active" parent="Uif-DataField" p:propertyName="active" />
+            </list>
+        </property>
+    </bean>
+
+</beans>

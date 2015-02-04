@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   - Copyright 2011 The Kuali Foundation.
+   - 
+   - Licensed under the Educational Community License, Version 2.0 (the "License");
+   - you may not use this file except in compliance with the License.
+   - You may obtain a copy of the License at
+   - 
+   - http://www.opensource.org/licenses/ecl2.php
+   - 
+   - Unless required by applicable law or agreed to in writing, software
+   - distributed under the License is distributed on an "AS IS" BASIS,
+   - WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   - See the License for the specific language governing permissions and
+   - limitations under the License.
+ -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+    
+    <bean id="OleReceiptStatus" parent="OleReceiptStatus-parentBean" />
+    
+    <bean id="OleReceiptStatus-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="objectLabel" value="OleReceiptStatus" />
+		<property name="businessObjectClass"
+			value="org.kuali.ole.select.businessobject.OleReceiptStatus" />
+		<property name="titleAttribute" value="receiptStatusId"/>
+		<property name="attributes">
+			<list>
+				<ref bean="OleReceiptStatus-receiptStatusId"/>
+				<ref bean="OleReceiptStatus-receiptStatusCd"/>
+				<ref bean="OleReceiptStatus-receiptStatus" />
+				<ref bean="OleReceiptStatus-active"/>
+			</list>
+		</property>
+		
+	</bean>
+	
+	<bean id="OleReceiptStatus-receiptStatusId" parent="OleReceiptStatus-receiptStatusId-parentBean"/>
+	
+	<bean id="OleReceiptStatus-receiptStatusId-parentBean" abstract="true" parent="AttributeDefinition">
+	  <property name="name" value="receiptStatusId"/>
+	  <property name="label" value="Receipt Status ID"/>
+	  <property name="shortLabel" value="Receipt Status ID"/>
+	  <property name="maxLength" value="8"/>
+	  <property name="validationPattern">
+	    <ref bean="NumericValidation" />
+	  </property>
+	  <property name="control">
+	    <bean parent="TextControlDefinition" p:size="11"/>
+	  </property>
+	</bean>
+	
+	<bean id="OleReceiptStatus-receiptStatusCd" parent="OleReceiptStatus-receiptStatusCd-parentBean"/>
+	
+	<bean id="OleReceiptStatus-receiptStatusCd-parentBean" abstract="true" parent="AttributeDefinition">
+	  <property name="name" value="receiptStatusCd"/>
+	  <property name="label" value="Receipt Status Code"/>
+	  <property name="shortLabel" value="Receipt Status Code"/>
+	  <property name="maxLength" value="8"/>
+	  <property name="required" value="true" />
+	  <property name="control">
+	    <bean parent="TextControlDefinition" p:size="11"/>
+	  </property>
+	</bean>
+	
+	<bean id="OleReceiptStatus-receiptStatus" parent="OleReceiptStatus-receiptStatus-parentBean" />
+	
+	<bean id="OleReceiptStatus-receiptStatus-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="receiptStatus" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Receipt Status" />
+		<property name="shortLabel" value="Receipt Status" />
+		<property name="maxLength" value="50" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="50" />
+		</property>
+	</bean>
+	
+	<bean id="OleReceiptStatus-active" parent="OleReceiptStatus-active-parentBean"/>
+
+    <bean id="OleReceiptStatus-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+      <property name="name" value="active"/>
+    </bean>
+	
+</beans>

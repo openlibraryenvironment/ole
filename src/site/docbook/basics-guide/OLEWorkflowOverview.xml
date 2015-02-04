@@ -1,0 +1,2209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"
+    version="5.0" xml:lang="en-US">
+    <title><anchor xml:id="_workflowOverviewAndKeyConcepts"/>OLE Workflow Overview and Key
+        Concepts</title>
+    <para role="Body Text"> The Kuali Enterprise Workflow (KEW) is a general-purpose, content-based
+        electronic routing infrastructure or workflow engine. Its main purpose is to automate the
+        routing of electronic documents (e-docs) to individuals and groups for approval, yet the KEW
+        can also be used to orchestrate complex processes between business components and
+        applications. Approval routing is based on institutional or departmental business rules and
+        policies. A new routing option called PeopleFlow is also available from the KEW to provide a
+        streamlined way to view and update routing actions.  This section provides an overview of
+        KEW as it relates to the OLE. </para>
+    <section>
+        <title>KEW Overview</title>
+        <para role="Normal"> Kuali OLE uses the KEW to handle the routing of electronic documents
+            for actions such as approvals, acknowledgments and FYI notifications. Although much KEW
+            functionality works behind the scenes, the <emphasis role="bold">action list</emphasis>
+            and <emphasis role="bold">doc search</emphasis> buttons and the <emphasis role="bold"
+                >Workflow Admin</emphasis> submenu options on the OLE <emphasis role="bold"
+                >Admin</emphasis> tabs are part of the KEW. These workflow options allow you to
+            access, act on, and search for many types of e-docs from various functional areas from a
+            single location. Additionally, the <emphasis role="bold">Route Log</emphasis> tab on OLE
+            e-docs is a workflow feature that allows you to follow the progress of given documents
+            through the approval process. </para>
+        <note>
+            <para> Many facets of Workflow (such as the route nodes that define how a given document
+                type routes) are stored in workflow process definition files for the various
+                document types. These files can be easily modified to alter the default routing of
+                documents in your OLE implementation, but doing so requires a technical resource and
+                as such is beyond the scope of this documentation. </para>
+        </note>
+        <para> OLE Workflow relies on Kuali Identity Management (KIM) to specify when workflow
+            action requests are to be generated and who should take action to fulfill them.
+            Functional users employ the KIM interfaces to make changes that affect the routing of
+            documents. </para>
+        <note>
+            <para>
+                <link
+                    xlink:href="https://wiki.kuali.org/display/OLE/OLE+Demonstration+Library#OLEDemonstrationLibrary-KIMfunctions%28roles,permissions,responsibilities%29"
+                    >KFS Knowledge Transfer - KIM functions (roles permissions,
+                    responsibilities)</link> was a video conference about roles and workflows. It
+                also contains a visual demonstration on responsibilities. </para>
+        </note>
+    </section>
+    <section>
+        <title>PeopleFlow Overview</title>
+        <para>PeopleFlow is a new Kuali Rice feature that Kuali OLE is now using for License
+            Requests and Electronic Resources. PeopleFlows are a prioritized list of people to send
+            requests to. Essentially, it's like a mini people-based workflow that doesn't require
+            you to specify a KEW node in the document type for each individual who might need to
+            approve or be notified. You can define "Stops" in a PeopleFlow, where everything in the
+            same stop proceeds in parallel, but all must be done within the stop before proceeding
+            to the next stop.</para>
+        <para>You can call/execute a PeopleFlow from within a KEW workflow node directly, or you can
+            invoke the Kuali Rules Management System (KRMS - a common rules engine for defining
+            decision logic, commonly refereed to as business rules) engine from an application and
+            any PeopleFlows that get selected during rule execution, defined in a KRMS agenda, will
+            be called. In this way, you can integrate business rules across applications and
+            workflows.</para>
+        <para>The same PeopleFlow that defines a routing order among a set of persons, groups or
+            roles can be called by KRMS rules, with the KRMS rules defining which type of request to
+            pass to the PeopleFlow (for example, an "approval" routing action or a
+            "notification").</para>
+        <note>
+            <para> For information about creating and managing PeopleFlows in OLE, see <link
+                xlink:href="../../../webhelp/ADMIN/content/ch05s02.html">PeopleFlow</link> in the <link
+                    xlink:href="../../../webhelp/ADMIN/index.html"><emphasis role="italic">Guide to OLE System
+                        Administration Functions.</emphasis></link>
+            </para>
+        </note>
+    </section>
+    <section>
+        <title><anchor xml:id="_routeLevelAndWorkflowRouting"/>Route Levels and Workflow
+            Routing</title>
+        <para> Documents route by progressing through a series of route levels (also called 'route
+            nodes'). Many of the financial e-docs on the Select/Acquire menu, and other e-docs
+            throughout OLE, support both pre-established workflow routing and ad hoc routing. Here
+            is an example of the approval route nodes that a typical financial processing document
+            passes through: </para>
+        <para/>
+        <para><inlinemediaobject>
+                <alt>Routing of Financial Documents: Initiate > Fiscal Officer > Organization >
+                    Special Condition > Record in the GL</alt>
+                <imageobject>
+                    <imagedata fileref="../images/basic-61.png"/>
+                </imageobject>
+            </inlinemediaobject></para>
+        <para/>
+        <para> In workflow routing, a document's type (General Error Correction, Transfer of Funds,
+            etc.) determines the route levels it passes through. Route nodes are defined by document
+            type within the workflow process definition file. To view workflow process definitions
+            in XML, use the <emphasis role="bold">export</emphasis> button on the Document Type
+            Inquiry. </para>
+        <para/>
+        <para>
+            <screenshot>
+                <mediaobject>
+                    <alt>Document Inquiry: Export button at the bottom of many OLE screens</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/basic-62.png" width="100%"/>
+                    </imageobject>
+                </mediaobject>
+            </screenshot>
+        </para>
+        <para/>
+        <para> You may need technical assistance to understand or modify a workflow process
+            definition file. Given that assistance, the file can easily be modified to change a
+            document's routing behavior. </para>
+        <para> An easier view for functional users is located in the <emphasis role="bold">Routing
+                &amp; IDM Doc Type</emphasis> (Routing and Identity Management Document Type
+            Hierarchy) option in the <emphasis role="bold">Workflow Admin</emphasis> submenu on the
+                <emphasis role="bold">Admin</emphasis> menu. </para>
+        <para/>
+        <para>
+            <screenshot>
+                <mediaobject>
+                    <alt>Workflow Admin Submenu</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/basic-configuration.png"/>
+                    </imageobject>
+                </mediaobject>
+            </screenshot>
+        </para>
+        <para/>
+        <para> The KEW arranges OLE document types in a hierarchical fashion, with some document
+            types being 'parent' to the document types below them in the hierarchy. 'Child' document
+            types inherit attributes from their parents. The Routing &amp; IDM Doc Type Hierarchy
+            screen displays documents in their respective positions in this hierarchy and also
+            displays the route nodes associated with each document type. Nodes are listed in the
+            order in which the document progresses through them. </para>
+        <para> The following example shows route nodes associated with the Transfer of Funds
+            document type viewed through the  Routing &amp; IDM Doc Type Hierarchy. </para>
+        <para/>
+        <para>
+            <screenshot>
+                <mediaobject>
+                    <alt>Route nodes on the Transfer of Funds Document Displayed in the Routing
+                        &amp; IDM Doc Type Hierarchy</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/basic-63.png" width="100%"/>
+                    </imageobject>
+                </mediaobject>
+            </screenshot>
+        </para>
+        <para/>
+        <section>
+            <title>Typical Route Levels of the OLE financial documents</title>
+            <note>
+                <para> Routing and roles inherited from KFS continue to exist within OLE.  Many of
+                    the route nodes remain listed but are passed over in OLE.  These options remain
+                    available for institutions that wish to implement them. </para>
+            </note>
+            <para> Most, but not all, Kuali financial documents are able to progress through three
+                route levels: account level, organization hierarchy, and special conditions. </para>
+            <section>
+                <title>Account Level Routing (Fiscal Officer)</title>
+                <para> Each account in OLE is assigned a designated approver called a fiscal
+                    officer. This individual is responsible for maintaining the fiscal integrity of
+                    an account and is often one of the first approvers to review a document that
+                    impacts the account. Most financial processing documents are routed to the
+                    fiscal officer for each of the accounts identified in the document. For example,
+                    Sue is the fiscal officer for account 1012300. All financial transactions
+                    involving this account are routed to Sue for approval. </para>
+            </section>
+            <section>
+                <title>Organization Review (Review Hierarchy) Routing </title>
+                <para>Every account belongs to an organization. The organization develops customized
+                    routing to appropriate roles based on criteria such as document type, dollar
+                    amount and override code. This routing may take advantage of the Chart of
+                    Accounts organization hierarchy, meaning that approvals are set up at different
+                    levels in the organization hierarchy. A document proceeding through this
+                    hierarchy routing might route to someone at the department level, then route to
+                    someone else at this department's school or college.</para>
+                <para>Organization hierarchy routing (corresponding to the
+                    AccountingOrganizationHierarchy route node) is very flexible and may be
+                    customized to be as simple or complex as needed. For example, it can be set up
+                    to accommodate appropriate routing when the head of acquisitions wants to
+                    approve every Transfer of Funds document over $1,000 that involves an account
+                    reporting to his organization.</para>
+                <para>Some documents without dollar amounts (such as account maintenance documents)
+                    also use organization hierarchy routing. While technically distinct, this type
+                    of routing functions exactly as described above without regard to dollar amount
+                    or override code.</para>
+            </section>
+            <section>
+                <title>Special Conditions Routing</title>
+                <para> Special condition routing is a blanket term for additional route levels that
+                    might be triggered by various attributes of a transaction. Special conditions
+                    often represent special administrative approvals that may be required. This
+                    routing may be based on the type of document, attributes of the accounts being
+                    used, or other attributes of the transaction. </para>
+                <para><emphasis role="bold">Examples of special conditions routing</emphasis></para>
+                <informaltable border="1" class="MsoNormalTable"
+                    style="border-collapse:collapse;mso-table-layout-alt:fixed;border:none;  mso-border-alt:solid black .5pt;mso-yfti-tbllook:160;mso-padding-alt:0in 5.4pt 0in 5.4pt;  mso-border-insideh:.5pt solid black;mso-border-insidev:.5pt solid black"
+                    width="478">
+                    <thead>
+                        <tr>
+                            <td rowspan="1" colspan="1">
+                                <para>Routing Type</para>
+                            </td>
+                            <td rowspan="1" colspan="1">
+                                <para>Description</para>
+                            </td>
+                            <td rowspan="1" colspan="1">
+                                <para>E-Docs</para>
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td rowspan="1" colspan="1">Content Routing</td>
+                            <td rowspan="1" colspan="1">If the document's content is incomplete,
+                                routes the document to an appropriate individual for
+                                completion.</td>
+                            <td rowspan="1" colspan="1">Requisition</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="1" colspan="1">Separation of Duties</td>
+                            <td rowspan="1" colspan="1">If the amount of the document exceeds an
+                                institutionally-defined threshold and there have been no approvers
+                                other than the document initiator, routes the document to a defined
+                                central approver.</td>
+                            <td rowspan="1" colspan="1">Requisition</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="1" colspan="1">Sub-Account Routing</td>
+                            <td rowspan="1" colspan="1">If the document uses a sub-account and the
+                                sub-account has a routing rule established, routes the document to
+                                the person, group or role for which the rule has been
+                                established.</td>
+                            <td rowspan="1" colspan="1">Purchasing related e-docs</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="1" colspan="1">Sub-Fund Routing</td>
+                            <td rowspan="1" colspan="1">If a sub-fund derived from an account
+                                appearing on the document has a routing rule established, the
+                                document routes to the person, group or role for which the rule has
+                                been established.</td>
+                            <td rowspan="1" colspan="1">Financial transactions e-docs</td>
+                        </tr>
+                    </tbody>
+                </informaltable>
+            </section>
+            <section>
+                <title><anchor xml:id="_adHocRouting"/>Ad Hoc Routing</title>
+                <para> Ad hoc routing allows a document initiator or approver to add additional
+                    individuals or groups to the routing of a specific document. In most cases, ad
+                    hoc approvers inserted into the routing interrupt the regular routing process.
+                    For example, when a user initiates a financial document and ad hoc routes it to
+                    another user for approval, the document routes to the ad hoc approver before it
+                    routes to the fiscal officer. </para>
+                <tip>
+                    <para> Ad hoc acknowledge and FYI routing do not interrupt the regular routing
+                        process. </para>
+                </tip>
+                <para> Financial processing documents with these types of ad hoc requests still
+                    pending post to the General Ledger as soon as all other approvals are obtained.
+                    The system does not put them on hold while waiting for the acknowledgment to
+                    take place or for the FYI to be cleared. </para>
+                <para> The following steps describe how to add an ad hoc recipient in the <emphasis
+                        role="bold">Ad Hoc Recipients</emphasis> tab. <orderedlist>
+                        <listitem>
+                            <para> Select an action requested from the <emphasis role="bold">Action
+                                    Requested</emphasis> list. To route the document to an
+                                individual, select this option in the <emphasis role="bold">Person
+                                    Requests</emphasis> section. To send the request to a group,
+                                select this option in the <emphasis role="bold">Ad Hoc Group
+                                    Requests</emphasis> section. </para>
+                            <para/>
+                            <para>
+                                <screenshot>
+                                    <mediaobject>
+                                        <alt>Ad Hoc Recipients Tab of an OLE Document: User selects
+                                            Acknowledge, Approve, or FYI from the drop down</alt>
+                                        <imageobject>
+                                            <imagedata fileref="../images/basic-64.png"/>
+                                        </imageobject>
+                                    </mediaobject>
+                                </screenshot>
+                            </para>
+                            <para/>
+                        </listitem>
+                        <listitem>
+                            <para> To ad hoc route the document to another person, type the
+                                principal name in the <emphasis role="bold">Person</emphasis> box in
+                                the <emphasis role="bold">Ad Hoc Recipients</emphasis> section or
+                                use the lookup icon <mediaobject>
+                                    <imageobject>
+                                        <imagedata fileref="../images/Lookup.png" depth="15"
+                                            width="15"/>
+                                    </imageobject>
+                                </mediaobject> to search for the appropriate user name. </para>
+                            <para/>
+                            <para>
+                                <screenshot>
+                                    <mediaobject>
+                                        <alt>OLE Documents: Ad Hoc Recipients Tab with sample
+                                            data</alt>
+                                        <imageobject>
+                                            <imagedata fileref="../images/basic-65.png" width="100%"
+                                            />
+                                        </imageobject>
+                                    </mediaobject>
+                                </screenshot>
+                            </para>
+                            <para/>
+                        </listitem>
+                        <listitem>
+                            <para> To ad hoc route the document to a group, in the <emphasis
+                                    role="bold">Namespace Code</emphasis> field in the <emphasis
+                                    role="bold">Ad Hoc Group Requests</emphasis> section, enter the
+                                group name or use the <emphasis role="bold">Lookup</emphasis> icon <mediaobject>
+                                    <imageobject>
+                                        <imagedata fileref="../images/Lookup.png" depth="15"
+                                            width="15"/>
+                                    </imageobject>
+                                </mediaobject> to search for the appropriate group name. </para>
+                            <para/>
+                            <para>
+                                <screenshot>
+                                    <mediaobject>
+                                        <alt>OLE Documents: Ad Hoc Group Requests on the Ad Hoc
+                                            Recipients Tab</alt>
+                                        <imageobject>
+                                            <imagedata fileref="../images/basic-66.png" width="100%"
+                                            />
+                                        </imageobject>
+                                    </mediaobject>
+                                </screenshot>
+                            </para>
+                            <para/>
+                        </listitem>
+                        <listitem>
+                            <para>Click <inlinemediaobject>
+                                    <alt>Add</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/VendorNoTitlePage-88.png"/>
+                                    </imageobject>
+                                </inlinemediaobject> . The system verifies that the person ID or
+                                group namespace code and name that you have entered for routing is
+                                valid. </para>
+                        </listitem>
+                        <listitem>
+                            <para>Click <inlinemediaobject>
+                                    <alt>Submit</alt>
+                                    <imageobject>
+                                        <imagedata
+                                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-82.png"
+                                        />
+                                    </imageobject>
+                                </inlinemediaobject> on the document.</para>
+                            <para> After you complete the <emphasis role="bold">Ad Hoc
+                                    Recipient</emphasis> section and submit the document, the system
+                                changes the <emphasis role="bold">Node(s)</emphasis> value to
+                                'Adhoc' and changes the <emphasis role="bold">Status</emphasis>
+                                value to 'ENROUTE'. </para>
+                            <para/>
+                            <para>
+                                <screenshot>
+                                    <mediaobject>
+                                        <alt>OLE Document: Route Log Tab with Sample Data</alt>
+                                        <imageobject>
+                                            <imagedata fileref="../images/basic-67.png"/>
+                                        </imageobject>
+                                    </mediaobject>
+                                </screenshot>
+                            </para>
+                            <para/>
+                            <para> The <emphasis role="bold">Pending Action Requests</emphasis> tab
+                                shows the requested action and the user ID. </para>
+                            <para/>
+                            <para>
+                                <screenshot>
+                                    <mediaobject>
+                                        <alt>OLE Document: Pending Action Requests on the Route Log
+                                            Tab</alt>
+                                        <imageobject>
+                                            <imagedata fileref="../images/basic-68.png"/>
+                                        </imageobject>
+                                    </mediaobject>
+                                </screenshot>
+                            </para>
+                        </listitem>
+                    </orderedlist></para>
+                <para> When a document is en route, you may send ad hoc requests without taking a
+                    workflow action on the document. To do this follow the steps listed above but
+                    use the <inlinemediaobject>
+                        <alt>Send Ad Hoc Request</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/basic-69.png"/>
+                        </imageobject>
+                    </inlinemediaobject> button instead of <emphasis role="bold">Submit</emphasis>. </para>
+                <note>
+                    <para> When you review the Route Log immediately after submitting a document,
+                        you may not see the <emphasis role="bold">Pending Action Requests</emphasis>
+                        tab. This is because OLE has not yet received the routing information from
+                        Workflow. In this case, wait for a few seconds and click the <emphasis
+                            role="bold">Refresh</emphasis> button at the top of the Route Log to
+                        refresh the screen. You may need to repeat this process a few times until
+                        the information appears in the <emphasis role="bold">Pending Action
+                            Requests</emphasis> tab. </para>
+                </note>
+                <para>
+                    <screenshot>
+                        <mediaobject>
+                            <alt>OLE Document: Refresh button on the Route Log</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/basic-70.png"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para/>
+                <para> The <emphasis role="bold">Pending Action Requests</emphasis> tab shows the
+                    requested action and the user ID. </para>
+            </section>
+        </section>
+        <section>
+            <title>Viewing Route Nodes</title>
+            <para> To see the route nodes associated with a particular document type: </para>
+            <orderedlist>
+                <listitem>
+                    <para> Click the <inlinemediaobject>
+                            <alt>Admin</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/Admin.png"/>
+                            </imageobject>
+                        </inlinemediaobject> menu tab. </para>
+                </listitem>
+                <listitem>
+                    <para> Select <emphasis role="bold">Routing &amp; IDM Doc Type</emphasis>
+                        (Routing and Identity Management Document Type Hierarchy) from the <emphasis
+                            role="bold">Workflow Admin</emphasis> submenu. </para>
+                    <para/>
+                    <para>
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Workflow Admin Submenu</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/basic-configuration.png"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para/>
+                    <para> The system displays document types in the hierarchy.</para>
+                </listitem>
+                <listitem>
+                    <para> Locate the desired document type route levels. </para>
+                    <para> For example, you might scroll down to Transfer of Funds to view the rules
+                        of the Transfer of Funds document route levels. </para>
+                    <para/>
+                    <para>
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Route nodes on the Transfer of Funds Document Displayed in the
+                                    Routing &amp; IDM Doc Type Hierarchy</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/basic-63.png" width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para/>
+                    <para> Beneath the document type, you see the nodes that the document routes
+                        through. The system lists these nodes in order from first to last. To view
+                        more detail about the KIM responsibilities associated with these route
+                        nodes, click the <emphasis role="bold">View Document
+                            Configuration</emphasis> link. </para>
+                    <para/>
+                    <para>
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Routing and IDM Doc Type: View Document Configuration</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/basic-71.png"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para/>
+                </listitem>
+                <listitem>
+                    <para> Scroll down to the <emphasis role="bold">Workflow /
+                            Responsibilities</emphasis> tab. </para>
+                    <para/>
+                    <para>
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Document Configuration: Workflow / Responsibilities Tab</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/basic-routingWorkflowTab.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para/>
+                    <para> In the <emphasis role="bold">Workflow / Responsibilities</emphasis> tab,
+                        the system displays the name of each route node along with the associated
+                        role(s) and other information. The first entry in the list defines the
+                        exception routing for this document type. This entry identifies the role
+                        that receives the document if Workflow encounters an error that prevents it
+                        from completing the document's normal routing. </para>
+                </listitem>
+            </orderedlist>
+            <note>
+                <para> In some cases a document may have route nodes that the document passes
+                    through based on certain conditions. These split or branching route nodes are
+                    indented to distinguish them from the route nodes through which all documents of
+                    this type pass. </para>
+            </note>
+        </section>
+        <section>
+            <title>Workflow Responsibilities</title>
+            <para>When a document routes through a particular route level, the KEW evaluates it
+                against the responsibilities that reference this document type and route level. A
+                responsibility acts like a trigger: If the document meets its criteria, the system
+                sends an action request to a particular user or group of users.</para>
+            <para>Responsibilities are associated with roles in KIM. Roles have members or assignees
+                who are represented in the system as persons, groups, or other roles. Users assigned
+                to a role inherit the role's responsibilities, meaning that they receive action
+                requests from Workflow when specified conditions are met.</para>
+            <para> To view responsibilities, select the <emphasis role="bold"
+                    >Responsibility</emphasis> option from the <emphasis role="bold">Identity
+                    Admin</emphasis> submenu on the <inlinemediaobject>
+                    <alt>Admin</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/Admin.png"/>
+                    </imageobject>
+                </inlinemediaobject> tab.</para>
+            <para/>
+            <para>
+                <screenshot>
+                    <mediaobject>
+                        <alt>Identity Admin Submenu</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/basic-responsibility.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <para> Each responsibility includes several attributes (that is, values and details)
+                that determine when it is triggered. </para>
+            <para/>
+            <para>
+                <screenshot>
+                    <mediaobject>
+                        <alt>Responsibilities Loo up sample results</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/basic-responsibilityList.png" width="100%"
+                            />
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <para><emphasis role="bold"> Responsibilities lookup results
+                Definitions</emphasis></para>
+            <informaltable border="1" class="MsoNormalTable"
+                style="border-collapse:collapse;mso-table-layout-alt:fixed;border:none;  mso-border-alt:solid black .5pt;mso-yfti-tbllook:160;mso-padding-alt:0in 5.4pt 0in 5.4pt;  mso-border-insideh:.5pt solid black;mso-border-insidev:.5pt solid black">
+                <tbody>
+                    <tr>
+                        <td rowspan="1" colspan="1">
+                            <para>Title</para>
+                        </td>
+                        <td rowspan="1" colspan="1">
+                            <para>Description</para>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Responsibility Detail Values</td>
+                        <td rowspan="1" colspan="1">
+                            <para>Display-only. Additional detail that identifies the document this
+                                responsibility generates action requests for, when the requests are
+                                generated and how Workflow handles them. </para>
+                            <para> Route Node Name: The point in a document's workflow routing at
+                                which this responsibility generates requests. </para>
+                            <para> Document Type Name: The name of the document type this
+                                responsibility will generate action requests for. </para>
+                            <para> Action Details At Role Member Level: A 'True' or 'False'
+                                indicator that indicates where the details of this workflow action
+                                request are defined. If the value is 'True,' action details are
+                                collected when members are assigned to the role. If the value is
+                                'False,' the action details are collected when this responsibility
+                                is assigned to a role. </para>
+                            <para> Required: A 'True' or 'False' value that indicates whether this
+                                responsibility is required to generate an action request or send the
+                                document into exception status ('True') or is an optional
+                                responsibility and can be bypassed if no action requests are
+                                generated ('False').</para>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Responsibility Name</td>
+                        <td rowspan="1" colspan="1">
+                            <para>Display-only. The name of this responsibility. In most cases, the
+                                responsibility name will be the same as the associated template name
+                                (Review). </para>
+                            <para> Like permission names, responsibility names are not unique. Thus
+                                most OLE responsibilities have a <emphasis role="bold"
+                                    >Responsibility Name</emphasis> of 'Review'.</para>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Responsibility Namespace</td>
+                        <td rowspan="1" colspan="1">Display-only. The namespace with which the
+                            responsibility is associated. This namespace usually corresponds to the
+                            namespace of the document type for which the responsibility generates
+                            action requests.</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Template Name</td>
+                        <td rowspan="1" colspan="1">Display-only. The name of the template on which
+                            the responsibility is based. The template defines, in a broad sense,
+                            what the responsibilities based on it do. Since responsibilities usually
+                            generate action requests for user review, most responsibilities have a
+                                <emphasis role="bold">Template Name</emphasis> of 'Review'.</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Template Namespace Code</td>
+                        <td rowspan="1" colspan="1">Display-only. The namespace for the
+                            responsibility template. Usually, the namespace identifies the
+                            application and module the applicable responsibility template pertains
+                            to. Because responsibilities pertain to workflow, most responsibility
+                            templates are associated with the <emphasis role="bold"
+                                >KR-WKFLW</emphasis> (Kuali Rice-Workflow) namespace.</td>
+                    </tr>
+                </tbody>
+            </informaltable>
+            <para>While responsibilities are created and maintained in two central locations, users
+                may supply qualifying values when assigning users to a role associated with these
+                responsibilities. These qualifying values generally identify specific circumstances
+                under which the responsibility is invoked. For example, if a departmental user adds
+                a user to a role with a responsibility that refers to an organization hierarchy
+                route node, the departmental user supplies the appropriate chart and organization
+                code. Subsequently, only documents that contain this chart and organization code
+                route to the specified user.</para>
+            <note>
+                <para> For more information about roles and responsibilities, see <link
+                    xlink:href="../../../webhelp/ADMIN/content/ch07s02.html">KIM Permissions, Responsibilities, and
+                    Roles</link> in the <link xlink:href="../../../webhelp/ADMIN/index.html"><emphasis
+                            role="italic">Guide to OLE System Administration
+                        Functions.</emphasis></link>
+                </para>
+            </note>
+            <section>
+                <title><anchor xml:id="_routeLog"/>Route Log</title>
+                <para> The <emphasis role="bold">Route Log</emphasis> tab displayed on all OLE
+                    e-docs shows workflow status details. The <emphasis role="bold">Route
+                        Log</emphasis> can have up to these four subtabs---<emphasis role="bold"
+                        >Document ID</emphasis>, <emphasis role="bold">Actions Taken</emphasis>,
+                        <emphasis role="bold">Pending Action Requests</emphasis>, and <emphasis
+                        role="bold">Future Action Requests</emphasis>. </para>
+                <para/>
+                <para>
+                    <screenshot>
+                        <mediaobject>
+                            <alt>OLE Document: Route Log with Sample Data</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/basic-routeLog.png" width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para/>
+                <para role="TableHeading"><emphasis role="bold">Document ID Tab
+                        Definitions</emphasis></para>
+                <informaltable frame="top">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"> A combination of the document type,
+                                        description, and the organization document number (if any).
+                                    </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"> Type</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"> The document type. The full name of
+                                        the transaction used to identify this document type in
+                                        Workflow. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Initiator</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"> The name of the person who created the
+                                        document. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Status</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"> The route status for the document. </para>
+                                    <note>
+                                        <para> For more information, see <link
+                                                linkend="_routeStatus">Route Status</link>. </para>
+                                    </note>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Node(s)</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"> The current route node of the document
+                                        -- that is, the current step that the document is on, on its
+                                        route path. Route nodes are also referred to as 'route
+                                        levels'. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"> Created</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"> The time and date that the document
+                                        was created. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Last Modified</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"> The time and date that the document
+                                        was modified last. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Last Approved</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"> The time and date that the last action
+                                        was taken on this document. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Finalized</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"> The time and date that the document
+                                        reached' Final,' 'Canceled,' or 'Disapproved' status.
+                                    </para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+                <section>
+                    <title>Action Taken Tab</title>
+                    <para> The <emphasis role="bold">Actions Taken</emphasis> tab displays the
+                        history of workflow actions on the e-doc. </para>
+                    <para/>
+                    <para>
+                        <screenshot>
+                            <mediaobject>
+                                <alt>OLE Document: Actions Taken Tab in the Route Log</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/basic-routeLogActionTaken.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para/>
+                    <para> This tab lists each action taken, the name of the person who took this
+                        action, and the time and date the action was taken. The <emphasis
+                            role="bold">For Delegator</emphasis> field shows the name of a delegate
+                        that took action on someone else's behalf. For example, for account routing
+                        the fiscal officer's name would be shown here if this person's delegate took
+                        action on the document. </para>
+                    <para> To drill down into the details of each action, click <inlinemediaobject>
+                            <alt>Show</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/basic-show.png"/>
+                            </imageobject>
+                        </inlinemediaobject>.</para>
+                    <para/>
+                    <para>
+                        <screenshot>
+                            <mediaobject>
+                                <alt>OLE Document: Show Button on the Actions Taken Tab</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/basic-routeLogActionTakenShow.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para/>
+                    <para> The system displays the detail. </para>
+                    <note>
+                        <para> Several layers of information may be available for an action request.
+                        </para>
+                    </note>
+                </section>
+                <section>
+                    <title>Pending Action Requests Tab</title>
+                    <para>The <emphasis role="bold">Pending Action Requests</emphasis> tab displays
+                        the next action to be taken and shows more detailed routing information
+                        about this request. Only action requests at the current route node are
+                        displayed.</para>
+                    <para>The following example shows a document that is awaiting approval by one
+                        fiscal officers.</para>
+                    <para/>
+                    <para>
+                        <screenshot>
+                            <mediaobject>
+                                <alt>OLE Document: Pending Actions Requests Tab in the Route
+                                    Log</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/basic-routeLogPendingActions.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para/>
+                    <para>The <emphasis role="bold">Action</emphasis> field indicates whether the
+                        document is in a user or group's action list or is pending their approval.
+                        An action of <emphasis role="bold">Pending Approve</emphasis> means Workflow
+                        has identified other approval actions needed at this route node, but it has
+                        not actually sent these requests yet. Pending approval actions may be
+                        determined by the <emphasis role="bold">Priority</emphasis> attribute on the
+                        appropriate workflow responsibilities.</para>
+                    <para>The <emphasis role="bold">Requested Of</emphasis> field displays the name
+                        of the user or group responsible for the pending action. The value in this
+                        field is based on the responsibility at this current route level. In cases
+                        where a document routes to a role with more than five members the name of
+                        the role will be displayed along with any qualifying values pertaining to
+                        the role assignees who received the request.</para>
+                    <para>Note that the <emphasis role="bold">Pending Action Requests</emphasis> tab
+                        shows pending requests only for the document at its current route node. The
+                        system may add new requests when the document transitions to a new route
+                        level.</para>
+                    <tip>
+                        <para> To identify members of a group whose ID is displayed in the <emphasis
+                                role="bold">Requested Of</emphasis> field, click the link for the
+                            group ID. The system displays information about the group members.
+                        </para>
+                    </tip>
+                    <para> If multiple users are identified as the recipients of a single action
+                        request, the number of actions required is controlled by the action policy
+                        code associated with the responsibility that generated the request. </para>
+                    <itemizedlist>
+                        <listitem>
+                            <para>If this code is set to 'ALL,' all users specified must take the
+                                required action on the document before the request will be
+                                cleared.</para>
+                        </listitem>
+                        <listitem>
+                            <para>If the action policy code is 'FIRST,' the first of the specified
+                                users to take the action will cause the system to clear the action
+                                request for all other users with the same request.</para>
+                        </listitem>
+                    </itemizedlist>
+                </section>
+                <section>
+                    <title>Future Action Requests Tab</title>
+                    <para> When a document's status is 'saved' or 'enroute,' the <emphasis
+                            role="bold">Future Action Requests</emphasis> tab on the <emphasis
+                            role="bold">Route Log</emphasis> shows the action requests that Workflow
+                        will generate in the future based on the information currently on the
+                        document. </para>
+                    <para/>
+                    <para>
+                        <screenshot>
+                            <mediaobject>
+                                <alt>OLE Document: Future Actions Requests Tab in the Route
+                                    Log</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/basic-routeLogFutureActions.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para/>
+                    <para>To open this section and view the future action requests, click the <inlinemediaobject>
+                            <alt>Show</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/basic-show.png"/>
+                            </imageobject>
+                        </inlinemediaobject> button. Future action requests are listed in the order
+                        in which they are to occur.</para>
+                    <para>As a document routes and users take action on it, the system updates the
+                        contents of the <emphasis role="bold">Future Action Requests</emphasis> tab
+                        to show only those requests that have not yet been made by Workflow. When a
+                        document reaches 'Final' or 'Processed' status in Workflow, this tab becomes
+                        empty because there are no future requests to display.</para>
+                    <para>The <emphasis role="bold">Annotation</emphasis> entry is a message that is
+                        generated based on the KIM responsibilities being referenced by
+                        Workflow.</para>
+                    <para/>
+                    <para>
+                        <screenshot>
+                            <mediaobject>
+                                <alt>OLE Document: Sample Annotations on the Future Action Requests
+                                    in the Route Log</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/basic-74.png"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para/>
+                </section>
+                <section>
+                    <title>View Routing Details</title>
+                    <para> To display more detailed routing information about the request, click <inlinemediaobject>
+                            <alt>Show</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/basic-show.png"/>
+                            </imageobject>
+                        </inlinemediaobject>.</para>
+                    <para/>
+                    <para>
+                        <screenshot>
+                            <mediaobject>
+                                <alt>OLE Document: Show Button on the Pending Action Requests
+                                    Tab</alt>
+                                <imageobject>
+                                    <imagedata
+                                        fileref="../images/basic-routeLogPendingActionsShow.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para/>
+                    <para> The resulting display contains additional information about the request. </para>
+                    <para/>
+                    <para>
+                        <screenshot>
+                            <mediaobject>
+                                <alt>OLE Document: Additional Sample Information Displayed on the
+                                    Pending Action Requests Tab</alt>
+                                <imageobject>
+                                    <imagedata
+                                        fileref="../images/basic-routeLogPendingActionsDetail.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para/>
+                    <para role="TableHeading"><emphasis role="bold">Pending Action Requests Tab
+                            Definitions</emphasis></para>
+                    <informaltable frame="top">
+                        <tgroup cols="2">
+                            <colspec colname="col1" colnum="1"/>
+                            <colspec colname="col2" colnum="2"/>
+                            <tbody>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Title</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Description </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Node </para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells"> The route node at which this
+                                            request was generated. </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells"> Priority</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells"> The priority assigned to this
+                                            workflow request. If multiple requests are generated at
+                                            the same workflow node, the system generates requests
+                                            with low priority numbers before requests with higher
+                                            priority numbers. </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Approval Policy</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells"> A value indicating whether members
+                                            of a role receiving this request must each take action
+                                            to fulfill the request or if only a single role member
+                                            must take action. </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Forced Action</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells"> A true/false indicator specifying
+                                            whether a user must take action on this document even if
+                                            he or she has acted on it previously. If 'True,' then
+                                            the user must take another action. If 'False,' then the
+                                            previous action will automatically fulfill this request.
+                                        </para>
+                                    </entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </informaltable>
+                </section>
+                <section>
+                    <title><anchor xml:id="_routeStatus"/>Route Status</title>
+                    <para> Route status indicates where a document is in its routing process. For
+                        any given document, the system displays route status in both the <emphasis
+                            role="bold">Route Log</emphasis> tab and the document header. </para>
+                    <para/>
+                    <para>
+                        <screenshot>
+                            <mediaobject>
+                                <alt>OLE Document: Route Status on the Route Log</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/basic-routeLogStatus.png"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para/>
+                    <para> The following table summarizes the meaning of various route statuses in
+                        the KEW. </para>
+                    <para role="TableHeading"><emphasis role="bold">Route Status
+                            Definitions</emphasis></para>
+                    <informaltable frame="top">
+                        <tgroup cols="2">
+                            <colspec colname="col1" colnum="1"/>
+                            <colspec colname="col2" colnum="2"/>
+                            <tbody>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Status</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Description </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Approved</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells"> The document has been approved.
+                                            The document is now a valid business transaction in
+                                            accordance with institutional needs and policies. See
+                                            note below. </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Canceled</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells"> The document is denoted as void
+                                            and should be disregarded. This status is applied to a
+                                            document when an initiator creates a document and
+                                            cancels it before submitting it for approval. </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Committed</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells"> The document has been committed to
+                                            the database. See note below. </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Disapproved</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells"> The document has been disapproved
+                                            by an approver. </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Enroute</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells"> The document has pending approval
+                                            requests. </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Exception</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells"> The document has been routed to an
+                                            exception queue because workflow has encountered an
+                                            error when trying to process its routing. </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Final</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells"> The document has been routed and
+                                            has no pending approval or acknowledgment requests.
+                                            Documents in 'Final' status are considered approved in
+                                            that documents in this status affect the General Ledger
+                                            or update Chart of Accounts values. </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells"> Initialized</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells"> The document has been created but
+                                            has not yet been saved or submitted. </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Processed</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells"> The document has no pending
+                                            approval requests but still has one or more pending
+                                            acknowledgment requests. Processed documents are
+                                            considered approved, so they impact the General Ledger
+                                            or update Chart of Accounts values. </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Saved</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells"> The document has been started but
+                                            not completed or routed yet. The save action allows the
+                                            initiator of a document to save his or her work and
+                                            close the document. The document may be retrieved from
+                                            the initiator's action list for completion and routing
+                                            at a later time. </para>
+                                    </entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </informaltable>
+                    <note>
+                        <para> A user does not ordinarily see a Status value of 'Approved' or
+                            'Committed'. The system displays these statuses to users only as a
+                            result of a system error or performance issue. </para>
+                    </note>
+                </section>
+            </section>
+            <section>
+                <title><anchor xml:id="_actionList"/>Action List</title>
+                <para> In OLE, you receive action requests for e-docs through your action list. This
+                    list provides summary information about each document that requires your
+                    attention, such as document type, title, route status, the type of action
+                    requested of you, who initiated the document, when it was created, and whether
+                    or not you've received this request because you are a delegate or a member of a
+                    group. </para>
+                <orderedlist>
+                    <listitem>
+                        <para>Click <inlinemediaobject>
+                                <alt>Action List</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/basic-72.png"/>
+                                </imageobject>
+                            </inlinemediaobject>.</para>
+                        <para> The Workflow system retrieves all documents that you have initiated
+                            and saved and any documents that are routed to you to approve,
+                            acknowledge, or FYI. </para>
+                        <para/>
+                        <para>
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Sample Action List</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/basic-73.png" width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                        <para/>
+                    </listitem>
+                    <listitem>
+                        <para> Click the document <emphasis role="bold">Id</emphasis> link to open
+                            the document. </para>
+                        <para> The system displays a set of buttons at the bottom of the screen. The
+                            buttons you see depend on your role and the requested action.  For
+                            example, you may see:</para>
+                        <para/>
+                        <para>
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Workflow Action Buttons on the bottom of a action list
+                                        document</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/basic-75.png"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                        <para/>
+                    </listitem>
+                    <listitem>
+                        <para> Click one of the workflow action buttons. </para>
+                    </listitem>
+                </orderedlist>
+            </section>
+            <section>
+                <title><anchor xml:id="_workflowActionButtons"/>Workflow Action Buttons</title>
+                <para> When you open a document, you see various workflow action buttons at the
+                    bottom of the page. The buttons vary depending on the document you are opening,
+                    the kind of action request you have received for the document and the KIM
+                    role(s) to which you belong.</para>
+                <note>
+                    <para> Some additional buttons are available, depending on the e-doc you are
+                        viewing.  These buttons are described within their particular guide. </para>
+                </note>
+                <para role="TableHeading"><emphasis role="bold">Workflow Action Button
+                        Definitions</emphasis></para>
+                <informaltable frame="top">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Action</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"><inlinemediaobject>
+                                            <alt>Acknowledge</alt>
+                                            <imageobject>
+                                                <imagedata fileref="../images/basic-76.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject></para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"> Signifies that you have responded to
+                                        the acknowledgment action request. This button is available
+                                        only to users to whom a document has been routed for
+                                        acknowledgment. See FYI below. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"><inlinemediaobject>
+                                            <alt>Approve</alt>
+                                            <imageobject>
+                                                <imagedata
+                                                  fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-222.png"
+                                                />
+                                            </imageobject>
+                                        </inlinemediaobject></para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"> Signifies that in your judgment the
+                                        document represents a valid business transaction in
+                                        accordance with institutional needs and policies. A single
+                                        document may require approval from several users, at
+                                        multiple route levels, before it moves to 'Processed'
+                                        status. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"><inlinemediaobject>
+                                            <alt>Blanket Approve</alt>
+                                            <imageobject>
+                                                <imagedata
+                                                  fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-59.png"
+                                                />
+                                            </imageobject>
+                                        </inlinemediaobject></para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"> Bypasses all subsequent levels of
+                                        approval and immediately moves a document to 'Processed' or
+                                        'Final' status. Anyone who would otherwise have received the
+                                        document for approval receives an acknowledge request
+                                        instead. This action may be taken only by roles associated
+                                        with blanket approve document permission, such as the
+                                        OLE-SYS Manager role. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"><inlinemediaobject>
+                                            <alt>Cancel</alt>
+                                            <imageobject>
+                                                <imagedata
+                                                  fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-275.png"
+                                                />
+                                            </imageobject>
+                                        </inlinemediaobject></para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"> Denotes that the document is void and
+                                        should be disregarded. Canceled documents cannot be modified
+                                        in any way and do not route for approval. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"><inlinemediaobject>
+                                            <alt>Close</alt>
+                                            <imageobject>
+                                                <imagedata fileref="../images/basic-30.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject></para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"> Allows you to exit the document. The
+                                        system displays a message asking whether you want to save
+                                        the document before closing. No changes to action requests,
+                                        route logs or document status occur as a result of a close
+                                        action. If you initiate a document and close it without
+                                        saving, it is the same as canceling that document. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"><inlinemediaobject>
+                                            <alt>Copy</alt>
+                                            <imageobject>
+                                                <imagedata fileref="../images/basic-24.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject></para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"> Allows you to create a new document
+                                        based on the existing document. Not all document types can
+                                        be copied. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"><inlinemediaobject>
+                                            <alt>Disapprove</alt>
+                                            <imageobject>
+                                                <imagedata fileref="../images/basic-77.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject></para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"> Signifies that in your judgment the
+                                        document does not represent a valid business transaction. A
+                                        disapprove action from any single approver prevents a
+                                        document from posting to the GL or updating a maintenance
+                                        table. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">
+                                        <inlinemediaobject>
+                                            <alt>Error Correction</alt>
+                                            <imageobject>
+                                                <imagedata fileref="../images/basic-78.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject></para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"> Allows you to correct documents by
+                                        creating a new document that reverses the original
+                                        transaction. This feature can be used only on documents that
+                                        have completed the routing process and have been fully
+                                        approved. Not all document types are eligible for error
+                                        correction. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"><inlinemediaobject>
+                                            <alt>FYI</alt>
+                                            <imageobject>
+                                                <imagedata fileref="../images/basic-79.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject></para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"> Signifies that you have responded to
+                                        the FYI action request. This action is available only to
+                                        users to whom a document has been routed for FYI. The
+                                        difference between acknowledgment and FYI is that FYI
+                                        requests can be cleared directly from the action list
+                                        without opening the document. FYI requests also have a
+                                        different effect on the document status than
+                                        acknowledgments. A document with no pending approval
+                                        requests but with pending acknowledge requests is in
+                                        'Processed' status. A document with no pending approval
+                                        requests but with pending FYI requests is in 'Final' status.
+                                    </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"><inlinemediaobject>
+                                            <alt>Reload</alt>
+                                            <imageobject>
+                                                <imagedata fileref="../images/basic-80.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject></para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"> Refreshes the screen and displays the
+                                        most recently saved information. Changes that are made but
+                                        not saved prior to reloading a page are not maintained.
+                                    </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"><inlinemediaobject>
+                                            <alt>Save</alt>
+                                            <imageobject>
+                                                <imagedata fileref="../images/basic-27.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject></para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"> If you are the initiator of this
+                                        document, allows you to save your work and close the
+                                        document. The document may be retrieved from your action
+                                        list for completion and routing at a later time. If your
+                                        permissions allow you to edit en route documents, you can
+                                        also save changes to an en route document in your action
+                                        list. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"><inlinemediaobject>
+                                            <alt>Submit</alt>
+                                            <imageobject>
+                                                <imagedata
+                                                  fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-82.png"
+                                                />
+                                            </imageobject>
+                                        </inlinemediaobject></para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"> Moves the document (through workflow)
+                                        to the next level of approval. After a document is
+                                        submitted, it remains in 'Enroute' status until all
+                                        approvals have taken place. </para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+                <para> Special attention should be paid when you select any of the workflow action
+                    buttons noted below. </para>
+                <section>
+                    <title>Blanket Approving a Document</title>
+                    <para>If you are a member of a role with a blanket approve document permission
+                        (such as the OLE-SYS Manager role), you have the option to blanket approve a
+                        document routed to you for your approval.</para>
+                    <para>Note that you can only blanket approve a document you are initiating or a
+                        document for which you already have an approval request.</para>
+                    <para>Click <inlinemediaobject>
+                            <alt>Blanket Approve</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-59.png"
+                                />
+                            </imageobject>
+                        </inlinemediaobject> to approve the document bypassing all other approvals. </para>
+                </section>
+                <section>
+                    <title>Disapproving a Document</title>
+                    <para>Click <inlinemediaobject>
+                            <alt>Disapprove</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/basic-77.png"/>
+                            </imageobject>
+                        </inlinemediaobject>.</para>
+                    <para> Enter a reason for disapproval, and then click <emphasis role="bold"
+                            >yes</emphasis> to confirm. </para>
+                    <para/>
+                    <para>
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Document Disapprove Confirmation Screen</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/basic-81.png"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para/>
+                    <para> After you complete the disapprove action, the system displays the reason
+                        in the <emphasis role="bold">Notes and Attachment</emphasis> tab. </para>
+                    <para/>
+                    <para>
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Disapproval note added to the Notes and Attachments Tab of the
+                                    Document</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/basic-82.png" width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para/>
+                </section>
+                <section>
+                    <title>Acknowledging a Document</title>
+                    <note>
+                        <para> Acknowledgments do not interrupt the normal workflow routing of a
+                            document. They do not stop a document from routing on to other
+                            individuals, groups, or roles who need to take approval actions. </para>
+                    </note>
+                    <para>Click <inlinemediaobject>
+                            <alt>Acknowledge</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/basic-76.png"/>
+                            </imageobject>
+                        </inlinemediaobject>. </para>
+                </section>
+                <section>
+                    <title>FYI a Document</title>
+                    <note>
+                        <para> FYIs do not interrupt the normal workflow routing of a document.
+                        </para>
+                    </note>
+                    <para> To signify that you have responded to the FYI action, you may take either
+                        of two actions: </para>
+                    <itemizedlist>
+                        <listitem>
+                            <para>Click <inlinemediaobject>
+                                    <alt>FYI</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/basic-79.png"/>
+                                    </imageobject>
+                                </inlinemediaobject> when you open the document. </para>
+                        </listitem>
+                        <listitem>
+                            <para> or, in the action list, select <inlinemediaobject>
+                                    <alt>FYI</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/basic-79.png"/>
+                                    </imageobject>
+                                </inlinemediaobject> in the <emphasis role="bold">Actions</emphasis>
+                                column and click <inlinemediaobject>
+                                    <alt>Take Actions</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/basic-83.png"/>
+                                    </imageobject>
+                                </inlinemediaobject></para>
+                            <para/>
+                            <para>
+                                <screenshot>
+                                    <mediaobject>
+                                        <alt>Sample Action List with an FYI Action Request</alt>
+                                        <imageobject>
+                                            <imagedata fileref="../images/basic-84.png" width="100%"
+                                            />
+                                        </imageobject>
+                                    </mediaobject>
+                                </screenshot>
+                            </para>
+                        </listitem>
+                    </itemizedlist>
+                    <tip>
+                        <para>
+                            <emphasis role="bold">Setting the default action for FYI:</emphasis> To
+                            clear all FYI actions in the action list simultaneously, first set the
+                            default action from 'NONE' to 'FYI'. </para>
+                        <para/>
+                        <para><inlinemediaobject>
+                                <alt>None, FYI Drop Down</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/basic-85.png"/>
+                                </imageobject>
+                            </inlinemediaobject></para>
+                    </tip>
+                    <para> Next, click <emphasis role="bold">apply default</emphasis> (in the upper
+                        right corner) and then click <emphasis role="bold">take actions</emphasis>.
+                    </para>
+                </section>
+                <section>
+                    <title><anchor xml:id="_correctingErrorsAfterApproval"/>Correcting Errors After
+                        Approval</title>
+                    <para> In financial e-docs, the error correction action allows you to correct
+                        documents by creating a new document that reverses the original transaction
+                        that has been fully approved. A document created with the error correction
+                        action must route and be approved in the same manner as the e-doc it
+                        corrects. </para>
+                    <note>
+                        <para> The error correction action should not be confused with the financial
+                            transaction document type General Error Correction (GEC), which is
+                            described in <link xlink:href="../../../webhelp/AG/content/ch14s05.html"
+                                >General Error Correction</link> in the <link
+                                    xlink:href="../../../../webhelp/AG/index.html"><emphasis role="italic">Guide to the
+                                    OLE Select and Acquire Module</emphasis></link>. </para>
+                    </note>
+                    <orderedlist>
+                        <listitem>
+                            <para>Click <inlinemediaobject>
+                                    <alt>Error Correction</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/basic-78.png"/>
+                                    </imageobject>
+                                </inlinemediaobject></para>
+                            <para> The system creates a new document with a new document ID. The
+                                system also displays <emphasis role="bold">Corrects Document
+                                    ID</emphasis> in both the document header and the <emphasis
+                                    role="bold">Notes and Attachment</emphasis> tab of the document. </para>
+                            <para/>
+                            <para><inlinemediaobject>
+                                    <alt>OLE Document Header with Corrects Document ID</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/basic-86.png"/>
+                                    </imageobject>
+                                </inlinemediaobject></para>
+                            <para/>
+                            <para> Amounts are in negative to reverse the original transaction. </para>
+                            <para/>
+                            <para>
+                                <screenshot>
+                                    <mediaobject>
+                                        <alt>OLE Document with Account Amounts Being Reversed</alt>
+                                        <imageobject>
+                                            <imagedata fileref="../images/basic-87.png" width="100%"
+                                            />
+                                        </imageobject>
+                                    </mediaobject>
+                                </screenshot>
+                            </para>
+                            <para/>
+                            <para> The new document has an annotation that is an error correction. </para>
+                            <para/>
+                            <para>
+                                <screenshot>
+                                    <mediaobject>
+                                        <alt>OLE Document: Error-correction note on the Notes and
+                                            Attachments Tab</alt>
+                                        <imageobject>
+                                            <imagedata fileref="../images/basic-88.png"/>
+                                        </imageobject>
+                                    </mediaobject>
+                                </screenshot>
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para>Click <inlinemediaobject>
+                                    <alt>Submit</alt>
+                                    <imageobject>
+                                        <imagedata
+                                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-82.png"
+                                        />
+                                    </imageobject>
+                                </inlinemediaobject>.</para>
+                            <para> The header of the corrected document shows the corrected by
+                                document ID. </para>
+                            <para/>
+                            <para>
+                                <screenshot>
+                                    <mediaobject>
+                                        <alt>OLE Document Header with Corrected By Document ID</alt>
+                                        <imageobject>
+                                            <imagedata fileref="../images/basic-89.png" width="100%"
+                                            />
+                                        </imageobject>
+                                    </mediaobject>
+                                </screenshot>
+                            </para>
+                        </listitem>
+                    </orderedlist>
+                </section>
+            </section>
+            <section>
+                <title>Workflow Preferences</title>
+                <para> The system allows you to change the automatic refresh rate, action list page
+                    size, email notification, and row colors that indicate the status of the
+                    document. You may also limit the list of documents in the action list by setting
+                    filters for delegators or workflow status. To make any of these changes, click
+                    the <emphasis role="bold">preferences</emphasis> button in the action list. </para>
+                <para/>
+                <para>
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Action Lists Preferences Button in the top right corner</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/basic-90.png" width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para/>
+                <para> The system displays the Workflow Preferences screen. </para>
+                <para/>
+                <para>
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Workflow Preferences Screen</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/basic-91.png" width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para/>
+                <para role="TableHeading"><emphasis role="bold">Workflow Preferences Field
+                        Definitions</emphasis></para>
+                <informaltable frame="top">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Automatic Refresh Rate</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"> Enter a number in whole minutes.
+                                    </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">Action List
+                                    Page Size</entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"> Enter a number of rows to display per
+                                        page in the action list. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Email Notification</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"> Select one of the desired email
+                                        frequencies from the list: 'None,' 'Daily,' 'Weekly' or
+                                        'Immediate'. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Receive Primary Delegates Emails</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"> Check this box to receive an email
+                                        when a document arrives in your action list for which you
+                                        are the primary delegate. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Receive Secondary Delegates
+                                        Emails</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"> Check this box to receive an email
+                                        when a document arrives in your secondary delegate action
+                                        list. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Delegator Filter</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"> In the list, select 'Secondary
+                                        Delegators on Action List' or 'Secondary Delegators only on
+                                        Filter Page' to specify when to show the secondary
+                                        delegation entries in your action list. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Fields Displayed in Action List</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"> Check each box to include these items
+                                        on the action list. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"> Document Route Status Colors for
+                                        Action List Entries </para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"> Click one of the color options for
+                                        each document route status. </para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+                <para> To save your preferences, click <inlinemediaobject>
+                        <alt>Save</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/basic-27.png"/>
+                        </imageobject>
+                    </inlinemediaobject>.</para>
+                <para/>
+                <para> To return to the default preferences, click <inlinemediaobject>
+                        <alt>Reset</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/basic-92.png"/>
+                        </imageobject>
+                    </inlinemediaobject>.</para>
+                <note>
+                    <para> Color changes do not take place until the next time you log onto the
+                        system. </para>
+                </note>
+                <para/>
+                <para>
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Action List Sample with Color Changes Applied</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/basic-93.png"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+            </section>
+            <section>
+                <title>Action List Filter</title>
+                <para> Setting a filter allows you to display a subset of the action list. </para>
+                <orderedlist>
+                    <listitem>
+                        <para> To go to the Action List Filter dialog box, click the <emphasis
+                                role="bold">Filter</emphasis> button. </para>
+                        <para/>
+                        <para>
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Action List Filter Button: Available on the top right of
+                                        the screen</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/basic-94.png"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para> Specify filtering criteria in the Action List Filter dialog box. </para>
+                        <para/>
+                        <para>
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Action List Filter Screen</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/basic-95.png" width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>Click <inlinemediaobject>
+                                <alt>Filter</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/basic-96.png"/>
+                                </imageobject>
+                            </inlinemediaobject>.</para>
+                        <para> The system displays a message in the upper left corner. </para>
+                        <para/>
+                        <para>
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Action List Sample with Filtering Displayed</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/basic-97.png"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                    </listitem>
+                </orderedlist>
+                <para role="TableHeading"><emphasis role="bold">Action List Filter
+                        Definitions</emphasis></para>
+                <informaltable frame="top">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Document Title</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"> Enter a partial or full character
+                                        string that you are looking for in the document description.
+                                        For example, enter 'Test' to see all documents that contain
+                                        'Test' in the document description. This field is case
+                                        sensitive. Select the <emphasis role="bold"
+                                            >Exclude?</emphasis> check box to exclude documents with
+                                        the specified title from the list. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">Document
+                                    Route Status</entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"> Select the route status you want. The
+                                        choices are 'All,' 'Approved,' 'Disapproved,' 'Enroute,'
+                                        'Exception,' 'Processed and Saved'. Select the <emphasis
+                                            role="bold">Exclude?</emphasis> check box to exclude
+                                        documents with the selected status from the list. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Action Requested</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"> Select an action from the list. The
+                                        choices are 'Acknowledge,' 'Approve,' 'Complete,' and 'FYI'.
+                                        Select the <emphasis role="bold">Exclude?</emphasis> check
+                                        box to exclude documents with the selected action from the
+                                        list. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Action Requested Group</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"> Select the name of the group that is
+                                        requested to take an action. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Document Type</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"> Select a document type from the lookup <mediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </mediaobject> . Select the <emphasis role="bold"
+                                            >Exclude?</emphasis> check box to exclude documents with
+                                        the selected type from the list. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Date Created</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"> Enter a date range or select dates
+                                        from the calendar <mediaobject>
+                                            <imageobject>
+                                                <imagedata
+                                                  fileref="../images/basic-miniCalendar.png"/>
+                                            </imageobject>
+                                        </mediaobject> to limit the documents based on the date they
+                                        were created. Select the <emphasis role="bold"
+                                            >Exclude?</emphasis> check box to exclude documents that
+                                        were created during this given time range. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Date Last Assigned</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"> Enter a date range or select dates
+                                        from the calendar <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata
+                                                  fileref="../images/basic-miniCalendar.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject> to limit the documents based on the
+                                        date that this action item was generated for you. Select the
+                                            <emphasis role="bold">Exclude?</emphasis> check box to
+                                        exclude documents that entered your action list during this
+                                        given time range. The acceptable format is mm/dd/yyyy.
+                                    </para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+                <section>
+                    <title>Clearing the Action List Filter</title>
+                    <note>
+                        <para> The <emphasis role="bold">Clear Filter</emphasis> button is visible
+                            only when you have previously created the filter. </para>
+                    </note>
+                    <para> To remove the filter and view the entire list, click the <inlinemediaobject>
+                            <alt>Clear Filter</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/basic-98.png"/>
+                            </imageobject>
+                        </inlinemediaobject> button. </para>
+                    <para/>
+                    <para>
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Action List Clear Filter Button: Available on the top right of
+                                    the screen</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/basic-99.png"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                </section>
+            </section>
+            <section>
+                <title><anchor xml:id="_advancedDocumentSearches"/>Advanced Document
+                    Searches</title>
+                <para> In <link linkend="_usingDocSearch">Using Doc Search to Find a
+                    Document</link>, we introduced the basic search capabilities within the KEW. The
+                    system also provides more advanced and sophisticated search capabilities. </para>
+                <section>
+                    <title>Detailed Verses Basic Search</title>
+                    <para> When you click the <emphasis role="bold">doc search</emphasis> button,
+                        the system displays a search screen that initially defaults to a basic
+                        search. </para>
+                    <para/>
+                    <para>
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Doc Search Screen</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/basic-100.png"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para/>
+                    <para> To switch between the basic search and detailed search, click the
+                            <emphasis role="bold">detailed search</emphasis> or <emphasis
+                            role="bold">basic search</emphasis> button near the top of the screen.
+                        The detailed search screen gives you more options for specifying search
+                        criteria. </para>
+                    <para/>
+                    <para>
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Doc Search Detailed Search</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/basic-101.png"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                </section>
+                <section>
+                    <title>Superuser Verses Non-Superuser Searches</title>
+                    <para> The search screen initially defaults to a non-superuser search mode. If
+                        you are a member of a role (e.g., the OLE-SYS Workflow Administrator role)
+                        that has the administer routing for document permission, you may switch
+                        between non-superuser search and superuser search mode by clicking the
+                            <emphasis role="bold">Superuser Search</emphasis> or <emphasis
+                            role="bold">Non-Superuser Search</emphasis> link. </para>
+                    <para/>
+                    <para>
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Doc Search Superuser Search</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/basic-102.png"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para/>
+                    <para> The search screen initially defaults to a non-superuser search mode. If
+                        you are a member of a role (e.g., the OLE-SYS Workflow Administrator role)
+                        that has the administer routing for document permission, you may switch
+                        between non-superuser search and superuser search mode by clicking the
+                            <emphasis role="bold">Superuser Search</emphasis> or <emphasis
+                            role="bold">Non-Superuser Search</emphasis> link. </para>
+                    <note>
+                        <para> Anyone can search for documents using superuser search, but only
+                            users with an appropriate role can actually take special actions on the
+                            documents retrieved by the superuser search function. </para>
+                    </note>
+                </section>
+                <section>
+                    <title>Document Specific Searches</title>
+                    <para> Document-specific searches allow you to specify additional criteria when
+                        you search specific document types or groups of documents such as financial
+                        transactions or purchasing/accounts payable documents. In addition to the
+                        standard search criteria available in the basic and advanced searches,
+                        document-specific searches allow you to specify fields such as dollar
+                        amounts, status, and document-specific reference numbers. </para>
+                    <note>
+                        <para> For more information about document-specific search, see the help
+                            documentation section on the applicable document type in the appropriate
+                            guide listed in the <link xlink:href="../../../html/Index.html">OLE
+                                Documentation Portal</link>. </para>
+                    </note>
+                    <para> You may also access these search options after you click the doc search
+                        button. To access document-specific search at this point, either enter the
+                        document type name and tab out of the field or use the <emphasis role="bold"
+                            >Document Type</emphasis> lookup <inlinemediaobject>
+                            <imageobject>
+                                <imagedata fileref="../images/Lookup.png"/>
+                            </imageobject>
+                        </inlinemediaobject> . The system displays the appropriate additional search
+                        fields. </para>
+                </section>
+                <section>
+                    <title>Named Searches</title>
+                    <para> When you name a set of search criteria, the system saves your search as a
+                        named search. When you later click <emphasis role="bold">search</emphasis>,
+                        the system displays a list of all named searches you have created in the
+                        Searches list. </para>
+                    <para/>
+                    <para>
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Doc Search Named Searches Appear in the Searches Drop
+                                    Down</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/basic-103.png" width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                </section>
+                <section>
+                    <title>Clear Saved Searches</title>
+                    <para> To clear all of your named searches, click <emphasis role="bold">clear
+                            saved searches</emphasis>. OLE clears the Searches list. </para>
+                    <para/>
+                    <para>
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Doc Search Searches Drop Down that has been cleared</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/basic-104.png"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                </section>
+                <section>
+                    <title>Clear Searches</title>
+                    <para> To clear your previous search criteria, click <inlinemediaobject>
+                            <alt>Clear</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/basic-105.png"/>
+                            </imageobject>
+                        </inlinemediaobject>.</para>
+                </section>
+            </section>
+        </section>
+    </section>
+</chapter>

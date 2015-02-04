@@ -1,0 +1,1452 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"
+    version="5.0" xml:lang="en-US">
+    <title>Electronic Resources: Standard Transactional Documents</title>
+    <para role="Body Text"><inlinemediaobject>
+            <alt>Select/Acquire</alt>
+            <imageobject>
+                <imagedata fileref="../images/SelectAcquire.png"/>
+            </imageobject>
+        </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+                <alt>Electronic Resources</alt>
+                <imageobject>
+                    <imagedata fileref="../images/eresource-66.png"/>
+                </imageobject>
+            </inlinemediaobject> &gt;<inlinemediaobject>
+                <alt>Electronic Resources Links</alt>
+                <imageobject>
+                    <imagedata fileref="../images/eresource-67.png"/>
+                </imageobject>
+            </inlinemediaobject></emphasis></para>
+    <para role="Body Text">On the Select/Acquire tab, the Acquisition submenu provides access for
+        users to search and edit payment requests, create general error corrections and disbursement
+        vouchers, and search and edit E-Resources.</para>
+    <section>
+        <title><anchor xml:id="_E-Resource"/>E-Resource</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Select/Acquire</alt>
+                <imageobject>
+                    <imagedata fileref="../images/SelectAcquire.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+                    <alt>Electronic Resources</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-66.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>E-Resources</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-68.png"/>
+                    </imageobject>
+                </inlinemediaobject>&gt; <inlinemediaobject>
+                    <alt>Create</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-137.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>E-Resource Document</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-34.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para>While OLE has adopted functionality from the Kuali Financial System for acquiring
+            print materials that includes placing orders, receiving orders, claiming orders, and
+            paying for orders, acquiring electronic materials and tracking their life cycle has
+            required additional interfaces and electronic documents.</para>
+        <para>In 1.5, initial development includes the E-Resource Record and its associated
+            maintenance documents. The E-Resource Record provides a place to store and view
+            information about an electronic resource acquisition, including the title(s) involved
+            and the content provider. Within the OLE user interface, the E-Resource Record presents
+            a single, unified view of all information related to acquisition of an individual
+            electronic resource or group of electronic resources, including titles, payment,
+            licensing, administrative, and contact information. </para>
+        <para> E-resource acquisition requires the collection and storage of life cycle management
+            data that is not part of the requisition or purchase order and lacks a home in most
+            current systems. Long-term management of e-resources also requires the ability to view
+            or link to related data from one coherent “place.” There is no eDoc that currently meets
+            these needs. Therefore, we are defining a new type of record to handle e-resources. </para>
+        <para>Future releases will include a platform record to support electronic resource
+            administration, full GOKb integration, workflow tools to support initial activation of
+            access to electronic resources, alerts to help track the workflows, and enhanced
+            abilities to create purchase orders that accurately link expenditures to electronic
+            resources. </para>
+        <section>
+            <title>Getting Started</title>
+            <para>On the <emphasis role="bold">Select/Acquire</emphasis> tab, the <emphasis
+                    role="bold">Electronic Resources</emphasis> submenu allows users to create,
+                search, and maintain E-Resource records.</para>
+            <para> An E-Resource Record is a tool for collecting and storing life cycle management
+                data for electronic resources , including the title(s) involved, acquisitions and
+                licensing information, and workflow status . In the 1.5 release, the E-Resource
+                Record is the starting point for OLE's licensing workflow. In later releases, users
+                will also be able to kick off trial workflows from this document. </para>
+            <note>
+                <para> The E-Resource Record will continue to be developed and modified in future
+                    releases, a large development effort is scheduled for the 2.0 release.</para>
+            </note>
+        </section>
+        <section>
+            <title><anchor xml:id="_EResourceDocLayout"/>Document Layout</title>
+            <para>Because of the quantity of metadata that the E-Resource holds, the record contains
+                a left-pane navigation bar. </para>
+            <para><inlinemediaobject>
+                    <alt>E-Resource Left Pane Navigation</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-35.png"/>
+                    </imageobject>
+                </inlinemediaobject></para>
+            <para>The navigation bar includes:</para>
+            <table frame="all">
+                <title>E-Resource Navigation Descriptions</title>
+                <tgroup cols="2">
+                    <colspec colname="c1" colnum="1"/>
+                    <colspec colname="c2" colnum="2"/>
+                    <thead>
+                        <row>
+                            <entry>Tab Name</entry>
+                            <entry>Description</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry>Main</entry>
+                            <entry>Displays the primary data elements and includes tabs for
+                                acquisitions, selection and access.</entry>
+                        </row>
+                        <row>
+                            <entry>Instances</entry>
+                            <entry> Users can manage the relationship between the E-Resource Record
+                                and OLE Instances and/or OLE E-Instances. In future releases, users
+                                will be able to import and manage data from GOKb</entry>
+                        </row>
+                        <row>
+                            <entry>Purchase Orders</entry>
+                            <entry> Displays and links to any purchase orders associated with an
+                                E-instance / Instance related to this E-Resource in 1.5. Also
+                                included at the top of the purchase order list is the sum of all
+                                payments for all purchase order line items linked to that E-Resource
+                                per fiscal year. </entry>
+                        </row>
+                        <row>
+                            <entry>Invoices</entry>
+                            <entry> Displays any invoices for any purchase orders associated with
+                                this E-Resource (see above). </entry>
+                        </row>
+                        <row>
+                            <entry>Licenses</entry>
+                            <entry>Displays license information from any License Requests an
+                                E-Resource Record is linked to. Users may also start a new License
+                                Request from this tab.</entry>
+                        </row>
+                        <row>
+                            <entry>Event Log</entry>
+                            <entry>Allows staff to store correspondence between libraries and
+                                publishers, vendors, etc. as well as notes about external
+                                activities. Some system-generated events are added
+                                automatically.</entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </table>
+            <tip>
+                <para> Click <emphasis role="bold">save</emphasis> when you have completed your work
+                    in one tab before moving on to the next. Prepopulated fields will be filled and
+                    you will not risk losing anything.</para>
+            </tip>
+            <section>
+                <title>Main Menu</title>
+                <para>
+                    <screenshot>
+                        <mediaobject>
+                            <alt>E-Resource Main Menu</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/eresource-36.png" width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para/>
+                <para role="Body Text">The E-Resource Record Main menu includes the <emphasis
+                        role="bold">Overview</emphasis>, <emphasis role="bold"
+                        >Acquisitions</emphasis>, <emphasis role="bold">Selection</emphasis>, and
+                        <emphasis role="bold">Access </emphasis> tabs, in addition to the standard
+                    tabs. </para>
+                <note>
+                    <para> For information about the<emphasis role="bold"> standard tabs</emphasis>,
+                        see <link xlink:href="../../../webhelp/BASICS/content/ch02s02.html">Standard
+                            Tabs</link> on the <link
+                            xlink:href="../../../webhelp/BASICS/content/pr01.html"><emphasis>Guide
+                                to OLE Basic Functionality and Key
+                        Concepts</emphasis></link>.</para>
+                </note>
+                <section>
+                    <title><anchor xml:id="overview"/>Overview Tab</title>
+                    <para> The E-Resource Record Main menu contains a custom tab called the
+                            <emphasis role="bold">Overview</emphasis> that contains basic
+                        information about the E-Resource. The name of the E-Resource, Publisher,
+                        Platform and Vendor information as well as identifying information are noted
+                        here. </para>
+                    <para/>
+                    <para>
+                        <screenshot>
+                            <mediaobject>
+                                <alt>E-Resource Overview Tab</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/eresource-37.png" width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para/>
+                    <para role="TableHeading"><emphasis role="bold">Overview Tab
+                            Definitions</emphasis></para>
+                    <informaltable frame="top">
+                        <tgroup cols="2">
+                            <colspec colname="col1" colnum="1"/>
+                            <colspec colname="col2" colnum="2"/>
+                            <tbody>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Title </para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Description </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Name</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Required. The name of the
+                                            E-Resource. Used also for searching.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Publisher</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Record the name of the publisher of
+                                            the E-Resource. In a future release, this will be linked
+                                            to an Organization record.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Platform Provider</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Display-only. The platform provider
+                                            for the E-Resource. This is display only because it is
+                                            based on the Platform(s) used by the E-instance(s) that
+                                            are associated with this E-Resource. </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Vendor Name</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">The name of the vendor. This is
+                                            linked to a Vendor record in OLE.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">OLE Identifier</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Display only. Identifies the
+                                            E-Resource within OLE.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                        >ISBN/ISSNs</entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Display only. If the E-Resource
+                                            Record has only one title, the subfield $a of the first
+                                            ISBN/ISSN number from the record will display
+                                            here.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">GOKb
+                                        Identifier</entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Display only. In a future release,
+                                            for E-Resources imported from GOKb, this field will
+                                            display the link to the GOKb interface. </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                        >Status</entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Current status of the E-Resource
+                                            Record.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">Status
+                                        Date</entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Display only. Date at which the
+                                            status was last updated.</para>
+                                    </entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </informaltable>
+                    <para/>
+                </section>
+                <section>
+                    <title>Workflow Status Tab</title>
+                    <para>The <emphasis role="bold">Workflow Status</emphasis> tab is used in the
+                        1.5 release to display the status of a License Request created from the
+                        E-Resource, In future releases, it will also display the status of a linked
+                        trial, purchase, or access/activation.</para>
+                    <para> The checkbox in the Needed? column is used to indicate whether  a trial
+                        or license negotiation will be needed to acquire this electronic resource.
+                        It is for informational purposes only. </para>
+                    <para/>
+                    <para>
+                        <screenshot>
+                            <mediaobject>
+                                <alt>E-Resource Workflow Status tab</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/eresource-38.png"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para/>
+                </section>
+                <section>
+                    <title>Acquisitions</title>
+                    <para>The <emphasis role="bold">Acquisitions</emphasis> tab is used to document
+                        information about the nature of the resource being acquired and some of the
+                        purchasing information.</para>
+                    <para/>
+                    <para>
+                        <screenshot>
+                            <mediaobject>
+                                <alt>E-Resource Acquisitions Tab</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/eresource-39.png" width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para/>
+                    <para role="TableHeading"><emphasis role="bold">Acquisitions Tab
+                            Definitions</emphasis></para>
+                    <informaltable frame="top">
+                        <tgroup cols="2">
+                            <colspec colname="col1" colnum="1"/>
+                            <colspec colname="col2" colnum="2"/>
+                            <tbody>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Title </para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Description </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Material Type</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Required. Defines the type(s) of
+                                            material (i.e. journal, database) for reporting and
+                                            managing different types of E-Resources. Select the
+                                            Material Type from the drop down and click <inlinemediaobject>
+                                                <alt>Add</alt>
+                                                <imageobject>
+                                                  <imagedata fileref="../images/admin-34.png"/>
+                                                </imageobject>
+                                            </inlinemediaobject>.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                        >Format</entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Required. Defines the format(s) of
+                                            the e-resource (i.e. electronic, print) for reporting
+                                            and management. Select the format from the drop down and
+                                            click <inlinemediaobject>
+                                                <alt>Add</alt>
+                                                <imageobject>
+                                                  <imagedata fileref="../images/admin-34.png"/>
+                                                </imageobject>
+                                            </inlinemediaobject>.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Content Type</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Required. Defines the type(s) of
+                                            content included in the E-Resource (i.e. text, images)
+                                            for reporting and management. Select the Content Type
+                                            from the drop down and click <inlinemediaobject>
+                                                <alt>Add</alt>
+                                                <imageobject>
+                                                  <imagedata fileref="../images/admin-34.png"/>
+                                                </imageobject>
+                                            </inlinemediaobject>.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Payment Type</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Type of payment for the E-Resource.
+                                            Examples may include free, paid, includes print,
+                                            etc..</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">Package
+                                        Type</entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells"> Indicates the type of the package
+                                            in GOKb. For example, locally negotiated or consortial
+                                            package. In a future release, this will be imported from
+                                            GOKb.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                        >Breakable</entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Indicates whether individual titles
+                                            that are part of the E-Resource can be canceled.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Estimated Price</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">The estimated price of the
+                                            E-Resource used for reference. Once the Purchase Order
+                                            exists, the estimated price will reflect the official
+                                            price.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                        >Description</entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Text field to allow staff to
+                                            describe the E-Resource being purchased.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">Order
+                                        Type</entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                        >Indicates the type of order, for example subscription or
+                                        standing. In a future release, this will be used to populate
+                                        Purchase Orders created for this E-Resource.</entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Package Scope</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Scope of the E-Resource. For
+                                            example, front file or back file. In a future release,
+                                            this will be imported from GOKb.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">Fixed
+                                        Title List</entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Indicates whether an E-Resource is
+                                            static (fixed) or has titles added/removed over time
+                                            (not fixed).</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Statistical Code</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">Select
+                                        the Statistical Code from the drop down list. This is a
+                                        custom local field to be used for reporting. </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Fund</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">This field is meant to display the
+                                            accounting information from Purchase Orders and
+                                            Invoices. However in 1.5, the lookup will display the
+                                            Vendor Reference Number.</para>
+                                        <note>
+                                            <para>The bug has been documented and further coding is
+                                                planned for 2.0. For more information, see <link
+                                                  xlink:href="https://jira.kuali.org/browse/OLE-4682"
+                                                  >OLE-4682</link></para>
+                                        </note>
+                                    </entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </informaltable>
+                </section>
+                <section>
+                    <title>Selection Tab</title>
+                    <para>The <emphasis role="bold">Selection</emphasis> tab gives information about
+                        who has requested the E-Resource.</para>
+                    <para/>
+                    <para>
+                        <screenshot>
+                            <mediaobject>
+                                <alt>E-Resource Selection Tab</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/eresource-40.png" width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para/>
+                    <para role="TableHeading"><emphasis role="bold">Selection Tab
+                            Definitions</emphasis></para>
+                    <informaltable frame="top">
+                        <tgroup cols="2">
+                            <colspec colname="col1" colnum="1"/>
+                            <colspec colname="col2" colnum="2"/>
+                            <tbody>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Title </para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Description </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Requester</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">The patron requesting the
+                                            E-Resource. Enter a valid patron or search for them from
+                                            the lookup <inlinemediaobject>
+                                                <imageobject>
+                                                  <imagedata fileref="../images/Lookup2.png"/>
+                                                </imageobject>
+                                            </inlinemediaobject> and click <inlinemediaobject>
+                                                <alt>Add</alt>
+                                                <imageobject>
+                                                  <imagedata fileref="../images/admin-34.png"/>
+                                                </imageobject>
+                                            </inlinemediaobject>.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Selector</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">The librarian requesting the
+                                            E-Resource. Enter a valid OLE user or search for them
+                                            from the lookup <inlinemediaobject>
+                                                <imageobject>
+                                                  <imagedata fileref="../images/Lookup2.png"/>
+                                                </imageobject>
+                                            </inlinemediaobject> and click <inlinemediaobject>
+                                                <alt>Add</alt>
+                                                <imageobject>
+                                                  <imagedata fileref="../images/admin-34.png"/>
+                                                </imageobject>
+                                            </inlinemediaobject>.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Requester/Selector Comment</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Enter any patron or staff notes
+                                            about the request and click <inlinemediaobject>
+                                                <alt>Add</alt>
+                                                <imageobject>
+                                                  <imagedata fileref="../images/admin-34.png"/>
+                                                </imageobject>
+                                            </inlinemediaobject>.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Priority</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Select a value from the drop down
+                                            to assign a priority value to the request for
+                                            purchase.</para>
+                                    </entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </informaltable>
+                </section>
+                <section>
+                    <title>Access Tab</title>
+                    <para>The <emphasis role="bold">Access</emphasis> tab describes the type of
+                        access and requirements for the E-Resource.</para>
+                    <para/>
+                    <para>
+                        <screenshot>
+                            <mediaobject>
+                                <alt>E-Resource Access Tab</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/eresource-41.png" width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para/>
+                    <para role="TableHeading"><emphasis role="bold">Access Tab
+                            Definitions</emphasis></para>
+                    <informaltable frame="top">
+                        <tgroup cols="2">
+                            <colspec colname="col1" colnum="1"/>
+                            <colspec colname="col2" colnum="2"/>
+                            <tbody>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Title </para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Description </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Type of Access</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Select the type of access available
+                                            for the E-Resource from the drop down. For example,
+                                            site-wide or limited access. </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Access Location</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Select all of the locations that
+                                            have access to the E-Resource from the list. Press
+                                            shift+click or shift+arrow keys to select multiple
+                                            options.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Authentication Type</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Select the type of authentication
+                                            needed to access the E-Resource from the drop down. For
+                                            example, IP range or Shibboleth</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">No. of Simultaneous Users</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Enter the number of simultaneous
+                                            users allowed to have access the E-Resource at the same
+                                            time, if there is a limit.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Technical Requirements</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Enter additional notes about
+                                            technical restrictions/requirements.</para>
+                                    </entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </informaltable>
+                </section>
+                <section>
+                    <title>Note Tab</title>
+                    <para>The <emphasis role="bold">Note</emphasis> tab allows staff to record
+                        multiple special notes about the E-Resource. For example breaches or
+                        computer usage requirements. After typing the note, click <inlinemediaobject>
+                            <alt>Add</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/admin-34.png"/>
+                            </imageobject>
+                        </inlinemediaobject> to add a note in the <emphasis role="bold"
+                            >Note</emphasis> subtab.</para>
+                    <para>In the Public Display Note field, staff may record a note that should be
+                        displayed to all public users for all titles in the E-Resource.</para>
+                    <para/>
+                    <para>
+                        <screenshot>
+                            <mediaobject>
+                                <alt>E-Resource Note Tab</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/eresource-42.png" width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                </section>
+            </section>
+            <section>
+                <title>Instances Menu</title>
+                <para> From the <emphasis role="bold">Instances</emphasis> menu staff can view and
+                    update the OLE Instances linked to the E-Resource. In a later release, staff
+                    will also be able to manage the relationship between the E-Resource Record and
+                    data imported from GOKb. </para>
+                <para/>
+                <para>
+                    <screenshot>
+                        <mediaobject>
+                            <alt>E-Resource Instances Menu</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/eresource-43.png" width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <section>
+                    <title>Overview Tab</title>
+                    <para>The <emphasis role="bold">Overview</emphasis> tab maintains the same
+                        information as the <emphasis role="bold">Main Menu's</emphasis>
+                        <emphasis role="bold">Overview</emphasis> tab. </para>
+                    <note>
+                        <para>See the <link linkend="overview">Main Menu Overview tab</link> to
+                            review the Overview tab.</para>
+                    </note>
+                    <para/>
+                    <para>Users may set <emphasis role="bold">Default Coverage</emphasis> dates all
+                        E-instances that are associated with the E-Resource by clicking <inlinemediaobject>
+                            <alt>Edit</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/eresource-44.png"/>
+                            </imageobject>
+                        </inlinemediaobject>. A <emphasis role="bold">Coverage</emphasis> window
+                        will open. Enter the coverage information and click <inlinemediaobject>
+                            <alt>Save</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/eresource-46.png"/>
+                            </imageobject>
+                        </inlinemediaobject>.</para>
+                    <para/>
+                    <para><inlinemediaobject>
+                            <alt>Coverage Start and End Dates</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/eresource-45.png" width="100%"/>
+                            </imageobject>
+                        </inlinemediaobject></para>
+                    <para/>
+                    <para>Users may set <emphasis role="bold">Default Perpetual Access</emphasis>
+                        dates for All E-instances that are associated with the E-Resource by
+                        clicking <inlinemediaobject>
+                            <alt>Edit</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/eresource-44.png"/>
+                            </imageobject>
+                        </inlinemediaobject>. A <emphasis role="bold">Perpetual Access</emphasis>
+                        window will open. Enter the perpetual access dates and click <inlinemediaobject>
+                            <alt>Save</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/eresource-46.png"/>
+                            </imageobject>
+                        </inlinemediaobject>.</para>
+                    <para/>
+                    <para><inlinemediaobject>
+                            <alt>Perpetual Access Start and End Dates</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/eresource-47.png" width="100%"/>
+                            </imageobject>
+                        </inlinemediaobject></para>
+                </section>
+                <section>
+                    <title>OLE Instances Tab</title>
+                    <para>In this section, staff may also link a pre-existing OLE
+                        Instance/E-Instance to this E-Resource or create a new OLE
+                        Instance/E-Instance that is linked to this E-Resource. </para>
+                    <orderedlist>
+                        <listitem>
+                            <para>Click the <inlinemediaobject>
+                                    <alt>Add OLE Instance</alt>
+                                    <imageobject>
+                                        <imagedata
+                                            fileref="../images/LicensingNoTitlePage-AddOLEInstance.png"
+                                        />
+                                    </imageobject>
+                                </inlinemediaobject> button.</para>
+                            <para>A pop-up box with three options will appear. </para>
+                        </listitem>
+                        <listitem>
+                            <para>Choose from the options: Link to an existing instance, Create a
+                                new Instance for an existing bib, or Create a new bib and
+                                Instance.</para>
+                            <para/>
+                            <para><inlinemediaobject>
+                                    <alt>Choose link or create Instances</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/eresource-58.png"/>
+                                    </imageobject>
+                                </inlinemediaobject></para>
+                            <itemizedlist>
+                                <listitem>
+                                    <para>Select <emphasis role="bold">Link to existing
+                                            Instance</emphasis> to link a pre-existing OLE
+                                        Instance.</para>
+                                    <para> The E-Resource Workbench will open in a new tab, allowing
+                                        you to search for the desired bibliographic record. </para>
+                                    <para/>
+                                    <para>
+                                        <screenshot>
+                                            <mediaobject>
+                                                <alt>E-Resource Workbench View</alt>
+                                                <imageobject>
+                                                  <imagedata fileref="../images/eresource-59.png"
+                                                  width="100%"/>
+                                                </imageobject>
+                                            </mediaobject>
+                                        </screenshot>
+                                    </para>
+                                    <para/>
+                                    <orderedlist>
+                                        <listitem>
+                                            <para> Select the checkbox next to the desired title. A
+                                                pop-up will appear that will give you the option to
+                                                specify whether you are linking to a Holdings or
+                                                EHoldings. Select the radio button next to your
+                                                choice.</para>
+                                            <para/>
+                                            <para><inlinemediaobject>
+                                                  <alt>Holdings or EHoldings Options</alt>
+                                                  <imageobject>
+                                                  <imagedata fileref="../images/eresource-60.png"/>
+                                                  </imageobject>
+                                                </inlinemediaobject></para>
+                                        </listitem>
+                                        <listitem>
+                                            <para> In the next pop-up window, select the appropriate
+                                                record you would like to link to the E-Resource and
+                                                click <emphasis role="bold">Link to
+                                                  EResource</emphasis>. </para>
+                                            <para/>
+                                            <para><inlinemediaobject>
+                                                  <alt>Select specific record</alt>
+                                                  <imageobject>
+                                                  <imagedata fileref="../images/eresource-61.png"
+                                                  width="100%"/>
+                                                  </imageobject>
+                                                </inlinemediaobject></para>
+                                        </listitem>
+                                        <listitem>
+                                            <para> Click <emphasis role="bold">save</emphasis> on
+                                                the E-Resource Instances menu page. </para>
+                                            <para> Instances will appear in the Instance Details tab
+                                                (see below). </para>
+                                        </listitem>
+                                    </orderedlist>
+                                </listitem>
+                                <listitem>
+                                    <para>Select <emphasis role="bold">Create new Instance (existing
+                                            bib)</emphasis> to link to a new E-instance for an
+                                        existing bibliographic record. </para>
+                                    <orderedlist>
+                                        <listitem>
+                                            <para> The E-Resource Workbench will open in a new tab,
+                                                allowing you to search for the desired bibliographic
+                                                record (see above). </para>
+                                        </listitem>
+                                        <listitem>
+                                            <para> Select the <emphasis role="bold">Create new
+                                                  EInstance</emphasis> link to the right of the
+                                                desired bib record. </para>
+                                            <para><inlinemediaobject>
+                                                  <alt>E-Resource Workbench View - Create New
+                                                  E-Instance</alt>
+                                                  <imageobject>
+                                                  <imagedata fileref="../images/eresource-62.png"
+                                                  width="100%"/>
+                                                  </imageobject>
+                                                </inlinemediaobject></para>
+                                        </listitem>
+                                        <listitem>
+                                            <para> This will open the Editor to a blank new
+                                                E-Instance record. Fill out the details and click
+                                                  <emphasis role="bold">Save</emphasis>. </para>
+                                            <note>
+                                                <para role="Normal"> For more information about the
+                                                  <link
+                                                  xlink:href="../../../webhelp/CG/content/ch01s05.html"
+                                                  >E-Instance Editor</link>, see the relevant
+                                                  section in the <emphasis><link
+                                                  xlink:href="../../../webhelp/CG/content/pr01.html"
+                                                  >OLE Guide to Describe. </link></emphasis>.
+                                                </para>
+                                            </note>
+                                        </listitem>
+                                        <listitem>
+                                            <para> Return to the E-Resource Instances menu page and
+                                                click <emphasis role="bold">Save</emphasis>. </para>
+                                            <para> Instances will appear in the Instance Details tab
+                                                (see below). </para>
+                                        </listitem>
+                                    </orderedlist>
+                                </listitem>
+                                <listitem>
+                                    <para> Select <emphasis role="bold">Create New Instance (new
+                                            bib)</emphasis> to link to a complete new bibliographic
+                                        record with new instance. </para>
+                                    <orderedlist>
+                                        <listitem>
+                                            <para> This will open the Bib Editor. Create a new
+                                                bibliographic record and click <emphasis role="bold"
+                                                  >Submit</emphasis>. </para>
+                                            <note>
+                                                <para role="Normal"> For more information about the
+                                                  <link
+                                                  xlink:href="../../../webhelp/CG/content/ch01s02.html"
+                                                  >Bibliographic Editor</link>, see the relevant
+                                                  section in the <emphasis><link
+                                                  xlink:href="../../../webhelp/CG/content/pr01.html"
+                                                  >OLE Guide to Describe. </link></emphasis>.</para>
+                                            </note>
+                                        </listitem>
+                                        <listitem>
+                                            <para> Populate the automatically created E-Holdings for
+                                                the title and click <emphasis role="bold"
+                                                  >Save</emphasis>.  Additionally, you could add a
+                                                new Holdings and Item to the bibliographic record if
+                                                desired and click <emphasis role="bold"
+                                                  >Save</emphasis>. </para>
+                                        </listitem>
+                                        <listitem>
+                                            <para> Return to the E-Resource Instances menu page and
+                                                click <emphasis role="bold">Save</emphasis>. </para>
+                                        </listitem>
+                                        <listitem>
+                                            <para> Instances will appear in the Instance Details tab
+                                                (see below). </para>
+                                        </listitem>
+                                    </orderedlist>
+                                </listitem>
+                            </itemizedlist>
+                        </listitem>
+                    </orderedlist>
+                    <para/>
+                    <tip>
+                        <para> Important : As of 1.5, you MUST click “save” on the Instances menu of
+                            the E-Resource before the link to an Instance or E-instance is actually
+                            saved. </para>
+                    </tip>
+                    <para/>
+                    <para>The Instance Details tab shows a table listed of all instance (print or
+                        electronic) that have been linked to this E-Resource. Multiple instance from
+                        a single bib can be linked to the same E-Resource. To unlink a specific
+                        instance, simply click the <emphasis role="bold">Remove</emphasis> button
+                        next to it. </para>
+                    <para>
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Instance Details</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/eresource-48.png" width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                </section>
+            </section>
+            <section>
+                <title>Purchase Orders Menu</title>
+                <para> From the <emphasis role="bold">Purchase Orders</emphasis> menu, staff are
+                    able to view and access any Purchase Orders for any Instances or E-Instances
+                    that are linked to the E-Resource. In future releases, users will also be able
+                    to see any Purchase Orders created for the E-Resource itself. </para>
+                <para/>
+                <para>
+                    <screenshot>
+                        <mediaobject>
+                            <alt>E-Resource PO Menu</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/eresource-49.png" width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <section>
+                    <title>Overview Tab</title>
+                    <para>The <emphasis role="bold">Overview</emphasis> tab maintains the same
+                        information as the <emphasis role="bold">Main</emphasis> menu's <emphasis
+                            role="bold">Overview</emphasis> tab. </para>
+                    <note>
+                        <para>See the <link linkend="overview">Main Overview tab</link> to review
+                            the Overview tab.</para>
+                    </note>
+                </section>
+                <section>
+                    <title>PO Details Tab</title>
+                    <para>The <emphasis role="bold">PO Details</emphasis> tab displays the PO
+                        information as it exists from any linked Instance.  Click the linked
+                            <emphasis role="bold">PO Number</emphasis> to view the Purchase
+                        Order.</para>
+                    <note>
+                        <para>To learn more about creating and modifying Purchase Orders, see <link
+                                xlink:href="../../../webhelp/AG/content/ch03s04.html">Purchase
+                                Orders</link>.</para>
+                    </note>
+                </section>
+            </section>
+            <section>
+                <title>Invoices Menu</title>
+                <para> From the <emphasis role="bold">Invoices</emphasis> menu, staff can view
+                    Invoices for any Purchase Orders related to this E-Resource. These will display
+                    here.</para>
+                <para/>
+                <para>
+                    <screenshot>
+                        <mediaobject>
+                            <alt>E-Resource Invoice Menu</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/eresource-70.png" width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <section>
+                    <title>Overview Tab</title>
+                    <para>The <emphasis role="bold">Overview</emphasis> tab maintains the same
+                        information as the <emphasis role="bold">Main</emphasis> menu's <emphasis
+                            role="bold">Overview</emphasis> tab. </para>
+                    <note>
+                        <para>See the <link linkend="overview">Main Overview tab</link> to review
+                            the Overview tab.</para>
+                    </note>
+                </section>
+                <section>
+                    <title>Invoice Details Tab</title>
+                    <para>The <emphasis role="bold">Invoice Details</emphasis> tab displays the
+                        Invoice information as it exists when any linked purchase orders are added
+                        to an Invoice.  Click the linked <emphasis role="bold">Invoice
+                            Number</emphasis> to view the Invoice document.</para>
+                    <note>
+                        <para>To learn more about creating and modifying Invoices, see <link
+                                xlink:href="../../../webhelp/AG/content/ch04s02.html"
+                            >Invoice</link>.</para>
+                    </note>
+                </section>
+            </section>
+            <section>
+                <title>Licenses Menu</title>
+                <para>From the <emphasis role="bold">Licenses</emphasis> menu staff can view and
+                    create licenses to link to the E-Resource.  Click <emphasis role="bold">Start
+                        New License</emphasis> to create a License Request.</para>
+                <para/>
+                <para>
+                    <screenshot>
+                        <mediaobject>
+                            <alt>E-Resource License Menu</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/eresource-50.png" width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <section>
+                    <title>Overview Tab</title>
+                    <para>The <emphasis role="bold">Overview</emphasis> tab maintains the same
+                        information as the <emphasis role="bold">Main</emphasis> menu's <emphasis
+                            role="bold">Overview</emphasis> tab. </para>
+                    <note>
+                        <para>See the <link linkend="overview">Main Overview tab</link> to review
+                            the Overview tab.</para>
+                    </note>
+                    <para/>
+                    <para> Below the Overview tab, staff may start a new license request. Click the <inlinemediaobject>
+                            <alt>Start New License</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/LicensingNoTitlePage-startNewLicense.png"/>
+                            </imageobject>
+                        </inlinemediaobject> button to create the License Request document. This
+                        will create an entry for the license in the Licenses tab below. It is
+                        possible to create multiple License Requests for a single E-Resource. </para>
+                    <note>
+                        <para>For more on working with License Request documents, see <link
+                                linkend="_License_Request">License Request</link>.</para>
+                    </note>
+                </section>
+                <section>
+                    <title>Licenses Tab</title>
+                    <para>Once a License Request has been started, its summary information will
+                        appear in this tab. As of 1.5, this includes Status of the License Request,
+                        Last Modified Date, License Request Title, and information about any
+                        Attachments. Click on the <emphasis role="bold">License Title</emphasis> to
+                        open and view or edit the License Request.</para>
+                    <para/>
+                    <para><inlinemediaobject>
+                            <alt>E-Resource Licenses Tab</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/eresource-51.png" width="100%"/>
+                            </imageobject>
+                        </inlinemediaobject></para>
+                    <para/>
+                    <para>The Status for the first created open License Request will also display in
+                        the Workflows tab of the Main Menu for the E-Resource.</para>
+                    <para/>
+                    <para><inlinemediaobject>
+                            <alt>E-Resource Workflow Status tab</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/eresource-63.png"/>
+                            </imageobject>
+                        </inlinemediaobject></para>
+                    <note>
+                        <para>This is a bug. In future releases, the status will display the most
+                            recently created open License Request.</para>
+                    </note>
+                </section>
+            </section>
+            <section>
+                <title>Event Log Menu</title>
+                <para>The <emphasis role="bold">Event Log</emphasis> menu is available to store the
+                    correspondence between librarians and publishers, vendors, and others. Libraries
+                    may also use the Event Log to record an audit trail of changes made to the
+                    E-Resource Record or events that took place outside of OLE.</para>
+                <para/>
+                <para>
+                    <screenshot>
+                        <mediaobject>
+                            <alt>E-Resource Event Log Menu</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/eresource-52.png" width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <section>
+                    <title>Overview Tab</title>
+                    <para>The <emphasis role="bold">Overview</emphasis> tab maintains the same
+                        information as the <emphasis role="bold">Main</emphasis> menu's <emphasis
+                            role="bold">Overview</emphasis> tab.</para>
+                    <note>
+                        <para>See the <link linkend="overview">Main Overview tab</link> to review
+                            the Overview tab.</para>
+                    </note>
+                </section>
+                <section>
+                    <title>Event Log Tab</title>
+                    <para role="Normal">The <emphasis role="bold">Event Log</emphasis> tab captures
+                        certain types of automated entries for E-Resources, such as a change in
+                        status. Users can also manually add entries to capture external
+                        communications, notes, or to summarize any actions external to OLE (such as
+                        with Vendor/Provider, University Legal, University Purchasing, etc.). You
+                        may add an event by filling out the required fields and clicking <inlinemediaobject>
+                            <alt>Add</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/admin-34.png"/>
+                            </imageobject>
+                        </inlinemediaobject>. Users with appropriate permissions may also delete an
+                        entry from the Event Log by clicking <inlinemediaobject>
+                            <alt>Delete</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/admin-36.png"/>
+                            </imageobject>
+                        </inlinemediaobject></para>
+                    <para role="Normal"/>
+                    <para role="Normal">Many events can be recorded in the event log. You may
+                        display 10, 25, 50, or 100 entries at one time. Additionally, you may search
+                        for events from the search bar.</para>
+                    <para role="Normal"/>
+                    <para role="Normal"><inlinemediaobject>
+                            <alt>E-Resource Event Log</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/eresource-53.png" width="100%"/>
+                            </imageobject>
+                        </inlinemediaobject></para>
+                    <para role="Normal"/>
+                    <para role="TableHeading"><emphasis role="bold">Event Log tab
+                            Definitions</emphasis></para>
+                    <informaltable frame="top">
+                        <tgroup cols="2">
+                            <colspec colname="col1" colnum="1"/>
+                            <colspec colname="col2" colnum="2"/>
+                            <tbody>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Title </para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Description </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Type</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells"> System generated. The event type
+                                            value will be ‘system’ when the request is initiated,
+                                            'user' if a line was added manually by user; 'file' if
+                                            an Agreement doc was added; 'agreement' if a linked
+                                            Agreement document was edited or added; 'location' if a
+                                            location change occurred; 'status' if a license status
+                                            change occurred. </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Event Date</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells"> System generated. Logs the date
+                                            for the event log line item. </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">User</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                        >Required. Logs the user id of the person associated with
+                                        the event log change. Defaults to current user but can be
+                                        modified by entering a name or searching from the lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject></entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                        >Note</entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        Required; may be manually added or system generated. Users
+                                        may input information to provide audit trail information.
+                                        System also records what events have occurred. </entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </informaltable>
+                </section>
+            </section>
+        </section>
+        <section>
+            <title>Process Overview</title>
+            <para>
+                <orderedlist>
+                    <listitem>
+                        <para>Select <emphasis role="bold">E-Resource</emphasis> from the <emphasis
+                                role="bold">Select/Acquire</emphasis> Menu.</para>
+                    </listitem>
+                    <listitem>
+                        <para>To create the E-Resource, fill in data in the required fields: Name,
+                            Status, Material Type, Content Type and Format.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Enter additional information and click <inlinemediaobject>
+                                <alt>Save</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/eresource-54.png"/>
+                                </imageobject>
+                            </inlinemediaobject>.</para>
+                    </listitem>
+                    <listitem>
+                        <para> From this point the E-Resource acquisition process is non-linear.
+                            Four different workflows may be set in motion in any sequence. Each of
+                            these workflows can be started from a related menu page on the
+                            E-Resource; the status of the related workflows are intended to display
+                            in the Workflows tab of the Main menu of the E-Resource. </para>
+                        <itemizedlist>
+                            <listitem>
+                                <para>Trials (in a future release)</para>
+                            </listitem>
+                            <listitem>
+                                <para>Licensing</para>
+                                <note>
+                                    <para>For more on creating license requests and their workflows,
+                                        see <link linkend="_License_Request">below</link></para>
+                                </note>
+                            </listitem>
+                            <listitem>
+                                <para>Purchasing through a Requisition and Purchase Order (in a
+                                    future release)</para>
+                            </listitem>
+                            <listitem>
+                                <para>Activating patron access (in a future release) </para>
+                            </listitem>
+                        </itemizedlist>
+                    </listitem>
+                    <listitem>
+                        <para> In addition, the E-Resource Record has its own locally configurable
+                            workflow. As the E-Resource Record is passed through each approval in
+                            the local workflow, the document is editable for staff with appropriate
+                            permissions to add or modify as necessary. </para>
+                    </listitem>
+                    <listitem>
+                        <para>To start the local workflow for the E-Resource, click <inlinemediaobject>
+                                <alt>Submit</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/LicensingNoTitlePage-42.png"/>
+                                </imageobject>
+                            </inlinemediaobject>. The document will route to the Action List of the
+                            first user or group in the local workflow.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Once that workflow step has been completed, the appropriate user will
+                            click <inlinemediaobject>
+                                <alt>Approve For Next Owner</alt>
+                                <imageobject>
+                                    <imagedata
+                                        fileref="../images/LicensingNoTitlePage-ApproveToNextOwner.png"
+                                    />
+                                </imageobject>
+                            </inlinemediaobject> to move the document to the next approver.</para>
+                    </listitem>
+                </orderedlist>
+            </para>
+            <section>
+                <title>Business Rules</title>
+                <itemizedlist>
+                    <listitem>
+                        <para> E-Resource must have required fields specified in Data Requirements
+                            worksheet in order to be saved. </para>
+                    </listitem>
+                    <listitem>
+                        <para> A License Request will be linked to an E-Resource, not a Requisition
+                            (this is a change from 0.8). </para>
+                    </listitem>
+                    <listitem>
+                        <para> An Instance or E-Instance may only be linked to one E-Resource.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para> As part of workflow, E-Resource Records remain in the Action List of
+                            the “owning group” until passed to the next owning group, a locally
+                            defined sequence. Whenever an E-Resource’s workflow has been completed
+                            by the last defined owning group it no longer appears in any group’s
+                            Action List. </para>
+                    </listitem>
+                </itemizedlist>
+            </section>
+            <section>
+                <title>Routing</title>
+                <para role="Body Text">The E-Resource document is initiated by a member of
+                    OLE-SELECT Collection Management, OLE_E-Resource, OLE_Head,
+                    OLE_Acquisitions-select, or OLE_Selector roles. Once the E-Resource is submitted
+                    to the workflow, it will route for approval: </para>
+                <itemizedlist>
+                    <listitem>
+                        <para>First to a member of the OLE_Acquisitions-select.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Next to a member of the OLE_Cataloger.</para>
+                    </listitem>
+                </itemizedlist>
+            </section>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_E-ResourceSearch"/>E-Resource Search</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Select/Acquire</alt>
+                <imageobject>
+                    <imagedata fileref="../images/SelectAcquire.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+                    <alt>Electronic Resources</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-66.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>E-Resources</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-68.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Search</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-164.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Search E-Resource Records</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-55.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para>OLE offers a customized document search for E-Resources. Once you have opened the
+                <emphasis role="bold">E-Resource Search</emphasis>, perform a search to find the
+            record you wish to modify.</para>
+        <note>
+            <para> For information about <emphasis role="bold">Search By</emphasis> fields that are
+                specific to E-Resources, see the E-Resource's <link linkend="_EResourceDocLayout"
+                    >“Document Layout”</link> .</para>
+        </note>
+        <section>
+            <title>Process Overview</title>
+            <para role="Body Text">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Search E-Resource Records</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-56.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Body Text">You may select your desired search fields using the <emphasis
+                    role="bold">Search by</emphasis> drop-down and enter search term(s) in the
+                Search Criteria boxes. Searches across multiple fields can be combined using Boolean
+                operators as needed. You may also filter by dates and statuses using the box on the
+                right side of the screen. Search results appear below the <emphasis role="bold"
+                    >Search</emphasis> boxes. The <emphasis role="bold">Add Search
+                    Criteria</emphasis> button can be used if you need to use more than 3 search
+                criteria. </para>
+            <note>
+                <para> As of 1.5, the search is performing a begins with search. You may use the ‘*’
+                    character as a wildcard before and / or after any search term(s) you enter. See
+                        <link
+                        xlink:href="../../../webhelp/BASICS/content/ch02s04.html#_usingSpecialCharactersInSearch"
+                        >Using Special Characters in search</link> on the <emphasis>Guide to OLE
+                        Basic Functionality and Key Concepts</emphasis>.</para>
+            </note>
+            <para/>
+            <para role="Body Text">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Search E-Resource Records with Results Displayed</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-57.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Normal">Results will be sorted by E-Resource Record Name. You may display
+                10, 25, 50, or 100 E-Resource Record entries at one time. Additionally, you may
+                further refine your search from the search bar above the results.</para>
+            <para role="Body Text">Click a <emphasis role="bold">Doc ID</emphasis> to open an
+                E-Resource record.</para>
+        </section>
+    </section>
+</chapter>

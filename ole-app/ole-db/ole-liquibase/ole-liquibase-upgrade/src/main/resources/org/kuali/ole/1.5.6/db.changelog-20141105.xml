@@ -1,0 +1,46 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_KRCR_PARM_T_FINE">
+        <sql>
+            SET sql_mode='NO_BACKSLASH_ESCAPES'
+        </sql>
+        <loadData tableName="KRCR_PARM_T" file="org/kuali/ole/1.5.6/data/krcr_parm_t.csv"/>
+        <rollback>
+            <delete tableName="KRCR_PARM_T">
+                <where>APPL_NMSPC_CD = 'OLE'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_BAT_PRCS_MNTN_FIELD_T" dbms="mysql">
+        <sql>INSERT INTO OLE_BAT_PRCS_MNTN_FIELD_S values ()</sql>
+        <sql>INSERT INTO OLE_BAT_PRCS_MNTN_FIELD_S values ()</sql>
+        <sql>INSERT INTO OLE_BAT_PRCS_MNTN_FIELD_S values ()</sql>
+        <sql>INSERT INTO OLE_BAT_PRCS_MNTN_FIELD_S values ()</sql>
+        <sql>INSERT INTO OLE_BAT_PRCS_MNTN_FIELD_S values ()</sql>
+        <sql>INSERT INTO OLE_BAT_PRCS_MNTN_FIELD_S values ()</sql>
+        <sql>INSERT INTO OLE_BAT_PRCS_MNTN_FIELD_S values ()</sql>
+        <sql>INSERT INTO OLE_BAT_PRCS_MNTN_FIELD_S values ()</sql>
+        <sql>INSERT INTO OLE_BAT_PRCS_MNTN_FIELD_S values ()</sql>
+        <sql>set @last_id = last_insert_id()</sql>
+        <sql>INSERT INTO OLE_BAT_PRCS_MNTN_FIELD_T (OLE_BAT_FIELD_ID,OLE_BAT_FIELD_DISPLY_NM,OLE_BAT_FIELD_NM,OLE_BAT_FIELD_TYP,ACT_IND,OBJ_ID,VER_NBR) VALUES (@last_id,'Bib Local Id From File','LocalId_display','String','Y','1','1')</sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_BAT_PRCS_MNTN_FIELD_T" dbms="oracle">
+        <sql>SELECT OLE_BAT_PRCS_MNTN_FIELD_S.NEXTVAL from dual</sql>
+        <sql>SELECT OLE_BAT_PRCS_MNTN_FIELD_S.NEXTVAL from dual</sql>
+        <sql>SELECT OLE_BAT_PRCS_MNTN_FIELD_S.NEXTVAL from dual</sql>
+        <sql>SELECT OLE_BAT_PRCS_MNTN_FIELD_S.NEXTVAL from dual</sql>
+        <sql>SELECT OLE_BAT_PRCS_MNTN_FIELD_S.NEXTVAL from dual</sql>
+        <sql>SELECT OLE_BAT_PRCS_MNTN_FIELD_S.NEXTVAL from dual</sql>
+        <sql>SELECT OLE_BAT_PRCS_MNTN_FIELD_S.NEXTVAL from dual</sql>
+        <sql>SELECT OLE_BAT_PRCS_MNTN_FIELD_S.NEXTVAL from dual</sql>
+        <sql>INSERT INTO OLE_BAT_PRCS_MNTN_FIELD_T (OLE_BAT_FIELD_ID,OLE_BAT_FIELD_DISPLY_NM,OLE_BAT_FIELD_NM,OLE_BAT_FIELD_TYP,ACT_IND,OBJ_ID,VER_NBR) VALUES (OLE_BAT_PRCS_MNTN_FIELD_S.NEXTVAL,'Bib Local Id From File','LocalId_display','String','Y','1','1')</sql>
+    </changeSet>
+
+
+</databaseChangeLog>

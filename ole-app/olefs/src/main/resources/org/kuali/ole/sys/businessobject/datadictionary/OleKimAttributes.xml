@@ -1,0 +1,162 @@
+<!--
+ Copyright 2008-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
+    xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+
+  <bean id="OleKimAttributes" parent="OleKimAttributes-parentBean" />
+
+  <bean id="OleKimAttributes-parentBean" abstract="true" parent="KimAttributes-parentBean"
+        p:businessObjectClass="org.kuali.ole.sys.identity.OleKimAttributes"
+        p:objectLabel="KFS Core KIM Attributes">
+    <property name="attributes">
+      <list merge="true">
+        <ref bean="OleKimAttributes-chartOfAccountsCode" />
+        <ref bean="OleKimAttributes-accountNumber" />
+        <ref bean="OleKimAttributes-organizationCode" />
+        <ref bean="OleKimAttributes-descendHierarchy" />
+        <ref bean="OleKimAttributes-fromAmount" />
+        <ref bean="OleKimAttributes-toAmount" />
+        <ref bean="OleKimAttributes-accountingLineOverrideCode" />
+        <ref bean="OleKimAttributes-subFundGroupCode" />
+        <ref bean="OleKimAttributes-purchasingCommodityCode" />
+        <ref bean="OleKimAttributes-contractManagerCode" />
+        <ref bean="OleKimAttributes-customerProfileId" />
+        <ref bean="OleKimAttributes-vendorTypeCode" />
+        <ref bean="OleKimAttributes-contractsAndGrantsAccountResponsibilityId" />
+        <ref bean="OleKimAttributes-disbursementVoucherPaymentMethodCode" />
+        <ref bean="OleKimAttributes-subAccountNumber" />
+        <ref bean="OleKimAttributes-filePath" />
+      </list>
+    </property>
+    <property name="relationships">
+      <list merge="true">
+        <dd:relationship objectAttribute="chart">
+            <dd:primitiveAttribute source="chartOfAccountsCode" target="chartOfAccountsCode" />
+        </dd:relationship>      
+        <dd:relationship objectAttribute="account">
+            <dd:primitiveAttribute source="chartOfAccountsCode" target="chartOfAccountsCode" />
+            <dd:primitiveAttribute source="accountNumber" target="accountNumber" />
+        </dd:relationship>      
+        <dd:relationship objectAttribute="subAccount">
+            <dd:primitiveAttribute source="chartOfAccountsCode" target="chartOfAccountsCode" />
+            <dd:primitiveAttribute source="accountNumber" target="accountNumber" />
+            <dd:primitiveAttribute source="subAccountNumber" target="subAccountNumber" />
+        </dd:relationship>      
+        <dd:relationship objectAttribute="organization">
+            <dd:primitiveAttribute source="chartOfAccountsCode" target="chartOfAccountsCode" />
+            <dd:primitiveAttribute source="organizationCode" target="organizationCode" />
+        </dd:relationship>      
+        <dd:relationship objectAttribute="subFundGroup">
+            <dd:primitiveAttribute source="subFundGroupCode" target="subFundGroupCode" />
+        </dd:relationship>      
+        <dd:relationship objectAttribute="contractManager">
+            <dd:primitiveAttribute source="contractManagerCode" target="contractManagerCode" />
+        </dd:relationship>      
+        <dd:relationship objectAttribute="commodityCode">
+            <dd:primitiveAttribute source="purchasingCommodityCode" target="purchasingCommodityCode" />
+        </dd:relationship>      
+        <dd:relationship objectAttribute="customerProfile">
+            <dd:primitiveAttribute source="customerProfileId" target="id" />
+        </dd:relationship>      
+        <dd:relationship objectAttribute="vendorType">
+            <dd:primitiveAttribute source="vendorTypeCode" target="vendorTypeCode" />
+        </dd:relationship>      
+      </list>
+    </property>
+  </bean>
+
+  <bean id="OleKimAttributes-chartOfAccountsCode" parent="Chart-chartOfAccountsCode">
+    <property name="control">
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.ole.coa.businessobject.options.ChartValuesFinder"
+            p:includeKeyInLabel="true" />
+    </property>
+  </bean>
+  <bean id="OleKimAttributes-accountNumber" parent="Account-accountNumber" />
+  <bean id="OleKimAttributes-organizationCode" parent="Organization-organizationCode" />
+
+  <bean id="OleKimAttributes-accountingLineOverrideCode" parent="OleKimAttributes-accountingLineOverrideCode-parentBean" />
+  <bean id="OleKimAttributes-accountingLineOverrideCode-parentBean" abstract="true" parent="SourceAccountingLine-overrideCode" 
+  	p:name="accountingLineOverrideCode" 
+	p:label="Accounting Line Override Code"
+    p:shortLabel="Override Code" />
+
+  <bean id="OleKimAttributes-subFundGroupCode" parent="SubFundGroup-subFundGroupCode" />
+  <bean id="OleKimAttributes-purchasingCommodityCode" parent="CommodityCode-purchasingCommodityCode">
+    <property name="required" value="true" />
+  </bean>
+  <bean id="OleKimAttributes-contractManagerCode" parent="ContractManager-contractManagerCode" >
+    <property name="required" value="true" />
+  </bean>
+
+  <bean id="OleKimAttributes-customerProfileId" parent="OleKimAttributes-customerProfileId-parentBean" />
+  <bean id="OleKimAttributes-customerProfileId-parentBean" abstract="true" parent="CustomerProfile-id"
+  	p:name="customerProfileId" 
+	p:label="Customer Profile Id"
+    p:shortLabel="Id" 
+    p:required = "false" />
+
+  <bean id="OleKimAttributes-vendorTypeCode" parent="VendorType-vendorTypeCode">
+    <property name="control">
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.ole.vnd.businessobject.options.VendorTypeValuesFinder"
+            p:includeKeyInLabel="true" />
+    </property>
+    <property name="required" value="true" />
+  </bean>
+  <bean id="OleKimAttributes-contractsAndGrantsAccountResponsibilityId" parent="Account-contractsAndGrantsAccountResponsibilityId" />
+
+  <bean id="OleKimAttributes-disbursementVoucherPaymentMethodCode" parent="OleKimAttributes-disbursementVoucherPaymentMethodCode-parentBean" />
+  <bean id="OleKimAttributes-disbursementVoucherPaymentMethodCode-parentBean" abstract="true" parent="DisbursementVoucherDocument-disbVchrPaymentMethodCode"
+  	p:name="disbursementVoucherPaymentMethodCode">
+  	<property name="required" value="true"/>
+  </bean>
+
+  <bean id="OleKimAttributes-subAccountNumber" parent="SubAccount-subAccountNumber" />
+
+  <bean id="OleKimAttributes-fromAmount" parent="OleKimAttributes-fromAmount-parentBean" />
+  <bean id="OleKimAttributes-fromAmount-parentBean" abstract="true" parent="FinancialSystemDocumentHeader-financialDocumentTotalAmount"
+  	p:name="fromAmount" 
+	p:label="From Amount"
+    p:shortLabel="From Amount" />
+
+  <bean id="OleKimAttributes-toAmount" parent="OleKimAttributes-toAmount-parentBean" />
+  <bean id="OleKimAttributes-toAmount-parentBean" abstract="true" parent="FinancialSystemDocumentHeader-financialDocumentTotalAmount" 
+  	p:name="toAmount" 
+	p:label="To Amount"
+    p:shortLabel="To Amount" />
+
+  <bean id="OleKimAttributes-descendHierarchy" parent="OleKimAttributes-descendHierarchy-parentBean" />
+  <bean id="OleKimAttributes-descendHierarchy-parentBean" abstract="true" parent="AttributeDefinition"
+    p:name="descendHierarchy"
+    p:label="Descends Hierarchy"
+    p:shortLabel="Descends Hierarchy"
+    p:required="true"
+    p:forceUppercase="true"
+    p:maxLength="1"
+    p:control-ref="IndicatorYNSelectControl" />
+    
+  <bean id="OleKimAttributes-filePath" parent="BatchFile-path" 
+  	p:name="filePath" 
+	p:label="File Path"
+    p:shortLabel="File Path" />
+
+</beans>

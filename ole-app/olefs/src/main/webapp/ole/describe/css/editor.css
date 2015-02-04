@@ -1,0 +1,197 @@
+\#rightclickarea{padding:00px 0;width:0px;text-align:center;border:0px solid #ccc;margin-top:0px;}
+
+.add_li{}
+.add_li span{width:100px;display:block;padding:5px 10px;cursor:pointer}
+.inner_li{display:none;margin-left:120px;position:absolute;border:1px solid #aaa;border-left:1px solid #ccc;margin-top:-28px;background:#fff;}
+.sep_li{border-top: 1px ridge #aaa;margin:5px 0}
+.fill_title{font-size:11px;font-weight:bold;/height:15px;/overflow:hidden;word-wrap:break-word;}
+
+.vmenu{border:1px solid #aaa;position:absolute;background:#fff;	display:none;font-size:1em;}
+.vmenu .add_li span{width:100px;display:block;padding:5px 10px;cursor:pointer}
+.vmenu .delete_li span{width:100px;display:block;padding:5px 10px;cursor:pointer}
+
+.delete_li{}
+.delete_li span{width:100px;display:block;padding:5px 10px;cursor:pointer}
+
+.delete_itm{}
+.delete_itm span{width:100px;display:block;padding:5px 10px;cursor:pointer}
+
+.uif-sectionHeaderField h3.uif-header {
+    border-bottom: 1px solid #000000;
+    background : #cccccc;
+}
+
+.boxLayoutVerticalItem {
+    display: block;
+    margin-bottom: 0;
+}
+
+.boxLayoutHorizontalItem {
+    padding-bottom: 0.25em;
+}
+
+p, fieldset, table, pre {
+    margin-bottom: 0;
+}
+
+.uif-inputField input {
+    margin: 0;
+}
+
+.uif-inputField textarea {
+    margin: 0.3em 0;
+}
+
+.ui-tabs .ui-tabs-panel {
+    padding: 1em 0.5em;
+}
+.uif-collectionGroup > div:nth-child(2) {
+    margin: 0;
+    padding: 0;
+}
+
+h3.uif-headerText{
+    background : #cccccc;
+    border-bottom: 1px solid #000000;
+}
+h4.uif-headerText{
+    background : #cccccc;
+    border-bottom: 1px solid #000000;
+}
+
+h4.uif-headerText a{
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.ui-autocomplete{
+    max-height:300px;
+}
+
+.uif-message {
+    white-space: normal;
+}
+
+.staffOnlyClass{
+    color: red;
+    font-style: italic;
+}
+
+.horizotalLayOut90{
+    width: 90px;
+    /*padding: 0;*/
+}
+.horizotalLayOut100{
+    width: 100px;
+    /*padding: 0;*/
+}
+.horizotalLayOut110{
+    width: 110px;
+    /*padding: 0;*/
+}
+.horizotalLayOut120{
+    width: 120px;
+   /* padding: 0;*/
+}
+.horizotalLayOut130{
+    width: 130px;
+    /*padding: 0;*/
+}
+
+.horizotalLayOut140{
+    width: 140px;
+    /*padding: 0;*/
+}
+.horizotalLayOut150{
+    width: 150px;
+    /*padding: 0;*/
+}
+.horizotalLayOut160{
+    width: 160px;
+    /*padding: 0;*/
+}
+.horizotalLayOut170{
+    width: 170px;
+    /*padding: 0;*/
+}
+.horizotalLayOut180{
+    width: 180px;
+    /*padding: 0;*/
+}
+.horizotalLayOut190{
+    width: 190px;
+    /*padding: 0;*/
+}
+.horizotalLayOut200{
+    width: 200px;
+    /*padding: 0;*/
+}
+.horizotalLayOut210{
+    width: 210px;
+    /*padding: 0;*/
+}
+.horizotalLayOut220{
+    width: 220px;
+    padding: 0;
+}
+.horizotalLayOut230{
+    width: 230px;
+    /*padding: 0;*/
+}
+.horizotalLayOut240{
+    width: 240px;
+    /*padding: 0;*/
+
+}.horizotalLayOut250{
+     width: 250px;
+     /*padding: 0;*/
+ }
+
+.horizotalLayOut260{
+    width: 260px;
+    /*padding: 0;*/
+}
+.horizotalLayOut290{
+    width: 290px;
+    /*padding: 0;*/
+}
+
+.horizotalLayOut320{
+    width: 320px;
+    /*padding: 0;*/
+}
+.dataFieldWidth75{
+    width: 75px;
+}
+.uif-navigationMenu-wrapper > ul ul{
+    background-color: #FFFFFF;
+    border-top: 1px solid #DDDDDD;
+    display: block;
+    list-style: none outside none;
+    margin: 0;
+    padding: 0;
+}
+.uif-hideHeaderText > h1,
+.uif-hideHeaderText > h2,
+.uif-hideHeaderText > h3,
+.uif-hideHeaderText > h4,
+.uif-hideHeaderText > h5,
+.uif-hideHeaderText > h6,
+.uif-hideHeaderText > label {
+    display: block;
+    margin: 0;
+    padding-bottom: 20;
+}
+
+.ui-widget-content a {
+    color: blue;
+}
+h2 {
+    font-size: 11px;
+}
+
+.jstree-krms .jstree-clicked {
+    background: none repeat scroll 0 0 #BEEBFF;
+    border: 1px solid #99DEFD;
+    padding: 0 2px 0 1px;
+}

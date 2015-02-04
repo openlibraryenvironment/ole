@@ -1,0 +1,433 @@
+<request>
+    <user>ole-khuntley</user>
+    <operation>ingest</operation>
+    <requestDocuments>
+        <ingestDocument id="1" category="work" type="bibliographic" format="marc">
+            <uuid>wbm-1</uuid>
+            <content><![CDATA[
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+    <record>
+        <leader>01142cam 2200301 a 4500</leader>
+        <controlfield tag="001">92005291</controlfield>
+        <controlfield tag="003">DLC</controlfield>
+        <controlfield tag="005">19930521155141.9</controlfield>
+        <controlfield tag="008">920219s1993 caua j 000 0 eng</controlfield>
+        <datafield tag="010" ind1=" " ind2=" ">
+            <subfield code="a">92005291</subfield>
+        </datafield>
+        <datafield tag="020" ind1=" " ind2=" ">
+            <subfield code="a">0152038655 :</subfield>
+            <subfield code="c">$15.95</subfield>
+        </datafield>
+        <datafield tag="040" ind1=" " ind2=" ">
+            <subfield code="a">DLC</subfield>
+            <subfield code="c">DLC</subfield>
+            <subfield code="d">DLC</subfield>
+        </datafield>
+        <datafield tag="042" ind1=" " ind2=" ">
+            <subfield code="a">lcac</subfield>
+        </datafield>
+        <datafield tag="050" ind1="0" ind2="0">
+            <subfield code="a">PS3537.A618</subfield>
+            <subfield code="b">A88 1993</subfield>
+        </datafield>
+        <datafield tag="082" ind1="0" ind2="0">
+            <subfield code="a">811/.52</subfield>
+            <subfield code="2">20</subfield>
+        </datafield>
+        <datafield tag="100" ind1="1" ind2=" ">
+            <subfield code="a">Sandburg, Carl,</subfield>
+            <subfield code="d">1878-1967.</subfield>
+        </datafield>
+        <datafield tag="245" ind1="1" ind2="0">
+            <subfield code="a">Arithmetic /</subfield>
+            <subfield code="c">
+                Carl Sandburg ; illustrated as an anamorphic adventure by Ted Rand.
+            </subfield>
+        </datafield>
+        <datafield tag="250" ind1=" " ind2=" ">
+            <subfield code="a">1st ed.</subfield>
+        </datafield>
+        <datafield tag="260" ind1=" " ind2=" ">
+            <subfield code="a">San Diego :</subfield>
+            <subfield code="b">Harcourt Brace Jovanovich,</subfield>
+            <subfield code="c">c1993.</subfield>
+        </datafield>
+        <datafield tag="300" ind1=" " ind2=" ">
+            <subfield code="a">1 v. (unpaged) :</subfield>
+            <subfield code="b">ill. (some col.) ;</subfield>
+            <subfield code="c">26 cm.</subfield>
+        </datafield>
+        <datafield tag="500" ind1=" " ind2=" ">
+            <subfield code="a">One Mylar sheet included in pocket.</subfield>
+        </datafield>
+        <datafield tag="520" ind1=" " ind2=" ">
+            <subfield code="a">
+                A poem about numbers and their characteristics. Features anamorphic, or distorted,
+                drawings which can be
+                restored to normal by viewing from a particular angle or by viewing the image's
+                reflection in the
+                provided Mylar cone.
+            </subfield>
+        </datafield>
+        <datafield tag="650" ind1=" " ind2="0">
+            <subfield code="a">Arithmetic</subfield>
+            <subfield code="x">Juvenile poetry.</subfield>
+        </datafield>
+        <datafield tag="650" ind1=" " ind2="0">
+            <subfield code="a">Children's poetry, American.</subfield>
+        </datafield>
+        <datafield tag="650" ind1=" " ind2="1">
+            <subfield code="a">Arithmetic</subfield>
+            <subfield code="x">Poetry.</subfield>
+        </datafield>
+        <datafield tag="650" ind1=" " ind2="1">
+            <subfield code="a">American poetry.</subfield>
+        </datafield>
+        <datafield tag="650" ind1=" " ind2="1">
+            <subfield code="a">Visual perception.</subfield>
+        </datafield>
+        <datafield tag="700" ind1="1" ind2=" ">
+            <subfield code="a">Rand, Ted,</subfield>
+            <subfield code="e">ill.</subfield>
+        </datafield>
+    </record>
+</collection>
+            ]]>
+        </content>
+        <!--optional -->
+        <additionalAttributes>
+            <dateEntered>12-12-2-2010</dateEntered>
+            <lastUpdated>12-11-2011</lastUpdated>
+            <fastAddFlag>true</fastAddFlag>
+            <supressFromPublic>false</supressFromPublic>
+            <harvestable>false</harvestable>
+            <status>n</status>
+        </additionalAttributes>
+        <linkedIngestDocuments>
+        </linkedIngestDocuments>
+    </ingestDocument>
+        <ingestDocument id="2" category="work" type="instance" format="oleml">
+            <uuid>wbm-2</uuid>
+                 <content><![CDATA[
+<ole:instanceCollection xmlns:ole="http://ole.kuali.org/standards/ole-instance">
+  <!--1 or more repetitions:-->
+  <ole:instance>
+<ole:instanceIdentifier>string</ole:instanceIdentifier>
+<!--Zero or more repetitions:-->
+<ole:resourceIdentifier>string</ole:resourceIdentifier>
+<!--Zero or more repetitions:-->
+<ole:formerResourceIdentifier>
+  <ole:identifier source="string">
+    <ole:identifierValue>string</ole:identifierValue>
+  </ole:identifier>
+  <ole:identifierType>string</ole:identifierType>
+</ole:formerResourceIdentifier>
+<ole:oleHoldings primary="string">
+  <ole:holdingsIdentifier>string</ole:holdingsIdentifier>
+  <!--Zero or more repetitions:-->
+  <ole:extentOfOwnership>
+    <ole:textualHoldings>string</ole:textualHoldings>
+    <!--Zero or more repetitions:-->
+    <ole:note type="string">string</ole:note>
+    <ole:type>string</ole:type>
+  </ole:extentOfOwnership>
+  <ole:receiptStatus>string</ole:receiptStatus>
+  <!--Zero or more repetitions:-->
+  <ole:uri resolvable="string">string</ole:uri>
+  <!--Zero or more repetitions:-->
+  <ole:note type="string">string</ole:note>
+  <ole:location>
+    <ole:locationLevel>
+      <ole:name>string</ole:name>
+      <ole:level>string</ole:level>
+      <!--Optional:-->
+      <ole:locationLevel></ole:locationLevel>
+    </ole:locationLevel>
+  </ole:location>
+  <ole:extension displayLabel="string">
+    e
+    <!--You may enter ANY elements at this point-->
+    <AnyElement></AnyElement>
+    gero
+  </ole:extension>
+  <ole:callNumber>
+    <ole:type>string</ole:type>
+    <ole:prefix>string</ole:prefix>
+    <ole:number>string</ole:number>
+    <ole:classificationPart>string</ole:classificationPart>
+    <ole:itemPart>string</ole:itemPart>
+    <ole:shelvingScheme>
+      <ole:codeValue>string</ole:codeValue>
+      <ole:fullValue>string</ole:fullValue>
+      <ole:typeOrSource>
+        <ole:pointer>http://www.your.com/tempestatesque/e</ole:pointer>
+        <ole:text>string</ole:text>
+      </ole:typeOrSource>
+    </ole:shelvingScheme>
+    <ole:shelvingOrder>
+      <ole:codeValue>string</ole:codeValue>
+      <ole:fullValue>string</ole:fullValue>
+      <ole:typeOrSource>
+        <ole:pointer>http://www.your.com/tempestatesque/e</ole:pointer>
+        <ole:text>string</ole:text>
+      </ole:typeOrSource>
+    </ole:shelvingOrder>
+  </ole:callNumber>
+</ole:oleHoldings>
+<ole:sourceHoldings primary="string">
+  <ole:holdingsIdentifier>string</ole:holdingsIdentifier>
+  <ole:name>string</ole:name>
+  <ole:holdings>string</ole:holdings>
+  <ole:extension displayLabel="string">
+    aeoliam
+    <!--You may enter ANY elements at this point-->
+    <AnyElement></AnyElement>
+    quae
+  </ole:extension>
+</ole:sourceHoldings>
+<ole:items>
+  <!--1 or more repetitions:-->
+  <ole:item analytic="string" resourceIdentifier="string">
+    <ole:itemIdentifier>string</ole:itemIdentifier>
+    <ole:purchaseOrderLineItemIdentifier>string</ole:purchaseOrderLineItemIdentifier>
+    <ole:vendorLineItemIdentifier>string</ole:vendorLineItemIdentifier>
+    <ole:accessInformation>
+      <ole:barcode></ole:barcode>
+      <ole:uri resolvable="string">string</ole:uri>
+    </ole:accessInformation>
+    <ole:barcodeARSL>string</ole:barcodeARSL>
+    <!--Zero or more repetitions:-->
+    <ole:formerIdentifier>
+      <ole:identifier source="string">
+        <ole:identifierValue>string</ole:identifierValue>
+      </ole:identifier>
+      <ole:identifierType>string</ole:identifierType>
+    </ole:formerIdentifier>
+    <!--Zero or more repetitions:-->
+    <ole:statisticalSearchingCode>
+      <ole:codeValue>string</ole:codeValue>
+      <ole:fullValue>string</ole:fullValue>
+      <ole:typeOrSource>
+        <ole:pointer>http://www.your.com/tempestatesque/e</ole:pointer>
+        <ole:text>string</ole:text>
+      </ole:typeOrSource>
+    </ole:statisticalSearchingCode>
+    <ole:itemType>
+      <ole:codeValue>string</ole:codeValue>
+      <ole:fullValue>string</ole:fullValue>
+      <ole:typeOrSource>
+        <ole:pointer>http://www.test.com/gero/nimborum</ole:pointer>
+        <ole:text>string</ole:text>
+      </ole:typeOrSource>
+    </ole:itemType>
+    <!--Optional:-->
+    <ole:location>
+      <ole:locationLevel>
+        <ole:name>string</ole:name>
+        <ole:level>string</ole:level>
+        <!--Optional:-->
+        <ole:locationLevel></ole:locationLevel>
+      </ole:locationLevel>
+    </ole:location>
+    <ole:copyNumber>string</ole:copyNumber>
+    <ole:copyNumberLabel>string</ole:copyNumberLabel>
+    <ole:volumeNumber>string</ole:volumeNumber>
+    <ole:volumeNumberLabel>string</ole:volumeNumberLabel>
+    <ole:note type="string">string</ole:note>
+    <ole:enumeration>string</ole:enumeration>
+    <ole:chronology>string</ole:chronology>
+    <ole:highDensityStorage>
+      <ole:row>string</ole:row>
+      <ole:module>string</ole:module>
+      <ole:shelf>string</ole:shelf>
+      <ole:tray>string</ole:tray>
+    </ole:highDensityStorage>
+    <ole:temporaryItemType>
+      <ole:codeValue>string</ole:codeValue>
+      <ole:fullValue>string</ole:fullValue>
+      <ole:typeOrSource>
+        <ole:pointer>http://www.test.org/montis/flammato</ole:pointer>
+        <ole:text>string</ole:text>
+      </ole:typeOrSource>
+    </ole:temporaryItemType>
+    <ole:fund>string</ole:fund>
+    <ole:donorPublicDisplay>string</ole:donorPublicDisplay>
+    <ole:donorNote>string</ole:donorNote>
+    <ole:callNumber>
+      <ole:type>string</ole:type>
+      <ole:prefix>string</ole:prefix>
+      <ole:number>string</ole:number>
+      <ole:classificationPart>string</ole:classificationPart>
+      <ole:itemPart>string</ole:itemPart>
+      <ole:shelvingScheme>
+        <ole:codeValue>string</ole:codeValue>
+        <ole:fullValue>string</ole:fullValue>
+        <ole:typeOrSource>
+          <ole:pointer>http://www.test.com/gero/nimborum</ole:pointer>
+          <ole:text>string</ole:text>
+        </ole:typeOrSource>
+      </ole:shelvingScheme>
+      <ole:shelvingOrder>
+        <ole:codeValue>string</ole:codeValue>
+        <ole:fullValue>string</ole:fullValue>
+        <ole:typeOrSource>
+          <ole:pointer>http://www.test.com/metuens/montis</ole:pointer>
+          <ole:text>string</ole:text>
+        </ole:typeOrSource>
+      </ole:shelvingOrder>
+    </ole:callNumber>
+    <ole:price>string</ole:price>
+    <ole:numberOfPieces>string</ole:numberOfPieces>
+    <ole:itemStatus>string</ole:itemStatus>
+    <ole:itemStatusEffectiveDate>string</ole:itemStatusEffectiveDate>
+    <ole:checkinNote>string</ole:checkinNote>
+    <ole:staffOnlyFlag>true</ole:staffOnlyFlag>
+    <ole:fastAddFlag>false</ole:fastAddFlag>
+    <ole:extension displayLabel="string">
+      nimborum
+      <!--You may enter ANY elements at this point-->
+      <AnyElement></AnyElement>
+      fremunt
+    </ole:extension>
+  </ole:item>
+</ole:items>
+<ole:extension displayLabel="string">
+  foedere
+  <!--You may enter ANY elements at this point-->
+  <AnyElement></AnyElement>
+  ferant
+</ole:extension>
+  </ole:instance>
+</ole:instanceCollection>                		]]>
+                </content>
+                <additionalAttributes></additionalAttributes>
+      </ingestDocument>
+        <ingestDocument id="3" category="work" type="bibliographic" format="dublinunq">
+            <uuid>wbm-3</uuid>
+        <content><![CDATA[
+<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2010-07-25T08:14:49Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc" set="hathitrust">http://quod.lib.umich.edu/cgi/o/oai/oai</request>
+  <ListRecords>
+  <record>
+<header>
+    <identifier>oai:quod.lib.umich.edu:MIU01-000029516</identifier>
+    <datestamp>2008-12-19T18:45:46Z</datestamp>
+    <setSpec>hathitrust:pd</setSpec>
+</header>
+<metadata>
+  <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+    <dc:title>U.S. Marines in Vietnam : the landing and the buildup, 1965 / by Jack Shulimson and Charles M. Johnson.</dc:title>
+    <dc:creator>Shulimson, Jack.</dc:creator>
+    <dc:subject>United States.--History--Vietnam War, 1961-1975</dc:subject>
+    <dc:subject>Vietnam War, 1961-1975--Campaigns</dc:subject>
+    <dc:description>xiii, 261 p. :</dc:description>
+    <dc:publisher>Washington : History and Museums Division, Headquarters, U.S. Marine Corps : for sale by the Supt. of Docs., U.S. Govt. Print. Off.,</dc:publisher>
+    <dc:date>1978.</dc:date>
+    <dc:identifier>(LCCN)78600120</dc:identifier>
+    <dc:identifier>(OCoLC)ocm05346770</dc:identifier>
+    <dc:identifier>DS558.9.M37 S58</dc:identifier>
+    <dc:identifier>959.704/34</dc:identifier>
+    <dc:identifier>DS558.9.M37 S581</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015003338806</dc:identifier>
+    <dc:source>http://hdl.handle.net/2027/mdp.39015003338806</dc:source>
+    <dc:language>eng</dc:language>
+    <dc:type>text</dc:type>
+    <dc:rights>We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. The digital version is available for all educational uses worldwide. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.</dc:rights>
+  </oai_dc:dc>
+</metadata>
+</record>
+</ListRecords>
+</OAI-PMH>
+            ]]>
+        </content>
+        <linkedIngestDocuments></linkedIngestDocuments>
+    </ingestDocument>
+        <ingestDocument id="4" category="work" type="bibliographic" format="dublin">
+            <uuid>wbm-4</uuid>
+        <content><![CDATA[
+<dublin_core schema="dc">
+  <dcvalue element="contributor" qualifier="author">Harmon, James M.</dcvalue>
+  <dcvalue element="contributor" qualifier="author">Neuwirth, Jessica L.</dcvalue>
+  <dcvalue element="date" qualifier="accessioned">2010-12-13T20:13:01Z</dcvalue>
+  <dcvalue element="date" qualifier="available">2010-12-13T20:13:01Z</dcvalue>
+  <dcvalue element="date" qualifier="issued">2012</dcvalue>
+  <dcvalue element="identifier" qualifier="uri">http://hdl.handle.net/1903/11034</dcvalue>
+  <dcvalue element="identifier" qualifier="isbn">0-918006-48-1</dcvalue>
+  <dcvalue element="identifier" qualifier="issn">0-829117-59-12</dcvalue>
+  <dcvalue element="format" qualifier="mimetype">application/msword</dcvalue>
+  <dcvalue element="format" qualifier="mimetype">application/msword</dcvalue>
+  <dcvalue element="format" qualifier="mimetype">application/msword</dcvalue>
+  <dcvalue element="format" qualifier="mimetype">application/msword</dcvalue>
+  <dcvalue element="format" qualifier="mimetype">application/msword</dcvalue>
+  <dcvalue element="description" qualifier="abstract">Beginning in the summer of 1998, Archaeology In Annapolis
+performed a multi-phased archaeological investigation in and around
+the James Brice House, a National Historic Landmark with associated
+archaeological deposits (18AP38), located at 42 East Street in the
+historic District of the city of Annapolis, Maryland. The work was
+done under a series of contracts to the International Masonry
+Institute, owners of the structure. Funding for the project was
+provided by the IMI and the Maryland Historical Trust.
+A total of twenty-eight units were excavated during the initial
+portion of the project, and another four were excavated in support of
+a secondary project designed to rehabilitate the retaining wall
+located at the southern edge of the South Yard. In addition, several
+trenches excavated during construction at the site were profiled, and
+the lowering of the grade in the South Yard was monitored by
+Archaeology in Annapolis staff.
+Testing in the South Yard revealed evidence of a number of
+filling and landform modification episodes dating from the periods
+following construction of the Brice House up to the beginning of the
+twentieth century. Further evidence of twentieth century modification
+to the yard space was revealed in the form of a number of utility
+trenches and related features. Features related to no-longer extant
+stairs including brick piers and postholes were discovered in a number
+of areas. Finally, an oyster shell drainage feature and associated
+evidence of African-American religious practices were recovered from a
+trench and excavation unit at the western edge of the yard space.
+Excavation in the interior of the West Wing revealed the presence
+of three major stratigraphic units with a large number of associated
+structural and depositional features. The first of these depositional
+units consisted of twentieth century deposits associated with
+modification of the interior of the Wing, and the majority of this
+material had been recently disturbed. The second stratigraphic unit
+consisted of material associated with the construction of the Brice
+House between 1767 and 1773. The final stratigraphic unit in the West
+Wing consisted of structural features and a floor deposit dating to
+the early 18th century. This material is potentially related to a
+store owned by Captain John Brice and his son John Brice II.
+Excavations in the East Wing and Hyphen also revealed a number of
+stratigraphic units related to the initial construction and subsequent
+modification of the Brice House structure. In addition, a large
+deposit of late nineteenth and early twentieth century material
+associated with the religious practices of African-American occupants
+of the house was discovered beneath remnants of a brick floor in the
+interior of the East Wing.</dcvalue>
+  <dcvalue element="description" qualifier="provenance">Submitted by Terry Owen (towen@umd.edu) on 2010-12-13T20:12:12Z
+No. of bitstreams: 1
+ap38 2000.pdf: 45318991 bytes, checksum: 8882da700398a444c58efb78d51aa67a (MD5)</dcvalue>
+  <dcvalue element="description" qualifier="provenance">Approved for entry into archive by Manager for faculty self-deposit collections(drum-help@umd.edu) on 2010-12-13T20:13:01Z (GMT) No. of bitstreams: 1
+ap38 2000.pdf: 45318991 bytes, checksum: 8882da700398a444c58efb78d51aa67a (MD5)</dcvalue>
+  <dcvalue element="description" qualifier="provenance">Made available in DSpace on 2010-12-13T20:13:01Z (GMT). No. of bitstreams: 1
+ap38 2000.pdf: 45318991 bytes, checksum: 8882da700398a444c58efb78d51aa67a (MD5)
+  Previous issue date: 2000</dcvalue>
+  <dcvalue element="language" qualifier="iso">en_US</dcvalue>
+  <dcvalue element="subject" qualifier="none">Archaeology</dcvalue>
+  <dcvalue element="subject" qualifier="none">Annapolis, Maryland</dcvalue>
+  <dcvalue element="subject" qualifier="none">Anne Arundel County</dcvalue>
+  <dcvalue element="subject" qualifier="none">East Street</dcvalue>
+  <dcvalue element="subject" qualifier="none">18AP38</dcvalue>
+  <dcvalue element="subject" qualifier="none">James Brice House</dcvalue>
+  <dcvalue element="publisher" qualifier="none">Association of Research Libraries</dcvalue>
+  <dcvalue element="title" qualifier="none">Archaeological Investigations at the James Brice House (18AP38): A National Historic Site, 42 East Street, City of Annapolis, Anne Arundel County, Maryland</dcvalue>
+  <dcvalue element="type" qualifier="none">Technical Report</dcvalue>
+  <dcvalue element="relation" qualifier="isAvailableAt">University of Maryland (College Park, Md)</dcvalue>
+  <dcvalue element="relation" qualifier="isAvailableAt">Digital Repository at the University of Maryland</dcvalue>
+</dublin_core>
+            ]]>
+        </content>
+        <linkedIngestDocuments></linkedIngestDocuments>
+    </ingestDocument>
+    </requestDocuments>
+</request>

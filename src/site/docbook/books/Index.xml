@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.oasis-open.org/docbook/xml/5.0/rng/docbook.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<article xmlns="http://docbook.org/ns/docbook"
+    xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+    <info>
+        <title>OLE Documentation Portal</title>
+    </info>
+    <section>
+        <title>Test Drive</title>
+        <para>Test drive Kuali OLE here: <link xlink:href="http://demo.ole.kuali.org/portal.jsp"
+                >http://demo.ole.kuali.org/portal.jsp</link></para>
+    </section>
+    <section>
+        <title>User Documentation</title>
+        <itemizedlist>
+            <listitem>
+                <para><emphasis role="bold">Release Notes</emphasis>(<link
+                        xlink:href="../html/releaseNotes.html">HTML</link>/<link
+                        xlink:href="../pdf/releaseNotes.pdf">PDF</link>)</para>
+            </listitem>
+            <listitem>
+                <para>Module Overviews:</para>
+                <itemizedlist>
+                    <listitem>
+                        <para><emphasis role="bold">Select and Acquire</emphasis> (<link
+                                xlink:href="../html/OLESelectAcquireMEROverviewForUsersRevised.html"
+                                >HTML</link>/<link
+                                xlink:href="../pdf/OLESelectAcquireMEROverviewForUsersRevised.pdf"
+                                >PDF</link>)</para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Describe</emphasis>(<link
+                                xlink:href="../html/DescribeOverviewForUsers.html">HTML</link>/<link
+                                xlink:href="../pdf/DescribeOverviewForUsers.pdf">PDF</link>)</para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Deliver</emphasis>(<link
+                                xlink:href="../html/DeliverOverviewForUsersRevised.html"
+                                >HTML</link>/<link
+                                xlink:href="../pdf/DeliverOverviewForUsersRevised.pdf"
+                            >PDF</link>)</para>
+                    </listitem>
+                </itemizedlist>
+            </listitem>
+            <listitem>
+                <para>Module Guides:</para>
+                <itemizedlist>
+                    <listitem>
+                        <para><emphasis role="bold">Select and Acquire</emphasis>(<link
+                                xlink:href="../webhelp/AG/index.html">Webhelp</link>/<link
+                                xlink:href="../pdf/AG.pdf">PDF</link>)</para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Describe</emphasis>(<link
+                                xlink:href="../webhelp/CG/index.html">Webhelp</link>/<link
+                                xlink:href="../pdf/CG.pdf">PDF</link>)</para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">Deliver</emphasis> (<link
+                                xlink:href="../webhelp/CIRC/index.html">Webhelp</link>/<link
+                                xlink:href="../pdf/CIRC.pdf">PDF</link>)</para>
+                    </listitem>
+                    <listitem>
+                        <para><emphasis role="bold">System Administration Functions</emphasis>
+                                (<link
+                                xlink:href="../webhelp/ADMIN/index.html">Webhelp</link>/<link
+                                xlink:href="../pdf/ADMIN.pdf">PDF</link>)</para>
+                    </listitem>
+                </itemizedlist>
+            </listitem>
+            <listitem>
+                <para>Basic Overview</para>
+                <itemizedlist>
+                    <listitem>
+                        <para><emphasis role="bold">OLE Basic Functionality and Key
+                                Concepts</emphasis>(<link xlink:href="../webhelp/BASICS/index.html"
+                                >Webhelp</link>/<link xlink:href="../pdf/BASICS.pdf"
+                            >PDF</link>)</para>
+                    </listitem>
+                </itemizedlist>
+            </listitem>
+            <listitem>
+                <para>Additional Resources</para>
+                <itemizedlist>
+                    <listitem>
+                        <para><link xlink:href="../webhelp/BASICS/content/go01.html">OLE
+                                Glossary of Terms</link></para>
+                    </listitem>
+                    <listitem>
+                        <para><link xlink:href="http://www.kuali.org/ole/roadmap">OLE
+                            Roadmap</link></para>
+                    </listitem>
+                    <listitem>
+                        <para><link
+                                xlink:href="https://wiki.kuali.org/display/OLE/OLE+Published+Documentation"
+                                >OLE Published Documentation wiki page</link></para>
+                    </listitem>
+                </itemizedlist>
+            </listitem>
+        </itemizedlist>
+        <para/>
+    </section>
+    <section>
+        <title>Learn More and Get Involved</title>
+        <itemizedlist>
+            <listitem>
+                <para><link xlink:href="https://kis.kuali.org/projectTeams/team/190">Technical User
+                        Group</link>  Create a KIS account or Login to add or remove yourself from
+                    this group.  Ask technical questions.</para>
+            </listitem>
+            <listitem>
+                <para><link xlink:href="https://kis.kuali.org/projectTeams/team/273">Functional User
+                        Group</link> Create a KIS account or Login to add or remove yourself from
+                    this group.  Ask functional questions.</para>
+            </listitem>
+            <listitem>
+                <para>Visit the Kuali OLE website <link xlink:href="https://www.kuali.org/ole"
+                        >https://www.kuali.org/ole</link></para>
+            </listitem>
+            <listitem>
+                <para><link xlink:href="http://kualiole.tumblr.com/">Follow our blog</link></para>
+            </listitem>
+            <listitem>
+                <para><link xlink:href="http://kuali.org/kd/">Attend Kuali Days</link></para>
+            </listitem>
+            <listitem>
+                <para><link xlink:href="https://wiki.kuali.org/display/OLE/Home">OLE Wiki</link> -
+                    information about the Rice project, developer documentation, and more </para>
+            </listitem>
+            <listitem>
+                <para><link xlink:href="https://jira.kuali.org/browse/OLE">Track OLE Jira
+                        Issues</link></para>
+            </listitem>
+        </itemizedlist>
+        <section>
+            <title>Licensing and Intellectual Property</title>
+            <section>
+                <title>Software</title>
+                <para>Kuali software is licensed for use pursuant to theEducational Community
+                    License v.2.0. You may obtain a copy of the license <link
+                        xlink:href="http://opensource.org/licenses/ecl2.php">here</link>.  See the
+                    License for the specific language governing permissions and limitations.</para>
+                <para>If you have any questions about Kuali Intellectual property, please contact
+                    the Kuali Foundation at <link xlink:href="mailto:licensing@kuali.org"
+                        >licensing@kuali.org</link>.</para>
+            </section>
+            <section>
+                <title>Documentation</title>
+                <para>Kuali documentation is licensed under a<link
+                        xlink:href="http://creativecommons.org/licenses/by-nc-sa/2.5">Creative
+                        Commons Attribution-NonCommercial-ShareAlike 2.5 License</link>. </para>
+            </section>
+        </section>
+    </section>
+</article>

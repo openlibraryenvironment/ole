@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <OLE_GLBLY_PRCT_FLD_T OLE_GLBLY_PRCT_FLD_ID="1" OBJ_ID="bddfcd1b-f47b-4826-856f-2c269d773f91" VER_NBR="1" TAG="790"
+                          FIRST_IND=""
+                          SEC_IND="" SUB_FLD=""
+                          ROW_ACT_IND="Y"/>
+    <OLE_GLBLY_PRCT_FLD_T OLE_GLBLY_PRCT_FLD_ID="2" OBJ_ID="8c10a63f-6de6-4a8b-844b-161776616ea0" VER_NBR="1" TAG="791"
+                          FIRST_IND=""
+                          SEC_IND="" SUB_FLD=""
+                          ROW_ACT_IND="Y"/>
+    <OLE_GLBLY_PRCT_FLD_T OLE_GLBLY_PRCT_FLD_ID="3" OBJ_ID="4211ee92-6a53-4323-b888-d36a55e69324" VER_NBR="1" TAG="792"
+                          FIRST_IND=""
+                          SEC_IND="" SUB_FLD=""
+                          ROW_ACT_IND="Y"/>
+    <OLE_GLBLY_PRCT_FLD_T OLE_GLBLY_PRCT_FLD_ID="4" OBJ_ID="c9cc5a0a-01cd-4c04-9065-394138f85fb1" VER_NBR="1" TAG="793"
+                          FIRST_IND=""
+                          SEC_IND="" SUB_FLD=""
+                          ROW_ACT_IND="Y"/>
+</dataset>

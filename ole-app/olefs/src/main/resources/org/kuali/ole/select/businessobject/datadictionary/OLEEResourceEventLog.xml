@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <!--
+
+        Copyright 2005-2012 The Kuali Foundation
+
+        Licensed under the Educational Community License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at
+
+        http://www.opensource.org/licenses/ecl2.php
+
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+
+    -->
+
+    <bean id="OLEEResourceEventLog" parent="OLEEResourceEventLog-parentBean"/>
+
+    <bean id="OLEEResourceEventLog-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.select.document.OLEEResourceEventLog"/>
+        <property name="titleAttribute" value="oleEResEventLogID"/>
+        <property name="objectLabel" value="E Resource Event Log"/>
+
+        <property name="attributes">
+            <list>
+                <ref bean="OLEEResourceEventLog-oleEResEventLogID"/>
+                <ref bean="OLEEResourceEventLog-oleERSIdentifier"/>
+                <!--  <ref bean="OLEEResourceEventLog-eventType"/>-->
+                <ref bean="OLEEResourceEventLog-logTypeId"/>
+                <ref bean="OLEEResourceEventLog-eventTypeId"/>
+                <ref bean="OLEEResourceEventLog-eventNote"/>
+                <ref bean="OLEEResourceEventLog-eventUser"/>
+                <ref bean="OLEEResourceEventLog-eventDate"/>
+                <ref bean="OLEEResourceEventLog-eventStatus"/>
+                <ref bean="OLEEResourceEventLog-eventResolvedDate"/>
+                <ref bean="OLEEResourceEventLog-eventResolution"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+
+    <bean id="OLEEResourceEventLog-oleEResEventLogID" parent="OLEEResourceEventLog-oleEResEventLogID-parentBean"/>
+
+    <bean id="OLEEResourceEventLog-oleEResEventLogID-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="E-Resource Event Log ID"/>
+        <property name="maxLength" value="10"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+        <property name="name" value="oleEResEventLogID"/>
+        <property name="label" value="E-Resource Event Log ID"/>
+        <property name="description" value="E-Resource Event Log ID"/>
+    </bean>
+
+
+    <bean id="OLEEResourceEventLog-oleERSIdentifier" parent="OLEEResourceEventLog-oleERSIdentifier-parentBean"/>
+
+    <bean id="OLEEResourceEventLog-oleERSIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="E-Resource ID"/>
+        <property name="maxLength" value="10"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="oleERSIdentifier"/>
+        <property name="label" value="E-Resource ID"/>
+        <property name="description" value="E-Resource ID"/>
+    </bean>
+
+
+    <bean id="OLEEResourceEventLog-eventType" parent="OLEEResourceEventLog-eventType-parentBean"/>
+
+    <bean id="OLEEResourceEventLog-eventType-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Event Type"/>
+        <property name="maxLength" value="40"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="eventType"/>
+        <property name="label" value="Event Type"/>
+        <property name="description" value="Event Type"/>
+
+    </bean>
+
+
+    <bean id="OLEEResourceEventLog-eventDate" parent="OLEEResourceEventLog-eventDate-parentBean"/>
+
+    <bean id="OLEEResourceEventLog-eventDate-parentBean" abstract="true" parent="AttributeDefinition">
+
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Event Date"/>
+        <property name="maxLength" value="36"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="36"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+        <property name="name" value="eventDate"/>
+        <property name="label" value="Event Date"/>
+        <property name="description" value="Event Date"/>
+
+    </bean>
+
+
+    <bean id="OLEEResourceEventLog-eventUser" parent="OLEEResourceEventLog-eventUser-parentBean"/>
+
+    <bean id="OLEEResourceEventLog-eventUser-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Event User"/>
+        <property name="maxLength" value="40"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <!--<property name="controlField">
+            <bean parent="Uif-TextAreaControl" p:cols="15" p:textExpand="true"/>
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>-->
+        <property name="name" value="eventUser"/>
+        <property name="label" value="Event User"/>
+        <property name="description" value="Event User"/>
+
+    </bean>
+
+
+    <bean id="OLEEResourceEventLog-eventNote" parent="OLEEResourceEventLog-eventNote-parentBean"/>
+
+    <bean id="OLEEResourceEventLog-eventNote-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Event Note"/>
+        <property name="maxLength" value="800"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="eventNote"/>
+        <property name="label" value="Event Note"/>
+        <property name="description" value="Event Note"/>
+
+    </bean>
+
+    <bean id="OLEEResourceEventLog-logTypeId" parent="OLEEResourceEventLog-logTypeId-parentBean"/>
+    <bean id="OLEEResourceEventLog-logTypeId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Log Type"/>
+        <property name="maxLength" value="10"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="10"/>
+        </property>
+        <property name="name" value="logTypeId"/>
+        <property name="label" value="Log Type"/>
+        <property name="description" value="Log Type"/>
+    </bean>
+
+    <bean id="OLEEResourceEventLog-eventTypeId" parent="OLEEResourceEventLog-eventTypeId-parentBean"/>
+    <bean id="OLEEResourceEventLog-eventTypeId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Type"/>
+        <property name="maxLength" value="40"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="15"/>
+        </property>
+        <property name="name" value="eventTypeId"/>
+        <property name="label" value="Type"/>
+        <property name="description" value="Type"/>
+    </bean>
+
+    <bean id="OLEEResourceEventLog-eventResolvedDate" parent="OLEEResourceEventLog-eventResolvedDate-parentBean"/>
+    <bean id="OLEEResourceEventLog-eventResolvedDate-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Resolved Date"/>
+        <property name="maxLength" value="36"/>
+        <property name="validCharactersConstraint">
+            <bean parent="BasicDatePatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-DateControl" p:size="10"/>
+        </property>
+        <property name="name" value="eventResolvedDate"/>
+        <property name="label" value="Resolved Date"/>
+        <property name="description" value="Resolved Date"/>
+    </bean>
+
+    <bean id="OLEEResourceEventLog-eventStatus" parent="OLEEResourceEventLog-eventStatus-parentBean"/>
+    <bean id="OLEEResourceEventLog-eventStatus-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Event Status"/>
+        <property name="maxLength" value="40"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="eventStatus"/>
+        <property name="label" value="Event Status"/>
+        <property name="description" value="Event Status"/>
+    </bean>
+
+    <bean id="OLEEResourceEventLog-eventResolution" parent="OLEEResourceEventLog-eventResolution-parentBean"/>
+    <bean id="OLEEResourceEventLog-eventResolution-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Event Resolution"/>
+        <property name="maxLength" value="40"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="15"/>
+        </property>
+        <property name="name" value="eventResolution"/>
+        <property name="label" value="Event Resolution"/>
+        <property name="description" value="Event Resolution"/>
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+
+
+    <!--<bean id="OLEEResourceEventLog-InquiryView" parent="Uif-OLEInquiryView">-->
+    <!--<property name="headerText" value="E-Resource PO Info Inquiry"/>-->
+    <!--<property name="dataObjectClassName" value="org.kuali.ole.select.bo.OLEEResourceEventLog"/>-->
+    <!--<property name="singlePageView" value="true"/>-->
+    <!--<property name="items">-->
+    <!--<list>-->
+    <!--<bean parent="Uif-Disclosure-VerticalBoxSection">-->
+    <!--<property name="header.headerText" value="E-Resource PO Info"/>-->
+    <!--<property name="items">-->
+    <!--<list>-->
+    <!--<bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2">-->
+    <!--<property name="items">-->
+    <!--<list>-->
+    <!--<bean id="inquiry_oleEResPOId" parent="Uif-InputField" p:propertyName="oleEResPOId"/>-->
+    <!--<bean id="inquiry_oleEResourceId" parent="Uif-InputField" p:propertyName="oleEResourceId"/>-->
+    <!--<bean id="inquiry_olePurchaseOrderNumber" parent="Uif-InputField" p:propertyName="olePurchaseOrderNumber"/>-->
+    <!--<bean id="inquiry_title" parent="Uif-InputField" p:propertyName="title"/>-->
+    <!--<bean id="inquiry_paidAmountCurrentFY" parent="Uif-InputField" p:propertyName="paidAmountCurrentFY"/>-->
+    <!--<bean id="inquiry_paidAmountPreviousFY" parent="Uif-InputField" p:propertyName="paidAmountPreviousFY"/>-->
+    <!--<bean id="inquiry_paidAmountTwoYearsPreviousF" parent="Uif-InputField" p:propertyName="paidAmountTwoYearsPreviousFY"/>-->
+    <!--<bean id="inquiry_purpose" parent="Uif-InputField" p:propertyName="purpose"/>-->
+    <!--</list>-->
+    <!--</property>-->
+    <!--</bean>-->
+    <!--</list>-->
+    <!--</property>-->
+    <!--<property name="headerText" value="E-Resource PO Info"/>-->
+    <!--</bean>-->
+    <!--</list>-->
+    <!--</property>-->
+    <!--</bean>-->
+
+
+    <!-- Business Object Lookup Definition -->
+
+
+    <!--<bean id="OLEEResourceEventLog-LookupView" parent="Uif-OLELookupView">-->
+    <!--<property name="headerText" value="E-Resource PO Info Lookup"/>-->
+    <!--<property name="dataObjectClassName" value="org.kuali.ole.select.bo.OLEEResourceEventLog"/>-->
+    <!--<property name="criteriaFields">-->
+    <!--<list>-->
+    <!--<bean id="oleEResPOId" parent="Uif-LookupCriteriaInputField" p:propertyName="oleEResPOId"/>-->
+    <!--<bean id="oleEResourceId" parent="Uif-LookupCriteriaInputField" p:propertyName="oleEResourceId"/>-->
+    <!--<bean id="olePurchaseOrderNumber" parent="Uif-LookupCriteriaInputField" p:propertyName="olePurchaseOrderNumber"/>-->
+    <!--<bean id="title" parent="Uif-LookupCriteriaInputField" p:propertyName="title"/>-->
+    <!--</list>-->
+    <!--</property>-->
+    <!--<property name="resultFields">-->
+    <!--<list>-->
+    <!--<bean id="searchResult_oleEResPOId" parent="Uif-DataField" p:propertyName="oleEResPOId"/>-->
+    <!--<bean id="searchResult_oleEResourceId" parent="Uif-DataField" p:propertyName="oleEResourceId"/>-->
+    <!--<bean id="searchResult_olePurchaseOrderNumber" parent="Uif-DataField" p:propertyName="olePurchaseOrderNumber"/>-->
+    <!--<bean id="searchResult_title" parent="Uif-DataField" p:propertyName="title"/>-->
+    <!--</list>-->
+    <!--</property>-->
+    <!--</bean>-->
+
+</beans>

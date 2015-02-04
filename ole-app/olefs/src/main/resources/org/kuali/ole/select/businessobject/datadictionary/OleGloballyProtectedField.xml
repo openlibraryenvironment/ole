@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                            http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <!--
+
+        Copyright 2005-2012 The Kuali Foundation
+
+        Licensed under the Educational Community License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at
+
+        http://www.opensource.org/licenses/ecl2.php
+
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+
+    -->
+    <bean id="OleGloballyProtectedField" parent="OleGloballyProtectedField-parentBean"/>
+
+    <bean id="OleGloballyProtectedField-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.select.bo.OleGloballyProtectedField"/>
+        <property name="titleAttribute" value="tag"/>
+        <property name="objectLabel" value="Globally Protected Field"/>
+        <property name="attributes">
+            <list>
+                <ref bean="OleGloballyProtectedField-oleGloballyProtectedFieldId"/>
+                <ref bean="OleGloballyProtectedField-tag"/>
+                <ref bean="OleGloballyProtectedField-firstIndicator"/>
+                <ref bean="OleGloballyProtectedField-secondIndicator"/>
+                <ref bean="OleGloballyProtectedField-subField"/>
+                <ref bean="OleGloballyProtectedField-activeIndicator"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <!-- Attribute Definitions -->
+
+
+    <bean id="OleGloballyProtectedField-oleGloballyProtectedFieldId" parent="OleGloballyProtectedField-oleGloballyProtectedFieldId-parentBean"/>
+
+    <bean id="OleGloballyProtectedField-oleGloballyProtectedFieldId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="shortLabel" value="Protected Field Id"/>
+        <property name="maxLength" value="10"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="oleGloballyProtectedFieldId"/>
+        <property name="label" value="Protected Field Identifier"/>
+        <property name="description" value="Globally Protected Field Id"/>
+    </bean>
+
+
+
+    <bean id="OleGloballyProtectedField-tag" parent="OleGloballyProtectedField-tag-parentBean"/>
+    <bean id="OleGloballyProtectedField-tag-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Tag"/>
+        <property name="maxLength" value="30"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="tag"/>
+        <property name="label" value="Tag"/>
+        <property name="description" value="Tag"/>
+    </bean>
+
+    <bean id="OleGloballyProtectedField-firstIndicator" parent="OleGloballyProtectedField-firstIndicator-parentBean"/>
+    <bean id="OleGloballyProtectedField-firstIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="shortLabel" value="First Indicator"/>
+        <property name="maxLength" value="30"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <!--<property name="required" value="false"/>-->
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="firstIndicator"/>
+        <property name="label" value="First Indicator"/>
+        <property name="description" value="First Indicator"/>
+    </bean>
+
+    <bean id="OleGloballyProtectedField-secondIndicator" parent="OleGloballyProtectedField-secondIndicator-parentBean"/>
+    <bean id="OleGloballyProtectedField-secondIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="shortLabel" value="Second Indicator"/>
+        <property name="maxLength" value="30"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <!--<property name="required" value="false"/>-->
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="secondIndicator"/>
+        <property name="label" value="Second Indicator"/>
+        <property name="description" value="Second Indicator"/>
+    </bean>
+
+    <bean id="OleGloballyProtectedField-subField" parent="OleGloballyProtectedField-subField-parentBean"/>
+    <bean id="OleGloballyProtectedField-subField-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="shortLabel" value="Sub Field"/>
+        <property name="maxLength" value="30"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <!--<property name="required" value="false"/>-->
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="subField"/>
+        <property name="label" value="Sub Field"/>
+        <property name="description" value="Sub Field"/>
+    </bean>
+
+    <!--<bean id="OleGloballyProtectedField-activeIndicator" parent="OleGloballyProtectedField-activeIndicator-parentBean"/>
+    <bean id="OleGloballyProtectedField-activeIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+        <property name="name" value="activeIndicator"/>
+    </bean>-->
+
+    <bean id="OleGloballyProtectedField-activeIndicator" parent="OleGloballyProtectedField-activeIndicator-parentBean"/>
+    <bean id="OleGloballyProtectedField-activeIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="activeIndicator"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="active"/>
+        <property name="maxLength" value="1"/>
+        <property name="validCharactersConstraint">
+            <bean  parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean  parent="Uif-CheckboxControl"/>
+        </property>
+        <property name="summary" value="Active Indicator"/>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+        <property name="label" value="Active Indicator"/>
+        <property name="description" value="This attribute is used to describe whether the associated object is active or inactive."/>
+    </bean>
+
+
+    <!-- Business Object Inquiry Definition -->
+
+    <bean id="OleGloballyProtectedField-InquiryView" parent="Uif-OLEInquiryView">
+        <property name="headerText" value="Globally Protected Field Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OleGloballyProtectedField"/>
+        <property name="singlePageView" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-VerticalBoxSection">
+                    <property name="header.headerText" value="Protected Field" />
+                    <property name="items">
+                        <list>
+                        <bean parent="Uif-GridGroup">
+                            <property name="items">
+                                  <list>
+                                        <bean id="inquiry_oleGloballyProtectedFieldId" parent="Uif-InputField" p:propertyName="oleGloballyProtectedFieldId"/>
+                                        <bean id="inquiry_tag" parent="Uif-InputField" p:propertyName="tag"/>
+                                        <bean id="inquiry_firstIndicator" parent="Uif-InputField" p:propertyName="firstIndicator"/>
+                                        <bean id="inquiry_secondIndicator" parent="Uif-InputField" p:propertyName="secondIndicator"/>
+                                        <bean id="inquiry_subField" parent="Uif-InputField" p:propertyName="subField"/>
+                                        <bean id="inquiry_activeIndicator" parent="Uif-InputField" p:propertyName ="activeIndicator"/>
+                                  </list>
+                            </property>
+                        </bean>
+                      </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+
+    <bean id="OleGloballyProtectedField-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="Globally Protected Field Lookup" />
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/BASICS/content/ch02s04.html#_lookupHelp"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OleGloballyProtectedField" />
+        <property name="viewHelperServiceClass" value="org.kuali.ole.select.lookup.OleGloballyProtectedFieldLookupableImpl"/>
+        <property name="criteriaFields">
+            <list>
+                <!--<bean id="criteria_oleGloballyProtectedFieldId"  parent="Uif-LookupCriteriaInputField" p:propertyName="oleGloballyProtectedFieldId"/>-->
+                <bean id="criteria_tag"  parent="Uif-LookupCriteriaInputField" p:propertyName="tag" p:enableAutoDirectInquiry="false"/>
+                <bean id="criteria_firstIndicator"  parent="Uif-LookupCriteriaInputField" p:propertyName="firstIndicator"/>
+                <bean id="criteria_secondIndicator"  parent="Uif-LookupCriteriaInputField" p:propertyName="secondIndicator"/>
+                <bean id="criteria_subField"  parent="Uif-LookupCriteriaInputField" p:propertyName="subField"/>
+                <bean id="activeIndicator"  parent="Uif-LookupCriteriaInputField" p:propertyName="activeIndicator" p:defaultValue="Y"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+               <!-- <bean id="searchResult_oleGloballyProtectedFieldId" parent="Uif-DataField" p:propertyName="oleGloballyProtectedFieldId"/>-->
+                <bean id="searchResult_tag" parent="Uif-DataField" p:propertyName="tag"/>
+                <bean id="searchResult_firstIndicator" parent="Uif-DataField" p:propertyName="firstIndicator"/>
+                <bean id="searchResult_secondIndicator" parent="Uif-DataField" p:propertyName="secondIndicator"/>
+                <bean id="searchResult_subField" parent="Uif-DataField" p:propertyName="subField"/>
+                <bean id="searchResult_activeIndicator" parent="Uif-DataField" p:propertyName="activeIndicator"/>
+            </list>
+        </property>
+    </bean>
+</beans>

@@ -1,0 +1,111 @@
+<!--
+ Copyright 2008 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="salesTaxInformation" parent="salesTaxInformation-parent" />
+
+	<bean id="salesTaxInformation-parent" parent="AccountingLineView-line" abstract="true">
+		<property name="elementName" value="salesTaxInformation" />
+		<property name="fields">
+			<list>
+				<bean parent="AccountingLineView-field"
+					p:name="salesTax.chartOfAccountsCode" p:required="true"
+					p:webUILeaveFieldFunction="updateChartName"
+					p:dynamicLabelProperty="salesTax.chartOfAccounts.finChartOfAccountDescription" />
+				<bean parent="AccountingLineView-field"
+					p:name="salesTax.accountNumber" p:required="true"
+					p:webUILeaveFieldFunction="updateAccountNumber"
+					p:dynamicLabelProperty="salesTax.account.accountName" />
+				<bean parent="AccountingLineView-field"
+					p:name="salesTax.financialDocumentGrossSalesAmount"
+					p:required="true" />
+				<bean parent="AccountingLineView-field"
+					p:name="salesTax.financialDocumentTaxableSalesAmount"
+					p:required="true" />
+				<bean parent="AccountingLineView-field"
+					p:name="salesTax.financialDocumentSaleDate" p:required="true" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="FinancialProcessing-SalesTax-accountingLineView"
+		parent="FinancialProcessing-SalesTax-accountingLineView-parent" />
+
+	<bean id="FinancialProcessing-SalesTax-accountingLineView-parent"
+		parent="AccountingLineView" abstract="true">
+		<property name="elements">
+			<list>
+				<bean parent="AccountingLineView-sequenceNumber" />
+				<bean parent="AccountingLineView-lines">
+					<property name="lines">
+						<list>
+							<ref bean="accountingInformation" />
+							<bean parent="AccountingLineView-line">
+								<property name="elementName" value="lineDescription"/>
+								<property name="fields">
+									<list>
+										<bean parent="AccountingLineView-field" p:name="financialDocumentLineDescription" p:overrideColSpan="3"/>
+									</list>
+								</property>
+							</bean>
+							<ref bean="salesTaxInformation" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="AccountingLineView-field" p:name="amount"
+					p:required="true" />
+				<bean parent="AccountingLineView-actions" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="AccountingDocument-sourceGroupTotals"
+		class="org.springframework.beans.factory.config.ListFactoryBean">
+		<property name="sourceList">
+			<list>
+				<bean parent="AccountingLineView-groupTotal"
+					p:totalProperty="currencyFormattedSourceTotal" p:representedProperty="amount"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="AccountingDocument-targetGroupTotals"
+		class="org.springframework.beans.factory.config.ListFactoryBean">
+		<property name="sourceList">
+			<list>
+				<bean parent="AccountingLineView-groupTotal"
+					p:totalProperty="currencyFormattedTargetTotal" p:representedProperty="amount"/>
+			</list>
+		</property>
+	</bean>
+	
+  	<bean id="AccountingDocument-sourceDebitCerditTotals"
+		class="org.springframework.beans.factory.config.ListFactoryBean">
+		<property name="sourceList">
+			<list>
+				<bean parent="AccountingLineView-debitCreditTotal" 
+					  p:creditTotalProperty="currencyFormattedCreditTotal" 
+					  p:debitTotalProperty="currencyFormattedDebitTotal" 
+					  p:representedProperty="voucherLineHelper[0].debit"/>
+			</list>
+		</property>
+	</bean>	
+
+</beans>

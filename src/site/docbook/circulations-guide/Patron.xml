@@ -1,0 +1,1482 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"
+    version="5.0" xml:lang="en-US">
+    <title>Patron</title>
+    <para role="Body Text"><inlinemediaobject>
+            <alt>Deliver</alt>
+            <imageobject>
+                <imagedata fileref="../images/DeliverNoTitlePage-DeliverTab.png"/>
+            </imageobject>
+        </inlinemediaobject>
+        <emphasis role="bold">&gt; <inlinemediaobject>
+                <alt>Patron</alt>
+                <imageobject>
+                    <imagedata fileref="../images/DeliverNoTitlePage-97.png"/>
+                </imageobject>
+            </inlinemediaobject> &gt; </emphasis><inlinemediaobject>
+            <alt>Patron Links</alt>
+            <imageobject>
+                <imagedata fileref="../images/DeliverNoTitlePage-PatronMenu.png"/>
+            </imageobject>
+        </inlinemediaobject></para>
+    <para role="Body Text">On the Deliver menu, Patron provides access to users to view and maintain
+        standard Patron E-Docs.</para>
+    <section>
+        <title><anchor xml:id="_DeliverNotices"/>Deliver Notices</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Deliver</alt>
+                <imageobject>
+                    <imagedata fileref="../images/DeliverNoTitlePage-DeliverTab.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; <inlinemediaobject>
+                    <alt>Patron</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-97.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Deliver Notices</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-209.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Deliver Notices</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-210.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Normal">The Deliver Notices allow users to download pdf versions of Recall, On
+            hold, or Overdue notices. The notices will include Patron information and Title/Item
+            information. Pdfs may be printed and sent or emailed to patrons.</para>
+        <para>Deliver Notices are stored in a locally configurable location. This location is set by
+            the parameter PDF_LOCATION (OLE-DLVR is the Namespace Code; Parameters can be found on
+            the Admin tab).</para>
+        <para>On the bottom of some of the notice types, Recalls for one, a link to "My Account"
+            will display.  This should be modified to your institution's "My Account" patron
+            service.  This link location is set by the parameter MY_ACCOUNT_URL. (OLE-DLVR is the
+            Namespace Code). </para>
+        <para>Deliver Notices can also be accessed from the <emphasis role="bold">Admin</emphasis>
+            tab, below the <emphasis role="bold">Batch Processes</emphasis> sub menu, under the link
+                <emphasis role="bold">Deliver Batch Job</emphasis>.</para>
+        <para role="Normal"/>
+        <para role="Normal">
+            <screenshot>
+                <mediaobject>
+                    <alt>Deliver Notices Screen with Sample Data</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-33.png" width="100%"/>
+                    </imageobject>
+                </mediaobject>
+            </screenshot>
+        </para>
+        <para role="Normal"/>
+        <para/>
+    </section>
+    <section>
+        <title><anchor xml:id="_Patron"/>Patron</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Deliver</alt>
+                <imageobject>
+                    <imagedata fileref="../images/DeliverNoTitlePage-DeliverTab.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; <inlinemediaobject>
+                    <alt>Patron</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-97.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Patron</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-102.png"/>
+                    </imageobject>
+                </inlinemediaobject>&gt; <inlinemediaobject>
+                    <alt>Patron Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-62.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Patron</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-103.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <note>
+            <para role="Normal">Please click <link xlink:href="../../../pdfs/PatronTechnicalDocument.pdf">here</link> for technical documentation.</para>
+        </note>
+        <para role="Normal">The Patron document is used to create and maintain the contact
+            information of patrons within OLE.</para>
+        <section>
+            <title>Getting Started</title>
+            <para>Permissions to create and maintain Patron records are given to several roles. 
+                Patron Manager has all privileges to modify Patrons and the maintenance documents. 
+                Full Circulation Attendant has permission to edit patron records</para>
+            <para/>
+        </section>
+        <section>
+            <title role="Heading 4circ">Document Layout</title>
+            <para role="Normal"/>
+            <para role="Normal">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Patron Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-110.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Normal"/>
+            <para role="Body Text">The Patron document includes the <emphasis role="bold"
+                    >Overview</emphasis>, <emphasis role="bold">Contacts</emphasis>,<emphasis
+                    role="bold"> Affiliations</emphasis>, <emphasis role="bold">Library
+                    Policies</emphasis>,<emphasis role="bold"> Loaned Records</emphasis>,<emphasis
+                    role="bold"> Requested Records</emphasis>, <emphasis role="bold">Temporary
+                    Circulation History Records</emphasis>,<emphasis role="bold"> Proxy
+                    Patron</emphasis>, <emphasis role="bold">Proxy For </emphasis>and<emphasis
+                    role="bold"> Local Identification</emphasis> tabs in addition to the standard
+                tabs that display at the bottom of OLE documents.</para>
+            <note>
+                <para role="Body Text"> For more information about the standard tabs, see <link
+                        xlink:href="../../../webhelp/BASICS/content/ch02s02.html#_standardTabs"
+                        >Standard Tabs</link> on the <emphasis>Guide to OLE Basic Functionality and
+                        Key Concepts</emphasis>.</para>
+            </note>
+            <section>
+                <title>Overview Tab</title>
+                <para role="Normal">The <emphasis role="bold">Overview</emphasis> Tab of the Patron
+                    Document is different from the standard <emphasis role="bold">Document
+                        Overview</emphasis> tab found on OLE e-documents and contains basic
+                    information about the patron record.</para>
+                <para role="Normal"/>
+                <para role="Normal">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Patron Document: Overview Tab</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DeliverNoTitlePage-113.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="Normal"/>
+                <para role="TableHeading"><emphasis role="bold">Patron Overview Tab
+                        Definitions</emphasis></para>
+                <informaltable frame="top">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Patron ID</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">System-assigned unique ID</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Barcode</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. A unique sequence of numeric
+                                        or alphanumeric characters printed on a label (also
+                                        including an optical, machine-readable version of the
+                                        number) attached to a patron ID card; used to identify the
+                                        patron in the system for check-out or request transactions;
+                                        can also serve as a patron login to "my account" functions
+                                        from the library’s public user interface.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Patron Type</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Indicates a group of library
+                                        patrons sharing the same service privileges; one of the
+                                        primary determinants of loan periods, maximum limits, fine
+                                        rates, etc.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Source</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Identifies origin of the patron
+                                        data</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Statistical Category</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">An identifier as locally defined to
+                                        fulfill reporting requirements</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Activation Date</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Date on which patron’s privileges
+                                        became active.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Expiration Date</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Date on which a patron’s privileges
+                                        expire. The expiration date in a patron record can be
+                                        null.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Active</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Indicates whether this patron is active
+                                        or inactive. Remove the check mark to deactivate.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Upload Image</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Visual ID of the patron. </para>
+                                    <para role="Table Cells">Browse to find the image on your local
+                                        machine. Click <inlinemediaobject>
+                                            <alt>Upload</alt>
+                                            <imageobject>
+                                                <imagedata
+                                                  fileref="../images/DeliverNoTitlePage-114.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+                <para role="Normal"/>
+            </section>
+            <section>
+                <title>Contacts Tab</title>
+                <para role="Body Text">The <emphasis role="bold">Contacts </emphasis>tab contains
+                    the patron name and contact information. When you modify contact information to
+                    an existing patron record, the old tabs will display above the new. When adding
+                    lines to the <emphasis role="bold">Address</emphasis>, <emphasis role="bold"
+                        >Phone </emphasis>or <emphasis role="bold">Email </emphasis>sub-tabs, enter
+                    information and then select the <emphasis role="bold">add</emphasis>
+                    button.</para>
+                <para role="Body Text"/>
+                <para role="Normal">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Patron Document: Contacts Tab</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DeliverNoTitlePage-115.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <note>
+                    <para role="Table Cells">Click <emphasis role="bold">Details</emphasis> to view
+                        and edit the address.</para>
+                    <para>
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Patron Document: Address on the Contact Tab. Click Details to
+                                    expand</alt>
+                                <imageobject>
+                                    <imagedata
+                                        fileref="../images/DeliverNoTitlePage-PatronAddressDetails.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                </note>
+                <para role="Normal"/>
+                <para role="TableHeading"><emphasis role="bold">Patron Contacts Tab
+                        Definitions</emphasis></para>
+                <informaltable frame="top">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"><emphasis>Name
+                                        Sub-Tab</emphasis></para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"/>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Name Type</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Defaults to Preferred.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Form of address preceding a name, used
+                                        in notices and messages addressed to patron</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">First Name</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the patron’s first
+                                        name</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Middle Name</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Enter the patron’s middle
+                                        name</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Last Name</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the patron’s last
+                                        name</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Suffix</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">A descriptor following a name and
+                                        providing additional information about a person; used in
+                                        notices and messages addressed to patron</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"><emphasis>Address
+                                        Sub-Tab</emphasis></para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top"/>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Address Type</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. A descriptor identifying
+                                        characteristics of an address; an address type must be
+                                        assigned to any address.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Address Source</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. A value that identifies the
+                                        origin of a patron's address.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Valid From</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">The date at which an address becomes
+                                        the preferred address for sending notices and patron
+                                        bills.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Valid To</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">The date at which an address is no
+                                        longer the preferred address for sending notices and patron
+                                        bills.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Address Verified</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Indicates whether or not the address is
+                                        verified; when checking out an item to a patron with an
+                                        unverified address, the operator will receive a prompt if no
+                                        addresses have been verified.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Preferred Address</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Indicates which address is used when
+                                        sending notices and patron bills. Only one address can be
+                                        the preferred address.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Active</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Indicates whether this address is
+                                        active or inactive. Remove the check mark to
+                                        deactivate.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Line 1-3</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">A building name, street number, room
+                                        number, "attn. of: [nnn]", etc. Three fields are available.
+                                        Enter the address for the patron. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">City</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Enter the name of the city for this
+                                        address</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">State</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Select the state from the State
+                                        list.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Postal Code</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Enter the postal code for this
+                                        address</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Country</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Select the country from the Country
+                                        list</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"><emphasis>Phone
+                                        Sub-Tab</emphasis></para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"/>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Phone Type</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">A descriptor identifying the type of
+                                        phone number. Each Phone number must have a type but you
+                                        cannot use a type more than once.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Phone Number</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Enter a phone number for the patron
+                                        (only numeric characters).</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Extension Number</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Enter the phone number’s
+                                        Extension</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Country</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Select the country from the Country
+                                        list</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Preferred Number</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Indicates which phone number is
+                                        preferred for contact. Only one phone number can be the
+                                        preferred number.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Active</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Indicates whether this phone number is
+                                        active or inactive. Remove the check mark to
+                                        deactivate.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"><emphasis>Email
+                                        Sub-Tab</emphasis></para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"/>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Email Type</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">A descriptor identifying the general
+                                        use/purpose of the email</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Email</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter an email address for
+                                        the patron.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Preferred Email</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Indicates which email address is
+                                        preferred for contact. Only one email address can be
+                                        preferred.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Active</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Indicates whether this email is active
+                                        or inactive. Remove the check mark to deactivate.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+                <para role="Normal"/>
+            </section>
+            <section>
+                <title>Affiliation Tab</title>
+                <para role="Normal">The <emphasis role="bold">Affiliation</emphasis> tab contains
+                    information on how a patron is affiliated and to which campus. When adding lines
+                    to the <emphasis role="bold">Affiliation </emphasis>tab, enter information and
+                    then select the <emphasis role="bold">add</emphasis> button.</para>
+                <para role="Normal">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Patron Document: Affiliation Tab</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DeliverNoTitlePage-116.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="Normal"/>
+                <para role="Normal"><emphasis role="bold">Patron Affiliation Tab
+                        Definitions</emphasis></para>
+                <informaltable frame="top">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Affiliation Type</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Select the type of affiliation from the
+                                        Affiliation Type list</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Campus Code</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Select the campus from the Campus
+                                        List</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+            <section>
+                <title>Library Policies Tab</title>
+                <para role="Normal">The <emphasis role="bold">Library Policies</emphasis> tab
+                    contains information about a patron’s privileges.</para>
+                <para role="Normal">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Patron Document: Library Policies Tab</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DeliverNoTitlePage-117.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="Normal"/>
+                <para role="TableHeading"><emphasis role="bold">Patron Library Policies Tab
+                        Definitions</emphasis></para>
+                <informaltable frame="top">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">General Block</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Flag to indicate if the patron is
+                                        blocked for a reason not otherwise defined in the system; if
+                                        flag is on, patron cannot checkout or request items.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">General Block Note</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">A field allowing staff to explain why a
+                                        general block has been placed on the patron record.</para>
+                                    <para>Click the <inlinemediaobject>
+                                            <alt>Expand Icon</alt>
+                                            <imageobject>
+                                                <imagedata fileref="../images/expandIcon.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject> to expand the note field.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Delivery Privilege</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Enables automatic physical delivery of
+                                        requested items versus being required to pick up requested
+                                        items from a pick-up location (i.e., a circulation
+                                        desk).</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Paging Privilege</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Allows a patron to place a paging
+                                        request.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Courtesy Notice</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Allows the system to send courtesy
+                                        notices (expired holds and pending due dates) only to those
+                                        who request them.</para>
+                                    <note>
+                                        <para role="Table Cells"> Courtesy notices can be sent
+                                            systematically any number of times from the interval
+                                            setting parameter COURTESY_NOTICE_INTER</para>
+                                    </note>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+            <section>
+                <title><anchor xml:id="_Loaned_Records_Tab"/>Loaned Records, Requested Records and
+                    Temporary Circulation History Tabs</title>
+                <para role="Normal">The <emphasis role="bold">Loaned Records</emphasis>, <emphasis
+                        role="bold">Requested Records</emphasis>, and the <emphasis role="bold"
+                        >Temporary Circulation History</emphasis>tabs allow you to review items
+                    linked to the patron. Each tab includes basic information about a title loaned
+                    to the patron as well as the due date. Click <emphasis role="bold">View all
+                        records</emphasis> to see the patron's loaned or requested items, or the
+                    patron's temporary Circulation History Record</para>
+                <note>
+                    <para>The Temporary Circulation History Records feature allows users to look up
+                        items they have checked out in the past. If privacy concerns trump the
+                        desire to offer this feature, a library can opt NOT to create a temporary
+                        circulation history.</para>
+                </note>
+                <para role="Normal">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Patron Document: Loaned Records, Requested Records, Temporary
+                                Circulation History Records Tabs</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DeliverNoTitlePage-122.png"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+            </section>
+            <section>
+                <title>Proxy Patron and Proxy For Tabs</title>
+                <para role="Normal">The <emphasis role="bold">Proxy Patron</emphasis> tab allows you
+                    to identify another patron as a proxy for this patron as well as set activation
+                    and expiration dates for the proxy. When adding a proxy to the <emphasis
+                        role="bold">Proxy Patron </emphasis>tab, enter the patron and then select
+                    the <emphasis role="bold">add</emphasis> button.</para>
+                <para role="Normal">The <emphasis role="bold">Proxy For</emphasis> tab will display
+                    the details of the proxied patron. This tab is not editable.</para>
+                <para role="Normal">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Patron Document: Proxy Patron Tab</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DeliverNoTitlePage-119.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="Normal"/>
+                <para role="TableHeading"><emphasis role="bold">Patron Proxy Patron Tab
+                        Definitions</emphasis></para>
+                <informaltable frame="top">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Barcode</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">System Assigned Unique ID. Enter the
+                                        Patron who will act as the proxy or use the Patron Lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup2.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">First Name</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Display only. Once the patron ID has
+                                        been entered, this field will auto-populate.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Last Name</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Display only. Once the patron ID has
+                                        been entered, this field will auto-populate.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Barcode</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Display only. Once the patron ID has
+                                        been entered, this field will auto-populate.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Activation Date</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Date on which the proxy patron becomes
+                                        active.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Expiration Date</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Date on which the proxy patron becomes
+                                        inactive.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+            <section>
+                <title>Local Identification Tab</title>
+                <para role="Normal">The <emphasis role="bold">Local Identification</emphasis> tab
+                    allows you to further distinguish a patron’s connection to the library. When
+                    adding a local id to the <emphasis role="bold">Local Identification
+                    </emphasis>tab, enter the identification and then select the <emphasis
+                        role="bold">add</emphasis> button.</para>
+                <para role="Normal">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Patron Document: Local Identification Tab</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DeliverNoTitlePage-121.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="Normal"/>
+                <para role="TableHeading"><emphasis role="bold">Patron Local Identification Tab
+                        Definitions</emphasis></para>
+                <informaltable frame="top">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Local ID</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Any identifier as locally defined to
+                                        further identify the patron, e.g., any other alphanumeric ID
+                                        used in the institution</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+            <section>
+                <title>Lost/Invalid Barcode Info Tab</title>
+                <para role="Normal">A patron’s lost/invalid barcode number is tracked to prevent
+                    fraudulent use of lost or stolen ID cards. Users may update a patron’s barcode
+                    on the <emphasis role="bold">Overview</emphasis> tab. When this has been done,
+                    any expired barcodes will appear on the <emphasis role="bold">Expired/Updated
+                        Barcode</emphasis> tab with an <emphasis role="bold">Effective
+                        date</emphasis>. </para>
+                <para role="Normal">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Patron Document: Lost/Invalid Barcode Info Tab</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DeliverNoTitlePage-126.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="Normal"/>
+                <para role="Normal">To update a barcode: </para>
+                <orderedlist>
+                    <listitem>
+                        <para role="Normal">Choose <emphasis role="bold">Update barcode</emphasis>
+                            at the bottom of the Patron record.</para>
+                    </listitem>
+                    <listitem>
+                        <para>In the pop-up window, select a <emphasis role="bold">Reason</emphasis>
+                            from the dropdown list and add a <emphasis role="bold"
+                                >Description</emphasis>.</para>
+                        <para role="Normal">
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Patron Document: Deactivate Barcode Pop-up</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DeliverNoTitlePage-127.png"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>Click <emphasis role="bold">Confirm</emphasis> to update the Patron
+                            record.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="Normal">On the Patron record, enter a new barcode in the
+                                <emphasis role="bold">Overview</emphasis> tab.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="Normal">Select <emphasis role="bold">Submit</emphasis>.</para>
+                    </listitem>
+                </orderedlist>
+            </section>
+        </section>
+        <section>
+            <title>Process Overview</title>
+            <section>
+                <title role="Heading 4circ">Patron Bills</title>
+                <para role="Normal">From the Patron search screen, staff may view bills and accept
+                    payments from the <emphasis role="bold">Patron Bill</emphasis> link or create a
+                    bill from the <emphasis role="bold">Create Bill</emphasis> link.</para>
+                <para role="Normal"/>
+                <note>
+                    <para role="Normal"> For more information about creating patron bills, see <link
+                            linkend="_Patron_Bill_Payment">Patron Bill Payment</link></para>
+                </note>
+                <para role="Normal"/>
+                <para role="Normal">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Patron Lookup: Search Results displays links for Patron Bills</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DeliverNoTitlePage-105.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="Normal"/>
+                <orderedlist numeration="arabic" spacing="normal">
+                    <listitem>
+                        <para role="List Paragraph">Click <emphasis role="bold">Patron
+                                Bill</emphasis> to view and accept payments for a patron.</para>
+                        <para role="Normal"/>
+                        <para role="Normal">
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Patron Bill Summary: Available by clicking Patron Bill on
+                                        the Patron Lookup Search Results</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DeliverNoTitlePage-106.png"
+                                            width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para role="List Paragraph">Check the bill from the <emphasis role="bold"
+                                >Bills</emphasis> tab or the line item from the <emphasis
+                                role="bold">Bills in Detail</emphasis> tab that the patron would
+                            like to pay.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="List Paragraph">Select the <emphasis role="bold">Payment
+                                Mode</emphasis> from the drop down list if you plan to accept a
+                            payment.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="List Paragraph">Enter the <emphasis role="bold">Pay
+                                Amount</emphasis>.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="List Paragraph">Click <inlinemediaobject>
+                                <alt>Accept</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DeliverNoTitlePage-107.png"/>
+                                </imageobject>
+                            </inlinemediaobject> to receive a payment.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="List Paragraph">Click <inlinemediaobject>
+                                <alt>Forgive</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DeliverNoTitlePage-108.png"/>
+                                </imageobject>
+                            </inlinemediaobject> to forgive an amount.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="List Paragraph">Click <inlinemediaobject>
+                                <alt>Error</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DeliverNoTitlePage-109.png"/>
+                                </imageobject>
+                            </inlinemediaobject> when the charge was made in error. </para>
+                    </listitem>
+                </orderedlist>
+                <para>When selecting cancel, error. or forgive, you must enter a note in the pop-up
+                    box and click <emphasis role="bold">ok</emphasis>. This note has a limit of 500
+                    characters.</para>
+                <para role="Normal"/>
+            </section>
+            <section>
+                <title>Business Rules</title>
+                <itemizedlist>
+                    <listitem>
+                        <para role="Normal">At a minimum, a patron MUST have the following data
+                            elements: last name, first name, borrower type, delivery privileges,
+                            paging privileges, affiliation, department, barcode, address, delivery
+                            preference, address verified , address (can be either a mail address,
+                            email or text; if a mail address), address source (required for each
+                            address of any type), courtesy notice preference</para>
+                    </listitem>
+                    <listitem>
+                        <para role="Normal">Any attempt to create a patron record without a required
+                            field will refresh the display with a message indicating the missing
+                            data element.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="Normal">Expiration dates in a patron's record can be set to
+                            null.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="Normal">If courtesy notices are not used by a library, these
+                            will be set to "No". If switched to Yes, these will only be produced
+                            when a special batch process is run.</para>
+                    </listitem>
+                </itemizedlist>
+            </section>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_Patron_Bill_Payment"/>Patron Bill </title>
+        <para role="Body Text">
+            <inlinemediaobject>
+                <alt>Deliver</alt>
+                <imageobject>
+                    <imagedata fileref="../images/DeliverNoTitlePage-DeliverTab.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; <inlinemediaobject>
+                    <alt>Patron</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-97.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Patron Bill</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-194.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Patron Bill Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-128.png"/>
+                    </imageobject>
+                </inlinemediaobject>&gt;<inlinemediaobject>
+                    <alt>Patron Bill</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-195.png"/>
+                    </imageobject>
+                </inlinemediaobject>
+            </emphasis></para>
+        <para role="Body Text">Patron bills for overdue fines and replacement fees are generated
+            automatically by the system through check-in and renewal transactions using information
+            from loan transaction records, calculated based on information from the Circulation
+            Policy Set governing the loan, and sent to patrons using their preferred delivery
+            method. Patron bill information is stored in the system; the formatted bill as delivered
+            to the patron is not. Operators can also manually create patron bills. </para>
+        <note>
+            <para>Fine rates and replacement fees will be configured locally. By setting fine rates
+                and replacement fees to null or zero, libraries can opt to NOT automatically create
+                these patron bills.</para>
+        </note>
+        <para role="Body Text">You may alternatively access Patron Bills via the <emphasis
+                role="bold">Patron</emphasis> search screen.</para>
+        <para/>
+        <section>
+            <title>Search for a Patron Bill</title>
+            <para>From the <emphasis role="bold">Deliver</emphasis> tab, under the <emphasis
+                    role="bold">Patron</emphasis> submenu, click <emphasis role="bold">Patron
+                    Bill</emphasis> to enter the lookup screen.</para>
+            <para>Enter the Patron's ID or search for the patron by name.</para>
+            <para role="Body Text">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Patron Bill Lookup Screen</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-83.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <para>Click the bill number of the bill you wish to view.  A popup box will appear with
+                some information about the bill.  Click <emphasis role="bold">details</emphasis> to
+                view more information including item and transaction information and notes.</para>
+            <para role="Body Text">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Patron Inquiry Pop-up from the Patron Bill Inquiry Screen</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-84.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+        </section>
+        <section>
+            <title>Create a Patron Bill Manually</title>
+            <para role="Body Text">Patron bills for replacement and other fees can also be created
+                manually by duly authorized operators using locally-defined fee types, e.g.,
+                rentals, copying, etc. and then be delivered to patrons. To do so, click <emphasis
+                    role="bold">Create Bill</emphasis> on the <emphasis role="bold">Patron
+                </emphasis>search screen.</para>
+            <note>
+                <para>To pay a patron bill, you must click <emphasis role="bold">Patron
+                        Bill</emphasis> from the Patron Lookup Screen. For information about paying
+                    the bill, see <link linkend="_patronBill">Patron Bill</link>.</para>
+            </note>
+            <para/>
+            <para role="Body Text">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Patron Lookup: Click Create Bill at the far right of the search
+                            results</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-58.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+        </section>
+        <section>
+            <title role="Heading 4circ">Document Layout</title>
+            <para role="Body Text">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Patron Bill Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-198.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Body Text">The Patron Bill Payment document includes the <emphasis
+                    role="bold">Patron Section</emphasis>, <emphasis role="bold">Patron Bill
+                    Section</emphasis>, <emphasis role="bold">Fee Type Section</emphasis> and
+                    <emphasis role="bold">Total Amount</emphasis> tabs in addition to the standard
+                tabs that display at the bottom of OLE documents.</para>
+            <note>
+                <para role="Body Text"> For more information about the standard tabs, see <link
+                        xlink:href="../../../webhelp/BASICS/content/ch02s02.html#_standardTabs"
+                        >Standard Tabs</link> on the <emphasis>Guide to OLE Basic Functionality and
+                        Key Concepts</emphasis>.</para>
+            </note>
+        </section>
+        <section>
+            <title>Patron Section Tab </title>
+            <para role="Normal">The <emphasis role="bold">Patron</emphasis> tab is used to identify
+                the patron who has accumulated an overdue fine. It is automatically populated with
+                the name(s) of the individual.</para>
+            <para role="Normal"/>
+            <para role="Normal">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Patron Bill Document: Patron Section</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-200.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Normal"/>
+        </section>
+        <section>
+            <title>Patron Bill Section Tab</title>
+            <para role="Body Text">The <emphasis role="bold">Patron Bill Section</emphasis>
+            </para>
+            <para role="Normal"/>
+            <para role="Normal">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Patron Bill Document: Patron Bill Section</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-201.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Normal"/>
+            <para role="TableHeading"><emphasis role="bold">Patron Bill Section Tabs
+                    Definitions</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Date</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. Date/time a payment was
+                                    recorded</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Text Note</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Free text field to enter information
+                                    regarding the payment transaction</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+        <section>
+            <title>Fee Type Section Tab</title>
+            <para role="Normal">The <emphasis role="bold">Fee Type Section </emphasis>tab contains
+                the fee information pertaining to the bill. When adding lines to Fee Type Section,
+                enter information and then select the <emphasis role="bold">add</emphasis>
+                button.</para>
+            <para role="Normal"/>
+            <para role="Normal">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Patron Bill Document: Fee Type Section</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-202.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Normal"/>
+            <para role="TableHeading"><emphasis role="bold">Fee Type Section Tabs
+                    Definitions</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Fee Type</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. Choose the fee type from the drop
+                                    down list. Examples include Overdue, Replacement and Service but
+                                    these may be locally configured.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Fee Amount</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. Enter the monetary amount for any
+                                    individual fee.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Item Barcode</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Enter the item barcode for the loaned item
+                                    liable for an overdue fine or replacement fee or search for it
+                                    from the <emphasis role="bold">Item </emphasis>lookup <inlinemediaobject>
+                                        <imageobject>
+                                            <imagedata fileref="../images/Lookup2.png"/>
+                                        </imageobject>
+                                    </inlinemediaobject>.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Payment Status</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Choose the status of the payment from the
+                                    drop down list.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Note</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Optional. Enter a note about the
+                                    fee.</para>
+                                <note>
+                                    <para>There is a 500 character limit on this note field.</para>
+                                </note>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Action</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Click <emphasis role="bold">add</emphasis>
+                                    to add the fee to the patron bill.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+            <para role="Normal"/>
+            <para role="Normal">Once the fee has been added, the <emphasis role="bold"
+                    >Details</emphasis> can be expanded to see the title, author, and other
+                pertinent information about the item.</para>
+            <para/>
+            <para role="Normal">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Patron Bill Document: Details expanded on the Fee Type Section</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-129.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+        </section>
+        <section>
+            <title>Total Amount Tab</title>
+            <para role="Normal">If you create multiple fees on a patron’s bill, the system
+                calculates the total amount.</para>
+            <para role="Normal"/>
+            <para role="Normal">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Patron Bill Document: Total Amount Tab</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-204.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+        </section>
+        <section>
+            <title>Process Overview</title>
+            <section>
+                <title>Business Rules</title>
+                <para role="Normal"/>
+                <itemizedlist>
+                    <listitem>
+                        <para role="Normal">An operator can create a bill manually online by
+                            charging any fee. </para>
+                    </listitem>
+                    <listitem>
+                        <para role="Normal">If an item in a check-in transaction is found to be
+                            overdue, the system creates an overdue fine patron bill at check-in,
+                            using the applicable values in the appropriate Circulation Policy Set.
+                            This bill is then delivered automatically to the patron provided the
+                            total amount meets the locally-determined threshold amount. Replacement
+                            fee bills are generated by a batch program for those items that are
+                            overdue and have received a maximum number of overdue notices. </para>
+                    </listitem>
+                </itemizedlist>
+            </section>
+        </section>
+    </section>
+</chapter>

@@ -1,0 +1,31 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_PTRN_BILL_FEE_TYP_T">
+        <addColumn catalogName="ole"
+                     schemaName="ole"
+                     tableName="OLE_DLVR_PTRN_BILL_FEE_TYP_T ">
+            <column name="DUE_DT_TIME" type="datetime"/>
+            <column name="CHECK_OUT_DT_TIME" type="datetime"/>
+            <column name="CHECK_IN_DT_TIME" type="datetime"/>
+        </addColumn>
+    </changeSet>
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_TEMP_CIRC_RECORD">
+        <addColumn catalogName="ole"
+                   schemaName="ole"
+                   tableName="OLE_DLVR_TEMP_CIRC_RECORD ">
+            <column name="DUE_DT_TIME" type="datetime"/>
+            <column name="CHECK_OUT_DT_TIME" type="datetime"/>
+        </addColumn>
+    </changeSet>
+    <changeSet context="bootstrap" author="ole" id="OLE_AP_INV_T">
+        <addColumn catalogName="ole"
+                   schemaName="ole"
+                   tableName="OLE_AP_INV_T ">
+            <column name="VNDR_FRGN_INV_AMT" type="decimal"/>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>

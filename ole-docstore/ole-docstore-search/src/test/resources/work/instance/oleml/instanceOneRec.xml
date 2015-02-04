@@ -1,0 +1,78 @@
+<i:instanceCollection  xmlns:i="http://ole.kuali.org/standards/ole-instance">
+   <i:instance>
+    <i:instanceIdentifier>5399</i:instanceIdentifier>
+    <i:resourceIdentifier/>
+    <i:formerResourceIdentifiers source="Sirsi">(Sirsi) 5399</i:formerResourceIdentifiers>
+    <i:holdings>
+         <i:holdingsIdentifier/>
+         <i:formerIdentifiers>
+             <i:identifier>5399-91</i:identifier>
+             <i:identifierType>IUHoldings</i:identifierType>
+         </i:formerIdentifiers>
+         <i:recordType>y</i:recordType>
+         <i:encodingLevel>u</i:encodingLevel>
+         <i:receiptStatus>2</i:receiptStatus>
+         <i:acquisitionMethod>c</i:acquisitionMethod>
+         <i:expectedAcquisitionEndDate>   </i:expectedAcquisitionEndDate>
+         <i:generalRetentionPolicy>0</i:generalRetentionPolicy>
+         <i:specificRetentionPolicy>
+             <i:policyType>Policy Retro</i:policyType>
+             <i:numberOfUnits> </i:numberOfUnits>
+             <i:unitType>m</i:unitType>
+         </i:specificRetentionPolicy>
+         <i:completeness>0</i:completeness>
+         <i:copiesReported>50</i:copiesReported>
+         <i:lendingPolicy>a</i:lendingPolicy>
+         <i:reproductionPolicy>a</i:reproductionPolicy>
+         <i:separateOrCompositeReport>0</i:separateOrCompositeReport>
+         <i:extension>
+         </i:extension>
+    </i:holdings>
+    <i:item>
+        <i:itemIdentifier>5399-91-1</i:itemIdentifier>
+        <i:accessInformation>
+            <i:barcode>30000115909412  </i:barcode>
+        </i:accessInformation>
+        <i:itemType>Book Vol.1</i:itemType>
+        <i:volumeNumber>45358473</i:volumeNumber>
+        <i:location>
+            <i:locationStatus>Permanent</i:locationStatus>
+            <i:locationName>
+                <i:value>I-LAW</i:value>
+                <i:typeOrSource>
+                  <i:text>TODO</i:text>
+                </i:typeOrSource>
+            </i:locationName>
+            <i:levelName>
+                <i:value>Library</i:value>
+                <i:typeOrSource>
+                  <i:text>TODO</i:text>
+                </i:typeOrSource>
+            </i:levelName>
+            <i:locationName>
+                <i:value>DISCARD</i:value>
+                <i:typeOrSource>
+                  <i:text>TODO</i:text>
+                </i:typeOrSource>
+            </i:locationName>
+            <i:levelName>
+                <i:value>Location</i:value>
+                <i:typeOrSource>
+                  <i:text>TODO</i:text>
+                </i:typeOrSource>
+            </i:levelName>
+            <i:shelvingScheme>6</i:shelvingScheme>
+            <i:shelvingOrder>2</i:shelvingOrder>
+            <i:address>Indiana Univerity</i:address>
+            <i:copyNumber>20012</i:copyNumber>
+            <i:classificationPart>KFC1830 1973 .A47 1989 Title 38-1 to 38-</i:classificationPart>
+            <i:classificationSort/>            
+            <i:classificationView/>
+            <i:nonPublicNote>nonPublicNote0</i:nonPublicNote>
+            <i:publicNote>publicNote0</i:publicNote>
+        </i:location>
+        <i:extension>
+        </i:extension>
+    </i:item>
+   </i:instance>
+  </i:instanceCollection>

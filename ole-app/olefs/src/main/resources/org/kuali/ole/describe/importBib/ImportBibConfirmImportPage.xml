@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="ConfirmImportPanel" parent="ConfirmImportPanel-parentBean"/>
+    <bean id="ConfirmImportPanel-parentBean" parent="Uif-VerticalBoxSection">
+        <!--<property name="headerText" value=""/>-->
+        <property name="items">
+            <list>
+                <ref bean="InvokeBibEditor-Section"/>
+                <ref bean="ConfirmImportButtons-Section"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ConfirmImportButtons-Section" parent="Uif-HorizontalBoxSection" p:style="float:left;margin-left:10em">
+        <property name="headerText" value=""/>
+        <property name="items">
+            <list>
+                <ref bean="ImportMoreRecords-Section"/>
+                <ref bean="BackToMainMenu-Section"/>
+            </list>
+        </property>
+    </bean>
+
+       <bean id="InvokeBibEditor-Section" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="3" p:style="border:1px solid;width:750px">
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.describe.bo.BibDocumentSearchResult" />
+        <property name="propertyName" value="bibUuidsList" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.generateAutoSequence" value="false" />
+        <property name="renderAddLine" value="false"/>
+        <property name="headerText" value="Record Import Complete"/>
+        <property name="layoutManager.richTable.render" value="true" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:label="Title" p:propertyName="displayField" p:width="80%"/>
+                <bean parent="Uif-DataField" p:label="" p:propertyName="uuid" p:hidden="true"  p:width="0%"/>
+                <bean id="InvokeBibEditor-Link" parent="Uif-LinkField" p:style="font-weight:bold;" p:width="20%"
+                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;bibId=@{#line.uuid}&amp;docId=@{#line.uuid}&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=marc&amp;editable=true"
+                      p:linkText="Edit" p:target="_blank" />
+
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+    <bean id="ImportMoreRecords-Section" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="ImportMoreRecords" parent="Uif-SecondaryActionButton" p:methodToCall="loadImportBibSearch"
+                      p:actionLabel="Import More Records" p:style="float:left;margin-left:0.2em"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="BackToMainMenu-Section" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="cancelButton" parent="Uif-SecondaryActionButton" p:methodToCall="close"
+                      p:actionLabel="Back To Main Menu" p:style="float:left;margin-left:0.2em"/>
+            </list>
+        </property>
+    </bean>
+
+
+</beans>

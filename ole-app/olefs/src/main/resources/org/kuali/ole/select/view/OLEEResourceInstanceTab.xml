@@ -1,0 +1,744 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="OLEEResourceRecordView-E-ResourceInstanceTab" parent="E-Res-Uif-DocumentPage">
+        <property name="headerText" value="Instances"/>
+            <property name="items">
+            <list>
+                <ref bean="OLEEResourceRecordView-InstanceLink_Row1"/>
+                <ref bean="OLEEResourceRecordView-InstanceLink_Row2"/>
+                <ref bean="OLEEResourceRecordView-Overview"/>
+                <ref bean="OLEEResourceRecordView-InstanceDefault"/>
+                <ref bean="OLEEResourceRecordView-InstanceSelectionPopUp"/>
+                <ref bean="OLEEResourceRecordView-InstanceDetailPopUp"/>
+                <ref bean="OLEEResourceRecordView-GokbPopUp"/>
+                <!--<ref bean="OLEEResourceRecordView-LinkInstanceFlag"/>-->
+                <ref bean="OLEEResourceRecordView-InstanceId"/>
+                <ref bean="OLEEResourceRecordView-BibId"/>
+                <ref bean="OLEEResourceRecordView-InstanceDetails"/>
+                <ref bean="OLEEResourceRecordView-coverageFlag"/>
+                <ref bean="OLEEResourceRecordView-perpetualAccessFlag"/>
+                <ref bean="OLEEResourceRecordView-eInstanceFlag"/>
+                <ref bean="OLEEResourceRecordView-CovStartDate"/>
+                <ref bean="OLEEResourceRecordView-CovEndDate"/>
+                <ref bean="OLEEResourceRecordView-PerAccStartDate"/>
+                <ref bean="OLEEResourceRecordView-PerAccEndDate"/>
+                <bean id="hdnRefreshDefaultDate" parent="Uif-SecondaryActionButton-Small" p:methodToCall="refreshDefaultDate" p:hidden="true"  />
+                <ref bean="OLEEResourceRecordView-CreateChildE-ResourcePopUp"/>
+                <ref bean="OLEEResourceRecordView-Url"/>
+                <ref bean="OLEEResourceRecordView-Instance"/>
+                <ref bean="OLEEResourceRecordView-DeleteRelatedInstancesPopUp"/>
+                <ref bean="OLEEResourceRecordView-DeleteRelatedInstancesInfoPopUp"/>
+                <ref bean="EResourceInstance_ManageGoKbPopup"/>
+                <!--<bean id="OLEEResourceRecordView-Editor" parent="Uif-LinkField" p:hidden="true" p:target="_blank" p:style="font-weight:bold;text-align:left;" p:fieldLabel.renderColon="false" p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=marc&amp;editable=true" p:linkText="Editor" p:label="Editor" p:labelPlacement="TOP" />-->
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordView-InstanceLink_Row1" parent="Uif-Disclosure-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalBoxSection" p:style="float:left;margin-left:17em">
+                    <property name="items">
+                        <list>
+
+                            <bean id="CreateInstance-button" parent="Uif-PrimaryActionButton"
+                                  p:ajaxSubmit="true"
+                                  p:methodToCall="createInstance" p:actionLabel="Add OLE Instance"
+                                  p:performClientSideValidation="true"
+                                  p:successCallback="instance()"
+                                  p:render="@{!(document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.final) }"/>
+
+                            <bean id="CreateChildEresource-button" parent="Uif-PrimaryActionButton"
+                                  p:style="float:left;margin-left:3em" p:ajaxSubmit="true"
+                                  p:render="@{!(document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.final)}"
+                                  p:actionScript="displayChildEresourcePopup();" p:actionLabel="Create Child E-Resource"/>
+
+                            <bean id="GokbConfig-button" parent="Uif-PrimaryActionButton"
+                                  p:style="float:left;margin-left:3em" p:render="@{document.gokbIdentifier ne null}"
+                                  p:actionScript="displayPopup();" p:actionLabel="GOKb Configuration"/>
+
+                            <bean id="Synchronize-Gokb-button" parent="Uif-PrimaryActionButton"
+                                  p:style="float:left;margin-left:3em"
+                                  p:methodToCall="synchronizeWithGokb" p:actionLabel="Synchronize with GOKb"
+                                  p:render="@{document.gokbIdentifier ne null}"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="OLEEResourceRecordView-InstanceLink_Row2" parent="Uif-Disclosure-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalBoxSection" p:style="float:left;margin-left:28em">
+                    <property name="items">
+                        <list>
+                            <bean id="SaveInstance-button" parent="Uif-PrimaryActionButton"
+                                  p:ajaxSubmit="true"
+                                  p:methodToCall="save"
+                                  p:actionLabel="save" p:performClientSideValidation="true" p:successCallback="displayLink();"
+                                  p:render="@{!(document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.final)}"/>
+                            <bean id="DeleteInstance-Button" parent="Uif-PrimaryActionButton"
+                                  p:style="float:left;margin-left:3em"
+                                  p:actionScript="displayDialogWindow('div#OLEEResourceRecordView-DeleteRelatedInstancesPopUp')"
+                                  p:actionLabel="Delete Related Instances"
+                                  p:render="@{!(document.documentHeader.workflowDocument.initiated) and (document.oleERSInstances ne null)}"
+                                  p:componentSecurity.performActionAuthz="true" p:actionEvent="deleteInstance"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordView-InstanceDefault" parent="Uif-VerticalBoxSection" >
+        <property name="items">
+            <list>
+                <ref bean="OLEEResourceRecordView-DefaultCoverage"/>
+                <ref bean="OLEEResourceRecordView-DefaultPerpetualAccess"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="OLEEResourceRecordView-DefaultCoverage" parent="Uif-HorizontalBoxSection" >
+        <property name="items">
+            <list>
+                <bean id="defaultCoverageView" parent="Uif-DataField" p:propertyName="defaultCoverageView" p:label="Default Coverage"/>
+                <bean id="defaultCoverage-button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:15em" p:ajaxSubmit="true" p:methodToCall="editDefaultCoverage" p:actionLabel="Edit" p:performClientSideValidation="true" p:actionImagePlacement="LEFT" p:successCallback="defaultCoverage()" p:render="@{!(document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.final)}"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordView-DefaultPerpetualAccess" parent="Uif-HorizontalBoxSection" >
+        <property name="items">
+            <list>
+                <bean id="defaultPerpetualAccessView" parent="Uif-DataField" p:propertyName="defaultPerpetualAccessView" p:label="Default Perpetual Access"/>
+                <bean id="defaultPerpetualAccess-button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:10em" p:ajaxSubmit="true" p:methodToCall="editDefaultPerpetualAccess" p:actionLabel="Edit" p:performClientSideValidation="true" p:actionImagePlacement="LEFT" p:successCallback="defaultPerpetualAccess()" p:render="@{!(document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.final)}"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordView-GokbPopUp" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="OLEEResourceRecordView-GokbConfigSection" parent="Uif-HorizontalBoxSection">
+                    <property name="headerText" value="Select a GOkb Config option: " />
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:propertyName="gokbconfig" p:label=""
+                                  p:defaultValue="Sync">
+                                <property name="control">
+                                    <bean parent="Uif-VerticalRadioControl">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="Sync" p:value="&lt;b&gt;Sync&lt;/b&gt;&lt;br&gt; This option will keep the E-Instance record associatted with this E-Resource exactly in sync with the TIPP's associted with the GOKb package.E-Instance will be created and deleted automaticallly. you will have the option to review these changes on the Review Dashboard Change Log."/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="Review" p:value="&lt;b&gt;Review&lt;/b&gt;&lt;br&gt; This option will provide notifications of added, deleted and retired TIPP's associated with the GOKb package that  corresponds to this E-Resource. You will be able to review these changes on the To-Do tab of the Review DashBoard."/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="profile" p:label="GOKb Import Profile" p:optionsFinderClass="org.kuali.ole.select.keyvalue.OLEGOKbProfileKeyValueFinder">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:disabled="true"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="gokbProfile" p:label="Profile" p:optionsFinderClass="org.kuali.ole.select.keyvalue.OLEGOKbProfileKeyValueFinder">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl"/>
+                                </property>
+                            </bean>
+                            <bean id="Cancel-button" parent="Uif-PrimaryActionButton"
+                                  p:style="float:left;margin-left:20em" p:ajaxSubmit="true"
+                                  p:methodToCall="closePopup" p:actionLabel="Cancel" p:successCallback="closeDisplayPopUp()"/>
+                            <bean id="Save-button" parent="Uif-PrimaryActionButton"
+                                  p:style="float:left;margin-left:5em"
+                                  p:methodToCall="saveGokbConfig"
+                                  p:actionLabel="Save" p:ajaxSubmit="true"  p:successCallback="closeDisplayPopUp()"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordView-InstanceDetailPopUp" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <ref bean="OLEEResourceRecordView-ErrorMessage"/>
+                            <ref bean="OLEEResourceRecordView-Coverage"/>
+                            <ref bean="OLEEResourceRecordView-PerpetualAccess"/>
+                            <bean parent="Uif-HorizontalBoxSection">
+                                <property name="items">
+                                    <list>
+                            <bean id="SaveCoverageOrPerpetualAccDate-button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em" p:ajaxSubmit="true" p:methodToCall="save" p:actionLabel="save" p:performClientSideValidation="true" p:actionImagePlacement="RIGHT" p:successCallback="saveCoverageOrPerpetualAccess()"/>
+                            <bean id="CloseCoverageOrPerpetualAccDate-button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em" p:ajaxSubmit="true" p:methodToCall="closeCoverageOrPerpetualAccessDate" p:actionLabel="close" p:performClientSideValidation="true" p:actionImagePlacement="RIGHT" p:successCallback="closeInstanceDate()"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordView-ErrorMessage" parent="Uif-VerticalBoxSubSection">
+        <property name="items">
+            <list>
+                <bean id="defaultCovStartDateErrorMessage" parent="Uif-MessageField" p:messageText="@{defaultCovStartDateErrorMessage}" p:cssClasses="messageClass"/>
+                <bean id="defaultCovEndDateErrorMessage" parent="Uif-MessageField" p:messageText="@{defaultCovEndDateErrorMessage}" p:cssClasses="messageClass"/>
+                <bean id="defaultPerAccStartDateErrorMessage" parent="Uif-MessageField" p:messageText="@{defaultPerAccStartDateErrorMessage}" p:cssClasses="messageClass"/>
+                <bean id="defaultPerAccEndDateErrorMessage" parent="Uif-MessageField" p:messageText="@{defaultPerAccEndDateErrorMessage}" p:cssClasses="messageClass"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordView-Coverage" parent="Uif-HorizontalBoxSection" p:render="@{coverageFlag}">
+        <property name="headerText" value="Coverage"/>
+        <property name="items">
+            <list>
+                <bean id="default-Coverage-Date" parent="Uif-InputField" p:propertyName="oleERSInstance.covStartDate" p:label="Start Date" p:render="@{coverageFlag}">
+                    <property name="control">
+                        <bean parent="Uif-DateControl">
+                            <property name="datePicker.templateOptions">
+                                <map>
+                                    <entry key="showOn" value="button"/>
+                                    <entry key="constrainInput" value="false"/>
+                                    <entry key="buttonImage" value="@{#ThemeImages}cal.gif"/>
+                                    <entry key="buttonImageOnly" value="true"/>
+                                    <entry key="showAnim" value="fadeIn"/>
+                                    <entry key="showButtonPanel" value="true"/>
+                                    <entry key="changeMonth" value="true"/>
+                                    <entry key="changeYear" value="true"/>
+                                    <entry key="numberOfMonths" value="1"/>
+                                </map>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="default-coverageStartVolume" parent="Uif-InputField" p:propertyName="oleERSInstance.covStartVolume" p:label="Start Volume" p:render="@{coverageFlag}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" p:maxLength="30"/>
+                    </property>
+                </bean>
+                <bean id="default-coverageStartIssue" parent="Uif-InputField" p:propertyName="oleERSInstance.covStartIssue" p:label="Start Issue" p:render="@{coverageFlag}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" p:maxLength="30"/>
+                    </property>
+                </bean>
+                <bean id="default-coverageEndDate" parent="Uif-InputField" p:propertyName="oleERSInstance.covEndDate" p:label="End Date" p:render="@{coverageFlag}">
+                    <property name="control">
+                        <bean parent="Uif-DateControl">
+                            <property name="datePicker.templateOptions">
+                                <map>
+                                    <entry key="showOn" value="button"/>
+                                    <entry key="constrainInput" value="false"/>
+                                    <entry key="buttonImage" value="@{#ThemeImages}cal.gif"/>
+                                    <entry key="buttonImageOnly" value="true"/>
+                                    <entry key="showAnim" value="fadeIn"/>
+                                    <entry key="showButtonPanel" value="true"/>
+                                    <entry key="changeMonth" value="true"/>
+                                    <entry key="changeYear" value="true"/>
+                                    <entry key="numberOfMonths" value="1"/>
+                                </map>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="default-coverageEndVolume" parent="Uif-InputField" p:propertyName="oleERSInstance.covEndVolume" p:label="End Volume" p:render="@{coverageFlag}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" p:maxLength="30"/>
+                    </property>
+                </bean>
+                <bean id="default-coverageEndIssue" parent="Uif-InputField" p:propertyName="oleERSInstance.covEndIssue" p:label="End Issue" p:render="@{coverageFlag}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" p:maxLength="30"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordView-PerpetualAccess" parent="Uif-HorizontalBoxSection" p:render="@{perpetualAccessFlag}">
+    <property name="headerText" value="PerpetualAccess"/>
+    <property name="items">
+    <list>
+        <bean id="defaultPerpetual-Date" parent="Uif-InputField" p:propertyName="oleERSInstance.perpetualAccStartDate" p:label="Start Date" p:render="@{perpetualAccessFlag}">
+            <property name="control">
+                <bean parent="Uif-DateControl">
+                    <property name="datePicker.templateOptions">
+                        <map>
+                            <entry key="showOn" value="button"/>
+                            <entry key="constrainInput" value="false"/>
+                            <entry key="buttonImage" value="@{#ThemeImages}cal.gif"/>
+                            <entry key="buttonImageOnly" value="true"/>
+                            <entry key="showAnim" value="fadeIn"/>
+                            <entry key="showButtonPanel" value="true"/>
+                            <entry key="changeMonth" value="true"/>
+                            <entry key="changeYear" value="true"/>
+                            <entry key="numberOfMonths" value="1"/>
+                        </map>
+                    </property>
+                </bean>
+            </property>
+        </bean>
+        <bean id="default-perpetualAccessStartVolume" parent="Uif-InputField" p:propertyName="oleERSInstance.perpetualAccStartVolume" p:label="Start Volume" p:render="@{perpetualAccessFlag}">
+            <property name="control">
+                <bean parent="Uif-TextControl" p:size="10" p:maxLength="30"/>
+            </property>
+        </bean>
+        <bean id="default-perpetualAccessStartIssue" parent="Uif-InputField" p:propertyName="oleERSInstance.perpetualAccStartIssue" p:label="Start Issue" p:render="@{perpetualAccessFlag}">
+            <property name="control">
+                <bean parent="Uif-TextControl" p:size="10" p:maxLength="30"/>
+            </property>
+        </bean>
+        <bean id="default-perpetualAccessEndDate" parent="Uif-InputField" p:propertyName="oleERSInstance.perpetualAccEndDate" p:label="End Date" p:render="@{perpetualAccessFlag}">
+            <property name="control">
+                <bean parent="Uif-DateControl">
+                    <property name="datePicker.templateOptions">
+                        <map>
+                            <entry key="showOn" value="button"/>
+                            <entry key="constrainInput" value="false"/>
+                            <entry key="buttonImage" value="@{#ThemeImages}cal.gif"/>
+                            <entry key="buttonImageOnly" value="true"/>
+                            <entry key="showAnim" value="fadeIn"/>
+                            <entry key="showButtonPanel" value="true"/>
+                            <entry key="changeMonth" value="true"/>
+                            <entry key="changeYear" value="true"/>
+                            <entry key="numberOfMonths" value="1"/>
+                        </map>
+                    </property>
+                </bean>
+            </property>
+        </bean>
+        <bean id="default-perpetualAccessEndVolume" parent="Uif-InputField" p:propertyName="oleERSInstance.perpetualAccEndVolume" p:label="End Volume" p:render="@{perpetualAccessFlag}">
+            <property name="control">
+                <bean parent="Uif-TextControl" p:size="10" p:maxLength="30"/>
+            </property>
+        </bean>
+        <bean id="default-perpetualAccessEndIssue" parent="Uif-InputField" p:propertyName="oleERSInstance.perpetualAccEndIssue" p:label="End Issue" p:render="@{perpetualAccessFlag}">
+            <property name="control">
+                <bean parent="Uif-TextControl" p:size="10" p:maxLength="30"/>
+            </property>
+        </bean>
+    </list>
+    </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordView-coverageFlag" parent="Uif-InputField" p:propertyName="coverageFlag" p:hidden="true" >
+        <property name="bindingInfo.bindToForm" value="true"/>
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordView-perpetualAccessFlag" parent="Uif-InputField" p:propertyName="perpetualAccessFlag" p:hidden="true" >
+        <property name="bindingInfo.bindToForm" value="true"/>
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordView-eInstanceFlag" parent="Uif-InputField" p:propertyName="eInstanceFlag" p:hidden="true" >
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordView-CovStartDate" parent="Uif-InputField" p:propertyName="covStartDate" p:hidden="true" >
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordView-CovEndDate" parent="Uif-InputField" p:propertyName="covEndDate" p:hidden="true" >
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordView-PerAccStartDate" parent="Uif-InputField" p:propertyName="perAccStartDate" p:hidden="true" >
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordView-PerAccEndDate" parent="Uif-InputField" p:propertyName="perAccEndDate" p:hidden="true" >
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordView-InstanceSelectionPopUp" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean id="selectInstanceId"  parent="Uif-InputField" p:propertyName="selectInstance"  p:onClickScript="instanceLink(@{document.documentNumber},@{document.oleERSIdentifier})" p:render="@{selectFlag}">
+                                <!--<property name="bindingInfo.bindToForm" value="true"/>-->
+                                <property name="control">
+                                    <bean parent="Uif-VerticalRadioControl">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="linkExistingInstance" p:value="Link to existing Instance"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="createNewInstance" p:value="Create new Instance (existing bib)"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="createNewBibEInstance" p:value="Create new Instance (new bib)"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-PrimaryActionButton-Small" p:ajaxSubmit="true" p:methodToCall="closePopup" p:actionLabel="Close" p:actionImagePlacement="LEFT" p:successCallback="closeLinkInstance()" />
+                            <bean id="hdnInstanceBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="linkInstance" p:hidden="true"/>
+                            <ref bean="OLEEResourceRecordView-SelectFlag"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordView-LinkInstanceFlag" parent="Uif-InputField" p:propertyName="linkInstance">
+        <property name="bindingInfo.bindToForm" value="true"/>
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+    <bean id="OLEEResourceRecordView-SelectFlag" parent="Uif-InputField" p:propertyName="selectFlag">
+        <property name="bindingInfo.bindToForm" value="true"/>
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+    <bean id="OLEEResourceRecordView-createNewInstanceFlag" parent="Uif-InputField" p:propertyName="createInstance">
+        <property name="bindingInfo.bindToForm" value="true"/>
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+    <bean id="OLEEResourceRecordView-InstanceId" parent="Uif-InputField" p:propertyName="instanceId" p:label="Instance" p:hidden="true" >
+        <property name="bindingInfo.bindToForm" value="true"/>
+        <property name="quickfinder">
+            <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.select.bo.OLEInstanceSearch"
+                  p:fieldConversions="instanceId:instanceId,bibId:bibId"/>
+        </property>
+        <property name="control">
+            <bean parent="Uif-TextControl" p:size="25" p:maxLength="40" p:disabled="true"/>
+        </property>
+    </bean>
+    <bean id="OLEEResourceRecordView-BibId" parent="Uif-InputField" p:propertyName="bibId">
+        <property name="bindingInfo.bindToForm" value="true"/>
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+    <bean id="OLEEResourceRecordView-Url" parent="Uif-InputField" p:propertyName="url">
+        <property name="bindingInfo.bindToForm" value="true"/>
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordView-Instance" parent="Uif-InputField" p:propertyName="deletedInstance">
+        <property name="bindingInfo.bindToForm" value="true"/>
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordView-InstanceDetails" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="7" >
+        <property name="headerText" value="Instance Details" />
+        <property name="collectionObjectClass" value="org.kuali.ole.select.document.OLEEResourceInstance" />
+        <property name="propertyName" value="eRSInstances" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.richTable.disableTableSort" value="false" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
+                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docFormat=oleml&amp;docType=eInstance&amp;docId=@{#line.instanceId}&amp;bibId=@{#line.bibId}&amp;editable=false"
+                      p:label="Title" p:linkText="@{#line.instanceTitle}"  p:target="_blank" p:render="@{#line.instanceFlag eq 'false'}"/>
+                <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
+                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docFormat=oleml&amp;docType=holdings&amp;docId=@{#line.holdingsId}&amp;instanceId=@{#line.instanceId}&amp;bibId=@{#line.bibId}&amp;editable=false"
+                      p:label="Title" p:linkText="@{#line.instanceTitle}"  p:target="_blank" p:render="@{#line.instanceFlag eq 'true'}"/>
+                <bean id="eResource-Name-Url" parent="Uif-LinkField" p:href="oleERSController?viewId=OLEEResourceRecordView&amp;methodToCall=docHandler&amp;docId=@{#line.eResourceDocNum}&amp;command=displayDocSearchView" p:linkText="@{#line.eResourceName}" p:label="EResource Name"/>
+                <bean id="eResource-ISBN" parent="Uif-DataField" p:propertyName="isbn" p:label="ISBN/ISSN"/>
+                <bean id="eResource-Holdings" parent="Uif-DataField" p:propertyName="instanceHoldings" p:label="Holdings"/>
+                <!--<bean id="eResource-url" parent="Uif-DataField" p:propertyName="url" p:label="URL"/>-->
+                <!--<bean id="eResource-PublicDisplayNote" parent="Uif-DataField" p:propertyName="publicDisplayNote" p:label="Public Display"/>-->
+                <bean id="eResource-url" parent="Uif-DataField" p:propertyName="url" p:label="URL" />
+                <bean id="eResource-publicDisplayNote" parent="Uif-DataField" p:propertyName="publicDisplayNote" p:label="Public Note" />
+                <bean id="eResource-publisher" parent="Uif-DataField" p:propertyName="instancePublisher" p:label="Publisher"/>
+                <bean id="eResource-accessStatus" parent="Uif-DataField" p:propertyName="status" p:label="Access Status"/>
+                <bean id="eResource-subscriptionStatus" parent="Uif-DataField" p:propertyName="subscriptionStatus" p:label="Subscription Status"/>
+                <bean id="eResource-platForm" parent="Uif-LinkField" p:linkText="@{#line.platformName}" p:label="Platform" p:target="_blank" p:href="@{#line.redirectUrl}"/>
+                <!--<bean id="Remove" parent="Uif-LinkField" p:style="font-weight:bold;" p:link.href="@{#line.removeInstance()}"  p:link.linkText="X"  p:target="_blank"  p:label="Remove"/>-->
+                <bean  id="ManageGokbForInstance" parent="Uif-LinkField" p:href="oleERSController?viewId=OLEEResourceManageGOKBPopUp&amp;methodToCall=getManageGOKbDataOnEIns&amp;lineIndex=@{#index}&amp;eResId=@{#line.oleERSIdentifier}" p:label="Manage gokb">
+                    <property name="lightBox">
+                        <bean parent="Uif-LightBox"/>
+                    </property>
+                </bean>
+
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="RemoveLine_button" parent="Uif-PrimaryActionButton-Small" p:methodToCall="removeInstance" p:actionLabel="Remove" p:title="Remove Instance" p:render="@{#line.oleERSDocument.oleERSIdentifier eq document.oleERSIdentifier}"/>
+
+            </list>
+        </property>
+    </bean>
+    <!--<bean id="OLEEResourceRecordView-GoKbSection" parent="Uif-Disclosure-VerticalBoxSection">-->
+       <!--<property name="items">-->
+            <!--<list>-->
+                <!--<bean parent="Uif-GridSection" p:layoutManager.numberOfColumns="1"  >-->
+                    <!--<property name="items">-->
+                        <!--<list>-->
+                            <!--<ref bean="EResourceInstance_ManageGoKbPopup"/>-->
+                        <!--</list>-->
+                    <!--</property>-->
+                <!--</bean>-->
+            <!--</list>-->
+        <!--</property>-->
+    <!--</bean>-->
+
+
+
+    <bean id="OLEEResourceRecordView-CreateChildE-ResourcePopUp" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalBoxSection">
+                    <property name="items">
+                        <list>
+                            <ref bean="OLEEResourceRecordView-E-Resource-Child-InstanceDetails"/>
+                            <bean parent="Uif-HorizontalBoxSection">
+                                <property name="items">
+                                    <list>
+                                        <bean id="Next-button" parent="Uif-PrimaryActionButton"
+                                              p:methodToCall="linkEResourceInstance" p:actionLabel="Next"/>
+                                        <bean parent="Uif-PrimaryActionButton"
+                                              p:ajaxSubmit="true" p:actionScript="closeChildEresourcePopup();"
+                                              p:actionLabel="Cancel"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordView-E-Resource-Child-InstanceDetails" parent="Uif-Disclosure-TableCollectionSection">
+        <property name="headerText" value="Instance Details"/>
+        <property name="collectionObjectClass" value="org.kuali.ole.select.document.OLEEResourceInstance"/>
+        <property name="propertyName" value="oleERSInstances"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.richTable.disableTableSort" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:label="" p:propertyName="select" p:defaultValue="false">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
+                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docFormat=oleml&amp;docType=eInstance&amp;docId=@{#line.instanceId}&amp;bibId=@{#line.bibId}&amp;editable=false"
+                      p:label="Title" p:linkText="@{#line.instanceTitle}" p:target="_blank"
+                      p:render="@{#line.instanceFlag eq 'false'}"/>
+                <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
+                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docFormat=oleml&amp;docType=holdings&amp;docId=@{#line.holdingsId}&amp;instanceId=@{#line.instanceId}&amp;bibId=@{#line.bibId}&amp;editable=false"
+                      p:label="Title" p:linkText="@{#line.instanceTitle}" p:target="_blank"
+                      p:render="@{#line.instanceFlag eq 'true'}"/>
+                <bean parent="Uif-DataField" p:propertyName="isbn" p:label="ISBN/ISSN"/>
+                <bean parent="Uif-DataField" p:propertyName="instancePublisher" p:label="Publisher"/>
+                <bean parent="Uif-DataField" p:propertyName="status" p:label="Status"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordView-DeleteRelatedInstancesPopUp" parent="Uif-VerticalBoxSection">
+        <property name="hidden" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="headerText" value="" />
+                    <property name="items">
+                        <list>
+                            <ref bean="OLEEResourceRecordView-DeleteInstanceDetails"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean id="Delete-button" parent="Uif-SecondaryActionButton-Small"
+                                  p:style="float:left;margin-left:5em"
+                                  p:actionScript="deleteRelatedInstances();"
+                                  p:actionLabel="Delete" p:ajaxSubmit="true" p:successCallback="close()"/>
+                            <bean parent="Uif-SecondaryActionButton-Small"
+                                  p:style="float:left;margin-left:5em"
+                                  p:actionScript="closeDeleteRelatedInstances()"
+                                  p:actionLabel="Cancel" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordView-DeleteRelatedInstancesPermanentPopUp" parent="Uif-HorizontalBoxSection">
+        <property name="hidden" value="true"/>
+        <property name="headerText" value="Warning"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField"
+                      p:messageText="The Selected Instance/E-Instance will be permanently deleted. Press Ok to confirm the deletion." p:style="float:left;margin-left:5em"/>
+                <bean parent="Uif-VerticalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-SecondaryActionButton-Small"
+                                  p:style="float:left;margin-left:5em"
+                                  p:actionScript="close()"
+                                  p:actionLabel="Cancel" />
+                            <bean parent="Uif-SecondaryActionButton-Small"
+                                  p:style="float:left;margin-left:5em"
+                                  p:methodToCall="deleteInstance"
+                                  p:actionLabel="Ok" p:ajaxSubmit="true" p:successCallback="deleteInstance()"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordView-DeleteRelatedInstancesInfoPopUp" parent="Uif-VerticalBoxSection">
+        <property name="hidden" value="true"/>
+        <property name="headerText" value="Instances not deleted"/>
+        <property name="items">
+            <list>
+                <!--<bean parent="Uif-MessageField"
+                      p:messageText="The following instances were not deleted because they have one or more purchase order attached @{deletedInstanceInfo}." p:style="float:left;margin-left:5em"/>-->
+                <ref bean="OLEEResourceRecordView-DeletedInstance"/>
+                <bean parent="Uif-VerticalBoxSection">
+                    <property name="headerText" value="Not Deleted Instance Details"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-MessageField"
+                                  p:messageText="The following instances were not deleted because they have one or more purchase order attached."/>
+                            <ref bean="OLEEResourceRecordView-PurchaseOrderInstanceDetails"/>
+                        </list>
+                    </property>
+                </bean>                
+                <bean parent="Uif-SecondaryActionButton-Small" p:actionScript="closeDeleteInstance()" p:actionLabel="Ok"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordView-DeletedInstance" parent="Uif-Disclosure-TableCollectionSection">
+        <property name="headerText" value="Deleted Instance Details" />
+        <property name="collectionObjectClass" value="org.kuali.ole.select.document.OLEEResourceInstance" />
+        <property name="propertyName" value="deletedInstances" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.richTable.disableTableSort" value="false" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:label="" p:propertyName="select" p:defaultValue="false">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
+                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docFormat=oleml&amp;docType=eInstance&amp;docId=@{#line.instanceId}&amp;bibId=@{#line.bibId}&amp;editable=false"
+                      p:label="Title" p:linkText="@{#line.instanceTitle}"  p:target="_blank" p:render="@{#line.instanceFlag eq 'false'}"/>
+                <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
+                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docFormat=oleml&amp;docType=holdings&amp;docId=@{#line.holdingsId}&amp;instanceId=@{#line.instanceId}&amp;bibId=@{#line.bibId}&amp;editable=false"
+                      p:label="Title" p:linkText="@{#line.instanceTitle}"  p:target="_blank" p:render="@{#line.instanceFlag eq 'true'}"/>
+                <bean parent="Uif-DataField" p:propertyName="isbn" p:label="ISBN"/>
+                <bean parent="Uif-DataField" p:propertyName="instancePublisher" p:label="Publisher"/>
+                <bean parent="Uif-LinkField" p:linkText="@{#line.platformName}" p:label="Platform" p:target="_blank" p:href="@{#line.redirectUrl}"/>
+                <bean parent="Uif-DataField" p:propertyName="status" p:label="Status"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordView-PurchaseOrderInstanceDetails" parent="Uif-Disclosure-TableCollectionSection">
+        <property name="headerText" value="" />
+        <property name="collectionObjectClass" value="org.kuali.ole.select.document.OLEEResourceInstance" />
+        <property name="propertyName" value="purchaseOrderInstances" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.richTable.disableTableSort" value="false" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:label="" p:propertyName="select" p:defaultValue="false">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
+                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docFormat=oleml&amp;docType=eInstance&amp;docId=@{#line.instanceId}&amp;bibId=@{#line.bibId}&amp;editable=false"
+                      p:label="Title" p:linkText="@{#line.instanceTitle}"  p:target="_blank" p:render="@{#line.instanceFlag eq 'false'}"/>
+                <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
+                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docFormat=oleml&amp;docType=holdings&amp;docId=@{#line.holdingsId}&amp;instanceId=@{#line.instanceId}&amp;bibId=@{#line.bibId}&amp;editable=false"
+                      p:label="Title" p:linkText="@{#line.instanceTitle}"  p:target="_blank" p:render="@{#line.instanceFlag eq 'true'}"/>
+                <bean parent="Uif-DataField" p:propertyName="isbn" p:label="ISBN"/>
+                <bean parent="Uif-DataField" p:propertyName="instancePublisher" p:label="Publisher"/>
+                <bean parent="Uif-LinkField" p:linkText="@{#line.platformName}" p:label="Platform" p:target="_blank" p:href="@{#line.redirectUrl}"/>
+                <bean parent="Uif-DataField" p:propertyName="status" p:label="Status"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordView-DeleteInstanceDetails" parent="Uif-Disclosure-TableCollectionSection">
+        <property name="headerText" value="Instance Details" />
+        <property name="collectionObjectClass" value="org.kuali.ole.select.document.OLEEResourceInstance" />
+        <property name="propertyName" value="oleERSInstances" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.richTable.disableTableSort" value="false" />
+        <property name="layoutManager.richTable.templateOptions">
+            <map>
+                <entry key="bFilter" value="true"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:label="" p:propertyName="select" p:defaultValue="false">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
+                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docFormat=oleml&amp;docType=eInstance&amp;docId=@{#line.instanceId}&amp;bibId=@{#line.bibId}&amp;editable=false"
+                      p:label="Title" p:linkText="@{#line.instanceTitle}"  p:target="_blank" p:render="@{#line.instanceFlag eq 'false'}"/>
+                <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
+                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docFormat=oleml&amp;docType=holdings&amp;docId=@{#line.holdingsId}&amp;instanceId=@{#line.instanceId}&amp;bibId=@{#line.bibId}&amp;editable=false"
+                      p:label="Title" p:linkText="@{#line.instanceTitle}"  p:target="_blank" p:render="@{#line.instanceFlag eq 'true'}"/>
+                <bean parent="Uif-DataField" p:propertyName="isbn" p:label="ISBN"/>
+                <bean parent="Uif-DataField" p:propertyName="instancePublisher" p:label="Publisher"/>
+                <bean parent="Uif-LinkField" p:linkText="@{#line.platformName}" p:label="Platform" p:target="_blank" p:href="@{#line.redirectUrl}"/>
+                <bean parent="Uif-DataField" p:propertyName="status" p:label="Status"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

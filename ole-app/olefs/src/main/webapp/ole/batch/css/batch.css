@@ -1,0 +1,60 @@
+.messageClass{
+    color: red;
+    font-size: 20px;
+}
+.dataTables_filter{
+    display: none;
+}
+
+.horizontalLayOutDataType{
+    width: 90px;
+    padding: 0;
+}
+
+.horizontalLayOutField{
+    width: 180px;
+    padding: 0;
+}
+
+div#MaximumPageSizeWindow-HorizontalBoxSection{
+    display:none;
+    background: #DDDDDD;
+    padding: 10px;
+    border: 2px solid #ddd;
+    float: left;
+    width: auto;
+    height: auto;
+    position: fixed;
+    top: 50%; left: 50%;
+    z-index: 99999;
+    box-shadow: 0px 0px 20px #999;
+    -moz-box-shadow: 0px 0px 20px #999;
+    -webkit-box-shadow: 0px 0px 20px #999;
+    border-radius:3px 3px 3px 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+
+div#MessagePopupSectionForInvoiceImport-HorizontalBoxSection{
+    display:none;
+    background: #DDDDDD;
+    padding: 10px;
+    border: 2px solid #ddd;
+    float: left;
+    width: auto;
+    height: auto;
+    position: fixed;
+    top: 50%; left: 50%;
+    z-index: 99999;
+    box-shadow: 0px 0px 20px #999;
+    -moz-box-shadow: 0px 0px 20px #999;
+    -webkit-box-shadow: 0px 0px 20px #999;
+    border-radius:5px 5px 5px 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
+
+
+
+

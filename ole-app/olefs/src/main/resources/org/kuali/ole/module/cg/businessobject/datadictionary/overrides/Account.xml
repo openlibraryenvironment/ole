@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+<!--
+ Copyright 2006-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean parent="DataDictionaryBeanOverride">
+  	<property name="beanName" value="Account-inquiryDefinition" />
+  	<property name="fieldOverrides">
+  		<list>
+  			<bean parent="FieldOverrideForListElementInsert" >
+  				<property name="propertyName" value="inquirySections" />
+				<property name="propertyNameForElementCompare" value="title" />
+  				<property name="element">
+			    	<bean parent="InquirySectionDefinition" p:title="Account Description"/>
+			    </property>
+  				<property name="insertAfter">
+  					<list>
+  					 
+			<!-- 	<ref bean="Account-oleSufficientFundCheck.encumbranceMethod" /> -->
+  			   <!--  Modified to remove the Tabs & Elements of Contracts & Grants, Indirect Cost Recovery for Jira-2341 -->
+			   <!--  <bean parent="InquirySectionDefinition" p:title="Contracts and Grants">
+			          <property name="inquiryFields">
+			            <list>
+			              <bean parent="FieldDefinition" p:attributeName="contractControlFinCoaCode"/>
+			              <bean parent="FieldDefinition" p:attributeName="contractControlAccountNumber"/>
+			              <bean parent="FieldDefinition" p:attributeName="acctIndirectCostRcvyTypeCd"/>
+			              <bean parent="FieldDefinition" p:attributeName="financialIcrSeriesIdentifier"/>
+			              <bean parent="FieldDefinition" p:attributeName="accountCfdaNumber"/>
+			              <bean parent="FieldDefinition" p:attributeName="contractsAndGrantsAccountResponsibilityId"/>
+                  </list>
+                </property>
+			        </bean>
+              -->
+              <!--  
+               <bean parent="InquirySectionDefinition" p:title="Indirect Cost Recovery Accounts">
+                <property name="inquiryFields">
+                  <list>
+                    <ref bean="Account-inquiryCollectionDefinition-ContractsGrants-indirectCostRecoveryAccounts" />
+                  </list>
+                </property>
+              </bean> -->
+              <!--  Modified for adding Legacy Fund Code and Stewardship Requirement tab in the view  screen for the jira - 2422 -->
+              <bean parent="InquirySectionDefinition" p:title="Stewardship Requirements">
+                <property name="inquiryFields">
+                  <list>
+                    <ref bean="Account-inquiryCollectionDefinition-oleStewardshipRequirement" />
+                  </list>
+                </property>
+            <!--   <property name="attributes">
+			<list>
+				<ref bean="Account-oleSufficientFundCheck.encumbranceMethod" />
+				 <ref bean="Account-oleSufficientFundCheck.encumbranceConstraintType" />
+				<ref bean="Account-oleSufficientFundCheck.encumbranceAmount" />
+				<ref bean="Account-oleSufficientFundCheck.encumbranceType" />
+				<ref bean="Account-oleSufficientFundCheck.expenseMethod" />
+				<ref bean="Account-oleSufficientFundCheck.expenseConstraintType" />
+				<ref bean="Account-oleSufficientFundCheck.expenseAmount" />
+				<ref bean="Account-oleSufficientFundCheck.expenseType" /> 
+			</list>
+		</property> -->
+                
+              </bean>
+              
+ <!--              <bean parent="InquirySectionDefinition" p:title="Sufficient Funds Check">
+                <property name="inquiryFields">
+                  <list>
+                    <ref bean="Account-inquiryCollectionDefinition-oleSufficientFundCheck" />
+                  </list>
+                </property>                
+              </bean> -->
+              
+              <bean parent="InquirySectionDefinition" p:title="Legacy Fund Codes">
+                <property name="inquiryFields">
+                  <list>
+                    <ref bean="Account-inquiryCollectionDefinition-oleLegacyFundCode" />
+                  </list>
+                </property>
+                
+              </bean>
+              
+              <!-- 
+	        
+			        <bean parent="InquirySectionDefinition" p:title="Awards">
+			          <property name="inquiryFields">
+			            <list>
+			              <bean parent="InquiryCollectionDefinition" p:attributeName="awards" p:businessObjectClass="org.kuali.ole.integration.cg.ContractsAndGrantsAccountAwardInformation">
+			                <property name="inquiryFields">
+			                  <list>
+			                    <bean parent="FieldDefinition" p:attributeName="proposalNumber"/>
+			                    <bean parent="FieldDefinition" p:attributeName="projectDirector.name"/>
+			                    <bean parent="FieldDefinition" p:attributeName="award.proposal.proposalFederalPassThroughIndicator"/>
+			                    <bean parent="FieldDefinition" p:attributeName="award.proposal.federalPassThroughAgencyNumber"/>
+			                    <bean parent="FieldDefinition" p:attributeName="award.proposal.grantNumber"/>
+			                    <bean parent="FieldDefinition" p:attributeName="award.agency.reportingName"/>
+			                  </list>
+			                </property>
+			              </bean>
+			            </list>
+			          </property>
+			        </bean>
+			        --></list>
+			     </property>
+			</bean>
+  		</list>
+  	</property>
+  </bean>
+  
+  <!--  Modified for adding Legacy Fund Code and Stewardship Requirement tab in the view  screen for the jira - 2422 -->
+  <!--
+  
+  <bean 
+    id="Account-inquiryCollectionDefinition-ContractsGrants-indirectCostRecoveryAccounts" 
+    parent="Account-inquiryCollectionDefinition-ContractsGrants-indirectCostRecoveryAccounts-parentBean" />
+  <bean 
+    id="Account-inquiryCollectionDefinition-ContractsGrants-indirectCostRecoveryAccounts-parentBean"
+    parent="InquiryCollectionDefinition" abstract="true">
+    <property name="attributeName" value="indirectCostRecoveryAccounts" />
+    <property name="businessObjectClass"
+      value="org.kuali.ole.coa.businessobject.IndirectCostRecoveryAccount" />
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="indirectCostRecoveryFinCoaCode" />
+        <bean parent="FieldDefinition" p:attributeName="indirectCostRecoveryAccountNumber" />
+        <bean parent="FieldDefinition" p:attributeName="accountLinePercent" />
+        <bean parent="FieldDefinition" p:attributeName="active" />
+      </list>
+    </property>
+    <property name="summaryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="indirectCostRecoveryFinCoaCode" />
+        <bean parent="FieldDefinition" p:attributeName="indirectCostRecoveryAccountNumber" />
+      </list>
+    </property>
+  </bean>
+</beans>
+-->
+
+<!--  Modified for adding Legacy Fund Code and Stewardship Requirement tab in the view  screen for the jira - 2422 -->
+<bean 
+    id="Account-inquiryCollectionDefinition-oleLegacyFundCode" 
+    parent="Account-inquiryCollectionDefinition-oleLegacyFundCode-parentBean" />
+  <bean 
+    id="Account-inquiryCollectionDefinition-oleLegacyFundCode-parentBean"
+    parent="InquiryCollectionDefinition" abstract="true">
+    <property name="attributeName" value="oleLegacyFundCodes" />
+    <property name="businessObjectClass"
+      value="org.kuali.ole.select.businessobject.OleLegacyFundCode" /> 
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="legacyFundCode" />
+        <bean parent="FieldDefinition" p:attributeName="legacyFundCodeNote"/>
+      </list>
+    </property>
+    <property name="summaryFields">
+      <list>
+         <bean parent="FieldDefinition" p:attributeName="legacyFundCode" />
+        <bean parent="FieldDefinition" p:attributeName="legacyFundCodeNote" />
+      </list>
+    </property> 
+  </bean>
+  
+  <bean 
+    id="Account-inquiryCollectionDefinition-oleStewardshipRequirement" 
+    parent="Account-inquiryCollectionDefinition-oleStewardshipRequirement-parentBean" />
+  <bean 
+    id="Account-inquiryCollectionDefinition-oleStewardshipRequirement-parentBean"
+    parent="InquiryCollectionDefinition" abstract="true">
+    <property name="attributeName" value="oleStewardshipRequirements" />
+    <property name="businessObjectClass"
+      value=" org.kuali.ole.select.businessobject.OleStewardshipRequirement" />
+     <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="stewardshipTypeCode" />
+        <bean parent="FieldDefinition" p:attributeName="stewardshipNote" />
+      </list>
+    </property>
+     <property name="summaryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="stewardshipTypeCode" />
+        <bean parent="FieldDefinition" p:attributeName="stewardshipNote" />
+      </list>
+    </property>
+  </bean>
+  
+  
+  
+  
+  
+  
+    <bean 
+    id="Account-inquiryCollectionDefinition-oleSufficientFundCheck" 
+    parent="Account-inquiryCollectionDefinition-oleSufficientFundCheck-parentBean" />
+  <bean 
+    id="Account-inquiryCollectionDefinition-oleSufficientFundCheck-parentBean"
+    parent="InquiryCollectionDefinition" abstract="true">
+    <!-- <property name="attributeName" value="oleSufficientFundCheckList" /> -->
+    <property name="attributeName" value="oleSufficientFundCheck" />
+    <property name="businessObjectClass"
+      value=" org.kuali.ole.select.businessobject.OleSufficientFundCheck" />
+     <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="accountSufficientFundsCode" />
+      </list>
+    </property>
+     <property name="summaryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="accountSufficientFundsCode" />
+      </list>
+    </property>
+  </bean>
+</beans>

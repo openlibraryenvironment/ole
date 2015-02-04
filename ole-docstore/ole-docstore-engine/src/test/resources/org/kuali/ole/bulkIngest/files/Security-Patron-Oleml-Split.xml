@@ -1,0 +1,2951 @@
+<request>
+    <user>chuntley</user>
+    <operation>bulkIngest</operation>
+    <requestDocuments>
+        <ingestDocument id="1" category="security" type="patron" format="oleml">
+            <content><![CDATA[<op:patronGroup xmlns:op="http://ole.kuali.org/standards/ole-patron">
+   <op:patron>
+      <op:recordNumber>00100055U</op:recordNumber>
+      <op:activeDates>
+         <op:beginDate>2007-01-01</op:beginDate>
+      </op:activeDates>
+      <op:purgeDate>2015-01-01</op:purgeDate>
+
+      <op:name>
+         <op:first>Stephanie</op:first>
+         <op:middle>A</op:middle>
+         <op:surname>Sample</op:surname>
+      </op:name>
+      <op:borrowerType>STUDENT</op:borrowerType>
+      <op:barcode>
+
+         <op:barcodeNumber>6010570003043558</op:barcodeNumber>
+         <op:status>Active</op:status>
+         <op:statusDate>2011-07-01T12:12:09</op:statusDate>
+      </op:barcode>
+      <op:addresses>
+         <op:address primary="true">
+            <op:type>Home</op:type>
+
+            <op:postalAddress>
+               <op:addressLine>999 N Monticello</op:addressLine>
+               <op:addressLine/>
+               <op:city>Chicago</op:city>
+               <op:stateProvince>IL</op:stateProvince>
+               <op:postalCode>60647</op:postalCode>
+            </op:postalAddress>
+
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+            <op:type>Campus</op:type>
+            <op:postalAddress>
+               <op:addressLine>99 N. MONTICELLO</op:addressLine>
+
+               <op:addressLine/>
+               <op:city>CHICAGO</op:city>
+               <op:stateProvince>IL</op:stateProvince>
+               <op:postalCode>60647</op:postalCode>
+            </op:postalAddress>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+            <op:type>Home</op:type>
+            <op:emailAddress>
+               <op:email>sample55@uchicago.edu</op:email>
+            </op:emailAddress>
+            <op:activeDates>
+
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+            <op:type>Home</op:type>
+            <op:telephoneNumber>
+               <op:phoneNumber>7737269999</op:phoneNumber>
+
+               <op:acceptsTextMessage>false</op:acceptsTextMessage>
+            </op:telephoneNumber>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+      </op:addresses>
+      <op:isGenerallyBlocked>false</op:isGenerallyBlocked>
+
+      <op:patronLevelPolicies>
+         <op:hasDeliveryPrivilege>false</op:hasDeliveryPrivilege>
+         <op:hasPagingPrivilege>false</op:hasPagingPrivilege>
+         <op:receivesCourtesyNotice>false</op:receivesCourtesyNotice>
+      </op:patronLevelPolicies>
+      <op:affiliations>
+         <op:affiliation>
+
+            <op:type>LDAPAffiliation</op:type>
+            <op:value>"student,staff"</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StudentStatus</op:type>
+            <op:value>1</op:value>
+         </op:affiliation>
+
+         <op:affiliation>
+            <op:type>StudentDivision</op:type>
+            <op:value>COL</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StudentDepartment</op:type>
+            <op:value>POLITICAL SCIENCE</op:value>
+
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StudyProgram</op:type>
+            <op:value>UNDERGRADUATE</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>Reg_SSS</op:type>
+
+            <op:value>College Full-Time Default</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>LastRegisteredQtr</op:type>
+            <op:value>2012/01</op:value>
+         </op:affiliation>
+         <op:affiliation>
+
+            <op:type>RegStatus</op:type>
+            <op:value>R</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StaffAffiliation</op:type>
+            <op:value>STF</op:value>
+         </op:affiliation>
+
+         <op:affiliation>
+            <op:type>StaffLibraryPrivilege</op:type>
+            <op:value>NONE</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StaffDivision</op:type>
+            <op:value>Library</op:value>
+
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StaffDepartment</op:type>
+            <op:value>Library</op:value>
+         </op:affiliation>
+      </op:affiliations>
+      <op:identifications>
+         <op:identification>
+
+            <op:identificationType>RFIDNumber</op:identificationType>
+            <op:identifier>54514</op:identifier>
+         </op:identification>
+         <op:identification>
+            <op:identificationType>LibNum</op:identificationType>
+            <op:identifier>3427283</op:identifier>
+         </op:identification>
+
+         <op:identification>
+            <op:identificationType>StudentID</op:identificationType>
+            <op:identifier>397647</op:identifier>
+         </op:identification>
+         <op:identification>
+            <op:identificationType>AlumniID</op:identificationType>
+            <op:identifier>1000210353</op:identifier>
+
+         </op:identification>
+      </op:identifications>
+   </op:patron>
+    </op:patronGroup>
+]]>
+            </content>
+        </ingestDocument>
+        <ingestDocument id="2" category="security" type="patron" format="oleml">
+            <content><![CDATA[<op:patronGroup xmlns:op="http://ole.kuali.org/standards/ole-patron">
+           <op:patron>
+      <op:recordNumber>00100245N</op:recordNumber>
+      <op:activeDates>
+         <op:beginDate>2007-01-01</op:beginDate>
+      </op:activeDates>
+
+      <op:purgeDate>2015-01-01</op:purgeDate>
+      <op:name>
+         <op:first>Mary</op:first>
+         <op:middle>Jean</op:middle>
+         <op:surname>Mample</op:surname>
+      </op:name>
+      <op:borrowerType>FACULTY/ACADEMIC</op:borrowerType>
+
+      <op:barcode>
+         <op:barcodeNumber>6010570001520755</op:barcodeNumber>
+         <op:status>Active</op:status>
+         <op:statusDate>2011-07-01T12:12:09</op:statusDate>
+      </op:barcode>
+      <op:addresses>
+         <op:address primary="true">
+
+            <op:type>Home</op:type>
+            <op:postalAddress>
+               <op:addressLine>999 KENNELLEY CT</op:addressLine>
+               <op:addressLine/>
+               <op:city>LINCOLN</op:city>
+               <op:stateProvince>NE</op:stateProvince>
+               <op:postalCode>68516</op:postalCode>
+
+            </op:postalAddress>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+            <op:type>Campus</op:type>
+            <op:postalAddress>
+
+               <op:addressLine/>
+               <op:addressLine/>
+               <op:city/>
+               <op:stateProvince/>
+               <op:postalCode/>
+            </op:postalAddress>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+            <op:type>Home</op:type>
+            <op:emailAddress>
+               <op:email>mample45@uchicago.edu</op:email>
+            </op:emailAddress>
+            <op:activeDates>
+
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+            <op:type>Home</op:type>
+            <op:telephoneNumber>
+               <op:phoneNumber>4024359999</op:phoneNumber>
+
+               <op:acceptsTextMessage>false</op:acceptsTextMessage>
+            </op:telephoneNumber>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+      </op:addresses>
+      <op:isGenerallyBlocked>false</op:isGenerallyBlocked>
+
+      <op:patronLevelPolicies>
+         <op:hasDeliveryPrivilege>false</op:hasDeliveryPrivilege>
+         <op:hasPagingPrivilege>false</op:hasPagingPrivilege>
+         <op:receivesCourtesyNotice>false</op:receivesCourtesyNotice>
+      </op:patronLevelPolicies>
+      <op:affiliations>
+         <op:affiliation>
+
+            <op:type>LDAPAffiliation</op:type>
+            <op:value>emeritus</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StaffAffiliation</op:type>
+            <op:value>FAC</op:value>
+         </op:affiliation>
+
+         <op:affiliation>
+            <op:type>StaffLibraryPrivilege</op:type>
+            <op:value>INDEF</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StaffDivision</op:type>
+            <op:value>Campus &amp; Student Life</op:value>
+
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StaffDepartment</op:type>
+            <op:value>Physical Education &amp; Athletics</op:value>
+         </op:affiliation>
+      </op:affiliations>
+      <op:identifications>
+
+         <op:identification>
+            <op:identificationType>LibNum</op:identificationType>
+            <op:identifier>1342924</op:identifier>
+         </op:identification>
+      </op:identifications>
+   </op:patron>
+
+</op:patronGroup>
+]]>
+            </content>
+        </ingestDocument>
+        <ingestDocument id="3" category="security" type="patron" format="oleml">
+            <content><![CDATA[<op:patronGroup xmlns:op="http://ole.kuali.org/standards/ole-patron">
+ <op:patron>
+      <op:recordNumber>00101386C</op:recordNumber>
+
+      <op:activeDates>
+         <op:beginDate>2007-01-01</op:beginDate>
+      </op:activeDates>
+      <op:purgeDate>2015-01-01</op:purgeDate>
+      <op:name>
+         <op:first>Luis</op:first>
+         <op:middle/>
+
+         <op:surname>Gample</op:surname>
+      </op:name>
+      <op:borrowerType>CPS-CSP</op:borrowerType>
+      <op:barcode>
+         <op:barcodeNumber>6010570002812540</op:barcodeNumber>
+         <op:status>Active</op:status>
+         <op:statusDate>2011-07-01T12:12:09</op:statusDate>
+
+      </op:barcode>
+      <op:addresses>
+         <op:address primary="true">
+            <op:type>Home</op:type>
+            <op:postalAddress>
+               <op:addressLine/>
+               <op:addressLine/>
+               <op:city/>
+
+               <op:stateProvince/>
+               <op:postalCode/>
+            </op:postalAddress>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+
+            <op:type>Campus</op:type>
+            <op:postalAddress>
+               <op:addressLine>99 N LOWELL</op:addressLine>
+               <op:addressLine/>
+               <op:city>CHICAGO</op:city>
+               <op:stateProvince>IL</op:stateProvince>
+               <op:postalCode>60641</op:postalCode>
+
+            </op:postalAddress>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+            <op:type>Home</op:type>
+            <op:emailAddress>
+
+               <op:email>gample86@uchicago.edu</op:email>
+            </op:emailAddress>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+            <op:type>Home</op:type>
+
+            <op:telephoneNumber>
+               <op:phoneNumber/>
+               <op:acceptsTextMessage>false</op:acceptsTextMessage>
+            </op:telephoneNumber>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+
+      </op:addresses>
+      <op:isGenerallyBlocked>false</op:isGenerallyBlocked>
+      <op:patronLevelPolicies>
+         <op:hasDeliveryPrivilege>false</op:hasDeliveryPrivilege>
+         <op:hasPagingPrivilege>false</op:hasPagingPrivilege>
+         <op:receivesCourtesyNotice>false</op:receivesCourtesyNotice>
+      </op:patronLevelPolicies>
+
+      <op:affiliations>
+         <op:affiliation>
+            <op:type>LDAPAffiliation</op:type>
+            <op:value>student</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StudentStatus</op:type>
+
+            <op:value>9</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StudentDivision</op:type>
+            <op:value>SPECIAL</op:value>
+         </op:affiliation>
+         <op:affiliation>
+
+            <op:type>StudyProgram</op:type>
+            <op:value>CPS-COLLEGIATE SCHOLARS PROGRAM (CSP)</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>Reg_SSS</op:type>
+            <op:value>No Credit</op:value>
+         </op:affiliation>
+
+         <op:affiliation>
+            <op:type>LastRegisteredQtr</op:type>
+            <op:value>2012/01</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>RegStatus</op:type>
+            <op:value>R</op:value>
+
+         </op:affiliation>
+      </op:affiliations>
+      <op:identifications>
+         <op:identification>
+            <op:identificationType>RFIDNumber</op:identificationType>
+            <op:identifier>43158</op:identifier>
+         </op:identification>
+         <op:identification>
+
+            <op:identificationType>LibNum</op:identificationType>
+            <op:identifier>3219206</op:identifier>
+         </op:identification>
+         <op:identification>
+            <op:identificationType>StudentID</op:identificationType>
+            <op:identifier>416350</op:identifier>
+         </op:identification>
+
+         <op:identification>
+            <op:identificationType>AlumniID</op:identificationType>
+            <op:identifier>1000265032</op:identifier>
+         </op:identification>
+      </op:identifications>
+   </op:patron>
+</op:patronGroup>
+]]>
+            </content>
+        </ingestDocument>
+        <ingestDocument id="4" category="security" type="patron" format="oleml">
+            <content><![CDATA[<op:patronGroup xmlns:op="http://ole.kuali.org/standards/ole-patron">
+ <op:patron>
+      <op:recordNumber>00101906D</op:recordNumber>
+
+      <op:activeDates>
+         <op:beginDate>2007-01-01</op:beginDate>
+      </op:activeDates>
+      <op:purgeDate>2015-01-01</op:purgeDate>
+      <op:name>
+         <op:first>Andrew</op:first>
+         <op:middle>R</op:middle>
+
+         <op:surname>Jample</op:surname>
+      </op:name>
+      <op:borrowerType>STUDENT</op:borrowerType>
+      <op:barcode>
+         <op:barcodeNumber>6010570001702841</op:barcodeNumber>
+         <op:status>Active</op:status>
+         <op:statusDate>2011-07-01T12:12:09</op:statusDate>
+
+      </op:barcode>
+      <op:addresses>
+         <op:address primary="true">
+            <op:type>Home</op:type>
+            <op:postalAddress>
+               <op:addressLine>999 Goodwin Drive</op:addressLine>
+               <op:addressLine/>
+               <op:city>Plano</op:city>
+
+               <op:stateProvince>TX</op:stateProvince>
+               <op:postalCode>75023</op:postalCode>
+            </op:postalAddress>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+
+         <op:address primary="true">
+            <op:type>Campus</op:type>
+            <op:postalAddress>
+               <op:addressLine>99 S. WELLS ST.</op:addressLine>
+               <op:addressLine>APT. 606</op:addressLine>
+               <op:city>CHICAGO</op:city>
+               <op:stateProvince>IL</op:stateProvince>
+
+               <op:postalCode>60607</op:postalCode>
+            </op:postalAddress>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+            <op:type>Home</op:type>
+
+            <op:emailAddress>
+               <op:email>jample06@uchicago.edu</op:email>
+            </op:emailAddress>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+
+            <op:type>Home</op:type>
+            <op:telephoneNumber>
+               <op:phoneNumber>3123569999</op:phoneNumber>
+               <op:acceptsTextMessage>false</op:acceptsTextMessage>
+            </op:telephoneNumber>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+
+            </op:activeDates>
+         </op:address>
+      </op:addresses>
+      <op:isGenerallyBlocked>false</op:isGenerallyBlocked>
+      <op:patronLevelPolicies>
+         <op:hasDeliveryPrivilege>false</op:hasDeliveryPrivilege>
+         <op:hasPagingPrivilege>false</op:hasPagingPrivilege>
+
+         <op:receivesCourtesyNotice>false</op:receivesCourtesyNotice>
+      </op:patronLevelPolicies>
+      <op:affiliations>
+         <op:affiliation>
+            <op:type>LDAPAffiliation</op:type>
+            <op:value>"student,staff,alum"</op:value>
+         </op:affiliation>
+
+         <op:affiliation>
+            <op:type>StudentStatus</op:type>
+            <op:value>3</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StudentDivision</op:type>
+            <op:value>BSD</op:value>
+
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StudentDepartment</op:type>
+            <op:value>MEDICAL PHYSICS</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StudyProgram</op:type>
+
+            <op:value>MEDICAL PHYSICS</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>Reg_SSS</op:type>
+            <op:value>Doctoral Full-Time</op:value>
+         </op:affiliation>
+         <op:affiliation>
+
+            <op:type>LastRegisteredQtr</op:type>
+            <op:value>2012/01</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>RegStatus</op:type>
+            <op:value>R</op:value>
+         </op:affiliation>
+
+         <op:affiliation>
+            <op:type>StaffAffiliation</op:type>
+            <op:value>STF</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StaffLibraryPrivilege</op:type>
+            <op:value>NONE</op:value>
+
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StaffDivision</op:type>
+            <op:value>Biological Sciences Division</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StaffDepartment</op:type>
+
+            <op:value>Radiology</op:value>
+         </op:affiliation>
+      </op:affiliations>
+      <op:identifications>
+         <op:identification>
+            <op:identificationType>RFIDNumber</op:identificationType>
+            <op:identifier>23839</op:identifier>
+
+         </op:identification>
+         <op:identification>
+            <op:identificationType>LibNum</op:identificationType>
+            <op:identifier>7637923</op:identifier>
+         </op:identification>
+         <op:identification>
+            <op:identificationType>StudentID</op:identificationType>
+
+            <op:identifier>350121</op:identifier>
+         </op:identification>
+         <op:identification>
+            <op:identificationType>AlumniID</op:identificationType>
+            <op:identifier>1000120917</op:identifier>
+         </op:identification>
+      </op:identifications>
+
+   </op:patron>
+</op:patronGroup>
+]]>
+            </content>
+        </ingestDocument>
+        <ingestDocument id="5" category="security" type="patron" format="oleml">
+            <content><![CDATA[<op:patronGroup xmlns:op="http://ole.kuali.org/standards/ole-patron">
+   <op:patron>
+      <op:recordNumber>00100055U</op:recordNumber>
+      <op:activeDates>
+         <op:beginDate>2007-01-01</op:beginDate>
+      </op:activeDates>
+      <op:purgeDate>2015-01-01</op:purgeDate>
+
+      <op:name>
+         <op:first>Stephanie</op:first>
+         <op:middle>A</op:middle>
+         <op:surname>Sample</op:surname>
+      </op:name>
+      <op:borrowerType>STUDENT</op:borrowerType>
+      <op:barcode>
+
+         <op:barcodeNumber>6010570003043558</op:barcodeNumber>
+         <op:status>Active</op:status>
+         <op:statusDate>2011-07-01T12:12:09</op:statusDate>
+      </op:barcode>
+      <op:addresses>
+         <op:address primary="true">
+            <op:type>Home</op:type>
+
+            <op:postalAddress>
+               <op:addressLine>999 N Monticello</op:addressLine>
+               <op:addressLine/>
+               <op:city>Chicago</op:city>
+               <op:stateProvince>IL</op:stateProvince>
+               <op:postalCode>60647</op:postalCode>
+            </op:postalAddress>
+
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+            <op:type>Campus</op:type>
+            <op:postalAddress>
+               <op:addressLine>99 N. MONTICELLO</op:addressLine>
+
+               <op:addressLine/>
+               <op:city>CHICAGO</op:city>
+               <op:stateProvince>IL</op:stateProvince>
+               <op:postalCode>60647</op:postalCode>
+            </op:postalAddress>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+            <op:type>Home</op:type>
+            <op:emailAddress>
+               <op:email>sample55@uchicago.edu</op:email>
+            </op:emailAddress>
+            <op:activeDates>
+
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+            <op:type>Home</op:type>
+            <op:telephoneNumber>
+               <op:phoneNumber>7737269999</op:phoneNumber>
+
+               <op:acceptsTextMessage>false</op:acceptsTextMessage>
+            </op:telephoneNumber>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+      </op:addresses>
+      <op:isGenerallyBlocked>false</op:isGenerallyBlocked>
+
+      <op:patronLevelPolicies>
+         <op:hasDeliveryPrivilege>false</op:hasDeliveryPrivilege>
+         <op:hasPagingPrivilege>false</op:hasPagingPrivilege>
+         <op:receivesCourtesyNotice>false</op:receivesCourtesyNotice>
+      </op:patronLevelPolicies>
+      <op:affiliations>
+         <op:affiliation>
+
+            <op:type>LDAPAffiliation</op:type>
+            <op:value>"student,staff"</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StudentStatus</op:type>
+            <op:value>1</op:value>
+         </op:affiliation>
+
+         <op:affiliation>
+            <op:type>StudentDivision</op:type>
+            <op:value>COL</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StudentDepartment</op:type>
+            <op:value>POLITICAL SCIENCE</op:value>
+
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StudyProgram</op:type>
+            <op:value>UNDERGRADUATE</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>Reg_SSS</op:type>
+
+            <op:value>College Full-Time Default</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>LastRegisteredQtr</op:type>
+            <op:value>2012/01</op:value>
+         </op:affiliation>
+         <op:affiliation>
+
+            <op:type>RegStatus</op:type>
+            <op:value>R</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StaffAffiliation</op:type>
+            <op:value>STF</op:value>
+         </op:affiliation>
+
+         <op:affiliation>
+            <op:type>StaffLibraryPrivilege</op:type>
+            <op:value>NONE</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StaffDivision</op:type>
+            <op:value>Library</op:value>
+
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StaffDepartment</op:type>
+            <op:value>Library</op:value>
+         </op:affiliation>
+      </op:affiliations>
+      <op:identifications>
+         <op:identification>
+
+            <op:identificationType>RFIDNumber</op:identificationType>
+            <op:identifier>54514</op:identifier>
+         </op:identification>
+         <op:identification>
+            <op:identificationType>LibNum</op:identificationType>
+            <op:identifier>3427283</op:identifier>
+         </op:identification>
+
+         <op:identification>
+            <op:identificationType>StudentID</op:identificationType>
+            <op:identifier>397647</op:identifier>
+         </op:identification>
+         <op:identification>
+            <op:identificationType>AlumniID</op:identificationType>
+            <op:identifier>1000210353</op:identifier>
+
+         </op:identification>
+      </op:identifications>
+   </op:patron>
+    </op:patronGroup>
+]]>
+            </content>
+        </ingestDocument>
+        <ingestDocument id="6" category="security" type="patron" format="oleml">
+            <content><![CDATA[<op:patronGroup xmlns:op="http://ole.kuali.org/standards/ole-patron">
+           <op:patron>
+      <op:recordNumber>00100245N</op:recordNumber>
+      <op:activeDates>
+         <op:beginDate>2007-01-01</op:beginDate>
+      </op:activeDates>
+
+      <op:purgeDate>2015-01-01</op:purgeDate>
+      <op:name>
+         <op:first>Mary</op:first>
+         <op:middle>Jean</op:middle>
+         <op:surname>Mample</op:surname>
+      </op:name>
+      <op:borrowerType>FACULTY/ACADEMIC</op:borrowerType>
+
+      <op:barcode>
+         <op:barcodeNumber>6010570001520755</op:barcodeNumber>
+         <op:status>Active</op:status>
+         <op:statusDate>2011-07-01T12:12:09</op:statusDate>
+      </op:barcode>
+      <op:addresses>
+         <op:address primary="true">
+
+            <op:type>Home</op:type>
+            <op:postalAddress>
+               <op:addressLine>999 KENNELLEY CT</op:addressLine>
+               <op:addressLine/>
+               <op:city>LINCOLN</op:city>
+               <op:stateProvince>NE</op:stateProvince>
+               <op:postalCode>68516</op:postalCode>
+
+            </op:postalAddress>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+            <op:type>Campus</op:type>
+            <op:postalAddress>
+
+               <op:addressLine/>
+               <op:addressLine/>
+               <op:city/>
+               <op:stateProvince/>
+               <op:postalCode/>
+            </op:postalAddress>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+            <op:type>Home</op:type>
+            <op:emailAddress>
+               <op:email>mample45@uchicago.edu</op:email>
+            </op:emailAddress>
+            <op:activeDates>
+
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+            <op:type>Home</op:type>
+            <op:telephoneNumber>
+               <op:phoneNumber>4024359999</op:phoneNumber>
+
+               <op:acceptsTextMessage>false</op:acceptsTextMessage>
+            </op:telephoneNumber>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+      </op:addresses>
+      <op:isGenerallyBlocked>false</op:isGenerallyBlocked>
+
+      <op:patronLevelPolicies>
+         <op:hasDeliveryPrivilege>false</op:hasDeliveryPrivilege>
+         <op:hasPagingPrivilege>false</op:hasPagingPrivilege>
+         <op:receivesCourtesyNotice>false</op:receivesCourtesyNotice>
+      </op:patronLevelPolicies>
+      <op:affiliations>
+         <op:affiliation>
+
+            <op:type>LDAPAffiliation</op:type>
+            <op:value>emeritus</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StaffAffiliation</op:type>
+            <op:value>FAC</op:value>
+         </op:affiliation>
+
+         <op:affiliation>
+            <op:type>StaffLibraryPrivilege</op:type>
+            <op:value>INDEF</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StaffDivision</op:type>
+            <op:value>Campus &amp; Student Life</op:value>
+
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StaffDepartment</op:type>
+            <op:value>Physical Education &amp; Athletics</op:value>
+         </op:affiliation>
+      </op:affiliations>
+      <op:identifications>
+
+         <op:identification>
+            <op:identificationType>LibNum</op:identificationType>
+            <op:identifier>1342924</op:identifier>
+         </op:identification>
+      </op:identifications>
+   </op:patron>
+
+</op:patronGroup>
+]]>
+            </content>
+        </ingestDocument>
+        <ingestDocument id="7" category="security" type="patron" format="oleml">
+            <content><![CDATA[<op:patronGroup xmlns:op="http://ole.kuali.org/standards/ole-patron">
+ <op:patron>
+      <op:recordNumber>00101386C</op:recordNumber>
+
+      <op:activeDates>
+         <op:beginDate>2007-01-01</op:beginDate>
+      </op:activeDates>
+      <op:purgeDate>2015-01-01</op:purgeDate>
+      <op:name>
+         <op:first>Luis</op:first>
+         <op:middle/>
+
+         <op:surname>Gample</op:surname>
+      </op:name>
+      <op:borrowerType>CPS-CSP</op:borrowerType>
+      <op:barcode>
+         <op:barcodeNumber>6010570002812540</op:barcodeNumber>
+         <op:status>Active</op:status>
+         <op:statusDate>2011-07-01T12:12:09</op:statusDate>
+
+      </op:barcode>
+      <op:addresses>
+         <op:address primary="true">
+            <op:type>Home</op:type>
+            <op:postalAddress>
+               <op:addressLine/>
+               <op:addressLine/>
+               <op:city/>
+
+               <op:stateProvince/>
+               <op:postalCode/>
+            </op:postalAddress>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+
+            <op:type>Campus</op:type>
+            <op:postalAddress>
+               <op:addressLine>99 N LOWELL</op:addressLine>
+               <op:addressLine/>
+               <op:city>CHICAGO</op:city>
+               <op:stateProvince>IL</op:stateProvince>
+               <op:postalCode>60641</op:postalCode>
+
+            </op:postalAddress>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+            <op:type>Home</op:type>
+            <op:emailAddress>
+
+               <op:email>gample86@uchicago.edu</op:email>
+            </op:emailAddress>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+            <op:type>Home</op:type>
+
+            <op:telephoneNumber>
+               <op:phoneNumber/>
+               <op:acceptsTextMessage>false</op:acceptsTextMessage>
+            </op:telephoneNumber>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+
+      </op:addresses>
+      <op:isGenerallyBlocked>false</op:isGenerallyBlocked>
+      <op:patronLevelPolicies>
+         <op:hasDeliveryPrivilege>false</op:hasDeliveryPrivilege>
+         <op:hasPagingPrivilege>false</op:hasPagingPrivilege>
+         <op:receivesCourtesyNotice>false</op:receivesCourtesyNotice>
+      </op:patronLevelPolicies>
+
+      <op:affiliations>
+         <op:affiliation>
+            <op:type>LDAPAffiliation</op:type>
+            <op:value>student</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StudentStatus</op:type>
+
+            <op:value>9</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StudentDivision</op:type>
+            <op:value>SPECIAL</op:value>
+         </op:affiliation>
+         <op:affiliation>
+
+            <op:type>StudyProgram</op:type>
+            <op:value>CPS-COLLEGIATE SCHOLARS PROGRAM (CSP)</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>Reg_SSS</op:type>
+            <op:value>No Credit</op:value>
+         </op:affiliation>
+
+         <op:affiliation>
+            <op:type>LastRegisteredQtr</op:type>
+            <op:value>2012/01</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>RegStatus</op:type>
+            <op:value>R</op:value>
+
+         </op:affiliation>
+      </op:affiliations>
+      <op:identifications>
+         <op:identification>
+            <op:identificationType>RFIDNumber</op:identificationType>
+            <op:identifier>43158</op:identifier>
+         </op:identification>
+         <op:identification>
+
+            <op:identificationType>LibNum</op:identificationType>
+            <op:identifier>3219206</op:identifier>
+         </op:identification>
+         <op:identification>
+            <op:identificationType>StudentID</op:identificationType>
+            <op:identifier>416350</op:identifier>
+         </op:identification>
+
+         <op:identification>
+            <op:identificationType>AlumniID</op:identificationType>
+            <op:identifier>1000265032</op:identifier>
+         </op:identification>
+      </op:identifications>
+   </op:patron>
+</op:patronGroup>
+]]>
+            </content>
+        </ingestDocument>
+        <ingestDocument id="8" category="security" type="patron" format="oleml">
+            <content><![CDATA[<op:patronGroup xmlns:op="http://ole.kuali.org/standards/ole-patron">
+ <op:patron>
+      <op:recordNumber>00101906D</op:recordNumber>
+
+      <op:activeDates>
+         <op:beginDate>2007-01-01</op:beginDate>
+      </op:activeDates>
+      <op:purgeDate>2015-01-01</op:purgeDate>
+      <op:name>
+         <op:first>Andrew</op:first>
+         <op:middle>R</op:middle>
+
+         <op:surname>Jample</op:surname>
+      </op:name>
+      <op:borrowerType>STUDENT</op:borrowerType>
+      <op:barcode>
+         <op:barcodeNumber>6010570001702841</op:barcodeNumber>
+         <op:status>Active</op:status>
+         <op:statusDate>2011-07-01T12:12:09</op:statusDate>
+
+      </op:barcode>
+      <op:addresses>
+         <op:address primary="true">
+            <op:type>Home</op:type>
+            <op:postalAddress>
+               <op:addressLine>999 Goodwin Drive</op:addressLine>
+               <op:addressLine/>
+               <op:city>Plano</op:city>
+
+               <op:stateProvince>TX</op:stateProvince>
+               <op:postalCode>75023</op:postalCode>
+            </op:postalAddress>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+
+         <op:address primary="true">
+            <op:type>Campus</op:type>
+            <op:postalAddress>
+               <op:addressLine>99 S. WELLS ST.</op:addressLine>
+               <op:addressLine>APT. 606</op:addressLine>
+               <op:city>CHICAGO</op:city>
+               <op:stateProvince>IL</op:stateProvince>
+
+               <op:postalCode>60607</op:postalCode>
+            </op:postalAddress>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+            <op:type>Home</op:type>
+
+            <op:emailAddress>
+               <op:email>jample06@uchicago.edu</op:email>
+            </op:emailAddress>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+
+            <op:type>Home</op:type>
+            <op:telephoneNumber>
+               <op:phoneNumber>3123569999</op:phoneNumber>
+               <op:acceptsTextMessage>false</op:acceptsTextMessage>
+            </op:telephoneNumber>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+
+            </op:activeDates>
+         </op:address>
+      </op:addresses>
+      <op:isGenerallyBlocked>false</op:isGenerallyBlocked>
+      <op:patronLevelPolicies>
+         <op:hasDeliveryPrivilege>false</op:hasDeliveryPrivilege>
+         <op:hasPagingPrivilege>false</op:hasPagingPrivilege>
+
+         <op:receivesCourtesyNotice>false</op:receivesCourtesyNotice>
+      </op:patronLevelPolicies>
+      <op:affiliations>
+         <op:affiliation>
+            <op:type>LDAPAffiliation</op:type>
+            <op:value>"student,staff,alum"</op:value>
+         </op:affiliation>
+
+         <op:affiliation>
+            <op:type>StudentStatus</op:type>
+            <op:value>3</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StudentDivision</op:type>
+            <op:value>BSD</op:value>
+
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StudentDepartment</op:type>
+            <op:value>MEDICAL PHYSICS</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StudyProgram</op:type>
+
+            <op:value>MEDICAL PHYSICS</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>Reg_SSS</op:type>
+            <op:value>Doctoral Full-Time</op:value>
+         </op:affiliation>
+         <op:affiliation>
+
+            <op:type>LastRegisteredQtr</op:type>
+            <op:value>2012/01</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>RegStatus</op:type>
+            <op:value>R</op:value>
+         </op:affiliation>
+
+         <op:affiliation>
+            <op:type>StaffAffiliation</op:type>
+            <op:value>STF</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StaffLibraryPrivilege</op:type>
+            <op:value>NONE</op:value>
+
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StaffDivision</op:type>
+            <op:value>Biological Sciences Division</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StaffDepartment</op:type>
+
+            <op:value>Radiology</op:value>
+         </op:affiliation>
+      </op:affiliations>
+      <op:identifications>
+         <op:identification>
+            <op:identificationType>RFIDNumber</op:identificationType>
+            <op:identifier>23839</op:identifier>
+
+         </op:identification>
+         <op:identification>
+            <op:identificationType>LibNum</op:identificationType>
+            <op:identifier>7637923</op:identifier>
+         </op:identification>
+         <op:identification>
+            <op:identificationType>StudentID</op:identificationType>
+
+            <op:identifier>350121</op:identifier>
+         </op:identification>
+         <op:identification>
+            <op:identificationType>AlumniID</op:identificationType>
+            <op:identifier>1000120917</op:identifier>
+         </op:identification>
+      </op:identifications>
+
+   </op:patron>
+</op:patronGroup>
+]]>
+            </content>
+        </ingestDocument>
+        <ingestDocument id="9" category="security" type="patron" format="oleml">
+            <content><![CDATA[<op:patronGroup xmlns:op="http://ole.kuali.org/standards/ole-patron">
+   <op:patron>
+      <op:recordNumber>00100055U</op:recordNumber>
+      <op:activeDates>
+         <op:beginDate>2007-01-01</op:beginDate>
+      </op:activeDates>
+      <op:purgeDate>2015-01-01</op:purgeDate>
+
+      <op:name>
+         <op:first>Stephanie</op:first>
+         <op:middle>A</op:middle>
+         <op:surname>Sample</op:surname>
+      </op:name>
+      <op:borrowerType>STUDENT</op:borrowerType>
+      <op:barcode>
+
+         <op:barcodeNumber>6010570003043558</op:barcodeNumber>
+         <op:status>Active</op:status>
+         <op:statusDate>2011-07-01T12:12:09</op:statusDate>
+      </op:barcode>
+      <op:addresses>
+         <op:address primary="true">
+            <op:type>Home</op:type>
+
+            <op:postalAddress>
+               <op:addressLine>999 N Monticello</op:addressLine>
+               <op:addressLine/>
+               <op:city>Chicago</op:city>
+               <op:stateProvince>IL</op:stateProvince>
+               <op:postalCode>60647</op:postalCode>
+            </op:postalAddress>
+
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+            <op:type>Campus</op:type>
+            <op:postalAddress>
+               <op:addressLine>99 N. MONTICELLO</op:addressLine>
+
+               <op:addressLine/>
+               <op:city>CHICAGO</op:city>
+               <op:stateProvince>IL</op:stateProvince>
+               <op:postalCode>60647</op:postalCode>
+            </op:postalAddress>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+            <op:type>Home</op:type>
+            <op:emailAddress>
+               <op:email>sample55@uchicago.edu</op:email>
+            </op:emailAddress>
+            <op:activeDates>
+
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+            <op:type>Home</op:type>
+            <op:telephoneNumber>
+               <op:phoneNumber>7737269999</op:phoneNumber>
+
+               <op:acceptsTextMessage>false</op:acceptsTextMessage>
+            </op:telephoneNumber>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+      </op:addresses>
+      <op:isGenerallyBlocked>false</op:isGenerallyBlocked>
+
+      <op:patronLevelPolicies>
+         <op:hasDeliveryPrivilege>false</op:hasDeliveryPrivilege>
+         <op:hasPagingPrivilege>false</op:hasPagingPrivilege>
+         <op:receivesCourtesyNotice>false</op:receivesCourtesyNotice>
+      </op:patronLevelPolicies>
+      <op:affiliations>
+         <op:affiliation>
+
+            <op:type>LDAPAffiliation</op:type>
+            <op:value>"student,staff"</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StudentStatus</op:type>
+            <op:value>1</op:value>
+         </op:affiliation>
+
+         <op:affiliation>
+            <op:type>StudentDivision</op:type>
+            <op:value>COL</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StudentDepartment</op:type>
+            <op:value>POLITICAL SCIENCE</op:value>
+
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StudyProgram</op:type>
+            <op:value>UNDERGRADUATE</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>Reg_SSS</op:type>
+
+            <op:value>College Full-Time Default</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>LastRegisteredQtr</op:type>
+            <op:value>2012/01</op:value>
+         </op:affiliation>
+         <op:affiliation>
+
+            <op:type>RegStatus</op:type>
+            <op:value>R</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StaffAffiliation</op:type>
+            <op:value>STF</op:value>
+         </op:affiliation>
+
+         <op:affiliation>
+            <op:type>StaffLibraryPrivilege</op:type>
+            <op:value>NONE</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StaffDivision</op:type>
+            <op:value>Library</op:value>
+
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StaffDepartment</op:type>
+            <op:value>Library</op:value>
+         </op:affiliation>
+      </op:affiliations>
+      <op:identifications>
+         <op:identification>
+
+            <op:identificationType>RFIDNumber</op:identificationType>
+            <op:identifier>54514</op:identifier>
+         </op:identification>
+         <op:identification>
+            <op:identificationType>LibNum</op:identificationType>
+            <op:identifier>3427283</op:identifier>
+         </op:identification>
+
+         <op:identification>
+            <op:identificationType>StudentID</op:identificationType>
+            <op:identifier>397647</op:identifier>
+         </op:identification>
+         <op:identification>
+            <op:identificationType>AlumniID</op:identificationType>
+            <op:identifier>1000210353</op:identifier>
+
+         </op:identification>
+      </op:identifications>
+   </op:patron>
+    </op:patronGroup>
+]]>
+            </content>
+        </ingestDocument>
+        <ingestDocument id="10" category="security" type="patron" format="oleml">
+            <content><![CDATA[<op:patronGroup xmlns:op="http://ole.kuali.org/standards/ole-patron">
+           <op:patron>
+      <op:recordNumber>00100245N</op:recordNumber>
+      <op:activeDates>
+         <op:beginDate>2007-01-01</op:beginDate>
+      </op:activeDates>
+
+      <op:purgeDate>2015-01-01</op:purgeDate>
+      <op:name>
+         <op:first>Mary</op:first>
+         <op:middle>Jean</op:middle>
+         <op:surname>Mample</op:surname>
+      </op:name>
+      <op:borrowerType>FACULTY/ACADEMIC</op:borrowerType>
+
+      <op:barcode>
+         <op:barcodeNumber>6010570001520755</op:barcodeNumber>
+         <op:status>Active</op:status>
+         <op:statusDate>2011-07-01T12:12:09</op:statusDate>
+      </op:barcode>
+      <op:addresses>
+         <op:address primary="true">
+
+            <op:type>Home</op:type>
+            <op:postalAddress>
+               <op:addressLine>999 KENNELLEY CT</op:addressLine>
+               <op:addressLine/>
+               <op:city>LINCOLN</op:city>
+               <op:stateProvince>NE</op:stateProvince>
+               <op:postalCode>68516</op:postalCode>
+
+            </op:postalAddress>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+            <op:type>Campus</op:type>
+            <op:postalAddress>
+
+               <op:addressLine/>
+               <op:addressLine/>
+               <op:city/>
+               <op:stateProvince/>
+               <op:postalCode/>
+            </op:postalAddress>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+            <op:type>Home</op:type>
+            <op:emailAddress>
+               <op:email>mample45@uchicago.edu</op:email>
+            </op:emailAddress>
+            <op:activeDates>
+
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+            <op:type>Home</op:type>
+            <op:telephoneNumber>
+               <op:phoneNumber>4024359999</op:phoneNumber>
+
+               <op:acceptsTextMessage>false</op:acceptsTextMessage>
+            </op:telephoneNumber>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+      </op:addresses>
+      <op:isGenerallyBlocked>false</op:isGenerallyBlocked>
+
+      <op:patronLevelPolicies>
+         <op:hasDeliveryPrivilege>false</op:hasDeliveryPrivilege>
+         <op:hasPagingPrivilege>false</op:hasPagingPrivilege>
+         <op:receivesCourtesyNotice>false</op:receivesCourtesyNotice>
+      </op:patronLevelPolicies>
+      <op:affiliations>
+         <op:affiliation>
+
+            <op:type>LDAPAffiliation</op:type>
+            <op:value>emeritus</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StaffAffiliation</op:type>
+            <op:value>FAC</op:value>
+         </op:affiliation>
+
+         <op:affiliation>
+            <op:type>StaffLibraryPrivilege</op:type>
+            <op:value>INDEF</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StaffDivision</op:type>
+            <op:value>Campus &amp; Student Life</op:value>
+
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StaffDepartment</op:type>
+            <op:value>Physical Education &amp; Athletics</op:value>
+         </op:affiliation>
+      </op:affiliations>
+      <op:identifications>
+
+         <op:identification>
+            <op:identificationType>LibNum</op:identificationType>
+            <op:identifier>1342924</op:identifier>
+         </op:identification>
+      </op:identifications>
+   </op:patron>
+
+</op:patronGroup>
+]]>
+            </content>
+        </ingestDocument>
+        <ingestDocument id="11" category="security" type="patron" format="oleml">
+            <content><![CDATA[<op:patronGroup xmlns:op="http://ole.kuali.org/standards/ole-patron">
+ <op:patron>
+      <op:recordNumber>00101386C</op:recordNumber>
+
+      <op:activeDates>
+         <op:beginDate>2007-01-01</op:beginDate>
+      </op:activeDates>
+      <op:purgeDate>2015-01-01</op:purgeDate>
+      <op:name>
+         <op:first>Luis</op:first>
+         <op:middle/>
+
+         <op:surname>Gample</op:surname>
+      </op:name>
+      <op:borrowerType>CPS-CSP</op:borrowerType>
+      <op:barcode>
+         <op:barcodeNumber>6010570002812540</op:barcodeNumber>
+         <op:status>Active</op:status>
+         <op:statusDate>2011-07-01T12:12:09</op:statusDate>
+
+      </op:barcode>
+      <op:addresses>
+         <op:address primary="true">
+            <op:type>Home</op:type>
+            <op:postalAddress>
+               <op:addressLine/>
+               <op:addressLine/>
+               <op:city/>
+
+               <op:stateProvince/>
+               <op:postalCode/>
+            </op:postalAddress>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+
+            <op:type>Campus</op:type>
+            <op:postalAddress>
+               <op:addressLine>99 N LOWELL</op:addressLine>
+               <op:addressLine/>
+               <op:city>CHICAGO</op:city>
+               <op:stateProvince>IL</op:stateProvince>
+               <op:postalCode>60641</op:postalCode>
+
+            </op:postalAddress>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+            <op:type>Home</op:type>
+            <op:emailAddress>
+
+               <op:email>gample86@uchicago.edu</op:email>
+            </op:emailAddress>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+            <op:type>Home</op:type>
+
+            <op:telephoneNumber>
+               <op:phoneNumber/>
+               <op:acceptsTextMessage>false</op:acceptsTextMessage>
+            </op:telephoneNumber>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+
+      </op:addresses>
+      <op:isGenerallyBlocked>false</op:isGenerallyBlocked>
+      <op:patronLevelPolicies>
+         <op:hasDeliveryPrivilege>false</op:hasDeliveryPrivilege>
+         <op:hasPagingPrivilege>false</op:hasPagingPrivilege>
+         <op:receivesCourtesyNotice>false</op:receivesCourtesyNotice>
+      </op:patronLevelPolicies>
+
+      <op:affiliations>
+         <op:affiliation>
+            <op:type>LDAPAffiliation</op:type>
+            <op:value>student</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StudentStatus</op:type>
+
+            <op:value>9</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StudentDivision</op:type>
+            <op:value>SPECIAL</op:value>
+         </op:affiliation>
+         <op:affiliation>
+
+            <op:type>StudyProgram</op:type>
+            <op:value>CPS-COLLEGIATE SCHOLARS PROGRAM (CSP)</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>Reg_SSS</op:type>
+            <op:value>No Credit</op:value>
+         </op:affiliation>
+
+         <op:affiliation>
+            <op:type>LastRegisteredQtr</op:type>
+            <op:value>2012/01</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>RegStatus</op:type>
+            <op:value>R</op:value>
+
+         </op:affiliation>
+      </op:affiliations>
+      <op:identifications>
+         <op:identification>
+            <op:identificationType>RFIDNumber</op:identificationType>
+            <op:identifier>43158</op:identifier>
+         </op:identification>
+         <op:identification>
+
+            <op:identificationType>LibNum</op:identificationType>
+            <op:identifier>3219206</op:identifier>
+         </op:identification>
+         <op:identification>
+            <op:identificationType>StudentID</op:identificationType>
+            <op:identifier>416350</op:identifier>
+         </op:identification>
+
+         <op:identification>
+            <op:identificationType>AlumniID</op:identificationType>
+            <op:identifier>1000265032</op:identifier>
+         </op:identification>
+      </op:identifications>
+   </op:patron>
+</op:patronGroup>
+]]>
+            </content>
+        </ingestDocument>
+        <ingestDocument id="12" category="security" type="patron" format="oleml">
+            <content><![CDATA[<op:patronGroup xmlns:op="http://ole.kuali.org/standards/ole-patron">
+ <op:patron>
+      <op:recordNumber>00101906D</op:recordNumber>
+
+      <op:activeDates>
+         <op:beginDate>2007-01-01</op:beginDate>
+      </op:activeDates>
+      <op:purgeDate>2015-01-01</op:purgeDate>
+      <op:name>
+         <op:first>Andrew</op:first>
+         <op:middle>R</op:middle>
+
+         <op:surname>Jample</op:surname>
+      </op:name>
+      <op:borrowerType>STUDENT</op:borrowerType>
+      <op:barcode>
+         <op:barcodeNumber>6010570001702841</op:barcodeNumber>
+         <op:status>Active</op:status>
+         <op:statusDate>2011-07-01T12:12:09</op:statusDate>
+
+      </op:barcode>
+      <op:addresses>
+         <op:address primary="true">
+            <op:type>Home</op:type>
+            <op:postalAddress>
+               <op:addressLine>999 Goodwin Drive</op:addressLine>
+               <op:addressLine/>
+               <op:city>Plano</op:city>
+
+               <op:stateProvince>TX</op:stateProvince>
+               <op:postalCode>75023</op:postalCode>
+            </op:postalAddress>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+
+         <op:address primary="true">
+            <op:type>Campus</op:type>
+            <op:postalAddress>
+               <op:addressLine>99 S. WELLS ST.</op:addressLine>
+               <op:addressLine>APT. 606</op:addressLine>
+               <op:city>CHICAGO</op:city>
+               <op:stateProvince>IL</op:stateProvince>
+
+               <op:postalCode>60607</op:postalCode>
+            </op:postalAddress>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+            <op:type>Home</op:type>
+
+            <op:emailAddress>
+               <op:email>jample06@uchicago.edu</op:email>
+            </op:emailAddress>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+
+            <op:type>Home</op:type>
+            <op:telephoneNumber>
+               <op:phoneNumber>3123569999</op:phoneNumber>
+               <op:acceptsTextMessage>false</op:acceptsTextMessage>
+            </op:telephoneNumber>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+
+            </op:activeDates>
+         </op:address>
+      </op:addresses>
+      <op:isGenerallyBlocked>false</op:isGenerallyBlocked>
+      <op:patronLevelPolicies>
+         <op:hasDeliveryPrivilege>false</op:hasDeliveryPrivilege>
+         <op:hasPagingPrivilege>false</op:hasPagingPrivilege>
+
+         <op:receivesCourtesyNotice>false</op:receivesCourtesyNotice>
+      </op:patronLevelPolicies>
+      <op:affiliations>
+         <op:affiliation>
+            <op:type>LDAPAffiliation</op:type>
+            <op:value>"student,staff,alum"</op:value>
+         </op:affiliation>
+
+         <op:affiliation>
+            <op:type>StudentStatus</op:type>
+            <op:value>3</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StudentDivision</op:type>
+            <op:value>BSD</op:value>
+
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StudentDepartment</op:type>
+            <op:value>MEDICAL PHYSICS</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StudyProgram</op:type>
+
+            <op:value>MEDICAL PHYSICS</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>Reg_SSS</op:type>
+            <op:value>Doctoral Full-Time</op:value>
+         </op:affiliation>
+         <op:affiliation>
+
+            <op:type>LastRegisteredQtr</op:type>
+            <op:value>2012/01</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>RegStatus</op:type>
+            <op:value>R</op:value>
+         </op:affiliation>
+
+         <op:affiliation>
+            <op:type>StaffAffiliation</op:type>
+            <op:value>STF</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StaffLibraryPrivilege</op:type>
+            <op:value>NONE</op:value>
+
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StaffDivision</op:type>
+            <op:value>Biological Sciences Division</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StaffDepartment</op:type>
+
+            <op:value>Radiology</op:value>
+         </op:affiliation>
+      </op:affiliations>
+      <op:identifications>
+         <op:identification>
+            <op:identificationType>RFIDNumber</op:identificationType>
+            <op:identifier>23839</op:identifier>
+
+         </op:identification>
+         <op:identification>
+            <op:identificationType>LibNum</op:identificationType>
+            <op:identifier>7637923</op:identifier>
+         </op:identification>
+         <op:identification>
+            <op:identificationType>StudentID</op:identificationType>
+
+            <op:identifier>350121</op:identifier>
+         </op:identification>
+         <op:identification>
+            <op:identificationType>AlumniID</op:identificationType>
+            <op:identifier>1000120917</op:identifier>
+         </op:identification>
+      </op:identifications>
+
+   </op:patron>
+</op:patronGroup>
+]]>
+            </content>
+        </ingestDocument>
+        <ingestDocument id="13" category="security" type="patron" format="oleml">
+            <content><![CDATA[<op:patronGroup xmlns:op="http://ole.kuali.org/standards/ole-patron">
+   <op:patron>
+      <op:recordNumber>00100055U</op:recordNumber>
+      <op:activeDates>
+         <op:beginDate>2007-01-01</op:beginDate>
+      </op:activeDates>
+      <op:purgeDate>2015-01-01</op:purgeDate>
+
+      <op:name>
+         <op:first>Stephanie</op:first>
+         <op:middle>A</op:middle>
+         <op:surname>Sample</op:surname>
+      </op:name>
+      <op:borrowerType>STUDENT</op:borrowerType>
+      <op:barcode>
+
+         <op:barcodeNumber>6010570003043558</op:barcodeNumber>
+         <op:status>Active</op:status>
+         <op:statusDate>2011-07-01T12:12:09</op:statusDate>
+      </op:barcode>
+      <op:addresses>
+         <op:address primary="true">
+            <op:type>Home</op:type>
+
+            <op:postalAddress>
+               <op:addressLine>999 N Monticello</op:addressLine>
+               <op:addressLine/>
+               <op:city>Chicago</op:city>
+               <op:stateProvince>IL</op:stateProvince>
+               <op:postalCode>60647</op:postalCode>
+            </op:postalAddress>
+
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+            <op:type>Campus</op:type>
+            <op:postalAddress>
+               <op:addressLine>99 N. MONTICELLO</op:addressLine>
+
+               <op:addressLine/>
+               <op:city>CHICAGO</op:city>
+               <op:stateProvince>IL</op:stateProvince>
+               <op:postalCode>60647</op:postalCode>
+            </op:postalAddress>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+            <op:type>Home</op:type>
+            <op:emailAddress>
+               <op:email>sample55@uchicago.edu</op:email>
+            </op:emailAddress>
+            <op:activeDates>
+
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+            <op:type>Home</op:type>
+            <op:telephoneNumber>
+               <op:phoneNumber>7737269999</op:phoneNumber>
+
+               <op:acceptsTextMessage>false</op:acceptsTextMessage>
+            </op:telephoneNumber>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+      </op:addresses>
+      <op:isGenerallyBlocked>false</op:isGenerallyBlocked>
+
+      <op:patronLevelPolicies>
+         <op:hasDeliveryPrivilege>false</op:hasDeliveryPrivilege>
+         <op:hasPagingPrivilege>false</op:hasPagingPrivilege>
+         <op:receivesCourtesyNotice>false</op:receivesCourtesyNotice>
+      </op:patronLevelPolicies>
+      <op:affiliations>
+         <op:affiliation>
+
+            <op:type>LDAPAffiliation</op:type>
+            <op:value>"student,staff"</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StudentStatus</op:type>
+            <op:value>1</op:value>
+         </op:affiliation>
+
+         <op:affiliation>
+            <op:type>StudentDivision</op:type>
+            <op:value>COL</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StudentDepartment</op:type>
+            <op:value>POLITICAL SCIENCE</op:value>
+
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StudyProgram</op:type>
+            <op:value>UNDERGRADUATE</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>Reg_SSS</op:type>
+
+            <op:value>College Full-Time Default</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>LastRegisteredQtr</op:type>
+            <op:value>2012/01</op:value>
+         </op:affiliation>
+         <op:affiliation>
+
+            <op:type>RegStatus</op:type>
+            <op:value>R</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StaffAffiliation</op:type>
+            <op:value>STF</op:value>
+         </op:affiliation>
+
+         <op:affiliation>
+            <op:type>StaffLibraryPrivilege</op:type>
+            <op:value>NONE</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StaffDivision</op:type>
+            <op:value>Library</op:value>
+
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StaffDepartment</op:type>
+            <op:value>Library</op:value>
+         </op:affiliation>
+      </op:affiliations>
+      <op:identifications>
+         <op:identification>
+
+            <op:identificationType>RFIDNumber</op:identificationType>
+            <op:identifier>54514</op:identifier>
+         </op:identification>
+         <op:identification>
+            <op:identificationType>LibNum</op:identificationType>
+            <op:identifier>3427283</op:identifier>
+         </op:identification>
+
+         <op:identification>
+            <op:identificationType>StudentID</op:identificationType>
+            <op:identifier>397647</op:identifier>
+         </op:identification>
+         <op:identification>
+            <op:identificationType>AlumniID</op:identificationType>
+            <op:identifier>1000210353</op:identifier>
+
+         </op:identification>
+      </op:identifications>
+   </op:patron>
+    </op:patronGroup>
+]]>
+            </content>
+        </ingestDocument>
+        <ingestDocument id="14" category="security" type="patron" format="oleml">
+            <content><![CDATA[<op:patronGroup xmlns:op="http://ole.kuali.org/standards/ole-patron">
+           <op:patron>
+      <op:recordNumber>00100245N</op:recordNumber>
+      <op:activeDates>
+         <op:beginDate>2007-01-01</op:beginDate>
+      </op:activeDates>
+
+      <op:purgeDate>2015-01-01</op:purgeDate>
+      <op:name>
+         <op:first>Mary</op:first>
+         <op:middle>Jean</op:middle>
+         <op:surname>Mample</op:surname>
+      </op:name>
+      <op:borrowerType>FACULTY/ACADEMIC</op:borrowerType>
+
+      <op:barcode>
+         <op:barcodeNumber>6010570001520755</op:barcodeNumber>
+         <op:status>Active</op:status>
+         <op:statusDate>2011-07-01T12:12:09</op:statusDate>
+      </op:barcode>
+      <op:addresses>
+         <op:address primary="true">
+
+            <op:type>Home</op:type>
+            <op:postalAddress>
+               <op:addressLine>999 KENNELLEY CT</op:addressLine>
+               <op:addressLine/>
+               <op:city>LINCOLN</op:city>
+               <op:stateProvince>NE</op:stateProvince>
+               <op:postalCode>68516</op:postalCode>
+
+            </op:postalAddress>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+            <op:type>Campus</op:type>
+            <op:postalAddress>
+
+               <op:addressLine/>
+               <op:addressLine/>
+               <op:city/>
+               <op:stateProvince/>
+               <op:postalCode/>
+            </op:postalAddress>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+            <op:type>Home</op:type>
+            <op:emailAddress>
+               <op:email>mample45@uchicago.edu</op:email>
+            </op:emailAddress>
+            <op:activeDates>
+
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+            <op:type>Home</op:type>
+            <op:telephoneNumber>
+               <op:phoneNumber>4024359999</op:phoneNumber>
+
+               <op:acceptsTextMessage>false</op:acceptsTextMessage>
+            </op:telephoneNumber>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+      </op:addresses>
+      <op:isGenerallyBlocked>false</op:isGenerallyBlocked>
+
+      <op:patronLevelPolicies>
+         <op:hasDeliveryPrivilege>false</op:hasDeliveryPrivilege>
+         <op:hasPagingPrivilege>false</op:hasPagingPrivilege>
+         <op:receivesCourtesyNotice>false</op:receivesCourtesyNotice>
+      </op:patronLevelPolicies>
+      <op:affiliations>
+         <op:affiliation>
+
+            <op:type>LDAPAffiliation</op:type>
+            <op:value>emeritus</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StaffAffiliation</op:type>
+            <op:value>FAC</op:value>
+         </op:affiliation>
+
+         <op:affiliation>
+            <op:type>StaffLibraryPrivilege</op:type>
+            <op:value>INDEF</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StaffDivision</op:type>
+            <op:value>Campus &amp; Student Life</op:value>
+
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StaffDepartment</op:type>
+            <op:value>Physical Education &amp; Athletics</op:value>
+         </op:affiliation>
+      </op:affiliations>
+      <op:identifications>
+
+         <op:identification>
+            <op:identificationType>LibNum</op:identificationType>
+            <op:identifier>1342924</op:identifier>
+         </op:identification>
+      </op:identifications>
+   </op:patron>
+
+</op:patronGroup>
+]]>
+            </content>
+        </ingestDocument>
+        <ingestDocument id="15" category="security" type="patron" format="oleml">
+            <content><![CDATA[<op:patronGroup xmlns:op="http://ole.kuali.org/standards/ole-patron">
+ <op:patron>
+      <op:recordNumber>00101386C</op:recordNumber>
+
+      <op:activeDates>
+         <op:beginDate>2007-01-01</op:beginDate>
+      </op:activeDates>
+      <op:purgeDate>2015-01-01</op:purgeDate>
+      <op:name>
+         <op:first>Luis</op:first>
+         <op:middle/>
+
+         <op:surname>Gample</op:surname>
+      </op:name>
+      <op:borrowerType>CPS-CSP</op:borrowerType>
+      <op:barcode>
+         <op:barcodeNumber>6010570002812540</op:barcodeNumber>
+         <op:status>Active</op:status>
+         <op:statusDate>2011-07-01T12:12:09</op:statusDate>
+
+      </op:barcode>
+      <op:addresses>
+         <op:address primary="true">
+            <op:type>Home</op:type>
+            <op:postalAddress>
+               <op:addressLine/>
+               <op:addressLine/>
+               <op:city/>
+
+               <op:stateProvince/>
+               <op:postalCode/>
+            </op:postalAddress>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+
+            <op:type>Campus</op:type>
+            <op:postalAddress>
+               <op:addressLine>99 N LOWELL</op:addressLine>
+               <op:addressLine/>
+               <op:city>CHICAGO</op:city>
+               <op:stateProvince>IL</op:stateProvince>
+               <op:postalCode>60641</op:postalCode>
+
+            </op:postalAddress>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+            <op:type>Home</op:type>
+            <op:emailAddress>
+
+               <op:email>gample86@uchicago.edu</op:email>
+            </op:emailAddress>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+            <op:type>Home</op:type>
+
+            <op:telephoneNumber>
+               <op:phoneNumber/>
+               <op:acceptsTextMessage>false</op:acceptsTextMessage>
+            </op:telephoneNumber>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+
+      </op:addresses>
+      <op:isGenerallyBlocked>false</op:isGenerallyBlocked>
+      <op:patronLevelPolicies>
+         <op:hasDeliveryPrivilege>false</op:hasDeliveryPrivilege>
+         <op:hasPagingPrivilege>false</op:hasPagingPrivilege>
+         <op:receivesCourtesyNotice>false</op:receivesCourtesyNotice>
+      </op:patronLevelPolicies>
+
+      <op:affiliations>
+         <op:affiliation>
+            <op:type>LDAPAffiliation</op:type>
+            <op:value>student</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StudentStatus</op:type>
+
+            <op:value>9</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StudentDivision</op:type>
+            <op:value>SPECIAL</op:value>
+         </op:affiliation>
+         <op:affiliation>
+
+            <op:type>StudyProgram</op:type>
+            <op:value>CPS-COLLEGIATE SCHOLARS PROGRAM (CSP)</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>Reg_SSS</op:type>
+            <op:value>No Credit</op:value>
+         </op:affiliation>
+
+         <op:affiliation>
+            <op:type>LastRegisteredQtr</op:type>
+            <op:value>2012/01</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>RegStatus</op:type>
+            <op:value>R</op:value>
+
+         </op:affiliation>
+      </op:affiliations>
+      <op:identifications>
+         <op:identification>
+            <op:identificationType>RFIDNumber</op:identificationType>
+            <op:identifier>43158</op:identifier>
+         </op:identification>
+         <op:identification>
+
+            <op:identificationType>LibNum</op:identificationType>
+            <op:identifier>3219206</op:identifier>
+         </op:identification>
+         <op:identification>
+            <op:identificationType>StudentID</op:identificationType>
+            <op:identifier>416350</op:identifier>
+         </op:identification>
+
+         <op:identification>
+            <op:identificationType>AlumniID</op:identificationType>
+            <op:identifier>1000265032</op:identifier>
+         </op:identification>
+      </op:identifications>
+   </op:patron>
+</op:patronGroup>
+]]>
+            </content>
+        </ingestDocument>
+        <ingestDocument id="16" category="security" type="patron" format="oleml">
+            <content><![CDATA[<op:patronGroup xmlns:op="http://ole.kuali.org/standards/ole-patron">
+ <op:patron>
+      <op:recordNumber>00101906D</op:recordNumber>
+
+      <op:activeDates>
+         <op:beginDate>2007-01-01</op:beginDate>
+      </op:activeDates>
+      <op:purgeDate>2015-01-01</op:purgeDate>
+      <op:name>
+         <op:first>Andrew</op:first>
+         <op:middle>R</op:middle>
+
+         <op:surname>Jample</op:surname>
+      </op:name>
+      <op:borrowerType>STUDENT</op:borrowerType>
+      <op:barcode>
+         <op:barcodeNumber>6010570001702841</op:barcodeNumber>
+         <op:status>Active</op:status>
+         <op:statusDate>2011-07-01T12:12:09</op:statusDate>
+
+      </op:barcode>
+      <op:addresses>
+         <op:address primary="true">
+            <op:type>Home</op:type>
+            <op:postalAddress>
+               <op:addressLine>999 Goodwin Drive</op:addressLine>
+               <op:addressLine/>
+               <op:city>Plano</op:city>
+
+               <op:stateProvince>TX</op:stateProvince>
+               <op:postalCode>75023</op:postalCode>
+            </op:postalAddress>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+
+         <op:address primary="true">
+            <op:type>Campus</op:type>
+            <op:postalAddress>
+               <op:addressLine>99 S. WELLS ST.</op:addressLine>
+               <op:addressLine>APT. 606</op:addressLine>
+               <op:city>CHICAGO</op:city>
+               <op:stateProvince>IL</op:stateProvince>
+
+               <op:postalCode>60607</op:postalCode>
+            </op:postalAddress>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+            <op:type>Home</op:type>
+
+            <op:emailAddress>
+               <op:email>jample06@uchicago.edu</op:email>
+            </op:emailAddress>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+
+            <op:type>Home</op:type>
+            <op:telephoneNumber>
+               <op:phoneNumber>3123569999</op:phoneNumber>
+               <op:acceptsTextMessage>false</op:acceptsTextMessage>
+            </op:telephoneNumber>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+
+            </op:activeDates>
+         </op:address>
+      </op:addresses>
+      <op:isGenerallyBlocked>false</op:isGenerallyBlocked>
+      <op:patronLevelPolicies>
+         <op:hasDeliveryPrivilege>false</op:hasDeliveryPrivilege>
+         <op:hasPagingPrivilege>false</op:hasPagingPrivilege>
+
+         <op:receivesCourtesyNotice>false</op:receivesCourtesyNotice>
+      </op:patronLevelPolicies>
+      <op:affiliations>
+         <op:affiliation>
+            <op:type>LDAPAffiliation</op:type>
+            <op:value>"student,staff,alum"</op:value>
+         </op:affiliation>
+
+         <op:affiliation>
+            <op:type>StudentStatus</op:type>
+            <op:value>3</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StudentDivision</op:type>
+            <op:value>BSD</op:value>
+
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StudentDepartment</op:type>
+            <op:value>MEDICAL PHYSICS</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StudyProgram</op:type>
+
+            <op:value>MEDICAL PHYSICS</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>Reg_SSS</op:type>
+            <op:value>Doctoral Full-Time</op:value>
+         </op:affiliation>
+         <op:affiliation>
+
+            <op:type>LastRegisteredQtr</op:type>
+            <op:value>2012/01</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>RegStatus</op:type>
+            <op:value>R</op:value>
+         </op:affiliation>
+
+         <op:affiliation>
+            <op:type>StaffAffiliation</op:type>
+            <op:value>STF</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StaffLibraryPrivilege</op:type>
+            <op:value>NONE</op:value>
+
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StaffDivision</op:type>
+            <op:value>Biological Sciences Division</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StaffDepartment</op:type>
+
+            <op:value>Radiology</op:value>
+         </op:affiliation>
+      </op:affiliations>
+      <op:identifications>
+         <op:identification>
+            <op:identificationType>RFIDNumber</op:identificationType>
+            <op:identifier>23839</op:identifier>
+
+         </op:identification>
+         <op:identification>
+            <op:identificationType>LibNum</op:identificationType>
+            <op:identifier>7637923</op:identifier>
+         </op:identification>
+         <op:identification>
+            <op:identificationType>StudentID</op:identificationType>
+
+            <op:identifier>350121</op:identifier>
+         </op:identification>
+         <op:identification>
+            <op:identificationType>AlumniID</op:identificationType>
+            <op:identifier>1000120917</op:identifier>
+         </op:identification>
+      </op:identifications>
+
+   </op:patron>
+</op:patronGroup>
+]]>
+            </content>
+        </ingestDocument>
+        <ingestDocument id="17" category="security" type="patron" format="oleml">
+            <content><![CDATA[<op:patronGroup xmlns:op="http://ole.kuali.org/standards/ole-patron">
+   <op:patron>
+      <op:recordNumber>00100055U</op:recordNumber>
+      <op:activeDates>
+         <op:beginDate>2007-01-01</op:beginDate>
+      </op:activeDates>
+      <op:purgeDate>2015-01-01</op:purgeDate>
+
+      <op:name>
+         <op:first>Stephanie</op:first>
+         <op:middle>A</op:middle>
+         <op:surname>Sample</op:surname>
+      </op:name>
+      <op:borrowerType>STUDENT</op:borrowerType>
+      <op:barcode>
+
+         <op:barcodeNumber>6010570003043558</op:barcodeNumber>
+         <op:status>Active</op:status>
+         <op:statusDate>2011-07-01T12:12:09</op:statusDate>
+      </op:barcode>
+      <op:addresses>
+         <op:address primary="true">
+            <op:type>Home</op:type>
+
+            <op:postalAddress>
+               <op:addressLine>999 N Monticello</op:addressLine>
+               <op:addressLine/>
+               <op:city>Chicago</op:city>
+               <op:stateProvince>IL</op:stateProvince>
+               <op:postalCode>60647</op:postalCode>
+            </op:postalAddress>
+
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+            <op:type>Campus</op:type>
+            <op:postalAddress>
+               <op:addressLine>99 N. MONTICELLO</op:addressLine>
+
+               <op:addressLine/>
+               <op:city>CHICAGO</op:city>
+               <op:stateProvince>IL</op:stateProvince>
+               <op:postalCode>60647</op:postalCode>
+            </op:postalAddress>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+            <op:type>Home</op:type>
+            <op:emailAddress>
+               <op:email>sample55@uchicago.edu</op:email>
+            </op:emailAddress>
+            <op:activeDates>
+
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+            <op:type>Home</op:type>
+            <op:telephoneNumber>
+               <op:phoneNumber>7737269999</op:phoneNumber>
+
+               <op:acceptsTextMessage>false</op:acceptsTextMessage>
+            </op:telephoneNumber>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+      </op:addresses>
+      <op:isGenerallyBlocked>false</op:isGenerallyBlocked>
+
+      <op:patronLevelPolicies>
+         <op:hasDeliveryPrivilege>false</op:hasDeliveryPrivilege>
+         <op:hasPagingPrivilege>false</op:hasPagingPrivilege>
+         <op:receivesCourtesyNotice>false</op:receivesCourtesyNotice>
+      </op:patronLevelPolicies>
+      <op:affiliations>
+         <op:affiliation>
+
+            <op:type>LDAPAffiliation</op:type>
+            <op:value>"student,staff"</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StudentStatus</op:type>
+            <op:value>1</op:value>
+         </op:affiliation>
+
+         <op:affiliation>
+            <op:type>StudentDivision</op:type>
+            <op:value>COL</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StudentDepartment</op:type>
+            <op:value>POLITICAL SCIENCE</op:value>
+
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StudyProgram</op:type>
+            <op:value>UNDERGRADUATE</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>Reg_SSS</op:type>
+
+            <op:value>College Full-Time Default</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>LastRegisteredQtr</op:type>
+            <op:value>2012/01</op:value>
+         </op:affiliation>
+         <op:affiliation>
+
+            <op:type>RegStatus</op:type>
+            <op:value>R</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StaffAffiliation</op:type>
+            <op:value>STF</op:value>
+         </op:affiliation>
+
+         <op:affiliation>
+            <op:type>StaffLibraryPrivilege</op:type>
+            <op:value>NONE</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StaffDivision</op:type>
+            <op:value>Library</op:value>
+
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StaffDepartment</op:type>
+            <op:value>Library</op:value>
+         </op:affiliation>
+      </op:affiliations>
+      <op:identifications>
+         <op:identification>
+
+            <op:identificationType>RFIDNumber</op:identificationType>
+            <op:identifier>54514</op:identifier>
+         </op:identification>
+         <op:identification>
+            <op:identificationType>LibNum</op:identificationType>
+            <op:identifier>3427283</op:identifier>
+         </op:identification>
+
+         <op:identification>
+            <op:identificationType>StudentID</op:identificationType>
+            <op:identifier>397647</op:identifier>
+         </op:identification>
+         <op:identification>
+            <op:identificationType>AlumniID</op:identificationType>
+            <op:identifier>1000210353</op:identifier>
+
+         </op:identification>
+      </op:identifications>
+   </op:patron>
+    </op:patronGroup>
+]]>
+            </content>
+        </ingestDocument>
+        <ingestDocument id="18" category="security" type="patron" format="oleml">
+            <content><![CDATA[<op:patronGroup xmlns:op="http://ole.kuali.org/standards/ole-patron">
+           <op:patron>
+      <op:recordNumber>00100245N</op:recordNumber>
+      <op:activeDates>
+         <op:beginDate>2007-01-01</op:beginDate>
+      </op:activeDates>
+
+      <op:purgeDate>2015-01-01</op:purgeDate>
+      <op:name>
+         <op:first>Mary</op:first>
+         <op:middle>Jean</op:middle>
+         <op:surname>Mample</op:surname>
+      </op:name>
+      <op:borrowerType>FACULTY/ACADEMIC</op:borrowerType>
+
+      <op:barcode>
+         <op:barcodeNumber>6010570001520755</op:barcodeNumber>
+         <op:status>Active</op:status>
+         <op:statusDate>2011-07-01T12:12:09</op:statusDate>
+      </op:barcode>
+      <op:addresses>
+         <op:address primary="true">
+
+            <op:type>Home</op:type>
+            <op:postalAddress>
+               <op:addressLine>999 KENNELLEY CT</op:addressLine>
+               <op:addressLine/>
+               <op:city>LINCOLN</op:city>
+               <op:stateProvince>NE</op:stateProvince>
+               <op:postalCode>68516</op:postalCode>
+
+            </op:postalAddress>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+            <op:type>Campus</op:type>
+            <op:postalAddress>
+
+               <op:addressLine/>
+               <op:addressLine/>
+               <op:city/>
+               <op:stateProvince/>
+               <op:postalCode/>
+            </op:postalAddress>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+            <op:type>Home</op:type>
+            <op:emailAddress>
+               <op:email>mample45@uchicago.edu</op:email>
+            </op:emailAddress>
+            <op:activeDates>
+
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+            <op:type>Home</op:type>
+            <op:telephoneNumber>
+               <op:phoneNumber>4024359999</op:phoneNumber>
+
+               <op:acceptsTextMessage>false</op:acceptsTextMessage>
+            </op:telephoneNumber>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+      </op:addresses>
+      <op:isGenerallyBlocked>false</op:isGenerallyBlocked>
+
+      <op:patronLevelPolicies>
+         <op:hasDeliveryPrivilege>false</op:hasDeliveryPrivilege>
+         <op:hasPagingPrivilege>false</op:hasPagingPrivilege>
+         <op:receivesCourtesyNotice>false</op:receivesCourtesyNotice>
+      </op:patronLevelPolicies>
+      <op:affiliations>
+         <op:affiliation>
+
+            <op:type>LDAPAffiliation</op:type>
+            <op:value>emeritus</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StaffAffiliation</op:type>
+            <op:value>FAC</op:value>
+         </op:affiliation>
+
+         <op:affiliation>
+            <op:type>StaffLibraryPrivilege</op:type>
+            <op:value>INDEF</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StaffDivision</op:type>
+            <op:value>Campus &amp; Student Life</op:value>
+
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StaffDepartment</op:type>
+            <op:value>Physical Education &amp; Athletics</op:value>
+         </op:affiliation>
+      </op:affiliations>
+      <op:identifications>
+
+         <op:identification>
+            <op:identificationType>LibNum</op:identificationType>
+            <op:identifier>1342924</op:identifier>
+         </op:identification>
+      </op:identifications>
+   </op:patron>
+
+</op:patronGroup>
+]]>
+            </content>
+        </ingestDocument>
+        <ingestDocument id="19" category="security" type="patron" format="oleml">
+            <content><![CDATA[<op:patronGroup xmlns:op="http://ole.kuali.org/standards/ole-patron">
+ <op:patron>
+      <op:recordNumber>00101386C</op:recordNumber>
+
+      <op:activeDates>
+         <op:beginDate>2007-01-01</op:beginDate>
+      </op:activeDates>
+      <op:purgeDate>2015-01-01</op:purgeDate>
+      <op:name>
+         <op:first>Luis</op:first>
+         <op:middle/>
+
+         <op:surname>Gample</op:surname>
+      </op:name>
+      <op:borrowerType>CPS-CSP</op:borrowerType>
+      <op:barcode>
+         <op:barcodeNumber>6010570002812540</op:barcodeNumber>
+         <op:status>Active</op:status>
+         <op:statusDate>2011-07-01T12:12:09</op:statusDate>
+
+      </op:barcode>
+      <op:addresses>
+         <op:address primary="true">
+            <op:type>Home</op:type>
+            <op:postalAddress>
+               <op:addressLine/>
+               <op:addressLine/>
+               <op:city/>
+
+               <op:stateProvince/>
+               <op:postalCode/>
+            </op:postalAddress>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+
+            <op:type>Campus</op:type>
+            <op:postalAddress>
+               <op:addressLine>99 N LOWELL</op:addressLine>
+               <op:addressLine/>
+               <op:city>CHICAGO</op:city>
+               <op:stateProvince>IL</op:stateProvince>
+               <op:postalCode>60641</op:postalCode>
+
+            </op:postalAddress>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+            <op:type>Home</op:type>
+            <op:emailAddress>
+
+               <op:email>gample86@uchicago.edu</op:email>
+            </op:emailAddress>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+            <op:type>Home</op:type>
+
+            <op:telephoneNumber>
+               <op:phoneNumber/>
+               <op:acceptsTextMessage>false</op:acceptsTextMessage>
+            </op:telephoneNumber>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+
+      </op:addresses>
+      <op:isGenerallyBlocked>false</op:isGenerallyBlocked>
+      <op:patronLevelPolicies>
+         <op:hasDeliveryPrivilege>false</op:hasDeliveryPrivilege>
+         <op:hasPagingPrivilege>false</op:hasPagingPrivilege>
+         <op:receivesCourtesyNotice>false</op:receivesCourtesyNotice>
+      </op:patronLevelPolicies>
+
+      <op:affiliations>
+         <op:affiliation>
+            <op:type>LDAPAffiliation</op:type>
+            <op:value>student</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StudentStatus</op:type>
+
+            <op:value>9</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StudentDivision</op:type>
+            <op:value>SPECIAL</op:value>
+         </op:affiliation>
+         <op:affiliation>
+
+            <op:type>StudyProgram</op:type>
+            <op:value>CPS-COLLEGIATE SCHOLARS PROGRAM (CSP)</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>Reg_SSS</op:type>
+            <op:value>No Credit</op:value>
+         </op:affiliation>
+
+         <op:affiliation>
+            <op:type>LastRegisteredQtr</op:type>
+            <op:value>2012/01</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>RegStatus</op:type>
+            <op:value>R</op:value>
+
+         </op:affiliation>
+      </op:affiliations>
+      <op:identifications>
+         <op:identification>
+            <op:identificationType>RFIDNumber</op:identificationType>
+            <op:identifier>43158</op:identifier>
+         </op:identification>
+         <op:identification>
+
+            <op:identificationType>LibNum</op:identificationType>
+            <op:identifier>3219206</op:identifier>
+         </op:identification>
+         <op:identification>
+            <op:identificationType>StudentID</op:identificationType>
+            <op:identifier>416350</op:identifier>
+         </op:identification>
+
+         <op:identification>
+            <op:identificationType>AlumniID</op:identificationType>
+            <op:identifier>1000265032</op:identifier>
+         </op:identification>
+      </op:identifications>
+   </op:patron>
+</op:patronGroup>
+]]>
+            </content>
+        </ingestDocument>
+        <ingestDocument id="20" category="security" type="patron" format="oleml">
+            <content><![CDATA[<op:patronGroup xmlns:op="http://ole.kuali.org/standards/ole-patron">
+ <op:patron>
+      <op:recordNumber>00101906D</op:recordNumber>
+
+      <op:activeDates>
+         <op:beginDate>2007-01-01</op:beginDate>
+      </op:activeDates>
+      <op:purgeDate>2015-01-01</op:purgeDate>
+      <op:name>
+         <op:first>Andrew</op:first>
+         <op:middle>R</op:middle>
+
+         <op:surname>Jample</op:surname>
+      </op:name>
+      <op:borrowerType>STUDENT</op:borrowerType>
+      <op:barcode>
+         <op:barcodeNumber>6010570001702841</op:barcodeNumber>
+         <op:status>Active</op:status>
+         <op:statusDate>2011-07-01T12:12:09</op:statusDate>
+
+      </op:barcode>
+      <op:addresses>
+         <op:address primary="true">
+            <op:type>Home</op:type>
+            <op:postalAddress>
+               <op:addressLine>999 Goodwin Drive</op:addressLine>
+               <op:addressLine/>
+               <op:city>Plano</op:city>
+
+               <op:stateProvince>TX</op:stateProvince>
+               <op:postalCode>75023</op:postalCode>
+            </op:postalAddress>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+
+         <op:address primary="true">
+            <op:type>Campus</op:type>
+            <op:postalAddress>
+               <op:addressLine>99 S. WELLS ST.</op:addressLine>
+               <op:addressLine>APT. 606</op:addressLine>
+               <op:city>CHICAGO</op:city>
+               <op:stateProvince>IL</op:stateProvince>
+
+               <op:postalCode>60607</op:postalCode>
+            </op:postalAddress>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+            <op:type>Home</op:type>
+
+            <op:emailAddress>
+               <op:email>jample06@uchicago.edu</op:email>
+            </op:emailAddress>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+            </op:activeDates>
+         </op:address>
+         <op:address primary="true">
+
+            <op:type>Home</op:type>
+            <op:telephoneNumber>
+               <op:phoneNumber>3123569999</op:phoneNumber>
+               <op:acceptsTextMessage>false</op:acceptsTextMessage>
+            </op:telephoneNumber>
+            <op:activeDates>
+               <op:beginDate>2008-01-01</op:beginDate>
+
+            </op:activeDates>
+         </op:address>
+      </op:addresses>
+      <op:isGenerallyBlocked>false</op:isGenerallyBlocked>
+      <op:patronLevelPolicies>
+         <op:hasDeliveryPrivilege>false</op:hasDeliveryPrivilege>
+         <op:hasPagingPrivilege>false</op:hasPagingPrivilege>
+
+         <op:receivesCourtesyNotice>false</op:receivesCourtesyNotice>
+      </op:patronLevelPolicies>
+      <op:affiliations>
+         <op:affiliation>
+            <op:type>LDAPAffiliation</op:type>
+            <op:value>"student,staff,alum"</op:value>
+         </op:affiliation>
+
+         <op:affiliation>
+            <op:type>StudentStatus</op:type>
+            <op:value>3</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StudentDivision</op:type>
+            <op:value>BSD</op:value>
+
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StudentDepartment</op:type>
+            <op:value>MEDICAL PHYSICS</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StudyProgram</op:type>
+
+            <op:value>MEDICAL PHYSICS</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>Reg_SSS</op:type>
+            <op:value>Doctoral Full-Time</op:value>
+         </op:affiliation>
+         <op:affiliation>
+
+            <op:type>LastRegisteredQtr</op:type>
+            <op:value>2012/01</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>RegStatus</op:type>
+            <op:value>R</op:value>
+         </op:affiliation>
+
+         <op:affiliation>
+            <op:type>StaffAffiliation</op:type>
+            <op:value>STF</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StaffLibraryPrivilege</op:type>
+            <op:value>NONE</op:value>
+
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StaffDivision</op:type>
+            <op:value>Biological Sciences Division</op:value>
+         </op:affiliation>
+         <op:affiliation>
+            <op:type>StaffDepartment</op:type>
+
+            <op:value>Radiology</op:value>
+         </op:affiliation>
+      </op:affiliations>
+      <op:identifications>
+         <op:identification>
+            <op:identificationType>RFIDNumber</op:identificationType>
+            <op:identifier>23839</op:identifier>
+
+         </op:identification>
+         <op:identification>
+            <op:identificationType>LibNum</op:identificationType>
+            <op:identifier>7637923</op:identifier>
+         </op:identification>
+         <op:identification>
+            <op:identificationType>StudentID</op:identificationType>
+
+            <op:identifier>350121</op:identifier>
+         </op:identification>
+         <op:identification>
+            <op:identificationType>AlumniID</op:identificationType>
+            <op:identifier>1000120917</op:identifier>
+         </op:identification>
+      </op:identifications>
+
+   </op:patron>
+</op:patronGroup>
+]]>
+            </content>
+        </ingestDocument>
+    </requestDocuments>
+</request>

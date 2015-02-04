@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <!--
+
+        Copyright 2005-2012 The Kuali Foundation
+
+        Licensed under the Educational Community License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at
+
+        http://www.opensource.org/licenses/ecl2.php
+
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+
+    -->
+    <bean id="ExternalDataSource" parent="ExternalDataSource-parentBean"/>
+
+    <bean id="ExternalDataSource-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.describe.bo.ExternalDataSourceConfig"/>
+        <property name="titleAttribute" value="name"/>
+        <property name="objectLabel" value="External Data Source"/>
+
+        <property name="attributes">
+            <list>
+                <ref bean="ExternalDataSource-externalDataSourceId"/>
+                <ref bean="ExternalDataSource-externalDataSourceName"/>
+                <ref bean="ExternalDataSource-externalDataSourceDesc"/>
+                <ref bean="ExternalDataSource-externalDataSourceDomainName"/>
+                <ref bean="ExternalDataSource-externalDataSourcePortNum"/>
+                <ref bean="ExternalDataSource-externalDataSourceLogInId"/>
+                <ref bean="ExternalDataSource-externalDataSourceAuthKey"/>
+                <ref bean="ExternalDataSource-externalDataSourcePwd"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <!-- Attribute Definitions -->
+
+
+    <bean id="ExternalDataSource-externalDataSourceName" parent="ExternalDataSource-externalDataSourceName-parentBean"/>
+
+    <bean id="ExternalDataSource-externalDataSourceName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Name"/>
+        <property name="maxLength" value="50"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="name"/>
+        <property name="label" value="Name"/>
+        <property name="description" value="External DataSource Name"/>
+    </bean>
+
+    <bean id="ExternalDataSource-externalDataSourceDesc" parent="ExternalDataSource-externalDataSourceDesc-parentBean"/>
+
+    <bean id="ExternalDataSource-externalDataSourceDesc-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Desc"/>
+        <property name="maxLength" value="100"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="desc"/>
+        <property name="label" value="Description"/>
+        <property name="description" value="External DataSource Desc"/>
+    </bean>
+
+    <bean id="ExternalDataSource-externalDataSourceId" parent="ExternalDataSource-externalDataSourceId-parentBean"/>
+
+    <bean id="ExternalDataSource-externalDataSourceId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Id"/>
+        <property name="maxLength" value="10"/>
+        <property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+        <property name="name" value="id"/>
+        <property name="label" value="External DataSource Id"/>
+        <property name="description" value="External DataSource Id"/>
+    </bean>
+
+
+    <bean id="ExternalDataSource-externalDataSourceDomainName"
+          parent="ExternalDataSource-externalDataSourceDomainName-parentBean"/>
+
+    <bean id="ExternalDataSource-externalDataSourceDomainName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Domain Name"/>
+        <property name="maxLength" value="50"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="domainName"/>
+        <property name="label" value="Domain Name"/>
+        <property name="description" value="External DataSource Domain Name"/>
+    </bean>
+
+    <bean id="ExternalDataSource-externalDataSourcePortNum"
+          parent="ExternalDataSource-externalDataSourcePortNum-parentBean"/>
+
+    <bean id="ExternalDataSource-externalDataSourcePortNum-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Port Num"/>
+        <property name="maxLength" value="50"/>
+        <property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="portNum"/>
+        <property name="label" value="Port Number"/>
+        <property name="description" value="External DataSource Port Num"/>
+    </bean>
+
+    <bean id="ExternalDataSource-externalDataSourceLogInId"
+          parent="ExternalDataSource-externalDataSourceLogInId-parentBean"/>
+
+    <bean id="ExternalDataSource-externalDataSourceLogInId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="External DataSource LogIn Id"/>
+        <property name="maxLength" value="30"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="loginId"/>
+        <property name="label" value="LogIn Id/Database Name"/>
+        <property name="description" value="External DataSource LogIn Id"/>
+    </bean>
+
+    <bean id="ExternalDataSource-externalDataSourceAuthKey"
+          parent="ExternalDataSource-externalDataSourceAuthKey-parentBean"/>
+
+    <bean id="ExternalDataSource-externalDataSourceAuthKey-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="External DataSource Auth Key"/>
+        <property name="maxLength" value="50"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="authKey"/>
+        <property name="label" value="Authorization Key"/>
+        <property name="description" value="External DataSource Auth Key"/>
+    </bean>
+
+    <bean id="ExternalDataSource-externalDataSourcePwd" parent="ExternalDataSource-externalDataSourcePwd-parentBean"/>
+
+    <bean id="ExternalDataSource-externalDataSourcePwd-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="External DataSource Pwd "/>
+        <property name="maxLength" value="10"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="password"/>
+        <property name="label" value="Password"/>
+        <property name="description" value="External DataSource Password"/>
+    </bean>
+
+
+    <!-- Business Object Inquiry Definition -->
+
+    <bean id="ExternalDataSource-InquiryView" parent="Uif-OLEInquiryView">
+        <property name="headerText" value="External Data Source Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.describe.bo.ExternalDataSourceConfig"/>
+        <property name="singlePageView" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-VerticalBoxSection">
+                    <property name="header.headerText" value="External Data Source"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-GridGroup">
+                                <property name="items">
+                                    <list>
+                                        <bean id="inquiry_externalDataSourceName" parent="Uif-InputField"
+                                              p:propertyName="name"/>
+                                        <bean id="inquiry_externalDataSourceDesc" parent="Uif-InputField"
+                                              p:propertyName="desc"/>
+                                        <bean id="inquiry_externalDataSourceDomainName" parent="Uif-InputField"
+                                              p:propertyName="domainName"/>
+                                        <bean id="inquiry_externalDataSourcePortNum" parent="Uif-InputField"
+                                              p:propertyName="portNum"/>
+                                        <bean id="inquiry_externalDataSourceLogInId" parent="Uif-InputField"
+                                              p:propertyName="loginId"/>
+                                        <bean id="inquiry_externalDataSourceAuthKey" parent="Uif-InputField"
+                                              p:propertyName="authKey"/>
+                                        <bean id="inquiry_externalDataSourcePwd" parent="Uif-InputField"
+                                              p:propertyName="password"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+
+    <bean id="ExternalDataSource-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="External Data Source Lookup"/>
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/BASICS/content/ch02s04.html#_lookupHelp"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="dataObjectClassName" value="org.kuali.ole.describe.bo.ExternalDataSourceConfig"/>
+        <property name="viewHelperServiceClass"
+                  value="org.kuali.ole.describe.lookup.OleExternalDataSourceConfigLookupableImpl"/>
+        <property name="criteriaFields">
+            <list>
+                <bean id="externalDataSourceName" parent="Uif-LookupCriteriaInputField" p:propertyName="name"
+                      p:enableAutoDirectInquiry="false"/>
+                <bean id="externalDataSourceDesc" parent="Uif-LookupCriteriaInputField" p:propertyName="desc"/>
+                <bean id="externalDataSourceDomainName" parent="Uif-LookupCriteriaInputField"
+                      p:propertyName="domainName"/>
+                <bean id="externalDataSourcePortNum" parent="Uif-LookupCriteriaInputField" p:propertyName="portNum"/>
+                <bean id="externalDataSourceLogInId" parent="Uif-LookupCriteriaInputField" p:propertyName="loginId"/>
+                <bean id="externalDataSourceAuthKey" parent="Uif-LookupCriteriaInputField" p:propertyName="authKey"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean id="searchResult_externalDataSourceName" parent="Uif-DataField" p:propertyName="name"/>
+                <bean id="searchResult_externalDataSourceDesc" parent="Uif-DataField" p:propertyName="desc"/>
+            </list>
+        </property>
+        <property name="resultsGroup">
+            <bean parent="ExternalDataSourceConfig-LookupView-ResultActions"/>
+        </property>
+        <!--<property name="resultsActionsFieldGroup">
+            <bean parent="Uif-FieldGroupBase">
+                <property name="label" value="Actions"/>
+                <property name="group">
+                    <bean parent="ExternalDataSourceConfig-LookupView-ResultActions"/>
+                </property>
+            </bean>
+        </property>-->
+    </bean>
+
+    <bean id="ExternalDataSourceConfig-LookupView-ResultActions" parent="Uif-LookupResultsCollectionSection">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-lookupView-resultActions</value>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-ActionLink" p:order="10">
+                    <property name="actionLabel" value="edit"/>
+                    <property name="finalizeMethodToCall" value="getMaintenanceActionLink"/>
+                    <property name="finalizeMethodAdditionalArguments">
+                        <list>
+                            <value>maintenanceEdit</value>
+                        </list>
+                    </property>
+                    <property name="render"
+                              value="@{#ViewHelper.allowsMaintenanceEditAction(#line) and view.showMaintenanceLinks}"/>
+                </bean>
+                <bean parent="Uif-ActionLink" p:order="10">
+                    <property name="actionLabel" value="copy"/>
+                    <property name="finalizeMethodToCall" value="getMaintenanceActionLink"/>
+                    <property name="finalizeMethodAdditionalArguments">
+                        <list>
+                            <value>maintenanceCopy</value>
+                        </list>
+                    </property>
+                    <property name="render"
+                              value="@{#ViewHelper.allowsMaintenanceNewOrCopyAction() and view.showMaintenanceLinks}"/>
+                </bean>
+                <bean parent="Uif-ActionLink" p:order="10">
+                    <property name="actionLabel" value="delete"/>
+                    <property name="finalizeMethodToCall" value="getMaintenanceActionLink"/>
+                    <property name="finalizeMethodAdditionalArguments">
+                        <list>
+                            <value>maintenanceDelete</value>
+                        </list>
+                    </property>
+                    <property name="render"
+                              value="@{#ViewHelper.allowsMaintenanceDeleteAction(#line) and view.showMaintenanceLinks}"/>
+                </bean>
+                <bean parent="Uif-ActionLink">
+                    <property name="actionLabel" value="Return Value"/>
+                    <property name="finalizeMethodToCall" value="getReturnUrlForResults"/>
+                    <property name="render"
+                              value="@{!#empty(returnFormKey) and !#empty(returnLocation) and !view.hideReturnLinks}"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+</beans>

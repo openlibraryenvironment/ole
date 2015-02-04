@@ -1,0 +1,1689 @@
+<request>
+    <user>ole-khuntley</user>
+    <operation>batchIngest</operation>
+    <requestDocuments>
+        <ingestDocument id="1" category="work" type="bibliographic" format="dublinunq">
+            <content><![CDATA[
+			<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2010-07-25T08:14:49Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc" set="hathitrust">http://quod.lib.umich.edu/cgi/o/oai/oai</request>
+  <ListRecords>
+  <record>   
+	<header>
+		<identifier>oai:quod.lib.umich.edu:MIU01-000029516</identifier>
+		<datestamp>2008-12-19T18:45:46Z</datestamp>
+		<setSpec>hathitrust:pd</setSpec>              
+	</header>
+	<metadata>   
+	  <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+		<dc:title>U.S. Marines in Vietnam : the landing and the buildup, 1965 / by Jack Shulimson and Charles M. Johnson.</dc:title>
+		<dc:creator>Shulimson, Jack.</dc:creator>
+		<dc:subject>United States.--History--Vietnam War, 1961-1975</dc:subject>
+		<dc:subject>Vietnam War, 1961-1975--Campaigns</dc:subject>
+		<dc:description>xiii, 261 p. :</dc:description>
+		<dc:publisher>Washington : History and Museums Division, Headquarters, U.S. Marine Corps : for sale by the Supt. of Docs., U.S. Govt. Print. Off.,</dc:publisher>
+		<dc:date>1978.</dc:date>
+		<dc:identifier>(LCCN)78600120</dc:identifier>
+		<dc:identifier>(OCoLC)ocm05346770</dc:identifier>
+		<dc:identifier>DS558.9.M37 S58</dc:identifier>   
+		<dc:identifier>959.704/34</dc:identifier>
+		<dc:identifier>DS558.9.M37 S581</dc:identifier>
+		<dc:identifier>http://hdl.handle.net/2027/mdp.39015003338806</dc:identifier>
+		<dc:source>http://hdl.handle.net/2027/mdp.39015003338806</dc:source>
+		<dc:language>eng</dc:language>
+		<dc:type>text</dc:type>
+		<dc:rights>We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. The digital version is available for all educational uses worldwide. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.</dc:rights>
+	  </oai_dc:dc>
+	</metadata>
+</record>
+</ListRecords>
+</OAI-PMH>
+			   ]]>
+            </content>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="2" category="work" type="bibliographic" format="dublinunq">
+            <content><![CDATA[
+			<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2010-07-25T08:14:49Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc" set="hathitrust">http://quod.lib.umich.edu/cgi/o/oai/oai</request>
+  <ListRecords>
+<record>
+<header><identifier>oai:quod.lib.umich.edu:MIU01-000053074</identifier><datestamp>2008-12-19T18:45:48Z</datestamp><setSpec>hathitrust:pd</setSpec></header><metadata>
+  <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+    <dc:title>Proceedings of the ... annual convention of the National Collegiate Athletic Association.</dc:title>
+    <dc:creator>National Collegiate Athletic Association.</dc:creator>
+    <dc:subject>National Collegiate Athletic Association--Congresses.</dc:subject>
+    <dc:subject>College sports--United States x Congresses.</dc:subject>
+    <dc:description>v.</dc:description>
+    <dc:publisher>[New York?], The Association,</dc:publisher>
+    <dc:date>1906-</dc:date>
+    <dc:identifier>(OCoLC)ocm49948470</dc:identifier>
+    <dc:identifier>GV563 .N28</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015039707115</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015039707107</dc:identifier>
+    <dc:source>1913-1920 : http://hdl.handle.net/2027/mdp.39015039707115</dc:source>
+    <dc:source>no.28 1907,1909,1912 : http://hdl.handle.net/2027/mdp.39015039707107</dc:source>
+    <dc:language>eng</dc:language>
+    <dc:type>text</dc:type>
+    <dc:rights>We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. The digital version is available for all educational uses worldwide. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.</dc:rights>
+  </oai_dc:dc>
+</metadata></record>
+</ListRecords>
+</OAI-PMH>
+			   ]]>
+            </content>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="3" category="work" type="bibliographic" format="dublinunq">
+            <content><![CDATA[
+			<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2010-07-25T08:14:49Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc" set="hathitrust">http://quod.lib.umich.edu/cgi/o/oai/oai</request>
+  <ListRecords>
+<record>
+<header><identifier>oai:quod.lib.umich.edu:MIU01-000062477</identifier><datestamp>2008-12-19T18:45:49Z</datestamp><setSpec>hathitrust:pd</setSpec></header><metadata>
+  <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+    <dc:title>Country reports on human rights practices : report submitted to the Committee on Foreign Affairs, U.S. House of Representatives and Committee on Foreign Relations, U.S. Senate by the Department of State in Accordance with sections 116(d) and 502B(b) of the Foreign Assistance Act of 1961, as amended.</dc:title>
+    <dc:creator>Country reports on human rights practices (Washington, D.C. : 1979)</dc:creator>
+    <dc:subject>Human rights</dc:subject>
+    <dc:subject>Civil rights</dc:subject>
+    <dc:description>v. ;</dc:description>
+    <dc:publisher>Washington, D.C. : U.S. G.P.O., For sale by the Supt. of Docs., U.S. G.P.O.,</dc:publisher>
+    <dc:date>1980-</dc:date>
+    <dc:identifier>(LCCN)80643581//r82</dc:identifier>
+    <dc:identifier>(ISSN)0198-9669</dc:identifier>
+    <dc:identifier>(OCoLC)ocm06026722</dc:identifier>
+    <dc:identifier>(SFX)110978984441773</dc:identifier>
+    <dc:identifier>JC571 .U48a</dc:identifier>
+    <dc:identifier>323.4/05</dc:identifier>
+    <dc:identifier>http://www.state.gov/g/drl/rls/hrrpt/</dc:identifier>
+    <dc:identifier>http://www.state.gov/www/global/human_rights/hrp_reports_mainhp.html</dc:identifier>
+    <dc:identifier>JC 571 .U481</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015039359891</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015014164753</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015014227832</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015008874342</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015011233270</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015013361749</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015013385052</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015078291708</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015078291716</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015078291724</dc:identifier>
+    <dc:source>Online version: : http://www.state.gov/g/drl/rls/hrrpt/</dc:source>
+    <dc:source>State Dept. archive online version: : http://www.state.gov/www/global/human_rights/hrp_reports_mainhp.html</dc:source>
+    <dc:source>1981 : http://hdl.handle.net/2027/mdp.39015039359891</dc:source>
+    <dc:source>1982 : http://hdl.handle.net/2027/mdp.39015014164753</dc:source>
+    <dc:source>1983 : http://hdl.handle.net/2027/mdp.39015014227832</dc:source>
+    <dc:source>1984 : http://hdl.handle.net/2027/mdp.39015008874342</dc:source>
+    <dc:source>1985 : http://hdl.handle.net/2027/mdp.39015011233270</dc:source>
+    <dc:source>1986 : http://hdl.handle.net/2027/mdp.39015013361749</dc:source>
+    <dc:source>1987 : http://hdl.handle.net/2027/mdp.39015013385052</dc:source>
+    <dc:source>1996 : http://hdl.handle.net/2027/mdp.39015078291708</dc:source>
+    <dc:source>1997 : http://hdl.handle.net/2027/mdp.39015078291716</dc:source>
+    <dc:source>2000 v.1 : http://hdl.handle.net/2027/mdp.39015078291724</dc:source>
+    <dc:language>eng</dc:language>
+    <dc:type>text</dc:type>
+    <dc:rights>We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. The digital version is available for all educational uses worldwide. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.</dc:rights>
+  </oai_dc:dc>
+</metadata></record>
+</ListRecords>
+</OAI-PMH>
+			   ]]>
+            </content>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="4" category="work" type="bibliographic" format="dublinunq">
+            <content><![CDATA[
+			<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2010-07-25T08:14:49Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc" set="hathitrust">http://quod.lib.umich.edu/cgi/o/oai/oai</request>
+  <ListRecords>
+<record>
+<header><identifier>oai:quod.lib.umich.edu:MIU01-000162403</identifier><datestamp>2008-12-19T18:45:52Z</datestamp><setSpec>hathitrust:pd</setSpec></header><metadata>
+  <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+    <dc:title>Reminiscences of Abraham Lincoln by distinguished men of his time, collected and edited by Allen Thorndike Rice.</dc:title>
+    <dc:creator>Rice, Allen Thorndike, 1851-1889.</dc:creator>
+    <dc:subject>Lincoln, Abraham, 1809-1865.</dc:subject>
+    <dc:subject>United States</dc:subject>
+    <dc:description>lxix, 2-13, 656 p. incl. facsims.</dc:description>
+    <dc:publisher>New York, North American Publishing Company,</dc:publisher>
+    <dc:date>1886.</dc:date>
+    <dc:identifier>(LCCN)12017395</dc:identifier>
+    <dc:identifier>(OCoLC)ocm00444412</dc:identifier>
+    <dc:identifier>E457.15 .R49</dc:identifier>
+    <dc:identifier>E457.15 .R49</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015056778791</dc:identifier>
+    <dc:source>http://hdl.handle.net/2027/mdp.39015056778791</dc:source>
+    <dc:language>eng</dc:language>
+    <dc:type>text</dc:type>
+    <dc:rights>We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. The digital version is available for all educational uses worldwide. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.</dc:rights>
+  </oai_dc:dc>
+</metadata></record>
+</ListRecords>
+</OAI-PMH>
+			   ]]>
+            </content>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="5" category="work" type="bibliographic" format="dublinunq">
+            <content><![CDATA[
+			<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2010-07-25T08:14:49Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc" set="hathitrust">http://quod.lib.umich.edu/cgi/o/oai/oai</request>
+  <ListRecords>
+<record>
+<header status="deleted"><identifier>oai:quod.lib.umich.edu:MIU01-000213207</identifier><datestamp>2008-12-19T18:45:54Z</datestamp><setSpec>hathitrust:pd</setSpec></header>
+<metadata>
+  <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+    <dc:title>Achievement:</dc:title>
+    <dc:creator>Antoine, Le Roi, 1905-</dc:creator>
+    <dc:subject>Bowman, Laura.</dc:subject>
+    <dc:description>[1st ed.]</dc:description>
+    <dc:description>p. cm.</dc:description>
+    <dc:publisher>New York, Pageant Press</dc:publisher>
+    <dc:date>[1961]</dc:date>
+    <dc:identifier>(LCCN)61017816</dc:identifier>
+    <dc:identifier>(OCoLC)ocm67160150</dc:identifier>
+    <dc:identifier>PN2287.B66 A65</dc:identifier>
+    <dc:identifier>PN 2287 .B78 A63</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015073374111</dc:identifier>
+    <dc:source>http://hdl.handle.net/2027/mdp.39015073374111</dc:source>
+    <dc:language>eng</dc:language>
+    <dc:type>text</dc:type>
+    <dc:rights>We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. The digital version is available for all educational uses worldwide. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.</dc:rights>
+  </oai_dc:dc>
+</metadata>
+</record>
+</ListRecords>
+</OAI-PMH>
+			   ]]>
+            </content>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="6" category="work" type="bibliographic" format="dublinunq">
+            <content><![CDATA[
+			<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2010-07-25T08:14:49Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc" set="hathitrust">http://quod.lib.umich.edu/cgi/o/oai/oai</request>
+  <ListRecords>
+<record>
+<header status="deleted"><identifier>oai:quod.lib.umich.edu:MIU01-000269215</identifier><datestamp>2008-12-19T18:45:55Z</datestamp><setSpec>hathitrust:pd</setSpec></header>
+<metadata>
+  <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+    <dc:title>The art of the film.</dc:title>
+    <dc:creator>Lindgren, Ernest.</dc:creator>
+    <dc:subject>Motion pictures</dc:subject>
+    <dc:description>[2d ed.]</dc:description>
+    <dc:description>258 p.</dc:description>
+    <dc:publisher>New York, Macmillan,</dc:publisher>
+    <dc:date>1963.</dc:date>
+    <dc:identifier>(LCCN)63006007 //r88</dc:identifier>
+    <dc:identifier>(OCoLC)ocm01355611</dc:identifier>
+    <dc:identifier>PN1995 .L47 1963</dc:identifier>
+    <dc:identifier>791.4</dc:identifier>
+    <dc:identifier>808.29 L745ar 1963</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015003853614</dc:identifier>
+    <dc:source>http://hdl.handle.net/2027/mdp.39015003853614</dc:source>
+    <dc:language>eng</dc:language>
+    <dc:type>text</dc:type>
+    <dc:rights>We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. The digital version is available for all educational uses worldwide. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.</dc:rights>
+  </oai_dc:dc>
+</metadata>
+</record>
+</ListRecords>
+</OAI-PMH>
+			   ]]>
+            </content>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="7" category="work" type="bibliographic" format="dublinunq">
+            <content><![CDATA[
+			<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2010-07-25T08:14:49Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc" set="hathitrust">http://quod.lib.umich.edu/cgi/o/oai/oai</request>
+  <ListRecords>
+<record>
+<header><identifier>oai:quod.lib.umich.edu:MIU01-000282519</identifier><datestamp>2008-12-19T18:45:56Z</datestamp><setSpec>hathitrust:pd</setSpec></header><metadata>
+  <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+    <dc:title>Civil service reform versus the spoils system. The merit plan for the filling of public offices advocated in a series of articles originally published in a Virginia journal. By Geo. S. Bernard.</dc:title>
+    <dc:creator>Bernard, George S., 1837-1912.</dc:creator>
+    <dc:subject>Civil service reform</dc:subject>
+    <dc:description>x, [11]-128 p.</dc:description>
+    <dc:publisher>New York, J. B. Alden,</dc:publisher>
+    <dc:date>1885.</dc:date>
+    <dc:identifier>(LCCN)02019719</dc:identifier>
+    <dc:identifier>(OCoLC)ocm02125161</dc:identifier>
+    <dc:identifier>JK691 .B52</dc:identifier>
+    <dc:identifier>JK691 .B518</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015028710617</dc:identifier>
+    <dc:source>http://hdl.handle.net/2027/mdp.39015028710617</dc:source>
+    <dc:language>eng</dc:language>
+    <dc:type>text</dc:type>
+    <dc:rights>We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. The digital version is available for all educational uses worldwide. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.</dc:rights>
+  </oai_dc:dc>
+</metadata></record>
+</ListRecords>
+</OAI-PMH>
+			   ]]>
+            </content>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="8" category="work" type="bibliographic" format="dublinunq">
+            <content><![CDATA[
+			
+			<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2010-07-25T08:14:49Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc" set="hathitrust">http://quod.lib.umich.edu/cgi/o/oai/oai</request>
+  <ListRecords>
+<record>
+<header><identifier>oai:quod.lib.umich.edu:MIU01-000289049</identifier><datestamp>2008-12-19T18:45:56Z</datestamp><setSpec>hathitrust:pd</setSpec></header><metadata>
+  <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+    <dc:title>Appleton's railroad and steamboat companion : being a traveller's guide through the United States of America, Canada, New Brunswick, and Nova Scotia / by W. Williams.</dc:title>
+    <dc:creator>Williams, W. (Wellington)</dc:creator>
+    <dc:subject>United States</dc:subject>
+    <dc:subject>New England</dc:subject>
+    <dc:subject>Canada</dc:subject>
+    <dc:subject>Railroad travel--United States.</dc:subject>
+    <dc:description>313 p. :</dc:description>
+    <dc:publisher>New York, N.Y. : D. Appleton &amp; Co.,</dc:publisher>
+    <dc:date>1848.</dc:date>
+    <dc:identifier>(LCCN)a 20000448//r452</dc:identifier>
+    <dc:identifier>(OCoLC)ocm63008302</dc:identifier>
+    <dc:identifier>E158 .W203</dc:identifier>
+    <dc:identifier>E158 .W7</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015016751375</dc:identifier>
+    <dc:source>http://hdl.handle.net/2027/mdp.39015016751375</dc:source>
+    <dc:language>eng</dc:language>
+    <dc:type>text</dc:type>
+    <dc:rights>We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. The digital version is available for all educational uses worldwide. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.</dc:rights>
+  </oai_dc:dc>
+</metadata></record>
+</ListRecords>
+</OAI-PMH>
+			   ]]>
+            </content>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="9" category="work" type="bibliographic" format="dublinunq">
+            <content><![CDATA[
+			<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2010-07-25T08:14:49Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc" set="hathitrust">http://quod.lib.umich.edu/cgi/o/oai/oai</request>
+  <ListRecords>
+<record>
+<header><identifier>oai:quod.lib.umich.edu:MIU01-000331524</identifier><datestamp>2008-12-19T18:45:58Z</datestamp><setSpec>hathitrust:pd</setSpec></header><metadata>
+  <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+    <dc:title>Recollections of sixteen presidents from Washington to Lincoln, by Richard W. Thompson.</dc:title>
+    <dc:creator>Thompson, Richard W. (Richard Wigginton), 1809-1900.</dc:creator>
+    <dc:subject>Presidents--United States--Biography</dc:subject>
+    <dc:subject>United States--Politics and government--1783-1865</dc:subject>
+    <dc:description>2 v.</dc:description>
+    <dc:publisher>Indianapolis, The Bowen-Merrill company,</dc:publisher>
+    <dc:date>1894.</dc:date>
+    <dc:identifier>(LCCN)12039399</dc:identifier>
+    <dc:identifier>(OCoLC)ocm04090062</dc:identifier>
+    <dc:identifier>E176.1 .T46</dc:identifier>
+    <dc:identifier>E176 .T475</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015033869507</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015013244440</dc:identifier>
+    <dc:source>v.1 : http://hdl.handle.net/2027/mdp.39015033869507</dc:source>
+    <dc:source>v.2 : http://hdl.handle.net/2027/mdp.39015013244440</dc:source>
+    <dc:language>eng</dc:language>
+    <dc:type>text</dc:type>
+    <dc:rights>We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. The digital version is available for all educational uses worldwide. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.</dc:rights>
+  </oai_dc:dc>
+</metadata></record>
+  </ListRecords>
+</OAI-PMH>
+			   ]]>
+            </content>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="10" category="work" type="bibliographic" format="dublinunq">
+            <content><![CDATA[
+			<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2010-07-25T08:14:49Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc" set="hathitrust">http://quod.lib.umich.edu/cgi/o/oai/oai</request>
+  <ListRecords>
+<record>
+<header><identifier>oai:quod.lib.umich.edu:MIU01-000361628</identifier><datestamp>2008-12-19T18:45:59Z</datestamp><setSpec>hathitrust:pd</setSpec></header><metadata>
+  <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+    <dc:title>New France and New England, by John Fiske.</dc:title>
+    <dc:creator>Fiske, John, 1842-1901.</dc:creator>
+    <dc:subject>Canada--History--To 1763 (New France)</dc:subject>
+    <dc:subject>New England--History--Colonial period, ca. 1600-1775</dc:subject>
+    <dc:description>1 p.l., v-xxiii p., 1 l., 378 p., 1 l.</dc:description>
+    <dc:publisher>Boston, New York, Houghton, Mifflin and company,</dc:publisher>
+    <dc:date>1902.</dc:date>
+    <dc:identifier>(LCCN)02022288</dc:identifier>
+    <dc:identifier>(OCoLC)ocm00654785</dc:identifier>
+    <dc:identifier>E195 .F54</dc:identifier>
+    <dc:identifier>973.2</dc:identifier>
+    <dc:identifier>E195 .F54</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015013113496</dc:identifier>
+    <dc:source>http://hdl.handle.net/2027/mdp.39015013113496</dc:source>
+    <dc:language>eng</dc:language>
+    <dc:type>text</dc:type>
+    <dc:rights>We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. The digital version is available for all educational uses worldwide. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.</dc:rights>
+  </oai_dc:dc>
+</metadata></record>
+  </ListRecords>
+</OAI-PMH>
+			   ]]>
+            </content>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="11" category="work" type="bibliographic" format="dublinunq">
+            <content><![CDATA[
+			<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2010-07-25T08:14:49Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc" set="hathitrust">http://quod.lib.umich.edu/cgi/o/oai/oai</request>
+  <ListRecords>
+<record>
+<header><identifier>oai:quod.lib.umich.edu:MIU01-000406047</identifier><datestamp>2008-12-19T18:46:01Z</datestamp><setSpec>hathitrust:pd</setSpec></header><metadata>
+  <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+    <dc:title>The presidential campaign of 1832, by Samuel Rhea Gammon, jr.</dc:title>
+    <dc:creator>Gammon, Samuel Rhea, 1889-</dc:creator>
+    <dc:subject>Presidents--United States--Election--1832.</dc:subject>
+    <dc:subject>Political parties--United States</dc:subject>
+    <dc:description>ix, 11-180 p., 1 l.</dc:description>
+    <dc:publisher>Baltimore,</dc:publisher>
+    <dc:date>1922.</dc:date>
+    <dc:identifier>(LCCN)22023206</dc:identifier>
+    <dc:identifier>(OCoLC)ocm02309286</dc:identifier>
+    <dc:identifier>E383 G21</dc:identifier>
+    <dc:identifier>E 383 .G193</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015005377547</dc:identifier>
+    <dc:source>http://hdl.handle.net/2027/mdp.39015005377547</dc:source>
+    <dc:language>eng</dc:language>
+    <dc:type>text</dc:type>
+    <dc:rights>We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. The digital version is available for all educational uses worldwide. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.</dc:rights>
+  </oai_dc:dc>
+</metadata></record>
+</ListRecords>
+</OAI-PMH>
+			   ]]>
+            </content>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="12" category="work" type="bibliographic" format="dublinunq">
+            <content><![CDATA[
+			<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2010-07-25T08:14:49Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc" set="hathitrust">http://quod.lib.umich.edu/cgi/o/oai/oai</request>
+  <ListRecords>
+<record>
+<header><identifier>oai:quod.lib.umich.edu:MIU01-000406918</identifier><datestamp>2008-12-19T18:46:01Z</datestamp><setSpec>hathitrust:pd</setSpec></header><metadata>
+  <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+    <dc:title>The Mexican War diary of General George B. McClellan, ed. by William Starr Myers.</dc:title>
+    <dc:creator>McClellan, George Brinton, 1826-1885.</dc:creator>
+    <dc:subject>Mexican War, 1846-1848--Personal narratives.</dc:subject>
+    <dc:description>iv p., 1 L., 97 p.</dc:description>
+    <dc:publisher>Princeton, Princeton university press,</dc:publisher>
+    <dc:date>1917.</dc:date>
+    <dc:identifier>(LCCN)17011694</dc:identifier>
+    <dc:identifier>(OCoLC)ocm05591174</dc:identifier>
+    <dc:identifier>E411 .M13</dc:identifier>
+    <dc:identifier>E411 .M16</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015005708477</dc:identifier>
+    <dc:source>http://hdl.handle.net/2027/mdp.39015005708477</dc:source>
+    <dc:language>eng</dc:language>
+    <dc:type>text</dc:type>
+    <dc:rights>We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. The digital version is available for all educational uses worldwide. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.</dc:rights>
+  </oai_dc:dc>
+</metadata></record>
+ </ListRecords>
+</OAI-PMH>
+			   ]]>
+            </content>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="13" category="work" type="bibliographic" format="dublinunq">
+            <content><![CDATA[
+			<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2010-07-25T08:14:49Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc" set="hathitrust">http://quod.lib.umich.edu/cgi/o/oai/oai</request>
+  <ListRecords>
+<record>
+<header><identifier>oai:quod.lib.umich.edu:MIU01-000429516</identifier><datestamp>2008-12-19T18:46:02Z</datestamp><setSpec>hathitrust:pd</setSpec></header><metadata>
+  <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+    <dc:title>Elements</dc:title>
+    <dc:title>De zes eerste, elfde en twaalfde boeken Euclidis ... Mitsgaders een aanhang, vervattende de transformatien, additien, substractien, multiplicatien en divisien in figuren. Alles op een korte en wiskonstige manier gedemonstreert, door Pieter Warius.</dc:title>
+    <dc:creator>Euclid.</dc:creator>
+    <dc:subject>Geometry</dc:subject>
+    <dc:description>Den vierden druk. Verbetert en van voorgaande drukfouten gezuyvert.</dc:description>
+    <dc:description>7 p. L., 292 p.</dc:description>
+    <dc:publisher>Amsterdam, By J. van Keulen,</dc:publisher>
+    <dc:date>1763.</dc:date>
+    <dc:identifier>(OCoLC)ocm23621227</dc:identifier>
+    <dc:identifier>QA31.E88 S737 1763</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015063875366</dc:identifier>
+    <dc:source>http://hdl.handle.net/2027/mdp.39015063875366</dc:source>
+    <dc:language>dut</dc:language>
+    <dc:language>dut</dc:language>
+    <dc:language>grc</dc:language>
+    <dc:type>text</dc:type>
+    <dc:rights>We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. The digital version is available for all educational uses worldwide. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.</dc:rights>
+  </oai_dc:dc>
+</metadata></record>
+  </ListRecords>
+</OAI-PMH>
+			   ]]>
+            </content>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="14" category="work" type="bibliographic" format="dublinunq">
+            <content><![CDATA[
+			<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2010-07-25T08:14:49Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc" set="hathitrust">http://quod.lib.umich.edu/cgi/o/oai/oai</request>
+  <ListRecords>
+<record>
+<header><identifier>oai:quod.lib.umich.edu:MIU01-000430652</identifier><datestamp>2008-12-19T18:46:02Z</datestamp><setSpec>hathitrust:pd</setSpec></header><metadata>
+  <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+    <dc:title>The life of Thomas Hutchinson, royal governor of the province of Massachusetts Bay.</dc:title>
+    <dc:creator>Hosmer, James Kendall, 1834-1927.</dc:creator>
+    <dc:subject>Hutchinson, Thomas, 1711-1780.</dc:subject>
+    <dc:description>xxviii, 453 p.</dc:description>
+    <dc:publisher>New York, Da Capo Press,</dc:publisher>
+    <dc:date>1972 [c1896]</dc:date>
+    <dc:identifier>(LCCN)70124926//r862</dc:identifier>
+    <dc:identifier>(ISBN)0306710382</dc:identifier>
+    <dc:identifier>(OCoLC)ocm00200935</dc:identifier>
+    <dc:identifier>F67 .H9806 1972</dc:identifier>
+    <dc:identifier>974.4/02/0924 B</dc:identifier>
+    <dc:identifier>F67.H97 H82 1972</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015022216322</dc:identifier>
+    <dc:source>http://hdl.handle.net/2027/mdp.39015022216322</dc:source>
+    <dc:language>eng</dc:language>
+    <dc:type>text</dc:type>
+    <dc:rights>We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. The digital version is available for all educational uses worldwide. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.</dc:rights>
+  </oai_dc:dc>
+</metadata></record>
+  </ListRecords>
+</OAI-PMH>
+			   ]]>
+            </content>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="15" category="work" type="bibliographic" format="dublinunq">
+            <content><![CDATA[
+			<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2010-07-25T08:14:49Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc" set="hathitrust">http://quod.lib.umich.edu/cgi/o/oai/oai</request>
+  <ListRecords>
+<record>
+<header><identifier>oai:quod.lib.umich.edu:MIU01-000438678</identifier><datestamp>2008-12-19T18:46:03Z</datestamp><setSpec>hathitrust:pd</setSpec></header><metadata>
+  <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+    <dc:title>The cotton kingdom; a chronicle of the old South, by William E. Dodd.</dc:title>
+    <dc:creator>Dodd, William Edward, 1869-1940.</dc:creator>
+    <dc:subject>Southern States</dc:subject>
+    <dc:description>Textbook edition.</dc:description>
+    <dc:description>ix, 161 p.</dc:description>
+    <dc:publisher>New Haven, Yale university press; [etc., etc.]</dc:publisher>
+    <dc:date>[c1919]</dc:date>
+    <dc:identifier>(OCoLC)ocm01005419</dc:identifier>
+    <dc:identifier>F213 .D64</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015002324799</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015027781999</dc:identifier>
+    <dc:source>http://hdl.handle.net/2027/mdp.39015002324799</dc:source>
+    <dc:source>http://hdl.handle.net/2027/mdp.39015027781999</dc:source>
+    <dc:language>eng</dc:language>
+    <dc:type>text</dc:type>
+    <dc:rights>We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. The digital version is available for all educational uses worldwide. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.</dc:rights>
+  </oai_dc:dc>
+</metadata></record>
+ </ListRecords>
+</OAI-PMH>
+			   ]]>
+            </content>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="16" category="work" type="bibliographic" format="dublinunq">
+            <content><![CDATA[
+			<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2010-07-25T08:14:49Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc" set="hathitrust">http://quod.lib.umich.edu/cgi/o/oai/oai</request>
+  <ListRecords>
+<record>
+<header><identifier>oai:quod.lib.umich.edu:MIU01-000450116</identifier><datestamp>2008-12-19T18:46:03Z</datestamp><setSpec>hathitrust:pd</setSpec></header><metadata>
+  <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+    <dc:title>Certain aboriginal remains of the Black Warrior river. Certain aboriginal remains of the lower Tombigbee river. Certain aboriginal remains of Mobile bay and Mississippi sound. Miscellaneous investigation in Florida. By Clarence B. Moore.</dc:title>
+    <dc:creator>Moore, Clarence B. (Clarence Bloomfield), 1852-1936.</dc:creator>
+    <dc:subject>Mounds--Alabama</dc:subject>
+    <dc:subject>Mounds--Mississippi</dc:subject>
+    <dc:subject>Mounds--Florida</dc:subject>
+    <dc:description>1 p. L., p. [125]-332.</dc:description>
+    <dc:publisher>Philadelphia, P. C. Stockhausen, printer,</dc:publisher>
+    <dc:date>1905.</dc:date>
+    <dc:identifier>(LCCN)05034970</dc:identifier>
+    <dc:identifier>(OCoLC)ocm01542785</dc:identifier>
+    <dc:identifier>E74.A3 M82</dc:identifier>
+    <dc:identifier>E74.A3 M83</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015060794255</dc:identifier>
+    <dc:source>http://hdl.handle.net/2027/mdp.39015060794255</dc:source>
+    <dc:language>eng</dc:language>
+    <dc:type>text</dc:type>
+    <dc:rights>We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. The digital version is available for all educational uses worldwide. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.</dc:rights>
+  </oai_dc:dc>
+</metadata></record>
+  </ListRecords>
+</OAI-PMH>
+			   ]]>
+            </content>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="17" category="work" type="bibliographic" format="dublinunq">
+            <content><![CDATA[
+			<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2010-07-25T08:14:49Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc" set="hathitrust">http://quod.lib.umich.edu/cgi/o/oai/oai</request>
+  <ListRecords>
+<record>
+<header><identifier>oai:quod.lib.umich.edu:MIU01-000450744</identifier><datestamp>2008-12-19T18:46:03Z</datestamp><setSpec>hathitrust:pd</setSpec></header><metadata>
+  <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+    <dc:title>When Valmond came to Pontiac : the story of a lost Napoleon / by Gilbert Parker.</dc:title>
+    <dc:creator>Parker, Gilbert, 1862-1932.</dc:creator>
+    <dc:description>222 p. ;</dc:description>
+    <dc:publisher>Chicago : Stone &amp; Kimball,</dc:publisher>
+    <dc:date>1895.</dc:date>
+    <dc:identifier>(OCoLC)ocm02666762</dc:identifier>
+    <dc:identifier>828 P24wh 1895</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015020058551</dc:identifier>
+    <dc:source>http://hdl.handle.net/2027/mdp.39015020058551</dc:source>
+    <dc:language>eng</dc:language>
+    <dc:type>text</dc:type>
+    <dc:rights>We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. The digital version is available for all educational uses worldwide. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.</dc:rights>
+  </oai_dc:dc>
+</metadata></record>
+  </ListRecords>
+</OAI-PMH>
+			   ]]>
+            </content>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="18" category="work" type="bibliographic" format="dublinunq">
+            <content><![CDATA[
+			<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2010-07-25T08:14:49Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc" set="hathitrust">http://quod.lib.umich.edu/cgi/o/oai/oai</request>
+  <ListRecords>
+<record>
+<header><identifier>oai:quod.lib.umich.edu:MIU01-000451306</identifier><datestamp>2008-12-19T18:46:03Z</datestamp><setSpec>hathitrust:pdus</setSpec></header><metadata>
+  <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+    <dc:title>The unwritten South. Cause, progress and result of the civil war. Relics of hidden truth after forty years. By J. Clarence Stonebraker.</dc:title>
+    <dc:creator>Stonebraker, J. Clarence.</dc:creator>
+    <dc:subject>Confederate States of America--History.</dc:subject>
+    <dc:description>7th ed.</dc:description>
+    <dc:description>250 p., 1 L.</dc:description>
+    <dc:publisher>[n.p.,</dc:publisher>
+    <dc:date>c1908]</dc:date>
+    <dc:identifier>(OCoLC)ocm03967141</dc:identifier>
+    <dc:identifier>E487 .S88 1908</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015005647626</dc:identifier>
+    <dc:source>http://hdl.handle.net/2027/mdp.39015005647626</dc:source>
+    <dc:language>eng</dc:language>
+    <dc:type>text</dc:type>
+    <dc:rights>We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. We are uncertain of its copyright status outside the US. The digital version is available for all educational uses within the United States. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.</dc:rights>
+  </oai_dc:dc>
+</metadata></record>
+  </ListRecords>
+</OAI-PMH>
+			   ]]>
+            </content>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="19" category="work" type="bibliographic" format="dublinunq">
+            <content><![CDATA[
+			<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2010-07-25T08:14:49Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc" set="hathitrust">http://quod.lib.umich.edu/cgi/o/oai/oai</request>
+  <ListRecords>
+<record>
+<header><identifier>oai:quod.lib.umich.edu:MIU01-000452963</identifier><datestamp>2008-12-19T18:46:03Z</datestamp><setSpec>hathitrust:pd</setSpec></header><metadata>
+  <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+    <dc:title>History of the Detroit light guard: its records and achievements. Comp. by Frederic S. Isham and Purvell &amp; Hogan, Detroit.</dc:title>
+    <dc:creator>Isham, Frederic Stewart, 1866-1922.</dc:creator>
+    <dc:subject>Michigan.</dc:subject>
+    <dc:description>104 p., 1 L.</dc:description>
+    <dc:publisher>Detroit, Detroit light guard,</dc:publisher>
+    <dc:date>1896.</dc:date>
+    <dc:identifier>(LCCN)02014522</dc:identifier>
+    <dc:identifier>(OCoLC)ocm06823011</dc:identifier>
+    <dc:identifier>E514.5 .1st</dc:identifier>
+    <dc:identifier>E 514.5 .1st I79</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015019943821</dc:identifier>
+    <dc:source>http://hdl.handle.net/2027/mdp.39015019943821</dc:source>
+    <dc:language>eng</dc:language>
+    <dc:type>text</dc:type>
+    <dc:rights>We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. The digital version is available for all educational uses worldwide. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.</dc:rights>
+  </oai_dc:dc>
+</metadata></record>
+  </ListRecords>
+</OAI-PMH>
+			   ]]>
+            </content>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="20" category="work" type="bibliographic" format="dublinunq">
+            <content><![CDATA[
+			<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2010-07-25T08:14:49Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc" set="hathitrust">http://quod.lib.umich.edu/cgi/o/oai/oai</request>
+  <ListRecords>
+<record>
+<header><identifier>oai:quod.lib.umich.edu:MIU01-000454076</identifier><datestamp>2008-12-19T18:46:03Z</datestamp><setSpec>hathitrust:pd</setSpec></header><metadata>
+  <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+    <dc:title>History of the Ninth regiment, New York volunteer cavalry. War of 1861 to 1865. Compiled from letters, diaries, recollections and official records, by Newel Cheney.</dc:title>
+    <dc:creator>Cheney, Newel, 1836?-</dc:creator>
+    <dc:subject>United States.</dc:subject>
+    <dc:description>423, [1] p.</dc:description>
+    <dc:publisher>Poland Center, N. Y.,</dc:publisher>
+    <dc:date>1901.</dc:date>
+    <dc:identifier>(LCCN)05000244</dc:identifier>
+    <dc:identifier>(OCoLC)ocm05731954</dc:identifier>
+    <dc:identifier>E523.6 .9th</dc:identifier>
+    <dc:identifier>E 523.6 .9th C5</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015013116630</dc:identifier>
+    <dc:source>http://hdl.handle.net/2027/mdp.39015013116630</dc:source>
+    <dc:language>eng</dc:language>
+    <dc:type>text</dc:type>
+    <dc:rights>We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. The digital version is available for all educational uses worldwide. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.</dc:rights>
+  </oai_dc:dc>
+</metadata></record>
+</ListRecords>
+</OAI-PMH>
+			   ]]>
+            </content>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="21" category="work" type="bibliographic" format="dublinunq">
+            <content><![CDATA[
+			<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2010-07-25T08:14:49Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc" set="hathitrust">http://quod.lib.umich.edu/cgi/o/oai/oai</request>
+  <ListRecords>
+<record>
+<header><identifier>oai:quod.lib.umich.edu:MIU01-000464981</identifier><datestamp>2008-12-19T18:46:04Z</datestamp><setSpec>hathitrust:pd</setSpec></header><metadata>
+  <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+    <dc:title>The impeachment and trial of Andrew Johnson, seventeenth president of the United States; a history by David Miller Dewitt.</dc:title>
+    <dc:creator>Dewitt, David Miller, 1837-1912.</dc:creator>
+    <dc:subject>Johnson, Andrew, 1808-1875</dc:subject>
+    <dc:description>vii, 646 p.</dc:description>
+    <dc:publisher>New York, The Macmillan company,</dc:publisher>
+    <dc:date>1903.</dc:date>
+    <dc:identifier>(LCCN)03008588</dc:identifier>
+    <dc:identifier>(OCoLC)ocm02104990</dc:identifier>
+    <dc:identifier>E667 .D52</dc:identifier>
+    <dc:identifier>E 666 .D52</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015021969772</dc:identifier>
+    <dc:source>http://hdl.handle.net/2027/mdp.39015021969772</dc:source>
+    <dc:language>eng</dc:language>
+    <dc:type>text</dc:type>
+    <dc:rights>We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. The digital version is available for all educational uses worldwide. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.</dc:rights>
+  </oai_dc:dc>
+</metadata></record>
+  </ListRecords>
+</OAI-PMH>
+			   ]]>
+            </content>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="22" category="work" type="bibliographic" format="dublinunq">
+            <content><![CDATA[
+			<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2010-07-25T08:14:49Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc" set="hathitrust">http://quod.lib.umich.edu/cgi/o/oai/oai</request>
+  <ListRecords>
+<record>
+<header><identifier>oai:quod.lib.umich.edu:MIU01-000467151</identifier><datestamp>2008-12-19T18:46:04Z</datestamp><setSpec>hathitrust:pd</setSpec></header><metadata>
+  <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+    <dc:title>Grover Cleveland, by James Lowry Whittle.</dc:title>
+    <dc:creator>Whittle, James Lowry.</dc:creator>
+    <dc:subject>Cleveland, Grover, 1837-1908.</dc:subject>
+    <dc:description>2 p. L., [vii]-xvi, 240 p.</dc:description>
+    <dc:publisher>New York, F. Warne &amp; co.,</dc:publisher>
+    <dc:date>[1896]</dc:date>
+    <dc:identifier>(OCoLC)ocm10247550</dc:identifier>
+    <dc:identifier>E697 .W63 1896</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015025360515</dc:identifier>
+    <dc:source>http://hdl.handle.net/2027/mdp.39015025360515</dc:source>
+    <dc:language>eng</dc:language>
+    <dc:type>text</dc:type>
+    <dc:rights>We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. The digital version is available for all educational uses worldwide. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.</dc:rights>
+  </oai_dc:dc>
+</metadata></record>
+  </ListRecords>
+</OAI-PMH>
+			   ]]>
+            </content>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="23" category="work" type="bibliographic" format="dublinunq">
+            <content><![CDATA[
+			<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2010-07-25T08:14:49Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc" set="hathitrust">http://quod.lib.umich.edu/cgi/o/oai/oai</request>
+  <ListRecords>
+<record>
+<header><identifier>oai:quod.lib.umich.edu:MIU01-000468082</identifier><datestamp>2008-12-19T18:46:05Z</datestamp><setSpec>hathitrust:pd</setSpec></header><metadata>
+  <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+    <dc:title>Memorial services held in the Senate and House of Representatives of the United States, together with remarks presented in eulogy of Carey Estes Kefauver, late a Senator from Tennessee.</dc:title>
+    <dc:creator>United States. 88th Congress, 1st session,</dc:creator>
+    <dc:subject>Kefauver, Estes, 1903-1963.</dc:subject>
+    <dc:description>259 p.</dc:description>
+    <dc:publisher>Washington, U.S. Govt. Print. Off.,</dc:publisher>
+    <dc:date>1964.</dc:date>
+    <dc:identifier>(LCCN)64060765</dc:identifier>
+    <dc:identifier>(OCoLC)ocm05886064</dc:identifier>
+    <dc:identifier>E748.K314 U5</dc:identifier>
+    <dc:identifier>E748.K29 U5</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015002669870</dc:identifier>
+    <dc:source>http://hdl.handle.net/2027/mdp.39015002669870</dc:source>
+    <dc:language>eng</dc:language>
+    <dc:type>text</dc:type>
+    <dc:rights>We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. The digital version is available for all educational uses worldwide. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.</dc:rights>
+  </oai_dc:dc>
+</metadata></record>
+  </ListRecords>
+</OAI-PMH>
+			   ]]>
+            </content>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="24" category="work" type="bibliographic" format="dublinunq">
+            <content><![CDATA[
+			<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2010-07-25T08:14:49Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc" set="hathitrust">http://quod.lib.umich.edu/cgi/o/oai/oai</request>
+  <ListRecords>
+<record>
+<header><identifier>oai:quod.lib.umich.edu:MIU01-000119733</identifier><datestamp>2008-12-19T18:46:06Z</datestamp><setSpec>hathitrust:pd</setSpec></header><metadata>
+  <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+    <dc:title>The old curiosity shop, and reprinted pieces. By Charles Dickens.</dc:title>
+    <dc:creator>Dickens, Charles, 1812-1870.</dc:creator>
+    <dc:description>vii, 506 p.</dc:description>
+    <dc:publisher>Philadelphia, Porter &amp; Coates,</dc:publisher>
+    <dc:date>(pref. 1867).</dc:date>
+    <dc:identifier>(OCoLC)ocm34889768</dc:identifier>
+    <dc:identifier>828 D548o</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015065560560</dc:identifier>
+    <dc:source>http://hdl.handle.net/2027/mdp.39015065560560</dc:source>
+    <dc:language>eng</dc:language>
+    <dc:type>text</dc:type>
+    <dc:rights>We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. The digital version is available for all educational uses worldwide. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.</dc:rights>
+  </oai_dc:dc>
+</metadata></record>
+  </ListRecords>
+</OAI-PMH>
+			   ]]>
+            </content>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="24" category="work" type="bibliographic" format="dublinunq">
+            <content><![CDATA[
+			<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2010-07-25T08:14:49Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc" set="hathitrust">http://quod.lib.umich.edu/cgi/o/oai/oai</request>
+  <ListRecords>
+<record>
+<header><identifier>oai:quod.lib.umich.edu:MIU01-000484309</identifier><datestamp>2008-12-19T18:46:06Z</datestamp><setSpec>hathitrust:pd</setSpec></header><metadata>
+  <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+    <dc:title>Bond and free; a true tale of slave times, by Jas. H. W. Howard.</dc:title>
+    <dc:creator>Howard, Jas. H. W. (James H. W.)</dc:creator>
+    <dc:description>280 p.</dc:description>
+    <dc:publisher>Miami, Mnemosyne</dc:publisher>
+    <dc:date>[1969, c1886]</dc:date>
+    <dc:identifier>(OCoLC)ocm00047513</dc:identifier>
+    <dc:identifier>828 H8492bp 1969</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015031236543</dc:identifier>
+    <dc:source>http://hdl.handle.net/2027/mdp.39015031236543</dc:source>
+    <dc:language>eng</dc:language>
+    <dc:type>text</dc:type>
+    <dc:rights>We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. The digital version is available for all educational uses worldwide. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.</dc:rights>
+  </oai_dc:dc>
+</metadata></record>
+  </ListRecords>
+</OAI-PMH>
+			   ]]>
+            </content>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="26" category="work" type="bibliographic" format="dublinunq">
+            <content><![CDATA[
+			<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2010-07-25T08:14:49Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc" set="hathitrust">http://quod.lib.umich.edu/cgi/o/oai/oai</request>
+  <ListRecords>
+<record>
+<header><identifier>oai:quod.lib.umich.edu:MIU01-000529302</identifier><datestamp>2008-12-19T18:46:14Z</datestamp><setSpec>hathitrust:pd</setSpec></header><metadata>
+  <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+    <dc:title>Annual report.</dc:title>
+    <dc:creator>Chicago Public Library.</dc:creator>
+    <dc:description>v.</dc:description>
+    <dc:publisher>Chicago.</dc:publisher>
+    <dc:identifier>(LCCN)08023389</dc:identifier>
+    <dc:identifier>(OCoLC)ocm01554108</dc:identifier>
+    <dc:identifier>Z733 .C53</dc:identifier>
+    <dc:identifier>Z733.C53 A11</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015036853748</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015036853755</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015036853763</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015008279930</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015008279948</dc:identifier>
+    <dc:source>v.1-10 1873-1882 : http://hdl.handle.net/2027/mdp.39015036853748</dc:source>
+    <dc:source>v.11-20 1883-1892 : http://hdl.handle.net/2027/mdp.39015036853755</dc:source>
+    <dc:source>v.21-30 1893-1902 : http://hdl.handle.net/2027/mdp.39015036853763</dc:source>
+    <dc:source>v.31-39 1903-1911 : http://hdl.handle.net/2027/mdp.39015008279930</dc:source>
+    <dc:source>v.41-50 1912-1921 : http://hdl.handle.net/2027/mdp.39015008279948</dc:source>
+    <dc:language>eng</dc:language>
+    <dc:type>text</dc:type>
+    <dc:rights>We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. The digital version is available for all educational uses worldwide. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.</dc:rights>
+  </oai_dc:dc>
+</metadata></record>
+ </ListRecords>
+</OAI-PMH>
+			   ]]>
+            </content>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="27" category="work" type="bibliographic" format="dublinunq">
+            <content><![CDATA[
+			<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2010-07-25T08:14:49Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc" set="hathitrust">http://quod.lib.umich.edu/cgi/o/oai/oai</request>
+  <ListRecords>
+<record>
+<header><identifier>oai:quod.lib.umich.edu:MIU01-000531385</identifier><datestamp>2008-12-19T18:46:15Z</datestamp><setSpec>hathitrust:pd</setSpec></header><metadata>
+  <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+    <dc:title>Municipal manual of the city of Detroit.</dc:title>
+    <dc:creator>Detroit (Mich.) City Clerk.</dc:creator>
+    <dc:description>v.</dc:description>
+    <dc:publisher>Detroit.</dc:publisher>
+    <dc:identifier>(OCoLC)ocm14923481</dc:identifier>
+    <dc:identifier>JS 832 .A12</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015066467542</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015066467534</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015066467690</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015066467526</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015066467518</dc:identifier>
+    <dc:source>1873 : http://hdl.handle.net/2027/mdp.39015066467542</dc:source>
+    <dc:source>1875 : http://hdl.handle.net/2027/mdp.39015066467534</dc:source>
+    <dc:source>1877 : http://hdl.handle.net/2027/mdp.39015066467690</dc:source>
+    <dc:source>1886 : http://hdl.handle.net/2027/mdp.39015066467526</dc:source>
+    <dc:source>1894 : http://hdl.handle.net/2027/mdp.39015066467518</dc:source>
+    <dc:language>eng</dc:language>
+    <dc:type>text</dc:type>
+    <dc:rights>We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. The digital version is available for all educational uses worldwide. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.</dc:rights>
+  </oai_dc:dc>
+</metadata></record>
+  </ListRecords>
+</OAI-PMH>
+			   ]]>
+            </content>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="28" category="work" type="bibliographic" format="dublinunq">
+            <content><![CDATA[
+			<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2010-07-25T08:14:49Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc" set="hathitrust">http://quod.lib.umich.edu/cgi/o/oai/oai</request>
+  <ListRecords>
+<record>
+<header status="deleted"><identifier>oai:quod.lib.umich.edu:MIU01-000534330</identifier><datestamp>2008-12-19T18:46:15Z</datestamp><setSpec>hathitrust:pd</setSpec></header><metadata>
+  <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+    <dc:title>The great audience.</dc:title>
+    <dc:creator>Seldes, Gilbert, 1893-1970</dc:creator>
+    <dc:subject>Motion picture audiences</dc:subject>
+    <dc:subject>Radio audiences</dc:subject>
+    <dc:subject>Television viewers</dc:subject>
+    <dc:description>299 p.</dc:description>
+    <dc:publisher>New York : Viking Press,</dc:publisher>
+    <dc:date>1951 [c1950]</dc:date>
+    <dc:identifier>(LCCN)50010499</dc:identifier>
+    <dc:identifier>(OCoLC)ocm18353560</dc:identifier>
+    <dc:identifier>PN1991.6 .S4</dc:identifier>
+    <dc:identifier>800 S464</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015001807539</dc:identifier>
+    <dc:source>http://hdl.handle.net/2027/mdp.39015001807539</dc:source>
+    <dc:language>eng</dc:language>
+    <dc:type>text</dc:type>
+    <dc:rights>We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. The digital version is available for all educational uses worldwide. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.</dc:rights>
+  </oai_dc:dc>
+</metadata>
+</record>
+  </ListRecords>
+</OAI-PMH>
+			   ]]>
+            </content>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="29" category="work" type="bibliographic" format="dublinunq">
+            <content><![CDATA[
+			<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2010-07-25T08:14:49Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc" set="hathitrust">http://quod.lib.umich.edu/cgi/o/oai/oai</request>
+  <ListRecords>
+<record>
+<header status="deleted"><identifier>oai:quod.lib.umich.edu:MIU01-000534471</identifier><datestamp>2008-12-19T18:46:15Z</datestamp><setSpec>hathitrust:pd</setSpec></header><metadata>
+  <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+    <dc:title>Henry Compton, bishop of London, by Charles P. Keith ...</dc:title>
+    <dc:creator>Keith, Charles Penrose, 1854-1939.</dc:creator>
+    <dc:subject>Compton, Henry, 1632-1713.</dc:subject>
+    <dc:description>24 p.</dc:description>
+    <dc:publisher>Philadelphia,</dc:publisher>
+    <dc:date>1920.</dc:date>
+    <dc:identifier>(LCCN)30001762</dc:identifier>
+    <dc:identifier>(OCoLC)ocm05062135</dc:identifier>
+    <dc:identifier>BX 5810 .C56 A2 no.3</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015019195208</dc:identifier>
+    <dc:source>http://hdl.handle.net/2027/mdp.39015019195208</dc:source>
+    <dc:language>eng</dc:language>
+    <dc:type>text</dc:type>
+    <dc:rights>We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. The digital version is available for all educational uses worldwide. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.</dc:rights>
+  </oai_dc:dc>
+</metadata></record>
+  </ListRecords>
+</OAI-PMH>
+			   ]]>
+            </content>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="30" category="work" type="bibliographic" format="dublinunq">
+            <content><![CDATA[
+			<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2010-07-25T08:14:49Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc" set="hathitrust">http://quod.lib.umich.edu/cgi/o/oai/oai</request>
+  <ListRecords>
+<record>
+<header><identifier>oai:quod.lib.umich.edu:MIU01-000551920</identifier><datestamp>2008-12-19T18:46:17Z</datestamp><setSpec>hathitrust:pd</setSpec></header><metadata>
+  <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+    <dc:title>Roster of state, district and county officers.</dc:title>
+    <dc:creator>Missouri. Office of the Secretary of State.</dc:creator>
+    <dc:subject>Missouri--Registers.</dc:subject>
+    <dc:description>v.</dc:description>
+    <dc:publisher>Jefferson City.</dc:publisher>
+    <dc:identifier>(LCCN)43030785//r</dc:identifier>
+    <dc:identifier>(OCoLC)ocm01716902</dc:identifier>
+    <dc:identifier>JK5430 .A33</dc:identifier>
+    <dc:identifier>JK5430 .A35</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015054504231</dc:identifier>
+    <dc:source>1913,1915,1917,1919 : http://hdl.handle.net/2027/mdp.39015054504231</dc:source>
+    <dc:language>eng</dc:language>
+    <dc:type>text</dc:type>
+    <dc:rights>We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. The digital version is available for all educational uses worldwide. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.</dc:rights>
+  </oai_dc:dc>
+</metadata></record>
+ </ListRecords>
+</OAI-PMH>
+			   ]]>
+            </content>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="31" category="work" type="bibliographic" format="dublinunq">
+            <content><![CDATA[
+			<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2010-07-25T08:14:49Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc" set="hathitrust">http://quod.lib.umich.edu/cgi/o/oai/oai</request>
+  <ListRecords>
+<record>
+<header><identifier>oai:quod.lib.umich.edu:MIU01-000567393</identifier><datestamp>2008-12-19T18:46:18Z</datestamp><setSpec>hathitrust:pd</setSpec></header><metadata>
+  <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+    <dc:title>Abraham Lincoln : the Christian / by William J. Johnson.</dc:title>
+    <dc:creator>Johnstone, William Jackson, 1867-1939.</dc:creator>
+    <dc:subject>Lincoln, Abraham, 1809-1865</dc:subject>
+    <dc:description>5 p. L., 7-228 p.</dc:description>
+    <dc:publisher>New York : Eaton &amp; Mains ; Cincinnati : Jennings &amp; Graham</dc:publisher>
+    <dc:date>[c1913]</dc:date>
+    <dc:identifier>(LCCN)13018506//r29</dc:identifier>
+    <dc:identifier>(OCoLC)ocm02171828</dc:identifier>
+    <dc:identifier>E457.2 .J7</dc:identifier>
+    <dc:identifier>E457.2 .J73</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015005313120</dc:identifier>
+    <dc:source>http://hdl.handle.net/2027/mdp.39015005313120</dc:source>
+    <dc:language>eng</dc:language>
+    <dc:type>text</dc:type>
+    <dc:rights>We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. The digital version is available for all educational uses worldwide. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.</dc:rights>
+  </oai_dc:dc>
+</metadata></record>
+  </ListRecords>
+</OAI-PMH>
+			   ]]>
+            </content>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="32" category="work" type="bibliographic" format="dublinunq">
+            <content><![CDATA[
+			<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2010-07-25T08:14:49Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc" set="hathitrust">http://quod.lib.umich.edu/cgi/o/oai/oai</request>
+  <ListRecords>
+<record>
+<header><identifier>oai:quod.lib.umich.edu:MIU01-000575533</identifier><datestamp>2008-12-19T18:46:18Z</datestamp><setSpec>hathitrust:pd</setSpec></header><metadata>
+  <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+    <dc:title>Making Woodrow Wilson president, by William F. McCombs, ed. by Louis Jay Lang.</dc:title>
+    <dc:creator>McCombs, William Frank, 1875-1921.</dc:creator>
+    <dc:subject>Wilson, Woodrow, 1856-1924.</dc:subject>
+    <dc:subject>Presidents--United States--Election--1912.</dc:subject>
+    <dc:description>309 p.</dc:description>
+    <dc:publisher>New York, Fairview publishing company,</dc:publisher>
+    <dc:date>1921.</dc:date>
+    <dc:identifier>(LCCN)22000263</dc:identifier>
+    <dc:identifier>(OCoLC)ocm01544109</dc:identifier>
+    <dc:identifier>E766 .M14</dc:identifier>
+    <dc:identifier>E766 .M13</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015014550290</dc:identifier>
+    <dc:source>http://hdl.handle.net/2027/mdp.39015014550290</dc:source>
+    <dc:language>eng</dc:language>
+    <dc:type>text</dc:type>
+    <dc:rights>We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. The digital version is available for all educational uses worldwide. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.</dc:rights>
+  </oai_dc:dc>
+</metadata></record>
+  </ListRecords>
+</OAI-PMH>
+			   ]]>
+            </content>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="33" category="work" type="bibliographic" format="dublinunq">
+            <content><![CDATA[
+			<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2010-07-25T08:14:49Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc" set="hathitrust">http://quod.lib.umich.edu/cgi/o/oai/oai</request>
+  <ListRecords>
+<record>
+<header><identifier>oai:quod.lib.umich.edu:MIU01-000576119</identifier><datestamp>2008-12-19T18:46:18Z</datestamp><setSpec>hathitrust:pd</setSpec></header><metadata>
+  <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+    <dc:title>Theodore Roosevelt and his times; : a chronicle of the progressive movement, / by Harold Howland.</dc:title>
+    <dc:creator>Howland, Harold Jacobs, 1877-</dc:creator>
+    <dc:subject>Roosevelt, Theodore, 1858-1919.</dc:subject>
+    <dc:subject>Progressive Party (1912)</dc:subject>
+    <dc:subject>United States--Politics and government--1865-1933.</dc:subject>
+    <dc:description>Textbook ed.</dc:description>
+    <dc:description>xi, 289 p. :</dc:description>
+    <dc:publisher>New Haven, : Yale University Press,</dc:publisher>
+    <dc:date>c1921.</dc:date>
+    <dc:identifier>(OCoLC)ocm06612649</dc:identifier>
+    <dc:identifier>E 756 .H86</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015013288058</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015022214814</dc:identifier>
+    <dc:source>http://hdl.handle.net/2027/mdp.39015013288058</dc:source>
+    <dc:source>http://hdl.handle.net/2027/mdp.39015022214814</dc:source>
+    <dc:language>eng</dc:language>
+    <dc:type>text</dc:type>
+    <dc:rights>We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. The digital version is available for all educational uses worldwide. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.</dc:rights>
+  </oai_dc:dc>
+</metadata></record>
+  </ListRecords>
+</OAI-PMH>
+			   ]]>
+            </content>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="34" category="work" type="bibliographic" format="dublinunq">
+            <content><![CDATA[
+			<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2010-07-25T08:14:49Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc" set="hathitrust">http://quod.lib.umich.edu/cgi/o/oai/oai</request>
+  <ListRecords>
+<record>
+<header><identifier>oai:quod.lib.umich.edu:MIU01-000603281</identifier><datestamp>2008-12-19T18:46:20Z</datestamp><setSpec>hathitrust:pd</setSpec></header><metadata>
+  <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+    <dc:title>Recollections and letters of General Robert E. Lee, by his son, Captain Robert E. Lee.</dc:title>
+    <dc:creator>Lee, Robert Edward, 1843-1914.</dc:creator>
+    <dc:subject>Lee, Robert E. (Robert Edward), 1807-1870.</dc:subject>
+    <dc:description>xii p., 1 L., 461 p.</dc:description>
+    <dc:publisher>New York, Doubleday, Page &amp; company,</dc:publisher>
+    <dc:date>1904.</dc:date>
+    <dc:identifier>(LCCN)04027138</dc:identifier>
+    <dc:identifier>(OCoLC)ocm00445167</dc:identifier>
+    <dc:identifier>E467.1.L4 L48</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015000669294</dc:identifier>
+    <dc:source>http://hdl.handle.net/2027/mdp.39015000669294</dc:source>
+    <dc:language>eng</dc:language>
+    <dc:type>text</dc:type>
+    <dc:rights>We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. The digital version is available for all educational uses worldwide. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.</dc:rights>
+  </oai_dc:dc>
+</metadata></record>
+  </ListRecords>
+</OAI-PMH>
+			   ]]>
+            </content>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="35" category="work" type="bibliographic" format="dublinunq">
+            <content><![CDATA[
+			<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2010-07-25T08:14:49Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc" set="hathitrust">http://quod.lib.umich.edu/cgi/o/oai/oai</request>
+  <ListRecords>
+<record>
+<header><identifier>oai:quod.lib.umich.edu:MIU01-000627474</identifier><datestamp>2008-12-19T18:46:22Z</datestamp><setSpec>hathitrust:pd</setSpec></header><metadata>
+  <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+    <dc:title>The Ponca tribe, by James H. Howard, in collaboration with Peter Le Claire, tribal historian, and other members of the tribe.</dc:title>
+    <dc:creator>Howard, James H. (James Henri), 1925-1982.</dc:creator>
+    <dc:subject>Ponca Indians</dc:subject>
+    <dc:description>xii, 191 p.</dc:description>
+    <dc:publisher>Washington, U.S. Govt. Print. Off.; for sale by the Superintendent of Documents,</dc:publisher>
+    <dc:date>1965.</dc:date>
+    <dc:identifier>(LCCN)65065735</dc:identifier>
+    <dc:identifier>(OCoLC)ocm00476432</dc:identifier>
+    <dc:identifier>E51 .U6 no. 195</dc:identifier>
+    <dc:identifier>970.3</dc:identifier>
+    <dc:identifier>E51 .U6 no.195</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015013431492</dc:identifier>
+    <dc:source>http://hdl.handle.net/2027/mdp.39015013431492</dc:source>
+    <dc:language>eng</dc:language>
+    <dc:type>text</dc:type>
+    <dc:rights>We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. The digital version is available for all educational uses worldwide. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.</dc:rights>
+  </oai_dc:dc>
+</metadata></record>
+  </ListRecords>
+</OAI-PMH>
+			   ]]>
+            </content>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="36" category="work" type="bibliographic" format="dublinunq">
+            <content><![CDATA[
+			<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2010-07-25T08:14:49Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc" set="hathitrust">http://quod.lib.umich.edu/cgi/o/oai/oai</request>
+  <ListRecords>
+<record>
+<header status="deleted"><identifier>oai:quod.lib.umich.edu:MIU01-000682552</identifier><datestamp>2008-12-19T18:46:28Z</datestamp><setSpec>hathitrust:pd</setSpec></header><metadata>
+  <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+    <dc:title>Needs of adolescent youth / M. C. Beyerl [and others] Edited by Merle T. Strom, executive secretary.</dc:title>
+    <dc:creator>Indiana Public School Study Council.</dc:creator>
+    <dc:description>145 p. ;</dc:description>
+    <dc:publisher>Danville, Ill. : Interstate Printers &amp; Publishers,</dc:publisher>
+    <dc:date>1963.</dc:date>
+    <dc:identifier>(LCCN)63015945</dc:identifier>
+    <dc:identifier>(OCoLC)ocm00523951</dc:identifier>
+    <dc:identifier>HQ 796 .I44</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015070575017</dc:identifier>
+    <dc:source>http://hdl.handle.net/2027/mdp.39015070575017</dc:source>
+    <dc:language>eng</dc:language>
+    <dc:type>text</dc:type>
+    <dc:rights>We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. The digital version is available for all educational uses worldwide. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.</dc:rights>
+  </oai_dc:dc>
+</metadata></record>
+  </ListRecords>
+</OAI-PMH>
+			   ]]>
+            </content>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="37" category="work" type="bibliographic" format="dublinunq">
+            <content><![CDATA[
+			<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2010-07-25T08:14:49Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc" set="hathitrust">http://quod.lib.umich.edu/cgi/o/oai/oai</request>
+  <ListRecords>
+<record>
+<header><identifier>oai:quod.lib.umich.edu:MIU01-000717125</identifier><datestamp>2008-12-19T18:46:30Z</datestamp><setSpec>hathitrust:pd</setSpec></header><metadata>
+  <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+    <dc:title>A study of Federal immigration policies and practices in Southern California : a report / prepared by the California Advisory Committee to the United States Commission on Civil Rights.</dc:title>
+    <dc:creator>United States Commission on Civil Rights. California Advisory Committee.</dc:creator>
+    <dc:subject>Hispanic Americans--California, Southern.</dc:subject>
+    <dc:subject>California, Southern--Emigration and immigration.</dc:subject>
+    <dc:subject>United States--Emigration and immigration</dc:subject>
+    <dc:description>ix, 61 p. :</dc:description>
+    <dc:publisher>Washington, D.C. : The Commission : for sale by the Supt. of Docs., U.S. Govt. Print. Off.,</dc:publisher>
+    <dc:date>[1980]</dc:date>
+    <dc:identifier>(LCCN)80602885</dc:identifier>
+    <dc:identifier>(OCoLC)ocm06624032</dc:identifier>
+    <dc:identifier>JV6920 .U54 1980</dc:identifier>
+    <dc:identifier>353.0081/7/097949</dc:identifier>
+    <dc:identifier>JV6920 .U58 1980</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015008220702</dc:identifier>
+    <dc:source>http://hdl.handle.net/2027/mdp.39015008220702</dc:source>
+    <dc:language>eng</dc:language>
+    <dc:type>text</dc:type>
+    <dc:rights>We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. The digital version is available for all educational uses worldwide. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.</dc:rights>
+  </oai_dc:dc>
+</metadata></record>
+ </ListRecords>
+</OAI-PMH>
+			   ]]>
+            </content>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="38" category="work" type="bibliographic" format="dublinunq">
+            <content><![CDATA[
+			<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2010-07-25T08:14:49Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc" set="hathitrust">http://quod.lib.umich.edu/cgi/o/oai/oai</request>
+  <ListRecords>
+<record>
+<header><identifier>oai:quod.lib.umich.edu:MIU01-000753105</identifier><datestamp>2008-12-19T18:46:30Z</datestamp><setSpec>hathitrust:pd</setSpec></header><metadata>
+  <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+    <dc:title>Twenty years after Brown : a report of the United States Commission on Civil Rights.</dc:title>
+    <dc:creator>United States Commission on Civil Rights.</dc:creator>
+    <dc:subject>Civil rights--United States--History.</dc:subject>
+    <dc:description>xi, 187 p. ;</dc:description>
+    <dc:publisher>Washington : Commission on Civil Rights,</dc:publisher>
+    <dc:date>1977.</dc:date>
+    <dc:identifier>(ISBN)(pbk.)</dc:identifier>
+    <dc:identifier>(OCoLC)ocm03451960</dc:identifier>
+    <dc:identifier>JC599.U5 A427 1977</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015002221466</dc:identifier>
+    <dc:source>http://hdl.handle.net/2027/mdp.39015002221466</dc:source>
+    <dc:language>eng</dc:language>
+    <dc:type>text</dc:type>
+    <dc:rights>We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. The digital version is available for all educational uses worldwide. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.</dc:rights>
+  </oai_dc:dc>
+</metadata></record>
+  </ListRecords>
+</OAI-PMH>
+			   ]]>
+            </content>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="39" category="work" type="bibliographic" format="dublinunq">
+            <content><![CDATA[
+			<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2010-07-25T08:14:49Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc" set="hathitrust">http://quod.lib.umich.edu/cgi/o/oai/oai</request>
+  <ListRecords>
+<record>
+<header><identifier>oai:quod.lib.umich.edu:MIU01-000779494</identifier><datestamp>2008-12-19T18:46:31Z</datestamp><setSpec>hathitrust:pd</setSpec></header><metadata>
+  <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+    <dc:title>Poems, by William Wilson. Ed. by Benson J. Lossing.</dc:title>
+    <dc:creator>Wilson, William, 1801-1860.</dc:creator>
+    <dc:description>3d ed.</dc:description>
+    <dc:description>xxvi, 218, [5] p.</dc:description>
+    <dc:publisher>Poughkeepsie, A. Wilson,</dc:publisher>
+    <dc:date>1881.</dc:date>
+    <dc:identifier>(OCoLC)ocm04217459</dc:identifier>
+    <dc:identifier>828 W7544 L9 O1</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015063975802</dc:identifier>
+    <dc:source>http://hdl.handle.net/2027/mdp.39015063975802</dc:source>
+    <dc:language>eng</dc:language>
+    <dc:type>text</dc:type>
+    <dc:rights>We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. The digital version is available for all educational uses worldwide. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.</dc:rights>
+  </oai_dc:dc>
+</metadata></record>
+  </ListRecords>
+</OAI-PMH>
+			   ]]>
+            </content>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="40" category="work" type="bibliographic" format="dublinunq">
+            <content><![CDATA[
+			<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2010-07-25T08:14:49Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc" set="hathitrust">http://quod.lib.umich.edu/cgi/o/oai/oai</request>
+  <ListRecords>
+<record>
+<header><identifier>oai:quod.lib.umich.edu:MIU01-000805115</identifier><datestamp>2008-12-19T18:46:32Z</datestamp><setSpec>hathitrust:pd</setSpec></header><metadata>
+  <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+    <dc:title>Nantucket, a camera impression, by Samuel Chamberlain.</dc:title>
+    <dc:creator>Chamberlain, Samuel, 1895-1975.</dc:creator>
+    <dc:subject>Nantucket (Mass.)--Description and travel.</dc:subject>
+    <dc:description>73 p.</dc:description>
+    <dc:publisher>New York, Hastings house</dc:publisher>
+    <dc:date>[c1939]</dc:date>
+    <dc:identifier>(LCCN)39024399</dc:identifier>
+    <dc:identifier>(OCoLC)ocm01484737</dc:identifier>
+    <dc:identifier>F72.N2 C45</dc:identifier>
+    <dc:identifier>917.449</dc:identifier>
+    <dc:identifier>F72.N2 C44</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015010997966</dc:identifier>
+    <dc:source>http://hdl.handle.net/2027/mdp.39015010997966</dc:source>
+    <dc:language>eng</dc:language>
+    <dc:type>text</dc:type>
+    <dc:rights>We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. The digital version is available for all educational uses worldwide. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.</dc:rights>
+  </oai_dc:dc>
+</metadata></record>
+  </ListRecords>
+</OAI-PMH>
+			   ]]>
+            </content>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="41" category="work" type="bibliographic" format="dublinunq">
+            <content><![CDATA[
+			<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2010-07-25T08:14:49Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc" set="hathitrust">http://quod.lib.umich.edu/cgi/o/oai/oai</request>
+  <ListRecords>
+<record>
+<header><identifier>oai:quod.lib.umich.edu:MIU01-000811562</identifier><datestamp>2008-12-19T18:46:33Z</datestamp><setSpec>hathitrust:pd</setSpec></header><metadata>
+  <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+    <dc:title>"As the bishop saw it." From America to Rome. Letters of the Right Rev. C. H. Borgess, describing his trip to Rome in 1877. Ed. by Very Rev. Frank A. O'Brien.</dc:title>
+    <dc:creator>Borgess, Caspar Henry, 1826-1890.</dc:creator>
+    <dc:subject>Europe--Description and travel.</dc:subject>
+    <dc:description>266 p.</dc:description>
+    <dc:publisher>Detroit, Mich., Pauly, Fuchs &amp; co.</dc:publisher>
+    <dc:date>[c1892]</dc:date>
+    <dc:identifier>(LCCN)03011021</dc:identifier>
+    <dc:identifier>(OCoLC)ocm23308921</dc:identifier>
+    <dc:identifier>D919 .B73</dc:identifier>
+    <dc:identifier>D919 .B73</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015063623923</dc:identifier>
+    <dc:source>http://hdl.handle.net/2027/mdp.39015063623923</dc:source>
+    <dc:language>eng</dc:language>
+    <dc:type>text</dc:type>
+    <dc:rights>We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. The digital version is available for all educational uses worldwide. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.</dc:rights>
+  </oai_dc:dc>
+</metadata></record>
+  </ListRecords>
+</OAI-PMH>
+			   ]]>
+            </content>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="42" category="work" type="bibliographic" format="dublinunq">
+            <content><![CDATA[
+			<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2010-07-25T08:14:49Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc" set="hathitrust">http://quod.lib.umich.edu/cgi/o/oai/oai</request>
+  <ListRecords>
+<record>
+<header><identifier>oai:quod.lib.umich.edu:MIU01-000829742</identifier><datestamp>2008-12-19T18:46:33Z</datestamp><setSpec>hathitrust:pdus</setSpec></header><metadata>
+  <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+    <dc:title>L'Europe et la r?lution fran?se, par Albert Sorel.</dc:title>
+    <dc:creator>Sorel, Albert, 1842-1906.</dc:creator>
+    <dc:subject>Europe--History--1789-1815.</dc:subject>
+    <dc:subject>France--History--Revolution, 1789-1799--Causes.</dc:subject>
+    <dc:description>8 v.</dc:description>
+    <dc:publisher>Paris, E. Plon, Nourrit et cie,</dc:publisher>
+    <dc:date>1903-06.</dc:date>
+    <dc:identifier>(OCoLC)ocm56684712</dc:identifier>
+    <dc:identifier>DC148 .S7 1905</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015026103328</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015026103336</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015026103344</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015026103351</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015026103369</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015026103377</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015026103385</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015026103393</dc:identifier>
+    <dc:source>v.1 : http://hdl.handle.net/2027/mdp.39015026103328</dc:source>
+    <dc:source>v.2 : http://hdl.handle.net/2027/mdp.39015026103336</dc:source>
+    <dc:source>v.3 : http://hdl.handle.net/2027/mdp.39015026103344</dc:source>
+    <dc:source>v.4 : http://hdl.handle.net/2027/mdp.39015026103351</dc:source>
+    <dc:source>v.5 : http://hdl.handle.net/2027/mdp.39015026103369</dc:source>
+    <dc:source>v.6 : http://hdl.handle.net/2027/mdp.39015026103377</dc:source>
+    <dc:source>v.7 : http://hdl.handle.net/2027/mdp.39015026103385</dc:source>
+    <dc:source>v.8 : http://hdl.handle.net/2027/mdp.39015026103393</dc:source>
+    <dc:language>fre</dc:language>
+    <dc:type>text</dc:type>
+    <dc:rights>We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. We are uncertain of its copyright status outside the US. The digital version is available for all educational uses within the United States. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.</dc:rights>
+  </oai_dc:dc>
+</metadata></record>
+  </ListRecords>
+</OAI-PMH>
+			   ]]>
+            </content>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="43" category="work" type="bibliographic" format="dublinunq">
+            <content><![CDATA[
+			<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2010-07-25T08:14:49Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc" set="hathitrust">http://quod.lib.umich.edu/cgi/o/oai/oai</request>
+  <ListRecords>
+<record>
+<header><identifier>oai:quod.lib.umich.edu:MIU01-000946281</identifier><datestamp>2008-12-19T18:46:37Z</datestamp><setSpec>hathitrust:pd</setSpec></header><metadata>
+  <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+    <dc:title>Father Van's progressive dictionary for versification.</dc:title>
+    <dc:creator>Vandendriessche, Amandus.</dc:creator>
+    <dc:subject>English language--Rhyme</dc:subject>
+    <dc:description>374 p. :</dc:description>
+    <dc:publisher>Detroit : Wm. Graham,</dc:publisher>
+    <dc:date>1900.</dc:date>
+    <dc:identifier>(LCCN)01031135</dc:identifier>
+    <dc:identifier>(OCoLC)ocm06347920</dc:identifier>
+    <dc:identifier>820.56 V23</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015010528654</dc:identifier>
+    <dc:source>http://hdl.handle.net/2027/mdp.39015010528654</dc:source>
+    <dc:language>eng</dc:language>
+    <dc:type>text</dc:type>
+    <dc:rights>We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. The digital version is available for all educational uses worldwide. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.</dc:rights>
+  </oai_dc:dc>
+</metadata></record>
+ </ListRecords>
+</OAI-PMH>
+			   ]]>
+            </content>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="44" category="work" type="bibliographic" format="dublinunq">
+            <content><![CDATA[
+			<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2010-07-25T08:14:49Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc" set="hathitrust">http://quod.lib.umich.edu/cgi/o/oai/oai</request>
+  <ListRecords>
+<record>
+<header><identifier>oai:quod.lib.umich.edu:MIU01-000948912</identifier><datestamp>2008-12-19T18:46:37Z</datestamp><setSpec>hathitrust:pd</setSpec></header><metadata>
+  <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+    <dc:title>Works.</dc:title>
+    <dc:title>The dramatic works of William Shakespeare / edited by William George Clark and William Aldis Wright.</dc:title>
+    <dc:creator>Shakespeare, William, 1564-1616.</dc:creator>
+    <dc:description>3 v. ;</dc:description>
+    <dc:publisher>New York : American book exchange,</dc:publisher>
+    <dc:date>1881.</dc:date>
+    <dc:identifier>(OCoLC)ocm02747487</dc:identifier>
+    <dc:identifier>822.8 S53 1881c</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015065458609</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015065816145</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015065458617</dc:identifier>
+    <dc:source>v.1 : http://hdl.handle.net/2027/mdp.39015065458609</dc:source>
+    <dc:source>v.2 : http://hdl.handle.net/2027/mdp.39015065816145</dc:source>
+    <dc:source>v.3 : http://hdl.handle.net/2027/mdp.39015065458617</dc:source>
+    <dc:language>eng</dc:language>
+    <dc:type>text</dc:type>
+    <dc:rights>We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. The digital version is available for all educational uses worldwide. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.</dc:rights>
+  </oai_dc:dc>
+</metadata></record>
+  </ListRecords>
+</OAI-PMH>
+			   ]]>
+            </content>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="45" category="work" type="bibliographic" format="dublinunq">
+            <content><![CDATA[
+			<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2010-07-25T08:14:49Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc" set="hathitrust">http://quod.lib.umich.edu/cgi/o/oai/oai</request>
+  <ListRecords>
+<record>
+<header><identifier>oai:quod.lib.umich.edu:MIU01-000963557</identifier><datestamp>2008-12-19T18:46:37Z</datestamp><setSpec>hathitrust:pd</setSpec></header><metadata>
+  <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+    <dc:title>Die finanzwissenschaft nach ihren ersten grunds?en entworfen</dc:title>
+    <dc:creator>R??g, Karl Gottlob, 1752-1806.</dc:creator>
+    <dc:subject>Finance</dc:subject>
+    <dc:description>xxxii, 424 p.</dc:description>
+    <dc:publisher>Leipzig, A. F. B??,</dc:publisher>
+    <dc:date>1789.</dc:date>
+    <dc:identifier>(LCCN)31007688</dc:identifier>
+    <dc:identifier>(OCoLC)ocm23620192</dc:identifier>
+    <dc:identifier>HJ160 .R6</dc:identifier>
+    <dc:identifier>HJ 2309 .R72</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015070872935</dc:identifier>
+    <dc:source>http://hdl.handle.net/2027/mdp.39015070872935</dc:source>
+    <dc:language>ger</dc:language>
+    <dc:type>text</dc:type>
+    <dc:rights>We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. The digital version is available for all educational uses worldwide. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.</dc:rights>
+  </oai_dc:dc>
+</metadata></record>
+ </ListRecords>
+</OAI-PMH>
+			   ]]>
+            </content>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="46" category="work" type="bibliographic" format="dublinunq">
+            <content><![CDATA[
+			<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2010-07-25T08:14:49Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc" set="hathitrust">http://quod.lib.umich.edu/cgi/o/oai/oai</request>
+  <ListRecords>
+<record>
+<header><identifier>oai:quod.lib.umich.edu:MIU01-001022305</identifier><datestamp>2008-12-19T18:46:38Z</datestamp><setSpec>hathitrust:pdus</setSpec></header><metadata>
+  <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+    <dc:title>Leviathan : or the matter, forme &amp; power of a commonwealth, ecclesiasticall and civill / Thomas Hobbes ; the text edited by A.R. Waller.</dc:title>
+    <dc:creator>Hobbes, Thomas, 1588-1679.</dc:creator>
+    <dc:subject>Political science</dc:subject>
+    <dc:subject>State, The</dc:subject>
+    <dc:description>xx, 531 p.</dc:description>
+    <dc:publisher>Cambridge : University Press,</dc:publisher>
+    <dc:date>1904.</dc:date>
+    <dc:identifier>(LCCN)04009937</dc:identifier>
+    <dc:identifier>(OCoLC)ocm01018573</dc:identifier>
+    <dc:identifier>JC153 .H65 1904</dc:identifier>
+    <dc:identifier>320.1</dc:identifier>
+    <dc:identifier>JC 153 .H65 1904</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015018606338</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015058403588</dc:identifier>
+    <dc:source>http://hdl.handle.net/2027/mdp.39015018606338</dc:source>
+    <dc:source>http://hdl.handle.net/2027/mdp.39015058403588</dc:source>
+    <dc:language>eng</dc:language>
+    <dc:type>text</dc:type>
+    <dc:rights>We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. We are uncertain of its copyright status outside the US. The digital version is available for all educational uses within the United States. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.</dc:rights>
+  </oai_dc:dc>
+</metadata></record>
+ </ListRecords>
+</OAI-PMH>
+			   ]]>
+            </content>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="47" category="work" type="bibliographic" format="dublinunq">
+            <content><![CDATA[
+			<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2010-07-25T08:14:49Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc" set="hathitrust">http://quod.lib.umich.edu/cgi/o/oai/oai</request>
+  <ListRecords>
+<record>
+<header><identifier>oai:quod.lib.umich.edu:MIU01-001029339</identifier><datestamp>2008-12-19T18:46:38Z</datestamp><setSpec>hathitrust:pd</setSpec></header><metadata>
+  <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+    <dc:title>Poems of nature and wild life / by Edmund J. Sawyer ... ; illustrated.</dc:title>
+    <dc:creator>Sawyer, Edmund J. (Edmund Joseph), 1880-1971.</dc:creator>
+    <dc:subject>Yellowstone National Park</dc:subject>
+    <dc:description>xvi, 74 p., [8] leaves of plates :</dc:description>
+    <dc:publisher>[Pontiac, Mich. : E. J. Sawyer,</dc:publisher>
+    <dc:date>c1930]</dc:date>
+    <dc:identifier>(LCCN)31002291</dc:identifier>
+    <dc:identifier>(OCoLC)ocm06065749</dc:identifier>
+    <dc:identifier>PS3537.A96 P6 1930</dc:identifier>
+    <dc:identifier>PS 3537 .A897 P7</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015059743842</dc:identifier>
+    <dc:source>http://hdl.handle.net/2027/mdp.39015059743842</dc:source>
+    <dc:language>eng</dc:language>
+    <dc:type>text</dc:type>
+    <dc:rights>We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. The digital version is available for all educational uses worldwide. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.</dc:rights>
+  </oai_dc:dc>
+</metadata></record>
+ </ListRecords>
+</OAI-PMH>
+			   ]]>
+            </content>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="48" category="work" type="bibliographic" format="dublinunq">
+            <content><![CDATA[
+			<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2010-07-25T08:14:49Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc" set="hathitrust">http://quod.lib.umich.edu/cgi/o/oai/oai</request>
+  <ListRecords>
+<record>
+<header><identifier>oai:quod.lib.umich.edu:MIU01-001051099</identifier><datestamp>2008-12-19T18:46:39Z</datestamp><setSpec>hathitrust:pdus</setSpec></header><metadata>
+  <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+    <dc:title>La nonne alferez.</dc:title>
+    <dc:creator>Erauso, Catalina de, b. ca. 1592.</dc:creator>
+    <dc:description>2 p.l., vii, [1] 175 p., 1 l.</dc:description>
+    <dc:publisher>Paris, A. Lemerre,</dc:publisher>
+    <dc:date>1894.</dc:date>
+    <dc:identifier>(LCCN)02013938</dc:identifier>
+    <dc:identifier>(OCoLC)ocm01282065</dc:identifier>
+    <dc:identifier>CT1358.E7 A3</dc:identifier>
+    <dc:identifier>CT 1358 .E7 A34 1894</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015069438516</dc:identifier>
+    <dc:source>http://hdl.handle.net/2027/mdp.39015069438516</dc:source>
+    <dc:language>fre</dc:language>
+    <dc:type>text</dc:type>
+    <dc:rights>We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. We are uncertain of its copyright status outside the US. The digital version is available for all educational uses within the United States. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.</dc:rights>
+  </oai_dc:dc>
+</metadata></record>
+ </ListRecords>
+</OAI-PMH>
+			   ]]>
+            </content>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="49" category="work" type="bibliographic" format="dublinunq">
+            <content><![CDATA[
+			<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2010-07-25T08:14:49Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc" set="hathitrust">http://quod.lib.umich.edu/cgi/o/oai/oai</request>
+  <ListRecords>
+<record>
+<header><identifier>oai:quod.lib.umich.edu:MIU01-001063262</identifier><datestamp>2008-12-19T18:46:39Z</datestamp><setSpec>hathitrust:pd</setSpec></header><metadata>
+  <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+    <dc:title>The international chess congress, St. Petersburg, 1909.</dc:title>
+    <dc:creator>Lasker, Emanuel, 1868-1941.</dc:creator>
+    <dc:subject>Chess--Tournaments, 1909.</dc:subject>
+    <dc:description>xvi, 192 p.</dc:description>
+    <dc:publisher>New York, Press of E. Lasker</dc:publisher>
+    <dc:date>[1910]</dc:date>
+    <dc:identifier>(LCCN)10018905</dc:identifier>
+    <dc:identifier>(OCoLC)ocm05218316</dc:identifier>
+    <dc:identifier>GV1455 .L29</dc:identifier>
+    <dc:identifier>GV 1455 .I6 1909</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015013305209</dc:identifier>
+    <dc:source>http://hdl.handle.net/2027/mdp.39015013305209</dc:source>
+    <dc:language>eng</dc:language>
+    <dc:type>text</dc:type>
+    <dc:rights>We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. The digital version is available for all educational uses worldwide. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.</dc:rights>
+  </oai_dc:dc>
+</metadata></record>
+</ListRecords>
+</OAI-PMH>
+			   ]]>
+            </content>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="50" category="work" type="bibliographic" format="dublinunq">
+            <content><![CDATA[
+			<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2010-07-25T08:14:49Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc" set="hathitrust">http://quod.lib.umich.edu/cgi/o/oai/oai</request>
+  <ListRecords>
+<record>
+<header><identifier>oai:quod.lib.umich.edu:MIU01-001020609</identifier><datestamp>2008-12-19T18:49:56Z</datestamp><setSpec>hathitrust:pd</setSpec></header><metadata>
+  <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+    <dc:title>The American essays,</dc:title>
+    <dc:creator>James, Henry, 1843-1916.</dc:creator>
+    <dc:subject>American literature</dc:subject>
+    <dc:description>[1st ed.]</dc:description>
+    <dc:description>p. cm.</dc:description>
+    <dc:publisher>New York, Vintage Books,</dc:publisher>
+    <dc:date>1956.</dc:date>
+    <dc:identifier>(LCCN)56058002</dc:identifier>
+    <dc:identifier>(OCoLC)ocm01665220</dc:identifier>
+    <dc:identifier>PS121 .J3</dc:identifier>
+    <dc:identifier>810.9 J27am 1956</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015003755116</dc:identifier>
+    <dc:identifier>http://hdl.handle.net/2027/mdp.39015005056257</dc:identifier>
+    <dc:source>http://hdl.handle.net/2027/mdp.39015003755116</dc:source>
+    <dc:source>http://hdl.handle.net/2027/mdp.39015005056257</dc:source>
+    <dc:language>eng</dc:language>
+    <dc:type>text</dc:type>
+    <dc:rights>We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. The digital version is available for all educational uses worldwide. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.</dc:rights>
+  </oai_dc:dc>
+</metadata></record>
+</ListRecords>
+</OAI-PMH>
+			   ]]>
+            </content>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+    </requestDocuments>
+</request>
+

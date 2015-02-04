@@ -1,0 +1,18 @@
+<request>
+    <user>khuntley</user>
+    <operation>ingest</operation>
+    <requestDocuments>
+        <ingestDocument id="1" category="work" type="license" format="pdf">
+            <documentName>src/test/resources/org/kuali/ole/repository/dummy_license_agreement.pdf</documentName>
+            <documentTitle>Work License Sample PDF</documentTitle>
+            <documentMimeType>application/pdf</documentMimeType>
+            <additionalAttributes>
+                <type>License</type>
+                <fileName>JavaCodingStandardsConventions</fileName>
+                <owner>Kuali-Ole</owner>
+                <name>license Pdf Document</name>
+                <notes>License Pdf Document is ingested</notes>
+            </additionalAttributes>
+        </ingestDocument>
+    </requestDocuments>
+</request>

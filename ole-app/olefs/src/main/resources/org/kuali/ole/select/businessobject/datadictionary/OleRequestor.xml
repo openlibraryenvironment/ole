@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   - Copyright 2011 The Kuali Foundation.
+   - 
+   - Licensed under the Educational Community License, Version 2.0 (the "License");
+   - you may not use this file except in compliance with the License.
+   - You may obtain a copy of the License at
+   - 
+   - http://www.opensource.org/licenses/ecl2.php
+   - 
+   - Unless required by applicable law or agreed to in writing, software
+   - distributed under the License is distributed on an "AS IS" BASIS,
+   - WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   - See the License for the specific language governing permissions and
+   - limitations under the License.
+ -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+	<!-- Copyright 2006-2009 The Kuali Foundation Licensed under the Educational 
+		Community License, Version 2.0 (the "License"); you may not use this file 
+		except in compliance with the License. You may obtain a copy of the License 
+		at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+		law or agreed to in writing, software distributed under the License is distributed 
+		on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+		express or implied. See the License for the specific language governing permissions 
+		and limitations under the License. -->
+
+	<bean id="OleRequestor" parent="OleRequestor-parentBean" />
+
+	<bean id="OleRequestor-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="objectLabel" value="OleRequestor" />
+		<property name="businessObjectClass"
+			value="org.kuali.ole.select.businessobject.OleRequestor" />
+	    <property name="lookupDefinition">
+	      <ref bean="OleRequestor-lookupDefinition"/>
+	    </property>
+	    <property name="inquiryDefinition">
+	      <ref bean="OleRequestor-inquiryDefinition"/>
+	    </property>
+	    <property name="attributes">
+			<list>
+				<ref bean="OleRequestor-requestorId"/>
+				<ref bean="OleRequestor-requestorTypeId"/>
+				<ref bean="OleRequestor-FirstName" />
+				<ref bean="OleRequestor-LastName" />
+				<ref bean="OleRequestor-Address1" />
+				<ref bean="OleRequestor-Address2" />
+				<ref bean="OleRequestor-CityName" />
+				<ref bean="OleRequestor-StateCode" />
+				<ref bean="OleRequestor-PostalCode" />
+				<ref bean="OleRequestor-CountryCode" />
+				<ref bean="OleRequestor-PhoneNumber" />
+				<ref bean="OleRequestor-Email" />
+				<ref bean="OleRequestor-Sms" />
+				<ref bean="OleRequestor-active" />
+				<ref bean="OleRequestor-refKrimId"/>
+				<ref bean="OleRequestor-requestorProvince"/>
+				
+			</list>
+		</property>
+	</bean>
+  <bean id="OleRequestor-requestorId" parent="OleRequestor-requestorId-parentBean"/>
+
+  <bean id="OleRequestor-requestorId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="requestorId"/>
+    <property name="label" value="Requestor Id"/>
+    <property name="shortLabel" value="requestorId"/>
+    <property name="maxLength" value="8"/>
+    <property name="validationPattern">
+      <ref bean="NumericValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="8"/>
+    </property>
+  </bean>
+  
+   <bean id="OleRequestor-refKrimId" parent="OleRequestor-refKrimId-parentBean" />
+
+	<bean id="OleRequestor-refKrimId-parentBean" abstract="true"
+		parent="AttributeDefinition" p:name="refKrimId" 
+        p:label ="Reference Krim Id" p:maxLength="20"
+		p:shortLabel ="Reference Krim Id" >
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="20" />
+		</property>
+	</bean>
+  <bean id="OleRequestor-requestorTypeId" parent="OleRequestor-requestorTypeId-parentBean"/>
+  <bean id="OleRequestor-requestorTypeId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="requestorTypeId"/>
+    <property name="label" value="Requestor Type"/>
+    <property name="shortLabel" value="requestor Type"/>
+    <property name="maxLength" value="8"/>
+    <property name="control">
+	    <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.ole.select.businessobject.options.OleRequestorTypeValuesFinder" p:includeKeyInLabel="false"/>
+	</property>
+  </bean>
+   <bean id="OleRequestor-FirstName" parent="OleRequestor-FirstName-parentBean" />
+	<bean id="OleRequestor-FirstName-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="requestorFirstName" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Requestor FirstName" />
+		<property name="shortLabel" value="Requestor FirstName" />
+		<property name="maxLength" value="45" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="45" />
+		</property>
+	</bean>
+	<bean id="OleRequestor-LastName" parent="OleRequestor-LastName-parentBean" />
+	<bean id="OleRequestor-LastName-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="requestorLastName" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Requestor LastName" />
+		<property name="shortLabel" value="Requestor LastName" />
+		<property name="maxLength" value="45" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="45" />
+		</property>
+	</bean>
+	<bean id="OleRequestor-Address1" parent="OleRequestor-Address1-parentBean" />
+	<bean id="OleRequestor-Address1-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="requestorAddress1" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Requestor Address1" />
+		<property name="shortLabel" value="Requestor Address1" />
+		<property name="maxLength" value="45" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="45" />
+		</property>
+	</bean>
+	<bean id="OleRequestor-Address2" parent="OleRequestor-Address2-parentBean" />
+	<bean id="OleRequestor-Address2-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="requestorAddress2" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Requestor Address2" />
+		<property name="shortLabel" value="Requestor Address2" />
+		<property name="maxLength" value="45" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="45" />
+		</property>
+	</bean>
+	<bean id="OleRequestor-CityName" parent="OleRequestor-CityName-parentBean" />
+	<bean id="OleRequestor-CityName-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="requestorCityName" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Requestor CityName" />
+		<property name="shortLabel" value="Requestor CityName" />
+		<property name="maxLength" value="45" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="45" />
+		</property>
+	</bean>
+	<bean id="OleRequestor-StateCode" parent="OleRequestor-StateCode-parentBean" />
+	<bean id="OleRequestor-StateCode-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="requestorStateCode" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Requestor StateCode" />
+		<property name="shortLabel" value="Requestor StateCode" />
+		<property name="maxLength" value="2" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="2" />
+		</property>
+	</bean>
+	<bean id="OleRequestor-PostalCode" parent="OleRequestor-PostalCode-parentBean" />
+	<bean id="OleRequestor-PostalCode-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="requestorPostalCode" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Requestor PostalCode" />
+		<property name="shortLabel" value="Requestor PostalCode" />
+		<property name="maxLength" value="20" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="20" />
+		</property>
+	</bean>
+	<bean id="OleRequestor-CountryCode" parent="OleRequestor-CountryCode-parentBean" />
+	<bean id="OleRequestor-CountryCode-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="requestorCountryCode" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Requestor CountryCode" />
+		<property name="shortLabel" value="Requestor CountryCode" />
+		<property name="maxLength" value="20" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="20" />
+		</property>
+	</bean>
+	
+	<bean id="OleRequestor-PhoneNumber" parent="OleRequestor-PhoneNumber-parentBean" />
+	<bean id="OleRequestor-PhoneNumber-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="requestorPhoneNumber" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Requestor PhoneNumber" />
+		<property name="shortLabel" value="Requestor PhoneNumber" />
+		<property name="maxLength" value="45" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="45" />
+		</property>
+	</bean>
+	<bean id="OleRequestor-Email" parent="OleRequestor-Email-parentBean" />
+	<bean id="OleRequestor-Email-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="requestorEmail" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Requestor Email" />
+		<property name="shortLabel" value="Requestor Email" />
+		<property name="maxLength" value="45" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="45" />
+		</property>
+	</bean>
+	<bean id="OleRequestor-Sms" parent="OleRequestor-Sms-parentBean" />
+	<bean id="OleRequestor-Sms-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="requestorSms" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Requestor SMS" />
+		<property name="shortLabel" value="Requestor SMS" />
+		<property name="maxLength" value="45" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="45" />
+		</property>
+	</bean>
+	
+	
+	<bean id="OleRequestor-requestorProvince" parent="OleRequestor-requestorProvince-parentBean" />
+	<bean id="OleRequestor-requestorProvince-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="requestorProvince" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Requestor Province" />
+		<property name="shortLabel" value="Requestor Province" />
+		<property name="maxLength" value="45" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="45" />
+		</property>
+	</bean>
+	
+	<bean id="OleRequestor-active" parent="OleRequestor-active-parentBean"/>
+
+  	<bean id="OleRequestor-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    	<property name="name" value="active"/>
+  	</bean>
+  	
+  <!-- Business Object Inquiry Definition -->
+
+<bean id="OleRequestor-inquiryDefinition" parent="OleRequestor-inquiryDefinition-parentBean"/>
+
+  <bean id="OleRequestor-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+		<property name="title" value="OleRequestor Inquiry"/>
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="numberOfColumns" value="1"/>
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="requestorId"/>
+			                <bean parent="FieldDefinition" p:attributeName="requestorFirstName"/>
+						    <bean parent="FieldDefinition" p:attributeName="requestorLastName"/>
+						    <bean parent="FieldDefinition" p:attributeName="requestorAddress1"/>
+						    <bean parent="FieldDefinition" p:attributeName="requestorAddress2"/>
+						    <bean parent="FieldDefinition" p:attributeName="requestorCityName"/>
+						    <bean parent="FieldDefinition" p:attributeName="requestorStateCode"/>
+						    <bean parent="FieldDefinition" p:attributeName="requestorPostalCode"/>
+						    <bean parent="FieldDefinition" p:attributeName="requestorCountryCode"/>
+						    <bean parent="FieldDefinition" p:attributeName="requestorPhoneNumber"/>
+						    <bean parent="FieldDefinition" p:attributeName="requestorEmail"/>
+						    <bean parent="FieldDefinition" p:attributeName="requestorSms"/>
+						    <bean parent="FieldDefinition" p:attributeName="requestorProvince"/>
+						    <bean parent="FieldDefinition" p:attributeName="active"/>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+  
+  	<!-- Business Object Lookup Definition -->
+
+  	<bean id="OleRequestor-lookupDefinition" parent="OleRequestor-lookupDefinition-parentBean"/>
+
+  	<bean id="OleRequestor-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+	    <property name="title" value="Ole Requestor Lookup"/>
+	    
+	    <property name="defaultSort">
+	      <bean parent="SortDefinition">
+	      </bean>
+	    </property>
+	    <property name="lookupFields">
+	      <list>
+			<bean parent="FieldDefinition" p:attributeName="requestorId"/>
+		    <bean parent="FieldDefinition" p:attributeName="requestorFirstName"/>
+		    <bean parent="FieldDefinition" p:attributeName="requestorLastName"/>
+		    <bean parent="FieldDefinition" p:attributeName="requestorAddress1"/>
+		    <bean parent="FieldDefinition" p:attributeName="requestorAddress2"/>
+		    <bean parent="FieldDefinition" p:attributeName="requestorCityName"/>
+		    <bean parent="FieldDefinition" p:attributeName="requestorStateCode"/>
+		    <bean parent="FieldDefinition" p:attributeName="requestorPostalCode"/>
+		    <bean parent="FieldDefinition" p:attributeName="requestorCountryCode"/>
+		    <bean parent="FieldDefinition" p:attributeName="requestorPhoneNumber"/>
+		    <bean parent="FieldDefinition" p:attributeName="requestorEmail"/>
+		    <bean parent="FieldDefinition" p:attributeName="requestorSms"/>
+		    <bean parent="FieldDefinition" p:attributeName="requestorProvince"/>
+		    <bean parent="FieldDefinition" p:attributeName="active"/>
+	      </list>
+	    </property>
+	    <property name="resultFields">
+	      <list>
+	        <bean parent="FieldDefinition" p:attributeName="requestorId"/>
+		    <bean parent="FieldDefinition" p:attributeName="requestorFirstName"/>
+		    <bean parent="FieldDefinition" p:attributeName="requestorLastName"/>
+		    <bean parent="FieldDefinition" p:attributeName="requestorAddress1"/>
+		    <bean parent="FieldDefinition" p:attributeName="requestorAddress2"/>
+		    <bean parent="FieldDefinition" p:attributeName="requestorCityName"/>
+		    <bean parent="FieldDefinition" p:attributeName="requestorStateCode"/>
+		    <bean parent="FieldDefinition" p:attributeName="requestorPostalCode"/>
+		    <bean parent="FieldDefinition" p:attributeName="requestorCountryCode"/>
+		    <bean parent="FieldDefinition" p:attributeName="requestorPhoneNumber"/>
+		    <bean parent="FieldDefinition" p:attributeName="requestorEmail"/>
+		    <bean parent="FieldDefinition" p:attributeName="requestorSms"/>
+		    <bean parent="FieldDefinition" p:attributeName="requestorProvince"/>
+		    <bean parent="FieldDefinition" p:attributeName="active"/>
+	      </list>
+	    </property>
+  	</bean>
+
+</beans>

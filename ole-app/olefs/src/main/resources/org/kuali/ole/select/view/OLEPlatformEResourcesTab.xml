@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="OLEPlatformRecordView-E-ResourcesTab" parent="Platform-Uif-DocumentPage">
+        <property name="items">
+            <list merge="true">
+                <bean parent="Uif-DataField" p:propertyName="name" p:label="Platform"/>
+                <ref bean="EResDocList"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="EResDocList" parent="Uif-TableCollectionSection">
+        <property name="headerText" value="E-Resources"/>
+        <property name="collectionObjectClass" value="org.kuali.ole.select.document.OLEEResourceRecordDocument"/>
+        <property name="propertyName" value="linkedEResources"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.generateAutoSequence" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.richTable.disableTableSort" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-LinkField" p:label="Name" p:linkText="@{#line.title}" p:target="_blank"
+                      p:href="oleERSController?viewId=OLEEResourceRecordView&amp;methodToCall=docHandler&amp;docId=@{#line.documentNumber}&amp;command=displayDocSearchView"/>
+                <bean parent="Uif-DataField" p:label="Publisher" p:propertyName="publisher"/>
+                <bean parent="Uif-DataField" p:label="Status" p:propertyName="statusName"/>
+                <bean parent="Uif-DataField" p:label="Status Date" p:propertyName="statusDate"/>
+                <bean parent="Uif-DataField" p:label="# Active Titles" p:propertyName="activeTitlesCount"/>
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+</beans>

@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <!--
+
+        Copyright 2005-2012 The Kuali Foundation
+
+        Licensed under the Educational Community License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at
+
+        http://www.opensource.org/licenses/ecl2.php
+
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+
+    -->
+    <bean id="OleCirculationDeskMapping" parent="OleCirculationDeskMapping-parentBean"/>
+
+    <bean id="OleCirculationDeskMapping-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.deliver.bo.OleCirculationDeskMapping"/>
+
+        <property name="objectLabel" value="Person LookUp"/>
+        <property name="lookupDefinition">
+            <ref bean="OleCirculationDeskMapping-lookupDefinition"/>
+        </property>
+        <property name="inquiryDefinition">
+            <ref bean="OleCirculationDeskMapping-inquiryDefinition"/>
+        </property>
+        <property name="attributes">
+            <list>
+                <ref bean="OleCirculationDeskMapping-principalId"/>
+                <ref bean="OleCirculationDeskMapping-principalName"/>
+                <ref bean="OleCirculationDeskMapping-name"/>
+                <ref bean="OleCirculationDeskMapping-campusCode"/>
+                <ref bean="OleCirculationDeskMapping-entityId"/>
+                <ref bean="OleCirculationDeskMapping-firstName"/>
+                <ref bean="OleCirculationDeskMapping-lastName"/>
+                <ref bean="OleCirculationDeskMapping-middleName"/>
+                <ref bean="OleCirculationDeskMapping-emailAddress"/>
+                <ref bean="OleCirculationDeskMapping-phoneNumber"/>
+                <ref bean="OleCirculationDeskMapping-primaryDepartmentCode"/>
+                <ref bean="OleCirculationDeskMapping-employeeStatusCode"/>
+                <ref bean="OleCirculationDeskMapping-employeeTypeCode"/>
+                <ref bean="OleCirculationDeskMapping-employeeId"/>
+                <ref bean="OleCirculationDeskMapping-active"/>
+            </list>
+        </property>
+        <property name="relationships">
+            <list>
+
+                <bean parent="RelationshipDefinition">
+                    <property name="objectAttributeName" value="employeeStatus"/>
+                    <property name="primitiveAttributes">
+                        <list>
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="employeeStatusCode"
+                                  p:targetName="code"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="RelationshipDefinition">
+                    <property name="objectAttributeName" value="employeeType"/>
+                    <property name="primitiveAttributes">
+                        <list>
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="employeeTypeCode"
+                                  p:targetName="code"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+
+    </bean>
+
+    <!-- Attribute Definitions -->
+    <bean id="OleCirculationDeskMapping-principalName" parent="OleCirculationDeskMapping-principalName-parentBean"/>
+
+    <bean id="OleCirculationDeskMapping-principalName-parentBean"
+          abstract="true" parent="AttributeDefinition">
+        <property name="name" value="principalName"/>
+        <property name="label" value="Principal Name"/>
+        <property name="shortLabel" value="Principal Name"/>
+        <property name="required" value="false"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+    </bean>
+    <bean id="OleCirculationDeskMapping-principalId" parent="OleCirculationDeskMapping-principalId-parentBean"/>
+    <bean id="OleCirculationDeskMapping-principalId-parentBean"
+          abstract="true" parent="AttributeDefinition">
+        <property name="name" value="principalId"/>
+        <property name="label" value="Principal ID"/>
+        <property name="shortLabel" value="Person Principal"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+    </bean>
+    <!--  <bean id="OleCirculationDeskMapping-principalId" parent="OleCirculationDeskMapping-principalId-parentBean"/>
+      <bean id="OleCirculationDeskMapping-principalId-parentBean" parent="KimBaseBeans-principalId" abstract="true"/>
+  -->
+    <bean id="OleCirculationDeskMapping-entityId" parent="OleCirculationDeskMapping-entityId-parentBean"/>
+
+    <bean id="OleCirculationDeskMapping-entityId-parentBean"
+          abstract="true" parent="AttributeDefinition">
+        <property name="name" value="entityId"/>
+        <property name="label" value="Entity ID"/>
+        <property name="shortLabel" value="Entity Id"/>
+        <property name="required" value="false"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OleCirculationDeskMapping-firstName" parent="OleCirculationDeskMapping-firstName-parentBean"/>
+
+    <bean id="OleCirculationDeskMapping-firstName-parentBean"
+          abstract="true" parent="AttributeDefinition">
+        <property name="name" value="firstName"/>
+        <property name="label" value="First Name"/>
+        <property name="shortLabel" value="First Name"/>
+        <property name="required" value="false"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+    </bean>
+    <bean id="OleCirculationDeskMapping-middleName" parent="OleCirculationDeskMapping-middleName-parentBean"/>
+
+    <bean id="OleCirculationDeskMapping-middleName-parentBean"
+          abstract="true" parent="AttributeDefinition">
+        <property name="name" value="middleName"/>
+        <property name="label" value="Middle Name"/>
+        <property name="shortLabel" value="Middle Name"/>
+        <property name="required" value="false"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+    </bean>
+    <bean id="OleCirculationDeskMapping-lastName" parent="OleCirculationDeskMapping-lastName-parentBean"/>
+
+    <bean id="OleCirculationDeskMapping-lastName-parentBean"
+          abstract="true" parent="AttributeDefinition">
+        <property name="name" value="lastName"/>
+        <property name="label" value="Last Name"/>
+        <property name="shortLabel" value="Last Name"/>
+        <property name="required" value="false"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+    </bean>
+    <bean id="OleCirculationDeskMapping-emailAddress" parent="OleCirculationDeskMapping-emailAddress-parentBean"/>
+    <bean id="OleCirculationDeskMapping-emailAddress-parentBean" parent="AttributeReferenceDummy-emailAddress"
+          abstract="true"
+          p:name="emailAddress" p:forceUppercase="false" p:label="Email Address"/>
+
+    <bean id="OleCirculationDeskMapping-phoneNumber" parent="OleCirculationDeskMapping-phoneNumber-parentBean"/>
+    <bean id="OleCirculationDeskMapping-phoneNumber-parentBean" parent="AttributeDefinition" abstract="true"
+          p:name="phoneNumber"
+          p:forceUppercase="false" p:label="Phone Number" p:shortLabel="Phone Number" p:maxLength="20"
+          p:required="false">
+        <property name="validationPattern">
+            <bean parent="PhoneNumberValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="10"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="10"/>
+        </property>
+    </bean>
+    <bean id="OleCirculationDeskMapping-employeeId" parent="OleCirculationDeskMapping-employeeId-parentBean"/>
+    <bean id="OleCirculationDeskMapping-employeeId-parentBean" parent="AttributeDefinition" abstract="true"
+          p:name="employeeId"
+          p:forceUppercase="true" p:label="Employee ID" p:shortLabel="Emp ID" p:maxLength="40" p:required="false">
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="12"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="12"/>
+        </property>
+    </bean>
+
+    <bean id="OleCirculationDeskMapping-campusCode" parent="OleCirculationDeskMapping-campusCode-parentBean"/>
+
+    <bean id="OleCirculationDeskMapping-campusCode-parentBean"
+          abstract="true" parent="AttributeDefinition">
+        <property name="name" value="campusCode"/>
+        <property name="label" value="Campus Code"/>
+        <property name="shortLabel" value="CampusCode"/>
+        <property name="required" value="false"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OleCirculationDeskMapping-primaryDepartmentCode"
+          parent="OleCirculationDeskMapping-primaryDepartmentCode-parentBean"/>
+    <bean id="OleCirculationDeskMapping-primaryDepartmentCode-parentBean" parent="AttributeDefinition" abstract="true"
+          p:name="primaryDepartmentCode" p:forceUppercase="true" p:label="Primary Department Code"
+          p:shortLabel="Primary Department Code" p:maxLength="40" p:required="false">
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+    <bean id="OleCirculationDeskMapping-employeeStatusCode" parent="OleCirculationDeskMapping-employeeStatusCode-parentBean"/>
+    <bean id="OleCirculationDeskMapping-employeeStatusCode-parentBean" parent="EmploymentStatus-employmentStatusCode" abstract="true"
+          p:name="employeeStatusCode" p:required="false"/>
+
+    <bean id="OleCirculationDeskMapping-employeeTypeCode" parent="OleCirculationDeskMapping-employeeTypeCode-parentBean"/>
+    <bean id="OleCirculationDeskMapping-employeeTypeCode-parentBean" parent="EmploymentType-employmentTypeCode" abstract="true"
+          p:name="employeeTypeCode" p:required="false"/>
+
+    <bean id="OleCirculationDeskMapping-active" parent="OleCirculationDeskMapping-active-parentBean"/>
+
+    <bean id="OleCirculationDeskMapping-active-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="active"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="active"/>
+        <property name="maxLength" value="1"/>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-CheckboxControl"/>
+        </property>
+        <property name="summary" value="Active Indicator"/>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+        <property name="label" value="Active Indicator"/>
+        <property name="description"
+                  value="This attribute is used to describe whether the associated object is active or inactive."/>
+    </bean>
+    <bean id="OleCirculationDeskMapping-name" parent="OleCirculationDeskMapping-name-parentBean"/>
+    <bean id="OleCirculationDeskMapping-name-parentBean" parent="AttributeDefinition" abstract="true" p:name="name"
+          p:forceUppercase="false" p:label="Name" p:shortLabel="Name" p:maxLength="123" p:required="false">
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="OleCirculationDeskMapping-inquiryDefinition"
+          parent="OleCirculationDeskMapping-inquiryDefinition-parentBean"/>
+
+    <bean id="OleCirculationDeskMapping-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition"
+          p:title="Person Impl Inquiry">
+        <property name="inquirySections">
+            <list>
+                <bean parent="InquirySectionDefinition" p:title="Person Attributes" p:numberOfColumns="4">
+                    <property name="inquiryFields">
+                        <list>
+                            <bean parent="FieldDefinition" p:attributeName="principalId"/>
+                            <bean parent="FieldDefinition" p:attributeName="principalName"/>
+                            <bean parent="FieldDefinition" p:attributeName="name"/>
+                            <bean parent="FieldDefinition" p:attributeName="firstName"/>
+                            <bean parent="FieldDefinition" p:attributeName="middleName"/>
+                            <bean parent="FieldDefinition" p:attributeName="lastName"/>
+                            <bean parent="FieldDefinition" p:attributeName="entityId"/>
+                            <bean parent="FieldDefinition" p:attributeName="campusCode"/>
+                            <bean parent="FieldDefinition" p:attributeName="emailAddress"/>
+                            <bean parent="FieldDefinition" p:attributeName="phoneNumber"/>
+                            <bean parent="FieldDefinition" p:attributeName="primaryDepartmentCode"/>
+                            <bean parent="FieldDefinition" p:attributeName="employeeStatusCode"/>
+                            <bean parent="FieldDefinition" p:attributeName="employeeTypeCode"/>
+                            <bean parent="FieldDefinition" p:attributeName="active"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OleCirculationDeskMapping-lookupDefinition"
+          parent="OleCirculationDeskMapping-lookupDefinition-parentBean"/>
+
+    <bean id="OleCirculationDeskMapping-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition"
+          p:title="Person Lookup">
+        <property name="lookupableID" value="kimPersonLookupable"/>
+        <property name="defaultSort">
+            <bean parent="SortDefinition">
+                <property name="attributeNames">
+                    <list>
+                        <value>principalName</value>
+                    </list>
+                </property>
+                <property name="sortAscending" value="true"/>
+            </bean>
+        </property>
+        <property name="lookupFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="principalName"/>
+                <bean parent="FieldDefinition" p:attributeName="principalId"/>
+                <bean parent="FieldDefinition" p:attributeName="entityId"/>
+                <bean parent="FieldDefinition" p:attributeName="firstName"/>
+                <bean parent="FieldDefinition" p:attributeName="middleName"/>
+                <bean parent="FieldDefinition" p:attributeName="lastName"/>
+                <bean parent="FieldDefinition" p:attributeName="emailAddress"/>
+                <bean parent="FieldDefinition" p:attributeName="phoneNumber"/>
+                <bean parent="FieldDefinition" p:attributeName="employeeId"/>
+                <bean parent="FieldDefinition" p:attributeName="campusCode"/>
+                <bean parent="FieldDefinition" p:attributeName="primaryDepartmentCode"/>
+                <bean parent="FieldDefinition" p:attributeName="employeeStatusCode"/>
+                <bean parent="FieldDefinition" p:attributeName="employeeTypeCode"/>
+                <bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y"/>
+
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="principalId"/>
+                <bean parent="FieldDefinition" p:attributeName="principalName"/>
+                <bean parent="FieldDefinition" p:attributeName="name"/>
+                <bean parent="FieldDefinition" p:attributeName="entityId"/>
+                <bean parent="FieldDefinition" p:attributeName="campusCode"/>
+                <bean parent="FieldDefinition" p:attributeName="primaryDepartmentCode"/>
+                <bean parent="FieldDefinition" p:attributeName="employeeId"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

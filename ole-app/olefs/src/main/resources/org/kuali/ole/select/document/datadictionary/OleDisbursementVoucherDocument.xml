@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   - Copyright 2011 The Kuali Foundation.
+   - 
+   - Licensed under the Educational Community License, Version 2.0 (the "License");
+   - you may not use this file except in compliance with the License.
+   - You may obtain a copy of the License at
+   - 
+   - http://www.opensource.org/licenses/ecl2.php
+   - 
+   - Unless required by applicable law or agreed to in writing, software
+   - distributed under the License is distributed on an "AS IS" BASIS,
+   - WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   - See the License for the specific language governing permissions and
+   - limitations under the License.
+ -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+	<!-- Copyright 2006-2009 The Kuali Foundation Licensed under the Educational 
+		Community License, Version 2.0 (the "License"); you may not use this file 
+		except in compliance with the License. You may obtain a copy of the License 
+		at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+		law or agreed to in writing, software distributed under the License is distributed 
+		on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+		express or implied. See the License for the specific language governing permissions 
+		and limitations under the License. -->
+
+	<bean id="DisbursementVoucherDocument" parent="OleDisbursementVoucherDocument-parentBean" />
+
+	<alias name="DisbursementVoucherDocument" alias="OleDisbursementVoucherDocument"/>
+
+	<bean id="OleDisbursementVoucherDocument-parentBean" abstract="true" parent="DisbursementVoucherDocument-parentBean">
+		<property name="documentClass"
+			value="org.kuali.ole.select.document.OleDisbursementVoucherDocument" />
+		<property name="baseDocumentClass"
+			value="org.kuali.ole.fp.document.DisbursementVoucherDocument" />
+		<property name="validationMap" ref="OleDisbursementVoucherDocument-validations"/>
+        <property name="attributes">
+            <list merge="true">
+                <ref bean="DisbursementVoucherDocument-vendorAliasName"/>
+            </list>
+        </property>
+	</bean>
+
+    <bean id="DisbursementVoucherDocument-vendorAliasName" parent="DisbursementVoucherDocument-vendorAliasName-parentBean"/>
+    <bean id="DisbursementVoucherDocument-vendorAliasName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="vendorAliasName"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Vendor Alias Name"/>
+        <property name="maxLength" value="20"/>
+        <property name="validationPattern">
+            <ref bean="AnyCharacterWithWhitespaceValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="22"/>
+        </property>
+    </bean>
+
+	 <bean id="DisbursementVoucherDocument-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
+	  <property name="accountingLineView" ref="DisbursementVoucherDocument-accountingLineView"/>
+	  <property name="accountingLineClass" value="org.kuali.ole.select.businessobject.OleDisbursementVoucherAccountingLine"/>
+	  <property name="groupLabel" value="Source"/>
+	  <property name="accountingLineAuthorizerClass" value="org.kuali.ole.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer"/>
+	  <property name="importedLinePropertyPrefix" value="source"/>
+	  <property name="totals" ref="AccountingDocument-sourceGroupTotals"/>
+	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*"/>
+  </bean>
+  
+  <bean id="DisbursementVoucherDocument-accountingLineView" parent="DisbursementVoucherDocument-accountingLineView-parent"/>
+  <bean id="DisbursementVoucherDocument-accountingLineView-parent" parent="AccountingLineView" abstract="true">
+	  <property name="elements">
+		<list>
+			<bean parent="AccountingLineView-sequenceNumber"/>
+			<bean parent="AccountingLineView-lines">
+				<property name="lines">
+					<list>
+						<ref bean="accountingInformation"/>
+						<ref bean="salesTaxInformation" />						
+					</list>
+				</property>
+			</bean>
+			<bean parent="AccountingLineView-field" p:name="amount" p:required="true"/>
+			<bean parent="AccountingLineView-field" p:name="accountLinePercent" p:required="true" p:useShortLabel="true" />
+			<bean parent="AccountingLineView-actions"/>
+		</list>
+	</property>
+  </bean>
+
+   <bean id="DisbursementVoucherDocument-invoiceNumber" parent="DisbursementVoucherDocument-invoiceNumber-parentBean"/>
+    <bean id="DisbursementVoucherDocument-invoiceNumber-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="invoiceNumber"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Invoice Number"/>
+        <property name="required" value="true"/>
+        <property name="maxLength" value="10"/>
+        <property name="validationPattern">
+            <ref bean="AnyCharacterWithWhitespaceValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="5"/>
+        </property>
+    </bean>
+
+  <bean id="OleDisbursementVoucherDocument-validations" parent ="DisbursementVoucherDocument-validations-parentBean">
+  	<property name="sourceMap">
+		<map merge = "true" key-type="java.lang.Class">
+			<entry>
+				<key><value>org.kuali.ole.select.document.validation.event.OleDisbursementAccountPercentEvent</value></key>
+				<value>OleDisbursementVoucher-accountingLinePercentValidation</value>
+			</entry>
+    	</map>
+    </property>
+  </bean>  
+</beans>

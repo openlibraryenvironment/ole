@@ -1,0 +1,2 @@
+NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID
+"OLE-DLVR","Deliver","NUMBER_OF_ITEM_INFO_IN_SINGLE_SOLR_CALL","OLE6519","1","CONFG","100","This is for setting the number of item information we can get from a single solr call.The number should be based on the maxhttpheadersize parameter in the tomcats server.xml file.We need to provide the value in a way so that the generated query size should not exceed the size of the maxhttpheadersize.This will be the maximum value for (maxhttpheadersize - 1000)/50","A","OLE"

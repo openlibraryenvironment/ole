@@ -1,0 +1,30 @@
+<data xmlns="ns:workflow" xsi:schemaLocation="ns:workflow resource:WorkflowData"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<documentTypes xmlns="ns:workflow/DocumentType"
+		xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<documentType>
+			<name>OLESecurityAttributeMaintenanceDocument</name>
+			<label>OLE Security Attribute</label>
+			<parent>OLEAccessSecuritySimpleMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=WordDocuments%2Fattribute.htm</helpDefinitionURL>
+		</documentType>
+		<documentType>
+			<name>OLESecurityDefinitionMaintenanceDocument</name>
+			<label>OLE Security Definition</label>
+			<parent>OLEAccessSecuritySimpleMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=WordDocuments%2Fdefinition.htm</helpDefinitionURL>
+		</documentType>
+		<documentType>
+			<name>OLESecurityModelMaintenanceDocument</name>
+			<label>OLE Security Model</label>
+			<parent>OLEAccessSecuritySimpleMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=WordDocuments%2Fmodel.htm</helpDefinitionURL>
+		</documentType>
+		<documentType>
+			<name>OLESecurityPrincipalMaintenanceDocument</name>
+			<label>OLE Security Principal</label>
+			<parent>OLEAccessSecuritySimpleMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=WordDocuments%2Fprincipal.htm</helpDefinitionURL>
+		</documentType>
+	</documentTypes>
+</data>

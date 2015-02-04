@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="OleEResourceStatus" parent="OleEResourceStatus-parentBean"/>
+
+    <bean id="OleEResourceStatus-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.select.bo.OLEEResourceStatus"/>
+        <property name="titleAttribute" value="oleEResourceStatusName"/>
+        <property name="objectLabel" value="E-Resource Status"/>
+        <property name="attributes">
+            <list>
+                <ref bean="OleEResourceStatus-oleEResourceStatusId"/>
+                <ref bean="OleEResourceStatus-oleEResourceStatusName"/>
+                <ref bean="OleEResourceStatus-oleEResourceStatusDesc"/>
+                <ref bean="OleEResourceStatus-active"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+
+    <bean id="OleEResourceStatus-oleEResourceStatusId" parent="OleEResourceStatus-oleEResourceStatusId-parentBean"/>
+
+    <bean id="OleEResourceStatus-oleEResourceStatusId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="E-Resource Status Id"/>
+        <property name="maxLength" value="10"/>
+        <property name="name" value="oleEResourceStatusId"/>
+        <property name="label" value="E-Resource Status Id"/>
+        <property name="description" value="E-Resource Status Id"/>
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+    </bean>
+
+
+    <bean id="OleEResourceStatus-oleEResourceStatusName" parent="OleEResourceStatus-oleEResourceStatusName-parentBean"/>
+
+    <bean id="OleEResourceStatus-oleEResourceStatusName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="E-Resource Status Name"/>
+        <property name="maxLength" value="40"/>
+        <property name="name" value="oleEResourceStatusName"/>
+        <property name="label" value="E-Resource Status Name"/>
+        <property name="description" value="E-Resource Status Name"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean id="TextControlDefinition_oleEResourceStatusName" parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean id="Uif-TextControl_oleEResourceStatusName" parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+
+    <bean id="OleEResourceStatus-oleEResourceStatusDesc" parent="OleEResourceStatus-oleEResourceStatusDesc-parentBean"/>
+
+    <bean id="OleEResourceStatus-oleEResourceStatusDesc-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="E-Resource Status Description"/>
+        <property name="maxLength" value="100"/>
+        <property name="name" value="oleEResourceStatusDesc"/>
+        <property name="label" value="E-Resource Status Description"/>
+        <property name="description" value="E-Resource Status Description"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean id="TextControlDefinition_oleEResourceStatusDesc" parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean id="Uif-TextControl_oleEResourceStatusDesc" parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+
+    <bean id="OleEResourceStatus-active" parent="OleEResourceStatus-active-parentBean"/>
+
+    <bean id="OleEResourceStatus-active-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="active"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="active"/>
+        <property name="maxLength" value="1"/>
+        <property name="summary" value="Active Indicator"/>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+        <property name="label" value="Active Indicator"/>
+        <property name="description" value="This attribute is used to describe whether the associated object is active or inactive."/>
+        <property name="validCharactersConstraint">
+            <bean  parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean  parent="Uif-CheckboxControl"/>
+        </property>
+
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+
+    <bean id="OleEResourceStatus-InquiryView" parent="Uif-OLEInquiryView">
+        <property name="headerText" value="E-Resource Status Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OLEEResourceStatus" />
+
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-VerticalBoxSection">
+                    <property name="header.headerText" value="E-Resource Status" />
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-GridGroup">
+                                <property name="items">
+                                    <list>
+                                        <bean id="inquiry_oleEResourceStatusId" parent="Uif-InputField" p:propertyName="oleEResourceStatusId" />
+                                        <bean id="inquiry_oleEResourceStatusName" parent="Uif-InputField" p:propertyName="oleEResourceStatusName" />
+                                        <bean id="inquiry_oleEResourceStatusDesc" parent="Uif-InputField" p:propertyName="oleEResourceStatusDesc"/>
+                                        <bean id="inquiry_active" parent="Uif-InputField" p:propertyName="active" />
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <!-- Business Object Lookup Definition -->
+
+
+    <bean id="OleEResourceStatus-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="E-Resource Status Lookup" />
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/BASICS/content/ch02s04.html#_lookupHelp"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OLEEResourceStatus" />
+        <property name="criteriaFields">
+            <list>
+                <bean id="oleEResourceStatusName" parent="Uif-LookupCriteriaInputField" p:propertyName="oleEResourceStatusName" p:enableAutoDirectInquiry="false"/>
+                <bean id="oleEResourceStatusDesc" parent="Uif-LookupCriteriaInputField" p:propertyName="oleEResourceStatusDesc" />
+                <bean id="active" parent="Uif-LookupCriteriaInputField" p:propertyName="active" />
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean id="searchResult_oleEResourceStatusName" parent="Uif-DataField" p:propertyName="oleEResourceStatusName" />
+                <bean id="searchResult_oleEResourceStatusDesc" parent="Uif-DataField" p:propertyName="oleEResourceStatusDesc" />
+                <bean id="searchResult_active" parent="Uif-DataField" p:propertyName="active" />
+            </list>
+        </property>
+    </bean>
+
+</beans>

@@ -1,0 +1,90 @@
+<instanceCollection>
+    <instance>
+        <oleHoldings primary="true">
+            <receiptStatus>1</receiptStatus>
+            <uri></uri>
+            <note type="public"></note>
+            <location primary="true" status="permanent">
+                <locationLevel>
+                    <name>B-WELLS</name>
+                    <level>Library</level>
+                    <locationLevel>
+                        <name>BMACIRCDESK</name>
+                        <level>Shelving Location</level>
+                    </locationLevel>
+                </locationLevel>
+            </location>
+            <extension>
+                <additionalAttributes>
+                    <createdBy>admin</createdBy>
+                    <dateEntered>Dec 03, 2012</dateEntered>
+                </additionalAttributes>
+            </extension>
+            <callNumber>
+                <type>type</type>
+                <prefix>prefix</prefix>
+                <number>call</number>
+                <shelvingScheme>
+                    <codeValue>0</codeValue>
+                </shelvingScheme>
+                <shelvingOrder>
+                    <codeValue>ole-order</codeValue>
+                </shelvingOrder>
+            </callNumber>
+        </oleHoldings>
+        <items>
+            <item>
+                <accessInformation>
+                    <barcode>123456</barcode>
+                    <uri></uri>
+                </accessInformation>
+                <barcodeARSL>444555</barcodeARSL>
+                <formerIdentifier>
+                    <identifier>
+                        <identifierValue></identifierValue>
+                    </identifier>
+                </formerIdentifier>
+                <statisticalSearchingCode>
+                    <codeValue></codeValue>
+                </statisticalSearchingCode>
+                <itemType>
+                    <codeValue>DAY01</codeValue>
+                </itemType>
+                <copyNumber>10</copyNumber>
+                <copyNumberLabel></copyNumberLabel>
+                <volumeNumber></volumeNumber>
+                <volumeNumberLabel></volumeNumberLabel>
+                <note type="public"></note>
+                <enumeration></enumeration>
+                <chronology></chronology>
+                <highDensityStorage>
+                    <row></row>
+                </highDensityStorage>
+                <temporaryItemType>
+                    <codeValue>DAY02</codeValue>
+                </temporaryItemType>
+                <donorPublicDisplay></donorPublicDisplay>
+                <donorNote></donorNote>
+                <callNumber>
+                    <type></type>
+                    <prefix></prefix>
+                    <number></number>
+                    <shelvingScheme>
+                        <codeValue></codeValue>
+                    </shelvingScheme>
+                    <shelvingOrder>
+                        <codeValue></codeValue>
+                    </shelvingOrder>
+                </callNumber>
+                <price></price>
+                <numberOfPieces></numberOfPieces>
+                <itemStatus>AVAILABLE</itemStatus>
+                <itemStatusEffectiveDate></itemStatusEffectiveDate>
+                <checkinNote></checkinNote>
+                <staffOnlyFlag>true</staffOnlyFlag>
+                <fastAddFlag>true</fastAddFlag>
+                <extension reference="../../../oleHoldings/extension"/>
+            </item>
+        </items>
+    </instance>
+</instanceCollection>

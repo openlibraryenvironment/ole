@@ -1,0 +1,88 @@
+<request>
+    <user>ole-khuntley</user>
+    <operation>checkIn</operation>
+    <requestDocuments>
+        <ingestDocument id="2cd483c9-dfca-435d-a837-da60d1a532d6" category="work" type="bibliographic" format="marc">
+            <content><![CDATA[
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+    <record>
+        <leader>amIa c a BBB</leader>
+        <controlfield tag="001">92005291</controlfield>
+        <controlfield tag="008">980420s1997 nyu 000 0 eng d</controlfield>
+        <datafield tag="035" ind1=" " ind2=" ">
+            <subfield code="a">(OCoLC)ocm38982601</subfield>
+        </datafield>
+          <datafield tag="035" ind1=" " ind2=" ">
+            <subfield code="a">(InU)CBB1607BB </subfield>
+        </datafield>
+        <datafield tag="040" ind1=" " ind2=" ">
+             <subfield code="a">JCL</subfield>
+             <subfield code="c">JCL</subfield>
+             <subfield code="d">OCL</subfield>
+        </datafield>
+         <datafield tag="020" ind1=" " ind2=" ">
+            <subfield code="a">082221587X </subfield>
+        </datafield>
+        <datafield tag="041" ind1="1" ind2=" ">
+            <subfield code="a">NarengNar</subfield>
+            <subfield code="h">NarrusNar</subfield>
+        </datafield>
+        <datafield tag="092" ind1=" " ind2=" ">
+            <subfield code="a">891.72</subfield>
+            <subfield code="b">Ch, 1997</subfield>
+        </datafield>
+        <datafield tag="100" ind1="1" ind2=" ">
+            <subfield code="a"> Chekhov, Anton Pavlovich,</subfield>
+            <subfield code="d">1860-1904.</subfield>
+        </datafield>
+        <datafield tag="240" ind1="1" ind2="0">
+            <subfield code="a"> Di?adi?a Vani?a.</subfield>
+            <subfield code="l"> English.</subfield>
+        </datafield>
+         <datafield tag="245" ind1="1" ind2="0">
+            <subfield code="a">Uncle Vanya :</subfield>
+            <subfield code="b">scenes from country life in four acts /</subfield>
+            <subfield code="c">by Anton Chekhov ; an English version by Jean-Claude Van Itallie.</subfield>
+        </datafield>
+          <datafield tag="250" ind1=" " ind2=" ">
+            <subfield code="a">Rev. ed.</subfield>
+        </datafield>
+         <datafield tag="260" ind1=" " ind2=" ">
+            <subfield code="a">New York, N.Y. :</subfield>
+            <subfield code="b">Dramatists Play Service</subfield>
+            <subfield code="c">c1997.</subfield>
+        </datafield>
+         <datafield tag="300" ind1=" " ind2=" ">
+            <subfield code="a">48 p. ;</subfield>
+             <subfield code="c">20 cm.</subfield>
+        </datafield>
+         <datafield tag="500" ind1=" " ind2=" ">
+            <subfield code="a">Translation of Di?adi?a Vani?a. </subfield>
+        </datafield>
+         <datafield tag="700" ind1="1" ind2=" ">
+            <subfield code="a"> Van Itallie, Jean Claude,</subfield>
+            <subfield code="d">1936-</subfield>
+        </datafield>
+        <datafield tag="591" ind1=" " ind2=" ">
+            <subfield code="a"> BB: M676</subfield>
+        </datafield>
+        <datafield tag="596" ind1=" " ind2=" ">
+            <subfield code="a"> BB: M676</subfield>
+        </datafield>
+    </record>
+</collection>
+                ]]>
+            </content>
+            <!--optional -->
+            <additionalAttributes>
+                <lastUpdated>6-10-2012</lastUpdated>
+                <updatedBy>ole-khuntley</updatedBy>
+                <status>statusUpdate-Jan2013</status>
+                <fastAddFlag>true</fastAddFlag>
+                <supressFromPublic>false</supressFromPublic>
+                <harvestable>false</harvestable>
+            </additionalAttributes>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+    </requestDocuments>
+</request>

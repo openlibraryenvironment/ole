@@ -1,0 +1,1420 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<request>
+	<user>chuntley</user>
+	<operation>batchIngest</operation>
+	<requestDocuments>
+		<ingestDocument id="1" category="work" type="license" format="onixpl">
+			<content><![CDATA[<onix:ONIXPublicationsLicenseMessage version="1.0" datestamp="string" sourcetype="00"
+                                     sourcename="LicenseMessageSourcename" xmlns:onix="http://www.editeur.org/onix-pl">
+    <onix:Header datestamp="string" sourcetype="00" sourcename="string">
+        <onix:Sender datestamp="string" sourcetype="00" sourcename="string">
+            <onix:SenderIdentifier datestamp="string" sourcetype="00" sourcename="string">
+                <onix:SenderIDType datestamp="string" sourcetype="00" sourcename="string">string</onix:SenderIDType>
+                <onix:IDTypeName datestamp="string" sourcetype="00" sourcename="string">string</onix:IDTypeName>
+                <onix:IDValue datestamp="string" sourcetype="00" sourcename="string">string</onix:IDValue>
+            </onix:SenderIdentifier>
+            <onix:SenderName datestamp="string" sourcetype="00" sourcename="string">SenderName1</onix:SenderName>
+            <onix:SenderName datestamp="string" sourcetype="00" sourcename="string">SenderName2</onix:SenderName>
+            <onix:SenderContact datestamp="string" sourcetype="00" sourcename="string">string</onix:SenderContact>
+            <onix:SenderEmail datestamp="string" sourcetype="00" sourcename="string">string</onix:SenderEmail>
+        </onix:Sender>
+        <onix:Addressee datestamp="string" sourcetype="00" sourcename="string">
+            <onix:AddresseeIdentifier datestamp="string" sourcetype="00" sourcename="string">
+                <onix:AddresseeIDType datestamp="string" sourcetype="00" sourcename="string">string
+                </onix:AddresseeIDType>
+                <onix:IDTypeName datestamp="string" sourcetype="00" sourcename="string">string</onix:IDTypeName>
+                <onix:IDValue datestamp="string" sourcetype="00" sourcename="string">string</onix:IDValue>
+            </onix:AddresseeIdentifier>
+            <onix:AddresseeName datestamp="string" sourcetype="00" sourcename="string">AddresseeName1
+            </onix:AddresseeName>
+            <onix:AddresseeName datestamp="string" sourcetype="00" sourcename="string">AddresseeName2
+            </onix:AddresseeName>
+            <onix:AddresseeContact datestamp="string" sourcetype="00" sourcename="string">string</onix:AddresseeContact>
+            <onix:AddresseeEmail datestamp="string" sourcetype="00" sourcename="string">string</onix:AddresseeEmail>
+        </onix:Addressee>
+        <onix:MessageNumber datestamp="string" sourcetype="00" sourcename="string">string</onix:MessageNumber>
+        <onix:MessageRepeat datestamp="string" sourcetype="00" sourcename="string">3</onix:MessageRepeat>
+        <onix:SentDateTime datestamp="string" sourcetype="00" sourcename="string">string</onix:SentDateTime>
+        <onix:MessageNote datestamp="string" sourcetype="00" sourcename="string">string</onix:MessageNote>
+    </onix:Header>
+    <onix:PublicationsLicenseExpression xmlns:oxf="http://www.orbeon.com/oxf/processors"
+                                        xmlns:xxforms="http://orbeon.org/oxf/xml/xforms"
+                                        xmlns:context="java:org.orbeon.oxf.pipeline.StaticExternalContext"
+                                        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                                        xmlns:p="http://www.orbeon.com/oxf/pipeline"
+                                        xmlns:exist="http://exist.sourceforge.net/NS/exist"
+                                        xmlns:ople="http://www.editeur.org/ople"
+                                        xmlns:saxon="http://saxon.sf.net/"
+                                        xmlns:ev="http://www.w3.org/2001/xml-events"
+                                        xmlns:xforms="http://www.w3.org/2002/xforms"
+                                        xmlns="http://www.editeur.org/onix-pl">
+        <onix:ExpressionDetail>
+            <onix:ExpressionType>onixPL:LicenseTemplate</onix:ExpressionType>
+            <onix:ExpressionStatus>onixPL:Draft</onix:ExpressionStatus>
+            <onix:Description>Springer US consortium template</onix:Description>
+            <onix:ExpressionRelatedAgent>
+                <onix:ExpressionAgentRelator>onixPL:WasPreparedBy</onix:ExpressionAgentRelator>
+                <onix:Name>David Martin</onix:Name>
+            </onix:ExpressionRelatedAgent>
+            <onix:ExpressionRelatedTimePoint>
+                <onix:ExpressionTimePointRelator>onixPL:WasPreparedOn</onix:ExpressionTimePointRelator>
+                <onix:TimePointIdentifier>
+                    <onix:TimePointIDType>onixPL:YYYYMMDD</onix:TimePointIDType>
+                    <onix:IDValue>20080910</onix:IDValue>
+                </onix:TimePointIdentifier>
+            </onix:ExpressionRelatedTimePoint>
+        </onix:ExpressionDetail>
+        <onix:LicenseDetail>
+            <onix:LicenseIdentifier>
+                <onix:LicenseIDType>onixPL:LicensorContractReference</onix:LicenseIDType>
+                <onix:IDValue>0104-2011</onix:IDValue>
+            </onix:LicenseIdentifier>
+            <onix:Description>Springer US consortium template</onix:Description>
+            <onix:LicenseStatus>onixPL:Template</onix:LicenseStatus>
+            <onix:LicenseRelatedAgent>
+                <onix:LicenseAgentRelator>onixPL:HasLicensor</onix:LicenseAgentRelator>
+                <onix:RelatedAgent>Licensor</onix:RelatedAgent>
+            </onix:LicenseRelatedAgent>
+            <onix:LicenseRelatedAgent>
+                <onix:LicenseAgentRelator>onixPL:HasLicensee</onix:LicenseAgentRelator>
+                <onix:RelatedAgent>Licensee</onix:RelatedAgent>
+            </onix:LicenseRelatedAgent>
+            <onix:LicenseRelatedAgent>
+                <onix:LicenseAgentRelator>onixPL:HasAuthorizedUsers</onix:LicenseAgentRelator>
+                <onix:RelatedAgent>AuthorizedUser</onix:RelatedAgent>
+            </onix:LicenseRelatedAgent>
+            <onix:LicenseRelatedResource>
+                <onix:LicenseResourceRelator>onixPL:HasLicensedContent</onix:LicenseResourceRelator>
+                <onix:RelatedResource>LicensedContent</onix:RelatedResource>
+            </onix:LicenseRelatedResource>
+            <onix:LicenseRelatedTimePoint>
+                <onix:LicenseTimePointRelator>onixPL:HasLicenseStartDate</onix:LicenseTimePointRelator>
+                <onix:RelatedTimePoint>LicenseStartDate</onix:RelatedTimePoint>
+            </onix:LicenseRelatedTimePoint>
+            <onix:LicenseRelatedTimePoint>
+                <onix:LicenseTimePointRelator>onixPL:HasLicenseEndDate</onix:LicenseTimePointRelator>
+                <onix:RelatedTimePoint>LicenseEndDate</onix:RelatedTimePoint>
+            </onix:LicenseRelatedTimePoint>
+        </onix:LicenseDetail>
+        <onix:Definitions>
+            <onix:AgentDefinition>
+                <onix:AgentLabel>Licensor</onix:AgentLabel>
+                <onix:AgentType>onixPL:Organization</onix:AgentType>
+                <onix:AgentName>
+                    <onix:Name>Springer Science+Business Media LLC</onix:Name>
+                </onix:AgentName>
+                <onix:LicenseTextLink href="d1e163920081009T224520.265Z"/>
+            </onix:AgentDefinition>
+            <onix:AgentDefinition>
+                <onix:AgentLabel>Licensee</onix:AgentLabel>
+                <onix:AgentType>onixPL:Organization</onix:AgentType>
+                <onix:AgentName>
+                    <onix:Name>Participating members of US Consortium</onix:Name>
+                </onix:AgentName>
+                <onix:Annotation>
+                    <onix:AnnotationText>In the ONIX expression, Licensee means any of the consortium members that are
+                        at any time participating in the License. These are referred to in the license text sometimes as
+                        "Licensee" and sometimes as "Participating Libraries". Participating libraries are listed in
+                        Attachment 2 to the License.
+                    </onix:AnnotationText>
+                </onix:Annotation>
+                <onix:LicenseTextLink href="d1e163920081009T224359.937Z"/>
+                <onix:LicenseTextLink href="d1e164120080908T144251.906Z"/>
+            </onix:AgentDefinition>
+            <onix:AgentDefinition>
+                <onix:AgentLabel>AuthorizedUser</onix:AgentLabel>
+                <onix:AgentType>onixPL:Person</onix:AgentType>
+                <onix:LicenseTextLink href="d1e164120080908T144338.187Z"/>
+                <onix:AgentRelatedAgent>
+                    <onix:AgentAgentRelator>onixPL:IsAnyOf</onix:AgentAgentRelator>
+                    <onix:RelatedAgent>onixPL:LicenseeFaculty</onix:RelatedAgent>
+                    <onix:RelatedAgent>onixPL:LicenseeNonFacultyStaff</onix:RelatedAgent>
+                    <onix:RelatedAgent>onixPL:LicenseeStudent</onix:RelatedAgent>
+                </onix:AgentRelatedAgent>
+            </onix:AgentDefinition>
+            <onix:ResourceDefinition>
+                <onix:ResourceLabel>LicensedContent</onix:ResourceLabel>
+                <onix:Description>Springer Published Content made available to the Licensee on the SpringerLink
+                    Information System
+                </onix:Description>
+                <onix:LicenseTextLink href="d1e164120080908T144047.593Z"/>
+                <onix:LicenseTextLink href="d1e164120080908T144212.953Z"/>
+            </onix:ResourceDefinition>
+            <onix:ResourceDefinition>
+                <onix:ResourceLabel>LicensedContentCompleteItem</onix:ResourceLabel>
+                <onix:ResourceRelatedResource>
+                    <onix:ResourceResourceRelator>onixPL:IsAnyOf</onix:ResourceResourceRelator>
+                    <onix:RelatedResource>onixPL:CompleteArticle</onix:RelatedResource>
+                    <onix:RelatedResource>onixPL:CompleteBook</onix:RelatedResource>
+                    <onix:RelatedResource>onixPL:CompleteChapter</onix:RelatedResource>
+                    <onix:RelatedResource>onixPL:CompleteIssue</onix:RelatedResource>
+                </onix:ResourceRelatedResource>
+                <onix:ResourceRelatedResource>
+                    <onix:ResourceResourceRelator>onixPL:IsPartOf</onix:ResourceResourceRelator>
+                    <onix:RelatedResource>LicensedContent</onix:RelatedResource>
+                </onix:ResourceRelatedResource>
+            </onix:ResourceDefinition>
+            <onix:TimePointDefinition>
+                <onix:TimePointLabel>LicenseStartDate</onix:TimePointLabel>
+                <onix:TimePointIdentifier>
+                    <onix:TimePointIDType>onixPL:YYYYMMDD</onix:TimePointIDType>
+                    <onix:IDValue>????????</onix:IDValue>
+                </onix:TimePointIdentifier>
+            </onix:TimePointDefinition>
+            <onix:TimePointDefinition>
+                <onix:TimePointLabel>LicenseEndDate</onix:TimePointLabel>
+                <onix:TimePointIdentifier>
+                    <onix:TimePointIDType>onixPL:YYYYMMDD</onix:TimePointIDType>
+                    <onix:IDValue>????????</onix:IDValue>
+                </onix:TimePointIdentifier>
+            </onix:TimePointDefinition>
+            <onix:PlaceDefinition>
+                <onix:PlaceLabel>PlaceOfGoverningLaw</onix:PlaceLabel>
+                <onix:PlaceIdentifier>
+                    <onix:PlaceIDType>onixPL:LocationCode</onix:PlaceIDType>
+                    <onix:IDValue>US-NY</onix:IDValue>
+                </onix:PlaceIdentifier>
+                <onix:PlaceName>
+                    <onix:Name>State of New York</onix:Name>
+                </onix:PlaceName>
+            </onix:PlaceDefinition>
+            <onix:PlaceDefinition>
+                <onix:PlaceLabel>PlaceOfJurisdiction</onix:PlaceLabel>
+                <onix:PlaceIdentifier>
+                    <onix:PlaceIDType>onixPL:LocationCode</onix:PlaceIDType>
+                    <onix:IDValue>US-NY</onix:IDValue>
+                </onix:PlaceIdentifier>
+                <onix:PlaceName>
+                    <onix:Name>New York County, State of New York</onix:Name>
+                </onix:PlaceName>
+            </onix:PlaceDefinition>
+            <onix:PlaceDefinition>
+                <onix:PlaceLabel>LicensorPrincipalPlaceOfBusiness</onix:PlaceLabel>
+                <onix:PlaceName>
+                    <onix:PlaceNameType>onixPL:AddressAsFreeText</onix:PlaceNameType>
+                    <onix:Name>233 Spring Street, New York, New York 10013-1578, USA</onix:Name>
+                </onix:PlaceName>
+            </onix:PlaceDefinition>
+            <onix:PlaceDefinition>
+                <onix:PlaceLabel>LicensorAddressForNotices</onix:PlaceLabel>
+                <onix:PlaceName>
+                    <onix:PlaceNameType>onixPL:AddressAsFreeText</onix:PlaceNameType>
+                    <onix:Name>Syed Hasan, President, Sales, Springer Science+Business Media, LLC. 233 Spring Street New
+                        York, NY 10013-1578
+                    </onix:Name>
+                </onix:PlaceName>
+            </onix:PlaceDefinition>
+            <onix:PlaceDefinition>
+                <onix:PlaceLabel>LicenseePrincipalPlaceOfBusiness</onix:PlaceLabel>
+                <onix:PlaceName>
+                    <onix:PlaceNameType>onixPL:AddressAsFreeText</onix:PlaceNameType>
+                    <onix:Name>?????</onix:Name>
+                </onix:PlaceName>
+            </onix:PlaceDefinition>
+            <onix:PlaceDefinition>
+                <onix:PlaceLabel>LicenseeAddressForNotices</onix:PlaceLabel>
+                <onix:PlaceName>
+                    <onix:PlaceNameType>onixPL:AddressAsFreeText</onix:PlaceNameType>
+                    <onix:Name>?????</onix:Name>
+                </onix:PlaceName>
+            </onix:PlaceDefinition>
+            <onix:DocumentDefinition>
+                <onix:DocumentLabel>License</onix:DocumentLabel>
+                <onix:DocumentType>onixPL:Document</onix:DocumentType>
+                <onix:Description>SpringerLink US consortium license template</onix:Description>
+            </onix:DocumentDefinition>
+        </onix:Definitions>
+        <onix:LicenseGrant>
+            <onix:LicenseGrantType>onixPL:NonExclusive</onix:LicenseGrantType>
+            <onix:LicenseTextLink href="d1e164120080908T144423.531Z"/>
+        </onix:LicenseGrant>
+        <onix:UsageTerms>
+            <onix:Usage>
+                <onix:UsageType>onixPL:Access</onix:UsageType>
+                <onix:UsageStatus>onixPL:Permitted</onix:UsageStatus>
+                <onix:LicenseTextLink href="d1e164120080908T144659.671Z"/>
+                <onix:LicenseTextLink href="d1e164120080908T144946.484Z"/>
+                <onix:LicenseTextLink href="d1e163920081009T215456.875Z"/>
+                <onix:User>AuthorizedUser</onix:User>
+                <onix:UsedResource>LicensedContent</onix:UsedResource>
+                <onix:UsageMethod>onixPL:SecureAuthentication</onix:UsageMethod>
+                <onix:UsageRelatedPlace>
+                    <onix:UsagePlaceRelator>onixPL:HasPlaceOfUsage</onix:UsagePlaceRelator>
+                    <onix:RelatedPlace>onixPL:LicenseePremises</onix:RelatedPlace>
+                    <onix:RelatedPlace>onixPL:RemoteLocation</onix:RelatedPlace>
+                </onix:UsageRelatedPlace>
+            </onix:Usage>
+            <onix:Usage>
+                <onix:UsageType>onixPL:Access</onix:UsageType>
+                <onix:UsageStatus>onixPL:Permitted</onix:UsageStatus>
+                <onix:LicenseTextLink href="d1e164120080908T144659.671Z"/>
+                <onix:LicenseTextLink href="d1e164120080908T144539.609Z"/>
+                <onix:User>onixPL:WalkInUser</onix:User>
+                <onix:UsedResource>LicensedContent</onix:UsedResource>
+                <onix:UsagePurpose>onixPL:AcademicUse</onix:UsagePurpose>
+                <onix:UsageMethod>onixPL:SecureAuthentication</onix:UsageMethod>
+                <onix:UsageRelatedPlace>
+                    <onix:UsagePlaceRelator>onixPL:HasPlaceOfUsage</onix:UsagePlaceRelator>
+                    <onix:RelatedPlace>onixPL:LicenseePremises</onix:RelatedPlace>
+                </onix:UsageRelatedPlace>
+            </onix:Usage>
+            <onix:Usage>
+                <onix:UsageType>onixPL:PrintCopy</onix:UsageType>
+                <onix:UsageStatus>onixPL:Permitted</onix:UsageStatus>
+                <onix:LicenseTextLink href="d1e164120080908T144746.062Z"/>
+                <onix:LicenseTextLink href="d1e164120080908T144539.609Z"/>
+                <onix:LicenseTextLink href="d1e164120080908T144910.203Z"/>
+                <onix:User>AuthorizedUser</onix:User>
+                <onix:User>onixPL:WalkInUser</onix:User>
+                <onix:UsedResource>onixPL:LicensedContentPart</onix:UsedResource>
+                <onix:UsagePurpose>onixPL:AcademicUse</onix:UsagePurpose>
+                <onix:UsageCondition>onixPL:SubjectToFairUse</onix:UsageCondition>
+                <onix:UsageQuantity>
+                    <onix:UsageQuantityType>onixPL:NumberOfCopiesPermitted</onix:UsageQuantityType>
+                    <onix:QuantityDetail>
+                        <onix:Proximity>onixPL:IsNotMoreThan</onix:Proximity>
+                        <Value>1</Value>
+                        <onix:QuantityUnit>onixPL:Copies</onix:QuantityUnit>
+                    </onix:QuantityDetail>
+                </onix:UsageQuantity>
+            </onix:Usage>
+            <onix:Usage>
+                <onix:UsageType>onixPL:MakeAndSaveDigitalCopy</onix:UsageType>
+                <onix:UsageStatus>onixPL:Permitted</onix:UsageStatus>
+                <onix:LicenseTextLink href="d1e164120080908T144746.062Z"/>
+                <onix:LicenseTextLink href="d1e164120080908T144539.609Z"/>
+                <onix:LicenseTextLink href="d1e164120080908T144910.203Z"/>
+                <onix:User>AuthorizedUser</onix:User>
+                <onix:User>onixPL:WalkInUser</onix:User>
+                <onix:UsedResource>onixPL:LicensedContentPart</onix:UsedResource>
+                <onix:UsagePurpose>onixPL:AcademicUse</onix:UsagePurpose>
+                <onix:UsageCondition>onixPL:SubjectToFairUse</onix:UsageCondition>
+                <onix:UsageQuantity>
+                    <onix:UsageQuantityType>onixPL:NumberOfCopiesPermitted</onix:UsageQuantityType>
+                    <onix:QuantityDetail>
+                        <onix:Proximity>onixPL:IsNotMoreThan</onix:Proximity>
+                        <Value>1</Value>
+                        <onix:QuantityUnit>onixPL:Copies</onix:QuantityUnit>
+                    </onix:QuantityDetail>
+                </onix:UsageQuantity>
+            </onix:Usage>
+            <onix:Usage>
+                <onix:UsageType>onixPL:SupplyCopy</onix:UsageType>
+                <onix:UsageStatus>onixPL:Permitted</onix:UsageStatus>
+                <onix:LicenseTextLink href="d1e164120080908T144827.359Z"/>
+                <onix:LicenseTextLink href="d1e164120080908T145019.89Z"/>
+                <onix:User>AuthorizedUser</onix:User>
+                <onix:UsedResource>onixPL:LicensedContentPart</onix:UsedResource>
+                <onix:UsagePurpose>onixPL:AcademicUse</onix:UsagePurpose>
+                <onix:UsageRelatedAgent>
+                    <onix:UsageAgentRelator>onixPL:HasReceivingAgent</onix:UsageAgentRelator>
+                    <onix:RelatedAgent>onixPL:ThirdPartyPerson</onix:RelatedAgent>
+                </onix:UsageRelatedAgent>
+            </onix:Usage>
+            <onix:Usage>
+                <onix:UsageType>onixPL:IncludeInPrintedInstructionalMaterial</onix:UsageType>
+                <onix:UsageStatus>onixPL:Permitted</onix:UsageStatus>
+                <onix:LicenseTextLink href="d1e164120080908T145051.984Z"/>
+                <onix:User>Licensee</onix:User>
+                <onix:User>AuthorizedUser</onix:User>
+                <onix:UsedResource>onixPL:LicensedContentPart</onix:UsedResource>
+            </onix:Usage>
+            <onix:Usage>
+                <onix:UsageType>onixPL:IncludeInDigitalInstructionalMaterial</onix:UsageType>
+                <onix:UsageStatus>onixPL:Permitted</onix:UsageStatus>
+                <onix:LicenseTextLink href="d1e164120080908T145051.984Z"/>
+                <onix:User>Licensee</onix:User>
+                <onix:User>AuthorizedUser</onix:User>
+                <onix:UsedResource>onixPL:LicensedContentPart</onix:UsedResource>
+            </onix:Usage>
+            <onix:Usage>
+                <onix:UsageType>onixPL:InterLibrarySupply</onix:UsageType>
+                <onix:UsageStatus>onixPL:Permitted</onix:UsageStatus>
+                <onix:LicenseTextLink href="d1e164120080908T145125.437Z"/>
+                <onix:User>Licensee</onix:User>
+                <onix:UsedResource>onixPL:LicensedContentPart</onix:UsedResource>
+                <onix:UsageMethod>onixPL:Post</onix:UsageMethod>
+                <onix:UsageMethod>onixPL:Fax</onix:UsageMethod>
+                <onix:UsageMethod>onixPL:SecureElectronicTransmission</onix:UsageMethod>
+                <onix:UsageRelatedAgent>
+                    <onix:UsageAgentRelator>onixPL:HasReceivingAgent</onix:UsageAgentRelator>
+                    <onix:RelatedAgent>onixPL:ThirdPartyNonCommercialLibrary</onix:RelatedAgent>
+                </onix:UsageRelatedAgent>
+                <onix:UsageRelatedResource>
+                    <onix:UsageResourceRelator>onixPL:MustInclude</onix:UsageResourceRelator>
+                    <onix:RelatedResource>onixPL:CopyrightNotice</onix:RelatedResource>
+                </onix:UsageRelatedResource>
+            </onix:Usage>
+            <onix:Usage>
+                <onix:UsageType>onixPL:AccessByRobot</onix:UsageType>
+                <onix:UsageStatus>onixPL:Prohibited</onix:UsageStatus>
+                <onix:LicenseTextLink href="d1e163920081009T220022.531Z"/>
+                <onix:User>Licensee</onix:User>
+                <onix:UsedResource>LicensedContent</onix:UsedResource>
+            </onix:Usage>
+            <onix:Usage>
+                <onix:UsageType>onixPL:Modify</onix:UsageType>
+                <onix:UsageStatus>onixPL:Prohibited</onix:UsageStatus>
+                <onix:LicenseTextLink href="d1e164120080908T145735.046Z"/>
+                <onix:User>Licensee</onix:User>
+                <onix:User>AuthorizedUser</onix:User>
+                <onix:User>onixPL:WalkInUser</onix:User>
+                <onix:UsedResource>LicensedContent</onix:UsedResource>
+            </onix:Usage>
+            <onix:Usage>
+                <onix:UsageType>onixPL:RemoveObscureOrModify</onix:UsageType>
+                <onix:UsageStatus>onixPL:Prohibited</onix:UsageStatus>
+                <onix:LicenseTextLink href="d1e163920081009T222137.062Z"/>
+                <onix:User>Licensee</onix:User>
+                <onix:User>AuthorizedUser</onix:User>
+                <onix:User>onixPL:WalkInUser</onix:User>
+                <onix:UsedResource>onixPL:CopyrightNoticesOrDisclaimers</onix:UsedResource>
+            </onix:Usage>
+            <onix:Usage>
+                <onix:UsageType>onixPL:MakePubliclyAvailable</onix:UsageType>
+                <onix:UsageStatus>onixPL:Prohibited</onix:UsageStatus>
+                <onix:LicenseTextLink href="d1e164120080908T145834.781Z"/>
+                <onix:User>Licensee</onix:User>
+                <onix:User>AuthorizedUser</onix:User>
+                <onix:User>onixPL:WalkInUser</onix:User>
+                <onix:UsedResource>LicensedContentCompleteItem</onix:UsedResource>
+            </onix:Usage>
+            <onix:Usage>
+                <onix:UsageType>onixPL:SystematicallyCopy</onix:UsageType>
+                <onix:UsageStatus>onixPL:Prohibited</onix:UsageStatus>
+                <onix:LicenseTextLink href="d1e164120080908T150001.359Z"/>
+                <onix:LicenseTextLink href="d1e164120080908T150029.656Z"/>
+                <onix:User>Licensee</onix:User>
+                <onix:User>AuthorizedUser</onix:User>
+                <onix:User>onixPL:WalkInUser</onix:User>
+                <onix:UsedResource>LicensedContent</onix:UsedResource>
+            </onix:Usage>
+            <onix:Usage>
+                <onix:UsageType>onixPL:Sell</onix:UsageType>
+                <onix:UsageStatus>onixPL:Prohibited</onix:UsageStatus>
+                <onix:LicenseTextLink href="d1e164120080908T150016.609Z"/>
+                <onix:LicenseTextLink href="d1e164120080908T150250Z"/>
+                <onix:User>Licensee</onix:User>
+                <onix:User>AuthorizedUser</onix:User>
+                <onix:User>onixPL:WalkInUser</onix:User>
+                <onix:UsedResource>LicensedContent</onix:UsedResource>
+            </onix:Usage>
+            <onix:Usage>
+                <onix:UsageType>onixPL:DisplayOrDistribute</onix:UsageType>
+                <onix:UsageStatus>onixPL:Prohibited</onix:UsageStatus>
+                <onix:LicenseTextLink href="d1e164120080908T150043.89Z"/>
+                <onix:User>Licensee</onix:User>
+                <onix:User>AuthorizedUser</onix:User>
+                <onix:User>onixPL:WalkInUser</onix:User>
+                <onix:UsedResource>LicensedContent</onix:UsedResource>
+                <onix:UsageException>
+                    <onix:UsageExceptionType>onixPL:ExceptAsPermitted</onix:UsageExceptionType>
+                    <onix:LicenseTextLink href="d1e164120080908T145125.437Z"/>
+                </onix:UsageException>
+            </onix:Usage>
+            <onix:Usage>
+                <onix:UsageType>onixPL:PrintCopy</onix:UsageType>
+                <onix:UsageStatus>onixPL:Prohibited</onix:UsageStatus>
+                <onix:LicenseTextLink href="d1e164120080908T144910.203Z"/>
+                <onix:User>AuthorizedUser</onix:User>
+                <onix:User>onixPL:WalkInUser</onix:User>
+                <onix:UsedResource>onixPL:CompleteIssue</onix:UsedResource>
+            </onix:Usage>
+            <onix:Usage>
+                <onix:UsageType>onixPL:MakeAndSaveDigitalCopy</onix:UsageType>
+                <onix:UsageStatus>onixPL:Prohibited</onix:UsageStatus>
+                <onix:LicenseTextLink href="d1e164120080908T144910.203Z"/>
+                <onix:User>AuthorizedUser</onix:User>
+                <onix:User>onixPL:WalkInUser</onix:User>
+                <onix:UsedResource>onixPL:CompleteIssue</onix:UsedResource>
+            </onix:Usage>
+        </onix:UsageTerms>
+        <onix:SupplyTerms>
+            <onix:SupplyTerm>
+                <onix:SupplyTermType>onixPL:StartOfService</onix:SupplyTermType>
+                <onix:LicenseTextLink href="d1e164120080908T150442.062Z"/>
+            </onix:SupplyTerm>
+            <onix:SupplyTerm>
+                <onix:SupplyTermType>onixPL:ServicePerformance</onix:SupplyTermType>
+                <onix:LicenseTextLink href="d1e164120080908T150520.265Z"/>
+            </onix:SupplyTerm>
+            <onix:SupplyTerm>
+                <onix:SupplyTermType>onixPL:ChangesToLicensedContent</onix:SupplyTermType>
+                <onix:LicenseTextLink href="d1e164120080908T150556.859Z"/>
+                <onix:LicenseTextLink href="d1e164120080908T150830.14Z"/>
+            </onix:SupplyTerm>
+            <onix:SupplyTerm>
+                <onix:SupplyTermType>onixPL:UserSupport</onix:SupplyTermType>
+                <onix:LicenseTextLink href="d1e164120080908T150636.265Z"/>
+            </onix:SupplyTerm>
+            <onix:SupplyTerm>
+                <onix:SupplyTermType>onixPL:UsageStatistics</onix:SupplyTermType>
+                <onix:LicenseTextLink href="d1e164120080908T151138.671Z"/>
+            </onix:SupplyTerm>
+            <onix:SupplyTerm>
+                <onix:SupplyTermType>onixPL:MediaWarranty</onix:SupplyTermType>
+                <onix:LicenseTextLink href="d1e164120080908T151857.859Z"/>
+            </onix:SupplyTerm>
+        </onix:SupplyTerms>
+        <onix:ContinuingAccessTerms>
+            <onix:ContinuingAccessTerm>
+                <onix:ContinuingAccessTermType>onixPL:ArchivalCopySupply</onix:ContinuingAccessTermType>
+                <onix:LicenseTextLink href="d1e164120080908T145326.687Z"/>
+                <onix:LicenseTextLink href="d1e164120080908T145401.203Z"/>
+                <onix:LicenseTextLink href="d1e164120080908T145517.312Z"/>
+                <onix:LicenseTextLink href="d1e164120080908T145607.281Z"/>
+                <onix:LicenseTextLink href="d1e164120080908T151535.343Z"/>
+            </onix:ContinuingAccessTerm>
+            <onix:ContinuingAccessTerm>
+                <onix:ContinuingAccessTermType>onixPL:ContinuingOnlineAccess</onix:ContinuingAccessTermType>
+                <onix:LicenseTextLink href="d1e164120080908T145326.687Z"/>
+                <onix:LicenseTextLink href="d1e164120080908T145441.453Z"/>
+                <onix:LicenseTextLink href="d1e164120080908T145517.312Z"/>
+                <onix:LicenseTextLink href="d1e164120080908T145607.281Z"/>
+                <onix:LicenseTextLink href="d1e164120080908T145640.984Z"/>
+                <onix:LicenseTextLink href="d1e164120080908T151535.343Z"/>
+            </onix:ContinuingAccessTerm>
+        </onix:ContinuingAccessTerms>
+        <onix:PaymentTerms>
+            <onix:PaymentTerm>
+                <onix:PaymentTermType>onixPL:LicenseeObligationToMakePayments</onix:PaymentTermType>
+                <onix:LicenseTextLink href="d1e164120080908T150748.906Z"/>
+                <onix:LicenseTextLink href="d1e164120080908T150830.14Z"/>
+                <onix:LicenseTextLink href="d1e164120080908T152859.406Z"/>
+            </onix:PaymentTerm>
+        </onix:PaymentTerms>
+        <onix:GeneralTerms>
+            <onix:GeneralTerm>
+                <onix:GeneralTermType>onixPL:AllRightsReserved</onix:GeneralTermType>
+                <onix:LicenseTextLink href="d1e164120080908T144502.515Z"/>
+            </onix:GeneralTerm>
+            <onix:GeneralTerm>
+                <onix:GeneralTermType>onixPL:NotificationOfTermsToAuthorizedUsers</onix:GeneralTermType>
+                <onix:LicenseTextLink href="d1e163920081009T222218.062Z"/>
+                <onix:LicenseTextLink href="d1e164120080908T151024.078Z"/>
+            </onix:GeneralTerm>
+            <onix:GeneralTerm>
+                <onix:GeneralTermType>onixPL:ActionAgainstMisuse</onix:GeneralTermType>
+                <onix:LicenseTextLink href="d1e163920081009T222246.625Z"/>
+                <onix:LicenseTextLink href="d1e163920081009T223245.109Z"/>
+            </onix:GeneralTerm>
+            <onix:GeneralTerm>
+                <onix:GeneralTermType>onixPL:PreventionOfMisuse</onix:GeneralTermType>
+                <onix:LicenseTextLink href="d1e163920081009T222908.781Z"/>
+                <onix:LicenseTextLink href="d1e164120080908T151934.546Z"/>
+            </onix:GeneralTerm>
+            <onix:GeneralTerm>
+                <onix:GeneralTermType>onixPL:MonitoringAndDetectionOfMisuse</onix:GeneralTermType>
+                <onix:LicenseTextLink href="d1e164120080908T151059.218Z"/>
+            </onix:GeneralTerm>
+            <onix:GeneralTerm>
+                <onix:GeneralTermType>onixPL:NotificationOfMisuse</onix:GeneralTermType>
+                <onix:LicenseTextLink href="d1e163920081009T222941.047Z"/>
+            </onix:GeneralTerm>
+            <onix:GeneralTerm>
+                <onix:GeneralTermType>onixPL:TermOfAgreement</onix:GeneralTermType>
+                <onix:LicenseTextLink href="d1e164120080908T151325.156Z"/>
+            </onix:GeneralTerm>
+            <onix:GeneralTerm>
+                <onix:GeneralTermType>onixPL:TerminationByBreach</onix:GeneralTermType>
+                <onix:LicenseTextLink href="d1e164120080908T150941.875Z"/>
+                <onix:LicenseTextLink href="d1e164120080908T151402.281Z"/>
+                <onix:LicenseTextLink href="d1e164120080908T151446.593Z"/>
+                <onix:GeneralTermQuantity>
+                    <onix:GeneralTermQuantityType>onixPL:NoticePeriodForTerminationByBreach
+                    </onix:GeneralTermQuantityType>
+                    <onix:QuantityDetail>
+                        <onix:Proximity>onixPL:IsExactly</onix:Proximity>
+                        <Value>30</Value>
+                        <onix:QuantityUnit>onixPL:Days</onix:QuantityUnit>
+                    </onix:QuantityDetail>
+                </onix:GeneralTermQuantity>
+                <onix:GeneralTermQuantity>
+                    <onix:GeneralTermQuantityType>onixPL:PeriodForCureOfBreach</onix:GeneralTermQuantityType>
+                    <onix:QuantityDetail>
+                        <onix:Proximity>onixPL:IsNotMoreThan</onix:Proximity>
+                        <Value>30</Value>
+                        <onix:QuantityUnit>onixPL:Days</onix:QuantityUnit>
+                    </onix:QuantityDetail>
+                </onix:GeneralTermQuantity>
+            </onix:GeneralTerm>
+            <onix:GeneralTerm>
+                <onix:GeneralTermType>onixPL:IntellectualPropertyRights</onix:GeneralTermType>
+                <onix:LicenseTextLink href="d1e164120080908T151645.578Z"/>
+            </onix:GeneralTerm>
+            <onix:GeneralTerm>
+                <onix:GeneralTermType>onixPL:ConfidentialityOfLicenseTerms</onix:GeneralTermType>
+                <onix:LicenseTextLink href="d1e164120080908T151728.328Z"/>
+            </onix:GeneralTerm>
+            <onix:GeneralTerm>
+                <onix:GeneralTermType>onixPL:LicensorIntellectualPropertyWarranty</onix:GeneralTermType>
+                <onix:LicenseTextLink href="d1e164120080908T151857.859Z"/>
+            </onix:GeneralTerm>
+            <onix:GeneralTerm>
+                <onix:GeneralTermType>onixPL:LicenseeWarranty</onix:GeneralTermType>
+                <onix:LicenseTextLink href="d1e164120080908T152005.687Z"/>
+            </onix:GeneralTerm>
+            <onix:GeneralTerm>
+                <onix:GeneralTermType>onixPL:LicensorWarrantyDisclaimer</onix:GeneralTermType>
+                <onix:LicenseTextLink href="d1e164120080908T152034.218Z"/>
+            </onix:GeneralTerm>
+            <onix:GeneralTerm>
+                <onix:GeneralTermType>onixPL:LimitationOfLiability</onix:GeneralTermType>
+                <onix:LicenseTextLink href="d1e164120080908T152034.218Z"/>
+            </onix:GeneralTerm>
+            <onix:GeneralTerm>
+                <onix:GeneralTermType>onixPL:TrademarkProtection</onix:GeneralTermType>
+                <onix:LicenseTextLink href="d1e164120080908T152220Z"/>
+                <onix:LicenseTextLink href="d1e164120080908T152256Z"/>
+                <onix:LicenseTextLink href="d1e164120080908T152338.343Z"/>
+            </onix:GeneralTerm>
+            <onix:GeneralTerm>
+                <onix:GeneralTermType>onixPL:Assignment</onix:GeneralTermType>
+                <onix:LicenseTextLink href="d1e164120080908T152458.015Z"/>
+                <onix:LicenseTextLink href="d1e163920081009T215303.906Z"/>
+            </onix:GeneralTerm>
+            <onix:GeneralTerm>
+                <onix:GeneralTermType>onixPL:ForceMajeure</onix:GeneralTermType>
+                <onix:LicenseTextLink href="d1e164120080908T152529.812Z"/>
+            </onix:GeneralTerm>
+            <onix:GeneralTerm>
+                <onix:GeneralTermType>onixPL:NonEnforceability</onix:GeneralTermType>
+                <onix:LicenseTextLink href="d1e164120080908T152557.171Z"/>
+            </onix:GeneralTerm>
+            <onix:GeneralTerm>
+                <onix:GeneralTermType>onixPL:GoverningLaw</onix:GeneralTermType>
+                <onix:LicenseTextLink href="d1e164120080908T152630.046Z"/>
+                <onix:GeneralTermRelatedPlace>
+                    <onix:GeneralTermPlaceRelator>onixPL:HasPlaceOfGoverningLaw</onix:GeneralTermPlaceRelator>
+                    <onix:RelatedPlace>PlaceOfGoverningLaw</onix:RelatedPlace>
+                </onix:GeneralTermRelatedPlace>
+            </onix:GeneralTerm>
+            <onix:GeneralTerm>
+                <onix:GeneralTermType>onixPL:Jurisdiction</onix:GeneralTermType>
+                <onix:LicenseTextLink href="d1e164120080908T152630.046Z"/>
+                <onix:GeneralTermRelatedPlace>
+                    <onix:GeneralTermPlaceRelator>onixPL:HasPlaceOfJurisdiction</onix:GeneralTermPlaceRelator>
+                    <onix:RelatedPlace>PlaceOfJurisdiction</onix:RelatedPlace>
+                </onix:GeneralTermRelatedPlace>
+            </onix:GeneralTerm>
+            <onix:GeneralTerm>
+                <onix:GeneralTermType>onixPL:EntireAgreement</onix:GeneralTermType>
+                <onix:LicenseTextLink href="d1e164120080908T152706.453Z"/>
+                <onix:LicenseTextLink href="d1e164120080908T152752.187Z"/>
+            </onix:GeneralTerm>
+            <onix:GeneralTerm>
+                <onix:GeneralTermType>onixPL:NoWaiver</onix:GeneralTermType>
+                <onix:LicenseTextLink href="d1e164120080908T152828Z"/>
+            </onix:GeneralTerm>
+            <onix:GeneralTerm>
+                <onix:GeneralTermType>onixPL:NoticeProcedure</onix:GeneralTermType>
+                <onix:LicenseTextLink href="d1e164120080908T152931.984Z"/>
+                <onix:LicenseTextLink href="d1e164120080908T153010.968Z"/>
+                <onix:LicenseTextLink href="d1e164120080908T153057.64Z"/>
+                <onix:GeneralTermRelatedPlace>
+                    <onix:GeneralTermPlaceRelator>onixPL:HasDeliveryPlaceForNoticesToLicensor
+                    </onix:GeneralTermPlaceRelator>
+                    <onix:RelatedPlace>LicensorAddressForNotices</onix:RelatedPlace>
+                </onix:GeneralTermRelatedPlace>
+                <onix:GeneralTermRelatedPlace>
+                    <onix:GeneralTermPlaceRelator>onixPL:HasDeliveryPlaceForNoticesToLicensee
+                    </onix:GeneralTermPlaceRelator>
+                    <onix:RelatedPlace>LicenseeAddressForNotices</onix:RelatedPlace>
+                </onix:GeneralTermRelatedPlace>
+            </onix:GeneralTerm>
+        </onix:GeneralTerms>
+        <onix:LicenseDocumentText>
+            <onix:DocumentLabel>License</onix:DocumentLabel>
+            <onix:TextElement id="d1e163920081009T224340.75Z">
+                <onix:SortNumber>0.</onix:SortNumber>
+                <onix:Text>Consortium License Agreement
+                    SpringerLink Information System
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e163920081009T224359.937Z">
+                <onix:SortNumber>0.1</onix:SortNumber>
+                <onix:Text>between
+                    Institution
+                    Fed Ex street address
+                    City
+                    State (Spelled out) zip,
+                    USA
+                    (hereafter called "Licensee")
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e163920081009T224520.265Z">
+                <onix:SortNumber>0.2</onix:SortNumber>
+                <onix:Text>and
+                    Springer Science+Business Media LLC
+                    233 Spring Street
+                    New York
+                    New York 10013-1578
+                    USA
+                    (hereafter called "Springer")
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e163920081009T224615.937Z">
+                <onix:SortNumber>0.3</onix:SortNumber>
+                <onix:Text>License ID Number ?????</onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e163920081009T224719.75Z">
+                <onix:SortNumber>0.4</onix:SortNumber>
+                <onix:Text>This License Agreement (this "Agreement") is made effective as of Month xx, 200x (the
+                    "Effective Date") between the Licensee and Springer.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e163920081009T224747.406Z">
+                <onix:SortNumber>0.5</onix:SortNumber>
+                <onix:Text>In consideration of the mutual promises contained herein and other good and valuable
+                    consideration, the receipt and sufficiency of which is hereby acknowledged, the parties agree as
+                    follows:
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080919T144047.593Z">
+                <onix:SortNumber>0.6</onix:SortNumber>
+                <onix:Text>PREAMBLE</onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T144047.593Z">
+                <onix:SortNumber>0.6.1</onix:SortNumber>
+                <onix:Text>Springer offers electronic versions of copyrighted material over the Internet. This material
+                    consists of electronic journals with multimedia supplements, electronic reference works, electronic
+                    books, and books with electronic components (hereinafter called &#8220;Springer Published Content&#8221;).
+                    The material is made available on the SpringerLink Information System (hereinafter called
+                    "SpringerLink") on behalf of the Springer Group of Publishers and its cooperating companies
+                    (hereinafter called "Springer Group").
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e163920081009T215303.906Z">
+                <onix:SortNumber>0.6.2</onix:SortNumber>
+                <onix:Text>By signing this Agreement, Licensee hereby confirms that any other Springer company can act
+                    as contracting party, whereby the terms of this Agreement will remain applicable. Springer will
+                    inform Licensee in writing of any change of the contracting party.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T144120.015Z">
+                <onix:SortNumber>1.0</onix:SortNumber>
+                <onix:DisplayNumber>Section 1.</onix:DisplayNumber>
+                <onix:Text>CONTENT OF LICENSED MATERIALS; GRANT OF LICENSE</onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T144212.953Z">
+                <onix:SortNumber>1.1</onix:SortNumber>
+                <onix:DisplayNumber>1.1</onix:DisplayNumber>
+                <onix:Text>The materials that are the subject of this Agreement are specified in Attachment 3.1 and
+                    Attachment 3.2 appended to this Agreement (hereinafter referred to as the "Licensed Materials").
+                    Licensed Materials consist of the "Subscribed Materials" listed in Attachment 3.1 and
+                    "Non-subscribed Materials" listed in Attachment 3.2. Subscribed Materials are fully paid.
+                    Non-subscribed Materials are those which Springer makes available for use through non-monetary
+                    considerations or under specially discounted conditions as described in Attachment 1 of this
+                    Agreement. These titles do not differ in terms of availability to the Licensee, allowed uses, or
+                    restrictions, but solely in terms of the Archival Rights (as hereinafter defined) granted by
+                    Springer and described in this Agreement.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T144251.906Z">
+                <onix:SortNumber>1.2</onix:SortNumber>
+                <onix:DisplayNumber>1.2</onix:DisplayNumber>
+                <onix:Text>Licensee is acting on behalf of a group of libraries hereinafter known as the "Participating
+                    Libraries." Rights and responsibilities referenced in this Agreement in regard to &#8220;Licensee&#8221;
+                    shall apply to all the Participating Libraries covered under this Agreement; however, Licensee is
+                    responsible only for fulfillment of its individual responsibilities under this Agreement. Neither
+                    Licensee nor any other Participating Library shall be liable for any breach or default of another
+                    Participating Library. Participating Libraries (which include Licensee) are listed in Attachment 2.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T144338.187Z">
+                <onix:SortNumber>1.3.1</onix:SortNumber>
+                <onix:DisplayNumber>1.3</onix:DisplayNumber>
+                <onix:Text>For the purpose of this Agreement the &#8220;Authorized Users&#8221; of the Participating
+                    Libraries are defined as faculty members (including temporary or exchange faculty for the duration
+                    of their assignment); graduate and undergraduate students and staff members.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e163920081009T215456.875Z">
+                <onix:SortNumber>1.3.2</onix:SortNumber>
+                <onix:DisplayNumber>1.3</onix:DisplayNumber>
+                <onix:Text>Remote access is only permitted to faculty members, graduate and undergraduate students and
+                    staff members of Licensee. No other form of remote access is permitted.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T144423.531Z">
+                <onix:SortNumber>1.4</onix:SortNumber>
+                <onix:DisplayNumber>1.4</onix:DisplayNumber>
+                <onix:Text>Springer hereby grants to Licensee a non-exclusive license to use the Licensed Materials and
+                    to provide the Licensed Materials to Authorized Users via Licensee&#8217;s secure network in
+                    accordance with this Agreement.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T144502.515Z">
+                <onix:SortNumber>1.5</onix:SortNumber>
+                <onix:DisplayNumber>1.5</onix:DisplayNumber>
+                <onix:Text>Licensee acknowledges that the Licensed Materials are protected by copyright. All rights not
+                    specifically granted to Licensee are expressly reserved.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T144539.609Z">
+                <onix:SortNumber>1.6</onix:SortNumber>
+                <onix:DisplayNumber>1.6</onix:DisplayNumber>
+                <onix:Text>Participating Libraries that provide public access to their library collection may also
+                    provide access to and permit copying from the Licensed Materials by members of the public for their
+                    scholarly, research and personal use from workstations on Participating Library premises. Any form
+                    of remote access to the Licensed Materials by members of the public is not permitted.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T144612.39Z">
+                <onix:SortNumber>2.0</onix:SortNumber>
+                <onix:DisplayNumber>Section 2.</onix:DisplayNumber>
+                <onix:Text>DESCRIPTION OF ACCESS AND PERMITTED USE</onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T144659.671Z">
+                <onix:SortNumber>2.1</onix:SortNumber>
+                <onix:DisplayNumber>2.1</onix:DisplayNumber>
+                <onix:Text>Springer offers controlled access to the Licensed Materials through the use of domain name(s)
+                    or IP addresses of the Participating Libraries listed in Attachment 2.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T144746.062Z">
+                <onix:SortNumber>2.2.1</onix:SortNumber>
+                <onix:DisplayNumber>2.2</onix:DisplayNumber>
+                <onix:Text>Springer permits Authorized Users to browse, search, retrieve, display, download, print, and
+                    store individual articles or book chapters for scholarly research, educational and personal use as
+                    long as such use is consistent with the Fair Use provisions of United States and international
+                    copyright laws.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e163920081009T220022.531Z">
+                <onix:SortNumber>2.2.2</onix:SortNumber>
+                <onix:DisplayNumber>2.2</onix:DisplayNumber>
+                <onix:Text>Subscriber may not use routines designed to continuously and automatically search and index
+                    the service, such as web-crawling or spider programs, with the exception of CLOCKSS technology as
+                    specified in Section 3.2.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T144827.359Z">
+                <onix:SortNumber>2.3</onix:SortNumber>
+                <onix:DisplayNumber>2.3</onix:DisplayNumber>
+                <onix:Text>Incidental and non-systematic sharing by Authorized Users with non-authorized individuals of
+                    limited amounts of Licensed Material for collaborative research and scholarly purposes, and not for
+                    re-transmission, is permitted.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T144910.203Z">
+                <onix:SortNumber>2.4</onix:SortNumber>
+                <onix:DisplayNumber>2.4</onix:DisplayNumber>
+                <onix:Text>Copying and storing is limited to single copies of a reasonable number of individual
+                    articles. Copying and storing of entire issues by Authorized Users is not permitted.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T144946.484Z">
+                <onix:SortNumber>2.5</onix:SortNumber>
+                <onix:DisplayNumber>2.5</onix:DisplayNumber>
+                <onix:Text>Authorized Users may obtain remote access to the Licensed Materials through secure access
+                    procedures established by the Licensee.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T145019.89Z">
+                <onix:SortNumber>2.6</onix:SortNumber>
+                <onix:DisplayNumber>2.6</onix:DisplayNumber>
+                <onix:Text>Authorized Users may send single articles to research colleagues outside the institution of
+                    the Participating Library for the purpose of non commercial scholarly communication.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T145051.984Z">
+                <onix:SortNumber>2.7</onix:SortNumber>
+                <onix:DisplayNumber>2.7</onix:DisplayNumber>
+                <onix:Text>Participating Libraries and their Authorized Users may use a reasonable portion of the
+                    Licensed Materials in the preparation of course packs or other educational materials, including
+                    e-reserves and access-controlled websites.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T145125.437Z">
+                <onix:SortNumber>2.8</onix:SortNumber>
+                <onix:DisplayNumber>2.8</onix:DisplayNumber>
+                <onix:Text>The electronic form of the Licensed Materials may be used as a source for Inter-Library Loan
+                    ("ILL") whereby articles can be printed and these print copies can be delivered via postal mail,
+                    fax, or fax-based service to fulfil ILL requests from an academic, research, or other non-commercial
+                    library. Requests received from for-profit companies or directly from individuals may not be
+                    honored. Fulfillment of Loansome Doc&#174; service requests is permitted. ILL through secure
+                    electronic transmission, as demonstrated by the ARIEL and Prospero systems, is permitted. Files
+                    transmitted in this manner must carry copyright notices. Licensee and Participating Libraries agree
+                    to fulfill ILL requests in compliance with Section 108 of the United States Copyright Law (17 USC
+                    &#167; 108, "Limitations on exclusive rights: Reproduction by libraries and archives") and clause 3
+                    of the Guidelines for the Proviso of Subsection 108 (g)(2) prepared by the National Commission on
+                    New Technological Uses of Copyrighted Works.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T145237.875Z">
+                <onix:SortNumber>3.0</onix:SortNumber>
+                <onix:DisplayNumber>Section 3.</onix:DisplayNumber>
+                <onix:Text>ARCHIVAL RIGHTS</onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T145326.687Z">
+                <onix:SortNumber>3.1</onix:SortNumber>
+                <onix:DisplayNumber>3.1</onix:DisplayNumber>
+                <onix:Text>Springer recognizes the right of the Participating Libraries to own and possess in perpetuity
+                    their Subscribed Materials as described in this Agreement and listed in Attachment 3.1. Further,
+                    Springer makes provision for the Participating Libraries to self-archive the Non-subscribed
+                    Materials listed in Attachment 3.2. These rights and the methods by which they may be exercised are
+                    described below (hereinafter referred to as "Archival Rights").
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T145401.203Z">
+                <onix:SortNumber>3.2</onix:SortNumber>
+                <onix:DisplayNumber>3.2</onix:DisplayNumber>
+                <onix:Text>Participating Libraries may make one (1) electronic copy of all the Licensed Materials, as
+                    well as one (1) copy in print, from the electronic versions of the Licensed Materials to be
+                    maintained as a backup or for archival purposes. Use of CLOCKSS technology for backup and archival
+                    purposes is permitted. This local archiving right is permitted for both the Subscribed Materials
+                    listed in Attachment 3.1 and the Non-subscribed Materials listed in Attachment 3.2.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T145441.453Z">
+                <onix:SortNumber>3.3</onix:SortNumber>
+                <onix:DisplayNumber>3.3</onix:DisplayNumber>
+                <onix:Text>In the event of cancellation of selected portions of the Subscribed Materials by any of the
+                    Participating Libraries, the previously subscribed content may be made available to their Authorized
+                    Users under the same terms and conditions set forth in Section 2. Springer agrees to provide
+                    continuing access to previously subscribed content for as long as Springer retains rights to do so
+                    and the Participating Library remains a Party to this Agreement (i.e. the Participating Library
+                    retains subscribed access to some portion of the Licensed Materials under the terms of this
+                    Agreement).
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T145517.312Z">
+                <onix:SortNumber>3.4</onix:SortNumber>
+                <onix:DisplayNumber>3.4</onix:DisplayNumber>
+                <onix:Text>In the event that Licensee terminates this Agreement and thereby discontinues paid access to
+                    Springer Published Content, Springer shall provide continuing access to Licensee and its Authorized
+                    Users to that portion of the Subscribed Licensed Materials which was published within the
+                    subscription year(s) for two (2) additional years, with continuing access in subsequent years to be
+                    arranged according to the following options available to Licensee: 1) Licensee may elect to receive
+                    an archival digital copy on a mutually agreed-upon digital storage medium for a nominal service plus
+                    handling fee, and/or 2) Licensee may elect to pay a negotiated fee per title per year for ongoing
+                    online access to the Licensed Materials. The foregoing shall be provided as long as Licensee and the
+                    Participating Libraries continue to observe their obligations with respect to security and
+                    restriction on usage set forth in this Agreement and as provided under applicable law.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T145607.281Z">
+                <onix:SortNumber>3.5</onix:SortNumber>
+                <onix:DisplayNumber>3.5</onix:DisplayNumber>
+                <onix:Text>Springer will not provide full text files or media for the Non-subscribed Materials listed in
+                    Attachment 3.2, though the Licensee may elect to pay a negotiated maintenance fee per title per year
+                    for online access to the previously accessible years of such Non-subscribed Materials from Springer.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T145640.984Z">
+                <onix:SortNumber>3.6</onix:SortNumber>
+                <onix:DisplayNumber>3.6</onix:DisplayNumber>
+                <onix:Text>In the event that there cease to be rights holders for the Licensed Materials, Springer has
+                    provided for ongoing public access to the content through agreements with a selection of libraries
+                    situated throughout the world.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T145727.531Z">
+                <onix:SortNumber>4.0</onix:SortNumber>
+                <onix:DisplayNumber>Section 4.</onix:DisplayNumber>
+                <onix:Text>SPECIFIC RESTRICTIONS ON USE OF LICENSED MATERIALS</onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T145735.046Z">
+                <onix:SortNumber>4.1.1</onix:SortNumber>
+                <onix:DisplayNumber>4.1</onix:DisplayNumber>
+                <onix:Text>Neither Licensee, the other Participating Libraries nor their respective Authorized Users may
+                    modify, adapt, transform, translate or create any derivative work in any medium based on or
+                    including any materials in the Licensed Materials, or otherwise use any such materials in a manner
+                    that would infringe the copyright or other proprietary rights therein.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e163920081009T222137.062Z">
+                <onix:SortNumber>4.1.2</onix:SortNumber>
+                <onix:DisplayNumber>4.1</onix:DisplayNumber>
+                <onix:Text>No copyright notices, trademark or proprietary notices, author attributions or other notices
+                    or disclaimers included by Springer or any member of the Springer Group in the Licensed Materials
+                    may be removed, obscured or modified in any way.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e163920081009T222218.062Z">
+                <onix:SortNumber>4.1.3</onix:SortNumber>
+                <onix:DisplayNumber>4.1</onix:DisplayNumber>
+                <onix:Text>Licensee shall post appropriate notices and take reasonable measures to ensure that
+                    Authorized Users are informed of the applicability of copyright law and the restrictions in this
+                    Agreement with respect to the reproduction, use and transmission of the Licensed Materials.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e163920081009T222246.625Z">
+                <onix:SortNumber>4.1.4</onix:SortNumber>
+                <onix:DisplayNumber>4.1</onix:DisplayNumber>
+                <onix:Text>In the event of violation of the terms and conditions of this Agreement or of applicable
+                    copyright law, Springer and Licensee agree to take immediate action to suspend access to the
+                    Licensed Materials by any Authorized User violating these restrictions on use and shall consider
+                    other restrictions on access to and retrieval of the Licensed Materials, including additional
+                    limitations on printing and downloading.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T145834.781Z">
+                <onix:SortNumber>4.2</onix:SortNumber>
+                <onix:DisplayNumber>4.2</onix:DisplayNumber>
+                <onix:Text>Posting complete articles, chapters, issues, or books on personal or institutional websites
+                    is not allowed. Posting materials is allowed as defined in 2.7.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T145905.671Z">
+                <onix:SortNumber>4.3</onix:SortNumber>
+                <onix:DisplayNumber>4.3</onix:DisplayNumber>
+                <onix:Text>The Licensed Materials may not, directly or indirectly, be used for any of the following
+                    purposes:
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T150001.359Z">
+                <onix:SortNumber>4.3.1</onix:SortNumber>
+                <onix:DisplayNumber>4.3.1</onix:DisplayNumber>
+                <onix:TextPreceding>The Licensed Materials may not, directly or indirectly, be used for:
+                </onix:TextPreceding>
+                <onix:Text>Substantial or systematic reproduction whether for commercial or non-profit use or for a fee
+                    or free of charge.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T150016.609Z">
+                <onix:SortNumber>4.3.2</onix:SortNumber>
+                <onix:DisplayNumber>4.3.2</onix:DisplayNumber>
+                <onix:TextPreceding>The Licensed Materials may not, directly or indirectly, be used for:
+                </onix:TextPreceding>
+                <onix:Text>Re-distribution, re-selling or sub-licensing in any manner including in connection with
+                    fee-for-service use except as described in Attachment 2.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T150029.656Z">
+                <onix:SortNumber>4.3.3</onix:SortNumber>
+                <onix:DisplayNumber>4.3.3</onix:DisplayNumber>
+                <onix:TextPreceding>The Licensed Materials may not, directly or indirectly, be used for:
+                </onix:TextPreceding>
+                <onix:Text>Systematic supply or distribution of single or multiple copies in any form to anyone other
+                    than an Authorized User.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T150043.89Z">
+                <onix:SortNumber>4.3.4</onix:SortNumber>
+                <onix:DisplayNumber>4.3.4</onix:DisplayNumber>
+                <onix:TextPreceding>The Licensed Materials may not, directly or indirectly, be used for:
+                </onix:TextPreceding>
+                <onix:Text>Distribution of any part of the Licensed Material on any electronic network, other than the
+                    Licensee&#8217;s secure network, except as stated in 2.8.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T150250Z">
+                <onix:SortNumber>4.4</onix:SortNumber>
+                <onix:DisplayNumber>4.4</onix:DisplayNumber>
+                <onix:Text>Springer&#8217;s explicit written permission must be obtained in order to use all or any part
+                    of the Licensed Materials for the purpose of monetary reward (whether by Licensee, any other
+                    Participating Library or any Authorized User) by means of sale, transfer or other form of
+                    exploitation of the Licensed Materials. Bulk reproduction or distribution of electronic or print
+                    copies of Licensed Materials for sales/promotional purposes is specifically prohibited.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T150401.875Z">
+                <onix:SortNumber>5.0</onix:SortNumber>
+                <onix:DisplayNumber>Section 5.</onix:DisplayNumber>
+                <onix:Text>OBLIGATIONS OF SPRINGER</onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T150442.062Z">
+                <onix:SortNumber>5.1</onix:SortNumber>
+                <onix:DisplayNumber>5.1</onix:DisplayNumber>
+                <onix:Text>Upon the start of the subscription term, Springer shall make the Licensed Materials available
+                    in digital form to Licensee and Authorized Users.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T150520.265Z">
+                <onix:SortNumber>5.2</onix:SortNumber>
+                <onix:DisplayNumber>5.2</onix:DisplayNumber>
+                <onix:Text>Springer shall make all reasonable efforts to ensure uninterrupted online access to and
+                    continuous availability of the Licensed Materials to Participating Libraries in accordance with this
+                    Agreement and to restore access to the Licensed Materials as promptly as possible in the event of an
+                    interruption or suspension of the SpringerLink service caused by failure of Springer&#8217;s server.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T150556.859Z">
+                <onix:SortNumber>5.3</onix:SortNumber>
+                <onix:DisplayNumber>5.3</onix:DisplayNumber>
+                <onix:Text>Springer reserves the right to withdraw from the Licensed Materials any item or part of an
+                    item to which it no longer retains the right to publish or it has reasonable grounds to believe
+                    infringes copyright or is otherwise unlawful. Springer shall provide written notice of such
+                    withdrawal. If the withdrawal represents more than ten (10%) percent of the total Licensed
+                    Materials, Springer shall refund that part of the fee that is in proportion to the amount of
+                    materials withdrawn and the remaining unexpired part of the term.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T150636.265Z">
+                <onix:SortNumber>5.4</onix:SortNumber>
+                <onix:DisplayNumber>5.4</onix:DisplayNumber>
+                <onix:Text>Springer offers Authorized Users support and Helpdesk via online FAQ (Frequently Asked
+                    Questions), telephone, fax and e-mail in New York during official office hours (9:00 AM to 5:00 PM
+                    EST).
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T150706.734Z">
+                <onix:SortNumber>6.0</onix:SortNumber>
+                <onix:DisplayNumber>Section 6.</onix:DisplayNumber>
+                <onix:Text>LICENSE FEE</onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T150748.906Z">
+                <onix:SortNumber>6.1</onix:SortNumber>
+                <onix:DisplayNumber>6.1</onix:DisplayNumber>
+                <onix:Text>Licensee agree(s) to make payment to Springer for use of the Licensed Material as set out in
+                    Attachment 1. Licensee acknowledges that the license fee, or any portion thereof, may be invoiced by
+                    another Springer company than the contract party.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T150830.14Z">
+                <onix:SortNumber>6.2</onix:SortNumber>
+                <onix:DisplayNumber>6.2</onix:DisplayNumber>
+                <onix:Text>Licensee may, in its discretion, elect to include in this Agreement the electronic form of
+                    other publications of Springer which may be available electronically which are not otherwise
+                    included in Attachment 3 by notifying Springer and paying the applicable license fee. This license
+                    fee will be set forth in an amendment to Attachment 1 of this Agreement and the added Licensed
+                    Materials will be set forth in Attachment 4.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T150910.562Z">
+                <onix:SortNumber>7.0</onix:SortNumber>
+                <onix:DisplayNumber>Section 7.</onix:DisplayNumber>
+                <onix:Text>SECURITY AND REPORTING</onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T150941.875Z">
+                <onix:SortNumber>7.1</onix:SortNumber>
+                <onix:DisplayNumber>7.1</onix:DisplayNumber>
+                <onix:Text>Licensee recognises that maintaining the integrity of the Licensed Materials delivered by
+                    Springer, including the restrictions on reproduction, use and transmission as provided herein, and
+                    ensuring that use of the Licensed Materials is limited to Authorized Users, are important
+                    obligations, and that Springer may terminate this Agreement in its sole discretion if violations of
+                    these security principles or Springer's intellectual property rights occur.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T151024.078Z">
+                <onix:SortNumber>7.2.1</onix:SortNumber>
+                <onix:DisplayNumber>7.2</onix:DisplayNumber>
+                <onix:Text>Participating Libraries shall make reasonable efforts to provide Authorized Users with notice
+                    of any applicable intellectual property or other rights applicable to the Licensed Materials.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e163920081009T222908.781Z">
+                <onix:SortNumber>7.2.2</onix:SortNumber>
+                <onix:DisplayNumber>7.2</onix:DisplayNumber>
+                <onix:Text>Participating Libraries shall make reasonable efforts to prevent the infringement of any
+                    intellectual property or other rights of Springer in the Licensed Materials.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e163920081009T222941.047Z">
+                <onix:SortNumber>7.2.3</onix:SortNumber>
+                <onix:DisplayNumber>7.2</onix:DisplayNumber>
+                <onix:Text>Participating Libraries shall promptly notify Springer of any infringement that comes to
+                    their attention, and take appropriate steps to prevent its recurrence.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T151059.218Z">
+                <onix:SortNumber>7.3.1</onix:SortNumber>
+                <onix:DisplayNumber>7.3</onix:DisplayNumber>
+                <onix:Text>Springer reserves the right to monitor access to and use of the Licensed Materials to detect
+                    misuse of the Licensed Materials and for the purpose of informing the Participating Library and the
+                    Licensee.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e163920081009T223245.109Z">
+                <onix:SortNumber>7.3.2</onix:SortNumber>
+                <onix:DisplayNumber>7.3</onix:DisplayNumber>
+                <onix:Text>In the event of any unauthorized use of the Licensed Materials by an Authorized User, (a)
+                    Springer may terminate the access of the Internet Protocol ("IP") address(es) from which such
+                    unauthorized use occurred, and/or (b) Licensee shall terminate such Authorized User's access to the
+                    Licensed Materials upon Springer's request. Springer shall take none of the steps described in this
+                    paragraph without providing reasonable notice to the Licensee.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T151138.671Z">
+                <onix:SortNumber>7.4</onix:SortNumber>
+                <onix:DisplayNumber>7.4</onix:DisplayNumber>
+                <onix:Text>Collection and analysis of data on usage of the Licensed Materials will assist both Springer
+                    and Licensee to understand the impact of this Agreement, the infrastructure provided by Springer,
+                    and possible improvements in the program. Such usage data will be compiled by Springer on a monthly
+                    basis and shared with the Licensee and Participating Libraries, consistent with applicable privacy
+                    laws and written confidentiality requirements of the parties. The data will be made available on the
+                    Internet through a site accessible by username and password. The usage data to be shared will be
+                    COUNTER compliant level one.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T151251.609Z">
+                <onix:SortNumber>8.0</onix:SortNumber>
+                <onix:DisplayNumber>Section 8.</onix:DisplayNumber>
+                <onix:Text>TERM AND TERMINATION</onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T151325.156Z">
+                <onix:SortNumber>8.1</onix:SortNumber>
+                <onix:DisplayNumber>8.1</onix:DisplayNumber>
+                <onix:Text>The initial term of this Agreement commences with the subscription year identified in
+                    Attachment 1 and expires with the completion of the last subscription year identified in Attachment
+                    1. This Agreement may be extended for additional term(s) upon mutual agreement of Springer and
+                    Licensee by amendment of Attachment 1 to reflect the new subscription years and applicable license
+                    fees.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T151402.281Z">
+                <onix:SortNumber>8.2</onix:SortNumber>
+                <onix:DisplayNumber>8.2</onix:DisplayNumber>
+                <onix:Text>In the event that either party believes that the other materially has breached any
+                    obligations under this Agreement, or if Springer believes that Licensee has exceeded the scope of
+                    this Agreement, such party shall so notify the breaching party in writing. The breaching party shall
+                    have thirty (30) days from the receipt of notice to cure the alleged breach and to notify the
+                    non-breaching party in writing that cure has been effected. If the breach is not cured within the
+                    thirty- (30)-day period, the non-breaching party shall have the right to terminate this Agreement
+                    without further notice.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T151446.593Z">
+                <onix:SortNumber>8.3</onix:SortNumber>
+                <onix:DisplayNumber>8.3</onix:DisplayNumber>
+                <onix:Text>Online access to the Licensed Materials shall be terminated upon recognition of a breach to
+                    this Agreement. The termination of access shall be limited to the Participant or Participants in
+                    breach of this Agreement, and their Authorized Users.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T151535.343Z">
+                <onix:SortNumber>8.4</onix:SortNumber>
+                <onix:DisplayNumber>8.4</onix:DisplayNumber>
+                <onix:Text>Upon normal termination of this Agreement, Springer shall provide continuing access to
+                    Licensee, the other Participating Libraries and its Authorized Users to that portion of the Licensed
+                    Material to which the Licensee was lawfully entitled up until termination of this Agreement.
+                    Continuing access will be provided without additional cost from Springer&#8217;s server for up to
+                    two years, and thereafter may be arranged through a server maintenance fee to Springer, or through a
+                    third party, or by supplying electronic files to the Licensee, provided the Licensee continues to
+                    observe its obligations with respect to security and restriction on usage.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T151555.187Z">
+                <onix:SortNumber>9.0</onix:SortNumber>
+                <onix:DisplayNumber>Section 9.</onix:DisplayNumber>
+                <onix:Text>MUTUAL PERFORMANCE OBLIGATIONS</onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T151645.578Z">
+                <onix:SortNumber>9.1</onix:SortNumber>
+                <onix:DisplayNumber>9.1</onix:DisplayNumber>
+                <onix:Text>Licensee shall use reasonable efforts to safeguard the intellectual property, confidential
+                    information and proprietary rights of Springer.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T151728.328Z">
+                <onix:SortNumber>9.2</onix:SortNumber>
+                <onix:DisplayNumber>9.2</onix:DisplayNumber>
+                <onix:Text>Neither party shall disclose the terms and conditions or the subject matter of this Agreement
+                    (including without limitation, the content of the attachments, fees, and any usage data compiled and
+                    supplied under Section 7.4, usage statistics or any other information about the other party&#8217;s
+                    business) to any third party without the prior written consent of the other. This provision shall
+                    survive the termination of this Agreement, and any information obtained or received which comes
+                    within these restrictions shall remain confidential, PROVIDED always that this obligation shall not
+                    apply to any information which at the time of disclosure is in the public domain or is made
+                    available at any time by an independent third party which has not obtained it directly or indirectly
+                    in breach of any confidentiality agreement with the party whose information was so disclosed.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T151812.812Z">
+                <onix:SortNumber>10.0</onix:SortNumber>
+                <onix:DisplayNumber>Section 10.</onix:DisplayNumber>
+                <onix:Text>REPRESENTATIONS, WARRANTIES AND INDEMNITIES</onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T151857.859Z">
+                <onix:SortNumber>10.1</onix:SortNumber>
+                <onix:DisplayNumber>10.1</onix:DisplayNumber>
+                <onix:Text>Springer warrants that it will use commercially reasonable efforts in its production of tapes
+                    or optical media for delivery of the Licensed Materials to the Licensee and that, to the best of its
+                    knowledge, use by Licensee of the Licensed Materials pursuant to the terms and conditions of this
+                    Agreement will not infringe the rights of third parties. Springer agrees to indemnify Licensee for
+                    all costs and expenses arising out of a breach of these warranties.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T151934.546Z">
+                <onix:SortNumber>10.2</onix:SortNumber>
+                <onix:DisplayNumber>10.2</onix:DisplayNumber>
+                <onix:Text>Licensee warrants that it will use reasonable efforts to ensure the integrity of the Licensed
+                    Materials and the security of the SpringerLink network especially as regards access by parties other
+                    than Authorized Users.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T152005.687Z">
+                <onix:SortNumber>10.3</onix:SortNumber>
+                <onix:DisplayNumber>10.3</onix:DisplayNumber>
+                <onix:Text>Licensee represents that it is authorized to act on behalf of the Participating Libraries.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T152034.218Z">
+                <onix:SortNumber>10.4</onix:SortNumber>
+                <onix:DisplayNumber>10.4</onix:DisplayNumber>
+                <onix:Text>Notwithstanding the foregoing, however, Springer will not be responsible for any claim, loss
+                    or liability attributable to errors, inaccuracies or other defects in the Licensed Materials or any
+                    part thereof arising from any act or omission or (to the maximum extent permitted by relevant laws)
+                    any negligence and BOTH PARTIES EXPRESSLY EXCLUDE ANY LIABILITY FOR BREACH OF ANY IMPLIED OR EXPRESS
+                    WARRANTY AS TO TITLE, MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE, NOR SHALL SPRINGER BE
+                    LIABLE FOR ANY DIRECT OR INDIRECT, INCIDENTAL, SPECIAL CONSEQUENTIAL OR PUNITIVE DAMAGES ARISING OUT
+                    OF USE OF THE LICENSED MATERIALS, save that Springer will replace any defective media delivered by
+                    it to Licensee or other Participating Libraries under this Agreement. Licensee and the other
+                    Participating Libraries shall not be liable to Springer for breach of the terms of this Agreement by
+                    any Authorized User so long as Licensee or the other Participating Libraries did not intentionally
+                    or through gross negligence assist in or encourage such breach or permit such breach to continue
+                    after having actual notice thereof.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T152144.593Z">
+                <onix:SortNumber>11.0</onix:SortNumber>
+                <onix:DisplayNumber>Section 11.</onix:DisplayNumber>
+                <onix:Text>SPRINGER&#8217;S TRADEMARKS</onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T152220Z">
+                <onix:SortNumber>11.1</onix:SortNumber>
+                <onix:DisplayNumber>11.1</onix:DisplayNumber>
+                <onix:Text>During the term of this Agreement, the titles of any publications licensed hereunder, along
+                    with any trademarks, logos and colophons owned by or licensed to Springer or affiliated societies,
+                    which appear on the Licensed Materials shall be posted as provided therein and may not be deleted or
+                    modified by Licensee or the Authorized Users of the Participating Libraries.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T152256Z">
+                <onix:SortNumber>11.2</onix:SortNumber>
+                <onix:DisplayNumber>11.2</onix:DisplayNumber>
+                <onix:Text>Springer shall have the right to review and approve of all use on SpringerLink of the
+                    publication titles, trademarks, logos, colophons, proprietary legends or legal notices provided by
+                    Springer in connection with the applicable publications or Licensed Materials, in order to ensure
+                    compliance with Section 11.1 above and Springer&#8217;s quality standards.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T152338.343Z">
+                <onix:SortNumber>11.3</onix:SortNumber>
+                <onix:DisplayNumber>11.3</onix:DisplayNumber>
+                <onix:Text>All rights with respect to the publication titles, trademarks, logos, society names and
+                    colophons are expressly and exclusively reserved.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T152422.843Z">
+                <onix:SortNumber>12.0</onix:SortNumber>
+                <onix:DisplayNumber>Section 12.</onix:DisplayNumber>
+                <onix:Text>GENERAL</onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T152458.015Z">
+                <onix:SortNumber>12.1</onix:SortNumber>
+                <onix:DisplayNumber>12.1</onix:DisplayNumber>
+                <onix:Text>Licensee may not assign or transfer, directly or indirectly, all or part of the rights or
+                    obligations under this Agreement without prior written consent from Springer. Springer may assign
+                    this Agreement.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T152529.812Z">
+                <onix:SortNumber>12.2</onix:SortNumber>
+                <onix:DisplayNumber>12.2</onix:DisplayNumber>
+                <onix:Text>Springer's failure to perform any term or condition of this Agreement as a result of
+                    conditions beyond its control such as, but not limited to, war, strikes, fires, floods, governmental
+                    restrictions, power failures, or damage or destruction of any network facilities or servers, shall
+                    not be deemed a breach of this Agreement.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T152557.171Z">
+                <onix:SortNumber>12.3</onix:SortNumber>
+                <onix:DisplayNumber>12.3</onix:DisplayNumber>
+                <onix:Text>In the event that any one or more of the provisions contained herein shall, for any reason,
+                    be held to be invalid, illegal or unenforceable in any respect, such invalidity, illegality or
+                    unenforceability shall not affect any other provisions of this Agreement, but this Agreement shall
+                    be construed as if such invalid, illegal or unenforceable provisions have never been contained
+                    herein, unless the deletion of such provision or provisions would result in such a material change
+                    so as to cause completion of the transactions contemplated herein to be unreasonable.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T152630.046Z">
+                <onix:SortNumber>12.4</onix:SortNumber>
+                <onix:DisplayNumber>12.4</onix:DisplayNumber>
+                <onix:Text>Venue for all disputes arising out of and in connection with the performance of this
+                    Agreement shall be New York County, State of New York. Regardless of the place of its physical
+                    execution, this Agreement is made under, and shall be governed by and construed according to, the
+                    laws of the State of New York, United States of America, without regard to that state&#8217;s
+                    principles of conflict of law. Any action with respect to this Agreement may only be brought and
+                    maintained in the federal or state courts in New York County, State of New York, United States of
+                    America. The parties consent to the jurisdiction of any such court. EACH PARTY WAIVES ANY RIGHT IT
+                    MAY HAVE TO A JURY TRIAL, OBJECTION TO VENUE OR INCONVENIENT FORUM.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T152706.453Z">
+                <onix:SortNumber>12.5</onix:SortNumber>
+                <onix:DisplayNumber>12.5</onix:DisplayNumber>
+                <onix:Text>This Agreement constitutes the entire agreement of the parties and supersedes all prior
+                    communications, understandings and agreements relating to the subject matter hereof, whether written
+                    or oral.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T152752.187Z">
+                <onix:SortNumber>12.6</onix:SortNumber>
+                <onix:DisplayNumber>12.6</onix:DisplayNumber>
+                <onix:Text>No modification or claimed waiver of any provision of this Agreement shall be valid except by
+                    written amendment signed by authorized representatives of Springer and Licensee.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T152828Z">
+                <onix:SortNumber>12.7</onix:SortNumber>
+                <onix:DisplayNumber>12.7</onix:DisplayNumber>
+                <onix:Text>Waiver of any provision herein shall not be deemed to be a waiver of any other provision
+                    herein, nor shall waiver of any breach of this Agreement be construed as a continuing waiver of
+                    other breaches of the same or other provisions of this Agreement.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T152859.406Z">
+                <onix:SortNumber>12.8</onix:SortNumber>
+                <onix:DisplayNumber>12.8</onix:DisplayNumber>
+                <onix:Text>All amounts payable by Licensee and other Participating Libraries hereunder shall be
+                    exclusive of any sales, use, withholding, value added or similar taxes, government fees or levies or
+                    other assessments which shall be the sole responsibility of the Licensee and the other Participating
+                    Libraries.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T152931.984Z">
+                <onix:SortNumber>12.9.0</onix:SortNumber>
+                <onix:DisplayNumber>12.9</onix:DisplayNumber>
+                <onix:Text>All notices given pursuant to this Agreement shall be in writing and may be hand delivered,
+                    or shall be deemed received within five (5) business days after mailing if sent by registered or
+                    certified mail, return receipt requested. If any notice is sent by facsimile, confirmation copies
+                    must be sent by mail or hand delivery to the specified address. Either party may from time to time
+                    change its notice address by written notice to the other party.
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T153010.968Z">
+                <onix:SortNumber>12.9.1</onix:SortNumber>
+                <onix:Text>If to Springer:
+                    Syed Hasan, President, Sales
+                    Springer Science+Business Media, LLC.
+                    233 Spring Street
+                    New York, NY 10013-1578
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e164120080908T153057.64Z">
+                <onix:SortNumber>12.9.2</onix:SortNumber>
+                <onix:Text>If to Licensee:
+                    Name, Title
+                    Institution
+                    Address
+                </onix:Text>
+            </onix:TextElement>
+            <onix:TextElement id="d1e163920081027T223213.157Z">
+                <onix:SortNumber>12.10</onix:SortNumber>
+                <onix:DisplayNumber>12.10</onix:DisplayNumber>
+                <onix:Text>This Agreement includes the following Attachments, which are incorporated as if fully set
+                    forth herein:
+                    Attachment 1: Pricing Terms and Conditions
+                    Attachment 2: Description of the Participating Libraries
+                    Attachment 3.1: List of the Licensed Materials &#8211; Subscribed
+                    Attachment 3.2: List of the Licensed Materials &#8211; Non-subscribed
+                    Attachment 4: List of the Newly Added Materials
+                </onix:Text>
+            </onix:TextElement>
+        </onix:LicenseDocumentText>
+    </onix:PublicationsLicenseExpression>
+</onix:ONIXPublicationsLicenseMessage>]]>
+			</content>
+            <additionalAttributes>
+                <type>local</type>
+                <status>ONIX PL: LicenseStatus</status>
+                <method>license, SERU, copyright law, terms of use</method>
+            </additionalAttributes>
+		</ingestDocument>
+	</requestDocuments>
+</request>
+

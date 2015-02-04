@@ -1,0 +1,687 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<!--
+Kuali Rice ArcheType Help
+
+This file contains custom application specific web.xml content.
+-->
+
+
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.5"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee   http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+    <display-name>ole-docstore-webapp</display-name>
+
+    <context-param>
+        <param-name>environment</param-name>
+        <param-value>local</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>web.bootstrap.spring.file</param-name>
+        <param-value>classpath:org/kuali/ole/BootStrapSpringBeans.xml</param-value>
+    </context-param>
+
+    <mime-mapping>
+        <extension>xsd</extension>
+        <mime-type>application/xml</mime-type>
+    </mime-mapping>
+
+    <filter>
+        <filter-name>monitoring</filter-name>
+        <filter-class>net.bull.javamelody.MonitoringFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>monitoring</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>encodingFilter</filter-name>
+        <filter-class>org.kuali.ole.CharsetFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>encodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <listener>
+        <listener-class>net.bull.javamelody.SessionListener</listener-class>
+    </listener>
+
+    <!--<listener>-->
+        <!--<listener-class>org.kuali.ole.web.DocStoreContextListener</listener-class>-->
+    <!--</listener>-->
+
+    <listener>
+        <listener-class>org.kuali.ole.web.DocumentStoreContextListner</listener-class>
+    </listener>
+    <listener>
+        <listener-class>org.kuali.ole.docstore.discovery.servlet.DiscoveryContextListener</listener-class>
+    </listener>
+
+    <filter>
+        <filter-name>SolrRequestFilter</filter-name>
+        <filter-class>org.apache.solr.servlet.SolrDispatchFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>SolrRequestFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>HideWebInfFilter</filter-name>
+        <filter-class>org.kuali.rice.krad.web.filter.HideWebInfFilter</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>ResponseOverrideFilter</filter-name>
+        <filter-class>org.displaytag.filter.ResponseOverrideFilter</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>BootstrapFilter</filter-name>
+        <filter-class>org.kuali.rice.krad.web.filter.BootstrapFilter</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>UserLoginFilter</filter-name>
+        <filter-class>org.kuali.rice.krad.web.filter.UserLoginFilter</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>UserPreferencesFilter</filter-name>
+        <filter-class>org.kuali.rice.kew.web.UserPreferencesFilter</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>Log4JContextClearingFilter</filter-name>
+        <filter-class>org.kuali.rice.core.web.Log4JContextClearingFilter</filter-class>
+    </filter>
+
+    <!-- in rice 2.2<filter>
+        <filter-name>encodingFilter</filter-name>
+        <filter-class>org.kuali.rice.krad.web.CharsetFilter</filter-class>
+    </filter>-->
+
+    <filter-mapping>
+        <filter-name>HideWebInfFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>ResponseOverrideFilter</filter-name>
+        <url-pattern>*.do</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>BootstrapFilter</filter-name>
+        <servlet-name>action</servlet-name>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>UserLoginFilter</filter-name>
+        <servlet-name>action</servlet-name>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>UserPreferencesFilter</filter-name>
+        <servlet-name>action</servlet-name>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>BootstrapFilter</filter-name>
+        <servlet-name>notification</servlet-name>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>UserLoginFilter</filter-name>
+        <servlet-name>notification</servlet-name>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>UserPreferencesFilter</filter-name>
+        <servlet-name>notification</servlet-name>
+    </filter-mapping>
+
+
+
+
+    <filter-mapping>
+        <filter-name>BootstrapFilter</filter-name>
+        <servlet-name>ole-docstore-krad</servlet-name>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>UserLoginFilter</filter-name>
+        <servlet-name>ole-docstore-krad</servlet-name>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>UserPreferencesFilter</filter-name>
+        <servlet-name>ole-docstore-krad</servlet-name>
+    </filter-mapping>
+
+    <!-- in rice 2.2<filter-mapping>
+      <filter-name>encodingFilter</filter-name>
+      <servlet-name>krad</servlet-name>
+    </filter-mapping>-->
+
+    <!-- for KCB Spring Web MVC pages -->
+    <filter-mapping>
+        <filter-name>BootstrapFilter</filter-name>
+        <servlet-name>kcb</servlet-name>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>UserLoginFilter</filter-name>
+        <servlet-name>kcb</servlet-name>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>UserPreferencesFilter</filter-name>
+        <servlet-name>kcb</servlet-name>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>BootstrapFilter</filter-name>
+        <servlet-name>edoclite</servlet-name>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>UserLoginFilter</filter-name>
+        <servlet-name>edoclite</servlet-name>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>UserPreferencesFilter</filter-name>
+        <servlet-name>edoclite</servlet-name>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>Log4JContextClearingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <listener>
+        <listener-class>org.kuali.rice.krad.web.listener.NonSerializableSessionListener</listener-class>
+    </listener>
+
+    <listener>
+        <listener-class>org.kuali.rice.core.web.listener.KualiInitializeListener</listener-class>
+    </listener>
+
+    <listener>
+        <listener-class>org.kuali.rice.core.web.listener.BootstrapListener</listener-class>
+    </listener>
+
+    <listener>
+        <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+    </listener>
+
+    <listener>
+        <listener-class>org.kuali.rice.krad.web.listener.KualiHttpSessionListener</listener-class>
+    </listener>
+
+    <listener>
+        <listener-class>org.kuali.rice.core.framework.config.module.WebModuleLoaderListener</listener-class>
+    </listener>
+
+    <servlet>
+        <servlet-name>action</servlet-name>
+        <servlet-class>org.kuali.rice.kns.web.struts.action.KualiActionServlet</servlet-class>
+        <init-param>
+            <param-name>config</param-name>
+            <param-value>/WEB-INF/struts-config.xml</param-value>
+        </init-param>
+        <init-param>
+            <param-name>debug</param-name>
+            <param-value>3</param-value>
+        </init-param>
+        <init-param>
+            <param-name>detail</param-name>
+            <param-value>3</param-value>
+        </init-param>
+        <load-on-startup>0</load-on-startup>
+    </servlet>
+
+    <!-- Notification system servlets -->
+    <!-- Notification System Spring MVC UI -->
+    <servlet>
+        <servlet-name>notification</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>ken/WEB-INF/notification-servlet.xml</param-value>
+        </init-param>
+        <init-param>
+            <description>this init parameter is Ken's module prefix within the containing webapp, it is propagated as a
+                property in the XmlApplicationContext
+            </description>
+            <param-name>prefix</param-name>
+            <param-value>/ken</param-value>
+        </init-param>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+
+    <servlet>
+        <servlet-name>documentrest</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>/WEB-INF/document-servlet.xml</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+
+
+    <servlet>
+        <servlet-name>dwr-invoker</servlet-name>
+        <servlet-class>org.directwebremoting.servlet.DwrServlet</servlet-class>
+        <init-param>
+            <param-name>debug</param-name>
+            <param-value>false</param-value>
+        </init-param>
+        <init-param>
+            <param-name>config-kew</param-name>
+            <param-value>/WEB-INF/dwr-kew.xml</param-value>
+        </init-param>
+        <init-param>
+            <param-name>config-kns</param-name>
+            <param-value>/WEB-INF/dwr-kns.xml</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <!-- KCB servlets -->
+    <servlet>
+        <servlet-name>kcb</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>kcb/WEB-INF/kcb-servlet.xml</param-value>
+        </init-param>
+        <init-param>
+            <description>this init parameter is KCB's module prefix within the containing webapp, it is propagated as a
+                property in the XmlApplicationContext
+            </description>
+            <param-name>prefix</param-name>
+            <param-value>/kcb</param-value>
+        </init-param>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+
+    <servlet>
+        <servlet-name>remoting</servlet-name>
+        <servlet-class>org.kuali.rice.ksb.messaging.servlet.KSBDispatcherServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet>
+        <servlet-name>export</servlet-name>
+        <servlet-class>org.kuali.rice.core.web.impex.ExportServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>exportsecurity</servlet-name>
+        <servlet-class>org.kuali.rice.ksb.security.admin.ExportServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>attachment</servlet-name>
+        <servlet-class>org.kuali.rice.kew.notes.web.AttachmentServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>edoclite</servlet-name>
+        <servlet-class>org.kuali.rice.edl.impl.EDLServlet</servlet-class>
+    </servlet>
+
+
+
+    <servlet>
+        <servlet-name>ole-docstore-krad</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>3</load-on-startup>
+    </servlet>
+
+    <servlet>
+        <servlet-name>bulkIngest</servlet-name>
+        <servlet-class>org.kuali.ole.web.BulkIngestServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>getUUIDs</servlet-name>
+        <servlet-class>org.kuali.ole.web.GetUUIDServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>updateNode</servlet-name>
+        <servlet-class>org.kuali.ole.web.UpdateNodeServlet</servlet-class>
+    </servlet>
+
+    <!--<servlet>-->
+        <!--<servlet-name>DocumentStoreInitServlet</servlet-name>-->
+        <!--<servlet-class>org.kuali.ole.web.DocumentStoreInitServlet</servlet-class>-->
+        <!--<load-on-startup>1</load-on-startup>-->
+    <!--</servlet>-->
+
+    <servlet>
+        <servlet-name>DocumentServlet</servlet-name>
+        <servlet-class>org.kuali.ole.web.DocumentServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>rebuildIndex</servlet-name>
+        <servlet-class>org.kuali.ole.web.RebuildIndexServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>multiPartBagRequestClientServlet</servlet-name>
+        <servlet-class>org.kuali.ole.web.MultiPartBagRequestClientServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>linkingBibNInstanceAfterBulkIngest</servlet-name>
+        <servlet-class>org.kuali.ole.web.LinkingBibNInstanceAfterBulkIngest</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>multiPartBagRequestClientServlet</servlet-name>
+        <url-pattern>/multiPartBagRequestClientServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>bulkIngest</servlet-name>
+        <url-pattern>/bulkIngest</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet-mapping>
+        <servlet-name>getUUIDs</servlet-name>
+        <url-pattern>/getUUIDs</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>updateNode</servlet-name>
+        <url-pattern>/updateNode</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>DocumentServlet</servlet-name>
+        <url-pattern>/document</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>documentrest</servlet-name>
+        <url-pattern>/documentrest/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>rebuildIndex</servlet-name>
+        <url-pattern>/rebuildIndex</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>linkingBibNInstanceAfterBulkIngest</servlet-name>
+        <url-pattern>/linkBibNInstance</url-pattern>
+    </servlet-mapping>
+
+    <!-- DISCOVERY & DOCSTORE-->
+    <servlet>
+        <description>DocumentConfigServlet</description>
+        <display-name>DocumentConfigServlet</display-name>
+        <servlet-name>DocumentConfigServlet</servlet-name>
+        <servlet-class>org.kuali.ole.docstore.discovery.servlet.DocumentConfigServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DocumentConfigServlet</servlet-name>
+        <url-pattern>/getDocumentConfigInfo</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>SolrServer</servlet-name>
+        <servlet-class>org.apache.solr.servlet.RedirectServlet</servlet-class>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SolrServer</servlet-name>
+        <url-pattern>/select/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>olesru</servlet-name>
+        <servlet-class>org.kuali.ole.servlet.OleSRUServlet</servlet-class>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>olesru</servlet-name>
+        <url-pattern>/sru</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>SolrUpdate</servlet-name>
+        <servlet-class>org.apache.solr.servlet.RedirectServlet</servlet-class>
+        <load-on-startup>3</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SolrUpdate</servlet-name>
+        <url-pattern>/update/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Logging</servlet-name>
+        <servlet-class>org.apache.solr.servlet.RedirectServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Logging</servlet-name>
+        <url-pattern>/admin/logging</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>discovery</servlet-name>
+        <jsp-file>/discovery.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>discovery</servlet-name>
+        <url-pattern>/discovery</url-pattern>
+    </servlet-mapping>
+
+    <mime-mapping>
+        <extension>.xsl</extension>
+        <mime-type>application/xslt+xml</mime-type>
+    </mime-mapping>
+
+    <filter>
+        <filter-name>characterEncodingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+        <init-param>
+            <param-name>forceEncoding</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>characterEncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <servlet-mapping>
+        <servlet-name>remoting</servlet-name>
+        <url-pattern>/remoting/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>action</servlet-name>
+        <url-pattern>*.do</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>notification</servlet-name>
+        <url-pattern>*.form</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>kcb</servlet-name>
+        <url-pattern>*.kcb</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>dwr-invoker</servlet-name>
+        <url-pattern>/dwr/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>export</servlet-name>
+        <url-pattern>/export/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>exportsecurity</servlet-name>
+        <url-pattern>/exportsecurity/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>attachment</servlet-name>
+        <url-pattern>/kew/attachment/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>edoclite</servlet-name>
+        <url-pattern>/kew/EDocLite</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet-mapping>
+        <servlet-name>ole-docstore-krad</servlet-name>
+        <url-pattern>/ole-docstore-kr-krad/*</url-pattern>
+    </servlet-mapping>
+
+    <session-config>
+        <session-timeout>60</session-timeout>
+    </session-config>
+
+    <!-- for RESTful services -->
+    <servlet>
+        <servlet-name>Jersey</servlet-name>
+        <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+        <init-param>
+            <param-name>com.sun.jersey.config.property.packages</param-name>
+            <param-value>org.kuali.ole.docstore.discovery.rest;org.codehaus.jackson.jaxrs</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Jersey</servlet-name>
+        <url-pattern>/rest/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>bibRestServlet</servlet-name>
+        <servlet-class>org.kuali.ole.docstore.engine.service.rest.BibRestServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>bibRestServlet</servlet-name>
+        <url-pattern>/documentrest/bib/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>holdingsRestServlet</servlet-name>
+        <servlet-class>org.kuali.ole.docstore.engine.service.rest.HoldingsRestServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>holdingsRestServlet</servlet-name>
+        <url-pattern>/documentrest/holdings/*</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet-mapping>
+        <servlet-name>bibRestServlet</servlet-name>
+        <url-pattern>/documentrest/config/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>licenseRestServlet</servlet-name>
+        <servlet-class>org.kuali.ole.web.LicenseRestServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>licenseRestServlet</servlet-name>
+        <url-pattern>/documentrest/license/*</url-pattern>
+    </servlet-mapping>
+
+
+       <servlet>
+           <servlet-name>searchRestServlet</servlet-name>
+           <servlet-class>org.kuali.ole.web.SearchRestServlet</servlet-class>
+       </servlet>
+
+      <servlet-mapping>
+           <servlet-name>searchRestServlet</servlet-name>
+           <url-pattern>/documentrest/search/*</url-pattern>
+       </servlet-mapping>
+
+    <servlet>
+        <servlet-name>browseRestServlet</servlet-name>
+        <servlet-class>org.kuali.ole.web.BrowseRestServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>browseRestServlet</servlet-name>
+        <url-pattern>/documentrest/browse/*</url-pattern>
+    </servlet-mapping>
+
+
+
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>index-discovery.jsp</welcome-file>
+    </welcome-file-list>
+
+    <!-- only need to include this for the kuali tlds
+         since tld file will only be searched from within other jars -->
+    <jsp-config>
+        <taglib>
+            <taglib-uri>http://www.kuali.org/jsp/jstl/functions</taglib-uri>
+            <taglib-location>/WEB-INF/tld/kuali-func.tld</taglib-location>
+        </taglib>
+
+        <!-- customized struts tags -->
+        <taglib>
+            <taglib-uri>http://www.kuali.org/struts.apache.org/tags-html</taglib-uri>
+            <taglib-location>/WEB-INF/tld/kuali-struts-html.tld</taglib-location>
+        </taglib>
+        <taglib>
+            <taglib-uri>http://www.kuali.org/struts.apache.org/tags-html-el</taglib-uri>
+            <taglib-location>/WEB-INF/tld/kuali-struts-html-el.tld</taglib-location>
+        </taglib>
+    </jsp-config>
+</web-app>
+

@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <!--
+
+        Copyright 2005-2012 The Kuali Foundation
+
+        Licensed under the Educational Community License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at
+
+        http://www.opensource.org/licenses/ecl2.php
+
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+
+    -->
+    <bean id="OleContentType" parent="OleContentType-parentBean"/>
+
+    <bean id="OleContentType-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.select.bo.OLEContentType"/>
+        <property name="titleAttribute" value="oleContentTypeName"/>
+        <property name="objectLabel" value="Ole Content Type"/>
+
+        <property name="attributes">
+            <list>
+                <ref bean="OleContentType-oleContentTypeId"/>
+                <ref bean="OleContentType-oleContentTypeName"/>
+                <ref bean="OleContentType-oleContentTypeDescription" />
+                <ref bean="OleContentType-active"/>
+
+
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+
+    <bean id="OleContentType-oleContentTypeId" parent="OleContentType-oleContentTypeId-parentBean"/>
+
+    <bean id="OleContentType-oleContentTypeId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Content Type Id"/>
+        <property name="maxLength" value="10"/>
+        <property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+        <property name="name" value="oleContentTypeId"/>
+        <property name="label" value="Content Type Id"/>
+        <property name="description" value="Content Type Id"/>
+    </bean>
+
+
+
+    <bean id="OleContentType-oleContentTypeDescription" parent="OleContentType-oleContentTypeDescription-parentBean"/>
+
+    <bean id="OleContentType-oleContentTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Content Type Description"/>
+        <property name="maxLength" value="100"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="oleContentTypeDescription"/>
+        <property name="label" value="Content Type Description"/>
+        <property name="description" value="Content Type Description"/>
+
+    </bean>
+
+    <bean id="OleContentType-oleContentTypeName" parent="OleContentType-oleContentTypeName-parentBean"/>
+
+    <bean id="OleContentType-oleContentTypeName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Content Type Name"/>
+        <property name="maxLength" value="40"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="oleContentTypeName"/>
+        <property name="label" value="Content Type Name"/>
+        <property name="description" value="Content Type Name"/>
+
+    </bean>
+
+
+       <!-- <bean id="OleContentType-active" parent="OleContentType-active-parentBean"/>
+
+        <bean id="OleContentType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+            <property name="name" value="active"/>
+        </bean>-->
+    <bean id="OleContentType-active" parent="OleContentType-active-parentBean"/>
+
+    <bean id="OleContentType-active-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="active"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="active"/>
+        <property name="maxLength" value="1"/>
+        <property name="validCharactersConstraint">
+            <bean  parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean  parent="Uif-CheckboxControl"/>
+        </property>
+        <property name="summary" value="Active Indicator"/>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+        <property name="label" value="Active Indicator"/>
+        <property name="description" value="This attribute is used to describe whether the associated object is active or inactive."/>
+    </bean>
+
+
+    <!-- Business Object Inquiry Definition -->
+
+
+    <bean id="OleContentType-InquiryView" parent="Uif-OLEInquiryView">
+        <property name="headerText" value="Content Type Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OLEContentType"/>
+        <property name="singlePageView" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-VerticalBoxSection">
+                    <property name="header.headerText" value="Content Type"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2">
+                                <property name="items">
+                                    <list>
+                                        <bean id="inquiry_oleContentTypeId" parent="Uif-InputField" p:propertyName="oleContentTypeId"/>
+                                        <bean id="inquiry_oleContentTypeName" parent="Uif-InputField" p:propertyName="oleContentTypeName"/>
+                                        <bean id="inquiry_oleContentTypeDescription" parent="Uif-InputField" p:propertyName="oleContentTypeDescription"/>
+                                        <bean id="inquiry_oleContentTypeActive" parent="Uif-InputField" p:propertyName="active"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                    <property name="headerText" value="Content Type"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <!-- Business Object Lookup Definition -->
+
+
+    <bean id="OleContentType-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="Content Type Lookup"/>
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/BASICS/content/ch02s04.html#_lookupHelp"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OLEContentType"/>
+        <property name="criteriaFields">
+            <list>
+                <bean id="oleContentTypeName" parent="Uif-LookupCriteriaInputField" p:propertyName="oleContentTypeName" p:enableAutoDirectInquiry="false"/>
+                <bean id="oleContentTypeDescription" parent="Uif-LookupCriteriaInputField" p:propertyName="oleContentTypeDescription" />
+                <bean id="oleContentTypeActive" parent="Uif-LookupCriteriaInputField" p:propertyName="active"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean id="searchResult_oleContentTypeName" parent="Uif-DataField" p:propertyName="oleContentTypeName"/>
+                <bean id="searchResult_oleContentTypeDescription" parent="Uif-DataField" p:propertyName="oleContentTypeDescription"/>
+                <bean id="searchResult_oleContentTypeActive" parent="Uif-DataField" p:propertyName="active"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

@@ -1,0 +1,510 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2005-2008 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+    <bean id="fpModuleConfiguration" parent="fpModuleConfiguration-parentBean" />
+	
+    <bean id="fpModuleConfiguration-parentBean" class="org.kuali.ole.sys.FinancialSystemModuleConfiguration" abstract="true">
+    	<property name="namespaceCode" value="OLE-FP" />
+		<property name="initializeDataDictionary" value="true" />
+        <property name="packagePrefixes">
+			<list>
+                <value>org.kuali.ole.fp</value>
+			</list>
+		</property>
+		<property name="dataDictionaryPackages">
+			<list>
+                <value>org/kuali/ole/fp/businessobject/datadictionary</value>
+                <value>org/kuali/ole/fp/document/datadictionary</value>
+			</list>
+		</property>
+		<property name="databaseRepositoryFilePaths">
+			<list>
+				<value>org/kuali/ole/fp/ojb-fp.xml</value>
+			</list>
+		</property>
+		<property name="scriptConfigurationFilePaths">
+			<list>
+				<value>org/kuali/ole/fp/dwr-fp.xml</value>
+			</list>
+		</property>
+		<property name="jobNames">
+			<list>
+				<value>procurementCardDocumentJob</value>
+				<value>disbursementVoucherPreDisbursementProcessorExtractJob</value>
+			</list>
+		</property>
+		<property name="fiscalYearMakers">
+          <list>
+            <ref bean="wireChargeFiscalYearMaker" />
+            <ref bean="travelPerDiemFiscalYearMaker" />
+            <ref bean="fiscalYearFunctionControlFiscalYearMaker" />
+          </list>	
+        </property>
+        <property name="batchFileDirectories">
+          <list>
+            <value>${reports.directory}/fp</value>
+            <value>${staging.directory}/fp</value>
+          </list>
+        </property>
+
+	</bean>
+
+    <bean id="fpModuleService" parent="fpModuleService-parentBean"/>
+
+    <bean id="fpModuleService-parentBean" class="org.kuali.ole.sys.service.impl.OleModuleServiceImpl" abstract="true">
+    	<property name="moduleConfiguration" ref="fpModuleConfiguration" />
+    </bean>
+
+	<bean id="travelMileageRateDao" parent="platformAwareDao" class="org.kuali.ole.fp.document.dataaccess.impl.TravelMileageRateDaoOjb" />
+	
+	<bean id="checkService"  parent="checkService-parentBean"/>
+	<bean id="checkService-parentBean" class="org.kuali.ole.fp.service.impl.CheckServiceImpl" abstract="true">
+		<property name="checkDao">
+			<bean class="org.kuali.ole.fp.dataaccess.impl.CheckDaoOjb" parent="platformAwareDao" />
+		</property>
+	</bean>
+
+	<bean id="disbursementVoucherTaxService"  parent="disbursementVoucherTaxService-parentBean"/>
+	<bean id="disbursementVoucherTaxService-parentBean" class="org.kuali.ole.fp.document.service.impl.DisbursementVoucherTaxServiceImpl" abstract="true">
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="maintenanceDocumentService">
+			<ref bean="maintenanceDocumentService" />
+		</property>
+	</bean>
+
+	<bean id="disbursementVoucherCoverSheetService"  parent="disbursementVoucherCoverSheetService-parentBean"/>
+	<bean id="disbursementVoucherCoverSheetService-parentBean" class="org.kuali.ole.fp.document.service.impl.DisbursementVoucherCoverSheetServiceImpl" abstract="true">
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
+	</bean>
+
+	<bean id="disbursementVoucherTravelService"  parent="disbursementVoucherTravelService-parentBean"/>
+	<bean id="disbursementVoucherTravelService-parentBean" class="org.kuali.ole.fp.document.service.impl.DisbursementVoucherTravelServiceImpl" abstract="true">
+		<property name="travelMileageRateDao">
+			<ref bean="travelMileageRateDao" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+	</bean>
+
+	<bean id="disbursementVoucherPayeeService"  parent="disbursementVoucherPayeeService-parentBean"/>
+	<bean id="disbursementVoucherPayeeService-parentBean" class="org.kuali.ole.fp.document.service.impl.DisbursementVoucherPayeeServiceImpl" abstract="true">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>
+		<property name="vendorService">
+			<ref bean="vendorService" />
+		</property>		
+	</bean>
+	
+	<bean id="cashDrawerService"  parent="cashDrawerService-parentBean"/>
+	<bean id="cashDrawerService-parentBean" class="org.kuali.ole.fp.service.impl.CashDrawerServiceImpl" abstract="true">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
+
+	<bean id="accountPresenceService"  parent="accountPresenceService-parentBean"/>
+	<bean id="accountPresenceService-parentBean" class="org.kuali.ole.sys.document.service.impl.AccountPresenceServiceImpl" abstract="true">
+		<property name="balanceDao">
+			<ref bean="glBalanceDao" />
+		</property>
+	</bean>
+
+	<bean id="cashManagementService"  parent="cashManagementService-parentBean"/>
+	<bean id="cashManagementService-parentBean" class="org.kuali.ole.fp.document.service.impl.CashManagementServiceImpl" abstract="true">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="cashDrawerService">
+			<ref bean="cashDrawerService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>
+		<property name="cashManagementDao">
+			<ref bean="cashManagementDao" />
+		</property>
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>
+	</bean>
+
+	<bean id="flexibleOffsetAccountService"  parent="flexibleOffsetAccountService-parentBean"/>
+	<bean id="flexibleOffsetAccountService-parentBean" class="org.kuali.ole.sys.service.impl.FlexibleOffsetAccountServiceImpl" abstract="true">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="accountService">
+			<ref bean="accountService" />
+		</property>
+		<property name="objectCodeService">
+			<ref bean="objectCodeService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		<property name="parameterService" ref="parameterService" />
+	</bean>
+
+	<bean id="fiscalYearFunctionControlService"  parent="fiscalYearFunctionControlService-parentBean"/>
+	<bean id="fiscalYearFunctionControlService-parentBean" class="org.kuali.ole.fp.service.impl.FiscalYearFunctionControlServiceImpl" abstract="true">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
+
+	<bean id="procurementCardCreateDocumentService"  parent="procurementCardCreateDocumentService-parentBean"/>
+	<bean id="procurementCardCreateDocumentService-parentBean" class="org.kuali.ole.fp.batch.service.impl.ProcurementCardCreateDocumentServiceImpl" abstract="true">
+		<property name="parameterService" ref="parameterService" />
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="documentService" ref="documentService" />
+    <property name="workflowDocumentService" ref="workflowDocumentService" />
+		<property name="dataDictionaryService" ref="dataDictionaryService" />
+		<property name="dateTimeService" ref="dateTimeService" />
+		<property name="accountingLineRuleUtil" ref="accountingLineRuleHelperService" />
+		<property name="capitalAssetBuilderModuleService" ref="capitalAssetBuilderModuleService" />
+	</bean>
+
+	<bean id="procurementCardLoadTransactionsService"  parent="procurementCardLoadTransactionsService-parentBean"/>
+	<bean id="procurementCardLoadTransactionsService-parentBean" class="org.kuali.ole.fp.batch.service.impl.ProcurementCardLoadTransactionsServiceImpl" abstract="true">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="batchInputFileService">
+			<ref bean="batchInputFileService" />
+		</property>
+		<property name="procurementCardInputFileType">
+			<ref bean="procurementCardInputFileType" />
+		</property>
+	</bean>
+
+	<bean id="cashReceiptService"  parent="cashReceiptService-parentBean"/>
+	<bean id="cashReceiptService-parentBean" class="org.kuali.ole.fp.document.service.impl.CashReceiptServiceImpl" abstract="true">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="cashManagementDao">
+			<ref bean="cashManagementDao" />
+		</property>
+		<property name="cashDrawerService">
+			<ref bean="cashDrawerService" />
+		</property>
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>
+		<property name="dictionaryValidationService" ref="dictionaryValidationService" />
+	</bean>
+	
+	<bean id="procurementCardDocumentJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="procurementCardLoadStep" />
+				<ref bean="procurementCardCreateDocumentsStep" />
+				<ref bean="procurementCardRouteDocumentsStep" />
+				<ref bean="procurementCardAutoApproveDocumentsStep" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="disbursementVoucherPreDisbursementProcessorExtractJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="disbursementVoucherPreDisbursementProcessorExtractStep" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="disbursementVoucherPreDisbursementProcessorExtractStep" class="org.kuali.ole.fp.batch.DvToPdpExtractStep" parent="step">
+		<property name="disbursementVoucherExtractService">
+			<ref bean="disbursementVoucherExtractService" />
+		</property>
+	</bean>
+
+	<bean id="procurementCardLoadStep" parent="procurementCardLoadStep-parentBean"/>
+	<bean id="procurementCardLoadStep-parentBean" abstract="true" class="org.kuali.ole.fp.batch.ProcurementCardLoadStep" parent="step">
+		<property name="procurementCardLoadTransactionsService">
+			<ref bean="procurementCardLoadTransactionsService" />
+		</property>
+		<property name="batchInputFileService">
+		    <ref bean="batchInputFileService" />
+		</property>
+		<property name="procurementCardInputFileType">
+		    <ref bean="procurementCardInputFileType" />
+		</property>
+    <property name="reportWriterService" ref="procurementCardLoadReportWriterService"/>
+	</bean>
+
+	<bean id="procurementCardCreateDocumentsStep" class="org.kuali.ole.fp.batch.ProcurementCardCreateDocumentsStep" parent="step">
+		<property name="procurementCardCreateDocumentService">
+			<ref bean="procurementCardCreateDocumentService" />
+		</property>
+	</bean>
+
+	<bean id="procurementCardRouteDocumentsStep" class="org.kuali.ole.fp.batch.ProcurementCardRouteDocumentsStep" parent="step">
+		<property name="procurementCardCreateDocumentService">
+			<ref bean="procurementCardCreateDocumentService" />
+		</property>
+	</bean>
+
+	<bean id="procurementCardAutoApproveDocumentsStep" class="org.kuali.ole.fp.batch.ProcurementCardAutoApproveDocumentsStep" parent="step">
+		<property name="procurementCardCreateDocumentService">
+			<ref bean="procurementCardCreateDocumentService" />
+		</property>
+	</bean>
+
+  <bean id="procurementCardLoadReportWriterService" parent="reportWriterService">
+    <property name="filePath" value="${reports.directory}/fp"/>
+    <property name="fileNamePrefix" value="procurement_card_load_"/>
+    <property name="title" value="Procurement Card Load File"/>
+  </bean>
+
+	<bean id="disbursementVoucherExtractService"  parent="disbursementVoucherExtractService-parentBean"/>
+	<bean id="disbursementVoucherExtractService-parentBean" class="org.kuali.ole.fp.batch.service.impl.DisbursementVoucherExtractServiceImpl" abstract="true">
+		<property name="parameterService">
+			<ref bean="parameterService"/>
+		</property>
+		<property name="disbursementVoucherDao">
+			<ref bean="disbursementVoucherDao"/>
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService"/>
+		</property>
+		<property name="customerProfileService">
+			<ref bean="pdpCustomerProfileService"/>
+		</property>
+		<property name="paymentFileService">
+			<ref bean="paymentFileService"/>
+		</property>
+		<property name="paymentGroupService">
+			<ref bean="pdpPaymentGroupService"/>
+		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService"/>
+		</property>
+		<property name="paymentFileEmailService">
+			<ref bean="pdpEmailService"/>
+		</property>
+	</bean>
+
+	<bean id="cashReceiptCoverSheetService"  parent="cashReceiptCoverSheetService-parentBean"/>
+	<bean id="cashReceiptCoverSheetService-parentBean" class="org.kuali.ole.fp.document.service.impl.CashReceiptCoverSheetServiceImpl" abstract="true">
+		<property name="dataDictionaryService" ref="dataDictionaryService" />
+	</bean>
+
+
+	<bean id="budgetAdjustmentAccountingLineRuleHelperService"  parent="budgetAdjustmentAccountingLineRuleHelperService-parentBean"/>
+	<bean id="budgetAdjustmentAccountingLineRuleHelperService-parentBean" class="org.kuali.ole.fp.document.service.impl.BudgetAdjustmentAccountingLineRuleHelperServiceImpl" abstract="true">
+			<property name="dataDictionaryService" ref="dataDictionaryService" />
+			<property name="financialSystemDocumentTypeService" ref="financialSystemDocumentTypeService" />
+	</bean>
+
+	<bean id="cashDetailTypeCodeService"  parent="cashDetailTypeCodeService-parentBean"/>
+	<bean id="cashDetailTypeCodeService-parentBean" class="org.kuali.ole.fp.service.impl.CashDetailTypeCodeServiceImpl" abstract="true">
+	</bean>
+	
+	<bean id="procurementCardInputFileType"  parent="procurementCardInputFileType-parentBean"/>
+	<bean id="procurementCardInputFileType-parentBean" class="org.kuali.ole.fp.batch.ProcurementCardInputFileType" abstract="true"> 
+	    <property name="directoryPath">
+	       <value>${staging.directory}/fp/procurementCard</value>
+	    </property>
+	    <property name="fileExtension">
+	       <value>xml</value>
+	    </property>
+	    <property name="digestorRulesFileName">
+	       <value>org/kuali/ole/fp/batch/pcdoDigesterRules.xml</value>
+	    </property>
+	    <property name="schemaLocation">
+	       <value>${externalizable.static.content.url}/xsd/fp/procurementCard.xsd</value>
+	    </property>
+	    <property name="dateTimeService">
+	       <ref bean="dateTimeService"/>
+	    </property>
+	</bean>
+
+	<bean id="nonResidentAlienTaxPercentLookupableHelperService" scope="prototype" parent="nonResidentAlienTaxPercentLookupableHelperService-parentBean" />
+	<bean id="nonResidentAlienTaxPercentLookupableHelperService-parentBean" abstract="true"  class="org.kuali.ole.fp.businessobject.lookup.KualiNonResidentAlienTaxPercentLookupableHelperServiceImpl" scope="prototype" parent="lookupableHelperService" />
+
+	<bean id="nonResidentAlienTaxPercentLookupable"  parent="nonResidentAlienTaxPercentLookupable-parentBean" scope="prototype"/>
+	<bean id="nonResidentAlienTaxPercentLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
+		<property name="lookupableHelperService">
+			<ref bean="nonResidentAlienTaxPercentLookupableHelperService" />
+		</property>
+	</bean>
+	
+	<bean id="cashDrawerLookupableHelperService"  parent="cashDrawerLookupableHelperService-parentBean"  scope="prototype"/>
+	<bean id="cashDrawerLookupableHelperService-parentBean" class="org.kuali.ole.fp.businessobject.lookup.CashDrawerLookupableHelperServiceImpl" abstract="true">
+		<property name="cashDrawerService" ref="cashDrawerService" />
+		<property name="cashReceiptService" ref="cashReceiptService" />
+	</bean>
+	
+	<bean id="cashDrawerLookupable"  parent="cashDrawerLookupable-parentBean" scope="prototype"/>
+	<bean id="cashDrawerLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
+		<property name="lookupableHelperService">
+			<ref bean="cashDrawerLookupableHelperService" />
+		</property>
+	</bean>
+
+	<bean id="cashManagementDao" class="org.kuali.ole.fp.document.dataaccess.impl.CashManagementDaoOjb" parent="platformAwareDao" />
+
+	<bean id="disbursementVoucherDao" class="org.kuali.ole.fp.dataaccess.impl.DisbursementVoucherDaoOjb" parent="platformAwareDao" />
+	
+	<bean id="distributionOfIncomeAndExpenseElectronicPaymentClaimingDocumentHelper"  parent="distributionOfIncomeAndExpenseElectronicPaymentClaimingDocumentHelper-parentBean"/>
+	<bean id="distributionOfIncomeAndExpenseElectronicPaymentClaimingDocumentHelper-parentBean" class="org.kuali.ole.fp.batch.service.impl.DistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl" abstract="true">
+		<property name="documentService"><ref bean="documentService" /></property>
+		<property name="electronicPaymentClaimingService"><ref bean="electronicPaymentClaimingService" /></property>
+		<property name="parameterService"><ref bean="parameterService" /></property>
+	</bean>
+	<bean id="yearEndDistributionOfIncomeAndExpenseElectronicPaymentClaimingDocumentHelper" class="org.kuali.ole.fp.batch.service.impl.YearEndDistributionOfIncomeAndExpenseElectronicPaymentClaimingHelperStrategyImpl" parent="distributionOfIncomeAndExpenseElectronicPaymentClaimingDocumentHelper" />
+	
+	<bean id="transferOfFundsService"  parent="transferOfFundsService-parentBean"/>
+	<bean id="transferOfFundsService-parentBean" class="org.kuali.ole.fp.document.service.impl.TransferOfFundsServiceImpl" abstract="true">
+		<property name="parameterService"><ref bean="parameterService" /></property>
+	</bean>
+	
+	<bean id="disbursementPayeeLookupable"  parent="disbursementPayeeLookupable-parentBean"/>
+	<bean id="disbursementPayeeLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
+		<property name="lookupableHelperService">
+			<ref bean="disbursementPayeeLookupableHelperService" />
+		</property>
+	</bean>
+ 
+ 	<bean id="disbursementPayeeLookupableHelperService" scope="prototype" parent="disbursementPayeeLookupableHelperService-parentBean"/>
+	<bean id="disbursementPayeeLookupableHelperService-parentBean"  parent="payeeLookupableHelperServiceImpl-parentBean" abstract="true"  class="org.kuali.ole.fp.businessobject.lookup.DisbursementPayeeLookupableHelperServiceImpl" scope="prototype" >
+		<property name="disbursementVoucherPaymentReasonService">
+			<ref bean="disbursementVoucherPaymentReasonService" />
+		</property>
+	</bean>
+	
+	<bean id="disbursementPayeeInquirable" class="org.kuali.ole.fp.businessobject.inquirable.DisbursementPayeeInquirableImpl" scope="prototype" parent="kualiInquirable"/>
+	
+	<bean id="disbursementVoucherPaymentReasonService"  parent="disbursementVoucherPaymentReasonService-parentBean"/>
+	<bean id="disbursementVoucherPaymentReasonService-parentBean" class="org.kuali.ole.fp.document.service.impl.DisbursementVoucherPaymentReasonServiceImpl"  abstract="true">
+		<property name="parameterService">
+			<ref bean="parameterService" />
+		</property>	
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="disbursementVoucherPayeeService">
+			<ref bean="disbursementVoucherPayeeService" />
+		</property>
+	</bean>
+	
+    <bean id="wireChargeFiscalYearMaker" parent="FiscalYearMaker">
+		<property name="businessObjectClass" value="org.kuali.ole.fp.businessobject.WireCharge" /> 
+		<property name="parentClasses">
+		  <set>
+		    <value>org.kuali.ole.coa.businessobject.ObjectCode</value>
+		  </set>
+		</property>	
+	</bean>	
+	
+    <bean id="travelPerDiemFiscalYearMaker" parent="FiscalYearMaker">
+		<property name="businessObjectClass" value="org.kuali.ole.fp.businessobject.TravelPerDiem" /> 
+	</bean>	
+	
+    <bean id="fiscalYearFunctionControlFiscalYearMaker" parent="FiscalYearMaker">
+		<property name="businessObjectClass" value="org.kuali.ole.fp.businessobject.FiscalYearFunctionControl" /> 
+	</bean>	
+	
+	<bean id="paymentMethodRoleTypeService"  parent="paymentMethodRoleTypeService-parentBean"/>
+	<bean id="paymentMethodRoleTypeService-parentBean" class="org.kuali.ole.fp.identity.PaymentMethodRoleTypeServiceImpl" abstract="true"/>
+	
+	<bean id="cashReceiptInitiatorDerivedRoleTypeService"  parent="cashReceiptInitiatorDerivedRoleTypeService-parentBean"/>
+	<bean id="cashReceiptInitiatorDerivedRoleTypeService-parentBean" class="org.kuali.ole.fp.identity.CashReceiptInitiatorDerivedRoleTypeServiceImpl" abstract="true" />
+	
+	<bean id="yearEndPendingEntryService" parent="yearEndPendingEntryService-parentBean" />
+    
+    <bean id="yearEndPendingEntryService-parentBean" abstract="true" class="org.kuali.ole.fp.document.service.impl.YearEndPendingEntryServiceImpl">
+		<property name="universityDateService" ref="universityDateService" />
+		<property name="sufficientFundsService" ref="sufficientFundsService" />
+		<property name="offsetDefinitionService" ref="offsetDefinitionService" />
+    </bean>
+	
+    <bean id="payeeLookupableHelperServiceImpl-parentBean" abstract="true"  class="org.kuali.ole.fp.businessobject.lookup.AbstractPayeeLookupableHelperServiceImpl" parent="lookupableHelperService">
+    	<property name="vendorLookupable">
+			<ref bean="vendorLookupable" />
+		</property>	
+		<property name="kualiInquirable">
+			<ref bean="disbursementPayeeInquirable" />
+		</property>			
+		<property name="disbursementVoucherPayeeService">
+			<ref bean="disbursementVoucherPayeeService" />
+		</property>
+    </bean>
+	
+	<!-- validations -->
+	<import resource="document/validation/configuration/FinancialProcessingValidators.xml" />
+	<import resource="document/validation/configuration/InternalBillingValidation.xml" />
+	<import resource="document/validation/configuration/BudgetAdjustmentValidation.xml" />
+	<import resource="document/validation/configuration/YearEndBudgetAdjustmentValidation.xml" />
+	<import resource="document/validation/configuration/TransferOfFundsValidation.xml" />
+	<import resource="document/validation/configuration/YearEndTransferOfFundsValidation.xml" />
+	<import resource="document/validation/configuration/AuxiliaryVoucherValidation.xml" />
+	<import resource="document/validation/configuration/AdvanceDepositValidation.xml" />
+	<import resource="document/validation/configuration/CashReceiptValidation.xml" />
+	<import resource="document/validation/configuration/CreditCardReceiptValidation.xml" />
+	<import resource="document/validation/configuration/IndirectCostAdjustmentValidation.xml" />
+	<import resource="document/validation/configuration/JournalVoucherValidation.xml" />
+	<import resource="document/validation/configuration/DistributionOfIncomeAndExpenseValidation.xml" />
+	<import resource="document/validation/configuration/YearEndDistributionOfIncomeAndExpenseValidation.xml" />
+	<import resource="document/validation/configuration/GeneralErrorCorrectionValidation.xml" />
+	<import resource="document/validation/configuration/YearEndGeneralErrorCorrectionValidation.xml" />	
+	<import resource="document/validation/configuration/ServiceBillingValidation.xml" />
+	<import resource="document/validation/configuration/NonCheckDisbursementValidation.xml" />
+	<import resource="document/validation/configuration/PreEncumbranceValidation.xml" />
+	<import resource="document/validation/configuration/ProcurementCardValidation.xml" />
+	<import resource="document/validation/configuration/DisbursementVoucherValidation.xml" />
+	<import resource="spring-fp-bus-exports.xml"/>
+</beans>

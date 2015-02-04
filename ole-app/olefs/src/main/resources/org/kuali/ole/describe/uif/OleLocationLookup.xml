@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans  
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+  <bean id="OleLocation-LookupView" parent="Uif-OLELookupView">
+    <property name="headerText" value="Location Lookup" />
+      <property name="help">
+          <bean parent="Uif-Help">
+              <property name="externalHelpUrl"
+                        value="${ole.externalizable.help.url}/reference/webhelp/BASICS/content/ch02s04.html#_lookupHelp"/>
+              <property name="tooltipHelpContent" value="[Help] help"/>
+          </bean>
+      </property>
+    <property name="dataObjectClassName" value="org.kuali.ole.describe.bo.OleLocation" />
+    <property name="criteriaFields">
+      <list>
+        <bean id ="locationId" parent="Uif-LookupCriteriaInputField" p:propertyName="locationId"/>
+        <bean id="locationCode" parent="Uif-LookupCriteriaInputField" p:propertyName="locationCode">
+               <!-- <property name="fieldSuggest">
+                    <bean parent="Uif-Suggest"   p:sourcePropertyName ="locationCode" p:suggestQuery.dataObjectClassName="org.kuali.ole.describe.bo.OleLocation" p:suggestQuery.sortPropertyNames="locationCode"/>
+                </property>-->
+        </bean>
+        <bean id="locationName" parent="Uif-LookupCriteriaInputField" p:propertyName="locationName" />
+       <!--<bean parent="Uif-LookupCriteriaInputField" p:propertyName="parentLevelId"/>-->
+         <bean id="levelId" parent="Uif-LookupCriteriaInputField" p:propertyName="levelId" />
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean id="resultFields_locationId" parent="Uif-DataField" p:propertyName="locationId" />
+        <bean id="resultFields_locationCode" parent="Uif-DataField" p:propertyName="locationCode" />
+        <bean id="resultFields_locationName" parent="Uif-DataField" p:propertyName="locationName" />
+        <bean id="resultFields_parentLocationId" parent="Uif-DataField" p:propertyName="parentLocationId" />
+        <bean id="resultFields_levelCode" parent="Uif-DataField" p:propertyName="levelCode" p:label="Location Level"/>
+      </list>
+    </property>
+  </bean>
+
+</beans>

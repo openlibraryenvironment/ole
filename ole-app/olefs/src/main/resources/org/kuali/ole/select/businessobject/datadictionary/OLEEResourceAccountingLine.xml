@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="OLEEResourceAccountingLine" parent="OLEEResourceAccountingLine-parentBean"/>
+    <bean id="OLEEResourceAccountingLine-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.select.bo.OLEEResourceAccountingLine"/>
+        <property name="objectLabel" value="E-Resource Accounting Line"/>
+        <property name="attributes">
+            <list>
+                <ref bean="OLEEResourceAccountingLine-eResAccountingLineId"/>
+                <ref bean="OLEEResourceAccountingLine-oleERSIdentifier"/>
+                <ref bean="OLEEResourceAccountingLine-chartOfAccountsCode"/>
+                <ref bean="OLEEResourceAccountingLine-accountNumber"/>
+                <ref bean="OLEEResourceAccountingLine-subAccountNumber"/>
+                <ref bean="OLEEResourceAccountingLine-financialObjectCode"/>
+                <ref bean="OLEEResourceAccountingLine-financialSubObjectCode"/>
+                <ref bean="OLEEResourceAccountingLine-projectCode"/>
+                <ref bean="OLEEResourceAccountingLine-organizationReferenceId"/>
+                <ref bean="OLEEResourceAccountingLine-accountLinePercent"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+    <bean id="OLEEResourceAccountingLine-eResAccountingLineId" parent="OLEEResourceAccountingLine-eResAccountingLineId-parentBean"/>
+    <bean id="OLEEResourceAccountingLine-eResAccountingLineId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="eResAccountingLineId"/>
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceAccountingLine-oleERSIdentifier" parent="OLEEResourceAccountingLine-oleERSIdentifier-parentBean"/>
+    <bean id="OLEEResourceAccountingLine-oleERSIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="oleERSIdentifier"/>
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceAccountingLine-chartOfAccountsCode" parent="OLEEResourceAccountingLine-chartOfAccountsCode-parentBean"/>
+    <bean id="OLEEResourceAccountingLine-chartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Chart"/>
+        <property name="maxLength" value="2"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="2"/>
+        </property>
+        <property name="name" value="chartOfAccountsCode"/>
+        <property name="label" value="Chart"/>
+        <property name="description" value="Chart"/>
+    </bean>
+
+    <bean id="OLEEResourceAccountingLine-accountNumber" parent="OLEEResourceAccountingLine-accountNumber-parentBean"/>
+    <bean id="OLEEResourceAccountingLine-accountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Account Number"/>
+        <property name="maxLength" value="7"/>
+        <property name="required" value="true"/>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="7"/>
+        </property>
+        <property name="name" value="accountNumber"/>
+        <property name="label" value="Account Number"/>
+        <property name="description" value="Account Number"/>
+    </bean>
+
+    <bean id="OLEEResourceAccountingLine-subAccountNumber" parent="OLEEResourceAccountingLine-subAccountNumber-parentBean"/>
+    <bean id="OLEEResourceAccountingLine-subAccountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Sub-Account"/>
+        <property name="maxLength" value="5"/>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="5"/>
+        </property>
+        <property name="name" value="subAccountNumber"/>
+        <property name="label" value="Sub-Account"/>
+        <property name="description" value="Sub-Account"/>
+    </bean>
+
+    <bean id="OLEEResourceAccountingLine-financialObjectCode" parent="OLEEResourceAccountingLine-financialObjectCode-parentBean"/>
+    <bean id="OLEEResourceAccountingLine-financialObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Object"/>
+        <property name="maxLength" value="4"/>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="4"/>
+        </property>
+        <property name="name" value="financialObjectCode"/>
+        <property name="label" value="Object"/>
+        <property name="description" value="Object"/>
+    </bean>
+
+    <bean id="OLEEResourceAccountingLine-financialSubObjectCode" parent="OLEEResourceAccountingLine-financialSubObjectCode-parentBean"/>
+    <bean id="OLEEResourceAccountingLine-financialSubObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Sub-Object"/>
+        <property name="maxLength" value="3"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="3"/>
+        </property>
+        <property name="name" value="financialSubObjectCode"/>
+        <property name="label" value="Sub-Object"/>
+        <property name="description" value="Sub-Object"/>
+    </bean>
+
+    <bean id="OLEEResourceAccountingLine-projectCode" parent="OLEEResourceAccountingLine-projectCode-parentBean"/>
+    <bean id="OLEEResourceAccountingLine-projectCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Project"/>
+        <property name="maxLength" value="10"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="10"/>
+        </property>
+        <property name="name" value="projectCode"/>
+        <property name="label" value="Project"/>
+        <property name="description" value="Project"/>
+    </bean>
+    
+    <bean id="OLEEResourceAccountingLine-organizationReferenceId" parent="OLEEResourceAccountingLine-organizationReferenceId-parentBean"/>
+    <bean id="OLEEResourceAccountingLine-organizationReferenceId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Org Ref Id"/>
+        <property name="maxLength" value="8"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="8"/>
+        </property>
+        <property name="name" value="organizationReferenceId"/>
+        <property name="label" value="Org Ref Id"/>
+        <property name="description" value="Org Ref Id"/>
+    </bean>
+
+    <bean id="OLEEResourceAccountingLine-accountLinePercent" parent="OLEEResourceAccountingLine-accountLinePercent-parentBean"/>
+    <bean id="OLEEResourceAccountingLine-accountLinePercent-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Percent"/>
+        <property name="maxLength" value="36"/>
+        <property name="validationPattern">
+            <bean parent="FloatingPointValidation"/>
+        </property>
+        <property name="control">
+            <bean parent="CurrencyControlDefinition" p:formattedMaxLength="26" p:size="10"/>
+        </property>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.BigDecimalFormatter"/>
+        <property name="required" value="true"/>
+        <property name="name" value="accountLinePercent"/>
+        <property name="label" value="Percent"/>
+    </bean>
+
+</beans>

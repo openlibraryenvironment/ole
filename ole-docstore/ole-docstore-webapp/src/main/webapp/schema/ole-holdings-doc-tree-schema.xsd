@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="bibDoc" type="bibDoc"/>
+
+  <xs:element name="bibDocs" type="bibs"/>
+
+  <xs:element name="holdings" type="holdings"/>
+
+  <xs:element name="holdingsDocTree" type="holdingsTree"/>
+
+  <xs:element name="itemDoc" type="item"/>
+
+  <xs:complexType name="holdingsTree">
+    <xs:sequence>
+      <xs:element name="itemsDocs" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="itemsDoc" type="item" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="holdingsDoc" type="holdings" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="item">
+    <xs:complexContent>
+      <xs:extension base="docstoreDocument">
+        <xs:sequence>
+          <xs:element name="callNumberType" type="xs:string" minOccurs="0"/>
+          <xs:element name="callNumberPrefix" type="xs:string" minOccurs="0"/>
+          <xs:element name="itemStatus" type="xs:string" minOccurs="0"/>
+          <xs:element name="volumeNumber" type="xs:string" minOccurs="0"/>
+          <xs:element name="itemType" type="xs:string" minOccurs="0"/>
+          <xs:element name="locationName" type="xs:string" minOccurs="0"/>
+          <xs:element name="chronology" type="xs:string" minOccurs="0"/>
+          <xs:element name="enumeration" type="xs:string" minOccurs="0"/>
+          <xs:element name="copyNumber" type="xs:string" minOccurs="0"/>
+          <xs:element name="barcode" type="xs:string" minOccurs="0"/>
+          <xs:element name="shelvingOrder" type="xs:string" minOccurs="0"/>
+          <xs:element name="location" type="xs:string" minOccurs="0"/>
+          <xs:element name="callNumber" type="xs:string" minOccurs="0"/>
+          <xs:element name="holdingsDoc" type="holdings" minOccurs="0"/>
+          <xs:element name="isAnalytic" type="xs:boolean"/>
+          <xs:element name="holdingsDocs" type="holdings" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="docstoreDocument" abstract="true">
+    <xs:sequence>
+      <xs:element name="active" type="xs:boolean"/>
+      <xs:element name="category" type="xs:string" minOccurs="0"/>
+      <xs:element name="content" type="xs:string" minOccurs="0"/>
+      <xs:element name="createdBy" type="xs:string" minOccurs="0"/>
+      <xs:element name="createdOn" type="xs:string" minOccurs="0"/>
+      <xs:element name="fastAdd" type="xs:boolean"/>
+      <xs:element name="format" type="xs:string" minOccurs="0"/>
+      <xs:element name="id" type="xs:string" minOccurs="0"/>
+      <xs:element name="localId" type="xs:string" minOccurs="0"/>
+      <xs:element name="public" type="xs:boolean"/>
+      <xs:element name="staffOnly" type="xs:boolean"/>
+      <xs:element name="status" type="xs:string" minOccurs="0"/>
+      <xs:element name="statusUpdatedBy" type="xs:string" minOccurs="0"/>
+      <xs:element name="statusUpdatedOn" type="xs:string" minOccurs="0"/>
+      <xs:element name="type" type="xs:string" minOccurs="0"/>
+      <xs:element name="updatedBy" type="xs:string" minOccurs="0"/>
+      <xs:element name="updatedOn" type="xs:string" minOccurs="0"/>
+      <xs:element name="lastUpdated" type="xs:string" minOccurs="0"/>
+      <xs:element name="displayLabel" type="xs:string" minOccurs="0"/>
+      <xs:element name="sortedValue" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="holdings">
+    <xs:complexContent>
+      <xs:extension base="docstoreDocument">
+        <xs:sequence>
+          <xs:element name="copyNumber" type="xs:string" minOccurs="0"/>
+          <xs:element name="locationName" type="xs:string" minOccurs="0"/>
+          <xs:element name="shelvingOrder" type="xs:string" minOccurs="0"/>
+          <xs:element name="callNumberPrefix" type="xs:string" minOccurs="0"/>
+          <xs:element name="callNumberType" type="xs:string" minOccurs="0"/>
+          <xs:element name="callNumber" type="xs:string" minOccurs="0"/>
+          <xs:element name="holdingsType" type="xs:string" minOccurs="0"/>
+          <xs:element ref="bibDoc" minOccurs="0"/>
+          <xs:element name="isBoundWithBib" type="xs:boolean"/>
+          <xs:element ref="bibDocs" minOccurs="0"/>
+          <xs:element name="isSeries" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="bibDoc">
+    <xs:complexContent>
+      <xs:extension base="docstoreDocument">
+        <xs:sequence>
+          <xs:element name="issn" type="xs:string" minOccurs="0"/>
+          <xs:element name="isbn" type="xs:string" minOccurs="0"/>
+          <xs:element name="subject" type="xs:string" minOccurs="0"/>
+          <xs:element name="edition" type="xs:string" minOccurs="0"/>
+          <xs:element name="publicationDate" type="xs:string" minOccurs="0"/>
+          <xs:element name="publisher" type="xs:string" minOccurs="0"/>
+          <xs:element name="author" type="xs:string" minOccurs="0"/>
+          <xs:element name="title" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="bibs">
+    <xs:sequence>
+      <xs:element ref="bibDoc" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+

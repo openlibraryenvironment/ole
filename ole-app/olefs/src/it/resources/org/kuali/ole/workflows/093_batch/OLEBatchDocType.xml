@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+    <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+        <documentType>
+            <name>OLE_BTCH_PRCS_PRFL</name>
+            <parent>RiceDocument</parent>
+            <description>OLE Batch Process Profile</description>
+            <label>OLE Batch Process Profile</label>
+            <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+            <superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+            <blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+            <defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+            <docHandler>${kr.krad.url}/oleBatchProcessProfile?methodToCall=docHandler</docHandler>
+            <active>true</active>
+            <routingVersion>2</routingVersion>
+            <routePaths>
+                <routePath>
+                    <start name="Initiated" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="Initiated">
+                    <activationType>P</activationType>
+                </start>
+            </routeNodes>
+        </documentType>
+        <documentType>
+            <name>OLE_BATCH_PRCS_FILTER</name>
+            <parent>RiceDocument</parent>
+            <description>OLE Batch Process Filter</description>
+            <label>OLE Batch Process Filter</label>
+            <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+            <superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+            <blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+            <defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+            <docHandler>${kr.krad.url}/maintenance?methodToCall=docHandler</docHandler>
+            <active>true</active>
+            <routingVersion>2</routingVersion>
+            <routePaths>
+                <routePath>
+                    <start name="Initiated" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="Initiated">
+                    <activationType>P</activationType>
+                </start>
+            </routeNodes>
+        </documentType>
+        <documentType>
+            <name>OLE_BATCH_PRCS_FILE_TYPE</name>
+            <parent>RiceDocument</parent>
+            <description>OLE Batch Process File Type</description>
+            <label>OLE Batch Process File Type</label>
+            <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+            <superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+            <blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+            <defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+            <docHandler>${kr.krad.url}/maintenance?methodToCall=docHandler</docHandler>
+            <active>true</active>
+            <routingVersion>2</routingVersion>
+            <routePaths>
+                <routePath>
+                    <start name="Initiated" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="Initiated">
+                    <activationType>P</activationType>
+                </start>
+            </routeNodes>
+        </documentType>
+        <documentType>
+            <name>OLE_BCH_PRCS_PRFL_DOC</name>
+            <parent>RiceDocument</parent>
+            <description>OLE Batch Process</description>
+            <label>OLE Batch Process</label>
+            <docHandler>
+                ${kr.krad.url}/oleBatchProcessDefinitionController?viewId=OLEBatchProcessDefinitionView&amp;methodToCall=docHandler
+            </docHandler>
+            <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+            <active>true</active>
+            <routingVersion>2</routingVersion>
+            <routePaths>
+                <routePath>
+                    <start name="AdHoc" nextNode="AcquisitionStaff"/>
+                    <role name="AcquisitionStaff" nextNode="Cataloger"/>
+                    <role name="Cataloger"/>
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="AdHoc"/>
+                <role name="AcquisitionStaff">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                </role>
+                <role name="Cataloger">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                </role>
+            </routeNodes>
+        </documentType>
+
+        <!-- Added for OLEBatchProcessJobDetails-->
+
+
+        <documentType>
+            <name>OLE_BTCH_PRCS_JOB</name>
+            <parent>RiceDocument</parent>
+            <description>OLE Batch Process</description>
+            <label>OLE Batch Process</label>
+            <docHandler>
+                ${ole.kr.krad.url}/oleBatchProcessJobController?viewId=OLEBatchProcessJobDetailsView&amp;methodToCall=docHandler
+            </docHandler>
+            <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+            <active>true</active>
+            <routingVersion>2</routingVersion>
+            <routePaths>
+                <routePath>
+                    <start name="AdHoc" nextNode="AcquisitionStaff"/>
+                    <role name="AcquisitionStaff" nextNode="Cataloger"/>
+                    <role name="Cataloger"/>
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="AdHoc"/>
+                <role name="AcquisitionStaff">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                </role>
+                <role name="Cataloger">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                </role>
+            </routeNodes>
+        </documentType>
+
+        <!-- End of OLEBatchProcessJobDetails-->
+        
+    </documentTypes>
+</data>

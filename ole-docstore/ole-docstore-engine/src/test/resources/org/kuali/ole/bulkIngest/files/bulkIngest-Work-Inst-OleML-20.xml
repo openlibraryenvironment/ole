@@ -1,0 +1,2172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<request>
+    <user>Tod</user>
+    <operation>batchIngest</operation>
+    <requestDocuments>
+        <ingestDocument id="1" category="work" type="instance" format="oleml">
+            <content><![CDATA[
+<instanceCollection xmlns:m="http://www.loc.gov/MARC21/slim"                     xmlns:i="OLE-Instance-Schema-v8.1.xsd">
+   <instance>
+      <instanceIdentifier>3</instanceIdentifier>
+      <resourceIdentifier/>
+      <formerResourceIdentifiers/>
+      <holdings>
+         <holdingsIdentifier/>
+         <recordType>y</recordType>
+         <encodingLevel>u</encodingLevel>
+         <receiptStatus>2</receiptStatus>
+         <acquisitionMethod>u</acquisitionMethod>
+         <!--expectedAcquisition is placeholder, would come from III--><expectedAcquisitionEndDate>    </expectedAcquisitionEndDate>
+         <generalRetentionPolicy>0</generalRetentionPolicy>
+         <!--The data under specificRententionPolicy are questionable in our export--><specificRetentionPolicy>
+            <policyType> </policyType>
+            <numberOfUnits> </numberOfUnits>
+            <!--Bogus: real data not populated in 008/15 in this export--><unitType>m</unitType>
+         </specificRetentionPolicy>
+         <!--Value fudging: MFHD export gives illegal values, we set them to 0--><completeness>0</completeness>
+         <copiesReported>001</copiesReported>
+         <separateOrCompositeReport>0</separateOrCompositeReport>
+         <extentOfOwnership>
+            <typeOfOwnership>Textual Holdings - Basic Bibliographic Unit</typeOfOwnership>
+            <fieldEncodingLevel>4</fieldEncodingLevel>
+            <typeOfNotation>0</typeOfNotation>
+            <textualHoldings>v.1-44(1968-2011)</textualHoldings>
+         </extentOfOwnership>
+         <extentOfOwnership>
+            <typeOfOwnership>Textual Holdings - Indexes</typeOfOwnership>
+            <fieldEncodingLevel>4</fieldEncodingLevel>
+            <typeOfNotation>0</typeOfNotation>
+            <textualHoldings>v.1-8(1968-1975)</textualHoldings>
+            <publicNote>bound with v.8(1975)</publicNote>
+         </extentOfOwnership>
+         <extentOfOwnership>
+            <typeOfOwnership>Textual Holdings - Indexes</typeOfOwnership>
+            <fieldEncodingLevel>4</fieldEncodingLevel>
+            <typeOfNotation>0</typeOfNotation>
+            <textualHoldings>v.1-10(1968-1977)</textualHoldings>
+            <publicNote>bound with v.10(1977)</publicNote>
+         </extentOfOwnership>
+         <extentOfOwnership>
+            <typeOfOwnership>Textual Holdings - Indexes</typeOfOwnership>
+            <fieldEncodingLevel>4</fieldEncodingLevel>
+            <typeOfNotation>0</typeOfNotation>
+            <textualHoldings>v.11-20(1978-1987)</textualHoldings>
+            <publicNote>bound with v.20(1987)</publicNote>
+         </extentOfOwnership>
+         <extentOfOwnership>
+            <typeOfOwnership>Textual Holdings - Indexes</typeOfOwnership>
+            <fieldEncodingLevel>4</fieldEncodingLevel>
+            <typeOfNotation>0</typeOfNotation>
+            <textualHoldings>v.21-23(1988-1990)</textualHoldings>
+            <publicNote>bound with v.23(1990)</publicNote>
+         </extentOfOwnership>
+         <extentOfOwnership>
+            <typeOfOwnership>Textual Holdings - Indexes</typeOfOwnership>
+            <fieldEncodingLevel>4</fieldEncodingLevel>
+            <typeOfNotation>0</typeOfNotation>
+            <textualHoldings>v.21-25(1988-1992)</textualHoldings>
+            <publicNote>bound with v.25(1992)</publicNote>
+         </extentOfOwnership>
+         <extentOfOwnership>
+            <typeOfOwnership>Textual Holdings - Indexes</typeOfOwnership>
+            <fieldEncodingLevel>4</fieldEncodingLevel>
+            <typeOfNotation>0</typeOfNotation>
+            <textualHoldings>v.21-30(1988-1997)</textualHoldings>
+            <publicNote>bound with v.30(1997)</publicNote>
+         </extentOfOwnership>
+         <extension>
+            <suppressFromPublic>false</suppressFromPublic>
+            <harvestable>true</harvestable>
+            <fastAddFlag>false</fastAddFlag>
+            <status>n</status>
+            <!--Dummy data: lastUpdated not present in our export--><lastUpdated>2012-02-22T10:48:26.779-06:00</lastUpdated>
+            <dateEntered>1995-10-16</dateEntered>
+         </extension>
+      </holdings>
+      <item>
+         <itemIdentifier/>
+         <accessInformation>
+            <barcode>TODO</barcode>
+         </accessInformation>
+         <itemType/>
+         <copyNumber>1</copyNumber>
+         <copyNumberLabel>c.</copyNumberLabel>
+         <location>
+            <locationName>
+               <value>ASR</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>location</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <locationName>
+               <value>JRLASR</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>collection</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <locationName>
+               <value>ICU</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>institution</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <shelvingScheme> </shelvingScheme>
+            <shelvingOrder> </shelvingOrder>
+            <classificationPart>BF199.A1J7</classificationPart>
+            <classificationSort/>
+            <classificationView/>
+            <copyNumber>1</copyNumber>
+            <nonPublicNote>Single title order: 68136620
+COR:19950201 Trns from Faxon with 1/95.mab
+WNT:1 copy of vol.1, no.1 and cont.
+</nonPublicNote>
+         </location>
+         <extension><!--Bogus dates generated at run-time, not supplied by our current MFHD export--><dateEntered>2012-02-22-06:00</dateEntered>
+            <lastUpdated>2012-02-22-06:00</lastUpdated>
+            <itemStatus/>
+         </extension>
+      </item>
+   </instance>
+</instanceCollection>]]>
+            </content>
+        </ingestDocument>
+        <ingestDocument id="2" category="work" type="instance" format="oleml">
+            <content><![CDATA[
+<instanceCollection xmlns:m="http://www.loc.gov/MARC21/slim"
+                      xmlns:i="http://ole.kuali.org/standards/ole-instance">
+   <instance>
+      <instanceIdentifier>3</instanceIdentifier>
+      <resourceIdentifier/>
+      <formerResourceIdentifiers source="ICU">(ICU) 02</formerResourceIdentifiers>
+      <holdings>
+         <holdingsIdentifier/>
+         <recordType>y</recordType>
+         <encodingLevel>u</encodingLevel>
+         <receiptStatus>1</receiptStatus>
+         <acquisitionMethod>u</acquisitionMethod>
+         <!--expectedAcquisition is placeholder, would come from III--><expectedAcquisitionEndDate>    </expectedAcquisitionEndDate>
+         <generalRetentionPolicy>0</generalRetentionPolicy>
+         <!--The data under specificRententionPolicy are questionable in our export--><specificRetentionPolicy>
+            <policyType> </policyType>
+            <numberOfUnits> </numberOfUnits>
+            <!--Bogus: real data not populated in 008/15 in this export--><unitType>m</unitType>
+         </specificRetentionPolicy>
+         <!--Value fudging: MFHD export gives illegal values, we set them to 0--><completeness>0</completeness>
+         <copiesReported>001</copiesReported>
+         <separateOrCompositeReport>0</separateOrCompositeReport>
+         <extension>
+            <suppressFromPublic>false</suppressFromPublic>
+            <harvestable>true</harvestable>
+            <fastAddFlag>false</fastAddFlag>
+            <status>n</status>
+            <!--Dummy data: lastUpdated not present in our export--><lastUpdated>2012-02-22T10:48:26.779-06:00</lastUpdated>
+            <dateEntered>2012-02-08</dateEntered>
+         </extension>
+      </holdings>
+      <item>
+         <itemIdentifier/>
+         <accessInformation>
+            <barcode>TODO</barcode>
+         </accessInformation>
+         <itemType/>
+         <copyNumber>1</copyNumber>
+         <copyNumberLabel>c.</copyNumberLabel>
+         <location>
+            <locationName>
+               <value>JRL</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>location</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <locationName>
+               <value>RR2Per</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>collection</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <locationName>
+               <value>ICU</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>institution</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <shelvingScheme> </shelvingScheme>
+            <shelvingOrder> </shelvingOrder>
+            <classificationPart>BF199.A1J7</classificationPart>
+            <classificationSort/>
+            <classificationView/>
+            <copyNumber>1</copyNumber>
+            <nonPublicNote>WNT:1 copy of vol.1, no.1 and cont.
+</nonPublicNote>
+         </location>
+         <extension><!--Bogus dates generated at run-time, not supplied by our current MFHD export--><dateEntered>2012-02-22-06:00</dateEntered>
+            <lastUpdated>2012-02-22-06:00</lastUpdated>
+            <itemStatus/>
+         </extension>
+      </item>
+   </instance>
+</instanceCollection>]]>
+            </content>
+        </ingestDocument>
+        <ingestDocument id="3" category="work" type="instance" format="oleml">
+            <content><![CDATA[
+<instanceCollection xmlns:m="http://www.loc.gov/MARC21/slim"
+                      xmlns:i="http://ole.kuali.org/standards/ole-instance">
+   <instance>
+      <instanceIdentifier>2399448</instanceIdentifier>
+      <resourceIdentifier/>
+      <formerResourceIdentifiers source="ICU">(sirsi) 34</formerResourceIdentifiers>
+      <holdings>
+         <holdingsIdentifier/>
+         <recordType>y</recordType>
+         <encodingLevel>u</encodingLevel>
+         <receiptStatus>5</receiptStatus>
+         <acquisitionMethod>u</acquisitionMethod>
+         <!--expectedAcquisition is placeholder, would come from III--><expectedAcquisitionEndDate>    </expectedAcquisitionEndDate>
+         <generalRetentionPolicy>0</generalRetentionPolicy>
+         <!--The data under specificRententionPolicy are questionable in our export--><specificRetentionPolicy>
+            <policyType> </policyType>
+            <numberOfUnits> </numberOfUnits>
+            <!--Bogus: real data not populated in 008/15 in this export--><unitType>m</unitType>
+         </specificRetentionPolicy>
+         <!--Value fudging: MFHD export gives illegal values, we set them to 0--><completeness>3</completeness>
+         <copiesReported>001</copiesReported>
+         <separateOrCompositeReport>0</separateOrCompositeReport>
+         <extentOfOwnership>
+            <typeOfOwnership>Textual Holdings - Basic Bibliographic Unit</typeOfOwnership>
+            <fieldEncodingLevel>4</fieldEncodingLevel>
+            <typeOfNotation>0</typeOfNotation>
+            <textualHoldings>v.1-5</textualHoldings>
+            <publicNote>shelved in Rare</publicNote>
+         </extentOfOwnership>
+         <extentOfOwnership>
+            <typeOfOwnership>Textual Holdings - Basic Bibliographic Unit</typeOfOwnership>
+            <fieldEncodingLevel>4</fieldEncodingLevel>
+            <typeOfNotation>0</typeOfNotation>
+            <textualHoldings>v.6</textualHoldings>
+            <publicNote>on microfilm at: Q 5</publicNote>
+         </extentOfOwnership>
+         <extentOfOwnership>
+            <typeOfOwnership>Textual Holdings - Basic Bibliographic Unit</typeOfOwnership>
+            <fieldEncodingLevel>4</fieldEncodingLevel>
+            <typeOfNotation>0</typeOfNotation>
+            <textualHoldings>[n.s.]:v.1-92</textualHoldings>
+            <nonPublicNote>n.s.:v.33 lost and OP per pub (their master copy not suitable for photocopy)</nonPublicNote>
+            <publicNote>no. of issues published in each year varies</publicNote>
+         </extentOfOwnership>
+         <extentOfOwnership>
+            <typeOfOwnership>Textual Holdings - Indexes</typeOfOwnership>
+            <fieldEncodingLevel>4</fieldEncodingLevel>
+            <typeOfNotation>0</typeOfNotation>
+            <textualHoldings>[n.s.]:v.1-50</textualHoldings>
+            <publicNote>bound separately</publicNote>
+         </extentOfOwnership>
+         <extension>
+            <suppressFromPublic>false</suppressFromPublic>
+            <harvestable>true</harvestable>
+            <fastAddFlag>false</fastAddFlag>
+            <status>n</status>
+            <!--Dummy data: lastUpdated not present in our export--><lastUpdated>2012-02-22T10:48:26.779-06:00</lastUpdated>
+            <dateEntered>1995-12-17</dateEntered>
+         </extension>
+      </holdings>
+      <item>
+         <itemIdentifier/>
+         <accessInformation>
+            <barcode>TODO</barcode>
+         </accessInformation>
+         <itemType/>
+         <copyNumber>1</copyNumber>
+         <copyNumberLabel>c.</copyNumberLabel>
+         <publicNote>Vols.1-5 Located in Rare,v.6,n.s.1-92 located in Sci under call number Q11.P6.Vols. 93- cataloged and classified separately. For title and call number of those volumes, search series keyword index. Include words from series title and series volume number.</publicNote>
+         <location>
+            <locationName>
+               <value>ASR</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>location</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <locationName>
+               <value>SciASR</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>collection</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <locationName>
+               <value>ICU</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>institution</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <shelvingScheme> </shelvingScheme>
+            <shelvingOrder> </shelvingOrder>
+            <classificationPart>Q11.P6</classificationPart>
+            <classificationSort/>
+            <classificationView/>
+            <copyNumber>1</copyNumber>
+            <nonPublicNote>Single title order: 90178283
+COR:19950126 Trns from Faxon with 1/95.adj
+WNT:1 copy of vol.80 (1990) and cont. THIS ORDER TRANSFERRED FROM PUB.
+CL19981104 Frequency is 6 issues/yr per pub.ajm
+OST:40</nonPublicNote>
+            <publicNote>Vols.1-5 Located in Rare,v.6,n.s.1-92 located in Sci under call number Q11.P6.Vols. 93- cataloged and classified separately. For title and call number of those volumes, search series keyword index. Include words from series title and series volume number.</publicNote>
+         </location>
+         <extension><!--Bogus dates generated at run-time, not supplied by our current MFHD export--><dateEntered>2012-02-22-06:00</dateEntered>
+            <lastUpdated>2012-02-22-06:00</lastUpdated>
+            <itemStatus/>
+         </extension>
+      </item>
+   </instance>
+</instanceCollection>]]>
+            </content>
+        </ingestDocument>
+        <ingestDocument id="4" category="work" type="instance" format="oleml">
+            <content><![CDATA[
+<instanceCollection xmlns:m="http://www.loc.gov/MARC21/slim"
+                      xmlns:i="http://ole.kuali.org/standards/ole-instance">
+   <instance>
+      <instanceIdentifier>293520</instanceIdentifier>
+      <resourceIdentifier/>
+      <formerResourceIdentifiers source="ICU">(ICU) 02</formerResourceIdentifiers>
+	  <formerResourceIdentifiers source="ICU">(sisri) 1234325</formerResourceIdentifiers>
+      <holdings>
+         <holdingsIdentifier/>
+         <recordType>y</recordType>
+         <encodingLevel>u</encodingLevel>
+         <receiptStatus>5</receiptStatus>
+         <acquisitionMethod>u</acquisitionMethod>
+         <!--expectedAcquisition is placeholder, would come from III--><expectedAcquisitionEndDate>    </expectedAcquisitionEndDate>
+         <generalRetentionPolicy>0</generalRetentionPolicy>
+         <!--The data under specificRententionPolicy are questionable in our export--><specificRetentionPolicy>
+            <policyType> </policyType>
+            <numberOfUnits> </numberOfUnits>
+            <!--Bogus: real data not populated in 008/15 in this export--><unitType>m</unitType>
+         </specificRetentionPolicy>
+         <!--Value fudging: MFHD export gives illegal values, we set them to 0--><completeness>0</completeness>
+         <copiesReported>001</copiesReported>
+         <separateOrCompositeReport>0</separateOrCompositeReport>
+         <extentOfOwnership>
+            <typeOfOwnership>Textual Holdings - Basic Bibliographic Unit</typeOfOwnership>
+            <fieldEncodingLevel>4</fieldEncodingLevel>
+            <typeOfNotation>0</typeOfNotation>
+            <textualHoldings>v.1-49(1958-2009)</textualHoldings>
+         </extentOfOwnership>
+         <extension>
+            <suppressFromPublic>false</suppressFromPublic>
+            <harvestable>true</harvestable>
+            <fastAddFlag>false</fastAddFlag>
+            <status>n</status>
+            <!--Dummy data: lastUpdated not present in our export--><lastUpdated>2012-02-22T10:48:26.779-06:00</lastUpdated>
+            <dateEntered>1995-10-16</dateEntered>
+         </extension>
+      </holdings>
+      <item>
+         <itemIdentifier/>
+         <accessInformation>
+            <barcode>TODO</barcode>
+         </accessInformation>
+         <itemType/>
+         <copyNumber>1</copyNumber>
+         <copyNumberLabel>c.</copyNumberLabel>
+         <location>
+            <locationName>
+               <value>ASR</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>location</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <locationName>
+               <value>JRLASR</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>collection</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <locationName>
+               <value>ICU</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>institution</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <shelvingScheme> </shelvingScheme>
+            <shelvingOrder> </shelvingOrder>
+            <classificationPart>PA1.G79</classificationPart>
+            <classificationSort/>
+            <classificationView/>
+            <copyNumber>1</copyNumber>
+            <nonPublicNote>HL19950522 ALL HOLDINGS ONLINE.ccr
+Single title order: 80500292
+COR:19950119 Trans from Faxon with 1/95.mab
+WNT:1 copy of v.2 and cont.
+</nonPublicNote>
+         </location>
+         <extension><!--Bogus dates generated at run-time, not supplied by our current MFHD export--><dateEntered>2012-02-22-06:00</dateEntered>
+            <lastUpdated>2012-02-22-06:00</lastUpdated>
+            <itemStatus/>
+         </extension>
+      </item>
+   </instance>
+</instanceCollection>]]>
+            </content>
+        </ingestDocument>
+        <ingestDocument id="5" category="work" type="instance" format="oleml">
+            <content><![CDATA[
+<instanceCollection xmlns:m="http://www.loc.gov/MARC21/slim"
+                      xmlns:i="http://ole.kuali.org/standards/ole-instance">
+   <instance>
+      <instanceIdentifier>293520</instanceIdentifier>
+      <resourceIdentifier/>
+      <formerResourceIdentifiers source="ICU">(ICU) 03</formerResourceIdentifiers>
+      <holdings>
+         <holdingsIdentifier/>
+         <recordType>y</recordType>
+         <encodingLevel>u</encodingLevel>
+         <receiptStatus>5</receiptStatus>
+         <acquisitionMethod>u</acquisitionMethod>
+         <!--expectedAcquisition is placeholder, would come from III--><expectedAcquisitionEndDate>    </expectedAcquisitionEndDate>
+         <generalRetentionPolicy>0</generalRetentionPolicy>
+         <!--The data under specificRententionPolicy are questionable in our export--><specificRetentionPolicy>
+            <policyType> </policyType>
+            <numberOfUnits> </numberOfUnits>
+            <!--Bogus: real data not populated in 008/15 in this export--><unitType>m</unitType>
+         </specificRetentionPolicy>
+         <!--Value fudging: MFHD export gives illegal values, we set them to 0--><completeness>0</completeness>
+         <copiesReported>001</copiesReported>
+         <separateOrCompositeReport>0</separateOrCompositeReport>
+         <extension>
+            <suppressFromPublic>false</suppressFromPublic>
+            <harvestable>true</harvestable>
+            <fastAddFlag>false</fastAddFlag>
+            <status>n</status>
+            <!--Dummy data: lastUpdated not present in our export--><lastUpdated>2012-02-22T10:48:26.779-06:00</lastUpdated>
+            <dateEntered>2012-02-08</dateEntered>
+         </extension>
+      </holdings>
+      <item>
+         <itemIdentifier/>
+         <accessInformation>
+            <barcode>TODO</barcode>
+         </accessInformation>
+         <itemType/>
+         <copyNumber>1</copyNumber>
+         <copyNumberLabel>c.</copyNumberLabel>
+         <location>
+            <locationName>
+               <value>JRL</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>location</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <locationName>
+               <value>RR2Per</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>collection</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <locationName>
+               <value>ICU</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>institution</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <shelvingScheme> </shelvingScheme>
+            <shelvingOrder> </shelvingOrder>
+            <classificationPart>PA1.G79</classificationPart>
+            <classificationSort/>
+            <classificationView/>
+            <copyNumber>1</copyNumber>
+            <nonPublicNote>Single title order: 80500292
+COR:19950119 Trans from Faxon with 1/95.mab
+COR:20090713 Discontinued in print format per Swets after v. 49 no. 4 (2009), log no. d09-0246.rap2
+WNT:1 copy of v.2 and cont.
+OST:72</nonPublicNote>
+         </location>
+         <extension><!--Bogus dates generated at run-time, not supplied by our current MFHD export--><dateEntered>2012-02-22-06:00</dateEntered>
+            <lastUpdated>2012-02-22-06:00</lastUpdated>
+            <itemStatus/>
+         </extension>
+      </item>
+   </instance>
+</instanceCollection>]]>
+            </content>
+        </ingestDocument>
+        <ingestDocument id="6" category="work" type="instance" format="oleml">
+            <content><![CDATA[
+<instanceCollection xmlns:m="http://www.loc.gov/MARC21/slim"
+                      xmlns:i="http://ole.kuali.org/standards/ole-instance">
+   <instance>
+      <instanceIdentifier>303910</instanceIdentifier>
+      <resourceIdentifier/>
+      <formerResourceIdentifiers source="ICU">(ICU) 1234324</formerResourceIdentifiers>
+      <holdings>
+         <holdingsIdentifier/>
+         <recordType>y</recordType>
+         <encodingLevel>u</encodingLevel>
+         <receiptStatus>1</receiptStatus>
+         <acquisitionMethod>u</acquisitionMethod>
+         <!--expectedAcquisition is placeholder, would come from III--><expectedAcquisitionEndDate>    </expectedAcquisitionEndDate>
+         <generalRetentionPolicy>0</generalRetentionPolicy>
+         <!--The data under specificRententionPolicy are questionable in our export--><specificRetentionPolicy>
+            <policyType> </policyType>
+            <numberOfUnits> </numberOfUnits>
+            <!--Bogus: real data not populated in 008/15 in this export--><unitType>m</unitType>
+         </specificRetentionPolicy>
+         <!--Value fudging: MFHD export gives illegal values, we set them to 0--><completeness>0</completeness>
+         <copiesReported>001</copiesReported>
+         <separateOrCompositeReport>0</separateOrCompositeReport>
+         <extentOfOwnership>
+            <typeOfOwnership>Textual Holdings - Basic Bibliographic Unit</typeOfOwnership>
+            <fieldEncodingLevel>4</fieldEncodingLevel>
+            <typeOfNotation>0</typeOfNotation>
+            <textualHoldings>v.1-83</textualHoldings>
+            <publicNote>v.70 &amp; 83 in 2 parts</publicNote>
+         </extentOfOwnership>
+         <extentOfOwnership>
+            <typeOfOwnership>Textual Holdings - Basic Bibliographic Unit</typeOfOwnership>
+            <fieldEncodingLevel>4</fieldEncodingLevel>
+            <typeOfNotation>0</typeOfNotation>
+            <textualHoldings>v.85-147,149</textualHoldings>
+            <nonPublicNote>Vol.134 moved to RR4J per B. Bidlack 12/10</nonPublicNote>
+            <publicNote>v.94 no.2 index; v.114 published with DVD; v.140 published in 2 pts</publicNote>
+         </extentOfOwnership>
+         <extension>
+            <suppressFromPublic>false</suppressFromPublic>
+            <harvestable>true</harvestable>
+            <fastAddFlag>false</fastAddFlag>
+            <status>n</status>
+            <!--Dummy data: lastUpdated not present in our export--><lastUpdated>2012-02-22T10:48:26.779-06:00</lastUpdated>
+            <dateEntered>1995-10-16</dateEntered>
+         </extension>
+      </holdings>
+      <item>
+         <itemIdentifier/>
+         <accessInformation>
+            <barcode>TODO</barcode>
+         </accessInformation>
+         <itemType/>
+         <copyNumber>1</copyNumber>
+         <copyNumberLabel>c.</copyNumberLabel>
+         <publicNote>Accompanying DVDs housed in Regenstein, 4th Floor Digital Media Collection.
+This publication is issued in multiple parts. Click on desired part title above to view holdings and circulation information.</publicNote>
+         <location>
+            <locationName>
+               <value>JRL</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>location</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <locationName>
+               <value>Gen</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>collection</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <locationName>
+               <value>ICU</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>institution</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <shelvingScheme> </shelvingScheme>
+            <shelvingOrder> </shelvingOrder>
+            <classificationPart>BS410.V601</classificationPart>
+            <classificationSort/>
+            <classificationView/>
+            <copyNumber>1</copyNumber>
+            <nonPublicNote>WNT:1 copy of Vols.84, 88-89, 91 and cont. THIS ORDER TRANSFERRED FROM NIJHOFF.
+COR:20011206 Previous order no.10076335 (VTN:S435881) with Nijhoff cancelled after Vol.87.jlj
+COR:20020307 Title includes serial ANAL: International Organization for the Study of the Old Testament. Congress. Congress volume (Bib=1278058).ajm</nonPublicNote>
+            <publicNote>Accompanying DVDs housed in Regenstein, 4th Floor Digital Media Collection.
+This publication is issued in multiple parts. Click on desired part title above to view holdings and circulation information.</publicNote>
+         </location>
+         <extension><!--Bogus dates generated at run-time, not supplied by our current MFHD export--><dateEntered>2012-02-22-06:00</dateEntered>
+            <lastUpdated>2012-02-22-06:00</lastUpdated>
+            <itemStatus/>
+         </extension>
+      </item>
+   </instance>
+</instanceCollection>]]>
+            </content>
+        </ingestDocument>
+        <ingestDocument id="7" category="work" type="instance" format="oleml">
+            <content><![CDATA[
+<instanceCollection xmlns:m="http://www.loc.gov/MARC21/slim"
+                      xmlns:i="http://ole.kuali.org/standards/ole-instance">
+   <instance>
+      <instanceIdentifier>3</instanceIdentifier>
+      <resourceIdentifier/>
+      <formerResourceIdentifiers source="ICU">(ICU) 1234325</formerResourceIdentifiers>
+      <holdings>
+         <holdingsIdentifier/>
+         <recordType>y</recordType>
+         <encodingLevel>u</encodingLevel>
+         <receiptStatus>2</receiptStatus>
+         <acquisitionMethod>u</acquisitionMethod>
+         <!--expectedAcquisition is placeholder, would come from III--><expectedAcquisitionEndDate>    </expectedAcquisitionEndDate>
+         <generalRetentionPolicy>0</generalRetentionPolicy>
+         <!--The data under specificRententionPolicy are questionable in our export--><specificRetentionPolicy>
+            <policyType> </policyType>
+            <numberOfUnits> </numberOfUnits>
+            <!--Bogus: real data not populated in 008/15 in this export--><unitType>m</unitType>
+         </specificRetentionPolicy>
+         <!--Value fudging: MFHD export gives illegal values, we set them to 0--><completeness>1</completeness>
+         <copiesReported>001</copiesReported>
+         <separateOrCompositeReport>0</separateOrCompositeReport>
+         <extentOfOwnership>
+            <typeOfOwnership>Textual Holdings - Basic Bibliographic Unit</typeOfOwnership>
+            <fieldEncodingLevel>4</fieldEncodingLevel>
+            <typeOfNotation>0</typeOfNotation>
+            <textualHoldings>v.1-41(1968-2008)</textualHoldings>
+            <publicNote>occasional supplements bound with corresponding volumes and years</publicNote>
+         </extentOfOwnership>
+         <extentOfOwnership>
+            <typeOfOwnership>Textual Holdings - Indexes</typeOfOwnership>
+            <fieldEncodingLevel>4</fieldEncodingLevel>
+            <typeOfNotation>0</typeOfNotation>
+            <textualHoldings>v.11-20(1978-1987)</textualHoldings>
+            <publicNote>bound with v.20</publicNote>
+         </extentOfOwnership>
+         <extentOfOwnership>
+            <typeOfOwnership>Textual Holdings - Indexes</typeOfOwnership>
+            <fieldEncodingLevel>4</fieldEncodingLevel>
+            <typeOfNotation>0</typeOfNotation>
+            <textualHoldings>v.21-25(1988-1992)</textualHoldings>
+            <publicNote>bound with v.25</publicNote>
+         </extentOfOwnership>
+         <extentOfOwnership>
+            <typeOfOwnership>Textual Holdings - Indexes</typeOfOwnership>
+            <fieldEncodingLevel>4</fieldEncodingLevel>
+            <typeOfNotation>0</typeOfNotation>
+            <textualHoldings>v.21-30(1988-1997)</textualHoldings>
+            <publicNote>bound with v.30(1997)</publicNote>
+         </extentOfOwnership>
+         <extension>
+            <suppressFromPublic>false</suppressFromPublic>
+            <harvestable>true</harvestable>
+            <fastAddFlag>false</fastAddFlag>
+            <status>n</status>
+            <!--Dummy data: lastUpdated not present in our export--><lastUpdated>2012-02-22T10:48:26.779-06:00</lastUpdated>
+            <dateEntered>1995-10-16</dateEntered>
+         </extension>
+      </holdings>
+      <item>
+         <itemIdentifier/>
+         <accessInformation>
+            <barcode>TODO</barcode>
+         </accessInformation>
+         <itemType/>
+         <copyNumber>2</copyNumber>
+         <copyNumberLabel>c.</copyNumberLabel>
+         <location>
+            <locationName>
+               <value>SSAd</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>location</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <locationName>
+               <value>SSAdBdP</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>collection</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <locationName>
+               <value>ICU</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>institution</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <shelvingScheme> </shelvingScheme>
+            <shelvingOrder> </shelvingOrder>
+            <classificationPart>BF199.A1J7</classificationPart>
+            <classificationSort/>
+            <classificationView/>
+            <copyNumber>2</copyNumber>
+            <nonPublicNote>Single title order: 71125253
+COR:19950201 Trns from Faxon with 1/95.mab
+WNT:1 copy of1971 and cont.
+</nonPublicNote>
+         </location>
+         <extension><!--Bogus dates generated at run-time, not supplied by our current MFHD export--><dateEntered>2012-02-22-06:00</dateEntered>
+            <lastUpdated>2012-02-22-06:00</lastUpdated>
+            <itemStatus/>
+         </extension>
+      </item>
+   </instance>
+</instanceCollection>]]>
+            </content>
+        </ingestDocument>
+        <ingestDocument id="8" category="work" type="instance" format="oleml">
+            <content><![CDATA[
+<instanceCollection xmlns:m="http://www.loc.gov/MARC21/slim"
+                      xmlns:i="http://ole.kuali.org/standards/ole-instance">
+   <instance>
+      <instanceIdentifier>3</instanceIdentifier>
+      <resourceIdentifier/>
+      <formerResourceIdentifiers source="ICU">(ICU) 324</formerResourceIdentifiers>
+      <holdings>
+         <holdingsIdentifier/>
+         <recordType>y</recordType>
+         <encodingLevel>u</encodingLevel>
+         <receiptStatus>1</receiptStatus>
+         <acquisitionMethod>u</acquisitionMethod>
+         <!--expectedAcquisition is placeholder, would come from III--><expectedAcquisitionEndDate>    </expectedAcquisitionEndDate>
+         <generalRetentionPolicy>0</generalRetentionPolicy>
+         <!--The data under specificRententionPolicy are questionable in our export--><specificRetentionPolicy>
+            <policyType> </policyType>
+            <numberOfUnits> </numberOfUnits>
+            <!--Bogus: real data not populated in 008/15 in this export--><unitType>m</unitType>
+         </specificRetentionPolicy>
+         <!--Value fudging: MFHD export gives illegal values, we set them to 0--><completeness>1</completeness>
+         <copiesReported>001</copiesReported>
+         <separateOrCompositeReport>0</separateOrCompositeReport>
+         <extentOfOwnership>
+            <typeOfOwnership>Textual Holdings - Basic Bibliographic Unit</typeOfOwnership>
+            <fieldEncodingLevel>4</fieldEncodingLevel>
+            <typeOfNotation>0</typeOfNotation>
+            <textualHoldings>v. 42 no. 1 (2009: Spring)</textualHoldings>
+         </extentOfOwnership>
+         <extentOfOwnership>
+            <typeOfOwnership>Textual Holdings - Basic Bibliographic Unit</typeOfOwnership>
+            <fieldEncodingLevel>4</fieldEncodingLevel>
+            <typeOfNotation>0</typeOfNotation>
+            <textualHoldings>v. 42 no. 2 (2009: Summer)</textualHoldings>
+         </extentOfOwnership>
+         <extentOfOwnership>
+            <typeOfOwnership>Textual Holdings - Basic Bibliographic Unit</typeOfOwnership>
+            <fieldEncodingLevel>4</fieldEncodingLevel>
+            <typeOfNotation>0</typeOfNotation>
+            <textualHoldings>v. 42 no. 3 (2009: Autumn)</textualHoldings>
+         </extentOfOwnership>
+         <extentOfOwnership>
+            <typeOfOwnership>Textual Holdings - Basic Bibliographic Unit</typeOfOwnership>
+            <fieldEncodingLevel>4</fieldEncodingLevel>
+            <typeOfNotation>0</typeOfNotation>
+            <textualHoldings>v. 42 no. 4 (2009: Winter)</textualHoldings>
+         </extentOfOwnership>
+         <extentOfOwnership>
+            <typeOfOwnership>Textual Holdings - Basic Bibliographic Unit</typeOfOwnership>
+            <fieldEncodingLevel>4</fieldEncodingLevel>
+            <typeOfNotation>0</typeOfNotation>
+            <textualHoldings>v. 43 no. 1 (2010: Spring)</textualHoldings>
+         </extentOfOwnership>
+         <extentOfOwnership>
+            <typeOfOwnership>Textual Holdings - Basic Bibliographic Unit</typeOfOwnership>
+            <fieldEncodingLevel>4</fieldEncodingLevel>
+            <typeOfNotation>0</typeOfNotation>
+            <textualHoldings>v. 43 no. 2 (2010: Summer)</textualHoldings>
+         </extentOfOwnership>
+         <extentOfOwnership>
+            <typeOfOwnership>Textual Holdings - Basic Bibliographic Unit</typeOfOwnership>
+            <fieldEncodingLevel>4</fieldEncodingLevel>
+            <typeOfNotation>0</typeOfNotation>
+            <textualHoldings>v. 43 no. 3 (2010: Autumn)</textualHoldings>
+         </extentOfOwnership>
+         <extentOfOwnership>
+            <typeOfOwnership>Textual Holdings - Basic Bibliographic Unit</typeOfOwnership>
+            <fieldEncodingLevel>4</fieldEncodingLevel>
+            <typeOfNotation>0</typeOfNotation>
+            <textualHoldings>v. 43 no. 4 (2010: Winter)</textualHoldings>
+         </extentOfOwnership>
+         <extentOfOwnership>
+            <typeOfOwnership>Textual Holdings - Basic Bibliographic Unit</typeOfOwnership>
+            <fieldEncodingLevel>4</fieldEncodingLevel>
+            <typeOfNotation>0</typeOfNotation>
+            <textualHoldings>v. 44 no. 1 (2011: Spring)</textualHoldings>
+         </extentOfOwnership>
+         <extentOfOwnership>
+            <typeOfOwnership>Textual Holdings - Basic Bibliographic Unit</typeOfOwnership>
+            <fieldEncodingLevel>4</fieldEncodingLevel>
+            <typeOfNotation>0</typeOfNotation>
+            <textualHoldings>v. 44 no. 2 (2011: Summer)</textualHoldings>
+         </extentOfOwnership>
+         <extentOfOwnership>
+            <typeOfOwnership>Textual Holdings - Basic Bibliographic Unit</typeOfOwnership>
+            <fieldEncodingLevel>4</fieldEncodingLevel>
+            <typeOfNotation>0</typeOfNotation>
+            <textualHoldings>v. 44 no. 3 (2011: Autumn)</textualHoldings>
+         </extentOfOwnership>
+         <extentOfOwnership>
+            <typeOfOwnership>Textual Holdings - Basic Bibliographic Unit</typeOfOwnership>
+            <fieldEncodingLevel>4</fieldEncodingLevel>
+            <typeOfNotation>0</typeOfNotation>
+            <textualHoldings>v. 44 no. 4 (2011: Winter)</textualHoldings>
+         </extentOfOwnership>
+         <extension>
+            <suppressFromPublic>false</suppressFromPublic>
+            <harvestable>true</harvestable>
+            <fastAddFlag>false</fastAddFlag>
+            <status>n</status>
+            <!--Dummy data: lastUpdated not present in our export--><lastUpdated>2012-02-22T10:48:26.779-06:00</lastUpdated>
+            <dateEntered>2009-03-01</dateEntered>
+         </extension>
+      </holdings>
+      <item>
+         <itemIdentifier/>
+         <accessInformation>
+            <barcode>TODO</barcode>
+         </accessInformation>
+         <itemType/>
+         <copyNumber>2</copyNumber>
+         <copyNumberLabel>c.</copyNumberLabel>
+         <location>
+            <locationName>
+               <value>SSAd</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>location</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <locationName>
+               <value>SSAdPer</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>collection</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <locationName>
+               <value>ICU</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>institution</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <shelvingScheme> </shelvingScheme>
+            <shelvingOrder> </shelvingOrder>
+            <classificationPart>BF199.A1J7</classificationPart>
+            <classificationSort/>
+            <classificationView/>
+            <copyNumber>2</copyNumber>
+            <nonPublicNote>COR:19980220 Fill-in order (v3) for lost unbound issue: Order no.98180675 for v.29 no.2 (Sum.1996) from pub (Addr.: JABA, Dept of Human Development, Univ of Kansas, Lawrence KS 66045) with fund gen/sale/s, COM:10.00. Order PREPAID - Make check payable to: JABA.rm/rap 19980528 Vol. 29 no. 2 rec'd.ajm
+COR:20030331 Fill-in order for lost unbound issue (PRC:v3) no. 13795879 placed with pub for vol. 33 no. 1 (Spring 2002) and vol. 34 nos. 1-2 (Spring-Summer 2001). Order has been PREPAID.jmn 20030509 Vol. 33 no. 1 and vol. 34 nos. 1-2 rec'd.ajm
+WNT:1 copy of 1971 and cont.
+</nonPublicNote>
+         </location>
+         <extension><!--Bogus dates generated at run-time, not supplied by our current MFHD export--><dateEntered>2012-02-22-06:00</dateEntered>
+            <lastUpdated>2012-02-22-06:00</lastUpdated>
+            <itemStatus/>
+         </extension>
+      </item>
+   </instance>
+</instanceCollection>]]>
+            </content>
+        </ingestDocument>
+        <ingestDocument id="9" category="work" type="instance" format="oleml">
+            <content><![CDATA[
+<instanceCollection xmlns:m="http://www.loc.gov/MARC21/slim"
+                      xmlns:i="http://ole.kuali.org/standards/ole-instance">
+   <instance>
+      <instanceIdentifier>3325</instanceIdentifier>
+      <resourceIdentifier/>
+      <formerResourceIdentifiers source="ICU">(ICU) 24</formerResourceIdentifiers>
+      <holdings>
+         <holdingsIdentifier/>
+         <recordType>y</recordType>
+         <encodingLevel>u</encodingLevel>
+         <receiptStatus>2</receiptStatus>
+         <acquisitionMethod>u</acquisitionMethod>
+         <!--expectedAcquisition is placeholder, would come from III--><expectedAcquisitionEndDate>    </expectedAcquisitionEndDate>
+         <generalRetentionPolicy>0</generalRetentionPolicy>
+         <!--The data under specificRententionPolicy are questionable in our export--><specificRetentionPolicy>
+            <policyType> </policyType>
+            <numberOfUnits> </numberOfUnits>
+            <!--Bogus: real data not populated in 008/15 in this export--><unitType>m</unitType>
+         </specificRetentionPolicy>
+         <!--Value fudging: MFHD export gives illegal values, we set them to 0--><completeness>0</completeness>
+         <copiesReported>001</copiesReported>
+         <separateOrCompositeReport>0</separateOrCompositeReport>
+         <extentOfOwnership>
+            <typeOfOwnership>Textual Holdings - Basic Bibliographic Unit</typeOfOwnership>
+            <fieldEncodingLevel>4</fieldEncodingLevel>
+            <typeOfNotation>0</typeOfNotation>
+            <textualHoldings>reels 1-16</textualHoldings>
+         </extentOfOwnership>
+         <extension>
+            <suppressFromPublic>false</suppressFromPublic>
+            <harvestable>true</harvestable>
+            <fastAddFlag>false</fastAddFlag>
+            <status>n</status>
+            <!--Dummy data: lastUpdated not present in our export--><lastUpdated>2012-02-22T10:48:26.779-06:00</lastUpdated>
+            <dateEntered>2007-10-02</dateEntered>
+         </extension>
+      </holdings>
+      <item>
+         <itemIdentifier/>
+         <accessInformation>
+            <barcode>TODO</barcode>
+         </accessInformation>
+         <itemType/>
+         <copyNumber>1</copyNumber>
+         <copyNumberLabel>c.</copyNumberLabel>
+         <location>
+            <locationName>
+               <value>JRL</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>location</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <locationName>
+               <value>Mic</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>collection</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <locationName>
+               <value>ICU</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>institution</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <shelvingScheme> </shelvingScheme>
+            <shelvingOrder> </shelvingOrder>
+            <classificationPart>microfmDS311.G73</classificationPart>
+            <itemPart>1970z</itemPart>
+            <classificationSort/>
+            <classificationView/>
+            <copyNumber>1</copyNumber>
+         </location>
+         <extension><!--Bogus dates generated at run-time, not supplied by our current MFHD export--><dateEntered>2012-02-22-06:00</dateEntered>
+            <lastUpdated>2012-02-22-06:00</lastUpdated>
+            <itemStatus/>
+         </extension>
+      </item>
+   </instance>
+</instanceCollection>]]>
+            </content>
+        </ingestDocument>
+        <ingestDocument id="10" category="work" type="instance" format="oleml">
+            <content><![CDATA[
+<instanceCollection xmlns:m="http://www.loc.gov/MARC21/slim"
+                      xmlns:i="http://ole.kuali.org/standards/ole-instance">
+   <instance>
+      <instanceIdentifier>2399448</instanceIdentifier>
+      <resourceIdentifier/>
+      <formerResourceIdentifiers source="ICU">(ICU) 2456</formerResourceIdentifiers>
+      <holdings>
+         <holdingsIdentifier/>
+         <recordType>y</recordType>
+         <encodingLevel>u</encodingLevel>
+         <receiptStatus>5</receiptStatus>
+         <acquisitionMethod>u</acquisitionMethod>
+         <!--expectedAcquisition is placeholder, would come from III--><expectedAcquisitionEndDate>    </expectedAcquisitionEndDate>
+         <generalRetentionPolicy>0</generalRetentionPolicy>
+         <!--The data under specificRententionPolicy are questionable in our export--><specificRetentionPolicy>
+            <policyType> </policyType>
+            <numberOfUnits> </numberOfUnits>
+            <!--Bogus: real data not populated in 008/15 in this export--><unitType>m</unitType>
+         </specificRetentionPolicy>
+         <!--Value fudging: MFHD export gives illegal values, we set them to 0--><completeness>0</completeness>
+         <copiesReported>001</copiesReported>
+         <separateOrCompositeReport>0</separateOrCompositeReport>
+         <extension>
+            <suppressFromPublic>false</suppressFromPublic>
+            <harvestable>true</harvestable>
+            <fastAddFlag>false</fastAddFlag>
+            <status>n</status>
+            <!--Dummy data: lastUpdated not present in our export--><lastUpdated>2012-02-22T10:48:26.779-06:00</lastUpdated>
+            <dateEntered>2012-02-08</dateEntered>
+         </extension>
+      </holdings>
+      <item>
+         <itemIdentifier/>
+         <accessInformation>
+            <barcode>TODO</barcode>
+         </accessInformation>
+         <itemType/>
+         <copyNumber>2</copyNumber>
+         <copyNumberLabel>c.</copyNumberLabel>
+         <location>
+            <locationName>
+               <value>JCL</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>location</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <locationName>
+               <value>Sci</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>collection</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <locationName>
+               <value>ICU</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>institution</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <shelvingScheme> </shelvingScheme>
+            <shelvingOrder> </shelvingOrder>
+            <classificationPart>Q11.P6</classificationPart>
+            <classificationSort/>
+            <classificationView/>
+            <copyNumber>2</copyNumber>
+         </location>
+         <extension><!--Bogus dates generated at run-time, not supplied by our current MFHD export--><dateEntered>2012-02-22-06:00</dateEntered>
+            <lastUpdated>2012-02-22-06:00</lastUpdated>
+            <itemStatus/>
+         </extension>
+      </item>
+   </instance>
+</instanceCollection>]]>
+            </content>
+        </ingestDocument>
+        <ingestDocument id="11" category="work" type="instance" format="oleml">
+            <content><![CDATA[
+<instanceCollection xmlns:m="http://www.loc.gov/MARC21/slim"
+                      xmlns:i="http://ole.kuali.org/standards/ole-instance">
+   <instance>
+      <instanceIdentifier>2399448</instanceIdentifier>
+      <resourceIdentifier/>
+      <formerResourceIdentifiers source="ICU">(ICU) 2456</formerResourceIdentifiers>
+      <holdings>
+         <holdingsIdentifier/>
+         <recordType>y</recordType>
+         <encodingLevel>u</encodingLevel>
+         <receiptStatus>5</receiptStatus>
+         <acquisitionMethod>u</acquisitionMethod>
+         <!--expectedAcquisition is placeholder, would come from III--><expectedAcquisitionEndDate>    </expectedAcquisitionEndDate>
+         <generalRetentionPolicy>0</generalRetentionPolicy>
+         <!--The data under specificRententionPolicy are questionable in our export--><specificRetentionPolicy>
+            <policyType> </policyType>
+            <numberOfUnits> </numberOfUnits>
+            <!--Bogus: real data not populated in 008/15 in this export--><unitType>m</unitType>
+         </specificRetentionPolicy>
+         <!--Value fudging: MFHD export gives illegal values, we set them to 0--><completeness>0</completeness>
+         <copiesReported>001</copiesReported>
+         <separateOrCompositeReport>0</separateOrCompositeReport>
+         <extentOfOwnership>
+            <typeOfOwnership>Textual Holdings - Basic Bibliographic Unit</typeOfOwnership>
+            <fieldEncodingLevel>4</fieldEncodingLevel>
+            <typeOfNotation>0</typeOfNotation>
+            <textualHoldings>n.s.:v.64:pt.8</textualHoldings>
+         </extentOfOwnership>
+         <extension>
+            <suppressFromPublic>false</suppressFromPublic>
+            <harvestable>true</harvestable>
+            <fastAddFlag>false</fastAddFlag>
+            <status>n</status>
+            <!--Dummy data: lastUpdated not present in our export--><lastUpdated>2012-02-22T10:48:26.779-06:00</lastUpdated>
+            <dateEntered>1995-12-17</dateEntered>
+         </extension>
+      </holdings>
+      <item>
+         <itemIdentifier/>
+         <accessInformation>
+            <barcode>TODO</barcode>
+         </accessInformation>
+         <itemType/>
+         <copyNumber>3</copyNumber>
+         <copyNumberLabel>c.</copyNumberLabel>
+         <location>
+            <locationName>
+               <value>JCL</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>location</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <locationName>
+               <value>Sci</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>collection</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <locationName>
+               <value>ICU</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>institution</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <shelvingScheme> </shelvingScheme>
+            <shelvingOrder> </shelvingOrder>
+            <classificationPart>Q11.P6</classificationPart>
+            <classificationSort/>
+            <classificationView/>
+            <copyNumber>3</copyNumber>
+            <nonPublicNote>HL19951027 ALL HOLDINGS ONLINE.jle
+</nonPublicNote>
+         </location>
+         <extension><!--Bogus dates generated at run-time, not supplied by our current MFHD export--><dateEntered>2012-02-22-06:00</dateEntered>
+            <lastUpdated>2012-02-22-06:00</lastUpdated>
+            <itemStatus/>
+         </extension>
+      </item>
+   </instance>
+</instanceCollection>]]>
+            </content>
+        </ingestDocument>
+        <ingestDocument id="12" category="work" type="instance" format="oleml">
+            <content><![CDATA[
+<instanceCollection xmlns:m="http://www.loc.gov/MARC21/slim"
+                      xmlns:i="http://ole.kuali.org/standards/ole-instance">
+   <instance>
+      <instanceIdentifier>2399448</instanceIdentifier>
+      <resourceIdentifier/>
+      <formerResourceIdentifiers source="ICU">(ICU) 123</formerResourceIdentifiers>
+	  <formerResourceIdentifiers source="ICU">(sisri) 1234325</formerResourceIdentifiers>
+	  <formerResourceIdentifiers source="ICU">(sirsi) 4324</formerResourceIdentifiers>
+	  <formerResourceIdentifiers source="ICU">(sirsi) 1234324</formerResourceIdentifiers>
+      <holdings>
+         <holdingsIdentifier/>
+         <recordType>y</recordType>
+         <encodingLevel>u</encodingLevel>
+         <receiptStatus>5</receiptStatus>
+         <acquisitionMethod>u</acquisitionMethod>
+         <!--expectedAcquisition is placeholder, would come from III--><expectedAcquisitionEndDate>    </expectedAcquisitionEndDate>
+         <generalRetentionPolicy>0</generalRetentionPolicy>
+         <!--The data under specificRententionPolicy are questionable in our export--><specificRetentionPolicy>
+            <policyType> </policyType>
+            <numberOfUnits> </numberOfUnits>
+            <!--Bogus: real data not populated in 008/15 in this export--><unitType>m</unitType>
+         </specificRetentionPolicy>
+         <!--Value fudging: MFHD export gives illegal values, we set them to 0--><completeness>0</completeness>
+         <copiesReported>001</copiesReported>
+         <separateOrCompositeReport>0</separateOrCompositeReport>
+         <extension>
+            <suppressFromPublic>false</suppressFromPublic>
+            <harvestable>true</harvestable>
+            <fastAddFlag>false</fastAddFlag>
+            <status>n</status>
+            <!--Dummy data: lastUpdated not present in our export--><lastUpdated>2012-02-22T10:48:26.779-06:00</lastUpdated>
+            <dateEntered>2012-02-08</dateEntered>
+         </extension>
+      </holdings>
+      <item>
+         <itemIdentifier/>
+         <accessInformation>
+            <barcode>TODO</barcode>
+         </accessInformation>
+         <itemType/>
+         <copyNumber>5</copyNumber>
+         <copyNumberLabel>c.</copyNumberLabel>
+         <location>
+            <locationName>
+               <value>JCL</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>location</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <locationName>
+               <value>Sci</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>collection</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <locationName>
+               <value>ICU</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>institution</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <shelvingScheme> </shelvingScheme>
+            <shelvingOrder> </shelvingOrder>
+            <classificationPart>Q11.P6</classificationPart>
+            <classificationSort/>
+            <classificationView/>
+            <copyNumber>5</copyNumber>
+            <nonPublicNote>
+</nonPublicNote>
+         </location>
+         <extension><!--Bogus dates generated at run-time, not supplied by our current MFHD export--><dateEntered>2012-02-22-06:00</dateEntered>
+            <lastUpdated>2012-02-22-06:00</lastUpdated>
+            <itemStatus/>
+         </extension>
+      </item>
+   </instance>
+</instanceCollection>]]>
+            </content>
+        </ingestDocument>
+        <ingestDocument id="13" category="work" type="instance" format="oleml">
+            <content><![CDATA[
+<instanceCollection xmlns:m="http://www.loc.gov/MARC21/slim"
+                      xmlns:i="http://ole.kuali.org/standards/ole-instance">
+   <instance>
+      <instanceIdentifier>2399448</instanceIdentifier>
+      <resourceIdentifier/>
+      <formerResourceIdentifiers source="ICU">(ICU)10011</formerResourceIdentifiers>
+      <holdings>
+         <holdingsIdentifier/>
+         <recordType>y</recordType>
+         <encodingLevel>u</encodingLevel>
+         <receiptStatus>5</receiptStatus>
+         <acquisitionMethod>u</acquisitionMethod>
+         <!--expectedAcquisition is placeholder, would come from III--><expectedAcquisitionEndDate>    </expectedAcquisitionEndDate>
+         <generalRetentionPolicy>0</generalRetentionPolicy>
+         <!--The data under specificRententionPolicy are questionable in our export--><specificRetentionPolicy>
+            <policyType> </policyType>
+            <numberOfUnits> </numberOfUnits>
+            <!--Bogus: real data not populated in 008/15 in this export--><unitType>m</unitType>
+         </specificRetentionPolicy>
+         <!--Value fudging: MFHD export gives illegal values, we set them to 0--><completeness>0</completeness>
+         <copiesReported>001</copiesReported>
+         <separateOrCompositeReport>0</separateOrCompositeReport>
+         <extension>
+            <suppressFromPublic>false</suppressFromPublic>
+            <harvestable>true</harvestable>
+            <fastAddFlag>false</fastAddFlag>
+            <status>n</status>
+            <!--Dummy data: lastUpdated not present in our export--><lastUpdated>2012-02-22T10:48:26.779-06:00</lastUpdated>
+            <dateEntered>2012-02-08</dateEntered>
+         </extension>
+      </holdings>
+      <item>
+         <itemIdentifier/>
+         <accessInformation>
+            <barcode>TODO</barcode>
+         </accessInformation>
+         <itemType/>
+         <copyNumber>6</copyNumber>
+         <copyNumberLabel>c.</copyNumberLabel>
+         <location>
+            <locationName>
+               <value>JCL</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>location</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <locationName>
+               <value>Sci</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>collection</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <locationName>
+               <value>ICU</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>institution</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <shelvingScheme> </shelvingScheme>
+            <shelvingOrder> </shelvingOrder>
+            <classificationPart>Q11.P6</classificationPart>
+            <classificationSort/>
+            <classificationView/>
+            <copyNumber>6</copyNumber>
+         </location>
+         <extension><!--Bogus dates generated at run-time, not supplied by our current MFHD export--><dateEntered>2012-02-22-06:00</dateEntered>
+            <lastUpdated>2012-02-22-06:00</lastUpdated>
+            <itemStatus/>
+         </extension>
+      </item>
+   </instance>
+</instanceCollection>]]>
+            </content>
+        </ingestDocument>
+        <ingestDocument id="14" category="work" type="instance" format="oleml">
+            <content><![CDATA[
+<instanceCollection xmlns:m="http://www.loc.gov/MARC21/slim"
+                      xmlns:i="http://ole.kuali.org/standards/ole-instance">
+   <instance>
+      <instanceIdentifier>2399448</instanceIdentifier>
+      <resourceIdentifier/>
+      <formerResourceIdentifiers source="ICU"></formerResourceIdentifiers>
+      <holdings>
+         <holdingsIdentifier/>
+         <recordType>y</recordType>
+         <encodingLevel>u</encodingLevel>
+         <receiptStatus>5</receiptStatus>
+         <acquisitionMethod>u</acquisitionMethod>
+         <!--expectedAcquisition is placeholder, would come from III--><expectedAcquisitionEndDate>    </expectedAcquisitionEndDate>
+         <generalRetentionPolicy>0</generalRetentionPolicy>
+         <!--The data under specificRententionPolicy are questionable in our export--><specificRetentionPolicy>
+            <policyType> </policyType>
+            <numberOfUnits> </numberOfUnits>
+            <!--Bogus: real data not populated in 008/15 in this export--><unitType>m</unitType>
+         </specificRetentionPolicy>
+         <!--Value fudging: MFHD export gives illegal values, we set them to 0--><completeness>0</completeness>
+         <copiesReported>001</copiesReported>
+         <separateOrCompositeReport>0</separateOrCompositeReport>
+         <extension>
+            <suppressFromPublic>false</suppressFromPublic>
+            <harvestable>true</harvestable>
+            <fastAddFlag>false</fastAddFlag>
+            <status>n</status>
+            <!--Dummy data: lastUpdated not present in our export--><lastUpdated>2012-02-22T10:48:26.779-06:00</lastUpdated>
+            <dateEntered>2012-02-08</dateEntered>
+         </extension>
+      </holdings>
+      <item>
+         <itemIdentifier/>
+         <accessInformation>
+            <barcode>TODO</barcode>
+         </accessInformation>
+         <itemType/>
+         <copyNumber>7</copyNumber>
+         <copyNumberLabel>c.</copyNumberLabel>
+         <location>
+            <locationName>
+               <value>JCL</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>location</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <locationName>
+               <value>Sci</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>collection</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <locationName>
+               <value>ICU</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>institution</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <shelvingScheme> </shelvingScheme>
+            <shelvingOrder> </shelvingOrder>
+            <classificationPart>Q11.P6</classificationPart>
+            <classificationSort/>
+            <classificationView/>
+            <copyNumber>7</copyNumber>
+         </location>
+         <extension><!--Bogus dates generated at run-time, not supplied by our current MFHD export--><dateEntered>2012-02-22-06:00</dateEntered>
+            <lastUpdated>2012-02-22-06:00</lastUpdated>
+            <itemStatus/>
+         </extension>
+      </item>
+   </instance>
+</instanceCollection>]]>
+            </content>
+        </ingestDocument>
+        <ingestDocument id="15" category="work" type="instance" format="oleml">
+            <content><![CDATA[
+<instanceCollection xmlns:m="http://www.loc.gov/MARC21/slim"
+                      xmlns:i="http://ole.kuali.org/standards/ole-instance">
+   <instance>
+      <instanceIdentifier>2399448</instanceIdentifier>
+      <resourceIdentifier/>
+      <formerResourceIdentifiers source="ICU">(ICU) 10013</formerResourceIdentifiers>
+      <holdings>
+         <holdingsIdentifier/>
+         <recordType>y</recordType>
+         <encodingLevel>u</encodingLevel>
+         <receiptStatus>5</receiptStatus>
+         <acquisitionMethod>u</acquisitionMethod>
+         <!--expectedAcquisition is placeholder, would come from III--><expectedAcquisitionEndDate>    </expectedAcquisitionEndDate>
+         <generalRetentionPolicy>0</generalRetentionPolicy>
+         <!--The data under specificRententionPolicy are questionable in our export--><specificRetentionPolicy>
+            <policyType> </policyType>
+            <numberOfUnits> </numberOfUnits>
+            <!--Bogus: real data not populated in 008/15 in this export--><unitType>m</unitType>
+         </specificRetentionPolicy>
+         <!--Value fudging: MFHD export gives illegal values, we set them to 0--><completeness>0</completeness>
+         <copiesReported>001</copiesReported>
+         <separateOrCompositeReport>0</separateOrCompositeReport>
+         <extentOfOwnership>
+            <typeOfOwnership>Textual Holdings - Basic Bibliographic Unit</typeOfOwnership>
+            <fieldEncodingLevel>4</fieldEncodingLevel>
+            <typeOfNotation>0</typeOfNotation>
+            <textualHoldings>v.6</textualHoldings>
+         </extentOfOwnership>
+         <extension>
+            <suppressFromPublic>false</suppressFromPublic>
+            <harvestable>true</harvestable>
+            <fastAddFlag>false</fastAddFlag>
+            <status>n</status>
+            <!--Dummy data: lastUpdated not present in our export--><lastUpdated>2012-02-22T10:48:26.779-06:00</lastUpdated>
+            <dateEntered>2012-02-08</dateEntered>
+         </extension>
+      </holdings>
+      <item>
+         <itemIdentifier/>
+         <accessInformation>
+            <barcode>TODO</barcode>
+         </accessInformation>
+         <itemType/>
+         <copyNumber>1</copyNumber>
+         <copyNumberLabel>c.</copyNumberLabel>
+         <location>
+            <locationName>
+               <value>JCL</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>location</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <locationName>
+               <value>SciMic</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>collection</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <locationName>
+               <value>ICU</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>institution</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <shelvingScheme> </shelvingScheme>
+            <shelvingOrder> </shelvingOrder>
+            <classificationPart>microfmQ</classificationPart>
+            <itemPart>5</itemPart>
+            <classificationSort/>
+            <classificationView/>
+            <copyNumber>1</copyNumber>
+            <nonPublicNote>HL19960612 AHO.mzh
+</nonPublicNote>
+         </location>
+         <extension><!--Bogus dates generated at run-time, not supplied by our current MFHD export--><dateEntered>2012-02-22-06:00</dateEntered>
+            <lastUpdated>2012-02-22-06:00</lastUpdated>
+            <itemStatus/>
+         </extension>
+      </item>
+   </instance>
+</instanceCollection>]]>
+            </content>
+        </ingestDocument>
+        <ingestDocument id="16" category="work" type="instance" format="oleml">
+            <content><![CDATA[
+<instanceCollection xmlns:m="http://www.loc.gov/MARC21/slim"
+                      xmlns:i="http://ole.kuali.org/standards/ole-instance">
+   <instance>
+      <instanceIdentifier>2399448</instanceIdentifier>
+      <resourceIdentifier/>
+      <formerResourceIdentifiers source="ICU">(ICU) 100131</formerResourceIdentifiers>
+      <holdings>
+         <holdingsIdentifier/>
+         <recordType>y</recordType>
+         <encodingLevel>u</encodingLevel>
+         <receiptStatus>5</receiptStatus>
+         <acquisitionMethod>u</acquisitionMethod>
+         <!--expectedAcquisition is placeholder, would come from III--><expectedAcquisitionEndDate>    </expectedAcquisitionEndDate>
+         <generalRetentionPolicy>0</generalRetentionPolicy>
+         <!--The data under specificRententionPolicy are questionable in our export--><specificRetentionPolicy>
+            <policyType> </policyType>
+            <numberOfUnits> </numberOfUnits>
+            <!--Bogus: real data not populated in 008/15 in this export--><unitType>m</unitType>
+         </specificRetentionPolicy>
+         <!--Value fudging: MFHD export gives illegal values, we set them to 0--><completeness>0</completeness>
+         <copiesReported>001</copiesReported>
+         <separateOrCompositeReport>0</separateOrCompositeReport>
+         <extentOfOwnership>
+            <typeOfOwnership>Textual Holdings - Basic Bibliographic Unit</typeOfOwnership>
+            <fieldEncodingLevel>4</fieldEncodingLevel>
+            <typeOfNotation>0</typeOfNotation>
+            <textualHoldings>v.92:pt.3</textualHoldings>
+         </extentOfOwnership>
+         <extension>
+            <suppressFromPublic>false</suppressFromPublic>
+            <harvestable>true</harvestable>
+            <fastAddFlag>false</fastAddFlag>
+            <status>n</status>
+            <!--Dummy data: lastUpdated not present in our export--><lastUpdated>2012-02-22T10:48:26.779-06:00</lastUpdated>
+            <dateEntered>2003-06-23</dateEntered>
+         </extension>
+      </holdings>
+      <item>
+         <itemIdentifier/>
+         <accessInformation>
+            <barcode>TODO</barcode>
+         </accessInformation>
+         <itemType/>
+         <copyNumber>9</copyNumber>
+         <copyNumberLabel>c.</copyNumberLabel>
+         <location>
+            <locationName>
+               <value>SpCl</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>location</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <locationName>
+               <value>ArcRef1</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>collection</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <locationName>
+               <value>ICU</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>institution</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <shelvingScheme> </shelvingScheme>
+            <shelvingOrder> </shelvingOrder>
+            <classificationPart>Q11.P6</classificationPart>
+            <classificationSort/>
+            <classificationView/>
+            <copyNumber>9</copyNumber>
+            <nonPublicNote>EXP:ArcRef1
+WNT:1 copy of vol.92 pt.3 [ISBN 0871699230; "An adventure of great dimension: the launching of the Chicago Assyrian dictionary"] only.
+OST:72
+PRC:u added</nonPublicNote>
+         </location>
+         <extension><!--Bogus dates generated at run-time, not supplied by our current MFHD export--><dateEntered>2012-02-22-06:00</dateEntered>
+            <lastUpdated>2012-02-22-06:00</lastUpdated>
+            <itemStatus/>
+         </extension>
+      </item>
+   </instance>
+</instanceCollection>]]>
+            </content>
+        </ingestDocument>
+        <ingestDocument id="17" category="work" type="instance" format="oleml">
+            <content><![CDATA[
+<instanceCollection xmlns:m="http://www.loc.gov/MARC21/slim"
+                      xmlns:i="http://ole.kuali.org/standards/ole-instance">
+   <instance>
+      <instanceIdentifier>2399448</instanceIdentifier>
+      <resourceIdentifier/>
+      <formerResourceIdentifiers source="ICU">(sirsi) 4324</formerResourceIdentifiers>
+      <holdings>
+         <holdingsIdentifier/>
+         <recordType>y</recordType>
+         <encodingLevel>u</encodingLevel>
+         <receiptStatus>1</receiptStatus>
+         <acquisitionMethod>u</acquisitionMethod>
+         <!--expectedAcquisition is placeholder, would come from III--><expectedAcquisitionEndDate>    </expectedAcquisitionEndDate>
+         <generalRetentionPolicy>0</generalRetentionPolicy>
+         <!--The data under specificRententionPolicy are questionable in our export--><specificRetentionPolicy>
+            <policyType> </policyType>
+            <numberOfUnits> </numberOfUnits>
+            <!--Bogus: real data not populated in 008/15 in this export--><unitType>m</unitType>
+         </specificRetentionPolicy>
+         <!--Value fudging: MFHD export gives illegal values, we set them to 0--><completeness>0</completeness>
+         <copiesReported>001</copiesReported>
+         <separateOrCompositeReport>0</separateOrCompositeReport>
+         <extentOfOwnership>
+            <typeOfOwnership>Textual Holdings - Basic Bibliographic Unit</typeOfOwnership>
+            <fieldEncodingLevel>4</fieldEncodingLevel>
+            <typeOfNotation>0</typeOfNotation>
+            <textualHoldings>v.93-100</textualHoldings>
+            <publicNote>each volume issued in 5 pts.; v.1:pt.3 published in 2 nos.</publicNote>
+         </extentOfOwnership>
+         <extentOfOwnership>
+            <typeOfOwnership>Textual Holdings - Basic Bibliographic Unit</typeOfOwnership>
+            <fieldEncodingLevel>4</fieldEncodingLevel>
+            <typeOfNotation>0</typeOfNotation>
+            <textualHoldings>v.101:pt.1-2</textualHoldings>
+         </extentOfOwnership>
+         <extension>
+            <suppressFromPublic>false</suppressFromPublic>
+            <harvestable>true</harvestable>
+            <fastAddFlag>false</fastAddFlag>
+            <status>n</status>
+            <!--Dummy data: lastUpdated not present in our export--><lastUpdated>2012-02-22T10:48:26.779-06:00</lastUpdated>
+            <dateEntered>2012-02-08</dateEntered>
+         </extension>
+      </holdings>
+      <item>
+         <itemIdentifier/>
+         <accessInformation>
+            <barcode>TODO</barcode>
+         </accessInformation>
+         <itemType/>
+         <copyNumber>1</copyNumber>
+         <copyNumberLabel>c.</copyNumberLabel>
+         <publicNote>Vols. 1-5 Located in Rare, v. 6-92 located in Sci under call number Q11.P6. Vols. 93- cataloged and classified separately. For title and call number of those volumes, search series keyword index. Include words from series title and series volume number.</publicNote>
+         <location>
+            <locationName>
+               <value>MCS</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>location</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <locationName>
+               <value>MCS</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>collection</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <locationName>
+               <value>ICU</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>institution</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <shelvingScheme> </shelvingScheme>
+            <shelvingOrder> </shelvingOrder>
+            <classificationSort/>
+            <classificationView/>
+            <copyNumber>1</copyNumber>
+            <nonPublicNote>Single title order: 90178283
+COR:19950126 Trns from Faxon with 1/95.adj
+WNT:1 copy of vol.80 (1990) and cont. THIS ORDER TRANSFERRED FROM PUB.
+CL19981104 Frequency is 6 issues/yr per pub.ajm
+OST:40</nonPublicNote>
+            <publicNote>Vols. 1-5 Located in Rare, v. 6-92 located in Sci under call number Q11.P6. Vols. 93- cataloged and classified separately. For title and call number of those volumes, search series keyword index. Include words from series title and series volume number.</publicNote>
+         </location>
+         <extension><!--Bogus dates generated at run-time, not supplied by our current MFHD export--><dateEntered>2012-02-22-06:00</dateEntered>
+            <lastUpdated>2012-02-22-06:00</lastUpdated>
+            <itemStatus/>
+         </extension>
+      </item>
+   </instance>
+</instanceCollection>]]>
+            </content>
+        </ingestDocument>
+        <ingestDocument id="18" category="work" type="instance" format="oleml">
+            <content><![CDATA[
+<instanceCollection xmlns:m="http://www.loc.gov/MARC21/slim"
+                      xmlns:i="http://ole.kuali.org/standards/ole-instance">
+   <instance>
+      <instanceIdentifier>2399448</instanceIdentifier>
+      <resourceIdentifier/>
+      <formerResourceIdentifiers source="ICU">(sirsi) 1234324</formerResourceIdentifiers>
+      <holdings>
+         <holdingsIdentifier/>
+         <recordType>y</recordType>
+         <encodingLevel>u</encodingLevel>
+         <receiptStatus>2</receiptStatus>
+         <acquisitionMethod>u</acquisitionMethod>
+         <!--expectedAcquisition is placeholder, would come from III--><expectedAcquisitionEndDate>    </expectedAcquisitionEndDate>
+         <generalRetentionPolicy>0</generalRetentionPolicy>
+         <!--The data under specificRententionPolicy are questionable in our export--><specificRetentionPolicy>
+            <policyType> </policyType>
+            <numberOfUnits> </numberOfUnits>
+            <!--Bogus: real data not populated in 008/15 in this export--><unitType>m</unitType>
+         </specificRetentionPolicy>
+         <!--Value fudging: MFHD export gives illegal values, we set them to 0--><completeness>3</completeness>
+         <copiesReported>001</copiesReported>
+         <separateOrCompositeReport>0</separateOrCompositeReport>
+         <extension>
+            <suppressFromPublic>false</suppressFromPublic>
+            <harvestable>true</harvestable>
+            <fastAddFlag>false</fastAddFlag>
+            <status>n</status>
+            <!--Dummy data: lastUpdated not present in our export--><lastUpdated>2012-02-22T10:48:26.779-06:00</lastUpdated>
+            <dateEntered>2012-02-08</dateEntered>
+         </extension>
+      </holdings>
+      <item>
+         <itemIdentifier/>
+         <accessInformation>
+            <barcode>TODO</barcode>
+         </accessInformation>
+         <itemType/>
+         <location>
+            <locationName>
+               <value>AANet</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>location</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <locationName>
+               <value>Intrnet</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>collection</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <locationName>
+               <value>ICU</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>institution</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <shelvingScheme> </shelvingScheme>
+            <shelvingOrder> </shelvingOrder>
+            <classificationSort/>
+            <classificationView/>
+         </location>
+         <extension><!--Bogus dates generated at run-time, not supplied by our current MFHD export--><dateEntered>2012-02-22-06:00</dateEntered>
+            <lastUpdated>2012-02-22-06:00</lastUpdated>
+            <itemStatus/>
+         </extension>
+      </item>
+   </instance>
+</instanceCollection>]]>
+            </content>
+        </ingestDocument>
+        <ingestDocument id="19" category="work" type="instance" format="oleml">
+            <content><![CDATA[
+<instanceCollection xmlns:m="http://www.loc.gov/MARC21/slim"
+                      xmlns:i="http://ole.kuali.org/standards/ole-instance">
+   <instance>
+      <instanceIdentifier>3</instanceIdentifier>
+      <resourceIdentifier/>
+      <formerResourceIdentifiers source="ICU">(sirsi) 1234</formerResourceIdentifiers>
+      <holdings>
+         <holdingsIdentifier/>
+         <recordType>y</recordType>
+         <encodingLevel>u</encodingLevel>
+         <receiptStatus>2</receiptStatus>
+         <acquisitionMethod>u</acquisitionMethod>
+         <!--expectedAcquisition is placeholder, would come from III--><expectedAcquisitionEndDate>    </expectedAcquisitionEndDate>
+         <generalRetentionPolicy>0</generalRetentionPolicy>
+         <!--The data under specificRententionPolicy are questionable in our export--><specificRetentionPolicy>
+            <policyType> </policyType>
+            <numberOfUnits> </numberOfUnits>
+            <!--Bogus: real data not populated in 008/15 in this export--><unitType>m</unitType>
+         </specificRetentionPolicy>
+         <!--Value fudging: MFHD export gives illegal values, we set them to 0--><completeness>3</completeness>
+         <copiesReported>001</copiesReported>
+         <separateOrCompositeReport>0</separateOrCompositeReport>
+         <extension>
+            <suppressFromPublic>false</suppressFromPublic>
+            <harvestable>true</harvestable>
+            <fastAddFlag>false</fastAddFlag>
+            <status>n</status>
+            <!--Dummy data: lastUpdated not present in our export--><lastUpdated>2012-02-22T10:48:26.779-06:00</lastUpdated>
+            <dateEntered>2012-02-08</dateEntered>
+         </extension>
+      </holdings>
+      <item>
+         <itemIdentifier/>
+         <accessInformation>
+            <barcode>TODO</barcode>
+         </accessInformation>
+         <itemType/>
+         <location>
+            <locationName>
+               <value>AANet</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>location</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <locationName>
+               <value>Intrnet</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>collection</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <locationName>
+               <value>ICU</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>institution</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <shelvingScheme> </shelvingScheme>
+            <shelvingOrder> </shelvingOrder>
+            <classificationSort/>
+            <classificationView/>
+            <nonPublicNote>Backfile access (1996-2002) and selected more recent articles free online.rap</nonPublicNote>
+         </location>
+         <extension><!--Bogus dates generated at run-time, not supplied by our current MFHD export--><dateEntered>2012-02-22-06:00</dateEntered>
+            <lastUpdated>2012-02-22-06:00</lastUpdated>
+            <itemStatus/>
+         </extension>
+      </item>
+   </instance>
+</instanceCollection>]]>
+            </content>
+        </ingestDocument>
+        <ingestDocument id="20" category="work" type="instance" format="oleml">
+            <content><![CDATA[
+<instanceCollection xmlns:m="http://www.loc.gov/MARC21/slim"
+                      xmlns:i="http://ole.kuali.org/standards/ole-instance">
+   <instance>
+      <instanceIdentifier>293520</instanceIdentifier>
+      <resourceIdentifier/>
+      <formerResourceIdentifiers source="ICU">(sirsi) 12</formerResourceIdentifiers>
+      <holdings>
+         <holdingsIdentifier/>
+         <recordType>y</recordType>
+         <encodingLevel>u</encodingLevel>
+         <receiptStatus>2</receiptStatus>
+         <acquisitionMethod>u</acquisitionMethod>
+         <!--expectedAcquisition is placeholder, would come from III--><expectedAcquisitionEndDate>    </expectedAcquisitionEndDate>
+         <generalRetentionPolicy>0</generalRetentionPolicy>
+         <!--The data under specificRententionPolicy are questionable in our export--><specificRetentionPolicy>
+            <policyType> </policyType>
+            <numberOfUnits> </numberOfUnits>
+            <!--Bogus: real data not populated in 008/15 in this export--><unitType>m</unitType>
+         </specificRetentionPolicy>
+         <!--Value fudging: MFHD export gives illegal values, we set them to 0--><completeness>3</completeness>
+         <copiesReported>001</copiesReported>
+         <separateOrCompositeReport>0</separateOrCompositeReport>
+         <extension>
+            <suppressFromPublic>false</suppressFromPublic>
+            <harvestable>true</harvestable>
+            <fastAddFlag>false</fastAddFlag>
+            <status>n</status>
+            <!--Dummy data: lastUpdated not present in our export--><lastUpdated>2012-02-22T10:48:26.779-06:00</lastUpdated>
+            <dateEntered>2012-02-08</dateEntered>
+         </extension>
+      </holdings>
+      <item>
+         <itemIdentifier/>
+         <accessInformation>
+            <barcode>TODO</barcode>
+         </accessInformation>
+         <itemType/>
+         <location>
+            <locationName>
+               <value>AANet</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>location</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <locationName>
+               <value>Intrnet</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>collection</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <locationName>
+               <value>ICU</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </locationName>
+            <levelName>
+               <value>institution</value>
+               <typeOrSource>
+                  <text>TODO</text>
+               </typeOrSource>
+            </levelName>
+            <shelvingScheme> </shelvingScheme>
+            <shelvingOrder> </shelvingOrder>
+            <classificationSort/>
+            <classificationView/>
+            <nonPublicNote>Available online as part of Proquest PAO package.njj
+COR:20090713 Publisher's URL for free access to 2004 and cont: http://www.duke.edu/web/classics/grbs/index.html</nonPublicNote>
+         </location>
+         <extension><!--Bogus dates generated at run-time, not supplied by our current MFHD export--><dateEntered>2012-02-22-06:00</dateEntered>
+            <lastUpdated>2012-02-22-06:00</lastUpdated>
+            <itemStatus/>
+         </extension>
+      </item>
+   </instance>
+</instanceCollection>]]>
+            </content>
+        </ingestDocument>
+    </requestDocuments>
+</request>

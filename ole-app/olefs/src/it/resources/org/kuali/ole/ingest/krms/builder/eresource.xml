@@ -1,0 +1,63 @@
+<agendas>
+    <agenda>
+        <name>EResource Approval</name>
+        <rules>
+            <rule>
+                <name>EResourceAcquistionApproval</name>
+                <oleProposition>
+                    <type>simple</type>
+                    <simpleProposition>
+                        <term>
+                            <type>java.lang.String</type>
+                            <value>eresourceApproval</value>
+                        </term>
+                        <operator>IN</operator>
+                        <values>
+                            <value>
+                                <type>java.lang.String</type>
+                                <name>true</name>
+                            </value>
+                        </values>
+                    </simpleProposition>
+                </oleProposition>
+                <trueActions>
+                    <action>
+                        <name>Route to PeopleFlow</name>
+                        <parameter>
+                            <name>Route to PeopleFlow</name>
+                            <value>Acquisition Approval</value>
+                        </parameter>
+                    </action>
+                </trueActions>
+            </rule>
+            <rule>
+                <name>EResourceCatalogerApproval</name>
+                <oleProposition>
+                    <type>simple</type>
+                    <simpleProposition>
+                        <term>
+                            <type>java.lang.String</type>
+                            <value>eresourceApproval</value>
+                        </term>
+                        <operator>IN</operator>
+                        <values>
+                            <value>
+                                <type>java.lang.String</type>
+                                <name>true</name>
+                            </value>
+                        </values>
+                    </simpleProposition>
+                </oleProposition>
+                <trueActions>
+                    <action>
+                        <name>Route to PeopleFlow</name>
+                        <parameter>
+                            <name>Route to PeopleFlow</name>
+                            <value>Cataloger Approval</value>
+                        </parameter>
+                    </action>
+                </trueActions>
+            </rule>
+        </rules>
+    </agenda>
+</agendas>

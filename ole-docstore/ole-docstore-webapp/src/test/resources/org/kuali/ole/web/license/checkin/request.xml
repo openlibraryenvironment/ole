@@ -1,0 +1,835 @@
+<request>
+	<user>khuntley</user>
+	<operation>checkIn</operation>
+	<requestDocuments>
+
+		<ingestDocument id="1" category="work" type="license" format="pdf">
+			<uuid>1996dfde-00f6-460a-ae00-73fecc291de3</uuid>
+			<documentName>license_agreement.pdf</documentName>
+			<documentTitle>License Agreement in pdf format  V2</documentTitle>
+			<documentMimeType>application/pdf</documentMimeType>
+			<additionalAttributes>
+				<type>pdf</type>
+				<label>printed copy of license V2</label>
+				<notes>password protected</notes>
+			</additionalAttributes>
+		</ingestDocument>
+
+		<ingestDocument id="2" category="work" type="license" format="doc">
+			<uuid>658d7477-ede5-4850-a058-be965557de40</uuid>
+			<documentName>license_agreement.doc</documentName>
+			<documentTitle>License Agreement in doc format V2</documentTitle>
+			<documentMimeType>application/doc</documentMimeType>
+			<additionalAttributes>
+				<type>doc</type>
+				<label>true copy of license V2</label>
+				<notes>password safe</notes>
+			</additionalAttributes>
+		</ingestDocument>
+
+		<ingestDocument id="3" category="work" type="license" format="onixpl">
+			<uuid>1b54ba25-d8cb-4e6d-a4c9-1e987679607f</uuid>
+			<content><![CDATA[<onix:ONIXPublicationsLicenseMessage version="1.0" datestamp="string" sourcetype="00" sourcename="string" xmlns:onix="http://www.editeur.org/onix-pl">
+  <onix:Header datestamp="string" sourcetype="00" sourcename="string">
+    <onix:Sender datestamp="2012-06-01" sourcetype="00" sourcename="SEFW">
+      <onix:SenderIdentifier datestamp="string" sourcetype="00" sourcename="string">
+        <onix:SenderIDType datestamp="string" sourcetype="00" sourcename="string">string</onix:SenderIDType>
+        <onix:IDTypeName datestamp="string" sourcetype="00" sourcename="string">string</onix:IDTypeName>
+        <onix:IDValue datestamp="string" sourcetype="00" sourcename="string">string</onix:IDValue>
+      </onix:SenderIdentifier>
+      <onix:SenderName datestamp="string" sourcetype="00" sourcename="string">string</onix:SenderName>
+      <onix:SenderName datestamp="string" sourcetype="00" sourcename="string">string</onix:SenderName>
+      <onix:SenderContact datestamp="string" sourcetype="00" sourcename="string">string</onix:SenderContact>
+      <onix:SenderEmail datestamp="string" sourcetype="00" sourcename="string">string</onix:SenderEmail>
+    </onix:Sender>
+    <onix:Addressee datestamp="string" sourcetype="00" sourcename="string">
+      <onix:AddresseeIdentifier datestamp="string" sourcetype="00" sourcename="string">
+        <onix:AddresseeIDType datestamp="string" sourcetype="00" sourcename="string">string</onix:AddresseeIDType>
+        <onix:IDTypeName datestamp="string" sourcetype="00" sourcename="string">string</onix:IDTypeName>
+        <onix:IDValue datestamp="string" sourcetype="00" sourcename="string">string</onix:IDValue>
+      </onix:AddresseeIdentifier>
+      <onix:AddresseeName datestamp="string" sourcetype="00" sourcename="string">string</onix:AddresseeName>
+      <onix:AddresseeName datestamp="string" sourcetype="00" sourcename="string">string</onix:AddresseeName>
+      <onix:AddresseeContact datestamp="string" sourcetype="00" sourcename="string">string</onix:AddresseeContact>
+      <onix:AddresseeEmail datestamp="string" sourcetype="00" sourcename="string">string</onix:AddresseeEmail>
+    </onix:Addressee>
+    <onix:MessageNumber datestamp="string" sourcetype="00" sourcename="string">string</onix:MessageNumber>
+    <onix:MessageRepeat datestamp="string" sourcetype="00" sourcename="string">3</onix:MessageRepeat>
+    <onix:SentDateTime datestamp="string" sourcetype="00" sourcename="string">string</onix:SentDateTime>
+    <onix:MessageNote datestamp="string" sourcetype="00" sourcename="string">string</onix:MessageNote>
+  </onix:Header>
+  <onix:PublicationsLicenseExpression version="1.0" datestamp="string" sourcetype="00" sourcename="string">
+    <onix:ExpressionDetail datestamp="string" sourcetype="00" sourcename="string">
+      <onix:ExpressionType datestamp="string" sourcetype="00" sourcename="string">onixPL:LicenseTemplate</onix:ExpressionType>
+      <onix:ExpressionIdentifier datestamp="string" sourcetype="00" sourcename="string">
+        <onix:ExpressionIDType datestamp="string" sourcetype="00" sourcename="string">onixPL:Proprietary</onix:ExpressionIDType>
+        <onix:IDTypeName datestamp="string" sourcetype="00" sourcename="string">string</onix:IDTypeName>
+        <onix:IDValue datestamp="string" sourcetype="00" sourcename="string">string</onix:IDValue>
+      </onix:ExpressionIdentifier>
+      <onix:ExpressionVersion datestamp="string" sourcetype="00" sourcename="string">3</onix:ExpressionVersion>
+      <onix:ExpressionStatus datestamp="string" sourcetype="00" sourcename="string">onixPL:Approved</onix:ExpressionStatus>
+      <onix:Authority datestamp="string" sourcetype="00" sourcename="string">string</onix:Authority>
+      <onix:Description datestamp="string" sourcetype="00" sourcename="string" language="mon">string</onix:Description>
+      <onix:Annotation datestamp="string" sourcetype="00" sourcename="string">
+        <onix:AnnotationType datestamp="string" sourcetype="00" sourcename="string">onixPL:ERMI:CitationRequirementDetail</onix:AnnotationType>
+        <onix:Authority datestamp="string" sourcetype="00" sourcename="string">string</onix:Authority>
+        <onix:AnnotationText language="sah" datestamp="string" sourcetype="00" sourcename="string">string</onix:AnnotationText>
+      </onix:Annotation>
+      <onix:ExpressionReference datestamp="string" sourcetype="00" sourcename="string">
+        <onix:ReferenceRelator datestamp="string" sourcetype="00" sourcename="string">onixPL:ReplacedBy</onix:ReferenceRelator>
+        <onix:ExpressionIdentifier datestamp="string" sourcetype="00" sourcename="string">
+          <onix:ExpressionIDType datestamp="string" sourcetype="00" sourcename="string">onixPL:URI</onix:ExpressionIDType>
+          <onix:IDTypeName datestamp="string" sourcetype="00" sourcename="string">string</onix:IDTypeName>
+          <onix:IDValue datestamp="string" sourcetype="00" sourcename="string">string</onix:IDValue>
+        </onix:ExpressionIdentifier>
+        <onix:ExpressionVersion datestamp="string" sourcetype="00" sourcename="string">3</onix:ExpressionVersion>
+      </onix:ExpressionReference>
+      <onix:ExpressionRelatedAgent datestamp="string" sourcetype="00" sourcename="string">
+        <onix:ExpressionAgentRelator datestamp="string" sourcetype="00" sourcename="string">onixPL:ApprovedBy</onix:ExpressionAgentRelator>
+        <onix:Name datestamp="string" sourcetype="00" sourcename="string">string</onix:Name>
+      </onix:ExpressionRelatedAgent>
+      <onix:ExpressionRelatedTimePoint datestamp="string" sourcetype="00" sourcename="string">
+        <onix:ExpressionTimePointRelator datestamp="string" sourcetype="00" sourcename="string">onixPL:PreparedOn</onix:ExpressionTimePointRelator>
+        <onix:TimePointIdentifier datestamp="string" sourcetype="00" sourcename="string">
+          <onix:TimePointIDType datestamp="string" sourcetype="00" sourcename="string">onixPL:YYYYMMDD</onix:TimePointIDType>
+          <onix:IDValue datestamp="string" sourcetype="00" sourcename="string">string</onix:IDValue>
+        </onix:TimePointIdentifier>
+      </onix:ExpressionRelatedTimePoint>
+    </onix:ExpressionDetail>
+    <onix:LicenseDetail datestamp="string" sourcetype="00" sourcename="string">
+      <onix:LicenseIdentifier datestamp="string" sourcetype="00" sourcename="string">
+        <onix:LicenseIDType datestamp="string" sourcetype="00" sourcename="string">onixPL:AgentContractNumber</onix:LicenseIDType>
+        <onix:IDTypeName datestamp="string" sourcetype="00" sourcename="string">string</onix:IDTypeName>
+        <onix:IDValue datestamp="string" sourcetype="00" sourcename="string">string</onix:IDValue>
+      </onix:LicenseIdentifier>
+      <onix:Description language="kik" datestamp="string" sourcetype="00" sourcename="string">string</onix:Description>
+      <onix:Description language="yid" datestamp="string" sourcetype="00" sourcename="string">string</onix:Description>
+      <onix:LicenseStatus datestamp="string" sourcetype="00" sourcename="string">onixPL:NoLongerActive</onix:LicenseStatus>
+      <onix:LicenseRenewalType datestamp="string" sourcetype="00" sourcename="string">onixPL:Perpetual</onix:LicenseRenewalType>
+      <onix:Annotation datestamp="string" sourcetype="00" sourcename="string">
+        <onix:AnnotationType datestamp="string" sourcetype="00" sourcename="string">onixPL:ERMI:Text</onix:AnnotationType>
+        <onix:Authority datestamp="string" sourcetype="00" sourcename="string">string</onix:Authority>
+        <onix:AnnotationText language="dak" datestamp="string" sourcetype="00" sourcename="string">string</onix:AnnotationText>
+      </onix:Annotation>
+      <onix:LicenseDocument datestamp="string" sourcetype="00" sourcename="string">
+        <onix:LicenseDocumentType datestamp="string" sourcetype="00" sourcename="string">onixPL:License</onix:LicenseDocumentType>
+        <onix:DocumentLabel datestamp="string" sourcetype="00" sourcename="string">string</onix:DocumentLabel>
+      </onix:LicenseDocument>
+      <onix:OtherDocumentReference datestamp="string" sourcetype="00" sourcename="string">
+        <onix:ReferenceRelator datestamp="string" sourcetype="00" sourcename="string">onixPL:DerivedFromModel</onix:ReferenceRelator>
+        <onix:DocumentLabel datestamp="string" sourcetype="00" sourcename="string">string</onix:DocumentLabel>
+      </onix:OtherDocumentReference>
+      <onix:LicenseRelatedAgent datestamp="string" sourcetype="00" sourcename="string">
+        <onix:LicenseAgentRelator datestamp="string" sourcetype="00" sourcename="string">onixPL:Licensor</onix:LicenseAgentRelator>
+        <onix:RelatedAgent datestamp="string" sourcetype="00" sourcename="string">string</onix:RelatedAgent>
+      </onix:LicenseRelatedAgent>
+      <onix:LicenseRelatedAgent datestamp="string" sourcetype="00" sourcename="string">
+        <onix:LicenseAgentRelator datestamp="string" sourcetype="00" sourcename="string">onixPL:LicensorLicenseAdministrator</onix:LicenseAgentRelator>
+        <onix:RelatedAgent datestamp="string" sourcetype="00" sourcename="string">string</onix:RelatedAgent>
+      </onix:LicenseRelatedAgent>
+      <onix:LicenseRelatedResource datestamp="string" sourcetype="00" sourcename="string">
+        <onix:LicenseResourceRelator datestamp="string" sourcetype="00" sourcename="string">onixPL:LicensedContent</onix:LicenseResourceRelator>
+        <onix:RelatedResource datestamp="string" sourcetype="00" sourcename="string">string</onix:RelatedResource>
+      </onix:LicenseRelatedResource>
+      <onix:LicenseRelatedTimePoint datestamp="string" sourcetype="00" sourcename="string">
+        <onix:LicenseTimePointRelator datestamp="string" sourcetype="00" sourcename="string">onixPL:LicenseEndDate</onix:LicenseTimePointRelator>
+        <onix:RelatedTimePoint datestamp="string" sourcetype="00" sourcename="string">string</onix:RelatedTimePoint>
+      </onix:LicenseRelatedTimePoint>
+      <onix:LicenseRelatedPlace datestamp="string" sourcetype="00" sourcename="string">
+        <onix:LicensePlaceRelator datestamp="string" sourcetype="00" sourcename="string">onixPL:LicenseeSite</onix:LicensePlaceRelator>
+        <onix:RelatedPlace datestamp="string" sourcetype="00" sourcename="string">string</onix:RelatedPlace>
+      </onix:LicenseRelatedPlace>
+    </onix:LicenseDetail>
+    <onix:Definitions datestamp="string" sourcetype="00" sourcename="string">
+      <onix:AgentDefinition datestamp="string" sourcetype="00" sourcename="string">
+        <onix:AgentLabel datestamp="string" sourcetype="00" sourcename="string">string</onix:AgentLabel>
+        <onix:AgentType datestamp="string" sourcetype="00" sourcename="string">onixPL:Unspecified</onix:AgentType>
+        <onix:Authority datestamp="string" sourcetype="00" sourcename="string">string</onix:Authority>
+        <onix:AgentIdentifier datestamp="string" sourcetype="00" sourcename="string">
+          <onix:AgentIDType datestamp="string" sourcetype="00" sourcename="string">onixPL:CompanyRegistrationNumber</onix:AgentIDType>
+          <onix:IDTypeName datestamp="string" sourcetype="00" sourcename="string">string</onix:IDTypeName>
+          <onix:IDValue datestamp="string" sourcetype="00" sourcename="string">string</onix:IDValue>
+        </onix:AgentIdentifier>
+        <onix:AgentName datestamp="string" sourcetype="00" sourcename="string">
+          <onix:AgentNameType datestamp="string" sourcetype="00" sourcename="string">onixPL:RegisteredName</onix:AgentNameType>
+          <onix:Name datestamp="string" sourcetype="00" sourcename="string">string</onix:Name>
+          <onix:AgentNamePart datestamp="string" sourcetype="00" sourcename="string">
+            <onix:AgentNamePartType datestamp="string" sourcetype="00" sourcename="string">string</onix:AgentNamePartType>
+            <onix:NamePart datestamp="string" sourcetype="00" sourcename="string">string</onix:NamePart>
+          </onix:AgentNamePart>
+        </onix:AgentName>
+        <onix:Description language="umb" datestamp="string" sourcetype="00" sourcename="string">string</onix:Description>
+        <onix:Annotation datestamp="string" sourcetype="00" sourcename="string">
+          <onix:AnnotationType datestamp="string" sourcetype="00" sourcename="string">onixPL:Interpretation</onix:AnnotationType>
+          <onix:Authority datestamp="string" sourcetype="00" sourcename="string">string</onix:Authority>
+          <onix:AnnotationText language="rum" datestamp="string" sourcetype="00" sourcename="string">string</onix:AnnotationText>
+        </onix:Annotation>
+        <onix:LicenseTextLink href="string" datestamp="string" sourcetype="00" sourcename="string"/>
+        <onix:LicenseDocumentReference datestamp="string" sourcetype="00" sourcename="string">
+          <onix:DocumentLabel datestamp="string" sourcetype="00" sourcename="string">string</onix:DocumentLabel>
+          <onix:SectionDesignation datestamp="string" sourcetype="00" sourcename="string">string</onix:SectionDesignation>
+          <onix:SectionIdentifier datestamp="string" sourcetype="00" sourcename="string">
+            <onix:SectionIDType datestamp="string" sourcetype="00" sourcename="string">onixPL:DOI</onix:SectionIDType>
+            <onix:IDValue datestamp="string" sourcetype="00" sourcename="string">string</onix:IDValue>
+          </onix:SectionIdentifier>
+        </onix:LicenseDocumentReference>
+        <onix:OtherDocumentReference datestamp="string" sourcetype="00" sourcename="string">
+          <onix:ReferenceRelator datestamp="string" sourcetype="00" sourcename="string">onixPL:ReplacedBy</onix:ReferenceRelator>
+          <onix:DocumentLabel datestamp="string" sourcetype="00" sourcename="string">string</onix:DocumentLabel>
+          <onix:SectionDesignation datestamp="string" sourcetype="00" sourcename="string">string</onix:SectionDesignation>
+          <onix:SectionIdentifier datestamp="string" sourcetype="00" sourcename="string">
+            <onix:SectionIDType datestamp="string" sourcetype="00" sourcename="string">onixPL:URL</onix:SectionIDType>
+            <onix:IDValue datestamp="string" sourcetype="00" sourcename="string">string</onix:IDValue>
+          </onix:SectionIdentifier>
+          <onix:Annotation datestamp="string" sourcetype="00" sourcename="string">
+            <onix:AnnotationType datestamp="string" sourcetype="00" sourcename="string">onixPL:ERMI:MaintenanceWindow</onix:AnnotationType>
+            <onix:Authority datestamp="string" sourcetype="00" sourcename="string">string</onix:Authority>
+            <onix:AnnotationText language="sad" datestamp="string" sourcetype="00" sourcename="string">string</onix:AnnotationText>
+          </onix:Annotation>
+        </onix:OtherDocumentReference>
+        <onix:AgentQuantity datestamp="string" sourcetype="00" sourcename="string">
+          <onix:AgentQuantityType datestamp="string" sourcetype="00" sourcename="string">string</onix:AgentQuantityType>
+          <onix:QuantityDetail datestamp="string" sourcetype="00" sourcename="string">
+            <onix:Proximity datestamp="string" sourcetype="00" sourcename="string">onixPL:Exactly</onix:Proximity>
+            <onix:Value datestamp="string" sourcetype="00" sourcename="string">3</onix:Value>
+            <onix:QuantityUnit datestamp="string" sourcetype="00" sourcename="string">onixPL:Years</onix:QuantityUnit>
+            <onix:ReferenceUnit datestamp="string" sourcetype="00" sourcename="string">string</onix:ReferenceUnit>
+          </onix:QuantityDetail>
+        </onix:AgentQuantity>
+        <onix:AgentRelatedAgent datestamp="string" sourcetype="00" sourcename="string">
+          <onix:AgentAgentRelator datestamp="string" sourcetype="00" sourcename="string">onixPL:IsAuthorizedRepresentativeOf</onix:AgentAgentRelator>
+          <onix:RelatedAgent datestamp="string" sourcetype="00" sourcename="string">string</onix:RelatedAgent>
+        </onix:AgentRelatedAgent>
+        <onix:AgentRelatedResource datestamp="string" sourcetype="00" sourcename="string">
+          <onix:AgentResourceRelator datestamp="string" sourcetype="00" sourcename="string">string</onix:AgentResourceRelator>
+          <onix:RelatedResource datestamp="string" sourcetype="00" sourcename="string">string</onix:RelatedResource>
+        </onix:AgentRelatedResource>
+        <onix:AgentRelatedTimePoint datestamp="string" sourcetype="00" sourcename="string">
+          <onix:AgentTimePointRelator datestamp="string" sourcetype="00" sourcename="string">string</onix:AgentTimePointRelator>
+          <onix:RelatedTimePoint datestamp="string" sourcetype="00" sourcename="string">string</onix:RelatedTimePoint>
+        </onix:AgentRelatedTimePoint>
+        <onix:AgentRelatedPlace datestamp="string" sourcetype="00" sourcename="string">
+          <onix:AgentPlaceRelator datestamp="string" sourcetype="00" sourcename="string">onixPL:RegisteredAddress</onix:AgentPlaceRelator>
+          <onix:RelatedPlace datestamp="string" sourcetype="00" sourcename="string">string</onix:RelatedPlace>
+        </onix:AgentRelatedPlace>
+      </onix:AgentDefinition>
+      <onix:ResourceDefinition datestamp="string" sourcetype="00" sourcename="string">
+        <onix:ResourceLabel datestamp="string" sourcetype="00" sourcename="string">string</onix:ResourceLabel>
+        <onix:ResourceType datestamp="string" sourcetype="00" sourcename="string">string</onix:ResourceType>
+        <onix:Authority datestamp="string" sourcetype="00" sourcename="string">string</onix:Authority>
+        <onix:ResourceIdentifier datestamp="string" sourcetype="00" sourcename="string">
+          <onix:ResourceIDType datestamp="string" sourcetype="00" sourcename="string">onixPL:Proprietary</onix:ResourceIDType>
+          <onix:IDTypeName datestamp="string" sourcetype="00" sourcename="string">string</onix:IDTypeName>
+          <onix:IDValue datestamp="string" sourcetype="00" sourcename="string">string</onix:IDValue>
+        </onix:ResourceIdentifier>
+        <onix:Description language="kbd" datestamp="string" sourcetype="00" sourcename="string">string</onix:Description>
+        <onix:Annotation datestamp="string" sourcetype="00" sourcename="string">
+          <onix:AnnotationType datestamp="string" sourcetype="00" sourcename="string">onixPL:AmbiguityInLicenseText</onix:AnnotationType>
+          <onix:Authority datestamp="string" sourcetype="00" sourcename="string">string</onix:Authority>
+          <onix:AnnotationText language="cmc" datestamp="string" sourcetype="00" sourcename="string">string</onix:AnnotationText>
+        </onix:Annotation>
+        <onix:LicenseTextLink href="string" datestamp="string" sourcetype="00" sourcename="string"/>
+        <onix:LicenseDocumentReference datestamp="string" sourcetype="00" sourcename="string">
+          <onix:DocumentLabel datestamp="string" sourcetype="00" sourcename="string">string</onix:DocumentLabel>
+          <onix:SectionDesignation datestamp="string" sourcetype="00" sourcename="string">string</onix:SectionDesignation>
+          <onix:SectionIdentifier datestamp="string" sourcetype="00" sourcename="string">
+            <onix:SectionIDType datestamp="string" sourcetype="00" sourcename="string">onixPL:URI</onix:SectionIDType>
+            <onix:IDValue datestamp="string" sourcetype="00" sourcename="string">string</onix:IDValue>
+          </onix:SectionIdentifier>
+        </onix:LicenseDocumentReference>
+        <onix:OtherDocumentReference datestamp="string" sourcetype="00" sourcename="string">
+          <onix:ReferenceRelator datestamp="string" sourcetype="00" sourcename="string">onixPL:ReplacedBy</onix:ReferenceRelator>
+          <onix:DocumentLabel datestamp="string" sourcetype="00" sourcename="string">string</onix:DocumentLabel>
+          <onix:SectionDesignation datestamp="string" sourcetype="00" sourcename="string">string</onix:SectionDesignation>
+          <onix:SectionIdentifier datestamp="string" sourcetype="00" sourcename="string">
+            <onix:SectionIDType datestamp="string" sourcetype="00" sourcename="string">onixPL:URI</onix:SectionIDType>
+            <onix:IDValue datestamp="string" sourcetype="00" sourcename="string">string</onix:IDValue>
+          </onix:SectionIdentifier>
+          <onix:Annotation datestamp="string" sourcetype="00" sourcename="string">
+            <onix:AnnotationType datestamp="string" sourcetype="00" sourcename="string">onixPL:VariationsFromModel</onix:AnnotationType>
+            <onix:Authority datestamp="string" sourcetype="00" sourcename="string">string</onix:Authority>
+            <onix:AnnotationText language="ndo" datestamp="string" sourcetype="00" sourcename="string">string</onix:AnnotationText>
+          </onix:Annotation>
+        </onix:OtherDocumentReference>
+        <onix:ResourceQuantity datestamp="string" sourcetype="00" sourcename="string">
+          <onix:ResourceQuantityType datestamp="string" sourcetype="00" sourcename="string">string</onix:ResourceQuantityType>
+          <onix:QuantityDetail datestamp="string" sourcetype="00" sourcename="string">
+            <onix:Proximity datestamp="string" sourcetype="00" sourcename="string">onixPL:NotLessThan</onix:Proximity>
+            <onix:Value datestamp="string" sourcetype="00" sourcename="string">3</onix:Value>
+            <onix:QuantityUnit datestamp="string" sourcetype="00" sourcename="string">onixPL:Years</onix:QuantityUnit>
+            <onix:ReferenceUnit datestamp="string" sourcetype="00" sourcename="string">string</onix:ReferenceUnit>
+          </onix:QuantityDetail>
+        </onix:ResourceQuantity>
+        <onix:ResourceRelatedAgent datestamp="string" sourcetype="00" sourcename="string">
+          <onix:ResourceAgentRelator datestamp="string" sourcetype="00" sourcename="string">string</onix:ResourceAgentRelator>
+          <onix:RelatedAgent datestamp="string" sourcetype="00" sourcename="string">string</onix:RelatedAgent>
+        </onix:ResourceRelatedAgent>
+        <onix:ResourceRelatedResource datestamp="string" sourcetype="00" sourcename="string">
+          <onix:ResourceResourceRelator datestamp="string" sourcetype="00" sourcename="string">onixPL:IsA</onix:ResourceResourceRelator>
+          <onix:RelatedResource datestamp="string" sourcetype="00" sourcename="string">string</onix:RelatedResource>
+        </onix:ResourceRelatedResource>
+        <onix:ResourceRelatedTimePoint datestamp="string" sourcetype="00" sourcename="string">
+          <onix:ResourceTimePointRelator datestamp="string" sourcetype="00" sourcename="string">string</onix:ResourceTimePointRelator>
+          <onix:RelatedTimePoint datestamp="string" sourcetype="00" sourcename="string">string</onix:RelatedTimePoint>
+        </onix:ResourceRelatedTimePoint>
+        <onix:ResourceRelatedPlace datestamp="string" sourcetype="00" sourcename="string">
+          <onix:ResourcePlaceRelator datestamp="string" sourcetype="00" sourcename="string">string</onix:ResourcePlaceRelator>
+          <onix:RelatedPlace datestamp="string" sourcetype="00" sourcename="string">string</onix:RelatedPlace>
+        </onix:ResourceRelatedPlace>
+      </onix:ResourceDefinition>
+      <onix:TimePointDefinition datestamp="string" sourcetype="00" sourcename="string">
+        <onix:TimePointLabel datestamp="string" sourcetype="00" sourcename="string">string</onix:TimePointLabel>
+        <onix:TimePointType datestamp="string" sourcetype="00" sourcename="string">string</onix:TimePointType>
+        <onix:Authority datestamp="string" sourcetype="00" sourcename="string">string</onix:Authority>
+        <onix:TimePointIdentifier datestamp="string" sourcetype="00" sourcename="string">
+          <onix:TimePointIDType datestamp="string" sourcetype="00" sourcename="string">onixPL:YYYYMMDD</onix:TimePointIDType>
+          <onix:IDValue datestamp="string" sourcetype="00" sourcename="string">string</onix:IDValue>
+        </onix:TimePointIdentifier>
+        <onix:Description language="umb" datestamp="string" sourcetype="00" sourcename="string">string</onix:Description>
+        <onix:Annotation datestamp="string" sourcetype="00" sourcename="string">
+          <onix:AnnotationType datestamp="string" sourcetype="00" sourcename="string">onixPL:ERMI:ArchiveCopyFormat</onix:AnnotationType>
+          <onix:Authority datestamp="string" sourcetype="00" sourcename="string">string</onix:Authority>
+          <onix:AnnotationText language="smn" datestamp="string" sourcetype="00" sourcename="string">string</onix:AnnotationText>
+        </onix:Annotation>
+        <onix:LicenseTextLink href="string" datestamp="string" sourcetype="00" sourcename="string"/>
+        <onix:LicenseDocumentReference datestamp="string" sourcetype="00" sourcename="string">
+          <onix:DocumentLabel datestamp="string" sourcetype="00" sourcename="string">string</onix:DocumentLabel>
+          <onix:SectionDesignation datestamp="string" sourcetype="00" sourcename="string">string</onix:SectionDesignation>
+          <onix:SectionIdentifier datestamp="string" sourcetype="00" sourcename="string">
+            <onix:SectionIDType datestamp="string" sourcetype="00" sourcename="string">onixPL:DOI</onix:SectionIDType>
+            <onix:IDValue datestamp="string" sourcetype="00" sourcename="string">string</onix:IDValue>
+          </onix:SectionIdentifier>
+        </onix:LicenseDocumentReference>
+        <onix:OtherDocumentReference datestamp="string" sourcetype="00" sourcename="string">
+          <onix:ReferenceRelator datestamp="string" sourcetype="00" sourcename="string">onixPL:ReplacementFor</onix:ReferenceRelator>
+          <onix:DocumentLabel datestamp="string" sourcetype="00" sourcename="string">string</onix:DocumentLabel>
+          <onix:SectionDesignation datestamp="string" sourcetype="00" sourcename="string">string</onix:SectionDesignation>
+          <onix:SectionIdentifier datestamp="string" sourcetype="00" sourcename="string">
+            <onix:SectionIDType datestamp="string" sourcetype="00" sourcename="string">onixPL:URI</onix:SectionIDType>
+            <onix:IDValue datestamp="string" sourcetype="00" sourcename="string">string</onix:IDValue>
+          </onix:SectionIdentifier>
+          <onix:Annotation datestamp="string" sourcetype="00" sourcename="string">
+            <onix:AnnotationType datestamp="string" sourcetype="00" sourcename="string">onixPL:AcknowledgementWording</onix:AnnotationType>
+            <onix:Authority datestamp="string" sourcetype="00" sourcename="string">string</onix:Authority>
+            <onix:AnnotationText language="bua" datestamp="string" sourcetype="00" sourcename="string">string</onix:AnnotationText>
+          </onix:Annotation>
+        </onix:OtherDocumentReference>
+        <onix:TimePointQuantity datestamp="string" sourcetype="00" sourcename="string">
+          <onix:TimePointQuantityType datestamp="string" sourcetype="00" sourcename="string">string</onix:TimePointQuantityType>
+          <onix:QuantityDetail datestamp="string" sourcetype="00" sourcename="string">
+            <onix:Proximity datestamp="string" sourcetype="00" sourcename="string">onixPL:NotLessThan</onix:Proximity>
+            <onix:Value datestamp="string" sourcetype="00" sourcename="string">3</onix:Value>
+            <onix:QuantityUnit datestamp="string" sourcetype="00" sourcename="string">onixPL:WorkingDays</onix:QuantityUnit>
+            <onix:ReferenceUnit datestamp="string" sourcetype="00" sourcename="string">string</onix:ReferenceUnit>
+          </onix:QuantityDetail>
+        </onix:TimePointQuantity>
+        <onix:TimePointRelatedAgent datestamp="string" sourcetype="00" sourcename="string">
+          <onix:TimePointAgentRelator datestamp="string" sourcetype="00" sourcename="string">string</onix:TimePointAgentRelator>
+          <onix:RelatedAgent datestamp="string" sourcetype="00" sourcename="string">string</onix:RelatedAgent>
+        </onix:TimePointRelatedAgent>
+        <onix:TimePointRelatedResource datestamp="string" sourcetype="00" sourcename="string">
+          <onix:TimePointResourceRelator datestamp="string" sourcetype="00" sourcename="string">string</onix:TimePointResourceRelator>
+          <onix:RelatedResource datestamp="string" sourcetype="00" sourcename="string">string</onix:RelatedResource>
+        </onix:TimePointRelatedResource>
+        <onix:TimePointRelatedTimePoint datestamp="string" sourcetype="00" sourcename="string">
+          <onix:TimePointTimePointRelator datestamp="string" sourcetype="00" sourcename="string">string</onix:TimePointTimePointRelator>
+          <onix:RelatedTimePoint datestamp="string" sourcetype="00" sourcename="string">string</onix:RelatedTimePoint>
+        </onix:TimePointRelatedTimePoint>
+        <onix:TimePointRelatedPlace datestamp="string" sourcetype="00" sourcename="string">
+          <onix:TimePointPlaceRelator datestamp="string" sourcetype="00" sourcename="string">string</onix:TimePointPlaceRelator>
+          <onix:RelatedPlace datestamp="string" sourcetype="00" sourcename="string">string</onix:RelatedPlace>
+        </onix:TimePointRelatedPlace>
+      </onix:TimePointDefinition>
+      <onix:PlaceDefinition datestamp="string" sourcetype="00" sourcename="string">
+        <onix:PlaceLabel datestamp="string" sourcetype="00" sourcename="string">string</onix:PlaceLabel>
+        <onix:PlaceType datestamp="string" sourcetype="00" sourcename="string">string</onix:PlaceType>
+        <onix:Authority datestamp="string" sourcetype="00" sourcename="string">string</onix:Authority>
+        <onix:PlaceIdentifier datestamp="string" sourcetype="00" sourcename="string">
+          <onix:PlaceIDType datestamp="string" sourcetype="00" sourcename="string">onixPL:LocationCode</onix:PlaceIDType>
+          <onix:IDTypeName datestamp="string" sourcetype="00" sourcename="string">string</onix:IDTypeName>
+          <onix:IDValue datestamp="string" sourcetype="00" sourcename="string">string</onix:IDValue>
+        </onix:PlaceIdentifier>
+        <onix:PlaceName datestamp="string" sourcetype="00" sourcename="string">
+          <onix:PlaceNameType datestamp="string" sourcetype="00" sourcename="string">onixPL:AddressAsFreeText</onix:PlaceNameType>
+          <onix:Name datestamp="string" sourcetype="00" sourcename="string">string</onix:Name>
+          <onix:PlaceNamePart datestamp="string" sourcetype="00" sourcename="string">
+            <onix:PlaceNamePartType datestamp="string" sourcetype="00" sourcename="string">onixPL:AddressLine</onix:PlaceNamePartType>
+            <onix:NamePart datestamp="string" sourcetype="00" sourcename="string">string</onix:NamePart>
+          </onix:PlaceNamePart>
+        </onix:PlaceName>
+        <onix:Description language="ice" datestamp="string" sourcetype="00" sourcename="string">string</onix:Description>
+        <onix:Annotation datestamp="string" sourcetype="00" sourcename="string">
+          <onix:AnnotationType datestamp="string" sourcetype="00" sourcename="string">onixPL:ErrorInLicenseText</onix:AnnotationType>
+          <onix:Authority datestamp="string" sourcetype="00" sourcename="string">string</onix:Authority>
+          <onix:AnnotationText language="mnc" datestamp="string" sourcetype="00" sourcename="string">string</onix:AnnotationText>
+        </onix:Annotation>
+        <onix:LicenseTextLink href="string" datestamp="string" sourcetype="00" sourcename="string"/>
+        <onix:LicenseDocumentReference datestamp="string" sourcetype="00" sourcename="string">
+          <onix:DocumentLabel datestamp="string" sourcetype="00" sourcename="string">string</onix:DocumentLabel>
+          <onix:SectionDesignation datestamp="string" sourcetype="00" sourcename="string">string</onix:SectionDesignation>
+          <onix:SectionIdentifier datestamp="string" sourcetype="00" sourcename="string">
+            <onix:SectionIDType datestamp="string" sourcetype="00" sourcename="string">onixPL:DOI</onix:SectionIDType>
+            <onix:IDValue datestamp="string" sourcetype="00" sourcename="string">string</onix:IDValue>
+          </onix:SectionIdentifier>
+        </onix:LicenseDocumentReference>
+        <onix:OtherDocumentReference datestamp="string" sourcetype="00" sourcename="string">
+          <onix:ReferenceRelator datestamp="string" sourcetype="00" sourcename="string">onixPL:BasedOnOfferIn</onix:ReferenceRelator>
+          <onix:DocumentLabel datestamp="string" sourcetype="00" sourcename="string">string</onix:DocumentLabel>
+          <onix:SectionDesignation datestamp="string" sourcetype="00" sourcename="string">string</onix:SectionDesignation>
+          <onix:SectionIdentifier datestamp="string" sourcetype="00" sourcename="string">
+            <onix:SectionIDType datestamp="string" sourcetype="00" sourcename="string">onixPL:DOI</onix:SectionIDType>
+            <onix:IDValue datestamp="string" sourcetype="00" sourcename="string">string</onix:IDValue>
+          </onix:SectionIdentifier>
+          <onix:Annotation datestamp="string" sourcetype="00" sourcename="string">
+            <onix:AnnotationType datestamp="string" sourcetype="00" sourcename="string">onixPL:ERMI:UptimeGuarantee</onix:AnnotationType>
+            <onix:Authority datestamp="string" sourcetype="00" sourcename="string">string</onix:Authority>
+            <onix:AnnotationText language="por" datestamp="string" sourcetype="00" sourcename="string">string</onix:AnnotationText>
+          </onix:Annotation>
+        </onix:OtherDocumentReference>
+        <onix:PlaceQuantity datestamp="string" sourcetype="00" sourcename="string">
+          <onix:PlaceQuantityType datestamp="string" sourcetype="00" sourcename="string">string</onix:PlaceQuantityType>
+          <onix:QuantityDetail datestamp="string" sourcetype="00" sourcename="string">
+            <onix:Proximity datestamp="string" sourcetype="00" sourcename="string">onixPL:MoreThan</onix:Proximity>
+            <onix:Value datestamp="string" sourcetype="00" sourcename="string">3</onix:Value>
+            <onix:QuantityUnit datestamp="string" sourcetype="00" sourcename="string">onixPL:Percent</onix:QuantityUnit>
+            <onix:ReferenceUnit datestamp="string" sourcetype="00" sourcename="string">string</onix:ReferenceUnit>
+          </onix:QuantityDetail>
+        </onix:PlaceQuantity>
+        <onix:PlaceRelatedAgent datestamp="string" sourcetype="00" sourcename="string">
+          <onix:PlaceAgentRelator datestamp="string" sourcetype="00" sourcename="string">string</onix:PlaceAgentRelator>
+          <onix:RelatedAgent datestamp="string" sourcetype="00" sourcename="string">string</onix:RelatedAgent>
+        </onix:PlaceRelatedAgent>
+        <onix:PlaceRelatedResource datestamp="string" sourcetype="00" sourcename="string">
+          <onix:PlaceResourceRelator datestamp="string" sourcetype="00" sourcename="string">string</onix:PlaceResourceRelator>
+          <onix:RelatedResource datestamp="string" sourcetype="00" sourcename="string">string</onix:RelatedResource>
+        </onix:PlaceRelatedResource>
+        <onix:PlaceRelatedTimePoint datestamp="string" sourcetype="00" sourcename="string">
+          <onix:PlaceTimePointRelator datestamp="string" sourcetype="00" sourcename="string">string</onix:PlaceTimePointRelator>
+          <onix:RelatedTimePoint datestamp="string" sourcetype="00" sourcename="string">string</onix:RelatedTimePoint>
+        </onix:PlaceRelatedTimePoint>
+        <onix:PlaceRelatedPlace datestamp="string" sourcetype="00" sourcename="string">
+          <onix:PlacePlaceRelator datestamp="string" sourcetype="00" sourcename="string">onixPL:IsAnyOf</onix:PlacePlaceRelator>
+          <onix:RelatedPlace datestamp="string" sourcetype="00" sourcename="string">string</onix:RelatedPlace>
+        </onix:PlaceRelatedPlace>
+      </onix:PlaceDefinition>
+      <onix:DocumentDefinition datestamp="string" sourcetype="00" sourcename="string">
+        <onix:DocumentLabel datestamp="string" sourcetype="00" sourcename="string">string</onix:DocumentLabel>
+        <onix:DocumentType datestamp="string" sourcetype="00" sourcename="string">onixPL:Document</onix:DocumentType>
+        <onix:Authority datestamp="string" sourcetype="00" sourcename="string">string</onix:Authority>
+        <onix:DocumentIdentifier datestamp="string" sourcetype="00" sourcename="string">
+          <onix:DocumentIDType datestamp="string" sourcetype="00" sourcename="string">onixPL:LicensorDocumentReference</onix:DocumentIDType>
+          <onix:IDTypeName datestamp="string" sourcetype="00" sourcename="string">string</onix:IDTypeName>
+          <onix:IDValue datestamp="string" sourcetype="00" sourcename="string">string</onix:IDValue>
+        </onix:DocumentIdentifier>
+        <onix:Description language="nub" datestamp="string" sourcetype="00" sourcename="string">string</onix:Description>
+        <onix:Annotation datestamp="string" sourcetype="00" sourcename="string">
+          <onix:AnnotationType datestamp="string" sourcetype="00" sourcename="string">onixPL:ERMI:OtherUseRestrictionNote</onix:AnnotationType>
+          <onix:Authority datestamp="string" sourcetype="00" sourcename="string">string</onix:Authority>
+          <onix:AnnotationText language="tig" datestamp="string" sourcetype="00" sourcename="string">string</onix:AnnotationText>
+        </onix:Annotation>
+        <onix:DocumentRelatedAgent datestamp="string" sourcetype="00" sourcename="string">
+          <onix:DocumentAgentRelator datestamp="string" sourcetype="00" sourcename="string">string</onix:DocumentAgentRelator>
+          <onix:RelatedAgent datestamp="string" sourcetype="00" sourcename="string">string</onix:RelatedAgent>
+        </onix:DocumentRelatedAgent>
+        <onix:DocumentRelatedResource datestamp="string" sourcetype="00" sourcename="string">
+          <onix:DocumentResourceRelator datestamp="string" sourcetype="00" sourcename="string">string</onix:DocumentResourceRelator>
+          <onix:RelatedResource datestamp="string" sourcetype="00" sourcename="string">string</onix:RelatedResource>
+        </onix:DocumentRelatedResource>
+        <onix:DocumentRelatedTimePoint datestamp="string" sourcetype="00" sourcename="string">
+          <onix:DocumentTimePointRelator datestamp="string" sourcetype="00" sourcename="string">onixPL:LatestRevisionDate</onix:DocumentTimePointRelator>
+          <onix:RelatedTimePoint datestamp="string" sourcetype="00" sourcename="string">string</onix:RelatedTimePoint>
+        </onix:DocumentRelatedTimePoint>
+        <onix:DocumentRelatedPlace datestamp="string" sourcetype="00" sourcename="string">
+          <onix:DocumentPlaceRelator datestamp="string" sourcetype="00" sourcename="string">string</onix:DocumentPlaceRelator>
+          <onix:RelatedPlace datestamp="string" sourcetype="00" sourcename="string">string</onix:RelatedPlace>
+        </onix:DocumentRelatedPlace>
+      </onix:DocumentDefinition>
+    </onix:Definitions>
+    <onix:LicenseGrant datestamp="string" sourcetype="00" sourcename="string">
+      <onix:LicenseGrantType datestamp="string" sourcetype="00" sourcename="string">onixPL:NonExclusive</onix:LicenseGrantType>
+      <onix:Authority datestamp="string" sourcetype="00" sourcename="string">string</onix:Authority>
+      <onix:Annotation datestamp="string" sourcetype="00" sourcename="string">
+        <onix:AnnotationType datestamp="string" sourcetype="00" sourcename="string">onixPL:Interpretation</onix:AnnotationType>
+        <onix:Authority datestamp="string" sourcetype="00" sourcename="string">string</onix:Authority>
+        <onix:AnnotationText language="alt" datestamp="string" sourcetype="00" sourcename="string">string</onix:AnnotationText>
+      </onix:Annotation>
+      <onix:LicenseTextLink href="string" datestamp="string" sourcetype="00" sourcename="string"/>
+      <onix:LicenseDocumentReference datestamp="string" sourcetype="00" sourcename="string">
+        <onix:DocumentLabel datestamp="string" sourcetype="00" sourcename="string">string</onix:DocumentLabel>
+        <onix:SectionDesignation datestamp="string" sourcetype="00" sourcename="string">string</onix:SectionDesignation>
+        <onix:SectionIdentifier datestamp="string" sourcetype="00" sourcename="string">
+          <onix:SectionIDType datestamp="string" sourcetype="00" sourcename="string">onixPL:URI</onix:SectionIDType>
+          <onix:IDValue datestamp="string" sourcetype="00" sourcename="string">string</onix:IDValue>
+        </onix:SectionIdentifier>
+      </onix:LicenseDocumentReference>
+      <onix:OtherDocumentReference datestamp="string" sourcetype="00" sourcename="string">
+        <onix:ReferenceRelator datestamp="string" sourcetype="00" sourcename="string">onixPL:BasedOnOfferIn</onix:ReferenceRelator>
+        <onix:DocumentLabel datestamp="string" sourcetype="00" sourcename="string">string</onix:DocumentLabel>
+        <onix:SectionDesignation datestamp="string" sourcetype="00" sourcename="string">string</onix:SectionDesignation>
+        <onix:SectionIdentifier datestamp="string" sourcetype="00" sourcename="string">
+          <onix:SectionIDType datestamp="string" sourcetype="00" sourcename="string">onixPL:URI</onix:SectionIDType>
+          <onix:IDValue datestamp="string" sourcetype="00" sourcename="string">string</onix:IDValue>
+        </onix:SectionIdentifier>
+        <onix:Annotation datestamp="string" sourcetype="00" sourcename="string">
+          <onix:AnnotationType datestamp="string" sourcetype="00" sourcename="string">onixPL:AcknowledgementWording</onix:AnnotationType>
+          <onix:Authority datestamp="string" sourcetype="00" sourcename="string">string</onix:Authority>
+          <onix:AnnotationText language="sem" datestamp="string" sourcetype="00" sourcename="string">string</onix:AnnotationText>
+        </onix:Annotation>
+      </onix:OtherDocumentReference>
+      <onix:LicenseGrantPurpose datestamp="string" sourcetype="00" sourcename="string">onixPL:NonCommercialUse</onix:LicenseGrantPurpose>
+      <onix:LicenseGrantCondition datestamp="string" sourcetype="00" sourcename="string">string</onix:LicenseGrantCondition>
+      <onix:LicenseGrantRelatedAgent datestamp="string" sourcetype="00" sourcename="string">
+        <onix:LicenseGrantAgentRelator datestamp="string" sourcetype="00" sourcename="string">string</onix:LicenseGrantAgentRelator>
+        <onix:RelatedAgent datestamp="string" sourcetype="00" sourcename="string">string</onix:RelatedAgent>
+      </onix:LicenseGrantRelatedAgent>
+      <onix:LicenseGrantRelatedResource datestamp="string" sourcetype="00" sourcename="string">
+        <onix:LicenseGrantResourceRelator datestamp="string" sourcetype="00" sourcename="string">string</onix:LicenseGrantResourceRelator>
+        <onix:RelatedResource datestamp="string" sourcetype="00" sourcename="string">string</onix:RelatedResource>
+      </onix:LicenseGrantRelatedResource>
+      <onix:LicenseGrantRelatedTimePoint datestamp="string" sourcetype="00" sourcename="string">
+        <onix:LicenseGrantTimePointRelator datestamp="string" sourcetype="00" sourcename="string">string</onix:LicenseGrantTimePointRelator>
+        <onix:RelatedTimePoint datestamp="string" sourcetype="00" sourcename="string">string</onix:RelatedTimePoint>
+      </onix:LicenseGrantRelatedTimePoint>
+      <onix:LicenseGrantRelatedPlace datestamp="string" sourcetype="00" sourcename="string">
+        <onix:LicenseGrantPlaceRelator datestamp="string" sourcetype="00" sourcename="string">string</onix:LicenseGrantPlaceRelator>
+        <onix:RelatedPlace datestamp="string" sourcetype="00" sourcename="string">string</onix:RelatedPlace>
+      </onix:LicenseGrantRelatedPlace>
+    </onix:LicenseGrant>
+    <onix:UsageTerms datestamp="string" sourcetype="00" sourcename="string">
+      <onix:Usage datestamp="string" sourcetype="00" sourcename="string">
+        <onix:UsageType datestamp="string" sourcetype="00" sourcename="string">onixPL:ProvideIntegratedIndex</onix:UsageType>
+        <onix:UsageStatus datestamp="string" sourcetype="00" sourcename="string">onixPL:NotApplicable</onix:UsageStatus>
+        <onix:Authority datestamp="string" sourcetype="00" sourcename="string">string</onix:Authority>
+        <onix:Annotation datestamp="string" sourcetype="00" sourcename="string">
+          <onix:AnnotationType datestamp="string" sourcetype="00" sourcename="string">onixPL:AcknowledgementWording</onix:AnnotationType>
+          <onix:Authority datestamp="string" sourcetype="00" sourcename="string">string</onix:Authority>
+          <onix:AnnotationText language="sam" datestamp="string" sourcetype="00" sourcename="string">string</onix:AnnotationText>
+        </onix:Annotation>
+        <onix:LicenseTextLink href="string" datestamp="string" sourcetype="00" sourcename="string"/>
+        <onix:LicenseDocumentReference datestamp="string" sourcetype="00" sourcename="string">
+          <onix:DocumentLabel datestamp="string" sourcetype="00" sourcename="string">string</onix:DocumentLabel>
+          <onix:SectionDesignation datestamp="string" sourcetype="00" sourcename="string">string</onix:SectionDesignation>
+          <onix:SectionIdentifier datestamp="string" sourcetype="00" sourcename="string">
+            <onix:SectionIDType datestamp="string" sourcetype="00" sourcename="string">onixPL:DOI</onix:SectionIDType>
+            <onix:IDValue datestamp="string" sourcetype="00" sourcename="string">string</onix:IDValue>
+          </onix:SectionIdentifier>
+        </onix:LicenseDocumentReference>
+        <onix:OtherDocumentReference datestamp="string" sourcetype="00" sourcename="string">
+          <onix:ReferenceRelator datestamp="string" sourcetype="00" sourcename="string">onixPL:BasedOnOfferIn</onix:ReferenceRelator>
+          <onix:DocumentLabel datestamp="string" sourcetype="00" sourcename="string">string</onix:DocumentLabel>
+          <onix:SectionDesignation datestamp="string" sourcetype="00" sourcename="string">string</onix:SectionDesignation>
+          <onix:SectionIdentifier datestamp="string" sourcetype="00" sourcename="string">
+            <onix:SectionIDType datestamp="string" sourcetype="00" sourcename="string">onixPL:Proprietary</onix:SectionIDType>
+            <onix:IDValue datestamp="string" sourcetype="00" sourcename="string">string</onix:IDValue>
+          </onix:SectionIdentifier>
+          <onix:Annotation datestamp="string" sourcetype="00" sourcename="string">
+            <onix:AnnotationType datestamp="string" sourcetype="00" sourcename="string">onixPL:VariationsFromModel</onix:AnnotationType>
+            <onix:Authority datestamp="string" sourcetype="00" sourcename="string">string</onix:Authority>
+            <onix:AnnotationText language="pap" datestamp="string" sourcetype="00" sourcename="string">string</onix:AnnotationText>
+          </onix:Annotation>
+        </onix:OtherDocumentReference>
+        <onix:User datestamp="string" sourcetype="00" sourcename="string">string</onix:User>
+        <onix:UsedResource datestamp="string" sourcetype="00" sourcename="string">string</onix:UsedResource>
+        <onix:UsagePurpose datestamp="string" sourcetype="00" sourcename="string">onixPL:RegulatoryUse</onix:UsagePurpose>
+        <onix:UsageMethod datestamp="string" sourcetype="00" sourcename="string">onixPL:ElectronicTransmission</onix:UsageMethod>
+        <onix:UsageCondition datestamp="string" sourcetype="00" sourcename="string">onixPL:RecordKeepingNotRequired</onix:UsageCondition>
+        <onix:UsageException datestamp="string" sourcetype="00" sourcename="string">
+          <onix:UsageExceptionType datestamp="string" sourcetype="00" sourcename="string">onixPL:ExceptAsPermitted</onix:UsageExceptionType>
+          <onix:LicenseTextLink href="string" datestamp="string" sourcetype="00" sourcename="string"/>
+          <onix:LicenseDocumentReference datestamp="string" sourcetype="00" sourcename="string">
+            <onix:DocumentLabel datestamp="string" sourcetype="00" sourcename="string">string</onix:DocumentLabel>
+            <onix:SectionDesignation datestamp="string" sourcetype="00" sourcename="string">string</onix:SectionDesignation>
+            <onix:SectionIdentifier datestamp="string" sourcetype="00" sourcename="string">
+              <onix:SectionIDType datestamp="string" sourcetype="00" sourcename="string">onixPL:DOI</onix:SectionIDType>
+              <onix:IDValue datestamp="string" sourcetype="00" sourcename="string">string</onix:IDValue>
+            </onix:SectionIdentifier>
+          </onix:LicenseDocumentReference>
+        </onix:UsageException>
+        <onix:UsageQuantity datestamp="string" sourcetype="00" sourcename="string">
+          <onix:UsageQuantityType datestamp="string" sourcetype="00" sourcename="string">onixPL:NumberOfCopiesPermitted</onix:UsageQuantityType>
+          <onix:QuantityDetail datestamp="string" sourcetype="00" sourcename="string">
+            <onix:Proximity datestamp="string" sourcetype="00" sourcename="string">onixPL:MoreThan</onix:Proximity>
+            <onix:Value datestamp="string" sourcetype="00" sourcename="string">3</onix:Value>
+            <onix:QuantityUnit datestamp="string" sourcetype="00" sourcename="string">onixPL:Percent</onix:QuantityUnit>
+            <onix:ReferenceUnit datestamp="string" sourcetype="00" sourcename="string">string</onix:ReferenceUnit>
+          </onix:QuantityDetail>
+        </onix:UsageQuantity>
+        <onix:UsageRelatedAgent datestamp="string" sourcetype="00" sourcename="string">
+          <onix:UsageAgentRelator datestamp="string" sourcetype="00" sourcename="string">onixPL:ReceivingAgent</onix:UsageAgentRelator>
+          <onix:RelatedAgent datestamp="string" sourcetype="00" sourcename="string">string</onix:RelatedAgent>
+        </onix:UsageRelatedAgent>
+        <onix:UsageRelatedResource datestamp="string" sourcetype="00" sourcename="string">
+          <onix:UsageResourceRelator datestamp="string" sourcetype="00" sourcename="string">onixPL:MustInclude</onix:UsageResourceRelator>
+          <onix:RelatedResource datestamp="string" sourcetype="00" sourcename="string">string</onix:RelatedResource>
+        </onix:UsageRelatedResource>
+        <onix:UsageRelatedTimePoint datestamp="string" sourcetype="00" sourcename="string">
+          <onix:UsageTimePointRelator datestamp="string" sourcetype="00" sourcename="string">string</onix:UsageTimePointRelator>
+          <onix:RelatedTimePoint datestamp="string" sourcetype="00" sourcename="string">string</onix:RelatedTimePoint>
+        </onix:UsageRelatedTimePoint>
+        <onix:UsageRelatedPlace datestamp="string" sourcetype="00" sourcename="string">
+          <onix:UsagePlaceRelator datestamp="string" sourcetype="00" sourcename="string">onixPL:PlaceOfUsage</onix:UsagePlaceRelator>
+          <onix:RelatedPlace datestamp="string" sourcetype="00" sourcename="string">string</onix:RelatedPlace>
+        </onix:UsageRelatedPlace>
+      </onix:Usage>
+    </onix:UsageTerms>
+    <onix:SupplyTerms datestamp="string" sourcetype="00" sourcename="string">
+      <onix:SupplyTerm datestamp="string" sourcetype="00" sourcename="string">
+        <onix:SupplyTermType datestamp="string" sourcetype="00" sourcename="string">onixPL:ContentWarranty</onix:SupplyTermType>
+        <onix:TermStatus>onixPL:ExplicitYes</onix:TermStatus>
+        <onix:Authority datestamp="string" sourcetype="00" sourcename="string">string</onix:Authority>
+          <onix:Annotation>
+          <onix:AnnotationType datestamp="string" sourcetype="00" sourcename="string">onixPL:AmbiguityInLicenseText</onix:AnnotationType>
+          <onix:Authority datestamp="string" sourcetype="00" sourcename="string">string</onix:Authority>
+          <onix:AnnotationText language="udm" datestamp="string" sourcetype="00" sourcename="string">string</onix:AnnotationText>
+        </onix:Annotation>
+        <onix:LicenseTextLink href="string" datestamp="string" sourcetype="00" sourcename="string"/>
+        <onix:LicenseDocumentReference datestamp="string" sourcetype="00" sourcename="string">
+          <onix:DocumentLabel datestamp="string" sourcetype="00" sourcename="string">string</onix:DocumentLabel>
+          <onix:SectionDesignation datestamp="string" sourcetype="00" sourcename="string">string</onix:SectionDesignation>
+          <onix:SectionIdentifier datestamp="string" sourcetype="00" sourcename="string">
+            <onix:SectionIDType datestamp="string" sourcetype="00" sourcename="string">onixPL:Proprietary</onix:SectionIDType>
+            <onix:IDValue datestamp="string" sourcetype="00" sourcename="string">string</onix:IDValue>
+          </onix:SectionIdentifier>
+        </onix:LicenseDocumentReference>
+        <onix:OtherDocumentReference datestamp="string" sourcetype="00" sourcename="string">
+          <onix:ReferenceRelator datestamp="string" sourcetype="00" sourcename="string">onixPL:ReplacementFor</onix:ReferenceRelator>
+          <onix:DocumentLabel datestamp="string" sourcetype="00" sourcename="string">string</onix:DocumentLabel>
+          <onix:SectionDesignation datestamp="string" sourcetype="00" sourcename="string">string</onix:SectionDesignation>
+          <onix:SectionIdentifier datestamp="string" sourcetype="00" sourcename="string">
+            <onix:SectionIDType datestamp="string" sourcetype="00" sourcename="string">onixPL:Proprietary</onix:SectionIDType>
+            <onix:IDValue datestamp="string" sourcetype="00" sourcename="string">string</onix:IDValue>
+          </onix:SectionIdentifier>
+          <onix:Annotation datestamp="string" sourcetype="00" sourcename="string">
+            <onix:AnnotationType datestamp="string" sourcetype="00" sourcename="string">onixPL:ErrorInLicenseText</onix:AnnotationType>
+            <onix:Authority datestamp="string" sourcetype="00" sourcename="string">string</onix:Authority>
+            <onix:AnnotationText language="rup" datestamp="string" sourcetype="00" sourcename="string">string</onix:AnnotationText>
+          </onix:Annotation>
+        </onix:OtherDocumentReference>
+        <onix:SupplyTermQuantity datestamp="string" sourcetype="00" sourcename="string">
+          <onix:SupplyTermQuantityType datestamp="string" sourcetype="00" sourcename="string">onixPL:GuaranteedUptime</onix:SupplyTermQuantityType>
+          <onix:QuantityDetail datestamp="string" sourcetype="00" sourcename="string">
+            <onix:Proximity datestamp="string" sourcetype="00" sourcename="string">onixPL:LessThan</onix:Proximity>
+            <onix:Value datestamp="string" sourcetype="00" sourcename="string">3</onix:Value>
+            <onix:QuantityUnit datestamp="string" sourcetype="00" sourcename="string">onixPL:Percent</onix:QuantityUnit>
+            <onix:ReferenceUnit datestamp="string" sourcetype="00" sourcename="string">string</onix:ReferenceUnit>
+          </onix:QuantityDetail>
+        </onix:SupplyTermQuantity>
+        <onix:SupplyTermRelatedAgent datestamp="string" sourcetype="00" sourcename="string">
+          <onix:SupplyTermAgentRelator datestamp="string" sourcetype="00" sourcename="string">string</onix:SupplyTermAgentRelator>
+          <onix:RelatedAgent datestamp="string" sourcetype="00" sourcename="string">string</onix:RelatedAgent>
+        </onix:SupplyTermRelatedAgent>
+        <onix:SupplyTermRelatedResource datestamp="string" sourcetype="00" sourcename="string">
+          <onix:SupplyTermResourceRelator datestamp="string" sourcetype="00" sourcename="string">string</onix:SupplyTermResourceRelator>
+          <onix:RelatedResource datestamp="string" sourcetype="00" sourcename="string">string</onix:RelatedResource>
+        </onix:SupplyTermRelatedResource>
+        <onix:SupplyTermRelatedTimePoint datestamp="string" sourcetype="00" sourcename="string">
+          <onix:SupplyTermTimePointRelator datestamp="string" sourcetype="00" sourcename="string">onixPL:SupplyStartDate</onix:SupplyTermTimePointRelator>
+          <onix:RelatedTimePoint datestamp="string" sourcetype="00" sourcename="string">string</onix:RelatedTimePoint>
+        </onix:SupplyTermRelatedTimePoint>
+        <onix:SupplyTermRelatedPlace datestamp="string" sourcetype="00" sourcename="string">
+          <onix:SupplyTermPlaceRelator datestamp="string" sourcetype="00" sourcename="string">string</onix:SupplyTermPlaceRelator>
+          <onix:RelatedPlace datestamp="string" sourcetype="00" sourcename="string">string</onix:RelatedPlace>
+        </onix:SupplyTermRelatedPlace>
+      </onix:SupplyTerm>
+    </onix:SupplyTerms>
+    <onix:ContinuingAccessTerms datestamp="string" sourcetype="00" sourcename="string">
+      <onix:ContinuingAccessTerm datestamp="string" sourcetype="00" sourcename="string">
+        <onix:ContinuingAccessTermType datestamp="string" sourcetype="00" sourcename="string">onixPL:ContinuingAccess</onix:ContinuingAccessTermType>
+        <onix:TermStatus>onixPL:Yes</onix:TermStatus>
+        <onix:Authority datestamp="string" sourcetype="00" sourcename="string">string</onix:Authority>
+        <onix:Annotation datestamp="string" sourcetype="00" sourcename="string">
+          <onix:AnnotationType datestamp="string" sourcetype="00" sourcename="string">onixPL:ERMI:TerminationRequirementsNote</onix:AnnotationType>
+          <onix:Authority datestamp="string" sourcetype="00" sourcename="string">string</onix:Authority>
+          <onix:AnnotationText language="ceb" datestamp="string" sourcetype="00" sourcename="string">string</onix:AnnotationText>
+        </onix:Annotation>
+        <onix:LicenseTextLink href="string" datestamp="string" sourcetype="00" sourcename="string"/>
+        <onix:LicenseDocumentReference datestamp="string" sourcetype="00" sourcename="string">
+          <onix:DocumentLabel datestamp="string" sourcetype="00" sourcename="string">string</onix:DocumentLabel>
+          <onix:SectionDesignation datestamp="string" sourcetype="00" sourcename="string">string</onix:SectionDesignation>
+          <onix:SectionIdentifier datestamp="string" sourcetype="00" sourcename="string">
+            <onix:SectionIDType datestamp="string" sourcetype="00" sourcename="string">onixPL:DOI</onix:SectionIDType>
+            <onix:IDValue datestamp="string" sourcetype="00" sourcename="string">string</onix:IDValue>
+          </onix:SectionIdentifier>
+        </onix:LicenseDocumentReference>
+        <onix:OtherDocumentReference datestamp="string" sourcetype="00" sourcename="string">
+          <onix:ReferenceRelator datestamp="string" sourcetype="00" sourcename="string">onixPL:BasedOnOfferIn</onix:ReferenceRelator>
+          <onix:DocumentLabel datestamp="string" sourcetype="00" sourcename="string">string</onix:DocumentLabel>
+          <onix:SectionDesignation datestamp="string" sourcetype="00" sourcename="string">string</onix:SectionDesignation>
+          <onix:SectionIdentifier datestamp="string" sourcetype="00" sourcename="string">
+            <onix:SectionIDType datestamp="string" sourcetype="00" sourcename="string">onixPL:URL</onix:SectionIDType>
+            <onix:IDValue datestamp="string" sourcetype="00" sourcename="string">string</onix:IDValue>
+          </onix:SectionIdentifier>
+          <onix:Annotation datestamp="string" sourcetype="00" sourcename="string">
+            <onix:AnnotationType datestamp="string" sourcetype="00" sourcename="string">onixPL:ERMI:TermsNote</onix:AnnotationType>
+            <onix:Authority datestamp="string" sourcetype="00" sourcename="string">string</onix:Authority>
+            <onix:AnnotationText language="cze" datestamp="string" sourcetype="00" sourcename="string">string</onix:AnnotationText>
+          </onix:Annotation>
+        </onix:OtherDocumentReference>
+        <onix:ContinuingAccessTermQuantity datestamp="string" sourcetype="00" sourcename="string">
+          <onix:ContinuingAccessTermQuantityType datestamp="string" sourcetype="00" sourcename="string">string</onix:ContinuingAccessTermQuantityType>
+          <onix:QuantityDetail datestamp="string" sourcetype="00" sourcename="string">
+            <onix:Proximity datestamp="string" sourcetype="00" sourcename="string">onixPL:NotMoreThan</onix:Proximity>
+            <onix:Value datestamp="string" sourcetype="00" sourcename="string">3</onix:Value>
+            <onix:QuantityUnit datestamp="string" sourcetype="00" sourcename="string">onixPL:Weeks</onix:QuantityUnit>
+            <onix:ReferenceUnit datestamp="string" sourcetype="00" sourcename="string">string</onix:ReferenceUnit>
+          </onix:QuantityDetail>
+        </onix:ContinuingAccessTermQuantity>
+        <onix:ContinuingAccessTermRelatedAgent datestamp="string" sourcetype="00" sourcename="string">
+          <onix:ContinuingAccessTermAgentRelator datestamp="string" sourcetype="00" sourcename="string">string</onix:ContinuingAccessTermAgentRelator>
+          <onix:RelatedAgent datestamp="string" sourcetype="00" sourcename="string">string</onix:RelatedAgent>
+        </onix:ContinuingAccessTermRelatedAgent>
+        <onix:ContinuingAccessTermRelatedResource datestamp="string" sourcetype="00" sourcename="string">
+          <onix:ContinuingAccessTermResourceRelator datestamp="string" sourcetype="00" sourcename="string">string</onix:ContinuingAccessTermResourceRelator>
+          <onix:RelatedResource datestamp="string" sourcetype="00" sourcename="string">string</onix:RelatedResource>
+        </onix:ContinuingAccessTermRelatedResource>
+        <onix:ContinuingAccessTermRelatedTimePoint datestamp="string" sourcetype="00" sourcename="string">
+          <onix:ContinuingAccessTermTimePointRelator datestamp="string" sourcetype="00" sourcename="string">string</onix:ContinuingAccessTermTimePointRelator>
+          <onix:RelatedTimePoint datestamp="string" sourcetype="00" sourcename="string">string</onix:RelatedTimePoint>
+        </onix:ContinuingAccessTermRelatedTimePoint>
+        <onix:ContinuingAccessTermRelatedPlace datestamp="string" sourcetype="00" sourcename="string">
+          <onix:ContinuingAccessTermPlaceRelator datestamp="string" sourcetype="00" sourcename="string">string</onix:ContinuingAccessTermPlaceRelator>
+          <onix:RelatedPlace datestamp="string" sourcetype="00" sourcename="string">string</onix:RelatedPlace>
+        </onix:ContinuingAccessTermRelatedPlace>
+      </onix:ContinuingAccessTerm>
+    </onix:ContinuingAccessTerms>
+    <onix:PaymentTerms datestamp="string" sourcetype="00" sourcename="string">
+      <onix:CurrencyCode datestamp="string" sourcetype="00" sourcename="string">MZN</onix:CurrencyCode>
+      <onix:PaymentTerm datestamp="string" sourcetype="00" sourcename="string">
+        <onix:PaymentTermType datestamp="string" sourcetype="00" sourcename="string">onixPL:PaymentConditions</onix:PaymentTermType>
+        <onix:TermStatus>onixPL:No</onix:TermStatus>
+        <onix:Authority datestamp="string" sourcetype="00" sourcename="string">string</onix:Authority>
+        <onix:Annotation datestamp="string" sourcetype="00" sourcename="string">
+          <onix:AnnotationType datestamp="string" sourcetype="00" sourcename="string">onixPL:ErrorInLicenseText</onix:AnnotationType>
+          <onix:Authority datestamp="string" sourcetype="00" sourcename="string">string</onix:Authority>
+          <onix:AnnotationText language="nyo" datestamp="string" sourcetype="00" sourcename="string">string</onix:AnnotationText>
+        </onix:Annotation>
+        <onix:LicenseTextLink href="string" datestamp="string" sourcetype="00" sourcename="string"/>
+        <onix:LicenseDocumentReference datestamp="string" sourcetype="00" sourcename="string">
+          <onix:DocumentLabel datestamp="string" sourcetype="00" sourcename="string">string</onix:DocumentLabel>
+          <onix:SectionDesignation datestamp="string" sourcetype="00" sourcename="string">string</onix:SectionDesignation>
+          <onix:SectionIdentifier datestamp="string" sourcetype="00" sourcename="string">
+            <onix:SectionIDType datestamp="string" sourcetype="00" sourcename="string">onixPL:Proprietary</onix:SectionIDType>
+            <onix:IDValue datestamp="string" sourcetype="00" sourcename="string">string</onix:IDValue>
+          </onix:SectionIdentifier>
+        </onix:LicenseDocumentReference>
+        <onix:OtherDocumentReference datestamp="string" sourcetype="00" sourcename="string">
+          <onix:ReferenceRelator datestamp="string" sourcetype="00" sourcename="string">onixPL:ReplacedBy</onix:ReferenceRelator>
+          <onix:DocumentLabel datestamp="string" sourcetype="00" sourcename="string">string</onix:DocumentLabel>
+          <onix:SectionDesignation datestamp="string" sourcetype="00" sourcename="string">string</onix:SectionDesignation>
+          <onix:SectionIdentifier datestamp="string" sourcetype="00" sourcename="string">
+            <onix:SectionIDType datestamp="string" sourcetype="00" sourcename="string">onixPL:URI</onix:SectionIDType>
+            <onix:IDValue datestamp="string" sourcetype="00" sourcename="string">string</onix:IDValue>
+          </onix:SectionIdentifier>
+          <onix:Annotation datestamp="string" sourcetype="00" sourcename="string">
+            <onix:AnnotationType datestamp="string" sourcetype="00" sourcename="string">onixPL:Interpretation</onix:AnnotationType>
+            <onix:Authority datestamp="string" sourcetype="00" sourcename="string">string</onix:Authority>
+            <onix:AnnotationText language="sms" datestamp="string" sourcetype="00" sourcename="string">string</onix:AnnotationText>
+          </onix:Annotation>
+        </onix:OtherDocumentReference>
+        <onix:PaymentTermQuantity datestamp="string" sourcetype="00" sourcename="string">
+          <onix:PaymentTermQuantityType datestamp="string" sourcetype="00" sourcename="string">string</onix:PaymentTermQuantityType>
+          <onix:QuantityDetail datestamp="string" sourcetype="00" sourcename="string">
+            <onix:Proximity datestamp="string" sourcetype="00" sourcename="string">onixPL:MoreThan</onix:Proximity>
+            <onix:Value datestamp="string" sourcetype="00" sourcename="string">3</onix:Value>
+            <onix:QuantityUnit datestamp="string" sourcetype="00" sourcename="string">onixPL:Percent</onix:QuantityUnit>
+            <onix:ReferenceUnit datestamp="string" sourcetype="00" sourcename="string">string</onix:ReferenceUnit>
+          </onix:QuantityDetail>
+        </onix:PaymentTermQuantity>
+        <onix:PaymentTermRelatedAgent datestamp="string" sourcetype="00" sourcename="string">
+          <onix:PaymentTermAgentRelator datestamp="string" sourcetype="00" sourcename="string">string</onix:PaymentTermAgentRelator>
+          <onix:RelatedAgent datestamp="string" sourcetype="00" sourcename="string">string</onix:RelatedAgent>
+        </onix:PaymentTermRelatedAgent>
+        <onix:PaymentTermRelatedResource datestamp="string" sourcetype="00" sourcename="string">
+          <onix:PaymentTermResourceRelator datestamp="string" sourcetype="00" sourcename="string">string</onix:PaymentTermResourceRelator>
+          <onix:RelatedResource datestamp="string" sourcetype="00" sourcename="string">string</onix:RelatedResource>
+        </onix:PaymentTermRelatedResource>
+        <onix:PaymentTermRelatedTimePoint datestamp="string" sourcetype="00" sourcename="string">
+          <onix:PaymentTermTimePointRelator datestamp="string" sourcetype="00" sourcename="string">string</onix:PaymentTermTimePointRelator>
+          <onix:RelatedTimePoint datestamp="string" sourcetype="00" sourcename="string">string</onix:RelatedTimePoint>
+        </onix:PaymentTermRelatedTimePoint>
+        <onix:PaymentTermRelatedPlace datestamp="string" sourcetype="00" sourcename="string">
+          <onix:PaymentTermPlaceRelator datestamp="string" sourcetype="00" sourcename="string">string</onix:PaymentTermPlaceRelator>
+          <onix:RelatedPlace datestamp="string" sourcetype="00" sourcename="string">string</onix:RelatedPlace>
+        </onix:PaymentTermRelatedPlace>
+      </onix:PaymentTerm>
+    </onix:PaymentTerms>
+    <onix:GeneralTerms datestamp="string" sourcetype="00" sourcename="string">
+      <onix:GeneralTerm datestamp="string" sourcetype="00" sourcename="string">
+        <onix:GeneralTermType datestamp="string" sourcetype="00" sourcename="string">onixPL:UseOfDigitalWatermarking</onix:GeneralTermType>
+        <onix:TermStatus>onixPL:Uncertain</onix:TermStatus>
+        <onix:Authority datestamp="string" sourcetype="00" sourcename="string">string</onix:Authority>
+        <onix:Annotation datestamp="string" sourcetype="00" sourcename="string">
+          <onix:AnnotationType datestamp="string" sourcetype="00" sourcename="string">onixPL:ERMI:Value</onix:AnnotationType>
+          <onix:Authority datestamp="string" sourcetype="00" sourcename="string">string</onix:Authority>
+          <onix:AnnotationText language="gsw" datestamp="string" sourcetype="00" sourcename="string">string</onix:AnnotationText>
+        </onix:Annotation>
+        <onix:LicenseTextLink href="string" datestamp="string" sourcetype="00" sourcename="string"/>
+        <onix:LicenseDocumentReference datestamp="string" sourcetype="00" sourcename="string">
+          <onix:DocumentLabel datestamp="string" sourcetype="00" sourcename="string">string</onix:DocumentLabel>
+          <onix:SectionDesignation datestamp="string" sourcetype="00" sourcename="string">string</onix:SectionDesignation>
+          <onix:SectionIdentifier datestamp="string" sourcetype="00" sourcename="string">
+            <onix:SectionIDType datestamp="string" sourcetype="00" sourcename="string">onixPL:URL</onix:SectionIDType>
+            <onix:IDValue datestamp="string" sourcetype="00" sourcename="string">string</onix:IDValue>
+          </onix:SectionIdentifier>
+        </onix:LicenseDocumentReference>
+        <onix:OtherDocumentReference datestamp="string" sourcetype="00" sourcename="string">
+          <onix:ReferenceRelator datestamp="string" sourcetype="00" sourcename="string">onixPL:BasedOnOfferIn</onix:ReferenceRelator>
+          <onix:DocumentLabel datestamp="string" sourcetype="00" sourcename="string">string</onix:DocumentLabel>
+          <onix:SectionDesignation datestamp="string" sourcetype="00" sourcename="string">string</onix:SectionDesignation>
+          <onix:SectionIdentifier datestamp="string" sourcetype="00" sourcename="string">
+            <onix:SectionIDType datestamp="string" sourcetype="00" sourcename="string">onixPL:DOI</onix:SectionIDType>
+            <onix:IDValue datestamp="string" sourcetype="00" sourcename="string">string</onix:IDValue>
+          </onix:SectionIdentifier>
+          <onix:Annotation datestamp="string" sourcetype="00" sourcename="string">
+            <onix:AnnotationType datestamp="string" sourcetype="00" sourcename="string">onixPL:ERMI:MaintenanceWindow</onix:AnnotationType>
+            <onix:Authority datestamp="string" sourcetype="00" sourcename="string">string</onix:Authority>
+            <onix:AnnotationText language="akk" datestamp="string" sourcetype="00" sourcename="string">string</onix:AnnotationText>
+          </onix:Annotation>
+        </onix:OtherDocumentReference>
+        <onix:GeneralTermQuantity datestamp="string" sourcetype="00" sourcename="string">
+          <onix:GeneralTermQuantityType datestamp="string" sourcetype="00" sourcename="string">onixPL:NoticePeriodForTerminationByBreach</onix:GeneralTermQuantityType>
+          <onix:QuantityDetail datestamp="string" sourcetype="00" sourcename="string">
+            <onix:Proximity datestamp="string" sourcetype="00" sourcename="string">onixPL:NotMoreThan</onix:Proximity>
+            <onix:Value datestamp="string" sourcetype="00" sourcename="string">3</onix:Value>
+            <onix:QuantityUnit datestamp="string" sourcetype="00" sourcename="string">onixPL:Percent</onix:QuantityUnit>
+            <onix:ReferenceUnit datestamp="string" sourcetype="00" sourcename="string">string</onix:ReferenceUnit>
+          </onix:QuantityDetail>
+        </onix:GeneralTermQuantity>
+        <onix:GeneralTermRelatedAgent datestamp="string" sourcetype="00" sourcename="string">
+          <onix:GeneralTermAgentRelator datestamp="string" sourcetype="00" sourcename="string">onixPL:AddresseeForNoticesToLicensor</onix:GeneralTermAgentRelator>
+          <onix:RelatedAgent datestamp="string" sourcetype="00" sourcename="string">string</onix:RelatedAgent>
+        </onix:GeneralTermRelatedAgent>
+        <onix:GeneralTermRelatedResource datestamp="string" sourcetype="00" sourcename="string">
+          <onix:GeneralTermResourceRelator datestamp="string" sourcetype="00" sourcename="string">string</onix:GeneralTermResourceRelator>
+          <onix:RelatedResource datestamp="string" sourcetype="00" sourcename="string">string</onix:RelatedResource>
+        </onix:GeneralTermRelatedResource>
+        <onix:GeneralTermRelatedTimePoint datestamp="string" sourcetype="00" sourcename="string">
+          <onix:GeneralTermTimePointRelator datestamp="string" sourcetype="00" sourcename="string">onixPL:EffectiveDateForVariation</onix:GeneralTermTimePointRelator>
+          <onix:RelatedTimePoint datestamp="string" sourcetype="00" sourcename="string">string</onix:RelatedTimePoint>
+        </onix:GeneralTermRelatedTimePoint>
+        <onix:GeneralTermRelatedPlace datestamp="string" sourcetype="00" sourcename="string">
+          <onix:GeneralTermPlaceRelator datestamp="string" sourcetype="00" sourcename="string">onixPL:AddressForNoticesToLicensee</onix:GeneralTermPlaceRelator>
+          <onix:RelatedPlace datestamp="string" sourcetype="00" sourcename="string">string</onix:RelatedPlace>
+        </onix:GeneralTermRelatedPlace>
+      </onix:GeneralTerm>
+    </onix:GeneralTerms>
+    <onix:LicenseDocumentText datestamp="string" sourcetype="00" sourcename="string">
+      <onix:DocumentLabel datestamp="string" sourcetype="00" sourcename="string">string</onix:DocumentLabel>
+      <onix:TextElement id="string" datestamp="string" sourcetype="00" sourcename="string">
+        <onix:SortNumber datestamp="string" sourcetype="00" sourcename="string">string</onix:SortNumber>
+        <onix:DisplayNumber datestamp="string" sourcetype="00" sourcename="string">string</onix:DisplayNumber>
+        <onix:TextPreceding language="kik" datestamp="string" sourcetype="00" sourcename="string">string</onix:TextPreceding>
+        <onix:Text language="afh" datestamp="string" sourcetype="00" sourcename="string">string</onix:Text>
+      </onix:TextElement>
+    </onix:LicenseDocumentText>
+  </onix:PublicationsLicenseExpression>
+</onix:ONIXPublicationsLicenseMessage>]]>
+			</content>
+			<additionalAttributes>
+				<type>supplemental</type>
+				<agreementStatus>supplimental  V2</agreementStatus>
+				<method>SERU</method>
+			</additionalAttributes>
+		</ingestDocument>
+	</requestDocuments>
+</request>

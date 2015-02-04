@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2012 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<!-- version 2 April 3, 2012 -->
+
+<!-- version 2 changes:
+    
+    Adjusted for patrons stored in KIM and simplified: 
+    
+    Replaced active dates with expiration date.
+    Removed middle name because it's not in the KIM name structure.
+    Removed historical barcodes.
+    Removed barcode statuses.
+    Adjusted postal addresses to match KIM address format. 
+    Adjusted email addresses to match KIM address format. 
+    Adjusted phone numbers addresses to match KIM address format. 
+    Moved isGenerallyBlocked to patron-level-policies.
+
+ -->
+
+<!-- Added for 1.5 (June 30, 2014): activation date, address source  -->
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns="http://ole.kuali.org/standards/ole-patron"
+    targetNamespace="http://ole.kuali.org/standards/ole-patron" elementFormDefault="qualified">
+
+    <xs:element name="patron" type="patron"/>
+
+    <xs:element name="patronGroup" type="patronGroup"/>
+
+    <xs:complexType name="patronGroup">
+        <xs:annotation>
+            <xs:documentation>A sequence of patrons wrapped in a patronGroup. Also valid to have a
+                single patron. </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="patron" type="patron" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="patron">
+        <xs:sequence>
+            <xs:element name="patronID" type="xs:string" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>The patron ID could be empty when loading a new record.
+                        OLE will generate a new record number in that case.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="expirationDate" type="xs:date" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="activationDate" type="xs:date" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="active" type="xs:boolean" minOccurs="1" maxOccurs="1"/>    
+            <xs:element name="name" type="name" minOccurs="1" maxOccurs="1"/>
+
+            <xs:element name="borrowerType" type="xs:string" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>Only a single borrowerType. No borrower type history; no way
+                        to handle multiple borrower types at once. This is OK. This is a string in
+                        the schema, but will match the borrower types the library
+                        establishes.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:element name="barcode" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>This is the patron's primary barcode; when they walk up to the
+                        desk this is the one that works. If its status is something other than
+                        "Active" then the patron can't borrow.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:element name="postalAddresses" type="postalAddresses" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="emailAddresses" type="emailAddresses" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="telephoneNumbers" type="telephoneNumbers" minOccurs="1" maxOccurs="1"/>
+            
+            
+            <xs:element name="patronLevelPolicies" type="patronLevelPolicies" minOccurs="1"
+                maxOccurs="1"/>
+
+            <xs:element name="notes" type="notes" minOccurs="1" maxOccurs="1"/>
+
+         
+
+        </xs:sequence>
+
+    </xs:complexType>
+
+    <!-- Name -->
+
+    <xs:complexType name="name">
+        <xs:annotation>
+            <xs:documentation>The patron name with free-text prefix, suffix. For
+                entities that don't have structured names, or in cases where the name is not
+                structured in the load, use the surname field.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="title" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="first" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="surname" type="xs:string" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="suffix" type="xs:string" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Addresses -->
+
+    <xs:complexType name="postalAddress">
+        <xs:annotation>
+            <xs:documentation>One address line is required; the rest is optional. Some systems can
+                only put address data in address lines 1-4, without populating the city, state,
+                postal, country fields. Non-USA addresses sometimes don't have state and/or postal
+                code, so none of these are required except for the first address
+                line.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="postalAddressType" type="xs:string" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="addressLine" type="xs:string" minOccurs="1" maxOccurs="3"/>
+            <xs:element name="city" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="stateProvince" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="addressSource" type="xs:string" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="country" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="postalCode" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="default" type="xs:boolean" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="active" type="xs:boolean" minOccurs="1" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="emailAddress">
+        <xs:sequence>
+            <xs:element name="emailAddressType" type="xs:string" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="emailAddress" type="xs:string" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="default" type="xs:boolean" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="active" type="xs:boolean" minOccurs="1" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="telephoneNumber">
+        <xs:sequence>
+            <xs:element name="telephoneNumberType" type="xs:string" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="telephoneNumber" type="xs:string" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="extension" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="country" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="default" type="xs:boolean" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="active" type="xs:boolean" minOccurs="1" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+
+  
+
+    <xs:complexType name="postalAddresses">
+        <xs:sequence>
+            <xs:element name="postalAddress" type="postalAddress" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="emailAddresses">
+        <xs:sequence>
+            <xs:element name="emailAddress" type="emailAddress" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>    
+    <xs:complexType name="telephoneNumbers">
+        <xs:sequence>
+            <xs:element name="telephoneNumber" type="telephoneNumber" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <!-- Patron-level Policies -->
+
+    <xs:complexType name="patronLevelPolicies">
+        <xs:annotation>
+            <xs:documentation> These three privileges are set for individual patrons, as well as in
+                policies. We may have more individual-patron level policies in the
+                future.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="isGenerallyBlocked" type="xs:boolean" minOccurs="1"  maxOccurs="1"/>
+            <xs:element name="hasDeliveryPrivilege" type="xs:boolean" minOccurs="1" maxOccurs="1" default="false"/>
+            <xs:element name="hasPagingPrivilege" type="xs:boolean" minOccurs="1" maxOccurs="1" default="false"/>
+            <xs:element name="receivesCourtesyNotice" type="xs:boolean" minOccurs="1" maxOccurs="1" default="false"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Notes -->
+
+    <xs:complexType name="note">
+        <xs:sequence>
+            
+            <xs:element name="noteType" type="xs:string" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="note" type="xs:string" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="active" type="xs:boolean" minOccurs="1" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="notes">
+        <xs:sequence>
+            <xs:element name="note" type="note" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+
+</xs:schema>

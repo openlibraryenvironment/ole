@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="AcquisitionBatchUpload" parent="AcquisitionBatchUpload-parentBean"/>
+
+  <bean id="AcquisitionBatchUpload-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.ole.sys.businessobject.AcquisitionBatchUpload"/>
+    <property name="objectLabel" value="Acquisition Batch Upload"/>
+    <property name="attributes">
+      <list>
+        <ref bean="AcquisitionBatchUpload-batchLoadProfile"/>
+        <ref bean="AcquisitionBatchUpload-batchFilePath"/>
+        <ref bean="AcquisitionBatchUpload-batchDescription"/>
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+  <bean id="AcquisitionBatchUpload-batchLoadProfile" parent="AcquisitionBatchUpload-batchLoadProfile-parentBean"/>
+
+  <bean id="AcquisitionBatchUpload-batchLoadProfile-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="batchLoadProfile"/>
+    <property name="label" value="Selected Load Profile"/>
+    <property name="shortLabel" value="Selected Load Profile"/>
+    <property name="maxLength" value="200"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.ole.module.purap.businessobject.options.LoadProfileValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+  </bean>
+  
+   
+  <bean id="AcquisitionBatchUpload-batchFilePath" parent="AcquisitionBatchUpload-batchFilePath-parentBean"/>
+
+  <bean id="AcquisitionBatchUpload-batchFilePath-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="batchFilePath"/>
+    <property name="label" value="Locate file To Upload"/>
+    <property name="shortLabel" value="Locate file To Upload"/>
+    <property name="maxLength" value="25"/>
+     <property name="control">
+      <bean parent="TextControlDefinition" p:size="25"/>
+     </property>
+  </bean>
+  
+  <bean id="AcquisitionBatchUpload-batchDescription" parent="AcquisitionBatchUpload-batchDescription-parentBean"/>
+
+  <bean id="AcquisitionBatchUpload-batchDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="batchDescription"/>
+    <property name="label" value="Description Of This Upload"/>
+    <property name="shortLabel" value="Description Of This Upload"/>
+    <property name="maxLength" value="200"/>
+     <property name="control">
+      <bean parent="TextControlDefinition" p:size="25"/>
+     </property>
+  </bean>
+  
+  
+</beans>

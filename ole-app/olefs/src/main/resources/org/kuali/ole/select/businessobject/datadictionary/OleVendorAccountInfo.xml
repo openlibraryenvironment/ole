@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <!--
+
+        Copyright 2005-2012 The Kuali Foundation
+
+        Licensed under the Educational Community License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at
+
+        http://www.opensource.org/licenses/ecl2.php
+
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+
+    -->
+    <bean id="OleVendorAccountInfo" parent="OleVendorAccountInfo-parentBean"/>
+
+    <bean id="OleVendorAccountInfo-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.select.bo.OleVendorAccountInfo"/>
+        <property name="titleAttribute" value="vendorAccountInfoId"/>
+        <property name="objectLabel" value="Vendor Account Info"/>
+
+        <property name="attributes">
+            <list>
+                <ref bean="OleVendorAccountInfo-vendorAccountInfoId"/>
+                <ref bean="OleVendorAccountInfo-vendorRefNumber"/>
+                <ref bean="OleVendorAccountInfo-accountNumber"/>
+                <ref bean="OleVendorAccountInfo-objectCode"/>
+                <ref bean="OleVendorAccountInfo-active"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+
+    <bean id="OleVendorAccountInfo-vendorAccountInfoId" parent="OleVendorAccountInfo-vendorAccountInfoId-parentBean"/>
+
+    <bean id="OleVendorAccountInfo-vendorAccountInfoId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Vendor Account Info Id"/>
+        <property name="maxLength" value="10"/>
+        <property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+        <property name="name" value="vendorAccountInfoId"/>
+        <property name="label" value="Vendor Account Info Id"/>
+        <property name="description" value="Vendor Account Info Id"/>
+    </bean>
+
+
+    <bean id="OleVendorAccountInfo-vendorRefNumber" parent="OleVendorAccountInfo-vendorRefNumber-parentBean"/>
+
+    <bean id="OleVendorAccountInfo-vendorRefNumber-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Vendor Reference Number"/>
+        <property name="maxLength" value="100"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="vendorRefNumber"/>
+        <property name="label" value="Vendor Reference Number"/>
+        <property name="description" value="Vendor Reference Number"/>
+
+    </bean>
+
+
+    <bean id="OleVendorAccountInfo-accountNumber" parent="OleVendorAccountInfo-accountNumber-parentBean"/>
+
+    <bean id="OleVendorAccountInfo-accountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Account Number"/>
+        <property name="maxLength" value="100"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="accountNumber"/>
+        <property name="label" value="Account Number"/>
+        <property name="description" value="Account Number"/>
+
+    </bean>
+
+
+    <bean id="OleVendorAccountInfo-objectCode" parent="OleVendorAccountInfo-objectCode-parentBean"/>
+
+    <bean id="OleVendorAccountInfo-objectCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Object Code"/>
+        <property name="maxLength" value="100"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="objectCode"/>
+        <property name="label" value="Object Code"/>
+        <property name="description" value="Object Code"/>
+
+    </bean>
+
+
+    <bean id="OleVendorAccountInfo-active" parent="OleVendorAccountInfo-active-parentBean"/>
+
+    <bean id="OleVendorAccountInfo-active-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="shortLabel" value="active"/>
+        <property name="maxLength" value="1"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="CheckboxControlDefinition"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-CheckboxControl"/>
+        </property>
+        <property name="summary" value="Active Indicator"/>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+        <property name="name" value="active"/>
+        <property name="label" value="Active Indicator"/>
+        <property name="description" value="This attribute is used to describe whether the associated object is active or inactive."/>
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+
+
+    <bean id="OleVendorAccountInfo-InquiryView" parent="Uif-OLEInquiryView">
+        <property name="headerText" value="Vendor Account Info Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OleVendorAccountInfo"/>
+        <property name="singlePageView" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-VerticalBoxSection">
+                    <property name="header.headerText" value="Vendor Account Info"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2">
+                                <property name="items">
+                                    <list>
+                                        <bean id="inquiry_vendorAccountInfoId" parent="Uif-InputField" p:propertyName="vendorAccountInfoId"/>
+                                        <bean id="inquiry_vendorRefNumber" parent="Uif-InputField" p:propertyName="vendorRefNumber"/>
+                                        <bean id="inquiry_accountNumber" parent="Uif-InputField" p:propertyName="accountNumber"/>
+                                        <bean id="inquiry_objectCode" parent="Uif-InputField" p:propertyName="objectCode"/>
+                                        <bean id="inquiry_active" parent="Uif-InputField" p:propertyName="active"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                    <property name="headerText" value="Vendor Account Info"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <!-- Business Object Lookup Definition -->
+
+
+    <bean id="OleVendorAccountInfo-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="Vendor Account Info Lookup"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OleVendorAccountInfo"/>
+        <property name="criteriaFields">
+            <list>
+                <bean id="vendorRefNumber" parent="Uif-LookupCriteriaInputField" p:propertyName="vendorRefNumber"/>
+                <bean id="accountNumber" parent="Uif-LookupCriteriaInputField" p:propertyName="accountNumber"/>
+                <bean id="objectCode" parent="Uif-LookupCriteriaInputField" p:propertyName="objectCode"/>
+                <bean id="active" parent="Uif-LookupCriteriaInputField" p:propertyName="active"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean id="searchResult_vendorAccountInfoId" parent="Uif-DataField" p:propertyName="vendorAccountInfoId"/>
+                <bean id="searchResult_vendorRefNumber" parent="Uif-DataField" p:propertyName="vendorRefNumber"/>
+                <bean id="searchResult_accountNumber" parent="Uif-DataField" p:propertyName="accountNumber"/>
+                <bean id="searchResult_objectCode" parent="Uif-DataField" p:propertyName="objectCode"/>
+                <bean id="searchResult_active" parent="Uif-DataField" p:propertyName="active"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

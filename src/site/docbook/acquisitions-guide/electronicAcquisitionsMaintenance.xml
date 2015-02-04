@@ -1,0 +1,1836 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"
+    version="5.0" xml:lang="en-US">
+    <title>E-Acquisitions Maintenance Documents</title>
+    <para role="Body Text"><inlinemediaobject>
+            <alt>Maintenance</alt>
+            <imageobject>
+                <imagedata fileref="../images/maintenanceMenu.png"/>
+            </imageobject>
+        </inlinemediaobject>
+        <emphasis role="bold"><emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                <alt>E-Resource Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/eresource-69.png"/>
+                </imageobject>
+            </inlinemediaobject>&gt; </emphasis><inlinemediaobject>
+            <alt>E-Resource Links</alt>
+            <imageobject>
+                <imagedata fileref="../images/eresource-1.png"/>
+            </imageobject>
+        </inlinemediaobject></para>
+    <para role="Body Text">E-Acquisition maintenance e-docs are available via the
+        Purchasing/Accounts Payable submenu on the <emphasis role="bold">Maintenance</emphasis> menu
+        tab. </para>
+    <section>
+        <title><anchor xml:id="_accessLocation"/>Access Location</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; <inlinemediaobject>
+                    <alt>E-Resource Admin</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-69.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Access Location</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-3.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Access Location Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-14.png"/>
+                    </imageobject>
+                </inlinemediaobject>&gt; <inlinemediaobject>
+                    <alt>Access Location</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-14a.png"/>
+                    </imageobject>
+                </inlinemediaobject>
+            </emphasis></para>
+        <para role="Body Text">Access Location is used to describe parts or locations of an
+            institution that access has been granted to for a particular E-Resource. Access
+            Locations will be locally configured to be specific to each institution.</para>
+        <section>
+            <title>Document Layout</title>
+            <para role="Body Text">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Access Location Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-15.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Body Text"> The Access Location document includes the Add/Edit Access
+                Location tab. The system automatically enters data into both the <emphasis
+                    role="bold">Old</emphasis> and <emphasis role="bold">New</emphasis> sections.
+                Selected data fields are available for editing.</para>
+            <para role="Normal"/>
+            <para role="TableHeading"><emphasis role="bold">Add/Edit Access Location Tab
+                    Definitions</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Access Location Name</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. Brief name that will display in
+                                    the Access Location field of the E-Resource Record. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Access Location Description</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Optional. Include a brief description.
+                                </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Indicates whether this status is active or
+                                    inactive. Remove the check mark to deactivate.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_accessType"/>Access Type</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; <inlinemediaobject>
+                    <alt>E-Resource Admin</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-69.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Access Type</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-8.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Access Type Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-24.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Access Type</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-24a.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text"/>
+        <section>
+            <title>Document Layout</title>
+            <para role="Body Text">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Access Type Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-25.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Body Text"> The Access Type document includes the Add/Edit Access Type tab.
+                The system automatically enters data into both the <emphasis role="bold"
+                    >Old</emphasis> and <emphasis role="bold">New</emphasis> sections. Selected data
+                fields are available for editing.</para>
+            <para role="Normal"/>
+            <para role="TableHeading"><emphasis role="bold">Add/Edit Access Type Tab
+                    Definitions</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Access Type Name</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. Brief name that will display in
+                                    the Access Type field of the E-Resource Record. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Access Type Description</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Optional. Include a brief description.
+                                </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Indicates whether this status is active or
+                                    inactive. Remove the check mark to deactivate.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_Agreement_Documents_Type"/>Agreement Document Type<indexterm
+                significance="normal">
+                <primary>Agreement Doc Type</primary>
+            </indexterm><indexterm significance="normal">
+                <primary>Maintenance Documents, License</primary>
+                <secondary>Agreement Type</secondary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; <inlinemediaobject>
+                    <alt>E-Resource Admin</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-69.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Agreement DocType</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/LicensingNoTitlePage-84.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Agreement DocType Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/LicensingNoTitlePage-85.png"/>
+                    </imageobject>
+                </inlinemediaobject>&gt; <inlinemediaobject>
+                    <alt>Agreement DocType</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/LicensingNoTitlePage-87.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The Agreement DocType document is used to describe the type of
+            Agreement Document that has been uploaded, allowing staff to easily identify the desired
+            file out of possibly multiple files associated with an Agreement or License
+            Request.</para>
+        <section>
+            <title>Document Layout</title>
+            <para role="Body Text">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Agreement DocType Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/LicensingNoTitlePage-86.png" width="100%"
+                            />
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Body Text">The Agreement Document Type document includes the <emphasis
+                    role="bold">Add/Edit Agreement Doc Type </emphasis>tab. The system automatically
+                enters data into both the <emphasis role="bold">Old</emphasis> and <emphasis
+                    role="bold">New</emphasis> sections. Selected data fields are available for
+                editing.</para>
+            <para role="Normal"/>
+            <para role="TableHeading"><emphasis role="bold">Add/Edit Agreement Document Type Tab
+                    Definitions</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Agreement DocType Name</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. Brief name of Agreement document
+                                    to display (such as title list, rider, etc.). </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Agreement DocType Description</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. Brief description of the
+                                    Agreement document type.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Indicates whether this Agreement DocType is
+                                    active or inactive. Remove the check mark to deactivate.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_Agreement_Method"/>Agreement Method<indexterm significance="normal">
+                <primary>Agreement Method</primary>
+            </indexterm><indexterm significance="normal">
+                <primary>Maintenance Documents, License</primary>
+                <secondary>Agreement Method</secondary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; <inlinemediaobject>
+                    <alt>E-Resource Admin</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-69.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Agreement Method</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/LicensingNoTitlePage-89.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Agreement Method Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/LicensingNoTitlePage-90.png"/>
+                    </imageobject>
+                </inlinemediaobject>&gt; <inlinemediaobject>
+                    <alt>Agreement Method</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/LicensingNoTitlePage-88.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The Agreement Method document is used to store the form of the
+            Agreement, and to inform locally-configurable business rules and workflows. This might
+            contain negotiated, SERU, shrink-wrap, copyright, etc. </para>
+        <para role="Body Text">The Agreement Method is used in determining which workflows are valid
+            for a specific License Request.</para>
+        <section>
+            <title>Document Layout</title>
+            <para role="Body Text">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Agreement Method Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/LicensingNoTitlePage-91.png" width="100%"
+                            />
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Body Text">The Agreement Method document includes the <emphasis role="bold"
+                    >Add/Edit Agreement Method </emphasis>tab. The system automatically enters data
+                into both the <emphasis role="bold">Old</emphasis> and <emphasis role="bold"
+                    >New</emphasis> sections. Selected data fields are available for editing.</para>
+            <para role="Normal"/>
+            <para role="TableHeading"><emphasis role="bold">Add/Edit Agreement Method Tab
+                    Definitions</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Agreement Method Name </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. Brief name for method (can use
+                                    local or ONIX-PL suggested).</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Agreement Method Description</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. Brief description of the
+                                    Agreement Method.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Indicates whether this Agreement Method is
+                                    active or inactive. Remove the check mark to deactivate.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_Agreement_Status"/>Agreement Status<indexterm significance="normal">
+                <primary>Agreement Status</primary>
+            </indexterm><indexterm significance="normal">
+                <primary>Maintenance Documents, License</primary>
+                <secondary>Agreement Status</secondary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; <inlinemediaobject>
+                    <alt>E-Resource Admin</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-69.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Agreement Status</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/LicensingNoTitlePage-94.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt;<inlinemediaobject>
+                    <alt>Agreement Status Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/LicensingNoTitlePage-95.png"/>
+                    </imageobject>
+                </inlinemediaobject>&gt;<inlinemediaobject>
+                    <alt>Agreement Status</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/LicensingNoTitlePage-92.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The Agreement Status document is used to communicate the current
+            status of the Agreement (ONIX-PL.xml) in workflow or processing, such as:
+            Active/Inactive, Draft, Final, or other status on Agreement.</para>
+        <section>
+            <title>Document Layout</title>
+            <para role="Body Text">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Agreement Status Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/LicensingNoTitlePage-96.png" width="100%"
+                            />
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Body Text">The Agreement Status document includes the <emphasis role="bold"
+                    >Add/Edit Agreement Status </emphasis>tab. The system automatically enters data
+                into both the <emphasis role="bold">Old</emphasis> and <emphasis role="bold"
+                    >New</emphasis> sections. Selected data fields are available for editing.</para>
+            <para role="Normal"/>
+            <para role="TableHeading"><emphasis role="bold">Add/Edit License Request Type Tab
+                    Definitions</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Agreement Status Name </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. Brief name to display. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Agreement Status Description</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. Brief description of the
+                                    agreement status.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Indicates whether this Agreement Status is
+                                    active or inactive. Remove the check mark to deactivate.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_Agreement_Type"/>Agreement Type<indexterm significance="normal">
+                <primary>Agreement Type</primary>
+            </indexterm><indexterm significance="normal">
+                <primary>Maintenance Documents, License</primary>
+                <secondary>Agreement Type</secondary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; <inlinemediaobject>
+                    <alt>E-Resource Admin</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-69.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Agreement Type</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/LicensingNoTitlePage-99.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Agreement Type Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/LicensingNoTitlePage-100.png"/>
+                    </imageobject>
+                </inlinemediaobject>&gt; <inlinemediaobject>
+                    <alt>Agreement Type</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/LicensingNoTitlePage-98.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The Agreement Type document is used to communicate the Types of
+            Agreements, such as supplemental, trial, regular, addendum, etc.</para>
+        <para role="Body Text">The Agreement Type and Agreement Method will be used in determining
+            which workflows are valid for a specific License Request.</para>
+        <section>
+            <title>Document Layout</title>
+            <para role="Normal"/>
+            <para role="Body Text">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Agreement Type Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/LicensingNoTitlePage-101.png" width="100%"
+                            />
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Body Text">The Agreement Type document includes the <emphasis role="bold"
+                    >Add/Edit Agreement Type </emphasis>tab. The system automatically enters data
+                into both the <emphasis role="bold">Old</emphasis> and <emphasis role="bold"
+                    >New</emphasis> sections. Selected data fields are available for editing.</para>
+            <para role="Normal"/>
+            <para role="TableHeading"><emphasis role="bold">Add/Edit License Request Type Tab
+                    Definitions</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Agreement Type Name </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. Brief name for display. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Agreement Type Description</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. Brief description to explain use
+                                    of Agreement Type.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Indicates whether this license request is
+                                    active or inactive. Remove the check mark to deactivate.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+            <?upcast beginpage?>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_authenticationType"/>Authentication Type</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; <inlinemediaobject>
+                    <alt>E-Resource Admin</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-69.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Authentication Type</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-2.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Authentication Type Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-12.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Authentication Type</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-12a.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">Authentication Types are used to describe the authentication
+            necessary for the E-Resource. Some examples may include IP address or User name and
+            Password. </para>
+        <para/>
+        <section>
+            <title>Document Layout</title>
+            <para role="Body Text">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Authentication Type Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-13.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Body Text"> The Authentication Type document includes the Add/Edit
+                Authentication Type tab. The system automatically enters data into both the
+                    <emphasis role="bold">Old</emphasis> and <emphasis role="bold">New</emphasis>
+                sections. Selected data fields are available for editing.</para>
+            <para role="Normal"/>
+            <para role="TableHeading"><emphasis role="bold">Add/Edit Authentication Type Tab
+                    Definitions</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Authentication Type Name</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. Brief name that will display in
+                                    the Authentication Type field of the Access tab on the
+                                    E-Resource Record. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Authentication Type Description</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Optional. Include a brief description.
+                                </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Indicates whether this status is active or
+                                    inactive. Remove the check mark to deactivate.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_contentType"/>Content Type</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; <inlinemediaobject>
+                    <alt>E-Resource Admin</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-69.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Content Type</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-9.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Content Type Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-26.png"/>
+                    </imageobject>
+                </inlinemediaobject>&gt; <inlinemediaobject>
+                    <alt>Content Type</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-71.png"/>
+                    </imageobject>
+                </inlinemediaobject>
+            </emphasis></para>
+        <para role="Body Text"/>
+        <section>
+            <title>Document Layout</title>
+            <para role="Body Text">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Content Type Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-27.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Body Text"> The Content Type document includes the Add/Edit Content Type
+                tab. The system automatically enters data into both the <emphasis role="bold"
+                    >Old</emphasis> and <emphasis role="bold">New</emphasis> sections. Selected data
+                fields are available for editing.</para>
+            <para role="Normal"/>
+            <para role="TableHeading"><emphasis role="bold">Add/Edit Content Type Tab
+                    Definitions</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Content Type Name</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. Brief name that will display in
+                                    the Content Type field of the E-Resource Record. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Content Type Description</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Optional. Include a brief description.
+                                </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Indicates whether this status is active or
+                                    inactive. Remove the check mark to deactivate.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_eResourceStatuse"/>E-Resource Status</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; <inlinemediaobject>
+                    <alt>E-Resource Admin</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-69.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>E-Resource Status</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-4.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>E-Resource Status Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-16.png"/>
+                    </imageobject>
+                </inlinemediaobject>&gt; <inlinemediaobject>
+                    <alt>E-Resource Status</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-16a.png"/>
+                    </imageobject>
+                </inlinemediaobject>
+            </emphasis></para>
+        <para role="Body Text"/>
+        <section>
+            <title>Document Layout</title>
+            <para role="Body Text">
+                <screenshot>
+                    <mediaobject>
+                        <alt>E-Resource Status Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-17.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Body Text"> The E-Resource Status document includes the Add/Edit E-Resource
+                Status tab. The system automatically enters data into both the <emphasis role="bold"
+                    >Old</emphasis> and <emphasis role="bold">New</emphasis> sections. Selected data
+                fields are available for editing.</para>
+            <para role="Normal"/>
+            <para role="TableHeading"><emphasis role="bold">Add/Edit E-Resource Status Tab
+                    Definitions</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">E-Resource Status Name</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. Brief name that will display in
+                                    the E-Resource Status field of the E-Resource Record. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">E-Resource Status Description</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Optional. Include a brief description.
+                                </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Indicates whether this status is active or
+                                    inactive. Remove the check mark to deactivate.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_License_Request_Current"/>License Request Current Location<indexterm
+                significance="normal">
+                <primary>Current Location</primary>
+            </indexterm><indexterm significance="normal">
+                <primary>Maintenance Documents, License</primary>
+                <secondary>Current Location</secondary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; <inlinemediaobject>
+                    <alt>E-Resource Admin</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-69.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>License Request Current Location</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/LicensingNoTitlePage-72.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>License Request Current Location Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/LicensingNoTitlePage-73.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>License Request Current Location</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/LicensingNoTitlePage-75.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The License Request Current Location is the secondary status field on
+            a License Request; would most commonly be use to describe where the License Request is
+            when it has been assigned outside of the OLE system. Current Locations allow licensing
+            staff to search / report / filter License Requests in order to see how many licenses are
+            waiting for signature, waiting for vendor, etc. It also provides a more complete summary
+            of the current status of the license, ex: at Publisher, Copyright Office, Campus
+            Purchasing, etc.</para>
+        <para role="Body Text">Current Location may be set manually at any time throughout system
+            workflows.</para>
+        <section>
+            <title>Document Layout</title>
+            <para role="Normal">
+                <screenshot>
+                    <mediaobject>
+                        <alt>License Request Current Location Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/LicensingNoTitlePage-74.png" width="100%"
+                            />
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Body Text">The License Request Current Location document includes the
+                    <emphasis role="bold">Add/Edit License Request Current Location </emphasis>tab.
+                The system automatically enters data into both the <emphasis role="bold"
+                    >Old</emphasis> and <emphasis role="bold">New</emphasis> sections. Selected data
+                fields are available for editing.</para>
+            <para role="Normal"/>
+            <para role="TableHeading"><emphasis role="bold">Add/Edit License Request Current
+                    Location Definitions</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">License Request Current Location
+                                    name</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. Brief name to appear in displays
+                                    for the location. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">License Request Current Location
+                                    Description</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Brief description for this licensing
+                                    location value or its use. Required.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator.</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Indicates whether this is active or
+                                    inactive. Remove the check mark to deactivate.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_License_Request_Status"/>License Request Status<indexterm
+                significance="normal">
+                <primary>License Request Status</primary>
+            </indexterm><indexterm significance="normal">
+                <primary>Maintenance Documents, License</primary>
+                <secondary>License Request Status</secondary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; <inlinemediaobject>
+                    <alt>E-Resource Admin</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-69.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>License Request Status</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/LicensingNoTitlePage-66.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>License Request Status Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/LicensingNoTitlePage-67.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>License Request Status</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/LicensingNoTitlePage-68.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">License Request Status is used to describe the status of the License
+            Request as it moves through the workflow of requesting, negotiating, and documenting a
+            license. Licensing staff use the License Request Status document on License Request to
+            manually select and label the status of the license request for easier search, and
+            management of Action Lists. Some statuses will NOT be available to the License Request,
+            as they will be system-statuses only, such as at completion of a system-defined
+            PeopleFlow/workflow step. </para>
+        <note>
+            <para role="Body Text"> Only those License Request Statuses not associated with
+                completion of system-configured workflows will be available for manual selection on
+                the License Request e-doc.</para>
+        </note>
+        <section>
+            <title>Document Layout</title>
+            <para role="Body Text">
+                <screenshot>
+                    <mediaobject>
+                        <alt>License Request Status Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/LicensingNoTitlePage-69.png" width="100%"
+                            />
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Body Text"> The License Request Status document includes the <emphasis
+                    role="bold">Add/Edit License Request Status </emphasis>tab. The system
+                automatically enters data into both the <emphasis role="bold">Old</emphasis> and
+                    <emphasis role="bold">New</emphasis> sections. Selected data fields are
+                available for editing.</para>
+            <para role="Normal"/>
+            <para role="TableHeading"><emphasis role="bold">Add/Edit License Request Status Tab
+                    Definitions</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Code<emphasis> </emphasis></para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. Unique code for this status.
+                                </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Name</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. Brief name that will display
+                                    anywhere status appears. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Description</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Optional. Include a brief description.
+                                </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Indicates whether this status is active or
+                                    inactive. Remove the check mark to deactivate.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_License_Request_Type"/>License Request Type<indexterm
+                significance="normal">
+                <primary>License Request Type</primary>
+            </indexterm><indexterm significance="normal">
+                <primary>Maintenance Documents, License</primary>
+                <secondary>License Request Type</secondary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; <inlinemediaobject>
+                    <alt>E-Resource Admin</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-69.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>License Request Type</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/LicensingNoTitlePage-77.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>License Request Type Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/LicensingNoTitlePage-78.png"/>
+                    </imageobject>
+                </inlinemediaobject>&gt; <inlinemediaobject>
+                    <alt>License Request Type</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/LicensingNoTitlePage-80.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Normal">The License Request Type document is used to describe whether the
+            request is a new request, a renewal, an amendment, or some of type of licensing change
+            request. </para>
+        <para role="Normal"/>
+        <para role="Normal">The License Request Type will be used in configuring which workflows are
+            valid for a specific License Request, along with Agreement Method and other metadata on
+            the License Request.</para>
+        <para role="Normal"/>
+        <section>
+            <title>Document Layout</title>
+            <para role="Body Text">
+                <screenshot>
+                    <mediaobject>
+                        <alt>License Request Type Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/LicensingNoTitlePage-79.png" width="100%"
+                            />
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Body Text">The License Request Type document includes the <emphasis
+                    role="bold">Add/Edit License Request Type </emphasis>tab. The system
+                automatically enters data into both the <emphasis role="bold">Old</emphasis> and
+                    <emphasis role="bold">New</emphasis> sections. Selected data fields are
+                available for editing.</para>
+            <para role="Normal"/>
+            <para role="TableHeading"><emphasis role="bold">Add/Edit License Request Type Tab
+                    Definitions</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">License Request Type Name </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. Brief Name for display. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">License Request Type Description</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. Brief description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Indicates whether this license request is
+                                    active or inactive. Remove the check mark to deactivate.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+            <para role="Normal"/>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_Licensing_Requirement"/>Licensing Requirement</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; <inlinemediaobject>
+                    <alt>E-Resource Admin</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-69.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Licensing Requirement Code</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-402.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Licensing Requirement Code Lookup</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-403.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Licensing Requirement</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-404.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">Licenses are initiated on the requisition when the “Licensing
+            Requirement/Review” is checked. As licenses continue through their workflow, the
+            “Licensing Requirement/Review Status” field on a requisition is automatically updated.
+            The License Requirement document is used to inform the requisition of the workflow and
+            status of the License Request.</para>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Licensing Requirement Document</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-405.png"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Body Text">The Licensing Requirement document includes the <emphasis
+                    role="bold">Edit License Requirement</emphasis> tab. The system automatically
+                enters data into both the <emphasis role="bold">Old</emphasis> and <emphasis
+                    role="bold">New</emphasis> sections in this tab. Selected data fields are
+                available for editing.</para>
+            <para role="TableHeading"><emphasis role="bold">Edit Requisition Source tab
+                    definition</emphasis></para>
+            <informaltable frame="topbot">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Description</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Licensing Requirement Code</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">The code that identifies this source of
+                                    licensing requirement.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Licensing Requirement Description</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. The description of this licensing
+                                    requirement.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Indicates whether this licensing
+                                    requirement code is active or inactive. Remove the check mark to
+                                    deactivate this code.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_materialType"/>Material Type</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; <inlinemediaobject>
+                    <alt>E-Resource Admin</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-69.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Material Type</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-7.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Material Type Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-22.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Material Type</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-72.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text"/>
+        <section>
+            <title>Document Layout</title>
+            <para role="Body Text">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Material Type Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-23.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Body Text"> The Material Type document includes the Add/Edit Material Type
+                tab. The system automatically enters data into both the <emphasis role="bold"
+                    >Old</emphasis> and <emphasis role="bold">New</emphasis> sections. Selected data
+                fields are available for editing.</para>
+            <para role="Normal"/>
+            <para role="TableHeading"><emphasis role="bold">Add/Edit Material Type Tab
+                    Definitions</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Material Type Name</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. Brief name that will display in
+                                    the Material Type field of the E-Resource Record. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Material Type Description</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Optional. Include a brief description.
+                                </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Indicates whether this status is active or
+                                    inactive. Remove the check mark to deactivate.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_packageScope"/>Package Scope</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; <inlinemediaobject>
+                    <alt>E-Resource Admin</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-69.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Package Scope</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-6.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Package Scope Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-20.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Package Scope</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-73.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">Access Location is used to describe parts or locations of an
+            institution that access has been granted to for a particular E-Resource. Access
+            Locations will be locally configured to be specific to each institution.</para>
+        <section>
+            <title>Document Layout</title>
+            <para role="Body Text">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Package Scope Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-21.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Body Text"> The Package Scope document includes the Add/Edit Package Scope
+                tab. The system automatically enters data into both the <emphasis role="bold"
+                    >Old</emphasis> and <emphasis role="bold">New</emphasis> sections. Selected data
+                fields are available for editing.</para>
+            <para role="Normal"/>
+            <para role="TableHeading"><emphasis role="bold">Add/Edit Package Scope Tab
+                    Definitions</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Package Scope Name</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. Brief name that will display in
+                                    the Package Scope field of the E-Resource Record. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Package Scope Description</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Optional. Include a brief description.
+                                </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Indicates whether this status is active or
+                                    inactive. Remove the check mark to deactivate.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_packageType"/>Package Type</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; <inlinemediaobject>
+                    <alt>E-Resource Admin</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-69.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Package Type</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-5.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Package Type Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-18.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Package Type</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-74.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text"/>
+        <section>
+            <title>Document Layout</title>
+            <para role="Body Text">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Package Type Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-19.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Body Text"> The Package Type document includes the Add/Edit Package Type
+                tab. The system automatically enters data into both the <emphasis role="bold"
+                    >Old</emphasis> and <emphasis role="bold">New</emphasis> sections. Selected data
+                fields are available for editing.</para>
+            <para role="Normal"/>
+            <para role="TableHeading"><emphasis role="bold">Add/Edit Package Type Tab
+                    Definitions</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Package Type Name</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. Brief name that will display in
+                                    the Package Type field of the E-Resource Record. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Package Type Description</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Optional. Include a brief description.
+                                </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Indicates whether this status is active or
+                                    inactive. Remove the check mark to deactivate.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_paymentType"/>Payment Type</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; <inlinemediaobject>
+                    <alt>E-Resource Admin</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-69.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Payment Type</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-10.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Payment Type Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-28.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Payment Type</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-75.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text"/>
+        <section>
+            <title>Document Layout</title>
+            <para role="Body Text">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Payment Type Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-29.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Body Text"> The Payment Type document includes the Add/Edit Payment Type
+                tab. The system automatically enters data into both the <emphasis role="bold"
+                    >Old</emphasis> and <emphasis role="bold">New</emphasis> sections. Selected data
+                fields are available for editing.</para>
+            <para role="Normal"/>
+            <para role="TableHeading"><emphasis role="bold">Add/Edit Payment Type Tab
+                    Definitions</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Payment Type Name</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. Brief name that will display in
+                                    the Payment Type field of the E-Resource Record. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Payment Type Description</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Optional. Include a brief description.
+                                </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Indicates whether this status is active or
+                                    inactive. Remove the check mark to deactivate.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_requestPriority"/>Request Priority</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; <inlinemediaobject>
+                    <alt>E-Resource Admin</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-69.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Request Priority</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-11.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Request Priority Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-30.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Request Priority</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/eresource-30a.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text"/>
+        <section>
+            <title>Document Layout</title>
+            <para role="Body Text">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Request Priority Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/eresource-31.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Body Text"> The Request Priority document includes the Add/Edit Request
+                Priority tab. The system automatically enters data into both the <emphasis
+                    role="bold">Old</emphasis> and <emphasis role="bold">New</emphasis> sections.
+                Selected data fields are available for editing.</para>
+            <para role="Normal"/>
+            <para role="TableHeading"><emphasis role="bold">Add/Edit Request Priority Tab
+                    Definitions</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Request Priority Name</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. Brief name that will display in
+                                    the Request Priority field of the E-Resource Record. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Request Priority Description</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Optional. Include a brief description.
+                                </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Indicates whether this status is active or
+                                    inactive. Remove the check mark to deactivate.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+</chapter>

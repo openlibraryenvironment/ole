@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<data xmlns="ns:workflow" xmlns:fo="http://www.w3.org/1999/XSL/Format"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="ns:workflow resource:WorkflowData">
+	<documentTypes xmlns="ns:workflow/DocumentType"
+		xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<documentType>
+			<name>OLE_FTMAT</name>
+			<parent>OLESelectComplexMaintenanceDocument</parent>
+			<label>Format Type</label>
+            <helpDefinitionURL>
+                ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch20s23.html
+            </helpDefinitionURL>
+			<routingVersion>
+				2
+			</routingVersion>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="FormatTypeApprover" />
+					<role name="FormatTypeApprover" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc" />
+				<role name="FormatTypeApprover">
+					<qualifierResolverClass>
+						org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+					<activationType>
+						P
+					</activationType>
+				</role>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>OLE_RSTMAT</name>
+			<parent>OLESelectComplexMaintenanceDocument</parent>
+			<label>Request Source Type</label>
+            <helpDefinitionURL>
+                ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch20s20.html
+            </helpDefinitionURL>
+			<routingVersion>
+				2
+			</routingVersion>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="RequestSourceTypeApprover" />
+					<role name="RequestSourceTypeApprover" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc" />
+				<role name="RequestSourceTypeApprover">
+					<qualifierResolverClass>
+						org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+					<activationType>
+						P
+					</activationType>
+				</role>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>OLE_PMC</name>
+			<parent>OLESelectComplexMaintenanceDocument</parent>
+			<label>Category</label>
+			<routingVersion>
+				2
+			</routingVersion>
+            <helpDefinitionURL>
+                ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch20s13.html
+            </helpDefinitionURL>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="CategoryApprover" />
+					<role name="CategoryApprover" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc" />
+				<role name="CategoryApprover">
+					<qualifierResolverClass>
+						org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+					<activationType>
+						P
+					</activationType>
+				</role>
+			</routeNodes>
+		</documentType>
+
+
+	</documentTypes>
+</data>

@@ -1,0 +1,747 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2005-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+
+    <!-- Route Document Event -->
+    <bean id="Invoice-routeDocument-itemsCollectionValidation" abstract="true" parent="CollectionValidation" scope="prototype">
+        <property name="collectionProperty" value="document.items" />
+        <property name="validations">
+            <list>
+                <bean parent="Invoice-reviewValidation" scope="prototype">
+                    <property name="parameterProperties">
+                        <list>
+                            <bean parent="itemIterationSubjectFieldConversation" />
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="Invoice-processItemValidation" scope="prototype">
+                    <property name="parameterProperties">
+                        <list>
+                            <bean parent="itemIterationSubjectFieldConversation" />
+                        </list>
+                    </property>
+                </bean>
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Invoice-routeDocument-fullDocumentEntryCompletedBranchingValidation-notFullDocumentEntryBranchCompositeValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+        <property name="validations">
+            <list>
+                <bean parent="PurchasingAccountsPayable-newProcessItemValidation-parentBean" scope="prototype"/>
+                <bean parent="Invoice-processAccountValidation-parentBean" scope="prototype" />
+                <bean parent="Invoice-purchaseOrderIdValidation" scope="prototype" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Invoice-routeDocument-fullDocumentEntryCompletedBranchingValidation-fullDocumentEntryBranchCompositeValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+        <property name="validations">
+            <list>
+                <bean parent="PurchasingAccountsPayable-newProcessItemValidation-parentBean" scope="prototype" />
+                <bean parent="Invoice-processAccountValidation-parentBean" scope="prototype" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Invoice-routeDocument-fullDocumentEntryCompletedBranchingValidation" abstract="true" parent="PurchasingAccountsPayable-fullDocumentEntryCompletedBranchingValidation" scope="prototype">
+        <property name="branchMap">
+            <map>
+                <entry>
+                    <key><value>notFullDocumentEntry</value></key>
+                    <bean parent="Invoice-routeDocument-fullDocumentEntryCompletedBranchingValidation-notFullDocumentEntryBranchCompositeValidation" scope="prototype" />
+                </entry>
+                <entry>
+                    <key><value>fullDocumentEntry</value></key>
+                    <bean parent="Invoice-routeDocument-fullDocumentEntryCompletedBranchingValidation-fullDocumentEntryBranchCompositeValidation" scope="prototype" />
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="Invoice-routeDocumentValidation" parent="Invoice-routeDocumentValidation-parentBean" scope="prototype" />
+
+    <bean id="Invoice-routeDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+        <property name="validations">
+            <list>
+                <bean parent="PurchasingAccountsPayable-bankCodeValidation" scope="prototype">
+                    <property name="parameterProperties">
+                        <list>
+                            <bean parent="accountingDocumentFieldConversion" />
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="Invoice-routeDocument-itemsCollectionValidation" scope="prototype" />
+
+                <bean parent="Invoice-routeDocument-fullDocumentEntryCompletedBranchingValidation" scope="prototype" />
+
+                <bean parent="AccountsPayable-processApprovalAtAccountsPayableReviewAllowedValidation" scope="prototype">
+                    <property name="quitOnFail" value="false" />
+                </bean>
+
+                <bean parent="AccountsPayable-validateAccountsPayableItemsValidation" scope="prototype">
+                    <property name="quitOnFail" value="false" />
+                </bean>
+
+                <bean parent="Invoice-invoiceValidation" scope="prototype">
+                    <property name="quitOnFail" value="false" />
+                </bean>
+
+                <bean parent="Invoice-dateForContinueValidation" scope="prototype">
+                    <property name="quitOnFail" value="false" />
+                </bean>
+
+                <bean parent="Invoice-vendorValidation" scope="prototype">
+                    <property name="quitOnFail" value="false" />
+                </bean>
+
+                <bean parent="Invoice-payDateNotPastValidation" scope="prototype">
+                    <property name="quitOnFail" value="false" />
+                </bean>
+
+                <!--<bean parent="PurchasingAccountsPayable-checkNegativeAccountsValidation" scope="prototype"/>-->
+
+                <bean parent="Invoice-invoiceImageAttachmentValidation" scope="prototype"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Approve Document Event -->
+    <bean id="Invoice-approveDocument-itemsCollectionValidation" abstract="true" parent="CollectionValidation" scope="prototype">
+        <property name="collectionProperty" value="document.items" />
+        <property name="validations">
+            <list>
+                <bean parent="Invoice-processItemValidation" scope="prototype">
+                    <property name="parameterProperties">
+                        <list>
+                            <bean parent="itemIterationSubjectFieldConversation" />
+                        </list>
+                    </property>
+                </bean>
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Invoice-approveDocument-fullDocumentEntryCompleted-notFullDocumentEntryBranchCompositeValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+        <property name="validations">
+            <list>
+                <bean parent="PurchasingAccountsPayable-newProcessItemValidation-parentBean" scope="prototype"/>
+                <bean parent="Invoice-processAccountValidation-parentBean" scope="prototype" />
+                <bean parent="Invoice-purchaseOrderIdValidation" scope="prototype" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Invoice-approveDocument-fullDocumentEntryCompleted-fullDocumentEntryBranchCompositeValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+        <property name="validations">
+            <list>
+                <bean parent="PurchasingAccountsPayable-newProcessItemValidation-parentBean" scope="prototype" />
+                <bean parent="Invoice-processAccountValidation-parentBean" scope="prototype" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Invoice-approveDocument-fullDocumentEntryCompletedBranchingValidation" abstract="true" parent="PurchasingAccountsPayable-fullDocumentEntryCompletedBranchingValidation" scope="prototype">
+        <property name="branchMap">
+            <map>
+                <entry>
+                    <key><value>notFullDocumentEntry</value></key>
+                    <bean parent="Invoice-approveDocument-fullDocumentEntryCompleted-notFullDocumentEntryBranchCompositeValidation" scope="prototype"/>
+                </entry>
+                <entry>
+                    <key><value>fullDocumentEntry</value></key>
+                    <bean parent="Invoice-approveDocument-fullDocumentEntryCompleted-fullDocumentEntryBranchCompositeValidation" scope="prototype" />
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="Invoice-approveDocumentValidation" parent="Invoice-approveDocumentValidation-parentBean" scope="prototype" />
+
+    <bean id="Invoice-approveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+        <property name="validations">
+            <list>
+                <bean parent="Invoice-approveDocument-itemsCollectionValidation" scope="prototype" />
+
+                <bean parent="Invoice-approveDocument-fullDocumentEntryCompletedBranchingValidation" scope="prototype" />
+
+                <bean parent="AccountsPayable-processApprovalAtAccountsPayableReviewAllowedValidation" scope="prototype">
+                    <property name="quitOnFail" value="false" />
+                </bean>
+
+                <bean parent="AccountsPayable-validateAccountsPayableItemsValidation" scope="prototype">
+                    <property name="quitOnFail" value="false" />
+                </bean>
+
+                <bean parent="Invoice-invoiceValidation" scope="prototype">
+                    <property name="quitOnFail" value="false" />
+                </bean>
+
+                <bean parent="Invoice-dateForContinueValidation" scope="prototype">
+                    <property name="quitOnFail" value="false" />
+                </bean>
+
+                <bean parent="Invoice-vendorValidation" scope="prototype">
+                    <property name="quitOnFail" value="false" />
+                </bean>
+
+                <bean parent="Invoice-payDateNotPastValidation" scope="prototype">
+                    <property name="quitOnFail" value="false" />
+                </bean>
+
+               <!-- <bean parent="PurchasingAccountsPayable-checkNegativeAccountsValidation" scope="prototype"/>-->
+
+                <bean parent="Invoice-invoiceImageAttachmentValidation" scope="prototype"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Blanket Approve Accounting Line Event -->
+    <bean id="Invoice-blanketApproveDocumentValidation" parent="Invoice-blanketApproveDocumentValidation-parentBean" scope="prototype" />
+
+    <bean id="Invoice-blanketApproveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+        <property name="validations">
+            <list>
+                <bean parent="AccountingDocument-BlanketApproveDocument-DefaultValidation" scope="prototype" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Add Accounting Line Event -->
+    <bean id="Invoice-addAccountingLine-failFastValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+        <property name="validations">
+            <list>
+                <bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+                    <property name="parameterProperties">
+                        <bean parent="accountingLineToBusinessObjectFieldConversion" />
+                    </property>
+                </bean>
+                <!--<bean parent="Invoice-accountingLineDataDictionaryValidation" scope="prototype">
+                    <property name="parameterProperties">
+                        <list>
+                            <bean parent="accountingLineFieldConversion" />
+                        </list>
+                    </property>
+                    <property name="quitOnFail" value="true" />
+                </bean>-->
+                <bean parent="OLEInvoice-accountingLineDataDictionaryValidation" scope="prototype">
+                    <property name="parameterProperties">
+                        <list>
+                            <bean parent="accountingLineFieldConversion" />
+                        </list>
+                    </property>
+                    <property name="quitOnFail" value="true" />
+                </bean>
+                <bean parent="PurchasingAccountsPayable-accountingLineValuesAllowedValidation-parentBean" scope="prototype"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Invoice-addAccountingLine-accountingLineAccessibleBranchingValidation-useDefaultAccountingLineAccessibleBranchCompositeValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+        <property name="validations">
+            <list>
+                <bean parent="Invoice-accountingLineAccessibleValidation" scope="prototype">
+                    <property name="parameterProperties">
+                        <list>
+                            <bean parent="accountingDocumentFieldConversion" />
+                            <bean parent="accountingLineFieldConversion" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Invoice-addAccountingLine-accountingLineAccessibleBranchingValidation" abstract="true" parent="Invoice-accountingLineAccessibleBranchingValidation" scope="prototype">
+        <property name="branchMap">
+            <map>
+                <entry>
+                    <key><value>useDefaultAccountingLineAccessible</value></key>
+                    <bean parent="Invoice-addAccountingLine-accountingLineAccessibleBranchingValidation-useDefaultAccountingLineAccessibleBranchCompositeValidation" scope="prototype" />
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="Invoice-addAccountingLineValidation" parent="Invoice-addAccountingLineValidation-parentBean" scope="prototype" />
+
+    <bean id="Invoice-addAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+        <property name="validations">
+            <list>
+                <bean parent="PurchasingAccountsPayable-accountingLine-newAccountingLineBranchingValidation" scope="prototype" />
+                <bean parent="Invoice-addAccountingLine-failFastValidation" scope="prototype" />
+                <bean parent="Invoice-addAccountingLine-accountingLineAccessibleBranchingValidation" scope="prototype" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Update Accounting Line Event -->
+    <bean id="Invoice-updateAccountingLine-failFastValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+        <property name="validations">
+            <list>
+                <bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+                    <property name="parameterProperties">
+                        <bean parent="updatedAccountingLineToBusinessObjectFieldConversion" />
+                    </property>
+                </bean>
+                <!--<bean parent="Invoice-accountingLineDataDictionaryValidation" scope="prototype">
+                    <property name="parameterProperties">
+                        <list>
+                            <bean parent="updatedAccountingLineFieldConversion" />
+                        </list>
+                    </property>
+                    <property name="quitOnFail" value="true" />
+                </bean>-->
+                <bean parent="OLEInvoice-accountingLineDataDictionaryValidation" scope="prototype">
+                    <property name="parameterProperties">
+                        <list>
+                            <bean parent="updatedAccountingLineFieldConversion" />
+                        </list>
+                    </property>
+                    <property name="quitOnFail" value="true" />
+                </bean>
+                <bean parent="PurchasingAccountsPayable-updatedAccountingLineValuesAllowedValidation-parentBean" scope="prototype"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Invoice-updateAccountingLine-accountingLineAccessible-useDefaultAccountingLineAccessibleBranchCompositeValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+        <property name="validations">
+            <list>
+                <bean parent="Invoice-accountingLineAccessibleValidation" scope="prototype">
+                    <property name="parameterProperties">
+                        <list>
+                            <bean parent="accountingDocumentFieldConversion" />
+                            <bean parent="updatedAccountingLineFieldConversion" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Invoice-updateAccountingLine-accountingLineAccessibleBranchingValidation" abstract="true" parent="Invoice-accountingLineAccessibleBranchingValidation" scope="prototype">
+        <property name="branchMap">
+            <map>
+                <entry>
+                    <key><value>useDefaultAccountingLineAccessible</value></key>
+                    <bean parent="Invoice-updateAccountingLine-accountingLineAccessible-useDefaultAccountingLineAccessibleBranchCompositeValidation" scope="prototype" />
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="Invoice-updateAccountingLineValidation" parent="Invoice-updateAccountingLineValidation-parentBean" scope="prototype" />
+
+    <bean id="Invoice-updateAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+        <property name="validations">
+            <list>
+                <bean parent="PurchasingAccountsPayable-updatedAccountingLine-newAccountingLineBranchingValidation" scope="prototype" />
+                <bean parent="Invoice-updateAccountingLine-failFastValidation" scope="prototype" />
+                <bean parent="Invoice-updateAccountingLine-accountingLineAccessibleBranchingValidation" scope="prototype" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Review Accounting Line Event -->
+    <bean id="Invoice-reviewAccountingLineValidation" parent="Invoice-reviewAccountingLineValidation-parentBean" scope="prototype" />
+
+    <bean id="Invoice-reviewAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+        <property name="validations">
+            <list>
+                <bean parent="PurchasingAccountsPayable-accountingLine-newAccountingLineBranchingValidation" scope="prototype" />
+
+                <bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+                    <property name="parameterProperties">
+                        <bean parent="accountingLineToBusinessObjectFieldConversion" />
+                    </property>
+                </bean>
+                <!--<bean parent="Invoice-accountingLineDataDictionaryValidation" scope="prototype">
+                    <property name="parameterProperties">
+                        <list>
+                            <bean parent="accountingLineFieldConversion" />
+                        </list>
+                    </property>
+                </bean>-->
+                <bean parent="OLEInvoice-accountingLineDataDictionaryValidation" scope="prototype">
+                    <property name="parameterProperties">
+                        <list>
+                            <bean parent="accountingLineFieldConversion" />
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="PurchasingAccountsPayable-accountingLineValuesAllowedValidation-parentBean" scope="prototype"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Continue Purap Event -->
+    <bean id="Invoice-continuePurapValidation" parent="Invoice-continuePurapValidation-parentBean" scope="prototype" />
+
+    <bean id="Invoice-continuePurapValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+        <property name="validations">
+            <list>
+                <bean parent="Invoice-purchaseOrderIdValidation" scope="prototype" />
+                <bean parent="Invoice-invoiceValidation" scope="prototype" />
+                <bean parent="Invoice-dateForContinueValidation" scope="prototype" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Pre Calculate Accounts Payable Event -->
+    <bean id="Invoice-preCalculateAccountsPayable-itemsCollectionValidation" abstract="true" parent="CollectionValidation" scope="prototype">
+        <property name="collectionProperty" value="document.items" />
+        <property name="validations">
+            <list>
+                <bean parent="Invoice-nonZeroAccountingLineAmountValidation" scope="prototype">
+                    <property name="parameterProperties">
+                        <list>
+                            <bean parent="itemIterationSubjectFieldConversation" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Invoice-preCalculateAccountsPayableValidation" parent="Invoice-preCalculateAccountsPayableValidation-parentBean" scope="prototype" />
+
+    <bean id="Invoice-preCalculateAccountsPayableValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+        <property name="validations">
+            <list>
+                <bean parent="Invoice-taxAreaValidation" scope="prototype"/>
+                <bean parent="AccountsPayable-preCalculateValidation" scope="prototype"/>
+                <bean parent="Invoice-preCalculateAccountsPayable-itemsCollectionValidation" scope="prototype" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Calculate Accounts Payable Event -->
+    <bean id="Invoice-calculateAccountsPayableValidation" parent="Invoice-calculateAccountsPayableValidation-parentBean" scope="prototype" />
+
+    <bean id="Invoice-calculateAccountsPayableValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+        <property name="validations">
+            <list>
+                <bean parent="Invoice-totalsValidation" scope="prototype" />
+                <bean parent="Invoice-payDateNotOverThresholdDaysAwayValidation" scope="prototype" />
+                <!-- bean parent="Invoice-grandTotalOverZeroValidation" scope="prototype" /-->
+                <bean parent="Invoice-payDateNotPastValidation" scope="prototype" />
+                <bean parent="Invoice-lineItemQuantityNotZero" scope="prototype" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Cancel Accounts Payable Event -->
+    <bean id="Invoice-cancelAccountsPayableValidation" parent="Invoice-cancelAccountsPayableValidation-parentBean" scope="prototype" />
+
+    <bean id="Invoice-cancelAccountsPayableValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+        <property name="validations">
+            <list>
+                <bean parent="Invoice-cancelValidation" scope="prototype" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Add Item Event -->
+    <bean id="Invoice-addPurchasingAccountsPayableItemValidation" parent="Invoice-addPurchasingAccountsPayableItemValidation-parentBean" scope="prototype" />
+
+    <bean id="Invoice-addPurchasingAccountsPayableItemValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+        <property name="validations">
+            <list>
+                <bean parent="PurchasingAccountsPayable-addItemValidation" scope="prototype">
+                    <property name="parameterProperties">
+                        <list>
+                            <bean parent="validationFieldConversion">
+                                <property name="sourceEventProperty" value="iterationSubject" />
+                                <property name="targetValidationProperty" value="item" />
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Import Item Event -->
+    <bean id="Invoice-importPurchasingAccountsPayableItemValidation" parent="Invoice-importPurchasingAccountsPayableItemValidation-parentBean" scope="prototype" />
+
+    <bean id="Invoice-importPurchasingAccountsPayableItemValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+        <property name="validations">
+            <list>
+                <bean parent="PurchasingAccountsPayable-importItemValidation" scope="prototype">
+                    <property name="parameterProperties">
+                        <list>
+                            <bean parent="validationFieldConversion">
+                                <property name="sourceEventProperty" value="iterationSubject" />
+                                <property name="targetValidationProperty" value="item" />
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Save Document Event -->
+    <bean id="Invoice-saveDocumentValidation" parent="Invoice-saveDocumentValidation-parentBean" scope="prototype" />
+
+    <bean id="Invoice-saveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+        <property name="validations">
+            <list>
+                <bean parent="Invoice-payDateNotPastValidation" scope="prototype"/>
+                <!-- MSU Contribution OLEMI-8434 DTT-3284 -->
+               <!-- <bean parent="PurchasingAccountsPayable-checkNegativeAccountsValidation" scope="prototype"/>-->
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Invoice-eInvoice-itemsCollectionValidation" abstract="true" parent="CollectionValidation" scope="prototype">
+        <property name="collectionProperty" value="document.items" />
+        <property name="validations">
+            <list>
+                <bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+                    <property name="parameterProperties">
+                        <list>
+                            <bean parent="validationFieldConversion">
+                                <property name="sourceEventProperty" value="iterationSubject" />
+                                <property name="targetValidationProperty" value="businessObjectForValidation" />
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="Invoice-reviewValidation" scope="prototype">
+                    <property name="parameterProperties">
+                        <list>
+                            <bean parent="itemIterationSubjectFieldConversation" />
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="Invoice-processItemValidation" scope="prototype">
+                    <property name="parameterProperties">
+                        <list>
+                            <bean parent="itemIterationSubjectFieldConversation" />
+                        </list>
+                    </property>
+                </bean>
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Invoice-eInvoice-fullDocumentEntryCompleted-notFullDocumentEntryBranchCompositeValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+        <property name="validations">
+            <list>
+                <bean parent="PurchasingAccountsPayable-newProcessItemValidation-parentBean" scope="prototype"/>
+                <bean parent="Invoice-purchaseOrderIdValidation" scope="prototype" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Invoice-eInvoice-fullDocumentEntryCompleted-fullDocumentEntryBranchCompositeValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+        <property name="validations">
+            <list>
+                <bean parent="Invoice-newProcessItemValidation-parentBean" scope="prototype" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Invoice-eInvoice-fullDocumentEntryCompletedBranchingValidation" abstract="true" parent="PurchasingAccountsPayable-fullDocumentEntryCompletedBranchingValidation" scope="prototype">
+        <property name="branchMap">
+            <map>
+                <entry>
+                    <key><value>notFullDocumentEntry</value></key>
+                    <bean parent="Invoice-eInvoice-fullDocumentEntryCompleted-notFullDocumentEntryBranchCompositeValidation" scope="prototype"/>
+                </entry>
+                <entry>
+                    <key><value>fullDocumentEntry</value></key>
+                    <bean parent="Invoice-eInvoice-fullDocumentEntryCompleted-fullDocumentEntryBranchCompositeValidation" scope="prototype" />
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="Invoice-eInvoiceValidation" parent="Invoice-eInvoiceValidation-parentBean" scope="prototype" />
+
+    <bean id="Invoice-eInvoiceValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+        <property name="validations">
+            <list>
+                <bean parent="Invoice-eInvoice-itemsCollectionValidation" scope="prototype" />
+
+                <bean parent="Invoice-eInvoice-fullDocumentEntryCompletedBranchingValidation" scope="prototype" />
+
+                <bean parent="AccountsPayable-processApprovalAtAccountsPayableReviewAllowedValidation" scope="prototype">
+                    <property name="quitOnFail" value="false" />
+                </bean>
+                <bean parent="AccountsPayable-validateAccountsPayableItemsValidation" scope="prototype">
+                    <property name="quitOnFail" value="false" />
+                </bean>
+                <bean parent="Invoice-invoiceValidation" scope="prototype">
+                    <property name="quitOnFail" value="false" />
+                </bean>
+
+                <bean parent="Invoice-dateForContinueValidation" scope="prototype">
+                    <property name="quitOnFail" value="false" />
+                </bean>
+                <bean parent="Invoice-vendorValidation" scope="prototype">
+                    <property name="quitOnFail" value="false" />
+                </bean>
+                <bean parent="Invoice-payDateNotPastValidation" scope="prototype">
+                    <property name="quitOnFail" value="false" />
+                </bean>
+
+              <!--  <bean parent="PurchasingAccountsPayable-checkNegativeAccountsValidation" scope="prototype"/>-->
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Invoice-expiredAccountWarning-itemsCollectionValidation" abstract="true" parent="CollectionValidation" scope="prototype">
+        <property name="collectionProperty" value="document.items" />
+        <property name="validations">
+            <list>
+                <bean parent="Invoice-expiredAccountWarningValidation" scope="prototype">
+                    <property name="parameterProperties">
+                        <list>
+                            <bean parent="itemIterationSubjectFieldConversation" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Invoice-expiredAccountWarning-fullDocumentEntryCompleted-fullDocumentEntryBranchCompositeValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+        <property name="validations">
+            <list>
+                <bean parent="Invoice-expiredAccountWarning-itemsCollectionValidation" scope="prototype" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Invoice-expiredAccountWarning-fullDocumentEntryCompletedBranchingValidation" abstract="true" parent="PurchasingAccountsPayable-fullDocumentEntryCompletedBranchingValidation" scope="prototype">
+        <property name="branchMap">
+            <map>
+                <entry>
+                    <key><value>fullDocumentEntry</value></key>
+                    <bean parent="Invoice-expiredAccountWarning-fullDocumentEntryCompleted-fullDocumentEntryBranchCompositeValidation" scope="prototype" />
+                </entry>
+                <entry>
+                    <key><value>notFullDocumentEntry</value></key>
+                    <bean parent="AccountingDocument-alwaysTrueValidation" scope="prototype" />
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="Invoice-expiredAccountWarningEvent" parent="Invoice-expiredAccountWarningEvent-parentBean" scope="prototype" />
+
+    <bean id="Invoice-expiredAccountWarningEvent-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+        <property name="validations">
+            <list>
+                <bean parent="Invoice-expiredAccountWarning-fullDocumentEntryCompletedBranchingValidation" scope="prototype" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Invoice-payDateNotOverThresholdDaysAwayEvent" parent="Invoice-payDateNotOverThresholdDaysAwayEvent-parentBean" scope="prototype" />
+
+    <bean id="Invoice-payDateNotOverThresholdDaysAwayEvent-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+        <property name="validations">
+            <list>
+                <bean parent="Invoice-payDateNotOverThresholdDaysAwayValidation" scope="prototype"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Invoice-tradeInWarning-itemsCollectionValidation" abstract="true" parent="CollectionValidation" scope="prototype">
+        <property name="collectionProperty" value="document.items" />
+        <property name="validations">
+            <list>
+                <bean parent="Invoice-tradeInWarningValidation" scope="prototype">
+                    <property name="parameterProperties">
+                        <list>
+                            <bean parent="itemIterationSubjectFieldConversation" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Invoice-tradeInWarning-fullDocumentEntryCompleted-notFullDocumentEntryBranchCompositeValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+        <property name="validations">
+            <list>
+                <bean parent="Invoice-tradeInWarning-itemsCollectionValidation" scope="prototype" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Invoice-tradeInWarning-fullDocumentEntryCompletedBranchingValidation" parent="PurchasingAccountsPayable-fullDocumentEntryCompletedBranchingValidation" scope="prototype">
+        <property name="branchMap">
+            <map>
+                <entry>
+                    <key><value>notFullDocumentEntry</value></key>
+                    <bean parent="Invoice-tradeInWarning-fullDocumentEntryCompleted-notFullDocumentEntryBranchCompositeValidation" scope="prototype" />
+                </entry>
+                <entry>
+                    <key><value>fullDocumentEntry</value></key>
+                    <bean parent="AccountingDocument-alwaysTrueValidation" scope="prototype" />
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="Invoice-tradeInWarningEvent" parent="Invoice-tradeInWarningEvent-parentBean" scope="prototype" />
+
+    <bean id="Invoice-tradeInWarningEvent-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+        <property name="validations">
+            <list>
+                <bean parent="Invoice-tradeInWarning-fullDocumentEntryCompletedBranchingValidation" scope="prototype" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- accounts percents and accounts amounts validations  -->
+    <bean id="Invoice-purchasingAccountsPayablesItemPreCalculateValidations" parent="Invoice-purchasingAccountsPayablesItemPreCalculateValidations-parentBean" scope="prototype" />
+
+    <bean id="Invoice-purchasingAccountsPayablesItemPreCalculateValidations-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+        <property name="validations">
+            <list>
+                <bean parent="PurchasingAccountsPayables-itemPreCalculateValidations" scope="prototype">
+                    <property name="parameterProperties">
+                        <list>
+                            <bean parent="validationFieldConversion">
+                                <property name="sourceEventProperty" value="item" />
+                                <property name="targetValidationProperty" value="item" />
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>

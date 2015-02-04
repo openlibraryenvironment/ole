@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0"
+    xml:lang="en-US">
+    <title>Introduction</title>
+    <section>
+        <title/>
+        <para role="Body Text">This guide provides information about using OLE system administration
+            functions available via the user interface. All of these functions are accessible from the <emphasis
+                role="bold">Admin</emphasis> menu tab in the Open Library Environment (OLE). </para>
+        <para role="Body Text">The content of this guide is organized as follows.</para>
+        <itemizedlist mark="disc" spacing="normal">
+            <listitem>
+                <para role="C1H Bullet">The first section summarizes OLE’s system administration functions and
+                    indicates how they are grouped on the Admin Menu. </para>
+            </listitem>
+            <listitem>
+                <para role="C1H Bullet">Each of the remaining sections presents background information and
+                    instructions specific to a group of functions on the menu. These sections are divided into
+                    subsections covering individual functions in the menu grouping. For each function, the applicable
+                    subsection presents a breadcrumb trail showing you how to access the function, information about the
+                    layout of and fields on the applicable screen(s), and where appropriate, additional information to
+                    help you use the screen(s).</para>
+            </listitem>
+        </itemizedlist>
+        <note>
+            <para> In order to work efficiently, you need to understand the basics of
+                the OLE’s user interface. For information and instructions about logging on and off,
+                navigating, understanding the components of screens, and performing basic operations
+                in the screens, see the <link
+                    xlink:href="../../../webhelp/BASICS/content/pr01.html"
+                    >OLE Basic Functionality and Key Concepts.</link>
+            </para>
+            <para> This guide as well as guides to other OLE modules are available for
+                download from the <link xlink:href="../../../html/Index.html">OLE Documentation
+                    Portal</link>.</para>
+        </note>
+    </section>
+    <section>
+        <title>Accessing System Administration Functions</title>
+        <para role="Body Text">The Kuali Open Library Environment (OLE) enables users with proper
+            authorization to perform powerful functions that affect the entire system. These functions, which
+            are accessible via the <emphasis role="bold">Admin</emphasis> menu tab, allow you to:</para>
+        <itemizedlist mark="disc" spacing="normal">
+            <listitem>
+                <para role="C1H Bullet">Support the Kuali Identity Management (KIM) module and implement security
+                    based on accounting line attributes</para>
+            </listitem>
+            <listitem>
+                <para role="C1H Bullet">Define basic types of location and reference information</para>
+            </listitem>
+            <listitem>
+                <para role="C1H Bullet">Control the running of batch jobs</para>
+            </listitem>
+            <listitem>
+                <para role="C1H Bullet">Support the Kuali Enterprise Workflow (KEW) module and</para>
+            </listitem>
+            <listitem>
+                <para role="C1H Bullet">Enable authorized users to perform a variety of other functional and
+                    technical activities. </para>
+            </listitem>
+        </itemizedlist>
+        <note>
+            <para> Only members of OLE-SYS Manager and KR-SYS Technical Administrator roles may
+                initiate most documents in the Admin Menu. Other users may look up values from the lookup screens
+                but may not be able to access other options at all.</para>
+        </note>
+    </section>
+</chapter>

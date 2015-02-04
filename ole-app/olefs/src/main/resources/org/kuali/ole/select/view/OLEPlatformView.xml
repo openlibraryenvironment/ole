@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="OLEPlatformRecordView" parent="Platform-Uif-TransactionalDocumentView">
+        <property name="headerText" value="Platform"/>
+        <property name="formClass" value="org.kuali.ole.select.form.OLEPlatformRecordForm"/>
+        <property name="documentClass" value="org.kuali.ole.select.document.OLEPlatformRecordDocument"/>
+        <property name="entryPageId" value="OLEPlatformRecordView-MainTab"/>
+        <property name="navigation">
+            <ref bean="OLEPlatformRecordView-Menu"/>
+        </property>
+        <property name="items">
+            <list>
+                <ref bean="OLEPlatformRecordView-MainTab"/>
+                <ref bean="OLEPlatformRecordView-E-ResourcesTab"/>
+                <ref bean="OLEPlatformRecordView-EventLogTab"/>
+            </list>
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>ole/eresource/css/platform.css</value>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>ole/eresource/scripts/platform.js</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEPlatformRecordView-Menu" parent="Uif-MenuNavigationGroup">
+        <property name="items">
+            <list>
+                <bean parent="Uif-HeaderTwo"/>
+                <bean parent="Uif-NavigationActionLink" id="Platform-Main-Navigation"
+                      p:navigateToPageId="OLEPlatformRecordView-MainTab" p:actionLabel="Main"/>
+                <bean parent="Uif-NavigationActionLink" id="Platform-E-Resources-Navigation"
+                      p:navigateToPageId="OLEPlatformRecordView-E-ResourcesTab" p:actionLabel="E-Resources"/>
+                <bean parent="Uif-NavigationActionLink" id="Platform-EventLog-Navigation"
+                      p:navigateToPageId="OLEPlatformRecordView-EventLogTab" p:actionLabel="Event Log"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Platform-Uif-TransactionalDocumentView" abstract="true"
+          parent="Platform-Uif-TransactionalDocumentView-parentBean"/>
+    <bean id="Platform-Uif-TransactionalDocumentView-parentBean" abstract="true"
+          class="org.kuali.rice.krad.uif.view.TransactionalDocumentView" parent="Platform-Uif-DocumentView">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-transactionalView</value>
+            </list>
+        </property>
+        <property name="viewTypeName" value="TRANSACTIONAL"/>
+        <property name="viewName" value="default"/>
+        <property name="presentationControllerClass"
+                  value="org.kuali.rice.krad.document.TransactionalDocumentViewPresentationControllerBase"/>
+        <property name="authorizerClass" value="org.kuali.rice.krad.document.TransactionalDocumentViewAuthorizerBase"/>
+        <property name="formClass" value="org.kuali.rice.krad.web.form.TransactionalDocumentFormBase"/>
+    </bean>
+
+    <bean id="Platform-Uif-DocumentView" abstract="true" parent="Platform-Uif-DocumentView-parentBean"/>
+    <bean id="Platform-Uif-DocumentView-parentBean" abstract="true"
+          class="org.kuali.rice.krad.uif.view.DocumentView" parent="Uif-OLEFormView">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-documentView</value>
+            </list>
+        </property>
+        <property name="viewTypeName" value="DOCUMENT"/>
+        <property name="formClass" value="org.kuali.rice.krad.web.form.DocumentFormBase"/>
+        <property name="defaultBindingObjectPath" value="document"/>
+        <property name="presentationControllerClass"
+                  value="org.kuali.rice.krad.document.DocumentViewPresentationControllerBase"/>
+        <property name="authorizerClass" value="org.kuali.rice.krad.document.DocumentViewAuthorizerBase"/>
+        <property name="viewHelperServiceClass"
+                  value="org.kuali.rice.krad.uif.service.impl.DocumentViewHelperServiceImpl"/>
+        <property name="header">
+            <bean parent="Uif-Platform-DocumentViewHeader"/>
+        </property>
+    </bean>
+
+    <bean id="Uif-Platform-DocumentViewHeader" abstract="true" parent="Uif-ViewHeader">
+        <property name="rightGroup">
+            <bean parent="Uif-Platform-DocumentInfoGroup">
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>uif-docheader</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="Uif-Platform-DocumentInfoGroup" parent="Uif-GridGroup" p:readOnly="true">
+        <property name="items">
+            <list>
+                <bean parent="Uif-DocumentNumber"/>
+                <bean parent="Uif-DocumentStatus"/>
+                <bean parent="Uif-DocumentInitiatorNetworkId"/>
+                <bean parent="Uif-DocumentCreateDate"/>
+            </list>
+        </property>
+        <property name="layoutManager">
+            <bean parent="Uif-GridLayoutBase" p:numberOfColumns="8" p:applyDefaultCellWidths="false"/>
+        </property>
+        <property name="fieldBindingObjectPath" value="document"/>
+    </bean>
+
+    <bean id="Platform-Uif-DocumentPage" parent="Uif-Disclosure-Page">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-documentPage</value>
+            </list>
+        </property>
+        <property name="defaultItemPosition" value="11"/>
+        <property name="items">
+            <list>
+
+            </list>
+        </property>
+        <property name="footer">
+            <bean parent="Platform-Uif-DocumentPageFooter"/>
+        </property>
+    </bean>
+
+    <bean id="Platform-Uif-DocumentPageFooter" parent="Uif-FooterBase">
+        <property name="items">
+            <list>
+            </list>
+        </property>
+    </bean>
+
+</beans>
+

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="MultipleNumbersView" parent="MultipleNumbersView-parentBean" />
+    <bean id="MultipleNumbersView-parentBean" parent="Uif-OLEFormView">
+        <!--<property name="headerText" value="E-Resource Document"/>-->
+        <property name="items">
+            <list>
+                <bean id="OLESearchViewPage" parent="Uif-Page">
+                    <property name="items">
+                        <list>
+                            <bean id="PhoneNumbers" parent="Uif-TableCollectionSection">
+                                <property name="collectionObjectClass" value="org.kuali.ole.select.bo.OLEPhoneNumber"/>
+                                <property name="headerText" value="@{vendorNameForContacts}"/>
+                                <property name="propertyName" value="phoneNos"/>
+                                <property name="layoutManager.renderSequenceField" value="false"/>
+                                <property name="renderLineActions" value="false"/>
+                                <property name="renderAddLine" value="false"/>
+                                <property name="layoutManager.richTable.render" value="true"/>
+                                <property name="layoutManager.richTable.disableTableSort" value="false"/>
+                                <property name="items">
+                                    <list>
+                                        <bean id="eResource-phoneNumberType" parent="Uif-DataField"
+                                              p:propertyName="phoneNumberType" p:label="Phone Number Type"/>
+                                        <bean id="eResource-phoneNumber" parent="Uif-DataField"
+                                              p:propertyName="phoneNumber" p:label="Phone Number"/>
+                                    </list>
+                                </property>
+                            </bean>
+
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <!--<property name="documentClass" value="org.kuali.ole.select.document.OLEEResourceRecordDocument"/>-->
+        <property name="formClass" value="org.kuali.ole.select.form.OLEEResourceRecordForm"/>
+    </bean>
+
+
+</beans>

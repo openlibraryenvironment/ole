@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bibTree>
+    <active>false</active>
+    <fastAdd>false</fastAdd>
+    <public>false</public>
+    <staffOnly>false</staffOnly>
+    <holdingsTrees>
+        <holdingsTree>
+            <active>false</active>
+            <fastAdd>false</fastAdd>
+            <public>false</public>
+            <staffOnly>false</staffOnly>
+            <items>
+                <active>false</active>
+                <category>work</category>
+                <content>&lt;item&gt;
+                    &lt;barcodeARSL&gt;bararsl&lt;/barcodeARSL&gt;
+                    &lt;volumeNumber&gt;123&lt;/volumeNumber&gt;
+                    &lt;enumeration&gt;en&lt;/enumeration&gt;
+                    &lt;chronology&gt;123&lt;/chronology&gt;
+                    &lt;callNumber&gt;
+                    &lt;number&gt;123&lt;/number&gt;
+                    &lt;shelvingScheme&gt;
+                    &lt;codeValue&gt;LCC&lt;/codeValue&gt;
+                    &lt;/shelvingScheme&gt;
+                    &lt;/callNumber&gt;
+                    &lt;staffOnlyFlag&gt;false&lt;/staffOnlyFlag&gt;
+                    &lt;fastAddFlag&gt;false&lt;/fastAddFlag&gt;
+                    &lt;claimsReturnedFlag&gt;false&lt;/claimsReturnedFlag&gt;
+                    &lt;/item&gt;</content>
+                <fastAdd>false</fastAdd>
+                <format>oleml</format>
+                <public>false</public>
+                <staffOnly>false</staffOnly>
+                <type>item</type>
+            </items>
+            <holdings>
+                <active>false</active>
+                <category>work</category>
+                <content>&lt;oleHoldings&gt;
+                    &lt;callNumber&gt;
+                    &lt;number&gt;1234&lt;/number&gt;
+                    &lt;shelvingScheme&gt;
+                    &lt;codeValue&gt;LCC&lt;/codeValue&gt;
+                    &lt;/shelvingScheme&gt;
+                    &lt;/callNumber&gt;
+                    &lt;interLibraryLoanAllowed&gt;false&lt;/interLibraryLoanAllowed&gt;
+                    &lt;staffOnlyFlag&gt;false&lt;/staffOnlyFlag&gt;
+                    &lt;/oleHoldings&gt;</content>
+                <fastAdd>false</fastAdd>
+                <format>oleml</format>
+                <public>false</public>
+                <staffOnly>false</staffOnly>
+                <type>holdings</type>
+                <holdingsType>print</holdingsType>
+            </holdings>
+        </holdingsTree>
+        <holdingsTree>
+            <active>false</active>
+            <fastAdd>false</fastAdd>
+            <public>false</public>
+            <staffOnly>false</staffOnly>
+            <items>
+                <active>false</active>
+                <category>work</category>
+                <content>&lt;item&gt;
+                    &lt;barcodeARSL&gt;bararsl&lt;/barcodeARSL&gt;
+                    &lt;volumeNumber&gt;1234&lt;/volumeNumber&gt;
+                    &lt;enumeration&gt;en&lt;/enumeration&gt;
+                    &lt;chronology&gt;1234&lt;/chronology&gt;
+                    &lt;callNumber&gt;
+                    &lt;number&gt;1234&lt;/number&gt;
+                    &lt;shelvingScheme&gt;
+                    &lt;codeValue&gt;LCC&lt;/codeValue&gt;
+                    &lt;/shelvingScheme&gt;
+                    &lt;/callNumber&gt;
+                    &lt;staffOnlyFlag&gt;false&lt;/staffOnlyFlag&gt;
+                    &lt;fastAddFlag&gt;false&lt;/fastAddFlag&gt;
+                    &lt;claimsReturnedFlag&gt;false&lt;/claimsReturnedFlag&gt;
+                    &lt;/item&gt;</content>
+                <fastAdd>false</fastAdd>
+                <format>oleml</format>
+                <public>false</public>
+                <staffOnly>false</staffOnly>
+                <type>item</type>
+            </items>
+            <holdings>
+                <active>false</active>
+                <category>work</category>
+                <content>&lt;oleHoldings&gt;
+                    &lt;callNumber&gt;
+                    &lt;number&gt;12345&lt;/number&gt;
+                    &lt;shelvingScheme&gt;
+                    &lt;codeValue&gt;LCC&lt;/codeValue&gt;
+                    &lt;/shelvingScheme&gt;
+                    &lt;/callNumber&gt;
+                    &lt;interLibraryLoanAllowed&gt;false&lt;/interLibraryLoanAllowed&gt;
+                    &lt;staffOnlyFlag&gt;false&lt;/staffOnlyFlag&gt;
+                    &lt;/oleHoldings&gt;</content>
+                <fastAdd>false</fastAdd>
+                <format>oleml</format>
+                <public>false</public>
+                <staffOnly>false</staffOnly>
+                <type>holdings</type>
+                <holdingsType>print</holdingsType>
+            </holdings>
+        </holdingsTree>
+    </holdingsTrees>
+    <bib>
+        <active>false</active>
+        <category>work</category>
+        <content>&lt;collection&gt;
+            &lt;record&gt;
+            &lt;leader&gt;#####nam#a22######a#4500&lt;/leader&gt;
+            &lt;controlfield tag="001"&gt;&lt;/controlfield&gt;
+            &lt;controlfield tag="003"&gt;OCoLC&lt;/controlfield&gt;
+            &lt;controlfield tag="005"&gt;20090213152530.7&lt;/controlfield&gt;
+            &lt;controlfield tag="008"&gt;131031s########xxu###########000#0#eng#d&lt;/controlfield&gt;
+            &lt;datafield tag="010"&gt; ind1=" " ind2=" "&gt;
+            &lt;subfield code="a"&gt;gb 94040025&lt;/subfield&gt;
+            &lt;/datafield&gt;
+            &lt;datafield tag="015" ind1=" " ind2=" "&gt;
+            &lt;subfield code="a"&gt;GB94-40025&lt;/subfield&gt;
+            &lt;/datafield&gt;
+            &lt;datafield tag="020" ind1=" " ind2=" "&gt;
+            &lt;subfield code="a"&gt;0714839337 (v. 3)&lt;/subfield&gt;
+            &lt;/datafield&gt;
+            &lt;datafield tag="040" ind1=" " ind2=" "&gt;
+            &lt;subfield code="b"&gt;RSD&lt;/subfield&gt;
+            &lt;/datafield&gt;
+            &lt;datafield tag="049" ind1=" " ind2=" "&gt;
+            &lt;subfield code="a"&gt;IULA&lt;/subfield&gt;
+            &lt;/datafield&gt;
+            &lt;datafield tag="090" ind1="1" ind2="0"&gt;
+            &lt;subfield code="a"&gt;NA1123.P47&lt;/subfield&gt;
+            &lt;/datafield&gt;
+            &lt;datafield tag="092" ind1="0" ind2="0"&gt;
+            &lt;subfield code="a"&gt;720.945&lt;/subfield&gt;
+            &lt;/datafield&gt;
+            &lt;datafield tag="100" ind1=" " ind2=" "&gt;
+            &lt;subfield code="a"&gt;Buchanan, Peter.&lt;/subfield&gt;
+            &lt;/datafield&gt;
+            &lt;datafield tag="245" ind1="0" ind2="0"&gt;
+            &lt;subfield code="a"&gt;Renzo Piano Building Workshop :&lt;/subfield&gt;
+            &lt;/datafield&gt;
+            &lt;datafield tag="260" ind1=" " ind2=" "&gt;
+            &lt;subfield code="a"&gt;London :&lt;/subfield&gt;
+            &lt;subfield code="b"&gt;Phaidon Press&lt;/subfield&gt;
+            &lt;/datafield&gt;
+            &lt;datafield tag="300" ind1=" " ind2=" "&gt;
+            &lt;subfield code="a"&gt;v. :&lt;/subfield&gt;
+            &lt;subfield code="c"&gt;ill. (some col.), plans ; ports.&lt;/subfield&gt;
+            &lt;/datafield&gt;
+            &lt;datafield tag="300" ind1=" " ind2=" "&gt;
+            &lt;subfield code="c"&gt;24 cm.&lt;/subfield&gt;
+            &lt;/datafield&gt;
+            &lt;datafield tag="504" ind1=" " ind2=" "&gt;
+            &lt;subfield code="a"&gt;Includes bibliographical references and indexes.&lt;/subfield&gt;
+            &lt;/datafield&gt;
+            &lt;datafield tag="600" ind1="0" ind2=" "&gt;
+            &lt;subfield code="a"&gt;Piano, Renzo.&lt;/subfield&gt;
+            &lt;/datafield&gt;
+            &lt;datafield tag="610" ind1="0" ind2=" "&gt;
+            &lt;subfield code="a"&gt;Renzo Piano Building Workshop.&lt;/subfield&gt;
+            &lt;/datafield&gt;
+            &lt;datafield tag="700" ind1="2" ind2=" "&gt;
+            &lt;subfield code="a"&gt;Piano, Renzo.&lt;/subfield&gt;
+            &lt;/datafield&gt;
+            &lt;datafield tag="999" ind1="2" ind2="0"&gt;
+            &lt;subfield code="a"&gt;NA1123.P47 B8 1993 v.2&lt;/subfield&gt;
+            &lt;subfield code="a"&gt;LC&lt;/subfield&gt;
+            &lt;subfield code="b"&gt;1&lt;/subfield&gt;
+            &lt;subfield code="u"&gt;30000003295353&lt;/subfield&gt;
+            &lt;subfield code="v"&gt;7/19/2010&lt;/subfield&gt;
+            &lt;subfield code="i"&gt;1/16/2001&lt;/subfield&gt;
+            &lt;subfield code="j"&gt;STACKS&lt;/subfield&gt;
+            &lt;subfield code="w"&gt;B-FINEARTS&lt;/subfield&gt;
+            &lt;/datafield&gt;
+            &lt;/record&gt;
+            &lt;/collection&gt;</content>
+        <fastAdd>false</fastAdd>
+        <format>marc</format>
+        <public>false</public>
+        <staffOnly>false</staffOnly>
+        <type>bibliographic</type>
+    </bib>
+</bibTree>

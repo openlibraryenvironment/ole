@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="TransferView" parent="TransferView-parentBean" />
+    <bean id="TransferView-parentBean" parent="Uif-OLEFormView">
+        <property name="headerText" value="Transfer Instance/Item"/>
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/CG/content/ch02s03.html"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="OLESearchViewPage" parent="Uif-Page" >
+                    <property name="items">
+                        <list>
+                            <!--<ref bean="SearchPanel"/>
+                            <ref bean="SearchResultsPanel"/>-->
+                            <!--<ref bean="BoundwithSearchPanel"/>-->
+                            <!--<ref bean="BoundwithSearchResultsPanel"/>-->
+
+                            <ref bean="DocumentAndSearchSelectionType"/>
+                            <ref bean="SearchAndSearchResultsView"/>
+                            <ref bean="SearchFooterSec"/>
+                            <ref bean="TransferCopyToTree"/>
+                            <ref bean="TransferSelectionSection"/>
+                            <ref bean ="TransferSelection-Buttons"/>
+
+                           <!-- <ref bean="hdn_refresh_button"/>
+                            <ref bean="hdn_search_button"/>
+                            <ref bean="hdn_NextFlag_button"/>
+                            <ref bean="hdn_PreviousFlag_button"/>
+                            <ref bean="hdn_refreshLeft_button"/>
+                            <ref bean="hdn_refreshRight_button"/>
+                            <ref bean="hdnStart"/>
+                            <ref bean="hdnRows"/>
+                            <ref bean="boundwithNextFlag"/>
+                            <ref bean="boundwithPreviousFlag"/>
+                            <ref bean="boundwithPageShowEntries"/>-->
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>ole/describe/css/search.css</value>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>ole/describe/scripts/workbench.js</value>
+                <value>ole/describe/scripts/callNumberBrowse.js</value>
+            </list>
+        </property>
+        <property name="footer">
+            <ref bean="TransferClearFooterView-buttons" />
+        </property>
+        <property name="formClass" value="org.kuali.ole.describe.form.BoundwithForm"/>
+    </bean>
+
+    <bean id="TransferMessageSection" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="transferMessageSection" parent="Uif-Message" p:messageText="@{message}"
+                      p:cssClasses="messageClass"/>
+            </list>
+        </property>
+    </bean>
+
+   <!-- <bean id="TransferSelectionSection" parent="Uif-VerticalBoxSection">
+        <property name="headerText" value=""/>
+        <property name="items">
+            <list>
+                <ref bean="TransferMessageSection"/>
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="headerText" value=""/>
+                    <property name="items">
+                        <list>
+                            <ref bean="TransferSection1"/>
+                            <ref bean="TransferSection2"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>-->
+    <bean id="TransferSelectionSection" parent="Uif-HorizontalBoxSection">
+        <property name="headerText" value=""/>
+        <property name="items">
+            <list>
+                            <ref bean="TransferSection1"/>
+                            <ref bean="TransferSection2"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="TransferSection1"  parent="Uif-TabSection" p:width="500px">
+        <property name="headerText" value=""/>
+        <property name="items">
+            <list>
+                <ref bean="TransferTreeSection1"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="TransferSection2"  parent="Uif-TabSection" p:width="500px">
+        <property name="headerText" value=""/>
+        <property name="items">
+            <list>
+                <ref bean="TransferTreeSection2"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="TransferTreeSection1" parent="Uif-VerticalBoxSection">
+        <property name="headerText" value="Tree1"/>
+        <property name="items">
+            <list>
+                <ref bean="showLeftTreeErrors"/>
+                <ref bean="Transfer-buildDeleteVerifyLeftTree"/>
+                <ref bean="Transfer-deleteConfirmationButtonsLeftTree"/>
+                <ref bean="TransferLeftTree"/>
+                <ref bean="TransferLeftTree-footer"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="showResultsTabTree1" parent="Uif-InputField" p:propertyName="documentTreeNode.returnCheck">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+    <bean id="Transfer-buildDeleteVerifyLeftTree" parent="Uif-TreeSection" p:instructionalText="" p:render="@{inDeleteLeftTree eq 'true'}">
+        <property name="headerText" value="This transfer will delete following records. Please select below options:"/>
+        <property name="propertyName" value="deleteConfirmationTree"/>
+        <property name="defaultNodePrototype">
+            <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
+                <property name="labelPrototype">
+                    <bean parent="Uif-Message"/>
+                </property>
+                <property name="dataGroupPrototype">
+                    <bean id="LeftTree1-ver" parent="Uif-VerticalBoxGroup" p:style="margin-left: 2em;">
+                        <property name="items">
+                            <list>
+                                <bean id="LeftTree1-hor" parent="Uif-HorizontalFieldGroup">
+                                    <property name="items">
+                                        <list>
+                                            <bean id="selectTree1" parent="Uif-InputField" p:propertyName="select" p:label=""
+                                                  p:defaultValue="false" p:align="right">
+                                                <property name="control">
+                                                    <!--<bean parent="Uif-CheckboxControl"/>-->
+                                                    <bean parent="Uif-HiddenControl"/>
+                                                </property>
+                                            </bean>
+                                        </list>
+                                    </property>
+                                </bean>
+                            </list>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+
+    <bean id="Transfer-deleteConfirmationButtonsLeftTree" parent="Uif-FooterBase"  p:render="@{inDeleteLeftTree eq 'true'}">
+        <property name="items">
+            <list>
+                <bean id="deleteVerifyLeftTree" parent="Uif-SecondaryActionButton" p:methodToCall="delete"  p:actionParameters="treeId:leftTree" p:actionLabel="delete" p:refreshId="TransferSelectionSection" p:style="float:left;margin-left:10em" p:successCallback="refresh()"/>
+                <bean id="OnlyTransferLeftTree" parent="Uif-SecondaryActionButton" p:methodToCall="OnlyTransfer"  p:actionParameters="treeId:leftTree"  p:actionLabel="keep" p:style="float:left;margin-left:0.2em" p:successCallback="refresh()"/>
+                <bean id="cancelDeleteLeftTree" parent="Uif-SecondaryActionButton" p:methodToCall="cancel" p:actionLabel="cancel" p:style="float:left;margin-left:0.2em"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="TransferTreeSection2"  parent="Uif-VerticalBoxSection">
+        <property name="headerText" value="Tree2"/>
+        <property name="items">
+            <list>
+                <ref bean="showRightTreeErrors"/>
+                <ref bean="Transfer-buildDeleteVerifyRightTree"/>
+                <ref bean="Transfer-deleteConfirmationButtonsRightTree"/>
+                <ref bean="TransferRightTree"/>
+                <ref bean="TransferRightTree-footer"/>
+            </list>
+        </property>
+    </bean>
+<!--    <bean id="showResultsTabTree2" parent="Uif-InputField" p:propertyName="documentTreeNode.returnCheck">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+    <bean id="showLeftTreeErrors" parent="Uif-InputField" p:propertyName="showLeftTreeStatusMessages.returnCheck">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
+    <bean id="showRightTreeErrors" parent="Uif-InputField" p:propertyName="showRightTreeStatusMessages.returnCheck">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
+    <bean id="Transfer-buildDeleteVerifyRightTree" parent="Uif-TreeSection" p:instructionalText="" p:render="@{inDeleteRightTree eq 'true'}">
+        <property name="headerText" value="This transfer will delete following records. Please select below options:"/>
+        <property name="propertyName" value="deleteConfirmationTree"/>
+        <property name="defaultNodePrototype">
+            <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
+                <property name="labelPrototype">
+                    <bean parent="Uif-Message"/>
+                </property>
+                <property name="dataGroupPrototype">
+                    <bean id="RightTree1-ver" parent="Uif-VerticalBoxGroup" p:style="margin-left: 2em;">
+                        <property name="items">
+                            <list>
+                                <bean id="RightTree1-hor" parent="Uif-HorizontalFieldGroup">
+                                    <property name="items">
+                                        <list>
+                                            <bean id="selectTree1" parent="Uif-InputField" p:propertyName="select" p:label=""
+                                                  p:defaultValue="false" p:align="right">
+                                                <property name="control">
+                                                    <!--<bean parent="Uif-CheckboxControl"/>-->
+                                                    <bean parent="Uif-HiddenControl"/>
+                                                </property>
+                                            </bean>
+                                        </list>
+                                    </property>
+                                </bean>
+                            </list>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+    <bean id="Transfer-deleteConfirmationButtonsRightTree" parent="Uif-FooterBase"  p:render="@{inDeleteRightTree eq 'true'}">
+        <property name="items">
+            <list>
+                <bean id="deleteVerifyRightTree" parent="Uif-SecondaryActionButton" p:methodToCall="delete" p:actionParameters="treeId:rightTree" p:actionLabel="delete" p:refreshId="TransferSelectionSection" p:style="float:left;margin-left:10em" p:successCallback="refresh()"/>
+                <bean id="OnlyTransferRightTree" parent="Uif-SecondaryActionButton" p:methodToCall="OnlyTransfer" p:actionParameters="treeId:rightTree" p:actionLabel="keep"  p:style="float:left;margin-left:0.2em" p:successCallback="refresh()"/>
+                <bean id="cancelDeleteRightTree" parent="Uif-SecondaryActionButton" p:methodToCall="cancel" p:actionLabel="cancel" p:style="float:left;margin-left:0.2em"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="TransferLeftTree-footer" parent="Uif-HorizontalFieldGroup">
+        <property name="items">
+            <list>
+                <bean id="leftTreeRefreshButtonForTransfer" parent="RefreshButton" p:methodToCall="refreshLeftTree" p:refreshId="TransferTreeSection1" p:successCallback="searching()"/>
+
+                <bean id="leftTreeRemoveButtonForTransfer" parent="RemoveButton"  p:methodToCall="removeFromLeftTree" p:refreshId="TransferTreeSection1" p:successCallback="searching()"/>
+
+                <bean id="leftTreeUnSelectButtonForTransfer" parent="UnselectAllButton" p:methodToCall="unSelectAllFromLeftTree" p:refreshId="TransferTreeSection1" p:successCallback="searching()"/>
+
+                <bean id="leftTreeClearTreeForTransfer" parent="ClearTreeButton" p:methodToCall="clearTree" p:actionParameters="treeId:leftTree" p:refreshId="TransferTreeSection1" p:successCallback="searching()"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="TransferRightTree-footer" parent="Uif-HorizontalFieldGroup">
+        <property name="items">
+            <list>
+                <bean id="rightTreeRefreshButtonForTransfer" parent="RefreshButton" p:methodToCall="refreshRightTree" p:refreshId="TransferTreeSection2" p:successCallback="searching()"/>
+
+                <bean id="rightTreeRemoveButtonForTransfer" parent="RemoveButton" p:methodToCall="removeFromRightTree" p:refreshId="TransferTreeSection2"  p:successCallback="searching()"/>
+
+                <bean id="rightTreeUnSelectButtonForTransfer" parent="UnselectAllButton" p:methodToCall="unSelectAllFromRightTree" p:refreshId="TransferTreeSection2" p:successCallback="searching()"/>
+
+                <bean id="rightTreeClearTreeForTransfer" parent="ClearTreeButton" p:methodToCall="clearTree" p:actionParameters="treeId:rightTree" p:refreshId="TransferTreeSection2" p:successCallback="searching()"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="TransferLeftTree" parent="Uif-TreeSection" p:instructionalText=""  p:render="@{showLeftTree eq true}">
+        <property name="headerText" value=""/>
+        <property name="propertyName" value="leftTree"/>
+        <property name="defaultNodePrototype">
+            <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
+                <property name="labelPrototype">
+                    <bean parent="Uif-Message"/>
+                </property>
+                <property name="dataGroupPrototype">
+                    <bean id="LeftTree2-ver" parent="Uif-VerticalBoxGroup" p:style="margin-left: 2em;">
+                        <property name="items">
+                            <list>
+                                <bean id="LeftTree2-hor" parent="Uif-HorizontalFieldGroup">
+                                    <property name="items">
+                                        <list>
+                                            <bean id="transferSelectTree1" parent="Uif-InputField" p:propertyName="select" p:label=""
+                                                  p:defaultValue="false" p:align="right">
+                                                <!--p:onClickScript="ajaxSubmitForm('submitTree1CheckBoxValues',null,null,null);">
+                                                -->
+                                                <property name="control">
+                                                    <bean parent="Uif-CheckboxControl"/>
+                                                </property>
+                                            </bean>
+                                        </list>
+                                    </property>
+                                </bean>
+                            </list>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="TransferRightTree" parent="Uif-TreeSection" p:instructionalText=""  p:render="@{showRightTree eq true}">
+        <property name="headerText" value=""/>
+        <property name="propertyName" value="rightTree"/>
+        <property name="defaultNodePrototype">
+            <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
+                <property name="labelPrototype">
+                    <bean parent="Uif-Message"/>
+                </property>
+                <property name="dataGroupPrototype">
+                    <bean id="RightTree2-ver" parent="Uif-VerticalBoxGroup" p:style="margin-left: 2em;">
+                        <property name="items">
+                            <list>
+                                <bean id="RightTree2-hor" parent="Uif-HorizontalFieldGroup">
+                                    <property name="items">
+                                        <list>
+                                            <bean id="transferSelectTree2" parent="Uif-InputField" p:propertyName="select" p:label=""
+                                                  p:defaultValue="false" p:align="right">
+                                                <!--p:onClickScript="ajaxSubmitForm('submitTree2CheckBoxValues',null,null,null);">
+                                                -->
+                                                <property name="control">
+                                                    <bean parent="Uif-CheckboxControl"/>
+                                                </property>
+                                            </bean>
+                                        </list>
+                                    </property>
+                                </bean>
+                            </list>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="TransferSection-tree" parent="Uif-TreeSection" p:instructionalText="" >
+        <property name="headerText" value="Bound-with"/>
+        <property name="propertyName" value="boundwithTree"/>
+        <property name="defaultNodePrototype">
+
+            <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
+                <property name="labelPrototype">
+                    <bean parent="Uif-Message"/>
+                </property>
+                <property name="dataGroupPrototype">
+                    <bean id="Tree1-ver" parent="Uif-VerticalBoxGroup" p:style="margin-left: 2em;">
+                        <property name="items">
+                            <list>
+                                <bean id="Tree1-hor" parent="Uif-HorizontalFieldGroup">
+                                    <property name="items">
+                                        <list>
+
+                                            <bean id="transferTree1" parent="Uif-InputField" p:propertyName="select" p:label=""
+                                                  p:defaultValue="false" p:align="right"
+                                                  p:onClickScript="writeHiddenToForm('methodToCall','submitBoundwithTreeCheckBoxValues');submitForm();">
+                                                <property name="control">
+                                                    <bean parent="Uif-CheckboxControl"/>
+                                                </property>
+                                            </bean>
+                                        </list>
+                                    </property>
+                                </bean>
+                            </list>
+                        </property>
+                    </bean>
+
+                </property>
+
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="TransferResultsSection-footer" parent="Uif-HorizontalFieldGroup">
+    </bean>
+    <bean id="TransferSelection-Buttons"  parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="transfer_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:20em" p:methodToCall="selectRootNodeItems" p:actionLabel="Transfer Left to Right" p:refreshId="TransferSelectionSection" p:successCallback="refresh()"/>
+                <bean id="transfer_button2" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:20em" p:methodToCall="transferRightToLeft" p:actionLabel="Transfer Right to Left" p:refreshId="TransferSelectionSection" p:successCallback="refresh()"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="TransferClearFooterView-buttons" parent="TransferClearFooterView-buttons-parentBean"/>
+    <bean id="TransferClearFooterView-buttons-parentBean" parent="Uif-HorizontalBoxSection" p:disclosure.render="false">
+        <property name="items">
+            <list>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="TransferCopyToTree"  parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="copyToTree1" parent="Uif-SecondaryActionButton" p:style="float:left;margin-left:25em" p:methodToCall="copyToTree" p:actionLabel="Copy To Tree1" p:actionParameters="treeId:leftTree" p:refreshId="TransferSelectionSection" p:ajaxSubmit="true"  p:successCallback="refresh()"/>
+                <bean id="copyToTree2" parent="Uif-SecondaryActionButton" p:style="float:left;margin-left:0em" p:methodToCall="copyToTree" p:actionLabel="Copy To Tree2" p:actionParameters="treeId:rightTree" p:refreshId="TransferSelectionSection" p:ajaxSubmit="true"  p:successCallback="refresh()"/>
+                <ref bean="search_button3"/>
+            </list>
+        </property>
+    </bean>
+
+   <!-- <bean id="hdn_refresh_button" parent="Uif-SecondaryActionButton-Small" p:methodToCall="start" p:hidden="true" />
+    <bean id="hdn_search_button" parent="Uif-SecondaryActionButton-Small" p:methodToCall="search" p:hidden="true" p:successCallback="searching()"/>
+    <bean id="hdn_NextFlag_button" parent="Uif-SecondaryActionButton-Small"  p:methodToCall="nextSearch" p:hidden="true" p:successCallback="searching()"/>
+    <bean id="hdn_PreviousFlag_button" parent="Uif-SecondaryActionButton-Small"  p:methodToCall="previousSearch" p:hidden="true" p:successCallback="searching()"/>
+    <bean id="hdn_refreshLeft_button" parent="Uif-SecondaryActionButton-Small" p:methodToCall="refreshLeftTree" p:refreshId="TransferLeftTree" p:hidden="true" p:successCallback="searching()"/>
+    <bean id="hdn_refreshRight_button" parent="Uif-SecondaryActionButton-Small" p:methodToCall="refreshRightTree"  p:refreshId="TransferRightTree" p:hidden="true" p:successCallback="searching()"/>
+    <bean id="hdnStart" parent="Uif-InputField"  p:hidden="true" p:propertyName="start"/>
+    <bean id="hdnRows" parent="Uif-InputField" p:propertyName="pageSize">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+    <bean id="boundwithNextFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="nextFlag"/>
+    <bean id="boundwithPreviousFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="previousFlag"/>
+    <bean id="boundwithPageShowEntries" parent="Uif-InputField"  p:hidden="true" p:propertyName="pageShowEntries"/>
+-->
+</beans>

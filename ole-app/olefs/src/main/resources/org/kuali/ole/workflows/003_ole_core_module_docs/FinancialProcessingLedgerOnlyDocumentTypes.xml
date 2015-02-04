@@ -1,0 +1,181 @@
+<data xmlns="ns:workflow" xsi:schemaLocation="ns:workflow resource:WorkflowData" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>OLE_ACHD</name>
+      <parent>OpenLibraryEnvironmentLedgerOnlyDocument</parent>
+      <label>
+        ACH Disbursement
+      </label>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        1
+      </routingVersion>
+      <routePaths/>
+    </documentType>
+    <documentType>
+      <name>OLE_CHKD</name>
+      <parent>OpenLibraryEnvironmentLedgerOnlyDocument</parent>
+      <label>
+        Check Disbursement
+      </label>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        1
+      </routingVersion>
+      <routePaths/>
+    </documentType>
+    <documentType>
+      <name>OLE_CHKR</name>
+      <parent>OpenLibraryEnvironmentLedgerOnlyDocument</parent>
+      <label>
+        Check Cancel &amp; Re-Issue
+      </label>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        1
+      </routingVersion>
+      <routePaths/>
+    </documentType>
+    <documentType>
+      <name>OLE_CHKC</name>
+      <parent>OpenLibraryEnvironmentLedgerOnlyDocument</parent>
+      <label>
+        Check Cancellation
+      </label>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        1
+      </routingVersion>
+      <routePaths/>
+    </documentType>
+    <documentType>
+      <name>OLE_ACHR</name>
+      <parent>OpenLibraryEnvironmentLedgerOnlyDocument</parent>
+      <label>
+        ACH Cancel &amp; Re-Issue
+      </label>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        1
+      </routingVersion>
+      <routePaths/>
+    </documentType>
+    <documentType>
+      <name>OLE_ACHC</name>
+      <parent>OpenLibraryEnvironmentLedgerOnlyDocument</parent>
+      <label>
+        ACH Cancellation
+      </label>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        1
+      </routingVersion>
+      <routePaths/>
+    </documentType>
+    <documentType>
+      <name>OLE_AVAD</name>
+      <parent>OpenLibraryEnvironmentLedgerOnlyDocument</parent>
+      <label>
+        Auxiliary Voucher - Adjustment
+      </label>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths/>
+    </documentType>
+    <documentType>
+      <name>OLE_AVAE</name>
+      <parent>OpenLibraryEnvironmentLedgerOnlyDocument</parent>
+      <label>
+        Auxiliary Voucher - Accrual Entry
+      </label>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths/>
+    </documentType>
+    <documentType>
+      <name>OLE_AVRC</name>
+      <parent>OpenLibraryEnvironmentLedgerOnlyDocument</parent>
+      <label>
+        Auxiliary Voucher - Re-code
+      </label>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths/>
+    </documentType>
+    <documentType>
+      <name>OLE_DVWF</name>
+      <parent>OpenLibraryEnvironmentLedgerOnlyDocument</parent>
+      <label>
+        Disbursement Voucher - WT/FD
+      </label>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths/>
+    </documentType>
+    <documentType>
+      <name>OLE_DVCA</name>
+      <parent>OpenLibraryEnvironmentLedgerOnlyDocument</parent>
+      <label>
+        Disbursement Voucher - Check/ACH
+      </label>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths/>
+    </documentType>
+    <documentType>
+      <name>OLE_ACLO</name>
+   	<parent>OpenLibraryEnvironmentLedgerOnlyDocument</parent>
+      <label>
+        Annual Closing
+      </label>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths/>
+    </documentType>
+    <documentType>
+      <name>OLE_PDP</name>
+      <parent>OpenLibraryEnvironmentLedgerOnlyDocument</parent>
+      <label>Pre-Disbursement Processing</label>
+      <active>true</active>
+      <routingVersion>2</routingVersion>
+      <routePaths/>
+    </documentType>
+
+  </documentTypes>
+</data>

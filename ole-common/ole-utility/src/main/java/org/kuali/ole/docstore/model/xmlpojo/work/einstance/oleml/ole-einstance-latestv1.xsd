@@ -1,0 +1,685 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified"
+           targetNamespace="http://ole.kuali.org/standards/ole-eInstance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="instanceCollection" type="ole:instanceCollection"
+                xmlns:ole="http://ole.kuali.org/standards/ole-eInstance">
+    </xs:element>
+    <xs:complexType name="instanceCollection">
+        <xs:sequence>
+
+            <xs:element type="ole:eInstance" name="eInstance" xmlns:ole="http://ole.kuali.org/standards/ole-eInstance"
+                        minOccurs="1" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>
+                        1 or more eInstance records
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="eInstance">
+        <xs:annotation>
+            <xs:documentation>
+                The eInstance captures holdings information. Holdings can be recorded in either the general
+                holdings section or specific holdings format in the sourceHoldings section.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element type="xs:string" name="instanceIdentifier">
+                <xs:annotation>
+                    <xs:documentation>
+                        Unique system assigned identifier for the instance document.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name="resourceIdentifier" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>
+                        Bibliographic identifier from 001 in the marc record in OLE
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="ole:formerIdentifier" name="formerResourceIdentifier"
+                        xmlns:ole="http://ole.kuali.org/standards/ole-eInstance" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>
+                        These are Identifiers from the legacy system for the bibliographic records that are stored
+                        in the 035 of the Marc record. Non-Editable that gets used at the time of linking bib records
+                        and instance records.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="ole:eHoldings" name="eHoldings"
+                        xmlns:ole="http://ole.kuali.org/standards/ole-eInstance">
+                <xs:annotation>
+                    <xs:documentation>
+                        General holdings information for institutions not using specific source holdings
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="eHoldings">
+        <xs:annotation>
+            <xs:documentation>
+                This section can be used to record general holdings information if not using a specific
+                source holdings.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element type="xs:string" name="holdingsIdentifier">
+                <xs:annotation>
+                    <xs:documentation>
+                        This is system generate unique ID.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name="relatedInstanceIdentifier">
+                <xs:annotation>
+                    <xs:documentation>
+                        Unique system assigned identifier for the instance document.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name="publisher" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name="imprint" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:anyURI" name = "localPersistentLink" maxOccurs="1" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="ole:link" name="link"
+                        xmlns:ole="http://ole.kuali.org/standards/ole-eInstance" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        This indicates public or non-public
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+<!--            <xs:element type="xs:anyURI" name = "link" maxOccurs="unbounded" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name="linkText" maxOccurs="unbounded" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        Link Text.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>-->
+            <xs:element type="xs:boolean" name="interLibraryLoanAllowed">
+                <xs:annotation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:boolean" name="staffOnlyFlag">
+                <xs:annotation>
+                    <xs:documentation>
+                        The holdings data not to be displayed in the public display interface.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="ole:extentOfOwnership" name="extentOfOwnership"
+                        xmlns:ole="http://ole.kuali.org/standards/ole-eInstance" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        (R)
+                        This is a free txt for summary holdings (textual) for institutions not using source holdings.
+                        It will be mapped to MFHD 866$a with ind1 being blank and ind2 = 0 if converted to the source
+                        MFHD.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="ole:note" name="note"
+                        xmlns:ole="http://ole.kuali.org/standards/ole-eInstance" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>
+                        This indicates public or non-public
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name="donorPublicDisplay" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        (R)
+                        This is automatically inherited from the PO Line Item number for the appropriate fund used.
+                        Needs more discussion, but leaving here as a place holder.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name="donorNote" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        (R)
+                        Donor information for items that are gifts and for items that were purchased not using some
+                        specific funds.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name="accessStatus" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        (R)
+                        Donor information for items that are gifts and for items that were purchased not using some
+                        specific funds.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name="statusDate">
+                <xs:annotation>
+                    <xs:documentation>
+
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:element type="xs:string" name="vendor" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name="orderType" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name="orderFormat" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:element type="xs:string" name = "purchaseOrderId" maxOccurs="1" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name = "statisticalSearchingCode" maxOccurs="1" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:element type="xs:string" name="eResourceTitle" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name="eResourceId" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="ole:callNumber" xmlns:ole="http://ole.kuali.org/standards/ole-eInstance" name="callNumber">
+                <xs:annotation>
+                    <xs:documentation>
+                        To be filled
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+<!--            <xs:element type="ole:coverages" xmlns:ole="http://ole.kuali.org/standards/ole-eInstance" name="coverages">
+                <xs:annotation>
+                    <xs:documentation>
+                        To be filled
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="ole:coverage" xmlns:ole="http://ole.kuali.org/standards/ole-eInstance" name="coverage">
+                <xs:annotation>
+                    <xs:documentation>
+                        To be filled
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="ole:perpetualAccesses" xmlns:ole="http://ole.kuali.org/standards/ole-eInstance" name="perpetualAccesses">
+                <xs:annotation>
+                    <xs:documentation>
+                        To be filled
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="ole:perpetualAccess" xmlns:ole="http://ole.kuali.org/standards/ole-eInstance" name="perpetualAccess">
+                <xs:annotation>
+                    <xs:documentation>
+                        To be filled
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>-->
+            <xs:element type="ole:invoice" xmlns:ole="http://ole.kuali.org/standards/ole-eInstance" name="invoice">
+                <xs:annotation>
+                    <xs:documentation>
+                        To be filled
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="ole:accessInformation" xmlns:ole="http://ole.kuali.org/standards/ole-eInstance" name="accessInformation">
+                <xs:annotation>
+                    <xs:documentation>
+                        To be filled
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="ole:platform" xmlns:ole="http://ole.kuali.org/standards/ole-eInstance" name="platform">
+                <xs:annotation>
+                    <xs:documentation>
+                        To be filled
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name="subscriptionStatus" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        To be filled
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="ole:location" name="location"
+                        xmlns:ole="http://ole.kuali.org/standards/ole-eInstance" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        (R)
+                        This is a free txt for summary holdings (textual) for institutions not using source holdings.
+                        It will be mapped to MFHD 866$a with ind1 being blank and ind2 = 0 if converted to the source
+                        MFHD.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" name="primary">
+        </xs:attribute>
+    </xs:complexType>
+    <xs:complexType name="note">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute type="xs:string" name="type" />
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    <xs:complexType name="typeOrSource">
+        <xs:sequence>
+            <xs:element name="pointer">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="http://www.test.com/metuens/montis"/>
+                        <xs:enumeration value="http://www.your.com/tempestatesque/e"/>
+                        <xs:enumeration value="http://www.test.com/gero/nimborum"/>
+                        <xs:enumeration value="http://www.test.org/montis/flammato"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element type="xs:string" name="text"/>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:complexType name="location">
+        <xs:sequence>
+            <xs:element type="ole:locationLevel" name="locationLevel"
+                        xmlns:ole="http://ole.kuali.org/standards/ole-eInstance">
+                <xs:annotation>
+                    <xs:documentation>
+                        This represents hierarchy of levels. If an institution intends to convert the oleHoldings to
+                        sourceHoldings (MFHD) at some point or wants to have the flexibility, they will need to ensure
+                        the mappings are avail in ole location tables. Institutions can have as many levels.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" name="primary"></xs:attribute>
+        <xs:attribute type="xs:string" name="status"></xs:attribute>
+    </xs:complexType>
+    <xs:complexType name="locationLevel">
+        <xs:sequence>
+            <xs:element type="xs:string" name="name"/>
+            <xs:element type="xs:string" name="level"/>
+            <xs:element type="ole:locationLevel" name="locationLevel" minOccurs="0"
+                        xmlns:ole="http://ole.kuali.org/standards/ole-eInstance"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="callNumberType">
+        <xs:sequence>
+            <xs:element type="xs:string" name="codeValue" minOccurs="0" maxOccurs="1"/>
+            <xs:element type="xs:string" name="fullValue" minOccurs="0" maxOccurs="1"/>
+            <xs:element type="ole:typeOrSource" name="typeOrSource"
+                        xmlns:ole="http://ole.kuali.org/standards/ole-eInstance"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="coverages">
+        <xs:sequence>
+            <xs:element type="ole:coverage" name="coverage" xmlns:ole="http://ole.kuali.org/standards/ole-eInstance"
+                        minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="perpetualAccesses">
+        <xs:sequence>
+            <xs:element type="ole:perpetualAccess" name="perpetualAccess" xmlns:ole="http://ole.kuali.org/standards/ole-eInstance"
+                        minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="shelvingOrder">
+        <xs:sequence>
+            <xs:element type="xs:string" name="codeValue"/>
+            <xs:element type="xs:string" name="fullValue"/>
+            <xs:element type="ole:typeOrSource" name="typeOrSource"
+                        xmlns:ole="http://ole.kuali.org/standards/ole-eInstance"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="extentOfOwnership">
+        <xs:sequence>
+            <!--<xs:element type="xs:string" name="textualHoldings"/>-->
+            <!--<xs:element type="ole:note" name="note" xmlns:ole="http://ole.kuali.org/standards/ole-eInstance"-->
+                        <!--minOccurs="0" maxOccurs="unbounded"/>-->
+            <!--<xs:element type="xs:string" name="type"/>-->
+            <xs:element type="ole:coverages" name="coverages" xmlns:ole="http://ole.kuali.org/standards/ole-eInstance"
+                        minOccurs="0" maxOccurs="1"/>
+            <xs:element type="ole:perpetualAccesses" name="perpetualAccesses" xmlns:ole="http://ole.kuali.org/standards/ole-eInstance"
+                        minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="callNumber">
+        <xs:sequence>
+            <xs:element type="xs:string" name="prefix">
+                <xs:annotation>
+                    <xs:documentation>
+                        Maps to MFHD 852 $k Call Number Prefix - Term that precedes a call number.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name="number">
+                <xs:annotation>
+                    <xs:documentation>
+                        To be filled
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="ole:callNumberType" name="callNumberType" xmlns:ole="http://ole.kuali.org/standards/ole-eInstance"
+                        minOccurs="0" maxOccurs="1"/>
+            <xs:element type="ole:shelvingOrder" name="shelvingOrder" xmlns:ole="http://ole.kuali.org/standards/ole-eInstance"
+                        minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="identifier">
+        <xs:annotation>
+            <xs:documentation>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element type="xs:string" name="identifierValue"/>
+        </xs:sequence>
+        <xs:attribute type="xs:string" name="source"/>
+    </xs:complexType>
+    <xs:complexType name="formerIdentifier">
+        <xs:sequence>
+            <xs:element type="ole:identifier" name="identifier"
+                        xmlns:ole="http://ole.kuali.org/standards/ole-eInstance">
+                <xs:annotation>
+                    <xs:documentation>
+                        Former identifiers from the legacy systems. Mainly for item records.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name="identifierType">
+                <xs:annotation>
+                    <xs:documentation>
+                        To indicate which system the identifiers from ported from.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="invoice">
+        <xs:sequence>
+            <xs:element type="xs:string" name="fundCode" maxOccurs="1" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name="currentFYCost" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name="paymentStatus" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="accessInformation">
+        <xs:sequence>
+            <xs:element type="xs:string" name = "numberOfSimultaneousUser" maxOccurs="1" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name = "proxiedResource" maxOccurs="1" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name = "accessLocation" maxOccurs="1" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name = "authenticationType" maxOccurs="1" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name = "accessUsername" maxOccurs="1" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name = "accessPassword" maxOccurs="1" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="platform">
+        <xs:sequence>
+            <xs:element type="xs:string" name="adminUserName" maxOccurs="1" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name="adminPassword" maxOccurs="1" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:anyURI" name="adminUrl" maxOccurs="1" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name="platformName">
+                <xs:annotation>
+                    <xs:documentation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+        </xs:sequence>
+    </xs:complexType>
+<!--    <xs:complexType name="subscription">
+        <xs:sequence>
+            <xs:element type="xs:string" name="subscriptionStatus" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>
+
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>-->
+
+    <xs:complexType name="coverage">
+        <xs:sequence>
+            <xs:element type="xs:string" name="coverageStartDate" maxOccurs="1" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name="coverageStartVolume" maxOccurs="1" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name="coverageStartIssue" maxOccurs="1" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name="coverageEndDate" maxOccurs="1" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name="coverageEndVolume" maxOccurs="1" minOccurs="0">
+            <xs:annotation>
+                <xs:documentation>
+                </xs:documentation>
+            </xs:annotation>
+        </xs:element>
+            <xs:element type="xs:string" name="coverageEndIssue" maxOccurs="1" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="perpetualAccess">
+        <xs:sequence>
+            <xs:element type="xs:string" name="perpetualAccessStartDate" maxOccurs="1" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name="perpetualAccessStartVolume" maxOccurs="1" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name="perpetualAccessStartIssue" maxOccurs="1" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name="perpetualAccessEndDate" maxOccurs="1" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name="perpetualAccessEndVolume" maxOccurs="1" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name="perpetualAccessEndIssue">
+                <xs:annotation>
+                    <xs:documentation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="link">
+        <xs:sequence>
+            <xs:element type="xs:string" name="text" maxOccurs="1" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:anyURI" name="url" maxOccurs="1" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+
+        </xs:sequence>
+    </xs:complexType>
+
+
+</xs:schema>

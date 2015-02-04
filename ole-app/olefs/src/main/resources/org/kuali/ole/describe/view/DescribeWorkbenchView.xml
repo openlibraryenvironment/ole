@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="DescribeWorkBenchView" parent="DescribeWorkBenchView-parentBean" />
+    <bean id="DescribeWorkBenchView-parentBean" parent="Uif-OLEFormView">
+        <property name="headerText" value="Describe Workbench"/>
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="@{#ConfigProperties['externalizable.help.url']}/reference/html/CG.html#_Describe_Workbench"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="DescribeWorkBenchViewPage" parent="Uif-Page" >
+                    <property name="items">
+                        <list>
+                            <ref bean="WorkbenchMessageSection"/>
+                            <ref bean="SearchPanel"/>
+                            <ref bean="SearchResultsPanel"/>
+                            <ref bean="hdn_refresh_button"/>
+                            <ref bean="hdn_search_button"/>
+                            <ref bean="hdn_NextFlag_button"/>
+                            <ref bean="hdn_PreviousFlag_button"/>
+                            <ref bean="hdnStart"/>
+                            <ref bean="hdnRows"/>
+                            <ref bean="hdnSortOrder"/>
+                            <ref bean="hdnSortField"/>
+                            <ref bean="hdnSortFlag"/>
+                            <ref bean="workbenchNextFlag"/>
+                            <ref bean="workbenchPreviousFlag"/>
+                            <ref bean="workbenchPageShowEntries"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>ole/describe/css/workbench.css</value>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>ole/describe/scripts/workbench.js</value>
+            </list>
+        </property>
+        <property name="footer">
+            <ref bean="ClearFooterView-buttons" />
+        </property>
+        <property name="formClass" value="org.kuali.ole.describe.form.WorkbenchForm"/>
+    </bean>
+
+    <bean id="SearchPanel" parent="DescribeSearchPanel-parentBean"/>
+    <bean id="DescribeSearchPanel-parentBean" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="headerText" value="Search Conditions:"/>
+        <property name="items">
+            <list>
+                <ref bean="SearchPanel-docType-Section"/>
+                <ref bean="SearchPanel-searchParams-Section"/>
+                <ref bean="SearchPanel-Buttons"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="SearchPanel-docType-Section" parent="Uif-InputField" p:propertyName="docType"
+          p:label="Document Type">
+        <property name="control">
+            <bean parent="Uif-HorizontalRadioControl">
+                <property name="options">
+                    <list>
+                        <bean parent="Uif-KeyLabelPair" p:key="bibliographic" p:value="Bib"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="holdings" p:value="Holdings"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="item" p:value="Item"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="eHoldings" p:value="EHoldings"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="SearchPanel-searchParams-Section" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="1" p:style="width:900px"  p:instructionalText="The following special characters @,#,%,$,/,~,!,(,),{,},[,],',:,-,\,^, are ignored in search text.">
+        <property name="headerText" value=""/>
+        <property name="collectionObjectClass" value="org.kuali.ole.docstore.common.search.SearchCondition"/>
+        <property name="propertyName" value="searchParams.searchConditions"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="items">
+            <list>
+                <bean id="items" parent="Uif-HorizontalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean id="searchText_id" parent="Uif-InputField" p:label="Search For" p:propertyName="searchField.fieldValue" p:required="false">
+                            </bean>
+                            <bean id="operator_id" parent="Uif-InputField" p:propertyName="searchScope" p:label="">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="AND" p:value="All of these"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="OR" p:value="Any of these"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="phrase" p:value="As a phrase"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                            <bean id="docField_id" parent="Uif-InputField" p:propertyName="searchField.fieldName" p:label="In Search Field"
+                                  p:optionsFinderClass="org.kuali.ole.describe.keyvalue.DocFieldKeyValueFinder" p:defaultValue="all">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl"/>
+                                </property>
+                            </bean>
+                            <bean id="searchScope_id" parent="Uif-InputField" p:propertyName="operator" p:label="">
+                                <property name="control">
+                                    <bean parent="Uif-HorizontalRadioControl">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="AND" p:value="AND"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="OR" p:value="OR"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="NOT" p:value="NOT"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+        <property name="layoutManager.actionFieldPrototype.group.layoutManager">
+            <bean parent="Uif-HorizontalBoxLayout"/>
+        </property>
+        <property name="layoutManager.actionFieldPrototype.label" value=""/>
+    </bean>
+
+    <bean id="SearchPanel-Buttons"  parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="search_button" parent="Uif-SecondaryActionButton-Small"
+                      p:style="float:left;margin-left:25em" p:actionLabel="Search"   p:refreshId="SearchResultsPanel"/>
+                <bean id="clear_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em" p:methodToCall="clearSearch" p:actionLabel="Clear"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="SearchResultsPanel" parent="SearchResultsPanel-ParentBean"/>
+
+    <bean id="SearchResultsPanel-ParentBean" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="headerText" value="Search Results:"/>
+        <property name="items">
+            <list>
+                <ref bean="Boundwith-BibSearchResults"/>
+                <ref bean="Boundwith-HoldingsSearchResults"/>
+                <ref bean="Boundwith-ItemSearchResults"/>
+                <ref bean="Boundwith-EHoldingsSearchResults"/>
+                <ref bean="ExportToRequestXMLPanel"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="ExportToRequestXMLPanel"  parent="Uif-HorizontalBoxSection" p:render="@{showExport eq true}">
+        <property name="items">
+            <list>
+                <bean id="export_button1" parent="Uif-SecondaryActionButton-Small"  p:methodToCall="export"  p:actionLabel="Export to Request XML" p:successCallback="searching()"/>
+                <bean id="requestXML_textArea" parent="Uif-InputField" p:propertyName="requestXMLTextArea"
+                      p:label=""
+                      p:required="false" p:render="@{showRequestXML eq true}" >
+                    <property name="control">
+                        <bean parent="Uif-TextAreaControl" p:cols="75" p:rows="15"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="ClearFooterView-buttons" parent="ClearFooterView-buttons-parentBean"/>
+    <bean id="ClearFooterView-buttons-parentBean" parent="Uif-HorizontalBoxSection" p:disclosure.render="false">
+        <property name="items">
+            <list>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="WorkbenchMessageSection" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="workbenchmessageSection" parent="Uif-Message" p:messageText="@{message}" p:cssClasses="messageClass"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="hdn_refresh_button" parent="Uif-SecondaryActionButton-Small" p:methodToCall="start" p:hidden="true" />
+    <bean id="hdn_search_button" parent="Uif-SecondaryActionButton-Small" p:methodToCall="search" p:hidden="true"
+          p:successCallback="searching()" p:refreshId="SearchResultsPanel"/>
+    <bean id="hdn_NextFlag_button" parent="Uif-SecondaryActionButton-Small"  p:methodToCall="nextSearch" p:hidden="true" p:successCallback="searching()"/>
+    <bean id="hdn_PreviousFlag_button" parent="Uif-SecondaryActionButton-Small"  p:methodToCall="previousSearch" p:hidden="true" p:successCallback="searching()"/>
+    <bean id="hdnStart" parent="Uif-InputField"  p:hidden="true" p:propertyName="start"/>
+    <bean id="hdnRows" parent="Uif-InputField" p:propertyName="pageSize">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+    <bean id="hdnSortOrder" parent="Uif-InputField"  p:hidden="true" p:propertyName="sortOrder"/>
+    <bean id="hdnSortField" parent="Uif-InputField"  p:hidden="true" p:propertyName="sortField"/>
+    <bean id="hdnSortFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="sortFlag"/>
+    <bean id="workbenchNextFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="nextFlag"/>
+    <bean id="workbenchPreviousFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="previousFlag"/>
+    <bean id="workbenchPageShowEntries" parent="Uif-InputField"  p:hidden="true" p:propertyName="pageShowEntries"/>
+</beans>

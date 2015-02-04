@@ -1,0 +1,337 @@
+<collection>
+	<record>
+		<leader>00407nam 2200145z 4500</leader>
+		<controlfield tag="003">InU</controlfield>
+		<controlfield tag="008">110630n xx | u||| ||               und u</controlfield>
+		<datafield tag="020" ind1=" " ind2=" ">
+			<subfield code="a">9780748636358</subfield>
+			<subfield code="b">221175</subfield>
+		</datafield>
+		<datafield tag="100" ind1=" " ind2=" ">
+			<subfield code="a">WHONG, MELINDA</subfield>
+			<subfield code="b">WHONG</subfield>
+			<subfield code="c">MELINDA</subfield>
+		</datafield>
+		<datafield tag="100" ind1=" " ind2=" ">
+			<subfield code="a">narsimha reddy</subfield>
+		</datafield>
+		<datafield tag="100" ind1=" " ind2=" ">
+			<subfield code="a">reddsssseeees</subfield>
+		</datafield>
+		<datafield tag="245" ind1=" " ind2=" ">
+			<subfield code="a">LANGUAGE TEACHING : LINGUISTIC THEORY IN PRACTICE.</subfield>
+            <subfield code="b">CAMBRIDGE INTRODUCTIONS TO LITERATURE.</subfield>
+		</datafield>
+		<datafield tag="260" ind1=" " ind2=" ">
+			<subfield code="a">EDINBURGH</subfield>
+			<subfield code="b">EDINBURGH UNIV PRESS</subfield>
+			<subfield code="c">2011</subfield>
+		</datafield>
+		<datafield tag="650" ind1=" " ind2="0">
+			<subfield code="a">narsimha</subfield>
+			<subfield code="b">reddy</subfield>
+			<subfield code="a">reddya</subfield>
+		</datafield>
+		<datafield tag="650" ind1=" " ind2="0">
+			<subfield code="a">narsimha</subfield>
+			<subfield code="b">naresh</subfield>
+			<subfield code="a">naresha</subfield>
+		</datafield>
+		<datafield tag="960" ind1=" " ind2=" ">
+			<subfield code="a">65</subfield>
+		</datafield>
+		<datafield tag="980" ind1=" " ind2=" ">
+			<subfield code="b">32.00</subfield>
+			<subfield code="q">1</subfield>
+		</datafield>
+		<datafield tag="982" ind1=" " ind2=" ">
+			<subfield code="a">99943744781</subfield>
+			<subfield code="b">524010</subfield>
+			<subfield code="d">Paper</subfield>
+			<subfield code="f">CM</subfield>
+		</datafield>
+		<datafield tag="984" ind1=" " ind2=" ">
+			<subfield code="a">20110629</subfield>
+			<subfield code="c">US</subfield>
+		</datafield>
+		<datafield tag="987" ind1=" " ind2=" ">
+			<subfield code="a">100552240</subfield>
+		</datafield>
+	</record>
+	<record>
+		<leader>01168ccm a2200265 45 0</leader>
+		<controlfield tag="001">a246794</controlfield>
+		<controlfield tag="003">InU</controlfield>
+		<controlfield tag="008">750321s1962 gw a n abcde           eng</controlfield>
+		<datafield tag="028" ind1="3" ind2="0">
+			<subfield code="a">3312</subfield>
+			<subfield code="b">Edition Schott</subfield>
+		</datafield>
+		<datafield tag="035" ind1=" " ind2=" ">
+			<subfield code="a">(InU)ACJ8747BM</subfield>
+		</datafield>
+		<datafield tag="035" ind1=" " ind2=" ">
+			<subfield code="a">(OCoLC)ocm01227440</subfield>
+		</datafield>
+		<datafield tag="040" ind1=" " ind2=" ">
+			<subfield code="c">CIN</subfield>
+			<subfield code="d">m.c.</subfield>
+			<subfield code="d">OCL</subfield>
+		</datafield>
+		<datafield tag="048" ind1=" " ind2=" ">
+			<subfield code="a">ka01</subfield>
+			<subfield code="a">wc01</subfield>
+			<subfield code="a">bb01</subfield>
+			<subfield code="a">sa01</subfield>
+			<subfield code="a">sd01</subfield>
+		</datafield>
+		<datafield tag="049" ind1=" " ind2=" ">
+			<subfield code="a">IULA</subfield>
+		</datafield>
+		<datafield tag="090" ind1=" " ind2=" ">
+			<subfield code="a">M522.H55</subfield>
+			<subfield code="b">S8 1962</subfield>
+		</datafield>
+		<datafield tag="100" ind1="1" ind2="0">
+			<subfield code="a">Hindemith, Paul,</subfield>
+			<subfield code="d">1895-1963.</subfield>
+		</datafield>
+		<datafield tag="240" ind1="1" ind2="0">
+			<subfield code="a">Scke,</subfield>
+			<subfield code="m">piano, winds, string</subfield>
+		</datafield>
+		<datafield tag="245" ind1="0" ind2="0">
+			<subfield code="a">Drei Sxfbcke,</subfield>
+			<subfield code="b">fxfcr fxfcnf Instrumente (Klarinette in B, Trompete in C, Violine, Kontrabass [und] Klavier) 1925.</subfield>
+		</datafield>
+		<datafield tag="260" ind1="0" ind2=" ">
+			<subfield code="a">Mainz,</subfield>
+			<subfield code="b">B. Schott's Scdfhne;</subfield>
+			<subfield code="a">New York,</subfield>
+			<subfield code="b">Schott Music Corp. (Associated Music Publishers),</subfield>
+			<subfield code="c">c1962.</subfield>
+		</datafield>
+		<datafield tag="300" ind1=" " ind2=" ">
+			<subfield code="a">score (20 p.) and 4 parts.</subfield>
+			<subfield code="c">30 cm.</subfield>
+		</datafield>
+		<datafield tag="500" ind1=" " ind2=" ">
+			<subfield code="a">"Edition Schott, 3312."</subfield>
+		</datafield>
+		<datafield tag="650" ind1=" " ind2="0">
+			<subfield code="a">Quintets (Piano, clarinet, trumpet, violin, double bass)</subfield>
+		</datafield>
+		<datafield tag="650" ind1=" " ind2="0">
+			<subfield code="a">narsimha</subfield>
+			<subfield code="b">naresh</subfield>
+			<subfield code="a">naresha</subfield>
+		</datafield>
+		<datafield tag="998" ind1=" " ind2=" ">
+			<subfield code="a">3/19/1992</subfield>
+			<subfield code="b">3/19/1992</subfield>
+			<subfield code="c">3/19/1992</subfield>
+		</datafield>
+		<datafield tag="596" ind1=" " ind2=" ">
+			<subfield code="a">20</subfield>
+		</datafield>
+		<datafield tag="999" ind1=" " ind2=" ">
+			<subfield code="a">ACJ8747</subfield>
+			<subfield code="w">ASIS</subfield>
+			<subfield code="c">1</subfield>
+			<subfield code="i">30000038431064</subfield>
+			<subfield code="d">1/16/2009</subfield>
+			<subfield code="e">1/16/2009</subfield>
+			<subfield code="j">4</subfield>
+			<subfield code="l">_MUFRSCOR</subfield>
+			<subfield code="m">B-MUSIC</subfield>
+			<subfield code="n">7</subfield>
+			<subfield code="q">1</subfield>
+			<subfield code="r">Y</subfield>
+			<subfield code="s">Y</subfield>
+			<subfield code="t">NORMAL</subfield>
+			<subfield code="u">11/5/2000</subfield>
+			<subfield code="o">.STAFF. "TO HAVE PREPARED FOR YOUR USE, ASK LIBRARY STAFF"</subfield>
+			<subfield code="o">.STAFF. Trumpet part missing 1/16/09 - WDH</subfield>
+		</datafield>
+	</record>
+	<record>
+		<leader>01168ccm a2200265 45 0</leader>
+		<controlfield tag="001">a246794</controlfield>
+		<controlfield tag="003">InU</controlfield>
+		<controlfield tag="008">750321s1962 gw a n abcde           glv</controlfield>
+		<datafield tag="028" ind1="3" ind2="0">
+			<subfield code="a">3312</subfield>
+			<subfield code="b">Edition Schott</subfield>
+		</datafield>
+		<datafield tag="035" ind1=" " ind2=" ">
+			<subfield code="a">(InU)ACJ8747BM</subfield>
+		</datafield>
+		<datafield tag="035" ind1=" " ind2=" ">
+			<subfield code="a">(OCoLC)ocm01227440</subfield>
+		</datafield>
+		<datafield tag="040" ind1=" " ind2=" ">
+			<subfield code="c">CIN</subfield>
+			<subfield code="d">m.c.</subfield>
+			<subfield code="d">OCL</subfield>
+		</datafield>
+		<datafield tag="048" ind1=" " ind2=" ">
+			<subfield code="a">ka01</subfield>
+			<subfield code="a">wc01</subfield>
+			<subfield code="a">bb01</subfield>
+			<subfield code="a">sa01</subfield>
+			<subfield code="a">sd01</subfield>
+		</datafield>
+		<datafield tag="049" ind1=" " ind2=" ">
+			<subfield code="a">IULA</subfield>
+		</datafield>
+		<datafield tag="090" ind1=" " ind2=" ">
+			<subfield code="a">M522.H55</subfield>
+			<subfield code="b">S8 1962</subfield>
+		</datafield>
+		<datafield tag="100" ind1="1" ind2="0">
+			<subfield code="a">snehanarHindemith, Paul,</subfield>
+			<subfield code="d">sneha nar 1895-1963.</subfield>
+		</datafield>
+		<datafield tag="240" ind1="1" ind2="0">
+			<subfield code="a">narreddy cke,</subfield>
+			<subfield code="m">narreddy,piano, winds, string</subfield>
+		</datafield>
+		<datafield tag="245" ind1="0" ind2="0">
+			<subfield code="a">srinunaroraclejavaSneha Drei Sxfbcke,</subfield>
+			<subfield code="b">oraclesneha fxfcr fxfcnf Instrumente (Klarinette in B, Trompete in C, Violine, Kontrabass [und] Klavier) 1925.</subfield>
+		</datafield>
+		<datafield tag="260" ind1="0" ind2=" ">
+			<subfield code="a">Mainz,</subfield>
+			<subfield code="b">B. Schott's Scdfhne;</subfield>
+			<subfield code="a">New York,</subfield>
+			<subfield code="b">Schott Music Corp. (Associated Music Publishers),</subfield>
+			<subfield code="c">c1964.</subfield>
+		</datafield>
+		<datafield tag="300" ind1=" " ind2=" ">
+			<subfield code="a">score (20 p.) and 4 parts abcd.</subfield>
+			<subfield code="c">60 cm.</subfield>
+		</datafield>
+		<datafield tag="500" ind1=" " ind2=" ">
+			<subfield code="a">"Edition Schott, 3312."</subfield>
+		</datafield>
+		<datafield tag="650" ind1=" " ind2="0">
+			<subfield code="a">Quintets (Piano, clarinet, trumpet, violin)</subfield>
+		</datafield>
+		<datafield tag="998" ind1=" " ind2=" ">
+			<subfield code="a">3/19/1992</subfield>
+			<subfield code="b">3/19/1992</subfield>
+			<subfield code="c">3/19/1992</subfield>
+		</datafield>
+		<datafield tag="596" ind1=" " ind2=" ">
+			<subfield code="a">20</subfield>
+		</datafield>
+		<datafield tag="999" ind1=" " ind2=" ">
+			<subfield code="a">ACJ8747</subfield>
+			<subfield code="w">ASIS</subfield>
+			<subfield code="c">1</subfield>
+			<subfield code="i">30000038431065</subfield>
+			<subfield code="d">1/16/2009</subfield>
+			<subfield code="e">1/16/2009</subfield>
+			<subfield code="j">4</subfield>
+			<subfield code="l">_MUFRSCORS</subfield>
+			<subfield code="m">B-MUSICS</subfield>
+			<subfield code="n">7</subfield>
+			<subfield code="q">1</subfield>
+			<subfield code="r">Y</subfield>
+			<subfield code="s">Y</subfield>
+			<subfield code="t">NORMAL</subfield>
+			<subfield code="u">11/5/2000</subfield>
+			<subfield code="o">.STAFF. "TO HAVE PREPARED FOR YOUR USE, ASK LIBRARY STAFF"</subfield>
+			<subfield code="o">.STAFF. Trumpet part missing 1/16/09 - WDH</subfield>
+		</datafield>
+	</record>
+	<record>
+		<leader>02492cam a2200457 45 0</leader>
+		<controlfield tag="001">a246956</controlfield>
+		<controlfield tag="003">InU</controlfield>
+		<controlfield tag="008">851015m19699999po ah b 001 0       por</controlfield>
+		<datafield tag="010" ind1=" " ind2=" ">
+			<subfield code="a"> 71245258 //r85</subfield>
+		</datafield>
+		<datafield tag="035" ind1=" " ind2=" ">
+			<subfield code="a">(InU)ACJ8980BB</subfield>
+		</datafield>
+		<datafield tag="035" ind1=" " ind2=" ">
+			<subfield code="a">(OCoLC)ocm04720893</subfield>
+		</datafield>
+		<datafield tag="040" ind1=" " ind2=" ">
+			<subfield code="a">DLC</subfield>
+			<subfield code="c">DLC</subfield>
+			<subfield code="d">m.c.</subfield>
+			<subfield code="d">IUL</subfield>
+		</datafield>
+		<datafield tag="043" ind1=" " ind2=" ">
+			<subfield code="a">e-po---</subfield>
+		</datafield>
+		<datafield tag="049" ind1=" " ind2=" ">
+			<subfield code="a">IULA</subfield>
+		</datafield>
+		<datafield tag="050" ind1="0" ind2=" ">
+			<subfield code="a">N7121</subfield>
+			<subfield code="b">.D6</subfield>
+		</datafield>
+		<datafield tag="082" ind1="0" ind2=" ">
+			<subfield code="a">709/.469</subfield>
+		</datafield>
+		<datafield tag="245" ind1="0" ind2="0">
+			<subfield code="a">Documentos para a histria da arte em Portugal.</subfield>
+		</datafield>
+		<datafield tag="260" ind1="0" ind2=" ">
+			<subfield code="a">Lisboa,</subfield>
+			<subfield code="b">Fundao Calouste Gulbenkian,</subfield>
+			<subfield code="c">1969-&lt;1976 &gt;</subfield>
+		</datafield>
+		<datafield tag="300" ind1=" " ind2=" ">
+			<subfield code="a"> v. in .</subfield>
+			<subfield code="b">illus., facsims.</subfield>
+			<subfield code="c">30 cm.</subfield>
+		</datafield>
+		<datafield tag="500" ind1=" " ind2=" ">
+			<subfield code="a">Includes unnumbered introductory volume: Documentos para a historia da arte em Portugal : recolha de fontes promovida por iniciativa da Fundao Calouste Gulbenkian ; sob
+				orientao de Raul Lino e Lus Silveira.</subfield>
+		</datafield>
+		<datafield tag="504" ind1=" " ind2=" ">
+			<subfield code="a">Includes bibliographical references and indexes.</subfield>
+		</datafield>
+		<datafield tag="650" ind1=" " ind2="0">
+			<subfield code="a">Art, Portuguese</subfield>
+			<subfield code="x">History.</subfield>
+		</datafield>
+		<datafield tag="700" ind1="1" ind2="0">
+			<subfield code="a">Lino, Raul,</subfield>
+			<subfield code="d">b. 1879.</subfield>
+		</datafield>
+		<datafield tag="700" ind1="1" ind2="0">
+			<subfield code="a">Silveira, Lus,</subfield>
+			<subfield code="d">1912-</subfield>
+		</datafield>
+		<datafield tag="710" ind1="2" ind2="0">
+			<subfield code="a">Fundao Calouste Gulbenkian.</subfield>
+		</datafield>
+		<datafield tag="998" ind1=" " ind2=" ">
+			<subfield code="a">3/19/1992</subfield>
+			<subfield code="b">3/19/1992</subfield>
+			<subfield code="c">3/19/1992</subfield>
+		</datafield>
+		<datafield tag="596" ind1=" " ind2=" ">
+			<subfield code="a">10</subfield>
+		</datafield>
+		<datafield tag="999" ind1=" " ind2=" ">
+			<subfield code="a">N7121 .D637 v.1</subfield>
+			<subfield code="w">LC</subfield>
+			<subfield code="c">1</subfield>
+			<subfield code="i">30000006582476</subfield>
+			<subfield code="l">STACKS</subfield>
+			<subfield code="m">B-FINEARTS</subfield>
+			<subfield code="r">Y</subfield>
+			<subfield code="s">Y</subfield>
+			<subfield code="t">NORMAL</subfield>
+			<subfield code="u">11/5/2000</subfield>
+		</datafield>
+	</record>
+</collection>

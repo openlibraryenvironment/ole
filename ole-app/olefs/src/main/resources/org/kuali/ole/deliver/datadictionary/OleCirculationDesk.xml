@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <!--
+
+        Copyright 2005-2012 The Kuali Foundation
+
+        Licensed under the Educational Community License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at
+
+        http://www.opensource.org/licenses/ecl2.php
+
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+
+    -->
+    <bean id="OleCirculationDesk" parent="OleCirculationDesk-parentBean"/>
+
+    <bean id="OleCirculationDesk-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.deliver.bo.OleCirculationDesk"/>
+        <property name="titleAttribute" value="circulationDeskCode"/>
+        <property name="objectLabel" value="Ole Circulation Desk "/>
+        <property name="attributes">
+            <list>
+                <ref bean="OleCirculationDesk-circulationDeskId"/>
+                <ref bean="OleCirculationDesk-circulationDeskCode"/>
+                <ref bean="OleCirculationDesk-circulationDeskPublicName"/>
+                <ref bean="OleCirculationDesk-circulationDeskStaffName"/>
+                <ref bean="OleCirculationDesk-active"/>
+                <ref bean="OleCirculationDesk-isPickUpLocation"/>
+                <ref bean="OleCirculationDesk-asrPickupLocation"/>
+                <ref bean="OleCirculationDesk-onHoldDays"/>
+                <ref bean="OleCirculationDesk-shelvingLagTime"/>
+                <ref bean="OleCirculationDesk-printSlip"/>
+                <ref bean="OleCirculationDesk-holdFormat"/>
+                <ref bean="OleCirculationDesk-holdQueue"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+
+    <bean id="OleCirculationDesk-circulationDeskId" parent="OleCirculationDesk-circulationDeskId-parentBean"/>
+
+    <bean id="OleCirculationDesk-circulationDeskId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Circulation Desk Id"/>
+        <property name="maxLength" value="40"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+        <property name="name" value="circulationDeskId"/>
+        <property name="label" value="Circulation Desk Id"/>
+        <property name="description" value="Circulation Desk Id"/>
+    </bean>
+
+
+    <bean id="OleCirculationDesk-circulationDeskCode"
+          parent="OleCirculationDesk-circulationDeskCode-parentBean"/>
+
+    <bean id="OleCirculationDesk-circulationDeskCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Circulation Desk Code"/>
+        <property name="maxLength" value="10"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="circulationDeskCode"/>
+        <property name="label" value="Circulation Desk Code"/>
+        <property name="description" value="Circulation Desk Code"/>
+
+    </bean>
+
+    <bean id="OleCirculationDesk-circulationDeskPublicName"
+          parent="OleCirculationDesk-circulationDeskPublicName-parentBean"/>
+
+    <bean id="OleCirculationDesk-circulationDeskPublicName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Circulation Desk Public Name"/>
+        <property name="maxLength" value="100"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="circulationDeskPublicName"/>
+        <property name="label" value="Circulation Desk Public Name"/>
+        <property name="description" value="Circulation Desk Public Name"/>
+
+    </bean>
+
+
+    <bean id="OleCirculationDesk-circulationDeskStaffName"
+          parent="OleCirculationDesk-circulationDeskStaffName-parentBean"/>
+
+    <bean id="OleCirculationDesk-circulationDeskStaffName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Circulation Desk Staff Name"/>
+        <property name="maxLength" value="100"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="circulationDeskStaffName"/>
+        <property name="label" value="Circulation Desk Staff Name"/>
+        <property name="description" value="Circulation Desk Staff Name"/>
+
+    </bean>
+
+
+
+
+    <bean id="OleCirculationDesk-active" parent="OleCirculationDesk-active-parentBean"/>
+    <bean id="OleCirculationDesk-active-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="active"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="active"/>
+    <property name="maxLength" value="1"/>
+    <property name="validCharactersConstraint">
+        <bean  parent="AnyCharacterPatternConstraint"/>
+    </property>
+    <property name="controlField">
+        <bean  parent="Uif-CheckboxControl"/>
+    </property>
+    <property name="summary" value="Active Indicator"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+    <property name="label" value="Active Indicator"/>
+    <property name="description" value="This attribute is used to describe whether the associated object is active or inactive."/>
+    </bean>
+
+
+    <bean id="OleCirculationDesk-isPickUpLocation" parent="OleCirculationDesk-isPickUpLocation-parentBean"/>
+
+    <bean id="OleCirculationDesk-isPickUpLocation-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="pickUpLocation"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="active"/>
+        <property name="maxLength" value="1"/>
+        <property name="validCharactersConstraint">
+            <bean  parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean  parent="Uif-CheckboxControl"/>
+        </property>
+        <property name="summary" value="Active Indicator"/>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+        <property name="label" value="Pick Up Location"/>
+        <property name="description" value="This attribute is used to describe whether the associated object is active or inactive."/>
+    </bean>
+
+    <bean id="OleCirculationDesk-asrPickupLocation" parent="OleCirculationDesk-asrPickupLocation-parentBean"/>
+
+    <bean id="OleCirculationDesk-asrPickupLocation-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="asrPickupLocation"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="active"/>
+        <property name="maxLength" value="1"/>
+        <property name="validCharactersConstraint">
+            <bean  parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean  parent="Uif-CheckboxControl"/>
+        </property>
+        <property name="summary" value="Active Indicator"/>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+        <property name="label" value="ASR PickUp Location"/>
+        <property name="description" value="This attribute is used to describe whether the associated object is active or inactive."/>
+    </bean>
+
+
+    <bean id="OleCirculationDesk-onHoldDays" parent="OleCirculationDesk-onHoldDays-parentBean"/>
+
+    <bean id="OleCirculationDesk-onHoldDays-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="On Hold Days"/>
+        <property name="maxLength" value="8"/>
+        <property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="8"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="10"/>
+        </property>
+        <property name="name" value="onHoldDays"/>
+        <property name="label" value="On-Hold Days"/>
+        <property name="description" value="On-Hold Days"/>
+    </bean>
+    <bean id="OleCirculationDesk-shelvingLagTime" parent="OleCirculationDesk-shelvingLagTime-parentBean"/>
+
+    <bean id="OleCirculationDesk-shelvingLagTime-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Shelving Lag Time(minutes)"/>
+        <property name="maxLength" value="10"/>
+        <property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="8"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="10"/>
+        </property>
+        <property name="name" value="shelvingLagTime"/>
+        <property name="label" value="Shelving Lag Time(minutes)"/>
+        <property name="description" value="Shelving Lag Time(minutes)"/>
+    </bean>
+
+    <bean id="OleCirculationDesk-calendarGroupId" parent="OleCirculationDesk-calendarGroupId-parentBean"/>
+    <bean id="OleCirculationDesk-calendarGroupId-parentBean" abstract="true" parent="AttributeDefinition">
+    </bean>
+
+    <bean id="OleCirculationDesk-printSlip" parent="OleCirculationDesk-printSlip-parentBean"/>
+
+    <bean id="OleCirculationDesk-printSlip-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="printSlip"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="active"/>
+        <property name="maxLength" value="1"/>
+        <property name="validCharactersConstraint">
+            <bean  parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean  parent="Uif-CheckboxControl"/>
+        </property>
+        <property name="summary" value="Active Indicator"/>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+        <property name="label" value="Print Slip"/>
+        <property name="description" value="This attribute is used to describe whether the associated object is active or inactive."/>
+    </bean>
+
+    <bean id="OleCirculationDesk-holdFormat" parent="OleCirculationDesk-holdFormat-parentBean"/>
+    <bean id="OleCirculationDesk-holdFormat-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Hold Format"/>
+        <property name="maxLength" value="20"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="holdFormat"/>
+        <property name="label" value="Hold Format"/>
+        <property name="description" value="Hold Format"/>
+    </bean>
+
+    <bean id="OleCirculationDesk-holdQueue" parent="OleCirculationDesk-holdQueue-parentBean"/>
+    <bean id="OleCirculationDesk-holdQueue-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="holdQueue"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Hold Queue"/>
+        <property name="maxLength" value="1"/>
+        <property name="validCharactersConstraint">
+            <bean  parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean  parent="Uif-CheckboxControl"/>
+        </property>
+        <property name="summary" value="Hold Queue"/>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+        <property name="label" value="Hold Queue"/>
+        <property name="description" value="This attribute is used to describe whether the associated object is active or inactive."/>
+    </bean>
+    <!-- Business Object Inquiry Definition -->
+
+    <bean id="OleCirculationDesk-InquiryView" parent="Uif-OLEInquiryView">
+        <property name="headerText" value="Circulation Desk Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.deliver.bo.OleCirculationDesk"/>
+        <property name="singlePageView" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-VerticalBoxSection">
+                    <property name="header.headerText" value="Circulation Desk Inquiry"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2">
+                                <property name="items">
+                                    <list>
+                                        <bean id="inquiry_circulationDeskCode" parent="Uif-InputField" p:propertyName="circulationDeskCode"/>
+                                        <bean id="inquiry_circulationDeskPublicName" parent="Uif-InputField" p:propertyName="circulationDeskPublicName"/>
+                                        <bean id="inquiry_circulationDeskStaffName" parent="Uif-InputField" p:propertyName="circulationDeskStaffName"/>
+                                        <bean id="inquiry_active" parent="Uif-InputField" p:propertyName="active"/>
+                                        <bean id="inquiry_isPickUpLocation" parent="Uif-InputField" p:propertyName="pickUpLocation"/>
+                                        <bean id="inquiry_asrPickUpLocation" parent="Uif-InputField" p:propertyName="asrPickupLocation"/>
+                                        <bean id="inquiry_onHoldDays" parent="Uif-InputField" p:propertyName="onHoldDays"/>
+                                        <bean id="inquiry_shelvingLagTime" parent="Uif-InputField" p:propertyName="shelvingLagTime"/>
+                                        <bean id="inquiry_printSlip" parent="Uif-InputField" p:propertyName="printSlip"/>
+                                        <bean id="inquiry_holdFormat" parent="Uif-InputField" p:propertyName="holdFormat"/>
+                                        <bean id="inquiry_holdQueue" parent="Uif-InputField" p:propertyName="holdQueue"/>
+                                     </list>
+                                </property>
+                            </bean>
+                            <ref bean="OleCirculationDesk-inquiry-Locations" />
+                        </list>
+                    </property>
+                    <property name="headerText" value="Circulation Desk"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="OleCirculationDesk-inquiry-Locations" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="1" p:disclosure.defaultOpen="true">
+        <!--p:fieldBindingObjectPath="document.newMaintainableObject.dataObject"-->
+        <property name="headerText" value="Location" />
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleCirculationDeskLocation" />
+        <property name="propertyName" value="oleCirculationDeskLocations" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="location.fullLocationPath" p:label="Location">
+                </bean>
+
+            </list>
+        </property>
+    </bean>
+
+
+</beans>

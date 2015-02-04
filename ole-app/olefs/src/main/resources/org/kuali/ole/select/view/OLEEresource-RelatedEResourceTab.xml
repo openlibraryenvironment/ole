@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="OLEEResourceRecordView-E-ResourceRelatedTab" parent="E-Res-Uif-DocumentPage">
+        <property name="headerText" value="Related E-Resource"/>
+        <property name="items">
+            <list>
+                <ref bean="searchUrl"/>
+                <ref bean="Ole-Uif-DocumentPageFooter-RelatedEResorces"/>
+                <ref bean="OLEEResourceRecordView-RemoveRelationShipPopUp"/>
+                <ref bean="OLEEResourceRecordView-RemoveRelationShipParentPopUp"/>
+                <ref bean="OLEEResourceRecordView-Overview"/>
+                <bean parent="Uif-PrimaryActionButton"
+                      p:ajaxSubmit="true"
+                      p:actionScript="eResourceSearch()" p:actionLabel="Create new E-Resource link"
+                      p:render="@{!(document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.final)}"/>
+                <ref bean="OLEEResourceRecordView-RelatedEresources"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Ole-Uif-DocumentPageFooter-RelatedEResorces" parent="Uif-FooterBase">
+        <property name="items">
+            <list>
+                <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="save" p:actionLabel="save" p:performClientSideValidation="true"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordView-RelatedEresources" parent="Uif-TableCollectionSection">
+        <property name="headerText" value=""/>
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.select.bo.OLELinkedEresource"/>
+        <property name="propertyName" value="oleLinkedEresources"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.generateAutoSequence" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.applyDefaultCellWidths" value="false"/>
+        <property name="items">
+            <list>
+                <!--<bean parent="Uif-DataField" p:label="Name"
+                      p:propertyName="oleeResourceRecordDocument.title"/>-->
+                <bean parent="Uif-LinkField" p:href="oleERSController?viewId=OLEEResourceRecordView&amp;methodToCall=docHandler&amp;docId=@{#line.oleeResourceRecordDocument.documentNumber}&amp;command=displayDocSearchView" p:linkText="@{#line.oleeResourceRecordDocument.title}" p:target="_blank" p:label="Name"/>
+                <bean parent="Uif-DataField" p:label="Status"
+                      p:propertyName="oleeResourceRecordDocument.statusName"/>
+                <bean parent="Uif-DataField" p:label="Relationship type" p:propertyName="relationShipType"/>
+                <bean parent="Uif-InputField" p:label="Remove relationship" p:propertyName="removeRelationShip" p:onClickScript="displayRemoveRelationShipPopup('@{#line.relationShipType}')" p:render="@{#line.relationShipType eq 'child'}" p:defaultValue="false" p:width="50px">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+    <bean id="searchUrl" parent="Uif-InputField" p:propertyName="searchUrl">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+        <property name="bindingInfo.bindToForm" value="true"/>
+    </bean>
+
+    <bean id="OLEEResourceRecordView-RemoveRelationShipPopUp" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:propertyName="removeOrRelinkToParent" p:defaultValue="relinkToParent">
+                                <property name="control">
+                                    <bean parent="Uif-VerticalRadioControl">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="relinkToParent" p:value="any e-instances get re-linked to parent e-resource"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="removelink" p:value="remain linked to child e-resource record, but that e-resource record now stands on its own"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean id="OLEEResourceRecordView-RemoveRelation-Cancel-button"
+                                  parent="Uif-PrimaryActionButton" p:methodToCall="saveRelationship" p:actionParameters="removeChild:no"
+                                  p:ajaxSubmit="true" p:successCallback="closeRemoveRelationShipPopup();" p:actionLabel="Cancel"/>
+                            <bean id="OLEEResourceRecordView-RemoveRelation-Ok-button" parent="Uif-PrimaryActionButton"
+                                  p:methodToCall="saveRelationship" p:actionLabel="Ok" p:ajaxSubmit="true"
+                                  p:successCallback="closeRemoveRelationShipPopup();"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordView-RemoveRelationShipParentPopUp" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-MessageField" p:messageText="[b]Do you want to remove this relationship[/b]" p:style="float:left;margin-left:2em"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean id="OLEEResourceRecordView-RemoveRelation-Yes-button" parent="Uif-PrimaryActionButton"
+                                  p:methodToCall="saveRelationship" p:actionParameters="removeParent:yes" p:actionLabel="Yes" p:ajaxSubmit="true" p:successCallback="closeRemoveRelationShipPopup();" p:style="float:left;margin-left:5em"/>
+                            <bean id="OLEEResourceRecordView-RemoveRelation-No-button" parent="Uif-PrimaryActionButton"
+                                  p:methodToCall="saveRelationship" p:actionParameters="removeParent:no" p:actionLabel="No" p:ajaxSubmit="true" p:successCallback="closeRemoveRelationShipPopup();"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+</beans>

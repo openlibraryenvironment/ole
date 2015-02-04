@@ -1,0 +1,2262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0"
+         xml:lang="en-US">
+    <title><anchor xml:id="_VendorOverview"/>Vendor</title>
+    <para role="Body Text"><inlinemediaobject>
+            <alt>Select/Acquire</alt>
+            <imageobject>
+                <imagedata fileref="../images/SelectAcquire.png"/>
+            </imageobject>
+        </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                <alt>Vendor</alt>
+                <imageobject>
+                    <imagedata
+                        fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-133.png"/>
+                </imageobject>
+            </inlinemediaobject> &gt; <inlinemediaobject>
+                <alt>Vendor Links</alt>
+                <imageobject>
+                    <imagedata
+                        fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-134.png"/>
+                </imageobject>
+            </inlinemediaobject></emphasis></para>
+    <para role="Body Text">On the <emphasis role="bold">Select/Acquire</emphasis> tab, the Vendor
+        submenu provides access for users to create vendors and search for multiple OLE
+        records.</para>
+    <section>
+        <title><anchor xml:id="_Vendors"/>Vendors</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Select/Acquire</alt>
+                <imageobject>
+                    <imagedata fileref="../images/SelectAcquire.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Vendor</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-133.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis>&gt;<inlinemediaobject>
+                <alt>Create</alt>
+                <imageobject>
+                    <imagedata fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-3.png"
+                    />
+                </imageobject>
+            </inlinemediaobject> &gt;<inlinemediaobject>
+                <alt>Vendor</alt>
+                <imageobject>
+                    <imagedata fileref="../images/VendorNoTitlePage-10.png"/>
+                </imageobject>
+            </inlinemediaobject></para>
+        <para role="Body Text">The Vendor (PVEN) document allows users to create and maintain a Vendor table
+            to track businesses or other entities your institution has done or plans to do business with. Each
+            record in this table maintains all information pertinent to a vendor, including tax ID, addresses,
+            contacts and other details required for the management of your institution's procurement process..
+            Vendors created using this document are available for use on various purchasing documents (such as
+            Requisition, Purchase Order, and Disbursement Voucher documents).</para>
+        <para role="Body Text">Vendors have many different attributes which may in some cases determine how
+            and when they may be used.</para>
+        <para role="Body Text">There are three situations where you may choose to use this menu:</para>
+        <itemizedlist mark="disc" spacing="normal">
+            <listitem>
+                <para role="C1H Bullet">To add a new vendor ('parent Vendor record')</para>
+            </listitem>
+            <listitem>
+                <para role="C1H Bullet">To create a new division to an existing vendor ('child Vendor
+                    record')</para>
+            </listitem>
+            <listitem>
+                <para role="C1H Bullet">To edit information about an existing vendor or division</para>
+            </listitem>
+        </itemizedlist>
+        <section>
+            <title>Special Navigation Features</title>
+            <para role="Normal (Web)">Wildcards are particularly helpful for searching vendors: *ybp*, harr*. </para>
+            <para role="Normal (Web)"/>
+            <note>
+                <para role="Normal (Web)"> To learn more about searching, see <link
+                    xlink:href="../../../webhelp/BASICS/content/ch02s04.html">Searching OLE</link>
+                    on the <emphasis>Guide to OLE Basic Functionality and Key
+                        Concepts</emphasis> on the <link xlink:href="../../../webhelp/BASICS/content/pr01.html"><emphasis>Guide to OLE Basic
+                            Functionality and Key Concepts</emphasis></link>.</para>
+            </note>
+            <para role="Normal (Web)"/>
+            <para>To create and edit Vendor documents please log in as someone assigned to one of
+                the following roles: OLE-SELECT Acquisitions-AQ3, Acquisitions-AQ4,
+                Acquisitions-AQ5, OLE-Invoicing, OLE_Prepayment, OLE_ACQ-MGR, OLE_Acquisitions,
+                OLE_ACQ-Mgr-serials, OLE_Acquisitions-serials, OLE_License_Mgr, OLE_ERMS and OLE SYS
+                User.</para>
+            <note>
+                <para role="Normal"> Note: When creating a NEW vendor, if logged in as member of
+                    OLE_Acquisitions-AQ3 or AQ4, the new vendor e-doc will be processed,
+                        <emphasis>but</emphasis> stops at approval. The OLE ACQ-mgr role may create
+                    and blanket approve a new vendor.</para>
+            </note>
+            <section>
+                <title>Foreign Vendor</title>
+                <para role="Normal">If the Vendor is Foreign, then additional fields are required,
+                    such as <emphasis role="bold">Currency Type</emphasis> shown in the tab below,
+                    and <emphasis role="bold">Is this a foreign vendor</emphasis> in the <emphasis
+                        role="bold">Vendor</emphasis> main tab. These data values will tie into
+                    currency conversion on requisitions, purchase orders and payment requests, as
+                    well as financial accounting with university systems.</para>
+            </section>
+            <section>
+                <title>Create Division<indexterm significance="normal">
+                    <primary>Vendor (PVEN)</primary>
+                    <secondary>Create Division option</secondary>
+                </indexterm><indexterm significance="normal">
+                    <primary>Create Division option</primary>
+                </indexterm></title>
+                <para role="Body Text">The Vendor document offers a unique option from the Vendor Detail Lookup
+                    screen, called <emphasis role="bold">Create Division</emphasis>. This option is available only for
+                    ‘parent’ vendors (that is, vendors for which the <emphasis role="bold">Vendor Parent
+                        Indicator</emphasis> on the Vendor tab is set to ‘Yes’). </para>
+                <para role="Body Text">The <emphasis role="bold">Create Division</emphasis> option allows you to
+                    group entities under the same corporate office with the same Tax ID ('parent vendor'). You might use
+                    this feature to add information about the separate divisions or branches, without having to
+                    duplicate the corporate information. A division has a different name from the parent.</para>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Vendor Lookup with Sample Results. Create Division is available in
+                                the left-most column.</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/VendorNoTitlePage-13.png"
+                                    width="619px"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="Body Text">The <emphasis role="bold">create division</emphasis> link is available only
+                    for the 'parent' vendors. When you click the <emphasis role="bold">create division link</emphasis>,
+                    a new Vendor document is initiated and the information from the <emphasis role="bold">Corporate
+                        Information</emphasis> section of the <emphasis role="bold">Vendor</emphasis> tab is copied from its
+                    Corporate Vendor and remains display-only. </para>
+                <para role="Body Text"/>
+                <para role="Normal">This is an inherited function from KFS.  Divisions must be used for full
+                    Customer Relationship Management (CRM) type functions. However, if you want to account for a library
+                    organization’s specific Vendor account number without creating a division, you may enter the
+                    <emphasis role="bold">customer number</emphasis> and the <emphasis role="bold">Organization
+                        Code</emphasis> for the <emphasis role="bold">Account Number Owner</emphasis> on the <emphasis
+                            role="bold">Acquisition Unit Vendor Accounts</emphasis> tab.  You may also add specific vendor
+                    discounts associated with the library organization’s customer number, as well as <emphasis
+                            role="bold">Standard Delivery Carrier</emphasis> and carrier’s standard interval of service
+                    (expressed as days/hours).</para>
+            </section>
+            <section>
+                <title><anchor xml:id="_D2HTopic_428"/>'Collections'<indexterm significance="normal">
+                    <primary>Vendor (PVEN)</primary>
+                    <secondary>collections</secondary>
+                </indexterm></title>
+                <para role="Body Text">In the Vendor document, many tabs allow you to enter multiple sets of
+                    information ('Collections') for the tab. For example, you may add multiple addresses, contacts,
+                    phone numbers, etc. for a single vendor. </para>
+                <para role="Body Text">To add additional sets of information, complete the tab again
+                    and click <inlinemediaobject>
+                        <alt>Add</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/VendorNoTitlePage-14.png"/>
+                        </imageobject>
+                    </inlinemediaobject>. </para>
+                <para role="Body Text">When a set of information is added it is collapsed but may be
+                    viewed by clicking <inlinemediaobject>
+                        <alt>Show</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/VendorNoTitlePage-15.png"/>
+                        </imageobject>
+                    </inlinemediaobject> individually.</para>
+                <para role="Body Text"/>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Vendor tab expanded.</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/VendorNoTitlePage-16.png"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Vendor tab with several collections.</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/VendorNoTitlePage-17.jpg"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+            </section>
+            <section>
+                <title>Required Fields</title>
+                <para role="Body Text">In the Vendor document, not all the tabs are required for the
+                    creation of the Vendor record. For example, not all the vendors have supplier
+                    diversity requirement or multiple phone numbers. Nonetheless the required fields
+                    within these tabs are noted with an asterisk in the event that you decide to
+                    complete the information.</para>
+            </section>
+        </section>
+        <section>
+            <title><anchor xml:id="_VendorDocumentLayout"/>Document Layout (for Create New Vendor
+                &amp; Create Division)</title>
+            <para role="Body Text">The Vendor document has various tabs including the <emphasis role="bold"
+                    >Vendor</emphasis>, <emphasis role="bold">Transmission Format</emphasis>, <emphasis role="bold"
+                    >Address</emphasis>, <emphasis role="bold">Contact</emphasis>, <emphasis role="bold">Supplier
+                Diversity</emphasis>, <emphasis role="bold">Shipping Special Conditions</emphasis>,<emphasis
+                    role="bold"> Vendor Commodity Codes, Search Alias</emphasis>, <emphasis role="bold">Vendor Phone
+                Number</emphasis>, <emphasis role="bold">Acquisitions Unit Vendor Accounts</emphasis>, and <emphasis
+                    role="bold">Contracts</emphasis> tabs.</para>
+            <para role="Body Text">The Vendor document is broken into two images below:</para>
+            <para>
+                <screenshot>
+                    <mediaobject>
+                        <alt>Vendor Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/VendorNoTitlePage-18.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <section>
+                <title>Vendor Tab<indexterm significance="normal">
+                    <primary>Vendor tab</primary>
+                </indexterm><indexterm significance="normal">
+                    <primary>Vendor (PVEN)</primary>
+                    <secondary>Vendor tab</secondary>
+                </indexterm></title>
+                <para role="Body Text">The <emphasis role="bold">Vendor </emphasis>tab collects fundamental
+                    information about a vendor such as the name, tax status and details. It is composed of three
+                    sections: <emphasis role="bold">General Information</emphasis>, <emphasis role="bold">Corporate
+                        Information </emphasis>and <emphasis role="bold">Detail Information</emphasis> sections.</para>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Vendor Document: Vendor Tab</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/VendorNoTitlePage-20.png" width="100%"
+                                />
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <section>
+                    <title>General Information Section<indexterm significance="normal">
+                        <primary>Vendor (PVEN)</primary>
+                        <secondary>General Information section</secondary>
+                    </indexterm></title>
+                    <para role="Body Text">General information includes the Vendor Name and a system-assigned Vendor
+                        Number. This number is assigned when the document is approved.</para>
+                    <para role="Illustration">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Vendor Document: General Information Section of the Vendor
+                                    Tab</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/VendorNoTitlePage-21.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para role="TableHeading"><emphasis role="bold">General Information section
+                        definition</emphasis></para>
+                    <informaltable frame="topbot">
+                        <tgroup cols="2">
+                            <colspec colname="col1" colnum="1"/>
+                            <colspec colname="col2" colnum="2"/>
+                            <tbody>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Title</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Description</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Vendor Number</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Display-only. A unique, system-generated number that identifies this
+                                            vendor, assigned at the time the document is approved.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Vendor Linking ID</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Locally defined. An identification to link OLE to your university’s
+                                            accounts payable systems</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Vendor Parent Indicator</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Display only. Indicates whether the vendor is a parent or child
+                                            record.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Vendor Name</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Required if <emphasis role="bold">Vendor Last Name</emphasis> and <emphasis
+                                                role="bold">Vendor First Name</emphasis> fields are blank. Enter the vendor name that is not a first
+                                            and last name. If the vendor should be identified by a first and last name, leave this field blank.
+                                        </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Vendor Last Name</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Required if <emphasis role="bold">Vendor Name</emphasis> field is blank.
+                                            Enter the vendor last name. If the vendor should be identified by a company name or title, leave
+                                            this field blank and use the <emphasis role="bold">Vendor Name</emphasis> field. </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Vendor First Name</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Required if <emphasis role="bold">Vendor Name</emphasis> field is blank.
+                                            Enter the vendor first name. If the vendor should be identified by a company name or title, leave
+                                            this field blank and use the <emphasis role="bold">Vendor Name</emphasis> field. </para>
+                                    </entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </informaltable>
+                    <note>
+                        <para> Either the vendor name or vendor first name and last name are required to
+                            identify the vendor.</para>
+                    </note>
+                </section>
+                <section>
+                    <title>Corporate Information<indexterm significance="normal">
+                        <primary>Vendor (PVEN)</primary>
+                        <secondary>Corporate Information section</secondary>
+                    </indexterm></title>
+                    <para role="Body Text">The <emphasis role="bold">Corporate Information </emphasis>section includes
+                        the vendor tax information, such as tax number, ownership type, which tax forms are on file and any
+                        special withholdings or debarred information.</para>
+                    <para role="Illustration">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Vendor Document: Corporate Information Section of the Vendor
+                                    Tab</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/VendorNoTitlePage-23.png"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para role="TableHeading"><emphasis role="bold">Corporate Information section
+                        definition</emphasis></para>
+                    <informaltable frame="topbot">
+                        <tgroup cols="2">
+                            <colspec colname="col1" colnum="1"/>
+                            <colspec colname="col2" colnum="2"/>
+                            <tbody>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Title</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Description</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Vendor Type</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Required. Select the appropriate vendor type from the <emphasis role="bold"
+                                                >Vendor Type</emphasis> list or select if from the <phrase role="Strong">Vendor Type</phrase> lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>. Examples include 'Disbursement Voucher' and 'Purchase Order. A vendor's type
+                                            determines on which OLE documents it may be used. Different vendor types are used on different
+                                            documents</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Is this a Foreign Vendor?</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Required. Select 'Yes' from the list if the vendor should be identified as
+                                            foreign. Select 'No' if the vendor is not identified as foreign.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Tax Number</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Required for non-foreign vendors. Enter the vendor's tax ID number or SSN.
+                                        </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Tax Number Type</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Required. Select the <emphasis role="bold">Tax</emphasis>
+                                            <emphasis role="bold">Number Type</emphasis> option that describes the tax number entered in the Tax
+                                            Number field. If no Tax Number was entered, select 'None.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Ownership Type</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Required. Select the appropriate type from the <emphasis role="bold"
+                                                >Ownership Type</emphasis> list, or search for it from the <emphasis role="bold">Owner Type
+                                        </emphasis>lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>. Examples include 'Corporation,' 'Non-Profit,' and 'Individual/Sole Proprietor.
+                                            The ownership type is found on the tax document (W9, W8Ben for example) submitted by the
+                                            vendor.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Ownership Category</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Optional. Select the appropriate category from the <emphasis role="bold"
+                                                >Ownership Category</emphasis> list, or search for it from the <emphasis role="bold">Owner
+                                            Category</emphasis> lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>. The ownership category more specifically identifies the vendor, often
+                                            indicating the type of services this vendor provides. Examples might include Government or
+                                            'Corporation’. </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">W9 Received</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Optional. Select 'Yes' or 'No' from the list to indicate if a W9 has been
+                                            received for this vendor. Certain types of vendors may be required to have a W9 on file before they
+                                            may be approved for use.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">W-8BEN Received?</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Optional. Select 'Yes' or 'No' from the list to indicate if a W-8BEN has
+                                            been received for this vendor. Certain types of foreign vendors may be required to have a W-8BEN on
+                                            file before they may be approved for use.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Backup Withholding Begin Date</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Optional. Enter the effective date for backup or select it from the
+                                            calendar <inlinemediaobject>
+                                                <imageobject>
+                                                    <imagedata fileref="../images/VendorNoTitlePage-27.png"/>
+                                                </imageobject>
+                                            </inlinemediaobject>, if the vendor is subject to backup withholdings.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Backup Withholding End Date</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Optional. Enter the date to discontinue backup withholding or select it
+                                            from the calendar <inlinemediaobject>
+                                                <imageobject>
+                                                    <imagedata fileref="../images/VendorNoTitlePage-28.png"/>
+                                                </imageobject>
+                                            </inlinemediaobject>, if the vendor is subject to backup withholdings.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Debarred</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Optional. Select 'Yes' or 'No' from the list to indicate whether or not
+                                            this vendor has been debarred. This designation indicates that an institution has been barred from
+                                            doing business with this vendor by the state or federal government.</para>
+                                    </entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </informaltable>
+                </section>
+                <section>
+                    <title>Detail Information Section<indexterm significance="normal">
+                        <primary>Vendor (PVEN)</primary>
+                        <secondary>Detail Information section</secondary>
+                    </indexterm></title>
+                    <para role="Body Text">The <emphasis role="bold">Detail Information</emphasis> section contains
+                        additional data about the vendor including payment and shipping terms and whether or not they are
+                        restricted or inactive and why.</para>
+                    <para role="Illustration">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Vendor Document: Detail Information Section of the Vendor
+                                    Tab</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/VendorNoTitlePage-29.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para role="TableHeading"><emphasis role="bold">Detail Information section
+                        definition</emphasis></para>
+                    <informaltable frame="topbot">
+                        <tgroup cols="2">
+                            <colspec colname="col1" colnum="1"/>
+                            <colspec colname="col2" colnum="2"/>
+                            <tbody>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Title</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Description</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Currency Type</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Required. Currency type of the vendor. Select the appropriate currency type
+                                            from <emphasis role="bold">Currency Type </emphasis>list or select it the from the <emphasis
+                                                    role="bold">Currency Type</emphasis> lookup <inlinemediaobject>
+                                                <imageobject>
+                                                    <imagedata fileref="../images/Lookup.png"/>
+                                                </imageobject>
+                                            </inlinemediaobject>.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Payment Terms</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Optional. Select from the <phrase role="Strong">Payment Terms</phrase> list
+                                            or select it from the <emphasis role="bold">Payment Term Type </emphasis>lookup <inlinemediaobject>
+                                                <imageobject>
+                                                    <imagedata fileref="../images/Lookup.png"/>
+                                                </imageobject>
+                                            </inlinemediaobject>. Payment terms include the number of days a payment is due and whether a
+                                            discount is available for prompt payment.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Payment Method</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Required. Payment method of the vendor. Select the appropriate method from
+                                            <emphasis role="bold">Payment Method </emphasis>list or select it the from the <emphasis role="bold"
+                                                    >Payment Method </emphasis>lookup <inlinemediaobject>
+                                                <imageobject>
+                                                    <imagedata fileref="../images/Lookup.png"/>
+                                                </imageobject>
+                                            </inlinemediaobject>.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Pre-Payment</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Optional. Select 'Yes' or 'No' from the list to indicate whether or not
+                                            this vendor accepts pre-payments.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Credit Card</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Optional. Select 'Yes' or 'No' from the list to indicate whether or not
+                                            this vendor accepts credit card payments.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Minimum Order Amount</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Optional. Enter an amount if the vendor requires a minimum dollar amount
+                                            for orders.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Shipping Title</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Optional. Select a title from the <emphasis role="bold">Shipping Title
+                                        </emphasis>list or select it from the <emphasis role="bold">Shipping Title </emphasis>lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>. The shipping title determines when ownership of the product takes effect. For
+                                            example destination indicates that ownership takes effect when the product arrives at the delivery
+                                            location.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Shipping Payment Terms</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Optional. Select the terms from the <emphasis role="bold">Shipping Payment
+                                            Terms</emphasis> list or select it from the <emphasis role="bold">Shipping Payment Terms
+                                        </emphasis>lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>. This determines whether the institution pays for shipping charges.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">DUNS Number</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Optional. Enter the nine-digit vendor Data Universal Numbering System
+                                            (DUNS) number if available. The DUNS number is a unique identifier for businesses that register with
+                                            Dun and Bradstreet<indexterm significance="normal">
+                                                <primary>Dun and Bradstreet</primary>
+                                            </indexterm>.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Vendor URL</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Optional. Enter the URL for the vendor's website.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Confirmation</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Optional. Select 'Yes' to indicate that this vendor needs a printed or
+                                            faxed copy of a PO if the order has been phoned in. Select 'No' if an additional confirmation copy
+                                            of the PO is not required by the vendor.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Sold To Vendor Number</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Enter the number of the vendor that this vendor was sold to or search for
+                                            the buyer from the <emphasis role="bold">Vendor</emphasis>
+                                            <emphasis role="bold">Detail </emphasis>lookup <inlinemediaobject>
+                                                <imageobject>
+                                                    <imagedata fileref="../images/Lookup.png"/>
+                                                </imageobject>
+                                            </inlinemediaobject>. </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Sold To Vendor Name</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Display-only. Automatically displayed when the <emphasis role="bold">Sold
+                                            To Vendor</emphasis> is entered.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Restricted</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Optional. Select 'Yes' or 'No' from the list to indicate whether or not the
+                                            use of this vendor is restricted. A restricted vendor is ineligible for APOs. </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Restricted Date</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Display-only. Automatically displayed by the system when 'Yes' is selected
+                                            in the <emphasis role="bold">Restricted</emphasis> field. </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Restricted Person Name</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Optional. The system automatically displays the name of the document
+                                            initiator when 'Yes' is selected for Restricted.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Restricted Reason</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Required if Restricted is set to 'Yes. Enter a text description indicating
+                                            why this vendor is restricted.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Remit Name</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Optional. This field is for information purposes only and does not carry
+                                            forward to payments requests or disbursement vouchers.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Active Indicator</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Required. Select the check box if
+                                            the vendor is active. Clear the check box if it is
+                                            inactive.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Inactive Reason</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Optional. If inactivating a currently active vendor, select a reason from
+                                            the <emphasis role="bold">Inactive Reason</emphasis> list or select it from the <emphasis
+                                                    role="bold">Vendor Inactive Reason </emphasis>lookup <inlinemediaobject>
+                                                <imageobject>
+                                                    <imagedata fileref="../images/Lookup.png"/>
+                                                </imageobject>
+                                            </inlinemediaobject>. Examples might include 'Sold' or 'Out of Business.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Claim Interval</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Optional. Enter the number of days
+                                            that, following the approval of the PO, an item can be
+                                            claimed.  Titles will appear in the Receiving and
+                                            Claiming Queue after the interval of days has
+                                            past.</para>
+                                    </entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </informaltable>
+                </section>
+            </section>
+            <section>
+                <title>Transmission Format Tab<indexterm significance="normal">
+                    <primary>Vendor (PVEN)</primary>
+                    <secondary>Address tab</secondary>
+                </indexterm></title>
+                <para role="Body Text">The <emphasis role="bold">Transmission Format</emphasis>tab allows users to
+                    choose how purchase orders will be sent to vendors. Transmission formats could be EDI or PDF files
+                    while the transmission type could be set to FTP, Email, Mail, etc.</para>
+                <para role="Body Text">Be sure to select at least one <emphasis role="bold">Preferred Transmission
+                    Format</emphasis> on the <emphasis role="bold">Transmission format</emphasis> tab.</para>
+                <para role="Body Text">After entering the new transmission format information, click <inlinemediaobject>
+                        <alt>Add</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/VendorNoTitlePage-37.png"/>
+                        </imageobject>
+                    </inlinemediaobject> to add it to the document. </para>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Vendor Document: Transmission Format Tab</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/VendorNoTitlePage-38.jpg" width="100%"
+                                />
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="TableHeading"><emphasis role="bold">Transmission Format tab definition</emphasis></para>
+                <informaltable frame="top">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Transmission Format</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Transmission format of the vendor.  Select the appropriate
+                                        currency type from the <emphasis role="bold">Transmission Format </emphasis>list or select from the
+                                        <emphasis role="bold">Transmission Format </emphasis>lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject></para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Preferred Transmission Format</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Indicate whether or not the vendor transmission format/type is the
+                                        preferred one or not. Required. Select the check box if the Transmission Format is the preferred
+                                        format. Clear the check box if it is not the preferred format.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Transmission Type</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Transmission Type of the
+                                        Transmission Format.  Select the appropriate currency type
+                                        from the <emphasis role="bold">Transmission Type
+                                        </emphasis>list or select from the <emphasis role="bold"
+                                            >Transmission Type </emphasis>lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject><note>
+                                            <para>Depending on the <emphasis role="bold"
+                                                  >Transmission Type</emphasis> selected (Email,
+                                                Fax, or Mail), you must have corresponding address
+                                                information on an Address Tab with the <emphasis
+                                                  role="bold">Address Type</emphasis> set as
+                                                Purchase Order. For example, if the Transmission
+                                                Type selected is email, you must add an email
+                                                address to the Address tab with the <emphasis
+                                                  role="bold">Address Type</emphasis> set as
+                                                Purchase Order. </para>
+                                        </note></para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Connection Address</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Address of the transmission type.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">User Name</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. User Name of the transmission type.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Password</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Transmission Type password.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Active Indicator</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Select the check box if the Transmission Format is active. Clear
+                                        the check box if it is inactive.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+                <para role="Normal"/>
+            </section>
+            <section>
+                <title>Address Tab<indexterm significance="normal">
+                    <primary>Vendor (PVEN)</primary>
+                    <secondary>Address tab</secondary>
+                </indexterm></title>
+                <para role="Body Text">The <emphasis role="bold">Address </emphasis>tab collects address information
+                    for a vendor. Different types of addresses may be entered, such as one for mailing purchase orders
+                    and another for remittance of payments. Vendors of a particular type may be required to have at
+                    least one address of a certain type (such as at least one 'remit to' address). Every vendor must
+                    have one default address. </para>
+                <para role="Body Text">After entering an address, click <inlinemediaobject>
+                        <alt>Add</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/VendorNoTitlePage-41.png"/>
+                        </imageobject>
+                    </inlinemediaobject> to add it to the document. </para>
+                <note>
+                    <para> For more information about adding multiple addresses, see <link
+                            linkend="_D2HTopic_428">'Collections'</link>.</para>
+                </note>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Vendor Document: Address Tab</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/VendorNoTitlePage-43.png" width="100%"
+                                />
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="TableHeading"><emphasis role="bold">Address tab definition</emphasis></para>
+                <informaltable frame="topbot">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Address Type</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Select an address type from the <emphasis role="bold">Address
+                                        Type</emphasis> list or search for it from the <emphasis role="bold">Address Type </emphasis>lookup <inlinemediaobject>
+                                        <imageobject>
+                                            <imagedata fileref="../images/Lookup.png"/>
+                                        </imageobject>
+                                    </inlinemediaobject>. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Address 1</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the first line of the address information.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Address 2</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. If necessary, enter the second line of the address
+                                        information.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">City</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the city name for this address.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">State</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Select the state from the <emphasis role="bold">State
+                                    </emphasis>list or select it from the <emphasis role="bold">State Code </emphasis>lookup <inlinemediaobject>
+                                        <imageobject>
+                                            <imagedata fileref="../images/Lookup.png"/>
+                                        </imageobject>
+                                    </inlinemediaobject>. State may be required under certain circumstances (such as when entering a US
+                                        address).</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Postal Code</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Enter the postal code for this address. Postal code may be
+                                        required under certain circumstances (such as when entering a US address).</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Province</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Enter the province for this address. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Country</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Select a country from the<emphasis role="bold">
+                                        Country</emphasis> list or select it from the <emphasis role="bold">Country </emphasis>lookup <inlinemediaobject>
+                                        <imageobject>
+                                            <imagedata fileref="../images/Lookup.png"/>
+                                        </imageobject>
+                                    </inlinemediaobject>. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Attention</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Enter to whose attention it should be directed to, if you want
+                                        this address to have an attention line.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">URL</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Enter a URL you want to associate with this vendor
+                                        address.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Vendor Fax Number</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Enter the vendor fax number you want to associate with this
+                                        address.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Email Address</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Enter the vendor email address you want to associate with this
+                                        address.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Set as Default Address</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Select 'Yes' or 'No' from the list to indicate if this address
+                                        should be used as the default for this vendor or not. Every vendor must have one default address.
+                                    </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Address Note</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Enter additional information for the vendor’s address.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Active Indicator</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Select the check box if the address is active. Clear the check
+                                        box if it is inactive.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+            <section>
+                <title>Contact Tab<indexterm significance="normal">
+                    <primary>Vendor (PVEN)</primary>
+                    <secondary>Contact tab</secondary>
+                </indexterm></title>
+                <para role="Body Text">The <emphasis role="bold">Contact</emphasis> tab collects contact information
+                    for a vendor. Different types of contacts may be entered, such as sales, technical and customer
+                    service representatives. </para>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Vendor Document: Contact Tab</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/VendorNoTitlePage-47.png"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="TableHeading"><emphasis role="bold">Contact tab definition</emphasis></para>
+                <informaltable frame="topbot">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Contact Type</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Select contact type from the <emphasis role="bold">Contact Type
+                                    </emphasis>list or select it from the <emphasis role="bold">Contact Type </emphasis>lookup <inlinemediaobject>
+                                        <imageobject>
+                                            <imagedata fileref="../images/Lookup.png"/>
+                                        </imageobject>
+                                    </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Name</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the name of the contact.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Email Address</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Enter the email address for this contact.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Address 1</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Enter the first line of the address information for this
+                                        contact.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Address 2</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Enter the second line of the address information for this
+                                        contact.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">City</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Enter the city name for this contact.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">State</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Select the state from the <emphasis role="bold">State</emphasis>
+                                        list or select it from the <emphasis role="bold">State Code </emphasis>lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Postal Code</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Enter the postal code for this contact. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Province</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Enter the province name for this contact. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Country</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Select the country from the <emphasis role="bold"
+                                            >Country</emphasis> list or select it from the<emphasis role="bold"> Country</emphasis> lookup <inlinemediaobject>
+                                        <imageobject>
+                                            <imagedata fileref="../images/Lookup.png"/>
+                                        </imageobject>
+                                    </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Attention</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Enter to whose attention it should be directed to, if you want
+                                        this address to have an attention line.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Comments</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Enter any additional comments about this contact.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Active Indicator</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Select the check box if the contact is active. Clear the check
+                                        box if it is inactive.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+                <para role="Body Text">After entering a contact, click <inlinemediaobject>
+                        <alt>Add</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/VendorNoTitlePage-51.png"/>
+                        </imageobject>
+                    </inlinemediaobject> to add it to the document. </para>
+                <note>
+                    <para> For more information about adding multiple contacts, see <link
+                            linkend="_D2HTopic_428">'Collections'</link>.</para>
+                </note>
+            </section>
+            <section>
+                <title>Supplier Diversity Tab<indexterm significance="normal">
+                    <primary>Supplier Diversity tab</primary>
+                </indexterm><indexterm significance="normal">
+                    <primary>Vendor (PVEN)</primary>
+                    <secondary>Supplier Diversity tab</secondary>
+                </indexterm></title>
+                <para role="Body Text">The <emphasis role="bold">Supplier Diversity</emphasis> tab is used to
+                    indicate if any recognized supplier diversity categories apply to this vendor. The Small Business
+                    Administration<indexterm significance="normal">
+                        <primary>Small Business Administration</primary>
+                    </indexterm> has defined supplier diversity categories which may be based on size (small business),
+                    ownership (woman or minority owned), and/or geographical location (local).</para>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Vendor Document: Supplier Diversity Tab</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/VendorNoTitlePage-53.png"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="TableHeading"><emphasis role="bold">Supplier Diversity definition</emphasis></para>
+                <informaltable frame="topbot">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Supplier Diversity</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required when the tab is used. Select the supplier diversity type from the
+                                        Supplier Diversity list or select it from the <emphasis role="bold">Supplier Diversity
+                                        </emphasis>lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Active Indicator</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Select the check box if the supplier diversity type is active.
+                                        Clear the check box if it is inactive.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+                <para role="Body Text">After selecting a supplier diversity type, click <inlinemediaobject>
+                        <alt>Add</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/VendorNoTitlePage-55.png"/>
+                        </imageobject>
+                    </inlinemediaobject> to add it to the document. </para>
+                <note>
+                    <para> For more information about adding multiple supplier diversity types, see <link
+                            linkend="_D2HTopic_428">'Collections'</link>.</para>
+                </note>
+            </section>
+            <section>
+                <title>Shipping Special Conditions Tab<indexterm significance="normal">
+                    <primary>Shipping Special Conditions tab</primary>
+                </indexterm><indexterm significance="normal">
+                    <primary>Vendor (PVEN)</primary>
+                    <secondary>Shipping Special Conditions tab</secondary>
+                </indexterm></title>
+                <para role="Body Text">The <emphasis role="bold">Shipping Special Conditions</emphasis> tab is used
+                    to indicate whether Accounts Payable is allowed to pay for additional freight charged when the
+                    vendor invoices for goods or services. Examples might include 'Express,' or 'Insured.'</para>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Vendor Document: Shipping Special Conditions Tab</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/VendorNoTitlePage-57.png"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="TableHeading"><emphasis role="bold">Shipping Special Conditions tab
+                    definition</emphasis></para>
+                <informaltable frame="top">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Shipping Special Conditions</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Select the type from the <emphasis role="bold">Shipping Special
+                                        Conditions Type</emphasis> list or select it from the <emphasis role="bold">Shipping Special
+                                        Condition </emphasis>lookup<inlinemediaobject>
+                                        <imageobject>
+                                            <imagedata fileref="../images/Lookup.png"/>
+                                        </imageobject>
+                                    </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Active Indicator</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Select the check box if the shipping special conditions type is
+                                        active. Clear the check box if it is inactive.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+                <para role="Body Text">After selecting a shipping special condition, click <inlinemediaobject>
+                        <alt>Add</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/VendorNoTitlePage-59.png"/>
+                        </imageobject>
+                    </inlinemediaobject> to add it to the document. </para>
+                <note>
+                    <para> For more information about adding multiple shipping special condition types, see
+                        <link linkend="_D2HTopic_428">'Collections'</link>.</para>
+                </note>
+            </section>
+            <section>
+                <title>Vendor Commodity Codes Tab<indexterm significance="normal">
+                    <primary>Vendor (PVEN)</primary>
+                    <secondary>Vendor Commodity Codes tab</secondary>
+                </indexterm><indexterm significance="normal">
+                    <primary>Vendor Commodity Codes tab</primary>
+                </indexterm></title>
+                <para role="Body Text">The <emphasis role="bold">Vendor Commodity Codes</emphasis> tab is used to
+                    assign commodity codes to this vendor. A commodity code may be added only by a Purchasing Department
+                    staff member.</para>
+                <para role="Body Text">The Purchasing Department assigns commodity codes to vendors in order to
+                    track spending by category. A vendor may be assigned multiple commodity codes. For example, a local
+                    company that both prints and designs documents might have two different commodity codes, one for
+                    printing and one for design. </para>
+                <note>
+                    <para> For information about adding commodity codes, see <link linkend="_CommodityCode"
+                            >Commodity Code</link>. </para>
+                </note>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Vendor Document:  Tab</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/VendorNoTitlePage-62.jpg"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="TableHeading"><emphasis role="bold">Vendor Commodity Codes tab
+                    definition</emphasis></para>
+                <informaltable frame="topbot">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Commodity Code</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Enter the commodity code.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Commodity Default Indicator</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Select the check box if this commodity code is to be used as the
+                                        default for this vendor. This commodity code is used on APOs where an institution has indicated that
+                                        the commodity code is required on POs but not on requisitions. Clear the check box if this commodity
+                                        code is not to be used as the default.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Active Indicator</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Select the check box if this commodity code is active for this
+                                        vendor. Clear the check box if it is inactive for this vendor.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+                <para role="Body Text">After entering a commodity code, click <inlinemediaobject>
+                        <alt>Add</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/VendorNoTitlePage-63.png"/>
+                        </imageobject>
+                    </inlinemediaobject> to add it to the document. </para>
+                <note>
+                    <para> For more information about adding multiple commodity codes, see <link
+                            linkend="_D2HTopic_428">'Collections'</link>.</para>
+                </note>
+            </section>
+            <section>
+                <title>Search Alias Tab<indexterm significance="normal">
+                    <primary>Search Alias tab</primary>
+                </indexterm><indexterm significance="normal">
+                    <primary>Vendor (PVEN)</primary>
+                    <secondary>Search Alias tab</secondary>
+                </indexterm></title>
+                <para role="Body Text">The <emphasis role="bold">Search Alias</emphasis> tab is used to define other
+                    names that may be used when searching for this vendor. Search aliases can be used in future lookups
+                    as abbreviated forms of long vendor names, or to denote external vendor codes or standard address
+                    numbers (SAN). Alias types include Abbreviation, Vendor Code, etc.</para>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Vendor Document: Search Alias Tab</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/VendorNoTitlePage-65.jpg" width="100%"
+                                />
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="TableHeading"><emphasis role="bold">Search Alias tab definition</emphasis></para>
+                <informaltable frame="topbot">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Search Alias Name</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the alternate name that may be used to search for this
+                                        vendor.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Alias Type</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Identify the search alias type or select the type from the
+                                        <emphasis role="bold">Alias Type </emphasis>lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Active Indicator</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Select the check box if the search alias name is active. Clear
+                                        the check box if it is inactive.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+                <para role="Body Text">After entering a search alias, click <inlinemediaobject>
+                        <alt>Add</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/VendorNoTitlePage-67.png"/>
+                        </imageobject>
+                    </inlinemediaobject> to add it to the document. </para>
+                <note>
+                    <para> For more information about adding multiple aliases, see <link
+                            linkend="_D2HTopic_428">'Collections'</link>.</para>
+                </note>
+            </section>
+            <section>
+                <title>Vendor Phone Number Tab<indexterm significance="normal">
+                    <primary>Vendor Phone Number tab</primary>
+                </indexterm><indexterm significance="normal">
+                    <primary>Vendor (PVEN)</primary>
+                    <secondary>Vendor Phone Number tab</secondary>
+                </indexterm></title>
+                <para role="Body Text">The <emphasis role="bold">Vendor Phone Number</emphasis> tab collects phone
+                    numbers for this vendor. It may be used to define various types of phone numbers. Examples of
+                    different phone number types include 'Toll Free,' 'Mobile,' and 'Purchase Order.' </para>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Vendor Document: Vendor Phone Number Tab</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/VendorNoTitlePage-69.png" width="100%"
+                                />
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="TableHeading"><emphasis role="bold">Vendor Phone Number tab definition</emphasis></para>
+                <informaltable frame="topbot">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Phone Type</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Select the phone type from the <emphasis role="bold">Phone
+                                        Type</emphasis> list or select it from the<emphasis role="bold"> Phone Type</emphasis> lookup <inlinemediaobject>
+                                        <imageobject>
+                                            <imagedata fileref="../images/Lookup.png"/>
+                                        </imageobject>
+                                    </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Phone Number</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the phone number.</para>
+                                    <tip>
+                                        <para>Foreign vendors will accept foreign phone numbers (for
+                                            example (12) 34 567 1234, (345) 123-1234, 91 522 6565,
+                                            91-522-6565) however the <emphasis role="bold">Is this a
+                                                foreign vendor?</emphasis> field must be marked as
+                                            "yes". </para>
+                                    </tip>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Extension</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Enter the extension for the phone number.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Active Indicator</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Select the check box if the vendor phone number is active. Clear
+                                        the check box if it is inactive.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+                <para role="Body Text">After entering a phone number, click <inlinemediaobject>
+                        <alt>Add</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/VendorNoTitlePage-71.png"/>
+                        </imageobject>
+                    </inlinemediaobject> to add it to the document. </para>
+                <note>
+                    <para> For more information about adding multiple phone numbers, see <link
+                            linkend="_D2HTopic_428">'Collections'</link>.</para>
+                </note>
+            </section>
+            <section>
+                <title>Acquisition Unit Vendor Accounts Tab<indexterm significance="normal">
+                    <primary>Vendor Phone Number tab</primary>
+                </indexterm><indexterm significance="normal">
+                    <primary>Vendor (PVEN)</primary>
+                    <secondary>Vendor Phone Number tab</secondary>
+                </indexterm></title>
+                <para role="Body Text">The <emphasis role="bold">Acquisition Unit Vendor Account</emphasis> tab
+                    collects information about numbers the vendor uses to identify your institution. Multiple customer
+                    numbers may exist for the same vendor and they are specific to a chart and organization.</para>
+                <para role="Body Text">This is where libraries can record local account information
+                    for different departments purchasing authority within the same vendor
+                    e-doc.</para>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Vendor Document: Acquisition Unit Vendor Accounts Tab</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/VendorNoTitlePage-73.jpg"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="TableHeading"><emphasis role="bold">Acquisition Unit Vendor Accounts tab
+                    definition</emphasis></para>
+                <informaltable frame="topbot">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Acquisition Unit’s Vendor account / Vendor Info Customer #</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the number this vendor uses to identify your institution or
+                                        organization as a customer.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Chart Code</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Select the chart this customer number should be associated with
+                                        from the <emphasis role="bold">Chart Code</emphasis> list or select it from the <emphasis
+                                                role="bold">Chart </emphasis>lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Account Number Owner (Organization Code)</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Enter an organization code to associate with this customer number
+                                        or select it from the <emphasis role="bold">Organization Code </emphasis>lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Discount</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Enter the value of the discount.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Discount Type</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Select the type of discount.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Standard Delivery Carrier</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Enter the Delivery Carrier or select it from the <emphasis
+                                            role="bold">Carrier </emphasis>lookup <inlinemediaobject>
+                                        <imageobject>
+                                            <imagedata fileref="../images/Lookup.png"/>
+                                        </imageobject>
+                                    </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Standard Delivery Carrier Interval</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Enter the days from order date to delivery; used as default claim
+                                        interval in POs</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Active Indicator</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Select the check box if the customer number is active. Clear the
+                                        check box if it is inactive.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+                <para role="Body Text">After entering a phone number, click <inlinemediaobject>
+                        <alt>Add</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/VendorNoTitlePage-77.png"/>
+                        </imageobject>
+                    </inlinemediaobject> to add it to the document. </para>
+            </section>
+            <section>
+                <title>Contracts Tab<indexterm significance="normal">
+                    <primary>Contracts tab</primary>
+                </indexterm><indexterm significance="normal">
+                    <primary>Vendor (PVEN)</primary>
+                    <secondary>Contracts tab</secondary>
+                </indexterm></title>
+                <para role="Body Text">The <emphasis role="bold">Contracts </emphasis>tab collects information about
+                    contracts your institution has with this vendor. It includes information such as who manages the
+                    contract for your institution, when it begins and ends, any special payment or shipping terms that
+                    may specifically apply to the vendor. The <emphasis role="bold">Contracts</emphasis> tab is viewable
+                    only by the members of the OLE-PURAP Purchasing Processor role. </para>
+                <para>
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Vendor Document: Contracts Tab</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/VendorNoTitlePage-78.png" width="100%"
+                                />
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="TableHeading"><emphasis role="bold">Contracts tab definition</emphasis></para>
+                <informaltable frame="topbot">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Contract Name</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the name used to identify this vendor contract.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter a text description that describes the contract.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Campus</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Select what institution campus this contract is associated with
+                                        from the <phrase role="Strong">Campus </phrase>list or select it from the<emphasis role="bold">
+                                            Campus</emphasis> lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Begin Date</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the effective date of the contract or select it from the
+                                        calendar <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/VendorNoTitlePage-80.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">End Date</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the expiration date of the contract or select it from the
+                                        calendar <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/VendorNoTitlePage-81.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Contract Manager</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Select the name of the person at your institution who manages
+                                        this contract from the <emphasis role="bold">Contract Manager</emphasis> list or search for it from
+                                        the <emphasis role="bold">Contract Manager </emphasis>lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">PO Cost Source</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Select a cost source for this contract from the <emphasis
+                                            role="bold">PO</emphasis>
+                                        <emphasis role="bold">Cost Source</emphasis> list or search for it from the <emphasis role="bold"
+                                                >Purchase Order Cost Source </emphasis>lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject> .</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">B2B Contract</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Select the business-to-business contract (yes, no) from the list</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Payment Terms</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Select the payment terms for this contract from the<emphasis
+                                            role="bold"> Payment Terms</emphasis> list or search for it from the <emphasis role="bold">Payment
+                                        Term Type </emphasis>lookup <inlinemediaobject>
+                                        <imageobject>
+                                            <imagedata fileref="../images/Lookup.png"/>
+                                        </imageobject>
+                                    </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Shipping Terms</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Select the shipping terms for this contract from the <emphasis
+                                            role="bold">Shipping Terms</emphasis> list or search for it from the <emphasis role="bold">Shipping
+                                        Payment Terms </emphasis>lookup <inlinemediaobject>
+                                        <imageobject>
+                                            <imagedata fileref="../images/Lookup.png"/>
+                                        </imageobject>
+                                    </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Shipping Title</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Select a shipping title for this contract from the <emphasis
+                                            role="bold">Shipping Title </emphasis>list or search for it from the <emphasis role="bold">Shipping
+                                        Title </emphasis>lookup <inlinemediaobject>
+                                        <imageobject>
+                                            <imagedata fileref="../images/Lookup.png"/>
+                                        </imageobject>
+                                    </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Extension Option Date</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Enter the date up until the contract may be extended or select it
+                                        from the calendar <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/VendorNoTitlePage-87.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Default APO Limit</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Enter the upper dollar amount for which automatic purchase orders
+                                        (APOs) under this contract may be created.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Active Indicator</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Select the check box if the contract is active. Clear the check
+                                        box if it is inactive.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+                <para role="Body Text">After entering a contract, click <inlinemediaobject>
+                        <alt>Add</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/VendorNoTitlePage-88.png"/>
+                        </imageobject>
+                    </inlinemediaobject> to add it to the document. </para>
+                <note>
+                    <para> For more information about adding multiple contracts, see <link
+                            linkend="_D2HTopic_428">'Collections'</link>.</para>
+                </note>
+            </section>
+        </section>
+        <section>
+            <title>Process Overview</title>
+            <section>
+                <title>Business Rules<indexterm significance="normal">
+                    <primary>business rules</primary>
+                    <secondary>Vendor (PVEN)</secondary>
+                </indexterm><indexterm significance="normal">
+                    <primary>Vendor (PVEN)</primary>
+                    <secondary>business rules</secondary>
+                </indexterm></title>
+                <itemizedlist mark="disc" spacing="normal">
+                    <listitem>
+                        <para role="C1H Bullet">Staff with appropriate levels of security can add, modify or delete data in
+                            the vendor record.  </para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet">Either <emphasis role="bold">Vendor Name</emphasis> or <emphasis role="bold"
+                                >Vendor Last Name</emphasis> and <phrase role="Strong">Vendor First Name</phrase> fields must be
+                            filled.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet">If <emphasis role="bold">Vendor Name</emphasis> field is entered, <emphasis
+                                role="bold">Vendor First Name</emphasis> and Vendor <emphasis role="bold">Last Name</emphasis>
+                            fields must be blank.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet">If <emphasis role="bold">Vendor First Name</emphasis> and <emphasis
+                                role="bold">Vendor Last Name</emphasis> fields have been entered, the <emphasis role="bold">Vendor
+                            Name</emphasis> field must be blank.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet">Tax number must be 9-digits and cannot be all zeros.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet">The first three digits of an SSN cannot be '000' or '666.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet">The middle two digits of an SSN cannot be '00.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet">The last four digits of an SSN cannot be '0000.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet">The first two digits of a FEIN cannot be '00.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet">The vendor's Tax Number must be unique unless it is a division of a parent
+                            vendor.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet">Vendors of type 'Purchase Order' must have an address of the type 'Purchase
+                            Order.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet">Vendors of type 'Disbursement Voucher' must have an address of the type
+                            'Remit.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet">A vendor must have one and only one address marked as a default
+                            address.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet">If a country for an address is 'United States' then state and zip code are
+                            required.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet">Phone and fax numbers must be formatted as ###-###-####.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet">If the <emphasis role="bold">Category Allowed Indicator</emphasis> for a
+                            specific ownership type is 'N' (No) then vendor category must be left blank.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet">If the <emphasis role="bold">SSN Allowed Indicator</emphasis> for this
+                            ownership type is 'N' (No) then the tax number type must not be SSN.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet">If the <emphasis role="bold">FEIN Allowed Indicator</emphasis> for this
+                            ownership type is 'N' (No) then the tax number type must not be FEIN.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet">Contract begin date must be earlier than contract end date.</para>
+                    </listitem>
+                </itemizedlist>
+                <note>
+                    <para role="C1H Bullet"> Note: In many of the tabs, at least one address or contact etc. must have
+                        <emphasis role="bold">Active Indicator</emphasis> checked. Otherwise when the user tries to submit
+                        the Vendor e-doc, the system will display an error message. If you input any information on the
+                        other tabs, then their local tab requirements are noted with asterisks as well.</para>
+                </note>
+            </section>
+            <section>
+                <title>Routing<indexterm significance="normal">
+                    <primary> Vendor (PVEN)outing</primary>
+                </indexterm></title>
+                <itemizedlist mark="disc" spacing="normal">
+                    <listitem>
+                        <para role="C1H Bullet">The document does not formally route.</para>
+                    </listitem>
+                </itemizedlist>
+                <para role="Illustration"><inlinemediaobject>
+                        <alt>Vendor Workflow</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/VendorNoTitlePage-91.png"/>
+                        </imageobject>
+                    </inlinemediaobject></para>
+            </section>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_Vendor_Search"/>Vendors Search <indexterm
+                significance="normal">
+                <primary>Purchase Orders (Custom Document Search)</primary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Select/Acquire</alt>
+                <imageobject>
+                    <imagedata fileref="../images/SelectAcquire.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Vendor</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-133.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis>&gt;<inlinemediaobject>
+                <alt>Search</alt>
+                <imageobject>
+                    <imagedata fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-4.png"
+                    />
+                </imageobject>
+            </inlinemediaobject> &gt;<inlinemediaobject>
+                <alt>Vendor Lookup</alt>
+                <imageobject>
+                    <imagedata fileref="../images/VendorNoTitlePage-9.png"/>
+                </imageobject>
+            </inlinemediaobject>
+        </para>
+        <para role="Body Text">OLE offers a customized document search related to purchase orders.
+            The search screen contains the standard search fields along with special fields that are
+            unique to this type of e-doc.</para>
+        <section>
+            <title>Lookup Help</title>
+            <para><emphasis role="bold">Specifying search criteria:</emphasis></para>
+            <itemizedlist>
+                <listitem>
+                    <para>Most fields will be uppercased for search.</para>
+                </listitem>
+                <listitem>
+                    <para>Dates should be specified as MM/dd/yyyy.</para>
+                </listitem>
+                <listitem>
+                    <para>Some fields have magnifying glass button for a sub lookup on that
+                        field.</para>
+                </listitem>
+                <listitem>
+                    <para>Wildcards allowed on strings are * and % match any number of characters,
+                        while using a ? will match any one character</para>
+                </listitem>
+                <listitem>
+                    <para>Logical operators allowed include &amp;&amp; (And) as well as | (Or) to
+                        join multiple search criteria</para>
+                </listitem>
+                <listitem>
+                    <para>Range operators allowed on numerics and dates are &gt;,&lt;,&gt;=,&lt;=,
+                        or ..</para>
+                    <para> All operators except .. should be before date value. Operator .. should
+                        separate date values.</para>
+                </listitem>
+            </itemizedlist>
+            <para><emphasis role="bold">Result Table:</emphasis></para>
+            <itemizedlist>
+                <listitem>
+                    <para>Each result field has link on header for sorting. Click once to sort
+                        ascending, </para>
+                    <para> and click again to sort descending.</para>
+                </listitem>
+                <listitem>
+                    <para>Some row fields have links to inquiry. The inquiry will be presented in a
+                        new window. </para>
+                </listitem>
+                <listitem>
+                    <para>Click the return value link to select a row and return the key value to
+                        the previous page.</para>
+                    <para> Select 'return with no value' or click the cancel button if you wish to
+                        return without returning a value.</para>
+                </listitem>
+            </itemizedlist>
+            <para><emphasis role="bold">Maintenance Links:</emphasis></para>
+            <itemizedlist>
+                <listitem>
+                    <para>The 'create new' link on the upper left corner of the lookup screen will </para>
+                    <para> go to a maintenance document for creating a new record for this lookup
+                        type.</para>
+                </listitem>
+                <listitem>
+                    <para>For each result row the action column displays edit and copy links. The
+                        'edit' link </para>
+                    <para> will go to a maintenance document for editing the current record. The
+                        'copy' link </para>
+                    <para> will go to a new maintenance document but copy over attributes over the
+                        current record.</para>
+                </listitem>
+            </itemizedlist>
+            <para><emphasis role="bold">Export Functionality:</emphasis></para>
+            <itemizedlist>
+                <listitem>
+                    <para>At the end of each result set, there are links for exporting the data to a
+                        different format.</para>
+                </listitem>
+                <listitem>
+                    <para>Click 'csv' to export the data as a comma delimited file, 'spreadsheet' to
+                        export the data as a spreadsheet,</para>
+                    <para> or 'xml' to export the data as xml.</para>
+                </listitem>
+            </itemizedlist>
+            <note>
+                <para> For information about performing a search for requisitions, see <link
+                        xlink:href="../../../webhelp/BASICS/content/ch02s04.html#_PerformingSearchesOnFinancialDocs"
+                        >Performing Searches on Financial Docs</link> on the <link
+                        xlink:href="../../../webhelp/BASICS/content/pr01.html"><emphasis>Guide to
+                            OLE Basic Functionality and Key Concepts</emphasis></link>.</para>
+            </note>
+            <note>
+                <para> For information about Document lookup fields that are specific to the vendor
+                    record, see “Document Layout” under <link linkend="_VendorDocumentLayout"
+                        >Vendor</link>. </para>
+            </note>
+        </section>
+    </section>
+</chapter>

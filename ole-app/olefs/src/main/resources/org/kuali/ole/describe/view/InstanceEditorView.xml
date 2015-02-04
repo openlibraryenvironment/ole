@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="InstanceEditorView" parent="Uif-OLEFormView">
+        <property name="headerText" value="Instance Editor"/>
+        <property name="navigation">
+            <ref bean="LeftPane"/>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="HoldingTabs" parent="Uif-Page">
+                    <property name="items">
+                        <list>
+                            <ref bean="MessageSection"/>
+                            <!-- Loading existing record section::: START-->
+                            <bean id="editInstance" parent="Uif-HorizontalBoxSection">
+                                <property name="items">
+                                    <list>
+                                        <bean id="loadInstanceGroup" parent="Uif-HorizontalFieldGroup">
+                                            <property name="items">
+                                                <list>
+                                                    <bean id="instanceUUID" parent="Uif-InputField" p:propertyName="uuid" p:label="Instance UUID">
+                                                        <property name="control">
+                                                            <bean parent="Uif-TextControl"/>
+                                                        </property>
+                                                    </bean>
+                                                    <bean id="loadInstance" parent="Uif-SecondaryActionButton-Small" p:methodToCall="loadInstanceRecord" p:actionLabel="Load"/>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                            <!-- Loading existing record section::: END-->
+                            <!-- Audit Details::: START -->
+                            <bean id="displayHoldingHistoryLink" parent="Uif-ActionLink" p:actionLabel="Display History" p:actionScript="displayHoldingsRecordAuditInfo();"/>
+                            <bean id="DisplayHoldingsHistorySection" parent="Uif-VerticalBoxGroup"  p:hidden="true" p:fieldBindingObjectPath="holdingRecordMetaData">
+                                <property name="items">
+                                    <list>
+                                        <bean id="createdSection" parent="Uif-HorizontalBoxSection">
+                                            <property name="headerText" value="CREATED BY"/>
+                                            <property name="items">
+                                                <list>
+                                                    <bean parent="Uif-DataField" p:propertyName="createdBy"
+                                                          p:readOnlyDisplayReplacementPropertyName="@{holdingRecordMetaData.createdBy} on @{holdingRecordMetaData.dateEntered}"
+                                                          p:render="@{holdingRecordMetaData.createdBy ne null}"/>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                        <bean id="BorderSection" parent="Uif-VerticalBoxSection" p:style="height:0px;border-bottom:solid;"/>
+                                        <bean id="updatedBySection" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="2">
+                                            <property name="headerText" value="Updated By:" />
+                                            <property name="collectionObjectClass"
+                                                      value="org.kuali.ole.describe.bo.InstanceRecordUpdatedDetails" />
+                                            <property name="propertyName" value="updatedDetailsList" />
+                                            <property name="layoutManager.renderSequenceField" value="false" />
+                                            <property name="layoutManager.generateAutoSequence" value="false" />
+                                            <property name="renderAddLine" value="false"/>
+                                            <!--<property name="addLineLabel" value=""/>-->
+                                            <property name="layoutManager.richTable.render" value="true" />
+                                            <property name="items">
+                                                <list>
+                                                    <bean parent="Uif-DataField" p:label="Userid" p:propertyName="lastUpdatedBy"/>
+                                                    <bean parent="Uif-DataField" p:label="Date" p:propertyName="lastUpdated"/>
+                                                </list>
+                                            </property>
+                                            <property name="renderLineActions" value="false"/>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                            <!-- Audit Details::: END -->
+
+                            <!--HOLDINGS Tab sections -->
+                            <ref bean="HoldingsSection"/>
+                            <ref bean="SourceHoldingsSection"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean id="ItemTabs" parent="Uif-Page">
+                    <property name="items">
+                        <list>
+                            <!-- Audit Details::: START -->
+                            <bean id="displayItemHistoryLink" parent="Uif-ActionLink" p:actionLabel="Display History" p:actionScript="displayItemRecordAuditInfo();"/>
+                            <bean id="DisplayItemHistorySection" parent="Uif-VerticalBoxGroup"  p:hidden="true" p:fieldBindingObjectPath="itemRecordMetaData">
+                                <property name="items">
+                                    <list>
+                                        <bean id="itemCreatedSection" parent="Uif-HorizontalBoxSection">
+                                            <property name="headerText" value="CREATED BY"/>
+                                            <property name="items">
+                                                <list>
+                                                    <bean parent="Uif-DataField" p:propertyName="createdBy"
+                                                          p:readOnlyDisplayReplacementPropertyName="@{itemRecordMetaData.createdBy} on @{itemRecordMetaData.dateEntered}"
+                                                          p:render="@{itemRecordMetaData.createdBy ne null}"/>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                        <bean id="itemBorderSection" parent="Uif-VerticalBoxSection" p:style="height:0px;border-bottom:solid;"/>
+                                        <bean id="itemUpdatedBySection" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="2" p:style="width:500px">
+                                            <property name="headerText" value="Updated By:" />
+                                            <property name="collectionObjectClass"
+                                                      value="org.kuali.ole.describe.bo.InstanceRecordUpdatedDetails" />
+                                            <property name="propertyName" value="updatedDetailsList" />
+                                            <property name="layoutManager.renderSequenceField" value="false" />
+                                            <property name="layoutManager.generateAutoSequence" value="false" />
+                                            <property name="renderAddLine" value="false"/>
+                                            <!--<property name="addLineLabel" value=""/>-->
+                                            <property name="layoutManager.richTable.render" value="true" />
+                                            <property name="items">
+                                                <list>
+                                                    <bean parent="Uif-DataField" p:label="Userid" p:propertyName="lastUpdatedBy">
+                                                    </bean>
+                                                    <bean parent="Uif-DataField" p:label="Date" p:propertyName="lastUpdated">
+                                                    </bean>
+                                                </list>
+                                            </property>
+                                            <property name="renderLineActions" value="false"/>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                            <!-- Audit Details::: END -->
+
+                            <!--ITEM tab section -->
+                            <ref bean="ItemsSection"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="footer">
+            <ref bean="InstanceEditor_Footer" />
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>/ole/editor/css/InstanceEditor.css</value>
+                <value>/ole/treeview/css/treeview.css</value>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>/ole/editor/scripts/InstanceEditor.js</value>
+                <value>/ole/treeview/scripts/treeview.js</value>
+            </list>
+        </property>
+        <property name="formClass" value="org.kuali.ole.describe.form.InstanceEditorForm"/>
+    </bean>
+
+    <bean id="MessageSection" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField" p:messageText="@{message}" p:cssClasses="messageClass"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="itemUUID" parent="Uif-DataField" p:propertyName="selectedItem.itemIdentifier"/>
+    <!-- Left Pane::: START (TBD)-->
+    <bean id="LeftPane" parent="Uif-MenuNavigationGroup">
+        <property name="items">
+            <list>
+                <ref bean="NewRecordNavigation"/>
+                <ref bean="ExistingRecordNavigation"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="NewRecordNavigation" parent="Uif-VerticalBoxSection"  p:render="@{existing eq 'false'}">
+        <property name="items">
+            <list>
+                <bean parent="Uif-NavigationActionLink" p:navigateToPageId="HoldingTabs"
+                      p:actionLabel="Holdings"/>
+                <!--<bean parent="Uif-NavigationActionLink" p:navigateToPageId="SourceHoldingTabs"
+                      p:actionLabel="Source Holdings"/>-->
+                <bean parent="Uif-NavigationActionLink" p:navigateToPageId="ItemTabs"
+                      p:actionLabel="Item"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ExistingRecordNavigation" parent="Uif-VerticalBoxSection"  p:render="@{existing eq 'true'}">
+        <property name="items">
+            <list>
+                <ref bean="EmptyBox"/>
+                <ref bean="ExistingRecordTreeNavigation"/>
+                <ref bean="hdnTreeData"/>
+                <ref bean="hdnUUID"/>
+                <ref bean="hdnButton"/>
+                <ref bean="hdnIndex1"/>
+                <ref bean="hdnAddItemButton"/>
+                <ref bean="hdnDeleteInstanceButton"/>
+                <ref bean="hdnDeleteItemButton"/>
+                <ref bean="hdnLoadInstance"/>
+                <ref bean="hdnAddUUID"/>
+                <ref bean="getNewItemData"/>
+                <ref bean="instanceIndex"/>
+                <ref bean="selectedDocType"/>
+                <ref bean="deleteItemId"/>
+                <!--<ref bean="itemLink"/>-->
+            </list>
+        </property>
+    </bean>
+    <bean id="EmptyBox" parent="Uif-HorizontalBoxSection" p:style="height:75px;"/>
+    <bean id="ExistingRecordTreeNavigation" parent="Uif-HorizontalBoxSection" p:cssClasses="treeview"></bean>
+
+    <bean id="hdnTreeData" parent="Uif-InputField" p:propertyName="treeData">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
+    <bean id="deleteItemId" parent="Uif-InputField" p:propertyName="deleteItemId">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
+    <bean id="hdnButton" parent="Uif-PrimaryActionButton"  p:hidden="true" p:methodToCall="updateLeftPane" p:refreshId="ItemTabs"/>
+    <bean id="hdnUUID" parent="Uif-InputField"  p:hidden="true" p:propertyName="hdnUuid"/>
+    <bean id="hdnIndex1" parent="Uif-InputField"  p:hidden="true" p:propertyName="hdnIndex"/>
+    <bean id="instanceIndex" parent="Uif-InputField"  p:hidden="true" p:propertyName="instanceIndex"/>
+    <bean id="selectedDocType" parent="Uif-InputField"  p:hidden="true" p:propertyName="selectedDocType"/>
+
+    <bean id="getNewItemData"  parent="Uif-PrimaryActionButton" p:hidden="true" p:methodToCall="getNewItemData" p:refreshId="ItemTabs"/>
+    <bean id="hdnAddItemButton" parent="Uif-PrimaryActionButton"  p:hidden="true" p:methodToCall="addNewItem" p:refreshId="ItemTabs"/>
+    <bean id="hdnDeleteInstanceButton" parent="Uif-PrimaryActionButton"  p:hidden="true" p:methodToCall="deleteInstance" p:refreshId="ItemTabs"/>
+    <bean id="hdnDeleteItemButton" parent="Uif-SecondaryActionButton"  p:hidden="true" p:methodToCall="deleteItem"/>
+    <bean id="hdnAddUUID" parent="Uif-InputField"  p:hidden="true" p:propertyName="hdnAddItemUUID"/>
+    <bean id="hdnLoadInstance" parent="Uif-PrimaryActionButton" p:hidden="true" p:methodToCall="loadInstanceRecord" p:refreshId="ItemTabs"/>
+    <!-- Left Pane::: END (TBD)-->
+
+
+    <!-- Right Pane::: START -->
+    <bean id="HoldingsSection" parent="Uif-VerticalBoxSection"
+          p:render="@{selectedHolding ne null and selectedHolding.primary eq 'true' or existing eq 'false'}">
+        <property name="items">
+            <list>
+                <ref bean="OleHoldingsTabSection"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OleHoldingsTabSection" parent="Uif-TabSection" p:style="width:800px">
+        <property name="items">
+            <list>
+                <ref bean="OleHoldingsDetails"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ItemsSection" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <ref bean="OleItemsTabsSection"/>
+            </list>
+        </property>
+
+    </bean>
+
+    <bean id="OleItemsTabsSection" parent="Uif-TabSection">
+        <property name="items">
+            <list>
+                <ref bean="OleItemDetails"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="SourceHoldingsSection" parent="Uif-TabSection"
+          p:render="@{selectedSourceHolding ne null and selectedSourceHolding.primary eq 'true'}">
+        <property name="items">
+            <list>
+                <ref bean="OleSourceHoldingsDetails"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Right Pane::: END -->
+
+    <!-- Footer Section -->
+    <bean id="InstanceEditor_Footer" parent="Uif-FooterBase">
+        <property name="items">
+            <list>
+                <!--<bean id="submitInstance" parent="Uif-SecondaryActionButton" p:methodToCall="submit" p:actionLabel="Submit" p:style="float:left;margin-left:30em" p:performClientSideValidation="false"/>-->
+                <!--<bean id="cancelInstance" parent="Uif-SecondaryActionButton" p:methodToCall="cancel" p:actionLabel="Cancel" p:style="float:left;margin-left:0.2em"/>-->
+            </list>
+        </property>
+    </bean>
+
+</beans>

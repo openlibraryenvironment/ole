@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="OLEAccessActivationConfiguration" parent="OLEAccessActivationConfiguration-parentbean"/>
+
+    <bean id="OLEAccessActivationConfiguration-parentbean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.ole.select.bo.OLEAccessActivationConfiguration"/>
+    <!--<property name="titleAttribute" value="orderNo"/>-->
+    <property name="objectLabel" value="Access Activation Configuration"/>
+    <property name="attributes">
+            <list>
+                <ref bean="OLEAccessActivationConfiguration-workflowName"/>
+                <ref bean="OLEAccessActivationConfiguration-approvalType"/>
+                <ref bean="OLEAccessActivationConfiguration-workflowCompletionStatus"/>
+                <ref bean="OLEAccessActivationConfiguration-active"/>
+            </list>
+    </property>
+    </bean>
+
+    <!-- Attribute Definitions-->
+
+    <bean id="OLEAccessActivationConfiguration-workflowName" parent="OLEAccessActivationConfiguration-workflowName-parentBean"/>
+
+    <bean id="OLEAccessActivationConfiguration-workflowName-parentBean" abstract="true" parent="AttributeDefinition">
+
+        <property name="name" value="workflowName"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="WorkFlow Name"/>
+        <property name="shortLabel" value="workflowName"/>
+        <property name="maxLength" value="50"/>
+        <property name="required" value="false"/>
+        <property name="validCharactersConstraint">
+            <bean  parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLEAccessActivationConfiguration-workflowCompletionStatus" parent="OLEAccessActivationConfiguration-workflowCompletionStatus-parentBean"/>
+
+    <bean id="OLEAccessActivationConfiguration-workflowCompletionStatus-parentBean" abstract="true" parent="AttributeDefinition">
+
+        <property name="name" value="workflowCompletionStatus"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Workflow Completion Status"/>
+        <property name="shortLabel" value="Workflow Completion Status"/>
+        <property name="maxLength" value="50"/>
+        <property name="required" value="false"/>
+        <property name="validCharactersConstraint">
+            <bean  parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+
+    <bean id="OLEAccessActivationConfiguration-approvalType" parent="OLEAccessActivationConfiguration-approvalType-parentBean"/>
+
+    <bean id="OLEAccessActivationConfiguration-approvalType-parentBean" abstract="true" parent="AttributeDefinition">
+
+        <property name="name" value="approvalType"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Approval Type"/>
+        <property name="shortLabel" value="approvalType"/>
+        <property name="maxLength" value="50"/>
+        <property name="required" value="false"/>
+        <property name="validCharactersConstraint">
+            <bean  parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLEAccessActivationConfiguration-active" parent="OLEAccessActivationConfiguration-active-parentBean"/>
+
+    <bean id="OLEAccessActivationConfiguration-active-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="active"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="active"/>
+        <property name="maxLength" value="1"/>
+        <property name="summary" value="Active Indicator"/>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+        <property name="label" value="Active Indicator"/>
+        <property name="description" value="This attribute is used to describe whether the associated object is active or inactive."/>
+        <property name="validCharactersConstraint">
+            <bean  parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean  parent="Uif-CheckboxControl"/>
+        </property>
+
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+
+    <bean id="OLEAccessActivationConfiguration-InquiryView" parent="Uif-OLEInquiryView">
+        <property name="headerText" value="Access Activation Configuration"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OLEAccessActivationConfiguration" />
+
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-VerticalBoxSection">
+                    <property name="header.headerText" value="Access Activation Configuration" />
+                    <property name="items">
+                        <list>
+
+                            <bean parent="Uif-GridGroup">
+                                <property name="items">
+                                    <list>
+                                        <bean id="inquiry_workflowName" parent="Uif-InputField" p:propertyName="workflowName" />
+                                        <bean id="inquiry_workflowCompletionStatus" parent="Uif-InputField" p:propertyName="workflowCompletionStatus" />
+                                        <bean id="inquiry_active" parent="Uif-InputField" p:propertyName="active" />
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+
+
+    <bean id="OLEAccessActivationConfiguration-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="Access Activation Configuration Lookup" />
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/BASICS/content/ch02s04.html#_lookupHelp"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OLEAccessActivationConfiguration" />
+        <property name="viewHelperServiceClass" value="org.kuali.ole.select.lookup.OLEAccessActivationConfigurationLookupableImpl"/>
+        <property name="criteriaFields">
+            <list>
+                <bean id="workflowName" parent="Uif-LookupCriteriaInputField" p:propertyName="workflowName" />
+                <bean id="workflowCompletionStatus" parent="Uif-LookupCriteriaInputField" p:propertyName="workflowCompletionStatus" />
+                <bean id="active" parent="Uif-LookupCriteriaInputField" p:propertyName="active" />
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean id="searchResult_workflowName" parent="Uif-DataField" p:propertyName="workflowName" />
+                <bean id="searchResult_workflowCompletionStatus" parent="Uif-DataField" p:propertyName="workflowCompletionStatus" />
+                <bean id="searchResult-active" parent="Uif-DataField" p:propertyName="active" />
+            </list>
+        </property>
+    </bean>
+
+
+
+
+
+</beans>

@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="WorkBibEditorView" parent="WorkBibEditorView-parentBean"/>
+
+    <bean id="WorkBibEditorView-parentBean" parent="Uif-OLEFormView">
+        <property name="headerText" value="Marc Editor"/>
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/CG/content/ch01s02.html"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="WorkBibEditorViewPage" parent="Uif-Page" p:readOnly="@{editable eq 'false'}">
+                    <property name="headerText" value="@{headerText}"/>
+                    <property name="help">
+                        <bean parent="Uif-Help">
+                            <property name="externalHelpUrl"
+                                      value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/CG/content/ch01s02.html"/>
+                            <property name="tooltipHelpContent" value="[Help] help"/>
+                        </bean>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-SecondaryActionButton" p:actionLabel="Edit" p:actionScript="edit()"
+                                  p:render="@{canAdd and editable eq 'false'}" />
+                            <ref bean="StaffOnly"/>
+                            <ref bean="WorkBibMessageSection"/>
+                            <ref bean="StatusUpdatedFieldSection"/>
+                            <ref bean="Leader_Section"/>
+                            <ref bean="Control_Field"/>
+                            <ref bean="WorkBibDataFieldSection"/>
+                            <ref bean="WorkBibButtonSection"/>
+                            <ref bean="hdnCheckOverwriteFlag"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="formClass" value="org.kuali.ole.describe.form.EditorForm"/>
+    </bean>
+
+    <bean id="WorkBibMessageSection" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="workMessageSection" parent="Uif-Message" p:messageText="@{documentForm.message}"
+                      p:cssClasses="messageClass"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="StaffOnly" parent="Base-Uif-InputField" p:propertyName="staffOnlyFlagForBib" p:label="Staff Only"
+          p:required="false">
+        <property name="control">
+            <bean parent="Uif-CheckboxControl"/>
+        </property>
+    </bean>
+
+    <bean id="StatusFieldSection" parent="Base-Uif-InputField"
+          p:propertyName="oleBibliographicRecordStatus.bibliographicRecordStatusCode"
+          p:label="Bibliographic Record Status" p:required="false" p:componentSecurity.editAuthz="true">
+        <property name="control">
+            <bean id="bibStatus" parent="Uif-DropdownControl"/>
+        </property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.ole.describe.keyvalue.BibliographicRecordStatus" p:blankOption="true"/>
+        </property>
+    </bean>
+
+    <bean id="StatusUpdatedFieldSection" parent="Uif-HorizontalFieldGroup">
+        <property name="items">
+            <list>
+                <ref bean="StatusFieldSection"/>
+                <ref bean="CreatedFieldSec"/>
+                <ref bean="UpdatedFieldSec"/>
+                <bean id="statusUpdatedBy" parent="Base-Uif-InputField" p:readOnly="true" p:propertyName="statusUpdatedBy"
+                      p:label="Status Updated By "/>
+                <bean id="statusUpdatedDate " parent="Base-Uif-InputField" p:readOnly="true" p:propertyName="statusUpdatedOn"
+                      p:label="On"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CreatedFieldSec" parent="Uif-HorizontalFieldGroup">
+        <property name="items">
+            <list>
+                <bean id="createdBy" parent="Uif-DataField" p:readOnly="true" p:propertyName="createdBy"
+                      p:label="Created By "/>
+                <bean id="createdDate" parent="Uif-DataField" p:readOnly="true" p:propertyName="createdDate"
+                      p:label="On"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="UpdatedFieldSec" parent="Uif-HorizontalFieldGroup">
+        <property name="items">
+            <list>
+                <bean id="updatedBy" parent="Uif-DataField" p:readOnly="true" p:propertyName="updatedBy"
+                      p:label="Updated By "/>
+                <bean id="updatedDate" parent="Uif-DataField" p:readOnly="true" p:propertyName="updatedDate"
+                      p:label="On"  p:additionalHiddenPropertyNames="allowUpdate"/>
+            </list>
+        </property>
+    </bean>
+    <!--Leader Section -->
+    <bean id="Leader_Section" parent="Uif-VerticalFieldGroup" >
+        <property name="items">
+            <list>
+                <ref bean="LeaderStructureFields"/>
+                <bean id="LeaderTextInputField" parent="Base-Uif-InputField" p:label="Leader"
+                      p:propertyName="documentForm.leader"
+                      p:defaultValue="#####nam#a22######a#4500">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="35">
+                        </bean>
+                    </property>
+                    <property name="fieldLabel.style" value="color:black"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <!--Data Field Section -->
+    <bean id="WorkBibDataFieldSection" parent="Uif-Disclosure-TableCollectionSection"
+          p:layoutManager.numberOfColumns="5">
+        <property name="collectionObjectClass" value="org.kuali.ole.describe.bo.MarcEditorDataField"/>
+        <property name="propertyName" value="documentForm.dataFields"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="headerText" value="Data Fields"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean id="dataField_tag_id" parent="Base-Uif-InputField" p:propertyName="tag"
+                                  p:render="@{editable eq 'true'}">
+                                <property name="control">
+                                    <bean id="dataField_tag_len_id" parent="Uif-TextControl" p:size="3"
+                                          p:maxLength="3"/>
+                                </property>
+                            </bean>
+                            <bean id="dataField_ind1_id" parent="Base-Uif-InputField" p:propertyName="ind1"
+                                  p:render="@{editable eq 'true'}">
+                                <property name="control">
+                                    <bean id="dataField_ind2_len_id" parent="Uif-TextControl" p:size="1"
+                                          p:maxLength="1"/>
+                                </property>
+                            </bean>
+                            <bean id="dataField_ind2_id" parent="Base-Uif-InputField" p:propertyName="ind2"
+                                  p:render="@{editable eq 'true'}">
+                                <property name="control">
+                                    <bean id="dataField_ind2_len_id" parent="Uif-TextControl" p:size="1"
+                                          p:maxLength="1"/>
+                                </property>
+                            </bean>
+                            <bean id="dataField_value_id" parent="Base-Uif-InputField" p:propertyName="value"
+                                  p:render="@{editable eq 'true'}">
+                                <property name="control">
+                                    <bean id="dataField_value_len_id" parent="Uif-TextAreaControl"
+                                          p:maxLength="9950" p:rows="1" p:cols="80"/>
+                                </property>
+                            </bean>
+                            <bean id="bibClickableLink" parent="Uif-ActionLink" p:actionScript="bibClickableLink_edit('@{#index}');" p:actionLabel="Test Link" p:render="@{editable eq 'true'}"/>
+
+                            <bean id="dataField_tag_id_readOnly" parent="Uif-DataField" p:propertyName="tag"
+                                  p:render="@{editable eq 'false'}"/>
+                            <bean id="dataField_ind1_id_readOnly" parent="Uif-DataField" p:propertyName="ind1"
+                                  p:render="@{editable eq 'false'}"/>
+                            <bean id="dataField_ind2_id_readOnly" parent="Uif-DataField" p:propertyName="ind2"
+                                  p:render="@{editable eq 'false'}"/>
+                            <bean id="dataField_value_id_readOnly" parent="Uif-DataField" p:propertyName="value"
+                                  p:render="@{editable eq 'false'}"/>
+                            <!--<bean id="bibClickableLink_readOnly" parent="Uif-ActionLink" p:actionScript="bibClickableLink_view('@{#index}');" p:actionLabel="Test Link" p:render="@{editable eq 'false'}"/>-->
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="dataField_addTagButton_id" parent="Uif-SecondaryActionButton-Small"
+                      p:methodToCall="addDataField" p:actionLabel="Add" p:style="Margin-top:0.4em;"
+                      p:ajaxSubmit="true" p:successCallback="commonWidthForField(), bibAddOrRemove()" p:render="@{editable eq 'true'}"/>
+                <bean id="dataField_removeTagButton_id" parent="Uif-SecondaryActionButton-Small"
+                      p:methodToCall="removeDataField" p:actionLabel="Remove" p:style="Margin-top:0.4em;"
+                      p:ajaxSubmit="true" p:successCallback="commonWidthForField(), bibAddOrRemove()" p:render="@{editable eq 'true'}"/>
+            </list>
+        </property>
+        <property name="layoutManager.actionFieldPrototype.group.layoutManager">
+            <bean id="layoutManager" parent="Uif-HorizontalBoxLayout"/>
+        </property>
+        <property name="layoutManager.actionFieldPrototype.label" value=""/>
+    </bean>
+    <bean id="hdnCheckOverwriteFlag" parent="Uif-InputField" p:hidden="true" p:propertyName="checkOverwriteFlag"  />
+
+    <bean id="WorkBibButtonSection" parent="Uif-HorizontalFieldGroup" p:render="@{showEditorFooter eq false}">
+        <property name="items">
+            <list>
+                <bean id="bibSave" parent="Uif-SecondaryActionButton" p:methodToCall="save" p:actionLabel="Save"
+                      p:style="float:left;margin-left:30em" p:render="@{needToCreateInstance eq false}"/>
+                <bean id="continueBibProcess" parent="Uif-SecondaryActionButton" p:methodToCall="EditNewInstance"
+                      p:actionLabel="Continue Process"
+                      p:style="float:left;margin-left:30em" p:performClientSideValidation="false"
+                      p:render="@{needToCreateInstance eq true}"/>
+                <!--<bean id="cancelInstance" parent="Uif-SecondaryActionButton" p:methodToCall="cancel" p:actionLabel="Cancel" p:style="float:left;margin-left:0.2em"/>-->
+            </list>
+        </property>
+    </bean>
+    <bean id="Base-Uif-InputField" parent="Uif-InputField">
+        <property name="quickfinder">
+            <null/>
+        </property>
+    </bean>
+
+</beans>

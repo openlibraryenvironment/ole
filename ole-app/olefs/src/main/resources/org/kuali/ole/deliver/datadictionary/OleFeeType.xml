@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <!--
+    
+        Copyright 2005-2012 The Kuali Foundation
+    
+        Licensed under the Educational Community License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at
+    
+        http://www.opensource.org/licenses/ecl2.php
+    
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+    
+    -->
+    <bean id="OleFeeType" parent="OleFeeType-parentBean"/>
+
+    <bean id="OleFeeType-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.deliver.bo.OleFeeType"/>
+        <property name="titleAttribute" value="feeTypeCode"/>
+        <property name="objectLabel" value="Manual Patron Bill Fee Type"/>
+
+        <property name="attributes">
+            <list>
+                <ref bean="OleFeeType-feeTypeId"/>
+                <ref bean="OleFeeType-feeTypeCode"/>
+                <ref bean="OleFeeType-feeTypeName"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+
+    <bean id="OleFeeType-feeTypeId" parent="OleFeeType-feeTypeId-parentBean"/>
+
+    <bean id="OleFeeType-feeTypeId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Fee TypeId"/>
+        <property name="maxLength" value="10"/>
+        <property name="control">
+            <bean id="TextControlDefinition_feeTypeId" parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean id="Uif-TextControl_feeTypeId" parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="feeTypeId"/>
+        <property name="label" value="Fee Type Id"/>
+        <property name="description" value="Fee Type Id"/>
+    </bean>
+
+
+
+    <bean id="OleFeeType-feeTypeCode" parent="OleFeeType-feeTypeCode-parentBean"/>
+
+    <bean id="OleFeeType-feeTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Fee Type Code"/>
+        <property name="maxLength" value="40"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean id="TextControlDefinition_feeTypeCode" parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean id="Uif-TextControl_feeTypeCode" parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="feeTypeCode"/>
+        <property name="label" value="Fee Type Code"/>
+        <property name="description" value="Fee Type Code"/>
+    </bean>
+
+
+    <bean id="OleFeeType-feeTypeName" parent="OleFeeType-feeTypeName-parentBean"/>
+
+    <bean id="OleFeeType-feeTypeName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Fee Type Name"/>
+        <property name="maxLength" value="100"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean id="TextControlDefinition_feeTypeName" parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean id="Uif-TextControl_feeTypeName" parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="feeTypeName"/>
+        <property name="label" value="Fee Type Name"/>
+        <property name="description" value="Fee Type Name"/>
+    </bean>
+
+
+    <!-- Business Object Inquiry Definition -->
+    <bean id="OleFeeType-InquiryView" parent="Uif-OLEInquiryView">
+        <property name="headerText" value="Fee Type Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.deliver.bo.OleFeeType" />
+        <property name="singlePageView" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-VerticalBoxSection">
+                    <property name="header.headerText" value="Fee Type" />
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-GridGroup">
+                                <property name="layoutManager.numberOfColumns" value="2" />
+                                <property name="items">
+                                    <list>
+                                        <bean id="inquiry_feeTypeCode" parent="Uif-InputField" p:propertyName="feeTypeCode" p:enableAutoDirectInquiry="false"/>
+                                        <bean id="inquiry_feeTypeName" parent="Uif-InputField" p:propertyName="feeTypeName"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+
+
+    <bean id="OleFeeType-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="Fee Type Lookup" />
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/BASICS/content/ch02s04.html#_lookupHelp"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="dataObjectClassName" value="org.kuali.ole.deliver.bo.OleFeeType" />
+        <property name="viewHelperServiceClass" value="org.kuali.ole.deliver.lookup.OleFeeTypeLookupableImpl"/>
+        <property name="criteriaFields">
+            <list>
+                <bean id="feeTypeCode" parent="Uif-LookupCriteriaInputField" p:propertyName="feeTypeCode" p:enableAutoDirectInquiry="false"/>
+                <bean id="feeTypeName" parent="Uif-LookupCriteriaInputField" p:propertyName="feeTypeName" />
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean id="searchResult_feeTypeCode" parent="Uif-DataField" p:propertyName="feeTypeCode" />
+                <bean id="searchResult_feeTypeName" parent="Uif-DataField" p:propertyName="feeTypeName" />
+            </list>
+        </property>
+    </bean>
+
+</beans>

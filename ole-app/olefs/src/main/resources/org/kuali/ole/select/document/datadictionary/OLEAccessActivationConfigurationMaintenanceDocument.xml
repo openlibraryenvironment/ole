@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="OLEAccessActivationConfigurationMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+        <property name="workflowPropertyGroups">
+            <list>
+                <bean parent="WorkflowPropertyGroup">
+                    <property name="workflowProperties">
+                        <list>
+                            <bean parent="WorkflowProperty" p:path="oldMaintainableObject.businessObject"/>
+                            <bean parent="WorkflowProperty" p:path="newMaintainableObject.businessObject"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="OLEAccessActivationConfigurationMaintenanceDocument-MaintenanceView" parent="Uif-OLEMaintenanceView">
+        <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OLEAccessActivationConfiguration"/>
+        <property name="headerText" value="Alert Activation Workflow Configuration"/>
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="${ole.externalizable.help.url}/reference/webhelp/AG/content/ch19s01.html"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>ole/alert/scripts/accessActivation.js</value>
+
+            </list>
+        </property>
+        <property name="items">
+            <list merge="true">
+                <bean parent="Uif-MaintenanceGridSection">
+                    <property name="headerText" value="Add/Edit Access Activation Workflow COnfiguration"/>
+                    <property name="items">
+                        <list>
+                            <bean id="create_workflowName" parent="Uif-InputField" p:propertyName="workflowName" p:required="true"/>
+                            <bean id="create_workflowCompletionStatus" parent="Uif-InputField" p:propertyName="workflowCompletionStatus" p:required="true"/>
+<!--
+                            <bean id="create_approvalType" parent="Uif-InputField" p:propertyName="approvalType">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="All" p:value="All"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="First" p:value="First"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+-->
+                            <bean id="create_activeIndicator" parent="Uif-InputField" p:propertyName="active" p:defaultValue="true"/>
+                        </list>
+                    </property>
+                </bean>
+                <ref bean="OLEAccessActivationConfigurationMaintenanceDocument-AccessActivationWorkflow" />
+            </list>
+
+        </property>
+    </bean>
+
+
+
+
+    <bean id="OLEAccessActivationConfigurationMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
+        <property name="dataObjectClass" value="org.kuali.ole.select.bo.OLEAccessActivationConfiguration"/>
+        <property name="documentTypeName" value="OLE_ACC_ACTV_CONFG_MD"/>
+        <property name="documentAuthorizerClass"
+                  value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+        <property name="businessRulesClass" value="org.kuali.ole.select.rule.OLEAccessActivationConfigurationRule"/>
+        <property name="lockingKeys">
+            <list>
+                <value>accessActivationConfigurationId</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEAccessActivationConfigurationMaintenanceDocument-AccessActivationWorkflow" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="2" p:disclosure.defaultOpen="true">
+        <property name="headerText" value="Access Activation WorkFlow" />
+        <property name="collectionObjectClass" value="org.kuali.ole.select.bo.OLEAccessActivationWorkFlow" />
+        <property name="propertyName" value="accessActivationWorkflowList" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="items">
+             <list>
+                 <bean id="create_orderNo" parent="Uif-InputField" p:propertyName="orderNo" p:enableAutoDirectInquiry="false" p:required="true"/>
+                 <bean id="create_status" parent="Uif-InputField" p:propertyName="status" p:required="true"/>
+                 <ref bean="selectRequest-MaintenanceViews-roleName"/>
+             </list>
+        </property>
+        <property name="addLineActions">
+            <list>
+                <bean id="accessActivationconfig_add" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addWorkflow" p:actionLabel="Add" p:title="Add Access Activation" p:ajaxSubmit="true"/>
+            </list>
+        </property>
+        <!--<property name="lineActions">
+            <list>
+                <bean id="bibMatchPoint_delete" parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteBibMatch" p:actionLabel="Delete"  />
+            </list>
+        </property>-->
+
+
+    </bean>
+    <bean id="selectRequest-MaintenanceViews-roleName" parent="Uif-InputField"
+          p:propertyName="roleName" p:label="Role Name" p:required="true"
+          p:enableAutoDirectInquiry="false" >
+        <property name="quickfinder">
+            <bean parent="Uif-QuickFinder"
+                  p:dataObjectClassName="org.kuali.ole.select.bo.OLERoleBo"
+                  p:fieldConversions="name:roleName,id:roleId"
+                  p:lookupParameters="roleName:name,roleId:id"/>
+        </property>
+
+    </bean>
+
+
+
+</beans>

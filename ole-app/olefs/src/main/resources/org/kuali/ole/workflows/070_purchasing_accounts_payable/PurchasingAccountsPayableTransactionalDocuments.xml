@@ -1,0 +1,2511 @@
+<data xmlns="ns:workflow" xsi:schemaLocation="ns:workflow resource:WorkflowData" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <ruleAttributes xmlns="ns:workflow/RuleAttribute"
+                    xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+        <ruleAttribute>
+            <name>OLEPurapDocumentSearchCustomizer</name>
+            <label>OLE Purchasing Document Search Customizer</label>
+            <className>{OLE}OLEPurapDocumentSearchCustomizer</className>
+            <type>DocumentSearchCustomizer</type>
+            <applicationId>OLE</applicationId>
+        </ruleAttribute>
+        <ruleAttribute>
+            <name>OLEPurapSearchableAttribute</name>
+            <className>{OLE}OLESearchableAttribute</className>
+            <label>OLE Purchasing Searchable Attribute</label>
+            <description>OLE Purchasing Searchable Attribute</description>
+            <type>SearchableAttribute</type>
+            <applicationId>OLE</applicationId>
+        </ruleAttribute>
+        <ruleAttribute>
+            <name>OLENoFyiActionListAttribute</name>
+            <className>{OLE}OLEPurchaseOrderActionListAttribute</className>
+            <label>No FYI</label>
+            <description>No FYI Action List Attribute</description>
+            <type>ActionListAttribute</type>
+            <applicationId>OLE</applicationId>
+        </ruleAttribute>
+    </ruleAttributes>
+
+    <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+        <documentType>
+            <name>OLE_AP</name>
+            <parent>OLEPurchasingAccountsPayableTransactionalDocument</parent>
+            <label>
+                AccountsPayableTransactionalDocument
+            </label>
+            <active>
+                true
+            </active>
+            <routingVersion>
+                2
+            </routingVersion>
+        </documentType>
+
+
+
+        <documentType>
+            <name>
+                OLE_PUR
+            </name>
+            <parent>
+                OLEPurchasingAccountsPayableTransactionalDocument
+            </parent>
+            <label>
+                PurchasingTransactionalDocument
+            </label>
+            <attributes>
+                <attribute>
+                    <name>OLEPurapSearchableAttribute</name>
+                </attribute>
+                <attribute>
+                    <name>OLEPurapDocumentSearchCustomizer</name>
+                </attribute>
+            </attributes>
+            <active>
+                true
+            </active>
+            <routingVersion>
+                2
+            </routingVersion>
+        </documentType>
+
+        <documentType>
+            <name>OLE_RCV</name>
+            <parent>OLEPurchasingAccountsPayableTransactionalDocument</parent>
+            <label>
+                ReceivingTransactionalDocument
+            </label>
+            <docSearchHelpURL>
+                ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch05s01.html
+            </docSearchHelpURL>
+            <active>
+                true
+            </active>
+            <routingVersion>
+                2
+            </routingVersion>
+        </documentType>
+
+
+        <documentType>
+            <name>OLE_ACM</name>
+            <parent>OLE_PUR</parent>
+            <label>
+                Contract Manager Assignment
+            </label>
+            <docHandler>
+                ${ole.url}/purapContractManagerAssignment.do?methodToCall=docHandler
+            </docHandler>
+            <helpDefinitionURL>
+                default.htm?turl=WordDocuments%2Fcontractmanagerassignment.htm
+            </helpDefinitionURL>
+            <active>
+                true
+            </active>
+            <routingVersion>
+                2
+            </routingVersion>
+            <routePaths>
+                <routePath>
+                    <start name="AdHoc"/>
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="AdHoc"/>
+            </routeNodes>
+        </documentType>
+        <!--
+            <documentType>
+              <name>OLE_REQS</name>
+              <parent>OLE_PUR</parent>
+              <label>
+                Requisition
+              </label>
+              <docHandler>
+                ${ole.url}/purapRequisition.do?methodToCall=docHandler
+              </docHandler>
+              <helpDefinitionURL>
+                default.htm?turl=WordDocuments%2Frequisition.htm
+              </helpDefinitionURL>
+              <docSearchHelpURL>
+                ${ole.externalizable.help.url}/default.htm?turl=WordDocuments%2Frequisitions.htm
+              </docSearchHelpURL>
+              <active>
+                true
+              </active>
+              <routingVersion>
+                2
+              </routingVersion>
+              <validApplicationStatuses>
+                        <status>Awaiting Content Approval</status>
+                        <status>Disapproved Content</status>
+                        <status>Awaiting Accounting Lines</status>
+                        <status>Disapproved Accounting Lines</status>
+                        <status>Awaiting Sub Account</status>
+                        <status>Disapproved Sub Account</status>
+                        <status>Awaiting Fiscal Officer</status>
+                        <status>Disapproved Fiscal</status>
+                        <status>Awaiting Base Org Review</status>
+                        <status>Disapproved Base Org Review</status>
+                        <status>Awaiting Commodity Code</status>
+                        <status>Disapproved Commodity Code</status>
+                        <status>Awaiting Separation of Duties</status>
+                        <status>Disapproved Separation of Duties</status>
+                        <status>Awaiting Contract Manager Assignment</status>
+                        <status>Closed</status>
+                        <status>Cancelled</status>
+                        <status>In Process</status>
+             </validApplicationStatuses>
+              <policies>
+                <policy>
+                      <name>DOCUMENT_STATUS_POLICY</name>
+                      <stringValue>app</stringValue>
+                </policy>
+              </policies>
+              <routePaths>
+                <routePath>
+                  <start name="AdHoc" nextNode="Organization" nextAppDocStatus = "Awaiting Content Approval"/>
+                  <role name="Organization" nextNode="HasAccountingLines" nextAppDocStatus = "Awaiting Accounting Lines"/>
+                  <split name="HasAccountingLines" nextNode="SubAccount">
+                    <branch name="True">
+                      <simple name="NoOpHasAccountingLines" nextNode="JoinHasAccountingLines" nextAppDocStatus = "Awaiting Sub Account" />
+                    </branch>
+                    <branch name="False">
+                      <role name="Initiator" nextNode="JoinHasAccountingLines" nextAppDocStatus = "Awaiting Sub Account" />
+                    </branch>
+                    <join name="JoinHasAccountingLines" />
+                  </split>
+                  <role name="SubAccount" nextNode="Account"    nextAppDocStatus = "Awaiting Fiscal Officer"/>
+                  <role name="Account" nextNode="AccountingOrganizationHierarchy" nextAppDocStatus="Awaiting Base Org Review" />
+                  <role name="AccountingOrganizationHierarchy" nextNode="Commodity" nextAppDocStatus="Awaiting Commodity Code"/>
+                  <role name="Commodity" nextNode="AmountRequiresSeparationOfDutiesReview" nextAppDocStatus ="Awaiting Separation of Duties"/>
+                  <split name="AmountRequiresSeparationOfDutiesReview">
+                    <branch name="True">
+                      <role name="SeparationOfDuties" nextNode="Join"/>
+                    </branch>
+                    <branch name="False">
+                      <simple name="NoOp" nextNode="Join"/>
+                    </branch>
+                    <join name="Join"/>
+                  </split>
+                </routePath>
+              </routePaths>
+              <routeNodes>
+                <start name="AdHoc"/>
+                <role name="Organization">
+                  <qualifierResolverClass>
+                    org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                  </qualifierResolverClass>
+                  <activationType>P</activationType>
+                </role>
+                <split name="HasAccountingLines">
+                  <type>
+                    org.kuali.ole.sys.document.workflow.SimpleBooleanSplitNode
+                  </type>
+                </split>
+                <simple name="NoOpHasAccountingLines">
+                  <type>
+                    org.kuali.rice.kew.engine.node.NoOpNode
+                  </type>
+                </simple>
+                <join name="JoinHasAccountingLines"/>
+                <role name="Initiator">
+                  <qualifierResolverClass>
+                    org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                  </qualifierResolverClass>
+                  <activationType>P</activationType>
+                </role>
+                <role name="SubAccount">
+                  <qualifierResolverClass>
+                    org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                  </qualifierResolverClass>
+                  <activationType>P</activationType>
+                </role>
+                <role name="Account">
+                  <qualifierResolverClass>
+                    org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                  </qualifierResolverClass>
+                  <activationType>P</activationType>
+                  <mandatoryRoute>
+                    true
+                  </mandatoryRoute>
+                </role>
+                <role name="AccountingOrganizationHierarchy">
+                  <qualifierResolverClass>
+                    org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                  </qualifierResolverClass>
+                  <activationType>P</activationType>
+                </role>
+                <role name="Commodity">
+                  <qualifierResolverClass>
+                    org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                  </qualifierResolverClass>
+                  <activationType>P</activationType>
+                </role>
+                <split name="AmountRequiresSeparationOfDutiesReview">
+                  <type>
+                    org.kuali.ole.sys.document.workflow.SimpleBooleanSplitNode
+                  </type>
+                </split>
+                <role name="SeparationOfDuties">
+                  <qualifierResolverClass>
+                    org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                  </qualifierResolverClass>
+                  <activationType>P</activationType>
+                </role>
+                <join name="Join"/>
+                <simple name="NoOp">
+                  <type>
+                    org.kuali.rice.kew.engine.node.NoOpNode
+                  </type>
+                </simple>
+              </routeNodes>
+            </documentType>
+        -->
+        <documentType>
+            <name>OLE_REQS</name>
+            <parent>OLE_PUR</parent>
+            <label>
+                Requisition
+            </label>
+            <docHandler>
+                ${ole.url}/purapRequisition.do?methodToCall=docHandler
+            </docHandler>
+            <helpDefinitionURL>
+                ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch03s02.html
+            </helpDefinitionURL>
+            <docSearchHelpURL>
+                ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch03s01.html
+            </docSearchHelpURL>
+            <active>
+                true
+            </active>
+            <routingVersion>
+                2
+            </routingVersion>
+            <validApplicationStatuses>
+                <status>Awaiting Content Approval</status>
+                <status>Disapproved Content</status>
+                <status>Awaiting Accounting Lines</status>
+                <status>Disapproved Accounting Lines</status>
+                <status>Awaiting Sub Account</status>
+                <status>Disapproved Sub Account</status>
+                <status>Awaiting Budget Approval</status>
+                <status>Awaiting Fiscal Officer</status>
+                <status>Disapproved Fiscal</status>
+                <status>Awaiting Base Org Review</status>
+                <status>Disapproved Base Org Review</status>
+                <status>Awaiting Commodity Code</status>
+                <status>Disapproved Commodity Code</status>
+                <status>Awaiting Separation of Duties</status>
+                <status>Disapproved Separation of Duties</status>
+                <status>Awaiting Contract Manager Assignment</status>
+                <!--<status>Awaiting License Review</status>-->
+                <status>Disapproved License</status>
+                <status>Closed</status>
+                <status>Cancelled</status>
+                <status>In Process</status>
+                <status>Disapproved Budget</status>
+                <status>Disapproved No Vendor</status>
+            </validApplicationStatuses>
+            <policies>
+                <policy>
+                    <name>DOCUMENT_STATUS_POLICY</name>
+                    <stringValue>app</stringValue>
+                </policy>
+            </policies>
+            <routePaths>
+                <routePath>
+                    <start name="AdHoc" nextNode="RequiresBudgetReview"  nextAppDocStatus="Awaiting Budget Approval"/>
+                    <!--nextAppDocStatus="Awaiting License Review"/>
+               <split name="HasLicenseRequest" nextNode="RequiresBudgetReview" nextAppDocStatus="Awaiting Budget Approval">
+                   <branch name="True">
+                       <split name="HasFirmFixedWithLicenseRequest" >
+                          <branch name="True">
+                               <simple name="HavingFirmFixedWithLR" nextNode="JoinFirmFixedWithLicenseRequest"/>
+                          </branch>
+                          <branch name="False">
+                               <role name="LicenseRequest" nextNode="JoinLicenseRequest" />
+                        </branch>
+                          <join name="JoinFirmFixedWithLicenseRequest"/>
+                       </split>
+
+
+                       &lt;!&ndash; role name="LicenseRequest" /&ndash;&gt;
+                   </branch>
+                   <branch name="False">
+                   <simple name="NoLicenseRequest" nextNode="JoinLicenseRequest"/>
+                  </branch>
+                       <join name="JoinLicenseRequest"/>
+                   </split>-->
+
+                    <!-- Added for Req SFC start -->
+                    <split name="RequiresBudgetReview" nextNode="NotifyBudgetReview">
+                        <branch name="True">
+                            <role name="Budget" nextNode="JoinRequiredBudgetReview" />
+                        </branch>
+                        <branch name="False">
+                            <simple name="NoOpRequiresBudgetReview" nextNode="JoinRequiredBudgetReview" />
+                        </branch>
+                        <join name="JoinRequiredBudgetReview" />
+                    </split>
+                    <!-- End -->
+
+                    <!-- Added for FYI start -->
+                    <split name="NotifyBudgetReview" nextNode="HasVendor">
+                        <branch name="True">
+                            <role name="FYIBudget" nextNode="JoinRequiredFYIBudgetReview" />
+                        </branch>
+                        <branch name="False">
+                            <simple name="NoOpRequiresFYIBudgetReview" nextNode="JoinRequiredFYIBudgetReview" />
+                        </branch>
+                        <join name="JoinRequiredFYIBudgetReview" />
+                    </split>
+                    <!-- End -->
+
+                    <split name="HasVendor" nextNode="HasFirmFixedYBPOrders">
+                        <branch name="True">
+                            <simple name="HavingVendor" nextNode="JoinHasVendor"/>
+                        </branch>
+                        <branch name="False">
+                            <simple name="NoVendor" nextNode="JoinHasVendor"/>
+                        </branch>
+                        <join name="JoinHasVendor"/>
+                    </split>
+
+                    <split name="HasFirmFixedYBPOrders">
+                        <branch name="True">
+                            <simple name="FirmFixedYBPOrders" nextNode="JoinFirmFixedYBPOrders"/>
+                        </branch>
+                        <branch name="False">
+
+                            <split name="HasStandingOrders" nextNode="Organization">
+                                <branch name="True">
+                                    <simple name="StandingOrders" nextNode="JoinStandingOrders"/>
+                                </branch>
+                                <branch name="False">
+
+                                    <split name="HasSubscriptionOrders" nextNode="JoinStandingOrders">
+                                        <branch name="True">
+                                            <simple name="SubscriptionOrders" nextNode="JoinSubscriptionOrders"/>
+                                        </branch>
+                                        <branch name="False">
+
+
+                                            <split name ="HasApprovalOrders" nextNode="JoinSubscriptionOrders">
+                                                <branch name="True">
+                                                    <simple name="ApprovalOrders" nextNode="JoinApprovalOrders"/>
+                                                </branch>
+                                                <branch name="False">
+                                                    <simple name="NoApprovalOrders" nextNode="JoinApprovalOrders"/>
+                                                </branch>
+                                                <join name="JoinApprovalOrders" />
+                                            </split>
+                                        </branch>
+                                        <join name="JoinSubscriptionOrders" />
+                                    </split>
+
+
+                                </branch>
+                                <join name="JoinStandingOrders" />
+
+                            </split>
+                            <role name="Organization" nextNode="HasAccountingLines"/>
+                            <split name="HasAccountingLines" nextNode="SubAccount">
+                                <branch name="True">
+                                    <simple name="NoOpHasAccountingLines" nextNode="JoinHasAccountingLines"   nextAppDocStatus = "Awaiting Sub Account"/>
+                                </branch>
+                                <branch name="False">
+                                    <role name="Initiator" nextNode="JoinHasAccountingLines" nextAppDocStatus = "Awaiting Sub Account"/>
+                                </branch>
+                                <join name="JoinHasAccountingLines"/>
+                            </split>
+
+
+                            <role name="SubAccount" nextNode="Account"    nextAppDocStatus = "Awaiting Fiscal Officer"/>
+                            <role name="Account" nextNode="AccountingOrganizationHierarchy" nextAppDocStatus="Awaiting Base Org Review" />
+                            <role name="AccountingOrganizationHierarchy" nextNode="Commodity" nextAppDocStatus="Awaiting Commodity Code"/>
+                            <role name="Commodity" nextNode="AmountRequiresSeparationOfDutiesReview" nextAppDocStatus ="Awaiting Separation of Duties"/>
+
+                            <split name="AmountRequiresSeparationOfDutiesReview">
+                                <branch name="True">
+                                    <role name="SeparationOfDuties" nextNode="JoinRequiresSeparationOfDutiesReview"/>
+                                </branch>
+                                <branch name="False">
+                                    <simple name="NoOp" nextNode="JoinRequiresSeparationOfDutiesReview"/>
+                                </branch>
+                                <join name="JoinRequiresSeparationOfDutiesReview"/>
+                            </split>
+
+                        </branch>
+                        <join name="JoinFirmFixedYBPOrders"/>
+                    </split>
+                </routePath>
+            </routePaths>
+
+
+
+
+            <routeNodes>
+                <start name="AdHoc"/>
+                <split name="HasFirmFixedYBPOrders">
+                    <type>org.kuali.ole.sys.document.workflow.SimpleBooleanSplitNode</type>
+                </split>
+                <simple name="FirmFixedYBPOrders">
+                    <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+                </simple>
+                <split name="HasStandingOrders">
+                    <type>org.kuali.ole.sys.document.workflow.SimpleBooleanSplitNode</type>
+                </split>
+                <simple name="StandingOrders">
+                    <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+                </simple>
+                <split name="HasSubscriptionOrders">
+                    <type>org.kuali.ole.sys.document.workflow.SimpleBooleanSplitNode</type>
+                </split>
+                <simple name="SubscriptionOrders">
+                    <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+                </simple>
+                <split name="HasApprovalOrders">
+                    <type>org.kuali.ole.sys.document.workflow.SimpleBooleanSplitNode</type>
+                </split>
+                <simple name="ApprovalOrders">
+                    <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+                </simple>
+                <simple name="NoApprovalOrders">
+                    <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+                </simple>
+
+                <join name="JoinHasVendor"/>
+                <join name="JoinFirmFixedYBPOrders"/>
+                <join name="JoinStandingOrders"/>
+                <join name="JoinSubscriptionOrders"/>
+                <join name="JoinApprovalOrders"/>
+                <!--<split name="HasLicenseRequest">
+                 <type>org.kuali.ole.sys.document.workflow.SimpleBooleanSplitNode</type>
+               </split>
+               <role name="LicenseRequest">
+                 <qualifierResolverClass>
+                   org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                 </qualifierResolverClass>
+               </role>
+               <simple name="NoLicenseRequest">
+                 <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+               </simple>-->
+                <!-- Added for Req SFC Start -->
+                <split name="RequiresBudgetReview">
+                    <type>
+                        org.kuali.ole.sys.document.workflow.SimpleBooleanSplitNode
+                    </type>
+                </split>
+                <role name="Budget">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>
+                        P
+                    </activationType>
+                </role>
+                <join name="JoinRequiredBudgetReview" />
+                <simple name="NoOpRequiresBudgetReview">
+                    <type>
+                        org.kuali.rice.kew.engine.node.NoOpNode
+                    </type>
+                </simple>
+                <!-- End -->
+                <!-- Start Notification-->
+                <split name="NotifyBudgetReview">
+                    <type>
+                        org.kuali.ole.sys.document.workflow.SimpleBooleanSplitNode
+                    </type>
+                </split>
+                <role name="FYIBudget">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>
+                        P
+                    </activationType>
+                </role>
+                <join name="JoinRequiredFYIBudgetReview" />
+                <simple name="NoOpRequiresFYIBudgetReview">
+                    <type>
+                        org.kuali.rice.kew.engine.node.NoOpNode
+                    </type>
+                </simple>
+                <!-- End -->
+
+                <split name="HasVendor">
+                    <type>org.kuali.ole.sys.document.workflow.SimpleBooleanSplitNode</type>
+                </split>
+                <simple name="HavingVendor">
+                    <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+                </simple>
+                <role name="NoVendor">
+                    <qualifierResolverClass>org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver</qualifierResolverClass>
+                </role>
+                <role name="Organization">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
+                <split name="HasAccountingLines">
+                    <type>
+                        org.kuali.ole.sys.document.workflow.SimpleBooleanSplitNode
+                    </type>
+                </split>
+                <simple name="NoOpHasAccountingLines">
+                    <type>
+                        org.kuali.rice.kew.engine.node.NoOpNode
+                    </type>
+                </simple>
+                <join name="JoinHasAccountingLines"/>
+                <role name="Initiator">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
+                <role name="SubAccount">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
+                <role name="Account">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>P</activationType>
+                    <mandatoryRoute>
+                        true
+                    </mandatoryRoute>
+                </role>
+
+
+
+                <role name="AccountingOrganizationHierarchy">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
+                <role name="Commodity">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
+                <split name="AmountRequiresSeparationOfDutiesReview">
+                    <type>
+                        org.kuali.ole.sys.document.workflow.SimpleBooleanSplitNode
+                    </type>
+                </split>
+                <role name="SeparationOfDuties">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
+                <join name="JoinRequiresSeparationOfDutiesReview"/>
+                <simple name="NoOp">
+                    <type>
+                        org.kuali.rice.kew.engine.node.NoOpNode
+                    </type>
+                </simple>
+
+                <!-- <join name="JoinLicenseRequest"/>
+                  <join name="JoinFirmFixedWithLicenseRequest"/>
+                  <split name="HasFirmFixedWithLicenseRequest">
+                     <type>org.kuali.ole.sys.document.workflow.SimpleBooleanSplitNode</type>
+                  </split>
+                  <simple name="HavingFirmFixedWithLR">
+                    <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+                  </simple>-->
+            </routeNodes>
+        </documentType>
+        <documentType>
+            <name>
+                OLE_PO
+            </name>
+            <parent>
+                OLE_PUR
+            </parent>
+            <label>
+                Purchase Order
+            </label>
+            <docHandler>
+                ${ole.url}/purapOlePurchaseOrder.do?methodToCall=docHandler
+            </docHandler>
+            <helpDefinitionURL>
+                ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch03s04.html
+            </helpDefinitionURL>
+            <docSearchHelpURL>
+                ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch03s03.html
+            </docSearchHelpURL>
+            <active>
+                true
+            </active>
+            <attributes>
+                <attribute>
+                    <name>OLEPurapSearchableAttribute</name>
+                </attribute>
+                <attribute>
+                    <name>OLEPurapDocumentSearchCustomizer</name>
+                </attribute>
+                <attribute>
+                    <name>OLENoFyiActionListAttribute</name>
+                </attribute>
+            </attributes>
+            <routingVersion>
+                2
+            </routingVersion>
+            <validApplicationStatuses>
+                <!-- Incomplete status start -->
+                <status>In Process</status>
+                <status>Awaiting Fiscal Officer Review</status>
+                <status>Awaiting New Unordered Item Review</status>
+                <status>Disapproved New Unordered Item Review</status>
+                <status>Awaiting Purchasing Approval</status>
+                <status>Awaiting Commodity Code Approval</status>
+                <status>Awaiting C and G Approval</status>
+                <status>Awaiting Budget Approval</status>
+                <status>Awaiting Tax Approval</status>
+                <status>Error occurred sending cxml</status>
+                <status>Error occurred sending fax</status>
+                <status>Out for Quote</status>
+                <status>Payment Hold</status>
+                <status>Pending Fax</status>
+                <status>Pending Print</status>
+                <status>Pending cxml</status>
+                <status>Waiting for Department</status>
+                <status>Waiting for Vendor</status>
+                <!-- Incomplete status end -->
+                <!-- complete status start -->
+                <status>Cancelled</status>
+                <status>Cancelled Change</status>
+                <status>Change in Process</status>
+                <status>Closed</status>
+                <status>Disapproved Budget</status>
+                <status>Disapproved C and G</status>
+                <status>Disapproved Change</status>
+                <status>Disapproved Commodity Code</status>
+                <status>Disapproved Purchasing</status>
+                <status>Disapproved Tax</status>
+                <status>Open</status>
+                <status>Pending Amendment</status>
+                <status>Pending Close</status>
+                <status>Pending Payment Hold</status>
+                <status>Pending Remove Hold</status>
+                <status>Pending Reopen</status>
+                <status>Pending Retransmit</status>
+                <status>Pending Void</status>
+                <status>Retired Version</status>
+                <status>Void</status>
+                <!-- complete status end -->
+            </validApplicationStatuses>
+            <policies>
+                <policy>
+                    <name>DOCUMENT_STATUS_POLICY</name>
+                    <stringValue>app</stringValue>
+                </policy>
+            </policies>
+            <routePaths>
+                <routePath>
+                    <start name="AdHoc" nextNode="RequiresContractManagementReview" nextAppDocStatus="Awaiting Purchasing Approval" />
+                    <split name="RequiresContractManagementReview" nextNode="Commodity">
+                        <branch name="True">
+                            <role name="ContractManagement" nextNode="JoinRequiresContractManagementReview" nextAppDocStatus="Awaiting Commodity Code Approval" />
+                        </branch>
+                        <branch name="False">
+                            <simple name="NoOpRequiresContractManagementReview" nextNode="JoinRequiresContractManagementReview"/>
+                        </branch>
+                        <join name="JoinRequiresContractManagementReview" />
+                    </split>
+                    <role name="Commodity" nextNode="RequiresAwardReview" nextAppDocStatus="Awaiting C and G Approval" />
+                    <split name="RequiresAwardReview" nextNode="RequiresBudgetReview">
+                        <branch name="True">
+                            <role name="Award" nextNode="JoinRequiresAwardReview" nextAppDocStatus="Awaiting Budget Approval" />
+                        </branch>
+                        <branch name="False">
+                            <simple name="NoOpRequiresAwardReview" nextNode="JoinRequiresAwardReview" nextAppDocStatus="Awaiting Budget Approval" />
+                        </branch>
+                        <join name="JoinRequiresAwardReview" />
+                    </split>
+                    <split name="RequiresBudgetReview" nextNode="NotifyBudgetReview">
+                        <branch name="True">
+                            <role name="Budget" nextNode="JoinRequiresBudgetReview"/>
+                        </branch>
+                        <branch name="False">
+                            <simple name="NoOpBudget" nextNode="JoinRequiresBudgetReview" />
+                        </branch>
+                        <join name="JoinRequiresBudgetReview" />
+                    </split>
+                    <split name="NotifyBudgetReview" nextNode="VendorIsEmployeeOrNonResidentAlien">
+                        <branch name="True">
+                            <role name="FYIBudget" nextNode="JoinRequiredFYIBudgetReview"  />
+                        </branch>
+                        <branch name="False">
+                            <simple name="NoOpRequiredFYIBudgetReview" nextNode="JoinRequiredFYIBudgetReview" />
+                        </branch>
+                        <join name="JoinRequiredFYIBudgetReview" />
+                    </split>
+                    <split name="VendorIsEmployeeOrNonResidentAlien">
+                        <branch name="True">
+                            <role name="Tax" nextNode="JoinVendorIsEmployeeOrNonResidentAlien" nextAppDocStatus="Awaiting Tax Approval"/>
+                        </branch>
+                        <branch name="False">
+                            <simple name="NoOpVendorIsEmployeeOrNonResidentAlien" nextNode="JoinVendorIsEmployeeOrNonResidentAlien"/>
+                        </branch>
+                        <join name="JoinVendorIsEmployeeOrNonResidentAlien" />
+                    </split>
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="AdHoc" />
+                <split name="RequiresContractManagementReview">
+                    <type>
+                        org.kuali.ole.sys.document.workflow.SimpleBooleanSplitNode
+                    </type>
+                </split>
+                <role name="ContractManagement">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>
+                        P
+                    </activationType>
+                </role>
+                <join name="JoinRequiresContractManagementReview" />
+                <simple name="NoOpRequiresContractManagementReview">
+                    <type>
+                        org.kuali.rice.kew.engine.node.NoOpNode
+                    </type>
+                </simple>
+                <role name="Commodity">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>
+                        P
+                    </activationType>
+                </role>
+                <split name="RequiresAwardReview">
+                    <type>
+                        org.kuali.ole.sys.document.workflow.SimpleBooleanSplitNode
+                    </type>
+                </split>
+                <role name="Award">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>
+                        P
+                    </activationType>
+                </role>
+                <join name="JoinRequiresAwardReview" />
+                <simple name="NoOpRequiresAwardReview">
+                    <type>
+                        org.kuali.rice.kew.engine.node.NoOpNode
+                    </type>
+                </simple>
+                <split name="RequiresBudgetReview">
+                    <type>
+                        org.kuali.ole.sys.document.workflow.SimpleBooleanSplitNode
+                    </type>
+                </split>
+                <role name="Budget">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>
+                        P
+                    </activationType>
+                </role>
+                <join name="JoinRequiresBudgetReview" />
+                <simple name="NoOpBudget">
+                    <type>
+                        org.kuali.rice.kew.engine.node.NoOpNode
+                    </type>
+                </simple>
+                <split name="NotifyBudgetReview">
+                    <type>
+                        org.kuali.ole.sys.document.workflow.SimpleBooleanSplitNode
+                    </type>
+                </split>
+                <role name="FYIBudget">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>
+                        P
+                    </activationType>
+                </role>
+                <join name="JoinRequiredFYIBudgetReview" />
+                <simple name="NoOpRequiredFYIBudgetReview">
+                    <type>
+                        org.kuali.rice.kew.engine.node.NoOpNode
+                    </type>
+                </simple>
+                <split name="VendorIsEmployeeOrNonResidentAlien">
+                    <type>
+                        org.kuali.ole.sys.document.workflow.SimpleBooleanSplitNode
+                    </type>
+                </split>
+                <role name="Tax">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>
+                        P
+                    </activationType>
+                </role>
+                <join name="JoinVendorIsEmployeeOrNonResidentAlien" />
+                <simple name="NoOpVendorIsEmployeeOrNonResidentAlien">
+                    <type>
+                        org.kuali.rice.kew.engine.node.NoOpNode
+                    </type>
+                </simple>
+            </routeNodes>
+        </documentType>
+
+        <documentType>
+            <name>
+                OLE_POA
+            </name>
+            <parent>
+                OLE_PO
+            </parent>
+            <label>
+                Purchase Order Amendment
+            </label>
+            <docHandler>
+                ${ole.url}/purapOlePurchaseOrder.do?methodToCall=docHandler
+            </docHandler>
+            <helpDefinitionURL>
+                ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch03s05.html
+            </helpDefinitionURL>
+            <active>
+                true
+            </active>
+            <routingVersion>
+                2
+            </routingVersion>
+            <validApplicationStatuses>
+                <!-- Incomplete status start -->
+                <status>In Process</status>
+                <status>Awaiting Fiscal Officer Review</status>
+                <status>Awaiting New Unordered Item Review</status>
+                <status>Disapproved New Unordered Item Review</status>
+                <status>Awaiting Purchasing Approval</status>
+                <status>Awaiting Commodity Code Approval</status>
+                <status>Awaiting C and G Approval</status>
+                <status>Awaiting Budget Approval</status>
+                <status>Awaiting Tax Approval</status>
+                <status>Error occurred sending cxml</status>
+                <status>Error occurred sending fax</status>
+                <status>Out for Quote</status>
+                <status>Payment Hold</status>
+                <status>Pending Fax</status>
+                <status>Pending Print</status>
+                <status>Pending cxml</status>
+                <status>Waiting for Department</status>
+                <status>Waiting for Vendor</status>
+                <!-- Incomplete status end -->
+                <!-- complete status start -->
+                <status>Cancelled</status>
+                <status>Cancelled Change</status>
+                <status>Change in Process</status>
+                <status>Closed</status>
+                <status>Disapproved Budget</status>
+                <status>Disapproved C and G</status>
+                <status>Disapproved Change</status>
+                <status>Disapproved Commodity Code</status>
+                <status>Disapproved Purchasing</status>
+                <status>Disapproved Tax</status>
+                <status>Open</status>
+                <status>Pending Amendment</status>
+                <status>Pending Close</status>
+                <status>Pending Payment Hold</status>
+                <status>Pending Remove Hold</status>
+                <status>Pending Reopen</status>
+                <status>Pending Retransmit</status>
+                <status>Pending Void</status>
+                <status>Retired Version</status>
+                <status>Void</status>
+                <!-- complete status end -->
+            </validApplicationStatuses>
+            <policies>
+                <policy>
+                    <name>DOCUMENT_STATUS_POLICY</name>
+                    <stringValue>app</stringValue>
+                </policy>
+            </policies>
+            <routePaths>
+                <routePath>
+                    <start name="AdHoc" nextNode="HasNewUnorderedItems" nextAppDocStatus="Awaiting New Unordered Item Review"/>
+                    <split name="HasNewUnorderedItems" nextNode="NotifyBudgetReview">
+                        <branch name="True">
+                            <role name="NewUnorderedItems" nextNode="Join" />
+                        </branch>
+                        <branch name="False">
+                            <simple name="NoOp" nextNode="Join" />
+                        </branch>
+                        <join name="Join" />
+                    </split>
+                    <split name="NotifyBudgetReview">
+                        <branch name="True">
+                            <role name="FYIBudget" nextNode="JoinRequiredFYIBudgetReview" />
+                        </branch>
+                        <branch name="False">
+                            <simple name="NoOpRequiresFYIBudgetReview" nextNode="JoinRequiredFYIBudgetReview" />
+                        </branch>
+                        <join name="JoinRequiredFYIBudgetReview" />
+                    </split>
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="AdHoc" />
+                <split name="HasNewUnorderedItems">
+                    <type>
+                        org.kuali.ole.sys.document.workflow.SimpleBooleanSplitNode
+                    </type>
+                </split>
+                <role name="NewUnorderedItems">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
+                <join name="Join" />
+                <simple name="NoOp">
+                    <type>
+                        org.kuali.rice.kew.engine.node.NoOpNode
+                    </type>
+                </simple>
+
+                <split name="NotifyBudgetReview">
+                    <type>
+                        org.kuali.ole.sys.document.workflow.SimpleBooleanSplitNode
+                    </type>
+                </split>
+                <role name="FYIBudget">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>
+                        P
+                    </activationType>
+                </role>
+                <join name="JoinRequiredFYIBudgetReview" />
+                <simple name="NoOpRequiresFYIBudgetReview">
+                    <type>
+                        org.kuali.rice.kew.engine.node.NoOpNode
+                    </type>
+                </simple>
+            </routeNodes>
+        </documentType>
+
+        <documentType>
+            <name>
+                OLE_POC
+            </name>
+            <parent>
+                OLE_PO
+            </parent>
+            <label>
+                Purchase Order Close
+            </label>
+            <docHandler>
+                ${ole.url}/purapOlePurchaseOrder.do?methodToCall=docHandler
+            </docHandler>
+            <helpDefinitionURL>
+                ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch03s09.html
+            </helpDefinitionURL>
+            <active>
+                true
+            </active>
+            <routingVersion>
+                2
+            </routingVersion>
+            <validApplicationStatuses>
+                <!-- Incomplete status start -->
+                <status>In Process</status>
+                <status>Awaiting Fiscal Officer Review</status>
+                <status>Awaiting New Unordered Item Review</status>
+                <status>Awaiting Purchasing Approval</status>
+                <status>Awaiting Commodity Code Approval</status>
+                <status>Awaiting C and G Approval</status>
+                <status>Awaiting Budget Approval</status>
+                <status>Awaiting Tax Approval</status>
+                <status>Error occurred sending cxml</status>
+                <status>Error occurred sending fax</status>
+                <status>Out for Quote</status>
+                <status>Payment Hold</status>
+                <status>Pending Fax</status>
+                <status>Pending Print</status>
+                <status>Pending cxml</status>
+                <status>Waiting for Department</status>
+                <status>Waiting for Vendor</status>
+                <!-- Incomplete status end -->
+                <!-- complete status start -->
+                <status>Cancelled</status>
+                <status>Cancelled Change</status>
+                <status>Change in Process</status>
+                <status>Closed</status>
+                <status>Disapproved Budget</status>
+                <status>Disapproved C and G</status>
+                <status>Disapproved Change</status>
+                <status>Disapproved Commodity Code</status>
+                <status>Disapproved Purchasing</status>
+                <status>Disapproved Tax</status>
+                <status>Open</status>
+                <status>Pending Amendment</status>
+                <status>Pending Close</status>
+                <status>Pending Payment Hold</status>
+                <status>Pending Remove Hold</status>
+                <status>Pending Reopen</status>
+                <status>Pending Retransmit</status>
+                <status>Pending Void</status>
+                <status>Retired Version</status>
+                <status>Void</status>
+                <!-- complete status end -->
+            </validApplicationStatuses>
+            <policies>
+                <policy>
+                    <name>DOCUMENT_STATUS_POLICY</name>
+                    <stringValue>app</stringValue>
+                </policy>
+            </policies>
+            <routePaths>
+                <routePath>
+                    <start name="AdHoc" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="AdHoc" />
+            </routeNodes>
+        </documentType>
+        <documentType>
+            <name>
+                OLE_POPH
+            </name>
+            <parent>
+                OLE_PO
+            </parent>
+            <label>
+                Purchase Order Payment Hold
+            </label>
+            <docHandler>
+                ${ole.url}/purapOlePurchaseOrder.do?methodToCall=docHandler
+            </docHandler>
+            <helpDefinitionURL>
+                ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch03s06.html
+            </helpDefinitionURL>
+            <active>
+                true
+            </active>
+            <routingVersion>
+                2
+            </routingVersion>
+            <validApplicationStatuses>
+                <!-- Incomplete status start -->
+                <status>In Process</status>
+                <status>Awaiting Fiscal Officer Review</status>
+                <status>Awaiting New Unordered Item Review</status>
+                <status>Awaiting Purchasing Approval</status>
+                <status>Awaiting Commodity Code Approval</status>
+                <status>Awaiting C and G Approval</status>
+                <status>Awaiting Budget Approval</status>
+                <status>Awaiting Tax Approval</status>
+                <status>Error occurred sending cxml</status>
+                <status>Error occurred sending fax</status>
+                <status>Out for Quote</status>
+                <status>Payment Hold</status>
+                <status>Pending Fax</status>
+                <status>Pending Print</status>
+                <status>Pending cxml</status>
+                <status>Waiting for Department</status>
+                <status>Waiting for Vendor</status>
+                <!-- Incomplete status end -->
+                <!-- complete status start -->
+                <status>Cancelled</status>
+                <status>Cancelled Change</status>
+                <status>Change in Process</status>
+                <status>Closed</status>
+                <status>Disapproved Budget</status>
+                <status>Disapproved C and G</status>
+                <status>Disapproved Change</status>
+                <status>Disapproved Commodity Code</status>
+                <status>Disapproved Purchasing</status>
+                <status>Disapproved Tax</status>
+                <status>Open</status>
+                <status>Pending Amendment</status>
+                <status>Pending Close</status>
+                <status>Pending Payment Hold</status>
+                <status>Pending Remove Hold</status>
+                <status>Pending Reopen</status>
+                <status>Pending Retransmit</status>
+                <status>Pending Void</status>
+                <status>Retired Version</status>
+                <status>Void</status>
+                <!-- complete status end -->
+            </validApplicationStatuses>
+            <policies>
+                <policy>
+                    <name>DOCUMENT_STATUS_POLICY</name>
+                    <stringValue>app</stringValue>
+                </policy>
+            </policies>
+            <routePaths>
+                <routePath>
+                    <start name="AdHoc" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="AdHoc" />
+            </routeNodes>
+        </documentType>
+
+        <documentType>
+            <name>
+                OLE_PORH
+            </name>
+            <parent>
+                OLE_PO
+            </parent>
+            <label>
+                Purchase Order Remove Payment Hold
+            </label>
+            <docHandler>
+                ${ole.url}/purapOlePurchaseOrder.do?methodToCall=docHandler
+            </docHandler>
+            <helpDefinitionURL>
+                ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch03s07.html
+            </helpDefinitionURL>
+            <active>
+                true
+            </active>
+            <routingVersion>
+                2
+            </routingVersion>
+            <validApplicationStatuses>
+                <!-- Incomplete status start -->
+                <status>In Process</status>
+                <status>Awaiting Fiscal Officer Review</status>
+                <status>Awaiting New Unordered Item Review</status>
+                <status>Awaiting Purchasing Approval</status>
+                <status>Awaiting Commodity Code Approval</status>
+                <status>Awaiting C and G Approval</status>
+                <status>Awaiting Budget Approval</status>
+                <status>Awaiting Tax Approval</status>
+                <status>Error occurred sending cxml</status>
+                <status>Error occurred sending fax</status>
+                <status>Out for Quote</status>
+                <status>Payment Hold</status>
+                <status>Pending Fax</status>
+                <status>Pending Print</status>
+                <status>Pending cxml</status>
+                <status>Waiting for Department</status>
+                <status>Waiting for Vendor</status>
+                <!-- Incomplete status end -->
+                <!-- complete status start -->
+                <status>Cancelled</status>
+                <status>Cancelled Change</status>
+                <status>Change in Process</status>
+                <status>Closed</status>
+                <status>Disapproved Budget</status>
+                <status>Disapproved C and G</status>
+                <status>Disapproved Change</status>
+                <status>Disapproved Commodity Code</status>
+                <status>Disapproved Purchasing</status>
+                <status>Disapproved Tax</status>
+                <status>Open</status>
+                <status>Pending Amendment</status>
+                <status>Pending Close</status>
+                <status>Pending Payment Hold</status>
+                <status>Pending Remove Hold</status>
+                <status>Pending Reopen</status>
+                <status>Pending Retransmit</status>
+                <status>Pending Void</status>
+                <status>Retired Version</status>
+                <status>Void</status>
+                <!-- complete status end -->
+            </validApplicationStatuses>
+            <policies>
+                <policy>
+                    <name>DOCUMENT_STATUS_POLICY</name>
+                    <stringValue>app</stringValue>
+                </policy>
+            </policies>
+            <routePaths>
+                <routePath>
+                    <start name="AdHoc" nextNode="AccountsPayable" />
+                    <role name="AccountsPayable" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="AdHoc" />
+                <role name="AccountsPayable">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
+            </routeNodes>
+        </documentType>
+        <documentType>
+            <name>
+                OLE_POR
+            </name>
+            <parent>
+                OLE_PO
+            </parent>
+            <label>
+                Purchase Order Reopen
+            </label>
+            <docHandler>
+                ${ole.url}/purapOlePurchaseOrder.do?methodToCall=docHandler
+            </docHandler>
+            <helpDefinitionURL>
+                ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch03s10.html
+            </helpDefinitionURL>
+            <active>
+                true
+            </active>
+            <routingVersion>
+                2
+            </routingVersion>
+            <validApplicationStatuses>
+                <!-- Incomplete status start -->
+                <status>In Process</status>
+                <status>Awaiting Fiscal Officer Review</status>
+                <status>Awaiting New Unordered Item Review</status>
+                <status>Awaiting Purchasing Approval</status>
+                <status>Awaiting Commodity Code Approval</status>
+                <status>Awaiting C and G Approval</status>
+                <status>Awaiting Budget Approval</status>
+                <status>Awaiting Tax Approval</status>
+                <status>Error occurred sending cxml</status>
+                <status>Error occurred sending fax</status>
+                <status>Out for Quote</status>
+                <status>Payment Hold</status>
+                <status>Pending Fax</status>
+                <status>Pending Print</status>
+                <status>Pending cxml</status>
+                <status>Waiting for Department</status>
+                <status>Waiting for Vendor</status>
+                <!-- Incomplete status end -->
+                <!-- complete status start -->
+                <status>Cancelled</status>
+                <status>Cancelled Change</status>
+                <status>Change in Process</status>
+                <status>Closed</status>
+                <status>Disapproved Budget</status>
+                <status>Disapproved C and G</status>
+                <status>Disapproved Change</status>
+                <status>Disapproved Commodity Code</status>
+                <status>Disapproved Purchasing</status>
+                <status>Disapproved Tax</status>
+                <status>Open</status>
+                <status>Pending Amendment</status>
+                <status>Pending Close</status>
+                <status>Pending Payment Hold</status>
+                <status>Pending Remove Hold</status>
+                <status>Pending Reopen</status>
+                <status>Pending Retransmit</status>
+                <status>Pending Void</status>
+                <status>Retired Version</status>
+                <status>Void</status>
+                <!-- complete status end -->
+            </validApplicationStatuses>
+            <policies>
+                <policy>
+                    <name>DOCUMENT_STATUS_POLICY</name>
+                    <stringValue>app</stringValue>
+                </policy>
+            </policies>
+            <routePaths>
+                <routePath>
+                    <start name="AdHoc" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="AdHoc" />
+            </routeNodes>
+        </documentType>
+        <documentType>
+            <name>
+                OLE_PORT
+            </name>
+            <parent>
+                OLE_PO
+            </parent>
+            <label>
+                Purchase Order Retransmit
+            </label>
+            <docHandler>
+                ${ole.url}/purapOlePurchaseOrder.do?methodToCall=docHandler
+            </docHandler>
+            <helpDefinitionURL>
+                default.htm?turl=WordDocuments%2Fpurchaseorderretransmit.htm
+            </helpDefinitionURL>
+            <active>
+                true
+            </active>
+            <routingVersion>
+                2
+            </routingVersion>
+            <validApplicationStatuses>
+                <!-- Incomplete status start -->
+                <status>In Process</status>
+                <status>Awaiting Fiscal Officer Review</status>
+                <status>Awaiting New Unordered Item Review</status>
+                <status>Awaiting Purchasing Approval</status>
+                <status>Awaiting Commodity Code Approval</status>
+                <status>Awaiting C and G Approval</status>
+                <status>Awaiting Budget Approval</status>
+                <status>Awaiting Tax Approval</status>
+                <status>Error occurred sending cxml</status>
+                <status>Error occurred sending fax</status>
+                <status>Out for Quote</status>
+                <status>Payment Hold</status>
+                <status>Pending Fax</status>
+                <status>Pending Print</status>
+                <status>Pending cxml</status>
+                <status>Waiting for Department</status>
+                <status>Waiting for Vendor</status>
+                <!-- Incomplete status end -->
+                <!-- complete status start -->
+                <status>Cancelled</status>
+                <status>Cancelled Change</status>
+                <status>Change in Process</status>
+                <status>Closed</status>
+                <status>Disapproved Budget</status>
+                <status>Disapproved C and G</status>
+                <status>Disapproved Change</status>
+                <status>Disapproved Commodity Code</status>
+                <status>Disapproved Purchasing</status>
+                <status>Disapproved Tax</status>
+                <status>Open</status>
+                <status>Pending Amendment</status>
+                <status>Pending Close</status>
+                <status>Pending Payment Hold</status>
+                <status>Pending Remove Hold</status>
+                <status>Pending Reopen</status>
+                <status>Pending Retransmit</status>
+                <status>Pending Void</status>
+                <status>Retired Version</status>
+                <status>Void</status>
+                <!-- complete status end -->
+            </validApplicationStatuses>
+            <policies>
+                <policy>
+                    <name>DOCUMENT_STATUS_POLICY</name>
+                    <stringValue>app</stringValue>
+                </policy>
+            </policies>
+            <routePaths>
+                <routePath>
+                    <start name="AdHoc" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="AdHoc" />
+            </routeNodes>
+        </documentType>
+        <documentType>
+            <name>
+                OLE_POSP
+            </name>
+            <parent>
+                OLE_PO
+            </parent>
+            <label>
+                Purchase Order Split
+            </label>
+            <docHandler>
+                ${ole.url}/purapOlePurchaseOrder.do?methodToCall=docHandler
+            </docHandler>
+            <helpDefinitionURL>
+                default.htm?turl=WordDocuments%2Fpurchaseordersplit.htm
+            </helpDefinitionURL>
+            <active>
+                true
+            </active>
+            <routingVersion>
+                2
+            </routingVersion>
+            <validApplicationStatuses>
+                <!-- Incomplete status start -->
+                <status>In Process</status>
+                <status>Awaiting Fiscal Officer Review</status>
+                <status>Awaiting New Unordered Item Review</status>
+                <status>Awaiting Purchasing Approval</status>
+                <status>Awaiting Commodity Code Approval</status>
+                <status>Awaiting C and G Approval</status>
+                <status>Awaiting Budget Approval</status>
+                <status>Awaiting Tax Approval</status>
+                <status>Error occurred sending cxml</status>
+                <status>Error occurred sending fax</status>
+                <status>Out for Quote</status>
+                <status>Payment Hold</status>
+                <status>Pending Fax</status>
+                <status>Pending Print</status>
+                <status>Pending cxml</status>
+                <status>Waiting for Department</status>
+                <status>Waiting for Vendor</status>
+                <!-- Incomplete status end -->
+                <!-- complete status start -->
+                <status>Cancelled</status>
+                <status>Cancelled Change</status>
+                <status>Change in Process</status>
+                <status>Closed</status>
+                <status>Disapproved Budget</status>
+                <status>Disapproved C and G</status>
+                <status>Disapproved Change</status>
+                <status>Disapproved Commodity Code</status>
+                <status>Disapproved Purchasing</status>
+                <status>Disapproved Tax</status>
+                <status>Open</status>
+                <status>Pending Amendment</status>
+                <status>Pending Close</status>
+                <status>Pending Payment Hold</status>
+                <status>Pending Remove Hold</status>
+                <status>Pending Reopen</status>
+                <status>Pending Retransmit</status>
+                <status>Pending Void</status>
+                <status>Retired Version</status>
+                <status>Void</status>
+                <!-- complete status end -->
+            </validApplicationStatuses>
+            <policies>
+                <policy>
+                    <name>DOCUMENT_STATUS_POLICY</name>
+                    <stringValue>app</stringValue>
+                </policy>
+            </policies>
+        </documentType>
+        <documentType>
+            <name>
+                OLE_POV
+            </name>
+            <parent>
+                OLE_PO
+            </parent>
+            <label>
+                Purchase Order Void
+            </label>
+            <docHandler>
+                ${ole.url}/purapOlePurchaseOrder.do?methodToCall=docHandler
+            </docHandler>
+            <helpDefinitionURL>
+                ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch03s08.html
+            </helpDefinitionURL>
+            <active>
+                true
+            </active>
+            <routingVersion>
+                2
+            </routingVersion>
+            <validApplicationStatuses>
+                <!-- Incomplete status start -->
+                <status>In Process</status>
+                <status>Awaiting Fiscal Officer Review</status>
+                <status>Awaiting New Unordered Item Review</status>
+                <status>Awaiting Purchasing Approval</status>
+                <status>Awaiting Commodity Code Approval</status>
+                <status>Awaiting C and G Approval</status>
+                <status>Awaiting Budget Approval</status>
+                <status>Awaiting Tax Approval</status>
+                <status>Error occurred sending cxml</status>
+                <status>Error occurred sending fax</status>
+                <status>Out for Quote</status>
+                <status>Payment Hold</status>
+                <status>Pending Fax</status>
+                <status>Pending Print</status>
+                <status>Pending cxml</status>
+                <status>Waiting for Department</status>
+                <status>Waiting for Vendor</status>
+                <!-- Incomplete status end -->
+                <!-- complete status start -->
+                <status>Cancelled</status>
+                <status>Cancelled Change</status>
+                <status>Change in Process</status>
+                <status>Closed</status>
+                <status>Disapproved Budget</status>
+                <status>Disapproved C and G</status>
+                <status>Disapproved Change</status>
+                <status>Disapproved Commodity Code</status>
+                <status>Disapproved Purchasing</status>
+                <status>Disapproved Tax</status>
+                <status>Open</status>
+                <status>Pending Amendment</status>
+                <status>Pending Close</status>
+                <status>Pending Payment Hold</status>
+                <status>Pending Remove Hold</status>
+                <status>Pending Reopen</status>
+                <status>Pending Retransmit</status>
+                <status>Pending Void</status>
+                <status>Retired Version</status>
+                <status>Void</status>
+                <!-- complete status end -->
+            </validApplicationStatuses>
+            <policies>
+                <policy>
+                    <name>DOCUMENT_STATUS_POLICY</name>
+                    <stringValue>app</stringValue>
+                </policy>
+            </policies>
+            <routePaths>
+                <routePath>
+                    <start name="AdHoc" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="AdHoc" />
+            </routeNodes>
+        </documentType>
+        <documentType>
+            <name>
+                OLE_EIRT
+            </name>
+            <parent>
+                OLE_AP
+            </parent>
+            <label>
+                Electronic Invoice Reject Document
+            </label>
+            <docHandler>
+                ${ole.url}/purapElectronicInvoiceReject.do?methodToCall=docHandler
+            </docHandler>
+            <docSearchHelpURL>
+                ${ole.externalizable.help.url}/default.htm?turl=WordDocuments%2Felectronicinvoicerejects.htm
+            </docSearchHelpURL>
+            <active>
+                true
+            </active>
+            <routingVersion>
+                2
+            </routingVersion>
+            <routePaths>
+                <routePath>
+                    <start name="AdHoc" nextNode="Management"/>
+                    <role name="Management"/>
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="AdHoc"/>
+                <role name="Management">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
+            </routeNodes>
+        </documentType>
+        <documentType>
+            <name>
+                OLE_CM
+            </name>
+            <parent>
+                OLE_AP
+            </parent>
+            <label>
+                Vendor Credit Memo
+            </label>
+            <docHandler>
+                ${ole.url}/selectOleVendorCreditMemo.do?methodToCall=docHandler
+            </docHandler>
+            <helpDefinitionURL>
+                ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch04s04.html
+            </helpDefinitionURL>
+            <docSearchHelpURL>
+                ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch04s03.html
+            </docSearchHelpURL>
+            <active>
+                true
+            </active>
+            <routingVersion>
+                2
+            </routingVersion>
+            <validApplicationStatuses>
+                <status>Initiated</status>
+                <status>In Process</status>
+                <status>Cancelled In Process</status>
+                <status>Void</status>
+                <status>Cancelled</status>
+                <status>Complete</status>
+                <status>Awaiting AP Review</status>
+                <status>Extracted</status>
+            </validApplicationStatuses>
+            <policies>
+                <policy>
+                    <name>DOCUMENT_STATUS_POLICY</name>
+                    <stringValue>app</stringValue>
+                </policy>
+            </policies>
+            <routePaths>
+                <routePath>
+                    <start name="AdHoc" nextNode="RequiresImageAttachment" nextAppDocStatus="Awaiting AP Review"/>
+                    <split name="RequiresImageAttachment" nextNode="Account">
+                        <branch name="True">
+                            <role name="ImageAttachment" nextNode="JoinRequiresImageAttachment" />
+                        </branch>
+                        <branch name="False">
+                            <simple name="NoOpRequiresImageAttachment" nextNode="JoinRequiresImageAttachment" />
+                        </branch>
+                        <join name="JoinRequiresImageAttachment" />
+                    </split>
+                    <role name="Account" nextNode="FiscalOfficerReview"/>
+                    <role name="FiscalOfficerReview" nextNode="HasInvoiceType"/>
+                    <split name="HasInvoiceType" nextNode="PaymentMethod">
+                        <branch name="True">
+                            <split name ="HasPrepaidInvoiceType" nextNode="JoinHasInvoiceType" >
+                                <branch name="True">
+                                    <role name="PrepaidInvoiceType" nextNode="JoinHasPrepaidInvoiceType"/>
+                                </branch>
+                                <branch name="False">
+                                    <role name="NoPrepaidInvoiceType" nextNode= "JoinHasPrepaidInvoiceType"/>
+                                </branch>
+                                <join name="JoinHasPrepaidInvoiceType"/>
+                            </split>
+                        </branch>
+                        <branch name="False">
+                            <simple name="NoOpHasInvoiceType" nextNode="JoinHasInvoiceType"/>
+                        </branch>
+                        <join name="JoinHasInvoiceType"/>
+                    </split>
+                    <role name="PaymentMethod"/>
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="AdHoc" />
+                <split name="RequiresImageAttachment">
+                    <type>
+                        org.kuali.ole.sys.document.workflow.SimpleBooleanSplitNode
+                    </type>
+                </split>
+                <role name="ImageAttachment">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
+                <join name="JoinRequiresImageAttachment" />
+                <simple name="NoOpRequiresImageAttachment">
+                    <type>
+                        org.kuali.rice.kew.engine.node.NoOpNode
+                    </type>
+                </simple>
+                <role name="Account">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
+                <split name="HasPrepaidInvoiceType">
+                    <type>
+                        org.kuali.ole.sys.document.workflow.SimpleBooleanSplitNode
+                    </type>
+                </split>
+                <role name="PrepaidInvoiceType">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                </role>
+                <role name="NoPrepaidInvoiceType">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                </role>
+                <join name="JoinHasPrepaidInvoiceType"/>
+                <role name="PaymentMethod">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                </role>
+                <role name="FiscalOfficerReview">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                </role>
+                <split name="HasInvoiceType">
+                    <type>
+                        org.kuali.ole.sys.document.workflow.SimpleBooleanSplitNode
+                    </type>
+                </split>
+                <join name="JoinHasInvoiceType"/>
+                <simple name="NoOpHasInvoiceType">
+                    <type>
+                        org.kuali.rice.kew.engine.node.NoOpNode
+                    </type>
+                </simple>
+            </routeNodes>
+        </documentType>
+        <documentType>
+            <name>
+                OLE_PREQ
+            </name>
+            <parent>
+                OLE_AP
+            </parent>
+            <label>
+                Payment Request
+            </label>
+            <docHandler>
+                ${ole.url}/selectOlePaymentRequest.do?methodToCall=docHandler
+            </docHandler>
+            <helpDefinitionURL>
+                ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch04s06.html
+            </helpDefinitionURL>
+            <docSearchHelpURL>
+                ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch04s05.html
+            </docSearchHelpURL>
+            <active>
+                true
+            </active>
+            <routingVersion>
+                2
+            </routingVersion>
+            <validApplicationStatuses>
+                <status>Initiated</status>
+                <status>In Process</status>
+                <status>Cancelled In Process</status>
+                <status>Cancelled</status>
+                <status>Department-Approved</status>
+                <status>Auto-Approved</status>
+                <status>Extracted</status>
+                <status>Do Not Extract</status>
+                <status>Awaiting Budget Approval</status>
+                <status>Awaiting AP Review</status>
+                <status>Awaiting Receiving</status>
+                <status>Awaiting Sub-Account Manager Approval</status>
+                <status>Awaiting Fiscal Officer Approval</status>
+                <status>Awaiting Chart Approval</status>
+                <status>Awaiting Tax Approval</status>
+                <status>Awaiting Payment Method Approval</status>
+                <status>Pending Route Electronic Invoice</status>
+            </validApplicationStatuses>
+            <policies>
+                <policy>
+                    <name>DOCUMENT_STATUS_POLICY</name>
+                    <stringValue>app</stringValue>
+                </policy>
+            </policies>
+            <routePaths>
+                <routePath>
+                    <start name="AdHoc" nextNode="RequiresBudgetReview"
+                           nextAppDocStatus="Awaiting Budget Approval" />
+                    <split name = "RequiresBudgetReview" nextNode = "RequiresImageAttachment">
+                        <branch name="True">
+                            <role name="Budget" nextNode="JoinRequiresBudgetReview"/>
+                        </branch>
+                        <branch name="False">
+                            <simple name="NoOpRequiresBudgetReview" nextNode="JoinRequiresBudgetReview"/>
+                        </branch>
+                        <join name="JoinRequiresBudgetReview"/>
+                    </split>
+
+
+
+                    <split name="RequiresImageAttachment" nextNode="PurchaseWasReceived">
+                        <branch name="True">
+                            <role name="ImageAttachment" nextNode="JoinRequiresImageAttachment"
+                                  nextAppDocStatus="Awaiting AP Review" />
+                        </branch>
+                        <branch name="False">
+                            <simple name="NoOpRequiresImageAttachment" nextNode="JoinRequiresImageAttachment"
+                                    nextAppDocStatus="Awaiting Receiving" />
+                        </branch>
+                        <join name="JoinRequiresImageAttachment" />
+                    </split>
+                    <split name="PurchaseWasReceived" nextNode="SubAccount">
+                        <branch name="True">
+                            <role name="Receiving" nextNode="JoinReceiving"
+                                  nextAppDocStatus="Awaiting Sub-Account Manager Approval" />
+                        </branch>
+                        <branch name="False">
+                            <simple name="NoOpReceiving" nextNode="JoinReceiving" />
+                        </branch>
+                        <join name="JoinReceiving" />
+                    </split>
+                    <role name="SubAccount" nextNode="Account"
+                          nextAppDocStatus="Awaiting Fiscal Officer Approval" />
+                    <role name="Account" nextNode="AccountingOrganizationHierarchy"
+                          nextAppDocStatus="Awaiting Chart Approval" />
+                    <role name="AccountingOrganizationHierarchy" nextNode="VendorIsEmployeeOrNonResidentAlien"
+                          nextAppDocStatus="Awaiting Tax Approval" />
+                    <split name="VendorIsEmployeeOrNonResidentAlien" nextNode="RequiresSeparationOfDutiesReview">
+                        <branch name="True">
+                            <role name="Tax" nextNode="JoinVendorIsEmployeeOrNonResidentAlien" />
+                        </branch>
+                        <branch name="False">
+                            <simple name="NoOpVendorIsEmployeeOrNonResidentAlien"
+                                    nextNode="JoinVendorIsEmployeeOrNonResidentAlien" />
+                        </branch>
+                        <join name="JoinVendorIsEmployeeOrNonResidentAlien" />
+                    </split>
+                    <split name="RequiresSeparationOfDutiesReview" nextNode="Payment" >
+                        <branch name="True">
+                            <role name="SeparationOfDuties" nextNode="JoinRequiresSeparationOfDutiesReview" nextAppDocStatus="Awaiting Payment Method Approval" />
+                        </branch>
+                        <branch name="False">
+                            <simple name="NoOp" nextNode="JoinRequiresSeparationOfDutiesReview" nextAppDocStatus="Awaiting Payment Method Approval"/>
+                        </branch>
+                        <join name="JoinRequiresSeparationOfDutiesReview" />
+                    </split>
+                    <role name="Payment" nextNode="HasVendorDepositAccount" />
+                    <split name="HasVendorDepositAccount" nextNode="HasInvoiceType">
+                        <branch name="True">
+                            <role name="VendorDepositAccount" nextNode="JoinHasVendorDepositAccount" />
+                        </branch>
+                        <branch name="False">
+                            <simple name="NoOpHasVendorDepositAccount" nextNode="JoinHasVendorDepositAccount" />
+                        </branch>
+                        <join name="JoinHasVendorDepositAccount" />
+                    </split>
+                    <split name="HasInvoiceType">
+                        <branch name="True">
+                            <split name="HasPrepaidInvoiceType" nextNode="JoinHasInvoiceType">
+                                <branch name="True">
+                                    <role name="PrepaidInvoiceType" nextNode="JoinHasPrepaidInvoiceType" />
+                                </branch>
+                                <branch name="False">
+                                    <role name="NoPrepaidInvoiceType" nextNode="JoinHasPrepaidInvoiceType" />
+                                </branch>
+                                <join name="JoinHasPrepaidInvoiceType" />
+                            </split>
+                        </branch>
+                        <branch name="False">
+                            <simple name="NoOpHasInvoiceType" nextNode="JoinHasInvoiceType" />
+                        </branch>
+                        <join name="JoinHasInvoiceType" />
+                    </split>
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="AdHoc" />
+
+
+                <split name="RequiresBudgetReview">
+                    <type>
+                        org.kuali.ole.sys.document.workflow.SimpleBooleanSplitNode
+                    </type>
+                </split>
+                <role name="Budget">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>
+                        P
+                    </activationType>
+                </role>
+                <join name="JoinRequiresBudgetReview"/>
+                <simple name="NoOpRequiresBudgetReview">
+                    <type>
+                        org.kuali.rice.kew.engine.node.NoOpNode
+                    </type>
+                </simple>
+
+
+                <split name="RequiresImageAttachment">
+                    <type>
+                        org.kuali.ole.sys.document.workflow.SimpleBooleanSplitNode
+                    </type>
+                </split>
+                <role name="ImageAttachment">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
+                <join name="JoinRequiresImageAttachment" />
+                <simple name="NoOpRequiresImageAttachment">
+                    <type>
+                        org.kuali.rice.kew.engine.node.NoOpNode
+                    </type>
+                </simple>
+                <split name="PurchaseWasReceived">
+                    <type>
+                        org.kuali.ole.sys.document.workflow.SimpleBooleanSplitNode
+                    </type>
+                </split>
+                <role name="Receiving">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
+                <join name="JoinReceiving" />
+                <simple name="NoOpReceiving">
+                    <type>
+                        org.kuali.rice.kew.engine.node.NoOpNode
+                    </type>
+                </simple>
+                <role name="SubAccount">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
+                <role name="Account">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>P</activationType>
+                    <mandatoryRoute>
+                        true
+                    </mandatoryRoute>
+                </role>
+                <role name="AccountingOrganizationHierarchy">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
+                <split name="VendorIsEmployeeOrNonResidentAlien">
+                    <type>
+                        org.kuali.ole.sys.document.workflow.SimpleBooleanSplitNode
+                    </type>
+                </split>
+                <role name="Tax">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
+                <join name="JoinVendorIsEmployeeOrNonResidentAlien" />
+                <simple name="NoOpVendorIsEmployeeOrNonResidentAlien">
+                    <type>
+                        org.kuali.rice.kew.engine.node.NoOpNode
+                    </type>
+                </simple>
+                <split name="HasPrepaidInvoiceType">
+                    <type>
+                        org.kuali.ole.sys.document.workflow.SimpleBooleanSplitNode
+                    </type>
+                </split>
+                <role name="PrepaidInvoiceType">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                </role>
+                <role name="NoPrepaidInvoiceType">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                </role>
+                <join name="JoinHasPrepaidInvoiceType" />
+                <role name="VendorDepositAccount">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>
+                        P
+                    </activationType>
+                </role>
+                <split name="HasVendorDepositAccount">
+                    <type>
+                        org.kuali.ole.sys.document.workflow.SimpleBooleanSplitNode
+                    </type>
+                </split>
+                <join name="JoinHasVendorDepositAccount" />
+                <simple name="NoOpHasVendorDepositAccount">
+                    <type>
+                        org.kuali.rice.kew.engine.node.NoOpNode
+                    </type>
+                </simple>
+                <split name="HasInvoiceType">
+                    <type>
+                        org.kuali.ole.sys.document.workflow.SimpleBooleanSplitNode
+                    </type>
+                </split>
+                <join name="JoinHasInvoiceType" />
+                <simple name="NoOpHasInvoiceType">
+                    <type>
+                        org.kuali.rice.kew.engine.node.NoOpNode
+                    </type>
+                </simple>
+                <split name="RequiresSeparationOfDutiesReview">
+                    <type>
+                        org.kuali.ole.sys.document.workflow.SimpleBooleanSplitNode
+                    </type>
+                </split>
+                <role name="SeparationOfDuties">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                </role>
+                <role name="Payment">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>
+                        P
+                    </activationType>
+                </role>
+                <join name="JoinRequiresSeparationOfDutiesReview" />
+                <simple name="NoOp">
+                    <type>
+                        org.kuali.rice.kew.engine.node.NoOpNode
+                    </type>
+                </simple>
+            </routeNodes>
+        </documentType>
+
+        <documentType>
+            <name>
+                OLE_PRQS
+            </name>
+            <parent>
+                OLE_AP
+            </parent>
+            <label>
+                Invoice
+            </label>
+            <docHandler>
+                ${application.url}/ole-kr-krad/OLEInvoice?viewId=OLEInvoiceDocumentView&amp;methodToCall=docHandler
+            </docHandler>
+            <helpDefinitionURL>
+                ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch04s02.html
+            </helpDefinitionURL>
+            <docSearchHelpURL>
+                ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch04s01.html
+            </docSearchHelpURL>
+            <active>
+                true
+            </active>
+            <routingVersion>
+                2
+            </routingVersion>
+            <validApplicationStatuses>
+                <status>Initiated</status>
+                <status>In Process</status>
+                <status>Cancelled In Process</status>
+                <status>Cancelled</status>
+                <status>Department-Approved</status>
+                <status>Auto-Approved</status>
+                <status>Awaiting Budget Approval</status>
+                <status>Awaiting AP Review</status>
+                <status>Awaiting Receiving</status>
+                <status>Awaiting Sub-Account Manager Approval</status>
+                <status>Awaiting Fiscal Officer Approval</status>
+                <status>Awaiting Chart Approval</status>
+                <status>Awaiting Tax Approval</status>
+                <status>Awaiting Payment Method Approval</status>
+                <status>Pending Route Electronic Invoice</status>
+                <status>Disapproved Budget</status>
+                <status>Disapproved Payment</status>
+            </validApplicationStatuses>
+            <policies>
+                <policy>
+                    <name>DOCUMENT_STATUS_POLICY</name>
+                    <stringValue>app</stringValue>
+                </policy>
+            </policies>
+            <routePaths>
+                <routePath>
+                    <start name="AdHoc" nextNode="RequiresBudgetReview"
+                           nextAppDocStatus="Awaiting Budget Approval" />
+                    <split name = "RequiresBudgetReview" nextNode = "NotifyBudgetReview">
+                        <branch name="True">
+                            <role name="Budget" nextNode="JoinRequiresBudgetReview"/>
+                        </branch>
+                        <branch name="False">
+                            <simple name="NoOpRequiresBudgetReview" nextNode="JoinRequiresBudgetReview"/>
+                        </branch>
+                        <join name="JoinRequiresBudgetReview"/>
+                    </split>
+                    <split name="NotifyBudgetReview" nextNode="RequiresImageAttachment">
+                        <branch name="True">
+                            <role name="FYIBudget" nextNode="JoinRequiredFYIBudgetReview" />
+                        </branch>
+                        <branch name="False">
+                            <simple name="NoOpRequiresFYIBudgetReview" nextNode="JoinRequiredFYIBudgetReview" />
+                        </branch>
+                        <join name="JoinRequiredFYIBudgetReview" />
+                    </split>
+
+
+                    <split name="RequiresImageAttachment" nextNode="PurchaseWasReceived">
+                        <branch name="True">
+                            <role name="ImageAttachment" nextNode="JoinRequiresImageAttachment"
+                                  nextAppDocStatus="Awaiting AP Review" />
+                        </branch>
+                        <branch name="False">
+                            <simple name="NoOpRequiresImageAttachment" nextNode="JoinRequiresImageAttachment"
+                                    nextAppDocStatus="Awaiting Receiving" />
+                        </branch>
+                        <join name="JoinRequiresImageAttachment" />
+                    </split>
+                    <split name="PurchaseWasReceived" nextNode="SubAccount">
+                        <branch name="True">
+                            <role name="Receiving" nextNode="JoinReceiving"
+                                  nextAppDocStatus="Awaiting Sub-Account Manager Approval" />
+                        </branch>
+                        <branch name="False">
+                            <simple name="NoOpReceiving" nextNode="JoinReceiving" />
+                        </branch>
+                        <join name="JoinReceiving" />
+                    </split>
+                    <role name="SubAccount" nextNode="Account"
+                          nextAppDocStatus="Awaiting Fiscal Officer Approval" />
+                    <role name="Account" nextNode="AccountingOrganizationHierarchy"
+                          nextAppDocStatus="Awaiting Chart Approval" />
+                    <role name="AccountingOrganizationHierarchy" nextNode="VendorIsEmployeeOrNonResidentAlien"
+                          nextAppDocStatus="Awaiting Tax Approval" />
+                    <split name="VendorIsEmployeeOrNonResidentAlien" nextNode="RequiresSeparationOfDutiesReview">
+                        <branch name="True">
+                            <role name="Tax" nextNode="JoinVendorIsEmployeeOrNonResidentAlien" />
+                        </branch>
+                        <branch name="False">
+                            <simple name="NoOpVendorIsEmployeeOrNonResidentAlien"
+                                    nextNode="JoinVendorIsEmployeeOrNonResidentAlien" />
+                        </branch>
+                        <join name="JoinVendorIsEmployeeOrNonResidentAlien" />
+                    </split>
+                    <split name="RequiresSeparationOfDutiesReview" nextNode="Payment" >
+                        <branch name="True">
+                            <role name="SeparationOfDuties" nextNode="JoinRequiresSeparationOfDutiesReview" nextAppDocStatus="Awaiting Payment Method Approval" />
+                        </branch>
+                        <branch name="False">
+                            <simple name="NoOp" nextNode="JoinRequiresSeparationOfDutiesReview" nextAppDocStatus="Awaiting Payment Method Approval"/>
+                        </branch>
+                        <join name="JoinRequiresSeparationOfDutiesReview" />
+                    </split>
+                    <role name="Payment" nextNode="HasVendorDepositAccount" />
+                    <split name="HasVendorDepositAccount" nextNode="HasInvoiceType">
+                        <branch name="True">
+                            <role name="VendorDepositAccount" nextNode="JoinHasVendorDepositAccount" />
+                        </branch>
+                        <branch name="False">
+                            <simple name="NoOpHasVendorDepositAccount" nextNode="JoinHasVendorDepositAccount" />
+                        </branch>
+                        <join name="JoinHasVendorDepositAccount" />
+                    </split>
+                    <split name="HasInvoiceType">
+                        <branch name="True">
+                            <split name="HasPrepaidInvoiceType" nextNode="JoinHasInvoiceType">
+                                <branch name="True">
+                                    <role name="PrepaidInvoiceType" nextNode="JoinHasPrepaidInvoiceType" />
+                                </branch>
+                                <branch name="False">
+                                    <role name="NoPrepaidInvoiceType" nextNode="JoinHasPrepaidInvoiceType" />
+                                </branch>
+                                <join name="JoinHasPrepaidInvoiceType" />
+                            </split>
+                        </branch>
+                        <branch name="False">
+                            <simple name="NoOpHasInvoiceType" nextNode="JoinHasInvoiceType" />
+                        </branch>
+                        <join name="JoinHasInvoiceType" />
+                    </split>
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="AdHoc" />
+                <split name="RequiresBudgetReview">
+                    <type>
+                        org.kuali.ole.sys.document.workflow.SimpleBooleanSplitNode
+                    </type>
+                </split>
+                <role name="Budget">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>
+                        P
+                    </activationType>
+                </role>
+                <join name="JoinRequiresBudgetReview"/>
+                <simple name="NoOpRequiresBudgetReview">
+                    <type>
+                        org.kuali.rice.kew.engine.node.NoOpNode
+                    </type>
+                </simple>
+                <split name="NotifyBudgetReview">
+                    <type>
+                        org.kuali.ole.sys.document.workflow.SimpleBooleanSplitNode
+                    </type>
+                </split>
+                <role name="FYIBudget">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>
+                        P
+                    </activationType>
+                </role>
+                <join name="JoinRequiredFYIBudgetReview" />
+                <simple name="NoOpRequiresFYIBudgetReview">
+                    <type>
+                        org.kuali.rice.kew.engine.node.NoOpNode
+                    </type>
+                </simple>
+
+                <split name="RequiresImageAttachment">
+                    <type>
+                        org.kuali.ole.sys.document.workflow.SimpleBooleanSplitNode
+                    </type>
+                </split>
+                <role name="ImageAttachment">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
+                <join name="JoinRequiresImageAttachment" />
+                <simple name="NoOpRequiresImageAttachment">
+                    <type>
+                        org.kuali.rice.kew.engine.node.NoOpNode
+                    </type>
+                </simple>
+                <split name="PurchaseWasReceived">
+                    <type>
+                        org.kuali.ole.sys.document.workflow.SimpleBooleanSplitNode
+                    </type>
+                </split>
+                <role name="Receiving">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
+                <join name="JoinReceiving" />
+                <simple name="NoOpReceiving">
+                    <type>
+                        org.kuali.rice.kew.engine.node.NoOpNode
+                    </type>
+                </simple>
+                <role name="SubAccount">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
+                <role name="Account">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>P</activationType>
+                    <mandatoryRoute>
+                        true
+                    </mandatoryRoute>
+                </role>
+                <role name="AccountingOrganizationHierarchy">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
+                <split name="VendorIsEmployeeOrNonResidentAlien">
+                    <type>
+                        org.kuali.ole.sys.document.workflow.SimpleBooleanSplitNode
+                    </type>
+                </split>
+                <role name="Tax">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
+                <join name="JoinVendorIsEmployeeOrNonResidentAlien" />
+                <simple name="NoOpVendorIsEmployeeOrNonResidentAlien">
+                    <type>
+                        org.kuali.rice.kew.engine.node.NoOpNode
+                    </type>
+                </simple>
+                <split name="HasPrepaidInvoiceType">
+                    <type>
+                        org.kuali.ole.sys.document.workflow.SimpleBooleanSplitNode
+                    </type>
+                </split>
+                <role name="PrepaidInvoiceType">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                </role>
+                <role name="NoPrepaidInvoiceType">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                </role>
+                <join name="JoinHasPrepaidInvoiceType" />
+                <role name="VendorDepositAccount">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>
+                        P
+                    </activationType>
+                </role>
+                <split name="HasVendorDepositAccount">
+                    <type>
+                        org.kuali.ole.sys.document.workflow.SimpleBooleanSplitNode
+                    </type>
+                </split>
+                <join name="JoinHasVendorDepositAccount" />
+                <simple name="NoOpHasVendorDepositAccount">
+                    <type>
+                        org.kuali.rice.kew.engine.node.NoOpNode
+                    </type>
+                </simple>
+                <split name="HasInvoiceType">
+                    <type>
+                        org.kuali.ole.sys.document.workflow.SimpleBooleanSplitNode
+                    </type>
+                </split>
+                <join name="JoinHasInvoiceType" />
+                <simple name="NoOpHasInvoiceType">
+                    <type>
+                        org.kuali.rice.kew.engine.node.NoOpNode
+                    </type>
+                </simple>
+                <split name="RequiresSeparationOfDutiesReview">
+                    <type>
+                        org.kuali.ole.sys.document.workflow.SimpleBooleanSplitNode
+                    </type>
+                </split>
+                <role name="SeparationOfDuties">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                </role>
+                <role name="Payment">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>
+                        P
+                    </activationType>
+                </role>
+                <join name="JoinRequiresSeparationOfDutiesReview" />
+                <simple name="NoOp">
+                    <type>
+                        org.kuali.rice.kew.engine.node.NoOpNode
+                    </type>
+                </simple>
+            </routeNodes>
+        </documentType>
+
+
+        <documentType>
+            <name>
+                OLE_RCVB
+            </name>
+            <parent>
+                OLE_RCV
+            </parent>
+            <label>
+                Bulk Receiving
+            </label>
+            <docHandler>
+                ${ole.url}/purapBulkReceiving.do?methodToCall=docHandler
+            </docHandler>
+            <helpDefinitionURL>
+                default.htm?turl=WordDocuments%2Fbulkreceiving.htm
+            </helpDefinitionURL>
+            <active>
+                true
+            </active>
+            <routingVersion>
+                2
+            </routingVersion>
+        </documentType>
+        <documentType>
+            <name>
+                OLE_RCVC
+            </name>
+            <parent>
+                OLE_RCV
+            </parent>
+            <label>
+                Correction Receiving
+            </label>
+            <docHandler>
+                ${ole.url}/selectOleCorrectionReceiving.do?methodToCall=docHandler
+            </docHandler>
+            <helpDefinitionURL>
+                default.htm?turl=WordDocuments%2Freceivingcorrectiondocument.htm
+            </helpDefinitionURL>
+            <active>
+                true
+            </active>
+            <routingVersion>
+                2
+            </routingVersion>
+        </documentType>
+        <documentType>
+            <name>
+                OLE_RCVL
+            </name>
+            <parent>
+                OLE_RCV
+            </parent>
+            <label>
+                Line Item Receiving
+            </label>
+            <docHandler>
+                ${ole.url}/selectOleLineItemReceiving.do?methodToCall=docHandler
+            </docHandler>
+            <helpDefinitionURL>
+                ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch05s02.html
+            </helpDefinitionURL>
+            <active>
+                true
+            </active>
+            <routingVersion>
+                2
+            </routingVersion>
+            <validApplicationStatuses>
+                <status>In Process</status>
+                <status>Cancelled</status>
+                <status>Awaiting Purchase Order Open Status</status>
+                <status>Complete</status>
+            </validApplicationStatuses>
+            <policies>
+                <policy>
+                    <name>DOCUMENT_STATUS_POLICY</name>
+                    <stringValue>app</stringValue>
+                </policy>
+            </policies>
+            <routePaths>
+                <routePath>
+                    <start name="AdHoc" nextNode="RelatesToOutstandingTransactions" nextAppDocStatus="Awaiting Purchase Order Open Status"/>
+                    <split name="RelatesToOutstandingTransactions">
+                        <branch name="True">
+                            <role name="OutstandingTransactions" nextNode="Join" />
+                        </branch>
+                        <branch name="False">
+                            <simple name="NoOp" nextNode="Join" />
+                        </branch>
+                        <join name="Join" />
+                    </split>
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="AdHoc" />
+                <split name="RelatesToOutstandingTransactions">
+                    <type>
+                        org.kuali.ole.sys.document.workflow.SimpleBooleanSplitNode
+                    </type>
+                </split>
+                <role name="OutstandingTransactions">
+                    <qualifierResolverClass>
+                        org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+                    </qualifierResolverClass>
+                    <activationType>P</activationType>
+                </role>
+                <join name="Join" />
+                <simple name="NoOp">
+                    <type>
+                        org.kuali.rice.kew.engine.node.NoOpNode
+                    </type>
+                </simple>
+            </routeNodes>
+        </documentType>
+    </documentTypes>
+</data>

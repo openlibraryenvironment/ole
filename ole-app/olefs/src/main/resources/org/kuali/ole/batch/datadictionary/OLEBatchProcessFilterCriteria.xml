@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="OLEBatchProcessFilterCriteria" parent="OLEBatchProcessFilterCriteria-parentBean"/>
+    <bean id="OLEBatchProcessFilterCriteria-parentBean" abstract="true" parent="BusinessObjectEntry"
+          p:businessObjectClass="org.kuali.ole.batch.bo.OLEBatchProcessFilterCriteriaBo" p:titleAttribute="fieldId"
+          p:objectLabel="Filter Criteria">
+        <property name="attributes">
+            <list>
+                <ref bean="OLEBatchProcessFilterCriteria-fieldId"/>
+                <ref bean="OLEBatchProcessFilterCriteria-fieldName"/>
+                <ref bean="OLEBatchProcessFilterCriteria-fieldDisplayName"/>
+                <!--<ref bean="OLEBatchProcessFilterCriteria-dataType"/>-->
+                <ref bean="OLEBatchProcessFilterCriteria-fieldType"/>
+                <ref bean="OLEBatchProcessFilterCriteria-activeIndicator"/>
+            </list>
+        </property>
+        <property name="primaryKeys">
+            <list>
+                <value>fieldId</value>
+            </list>
+        </property>
+        <!--<property name="lookupDefinition">
+            <ref bean="OLEBatchProcessFilterCriteria-LookupView"/>
+        </property>-->
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+    <bean id="OLEBatchProcessFilterCriteria-fieldId" parent="OLEBatchProcessFilterCriteria-fieldId-parentBean"/>
+    <bean id="OLEBatchProcessFilterCriteria-fieldId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="fieldId"/>
+        <property name="shortLabel" value="Field Id"/>
+        <property name="label" value="Field Id"/>
+        <!--<property name="maxLength" value="40"/>-->
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchProcessFilterCriteria-fieldName" parent="OLEBatchProcessFilterCriteria-fieldName-parentBean"/>
+    <bean id="OLEBatchProcessFilterCriteria-fieldName-parentBean" parent="AttributeDefinition" abstract="true">
+        <property name="name" value="fieldName"/>
+        <property name="shortLabel" value="Field Name"/>
+        <property name="label" value="Field Name"/>
+        <!--<property name="maxLength" value="40"/>
+        <property name="optionsFinder">
+            <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessFieldNameValuesFinder" />
+        </property>-->
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+
+    <bean id="OLEBatchProcessFilterCriteria-fieldDisplayName" parent="OLEBatchProcessFilterCriteria-fieldDisplayName-parentBean"/>
+    <bean id="OLEBatchProcessFilterCriteria-fieldDisplayName-parentBean" parent="AttributeDefinition" abstract="true">
+        <property name="name" value="fieldDisplayName"/>
+        <property name="shortLabel" value="Field Display Name"/>
+        <property name="label" value="Field Display Name"/>
+        <!--<property name="maxLength" value="40"/>-->
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+    <bean id="OLEBatchProcessFilterCriteria-fieldType" parent="OLEBatchProcessFilterCriteria-fieldType-parentBean"/>
+    <bean id="OLEBatchProcessFilterCriteria-fieldType-parentBean" parent="AttributeDefinition" abstract="true">
+        <property name="name" value="fieldType"/>
+        <property name="shortLabel" value="Field Type"/>
+        <property name="label" value="Field Type"/>
+        <!--<property name="maxLength" value="40"/>-->
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+    <!--<bean id="OLEBatchProcessFilterCriteria-dataType" parent="OLEBatchProcessFilterCriteria-dataType-parentBean"/>
+    <bean id="OLEBatchProcessFilterCriteria-dataType-parentBean" parent="AttributeDefinition" abstract="true">
+        <property name="name" value="dataType"/>
+        <property name="shortLabel" value="Data Type"/>
+        <property name="label" value="Data Type"/>
+        &lt;!&ndash;<property name="maxLength" value="40"/>&ndash;&gt;
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        &lt;!&ndash;<property name="optionsFinder">
+            <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessFieldTypeValuesFinder" />
+        </property>
+        <property name="control">
+            <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-20-select"/>
+        </property>&ndash;&gt;
+    </bean>-->
+
+    <bean id="OLEBatchProcessFilterCriteria-activeIndicator" parent="OLEBatchProcessFilterCriteria-activeIndicator-parentBean"/>
+    <bean id="OLEBatchProcessFilterCriteria-activeIndicator-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+        <property name="name" value="activeIndicator"/>
+    </bean>
+
+
+
+
+    <!-- Lookup Definition-->
+
+    <bean id="OLEBatchProcessFilterCriteria-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="Batch Process Filter Criteria Lookup" />
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="${ole.externalizable.help.url}/reference/webhelp/ADMIN/content/ch01s03.html"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="dataObjectClassName" value="org.kuali.ole.batch.bo.OLEBatchProcessFilterCriteriaBo"/>
+        <property name="criteriaFields">
+            <list>
+                <bean id="fieldId" parent="Uif-LookupCriteriaInputField" p:propertyName="fieldId"/>
+                <bean id="fieldName" parent="Uif-LookupCriteriaInputField" p:propertyName="fieldName">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.batch.keyvalue.OLEBatchFilterCriteriaFieldNameValuesFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-20-select"/>
+                    </property>
+                    <property name="quickfinder">
+                        <null></null>
+                    </property>
+                </bean>
+                <bean id="fieldDisplayName" parent="Uif-LookupCriteriaInputField" p:propertyName="fieldDisplayName">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.batch.keyvalue.OLEBatchFilterDisplayNameValuesFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-20-select"/>
+                    </property>
+                    <property name="quickfinder">
+                        <null></null>
+                    </property>
+                </bean>
+                <bean id="fieldType" parent="Uif-LookupCriteriaInputField" p:propertyName="fieldType">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessFieldTypeValuesFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-20-select"/>
+                    </property>
+                    <property name="quickfinder">
+                        <null></null>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+
+                <bean id="searchResult_id" parent="Uif-DataField" p:propertyName="fieldId"/>
+                <bean id="searchResult_fieldDisplayName" parent="Uif-DataField" p:propertyName="fieldDisplayName"/>
+                <bean id="searchResult_description" parent="Uif-DataField" p:propertyName="fieldName"/>
+                <bean id="searchResult_active" parent="Uif-DataField" p:propertyName="fieldType"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

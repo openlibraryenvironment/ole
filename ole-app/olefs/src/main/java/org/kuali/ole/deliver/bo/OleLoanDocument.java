@@ -1,0 +1,1753 @@
+package org.kuali.ole.deliver.bo;
+
+import org.kuali.ole.describe.bo.OleInstanceItemType;
+import org.kuali.ole.describe.bo.OleLocation;
+import org.kuali.ole.docstore.common.document.content.instance.Item;
+import org.kuali.rice.kim.impl.identity.entity.EntityBo;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+
+/**
+ * The OleLoanDocument is a BO class that defines the loan document fields with getters and setters which
+ * is used for interacting the loan data with the persistence layer in OLE.
+ */
+public class OleLoanDocument extends PersistableBusinessObjectBase implements Comparable<OleLoanDocument> {
+
+    private String loanId;
+    private String loanStatusId;
+    private String patronBarcode;
+    private String patronId;
+    private String itemId;
+    private boolean blockLoan;
+    private Date loanPeriodDate;
+    private Integer loanPeriod;
+    private String loanTermUnitId;
+    private Timestamp loanDueDate;
+    private String loanOperatorId;
+    private String loanApproverId;
+    private String borrowerTypeId;
+    private String borrowerTypeName;
+    private String itemInstitution;
+    private String itemCampus;
+    private String itemLibrary;
+    private String itemCollection;
+    private String itemLocation;
+    private String itemType;
+    private String itemTypeName;
+    private String itemLoanStatus;
+    private String errorMessage;
+    private String successMessage;
+    private String patronUserNotes;
+    private String patronNoteTypeId;
+    private String itemUuid;
+    private String bibUuid;
+    private transient Item oleItem;
+    private String instanceUuid;
+    private String claimsReturnNote;
+    private String location;
+    private String locationCode;
+    private boolean checkNo;
+    private boolean isValidPatron;
+    private String title;
+    private String author;
+    private OleLocation oleLocation;
+    private EntityBo entity;
+    private OleBorrowerType oleBorrowerType;
+    private OlePatronDocument olePatron;
+    private OleLoanStatus oleLoanStatus;
+    private OleLoanTermUnit oleLoanTermUnit;
+    private OleInstanceItemType oleInstanceItemType;
+    private String patronName;
+    private java.util.Date expirationDate;
+    private boolean dueDateEmpty;
+    private String itemCallNumber;
+    private String itemCopyNumber;
+    private List<OlePatronDocument> realPatron;
+    private String realPatronBarcode;
+    private String realPatronType;
+    private String realPatronName;
+    private String itemVolumeNumber;
+    private boolean inDefinite = false;
+    private String dueDateType = "Indefinite";
+    private boolean NonCirculatingItem = false;
+    /**
+     * New Fields added
+     */
+    private boolean addressVerified;
+    private String preferredAddress;
+    private String email;
+    private String phoneNumber;
+    private String proxyPatronId;
+    private boolean validateProxyPatron = false;
+    private String circulationLocationId;
+    private String machineId;
+    private String numberOfRenewals;
+    private String numberOfOverdueNoticesSent;
+    private String oleRequestId;
+    private String repaymentFeePatronBillId;
+    private boolean claimsReturnedIndicator;
+    private Date createDate;
+    private Date pastDueDate;
+    private Date overDueNoticeDate;
+    private String circulationPolicyId;
+    private OleCirculationDesk oleCirculationDesk;
+    private String noOfOverdueNoticesSentForBorrower;
+    private boolean renewalItemFlag = false;
+    private BigDecimal fineRate;
+    private boolean isCheckOut = false;
+    private boolean isBackGroundCheckOut = false;
+    private boolean numberOfPieces = false;
+    private boolean continueCheckIn = false;
+    private String description;
+    private String matchCheck;
+    private String billName;
+    private boolean damagedCheckInOption;
+    private OlePatronDocument oleRequestPatron;
+    private OleDeliverRequestBo oleDeliverRequestBo;
+    private Integer itemNumberOfPieces;
+    private boolean copyRequest = false;
+    private boolean requestPatron = false;
+    private BigDecimal itemPrice;
+    private BigDecimal replacementBill;
+    private boolean noticeForClaimsReturned = false;
+    private String circulationPolicySetId;
+    private String operatorsCirculationLocation;
+    private String itemFullPathLocation;
+    private String routeToLocation;
+    private String routeToLocationName;
+    private Date loanDueDateToAlter;
+    private String itemStatusCode;
+    private Timestamp claimsReturnedDate;
+    private String loanDueDateTimeToAlter;
+    private String locationId;
+
+    private String borrowerTypeCode;
+    private boolean blockCheckinItem;
+    private String roleName;
+    private String overrideErrorMessage;
+    private HashMap<String,String> errorsAndPermission = new HashMap<>();
+    private boolean renewPermission = true;
+    private boolean renewPermissionForRequestedItem = false;
+    private boolean  replacementFeeExist ;
+    private boolean overdueFineExist;
+    private boolean differentPatron;
+    private boolean itemDamagedStatus;
+    private String  itemDamagedNote;
+    private boolean skipDamagedCheckIn;
+    private String missingPiecesCount;
+    private boolean missingPieceFlag;
+    private String missingPieceNote;
+    private boolean backgroundCheckInMissingPiece;
+    private boolean lostPatron;
+    private boolean noOfPiecesEditable;
+    private boolean noOfMissingPiecesEditable;
+    private String backUpNoOfPieces;
+    private String enumeration;
+    private String chronology;
+    public String itemFullLocation;
+    public String itemStatusEffectiveDate;
+    private boolean loanModified;
+    private String noticeType;
+    private String noticeSendType;
+    private OLEDeliverNotice oleDeliverNotice;
+    private String oleLocationCode;
+
+    /*private boolean statusLost;
+
+    public boolean isStatusLost() {
+        return statusLost;
+    }
+
+    public void setStatusLost(boolean statusLost) {
+        this.statusLost = statusLost;
+    }*/
+
+
+    public String getRouteToLocationName() {
+        return routeToLocationName;
+    }
+
+    public void setRouteToLocationName(String routeToLocationName) {
+        this.routeToLocationName = routeToLocationName;
+    }
+
+    //added for OLE-5119
+    private boolean courtesyNoticeFlag;
+
+    public boolean isCourtesyNoticeFlag() {
+        return courtesyNoticeFlag;
+    }
+
+    public String getEnumeration() {
+        return enumeration;
+    }
+
+    public void setEnumeration(String enumeration) {
+        this.enumeration = enumeration;
+    }
+
+    public String getChronology() {
+        return chronology;
+    }
+
+    public void setChronology(String chronology) {
+        this.chronology = chronology;
+    }
+
+    public void setCourtesyNoticeFlag(boolean courtesyNoticeFlag) {
+        this.courtesyNoticeFlag = courtesyNoticeFlag;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
+
+    public boolean isBlockCheckinItem() {
+        return blockCheckinItem;
+    }
+
+    public void setBlockCheckinItem(boolean blockCheckinItem) {
+        this.blockCheckinItem = blockCheckinItem;
+    }
+
+    public String getBorrowerTypeCode() {
+        return borrowerTypeCode;
+    }
+
+    public void setBorrowerTypeCode(String borrowerTypeCode) {
+        this.borrowerTypeCode = borrowerTypeCode;
+    }
+
+    public String getLocationId() {
+        return locationId;
+    }
+
+    public void setLocationId(String locationId) {
+        this.locationId = locationId;
+    }
+
+    public boolean isNonCirculatingItem() {
+        return NonCirculatingItem;
+    }
+
+    public void setNonCirculatingItem(boolean nonCirculatingItem) {
+        NonCirculatingItem = nonCirculatingItem;
+    }
+
+    public String getItemStatusCode() {
+        return itemStatusCode;
+    }
+
+    public void setItemStatusCode(String itemStatusCode) {
+        this.itemStatusCode = itemStatusCode;
+    }
+
+    public Date getLoanDueDateToAlter() {
+        return loanDueDateToAlter;
+    }
+
+    public void setLoanDueDateToAlter(Date loanDueDateToAlter) {
+        this.loanDueDateToAlter = loanDueDateToAlter;
+    }
+
+    public String getRouteToLocation() {
+        return routeToLocation;
+    }
+
+    public void setRouteToLocation(String routeToLocation) {
+        this.routeToLocation = routeToLocation;
+    }
+
+    public String getLocationCode() {
+        return locationCode;
+    }
+
+    public void setLocationCode(String locationCode) {
+        this.locationCode = locationCode;
+    }
+
+    public String getItemFullPathLocation() {
+        return itemFullPathLocation;
+    }
+
+    public void setItemFullPathLocation(String itemFullPathLocation) {
+        this.itemFullPathLocation = itemFullPathLocation;
+    }
+
+    public String getBibUuid() {
+        return bibUuid;
+    }
+
+    public void setBibUuid(String bibUuid) {
+        this.bibUuid = bibUuid;
+    }
+
+    public String getOperatorsCirculationLocation() {
+        return operatorsCirculationLocation;
+    }
+
+    public void setOperatorsCirculationLocation(String operatorsCirculationLocation) {
+        this.operatorsCirculationLocation = operatorsCirculationLocation;
+    }
+
+    public String getCirculationPolicySetId() {
+        return circulationPolicySetId;
+    }
+
+    public void setCirculationPolicySetId(String circulationPolicySetId) {
+        this.circulationPolicySetId = circulationPolicySetId;
+    }
+
+    public boolean isNoticeForClaimsReturned() {
+        return noticeForClaimsReturned;
+    }
+
+    public void setNoticeForClaimsReturned(boolean noticeForClaimsReturned) {
+        this.noticeForClaimsReturned = noticeForClaimsReturned;
+    }
+
+    public boolean isInDefinite() {
+        return inDefinite;
+    }
+
+    public void setInDefinite(boolean inDefinite) {
+        this.inDefinite = inDefinite;
+    }
+
+    //renewal
+    private Timestamp renewalLoanDueDate;
+    private boolean renewCheckNo;
+
+    public String getDueDateType() {
+        return dueDateType;
+    }
+
+    public void setDueDateType(String dueDateType) {
+        this.dueDateType = dueDateType;
+    }
+
+    public boolean isRenewCheckNo() {
+        return renewCheckNo;
+    }
+
+    public void setRenewCheckNo(boolean renewCheckNo) {
+        this.renewCheckNo = renewCheckNo;
+    }
+
+    public Timestamp getRenewalLoanDueDate() {
+        return renewalLoanDueDate;
+    }
+
+    public void setRenewalLoanDueDate(Timestamp renewalLoanDueDate) {
+        this.renewalLoanDueDate = renewalLoanDueDate;
+    }
+
+    public boolean isAddressVerified() {
+        return addressVerified;
+    }
+
+    public void setAddressVerified(boolean addressVerified) {
+        this.addressVerified = addressVerified;
+    }
+
+    public boolean isRequestPatron() {
+        return requestPatron;
+    }
+
+    public void setRequestPatron(boolean requestPatron) {
+        this.requestPatron = requestPatron;
+    }
+
+    public BigDecimal getReplacementBill() {
+        return replacementBill;
+    }
+
+    public void setReplacementBill(BigDecimal replacementBill) {
+        this.replacementBill = replacementBill;
+    }
+
+    public BigDecimal getItemPrice() {
+        return itemPrice;
+    }
+
+    public void setItemPrice(BigDecimal itemPrice) {
+        this.itemPrice = itemPrice;
+    }
+
+    public String getItemCopyNumber() {
+        return itemCopyNumber;
+    }
+
+    public void setItemCopyNumber(String itemCopyNumber) {
+        this.itemCopyNumber = itemCopyNumber;
+    }
+
+    public boolean isCopyRequest() {
+        return copyRequest;
+    }
+
+    public void setCopyRequest(boolean copyRequest) {
+        this.copyRequest = copyRequest;
+    }
+
+    public boolean isValidateProxyPatron() {
+        return validateProxyPatron;
+    }
+
+    public void setValidateProxyPatron(boolean validateProxyPatron) {
+        this.validateProxyPatron = validateProxyPatron;
+    }
+
+    public Integer getItemNumberOfPieces() {
+        return itemNumberOfPieces;
+    }
+
+    public void setItemNumberOfPieces(Integer itemNumberOfPieces) {
+        this.itemNumberOfPieces = itemNumberOfPieces;
+    }
+
+    public OleDeliverRequestBo getOleDeliverRequestBo() {
+        return oleDeliverRequestBo;
+    }
+
+    public void setOleDeliverRequestBo(OleDeliverRequestBo oleDeliverRequestBo) {
+        this.oleDeliverRequestBo = oleDeliverRequestBo;
+    }
+
+    public OlePatronDocument getOleRequestPatron() {
+        return oleRequestPatron;
+    }
+
+    public void setOleRequestPatron(OlePatronDocument oleRequestPatron) {
+        this.oleRequestPatron = oleRequestPatron;
+    }
+
+    public String getRealPatronName() {
+        return realPatronName;
+    }
+
+    public void setRealPatronName(String realPatronName) {
+        this.realPatronName = realPatronName;
+    }
+
+    public boolean isBlockLoan() {
+        return blockLoan;
+    }
+
+    public void setBlockLoan(boolean blockLoan) {
+        this.blockLoan = blockLoan;
+    }
+
+    public boolean isDamagedCheckInOption() {
+        return damagedCheckInOption;
+    }
+
+    public void setDamagedCheckInOption(boolean damagedCheckInOption) {
+        this.damagedCheckInOption = damagedCheckInOption;
+    }
+
+    public String getBillName() {
+        return billName;
+    }
+
+    public void setBillName(String billName) {
+        this.billName = billName;
+    }
+
+    public boolean isContinueCheckIn() {
+        return continueCheckIn;
+    }
+
+    public void setContinueCheckIn(boolean continueCheckIn) {
+        this.continueCheckIn = continueCheckIn;
+    }
+
+    public OleCirculationDesk getOleCirculationDesk() {
+        return oleCirculationDesk;
+    }
+
+    public void setOleCirculationDesk(OleCirculationDesk oleCirculationDesk) {
+        this.oleCirculationDesk = oleCirculationDesk;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getMatchCheck() {
+        return matchCheck;
+    }
+
+    public void setMatchCheck(String matchCheck) {
+        this.matchCheck = matchCheck;
+    }
+
+    public boolean isNumberOfPieces() {
+        return numberOfPieces;
+    }
+
+    public void setNumberOfPieces(boolean numberOfPieces) {
+        this.numberOfPieces = numberOfPieces;
+    }
+
+    public BigDecimal getFineRate() {
+        return fineRate;
+    }
+
+    public void setFineRate(BigDecimal fineRate) {
+        this.fineRate = fineRate;
+    }
+
+    public boolean isCheckOut() {
+        return isCheckOut;
+    }
+
+    public void setCheckOut(boolean checkOut) {
+        isCheckOut = checkOut;
+    }
+
+    public String getRealPatronType() {
+        return realPatronType;
+    }
+
+    public void setRealPatronType(String realPatronType) {
+        this.realPatronType = realPatronType;
+    }
+
+    public String getRealPatronBarcode() {
+        return realPatronBarcode;
+    }
+
+    public void setRealPatronBarcode(String realPatronBarcode) {
+        this.realPatronBarcode = realPatronBarcode;
+    }
+
+    public List<OlePatronDocument> getRealPatron() {
+        return realPatron;
+    }
+
+    public void setRealPatron(List<OlePatronDocument> realPatron) {
+        this.realPatron = realPatron;
+    }
+
+    public String getPatronNoteTypeId() {
+        return patronNoteTypeId;
+    }
+
+    public void setPatronNoteTypeId(String patronNoteTypeId) {
+        this.patronNoteTypeId = patronNoteTypeId;
+    }
+
+    public String getPatronUserNotes() {
+        return patronUserNotes;
+    }
+
+    public void setPatronUserNotes(String patronUserNotes) {
+        this.patronUserNotes = patronUserNotes;
+    }
+
+    //For Check-in
+    private String itemStatus;
+    private Timestamp checkInDate;
+
+    public Timestamp getCheckInDate() {
+        return checkInDate;
+    }
+
+    public void setCheckInDate(Timestamp checkInDate) {
+        this.checkInDate = checkInDate;
+    }
+
+    public boolean isRenewalItemFlag() {
+        return renewalItemFlag;
+    }
+
+    public void setRenewalItemFlag(boolean renewalItemFlag) {
+        this.renewalItemFlag = renewalItemFlag;
+    }
+
+
+    public String getItemStatus() {
+        return itemStatus;
+    }
+
+    public void setItemStatus(String itemStatus) {
+        this.itemStatus = itemStatus;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getPreferredAddress() {
+        return preferredAddress;
+    }
+
+    public void setPreferredAddress(String preferredAddress) {
+        this.preferredAddress = preferredAddress;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getClaimsReturnNote() {
+        return claimsReturnNote;
+    }
+
+    public void setClaimsReturnNote(String claimsReturnNote) {
+        this.claimsReturnNote = claimsReturnNote;
+    }
+
+    public String getProxyPatronId() {
+        return proxyPatronId;
+    }
+
+    public void setProxyPatronId(String proxyPatronId) {
+        this.proxyPatronId = proxyPatronId;
+    }
+
+    public String getCirculationLocationId() {
+        return circulationLocationId;
+    }
+
+    public void setCirculationLocationId(String circulationLocationId) {
+        this.circulationLocationId = circulationLocationId;
+    }
+
+    public String getMachineId() {
+        return machineId;
+    }
+
+    public void setMachineId(String machineId) {
+        this.machineId = machineId;
+    }
+
+    public String getNumberOfRenewals() {
+        if (numberOfRenewals == null || "".equals(numberOfRenewals))
+            numberOfRenewals = "0";
+        return numberOfRenewals;
+    }
+
+    public void setNumberOfRenewals(String numberOfRenewals) {
+        this.numberOfRenewals = numberOfRenewals;
+    }
+
+    public String getNumberOfOverdueNoticesSent() {
+        return numberOfOverdueNoticesSent;
+    }
+
+    public void setNumberOfOverdueNoticesSent(String numberOfOverdueNoticesSent) {
+        this.numberOfOverdueNoticesSent = numberOfOverdueNoticesSent;
+    }
+
+    public String getOleRequestId() {
+        return oleRequestId;
+    }
+
+    public void setOleRequestId(String oleRequestId) {
+        this.oleRequestId = oleRequestId;
+    }
+
+    public String getRepaymentFeePatronBillId() {
+        return repaymentFeePatronBillId;
+    }
+
+    public void setRepaymentFeePatronBillId(String repaymentFeePatronBillId) {
+        this.repaymentFeePatronBillId = repaymentFeePatronBillId;
+    }
+
+    public boolean isClaimsReturnedIndicator() {
+        return claimsReturnedIndicator;
+    }
+
+    public void setClaimsReturnedIndicator(boolean claimsReturnedIndicator) {
+        this.claimsReturnedIndicator = claimsReturnedIndicator;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Date getPastDueDate() {
+        return pastDueDate;
+    }
+
+    public void setPastDueDate(Date pastDueDate) {
+        this.pastDueDate = pastDueDate;
+    }
+
+    public Date getOverDueNoticeDate() {
+        return overDueNoticeDate;
+    }
+
+    public void setOverDueNoticeDate(Date overDueNoticeDate) {
+        this.overDueNoticeDate = overDueNoticeDate;
+    }
+
+    public String getCirculationPolicyId() {
+        return circulationPolicyId;
+    }
+
+    public void setCirculationPolicyId(String circulationPolicyId) {
+        this.circulationPolicyId = circulationPolicyId;
+    }
+
+    public String getNoOfOverdueNoticesSentForBorrower() {
+        return noOfOverdueNoticesSentForBorrower;
+    }
+
+    public void setNoOfOverdueNoticesSentForBorrower(String noOfOverdueNoticesSentForBorrower) {
+        this.noOfOverdueNoticesSentForBorrower = noOfOverdueNoticesSentForBorrower;
+    }
+
+    public boolean isCheckNo() {
+        return checkNo;
+    }
+
+    public void setCheckNo(boolean checkNo) {
+        this.checkNo = checkNo;
+    }
+
+    private List<OLEDeliverNotice> deliverNotices;
+
+    /**
+     * Gets the ItemCallNumber attribute.
+     *
+     * @return returns the String.
+     */
+    public String getItemCallNumber() {
+        return itemCallNumber;
+    }
+
+    /**
+     * Sets the itemCallNumber attribute value.
+     *
+     * @param itemCallNumber
+     */
+    public void setItemCallNumber(String itemCallNumber) {
+        this.itemCallNumber = itemCallNumber;
+    }
+
+    /**
+     * Gets the instanceUuid attribute.
+     *
+     * @return Returns the instanceUuid
+     */
+    public String getInstanceUuid() {
+        return instanceUuid;
+    }
+
+    /**
+     * Sets the instanceUuid attribute value.
+     *
+     * @param instanceUuid The instanceUuid to set.
+     */
+    public void setInstanceUuid(String instanceUuid) {
+        this.instanceUuid = instanceUuid;
+    }
+
+    /**
+     * Gets the oleInstanceItemType attribute.
+     *
+     * @return Returns the oleInstanceItemType
+     */
+    public OleInstanceItemType getOleInstanceItemType() {
+        return oleInstanceItemType;
+    }
+
+    /**
+     * Sets the oleInstanceItemType attribute value.
+     *
+     * @param oleInstanceItemType The oleInstanceItemType to set.
+     */
+    public void setOleInstanceItemType(OleInstanceItemType oleInstanceItemType) {
+        this.oleInstanceItemType = oleInstanceItemType;
+    }
+
+    /**
+     * Gets the dueDateEmpty attribute.
+     *
+     * @return Returns the dueDateEmpty
+     */
+    public boolean isDueDateEmpty() {
+        return dueDateEmpty;
+    }
+
+    /**
+     * Sets the dueDateEmpty attribute value.
+     *
+     * @param dueDateEmpty The dueDateEmpty to set.
+     */
+    public void setDueDateEmpty(boolean dueDateEmpty) {
+        this.dueDateEmpty = dueDateEmpty;
+    }
+
+    /**
+     * Gets the expirationDate attribute.
+     *
+     * @return Returns the expirationDate
+     */
+    public java.util.Date getExpirationDate() {
+        return expirationDate;
+    }
+
+    /**
+     * Sets the expirationDate attribute value.
+     *
+     * @param expirationDate The expirationDate to set.
+     */
+    public void setExpirationDate(java.util.Date expirationDate) {
+        this.expirationDate = expirationDate;
+    }
+
+    /**
+     * Gets the itemTypeName attribute.
+     *
+     * @return Returns the itemTypeName
+     */
+    public String getItemTypeName() {
+        return itemTypeName;
+    }
+
+    /**
+     * Sets the itemTypeName attribute value.
+     *
+     * @param itemTypeName The itemTypeName to set.
+     */
+    public void setItemTypeName(String itemTypeName) {
+        this.itemTypeName = itemTypeName;
+    }
+
+    /**
+     * Gets the patronBarcode attribute.
+     *
+     * @return Returns the patronBarcode
+     */
+    public String getPatronBarcode() {
+        return patronBarcode;
+    }
+
+    /**
+     * Sets the patronBarcode attribute value.
+     *
+     * @param patronBarcode The patronBarcode to set.
+     */
+    public void setPatronBarcode(String patronBarcode) {
+        this.patronBarcode = patronBarcode;
+    }
+
+    /**
+     * Gets the itemUuid attribute.
+     *
+     * @return Returns the itemUuid
+     */
+    public String getItemUuid() {
+        return itemUuid;
+    }
+
+    /**
+     * Sets the itemUuid attribute value.
+     *
+     * @param itemUuid The itemUuid to set.
+     */
+    public void setItemUuid(String itemUuid) {
+        this.itemUuid = itemUuid;
+    }
+
+    /**
+     * Gets the patronName attribute.
+     *
+     * @return Returns the patronName
+     */
+    public String getPatronName() {
+        return patronName;
+    }
+
+    /**
+     * Sets the patronName attribute value.
+     *
+     * @param patronName The patronName to set.
+     */
+    public void setPatronName(String patronName) {
+        this.patronName = patronName;
+    }
+
+    /**
+     * Gets the isValidPatron attribute.
+     *
+     * @return Returns the isValidPatron
+     */
+    public boolean isValidPatron() {
+        return isValidPatron;
+    }
+
+    /**
+     * Sets the isValidPatron attribute value.
+     *
+     * @param validPatron The isValidPatron to set.
+     */
+    public void setValidPatron(boolean validPatron) {
+        isValidPatron = validPatron;
+    }
+
+    /**
+     * Gets the borrowerTypeName attribute.
+     *
+     * @return Returns the borrowerTypeName
+     */
+    public String getBorrowerTypeName() {
+        return borrowerTypeName;
+    }
+
+    /**
+     * Sets the borrowerTypeName attribute value.
+     *
+     * @param borrowerTypeName The borrowerTypeName to set.
+     */
+    public void setBorrowerTypeName(String borrowerTypeName) {
+        this.borrowerTypeName = borrowerTypeName;
+    }
+
+    /**
+     * Gets the errorMessage attribute.
+     *
+     * @return Returns the errorMessage
+     */
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    /**
+     * Sets the errorMessage attribute value.
+     *
+     * @param errorMessage The errorMessage to set.
+     */
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
+
+    /**
+     * Gets the oleLocation attribute.
+     *
+     * @return Returns the oleLocation
+     */
+    public OleLocation getOleLocation() {
+        return oleLocation;
+    }
+
+    /**
+     * Sets the oleLocation attribute value.
+     *
+     * @param oleLocation The oleLocation to set.
+     */
+    public void setOleLocation(OleLocation oleLocation) {
+        this.oleLocation = oleLocation;
+    }
+
+    /**
+     * Gets the title attribute.
+     *
+     * @return Returns the title
+     */
+    public String getTitle() {
+        return title;
+    }
+
+    /**
+     * Sets the title attribute value.
+     *
+     * @param title The title to set.
+     */
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    /**
+     * Gets the entity attribute.
+     *
+     * @return Returns the entity
+     */
+    public EntityBo getEntity() {
+        if(getPatronId()!=null){
+            EntityBo entityBo = (EntityBo) KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(EntityBo.class, getPatronId());
+            return entityBo;
+        }else{
+            return entity;
+        }
+    }
+
+    /**
+     * Sets the entity attribute value.
+     *
+     * @param entity The entity to set.
+     */
+    public void setEntity(EntityBo entity) {
+        this.entity = entity;
+    }
+
+    /**
+     * Gets the oleBorrowerType attribute.
+     *
+     * @return Returns the oleBorrowerType
+     */
+    public OleBorrowerType getOleBorrowerType() {
+        return oleBorrowerType;
+    }
+
+    /**
+     * Sets the oleBorrowerType attribute value.
+     *
+     * @param oleBorrowerType The oleBorrowerType to set.
+     */
+    public void setOleBorrowerType(OleBorrowerType oleBorrowerType) {
+        this.oleBorrowerType = oleBorrowerType;
+    }
+
+    /**
+     * Gets the olePatron attribute.
+     *
+     * @return Returns the olePatron
+     */
+    public OlePatronDocument getOlePatron() {
+        return olePatron;
+    }
+
+    /**
+     * Sets the olePatron attribute value.
+     *
+     * @param olePatron The olePatron to set.
+     */
+    public void setOlePatron(OlePatronDocument olePatron) {
+        this.olePatron = olePatron;
+    }
+
+    /**
+     * Gets the oleLoanStatus attribute.
+     *
+     * @return Returns the oleLoanStatus
+     */
+    public OleLoanStatus getOleLoanStatus() {
+        return oleLoanStatus;
+    }
+
+    /**
+     * Sets the oleLoanStatus attribute value.
+     *
+     * @param oleLoanStatus The oleLoanStatus to set.
+     */
+    public void setOleLoanStatus(OleLoanStatus oleLoanStatus) {
+        this.oleLoanStatus = oleLoanStatus;
+    }
+
+    /**
+     * Gets the oleLoanTermUnit attribute.
+     *
+     * @return Returns the oleLoanTermUnit
+     */
+    public OleLoanTermUnit getOleLoanTermUnit() {
+        return oleLoanTermUnit;
+    }
+
+    /**
+     * Sets the oleLoanTermUnit attribute value.
+     *
+     * @param oleLoanTermUnit The oleLoanTermUnit to set.
+     */
+    public void setOleLoanTermUnit(OleLoanTermUnit oleLoanTermUnit) {
+        this.oleLoanTermUnit = oleLoanTermUnit;
+    }
+
+    /**
+     * Gets the loanId attribute.
+     *
+     * @return Returns the loanId
+     */
+    public String getLoanId() {
+        return loanId;
+    }
+
+    /**
+     * Sets the loanId attribute value.
+     *
+     * @param loanId The loanId to set.
+     */
+    public void setLoanId(String loanId) {
+        this.loanId = loanId;
+    }
+
+    /**
+     * Gets the loanStatusId attribute.
+     *
+     * @return Returns the loanStatusId
+     */
+    public String getLoanStatusId() {
+        return loanStatusId;
+    }
+
+    /**
+     * Sets the loanStatusId attribute value.
+     *
+     * @param loanStatusId The loanStatusId to set.
+     */
+    public void setLoanStatusId(String loanStatusId) {
+        this.loanStatusId = loanStatusId;
+    }
+
+    /**
+     * Gets the patronId attribute.
+     *
+     * @return Returns the patronId
+     */
+    public String getPatronId() {
+        return patronId;
+    }
+
+    /**
+     * Sets the patronId attribute value.
+     *
+     * @param patronId The patronId to set.
+     */
+    public void setPatronId(String patronId) {
+        this.patronId = patronId;
+    }
+
+    /**
+     * Gets the itemId attribute.
+     *
+     * @return Returns the itemId
+     */
+    public String getItemId() {
+        return itemId;
+    }
+
+    /**
+     * Sets the itemId attribute value.
+     *
+     * @param itemId The itemId to set.
+     */
+    public void setItemId(String itemId) {
+        this.itemId = itemId;
+    }
+
+    /**
+     * Gets the loanPeriodDate attribute.
+     *
+     * @return Returns the loanPeriodDate
+     */
+    public Date getLoanPeriodDate() {
+        return loanPeriodDate;
+    }
+
+    /**
+     * Sets the loanPeriodDate attribute value.
+     *
+     * @param loanPeriodDate The loanPeriodDate to set.
+     */
+    public void setLoanPeriodDate(Date loanPeriodDate) {
+        this.loanPeriodDate = loanPeriodDate;
+    }
+
+    /**
+     * Gets the loanPeriod attribute.
+     *
+     * @return Returns the loanPeriod
+     */
+    public Integer getLoanPeriod() {
+        return loanPeriod;
+    }
+
+    /**
+     * Sets the loanPeriod attribute value.
+     *
+     * @param loanPeriod The loanPeriod to set.
+     */
+    public void setLoanPeriod(Integer loanPeriod) {
+        this.loanPeriod = loanPeriod;
+    }
+
+    /**
+     * Gets the loanTermUnitId attribute.
+     *
+     * @return Returns the loanTermUnitId
+     */
+    public String getLoanTermUnitId() {
+        return loanTermUnitId;
+    }
+
+    /**
+     * Sets the loanTermUnitId attribute value.
+     *
+     * @param loanTermUnitId The loanTermUnitId to set.
+     */
+    public void setLoanTermUnitId(String loanTermUnitId) {
+        this.loanTermUnitId = loanTermUnitId;
+    }
+
+    /**
+     * Gets the loanDueDate attribute.
+     *
+     * @return Returns the loanDueDate
+     */
+    public Timestamp getLoanDueDate() {
+        return loanDueDate;
+    }
+
+    /**
+     * Sets the loanDueDate attribute value.
+     *
+     * @param loanDueDate The loanDueDate to set.
+     */
+    public void setLoanDueDate(Timestamp loanDueDate) {
+        this.loanDueDate = loanDueDate;
+    }
+
+    /**
+     * Gets the loanOperatorId attribute.
+     *
+     * @return Returns the loanOperatorId
+     */
+    public String getLoanOperatorId() {
+        return loanOperatorId;
+    }
+
+    /**
+     * Sets the loanOperatorId attribute value.
+     *
+     * @param loanOperatorId The loanOperatorId to set.
+     */
+    public void setLoanOperatorId(String loanOperatorId) {
+        this.loanOperatorId = loanOperatorId;
+    }
+
+    /**
+     * Gets the loanApproverId attribute.
+     *
+     * @return Returns the loanApproverId
+     */
+    public String getLoanApproverId() {
+        return loanApproverId;
+    }
+
+    /**
+     * Sets the loanApproverId attribute value.
+     *
+     * @param loanApproverId The loanApproverId to set.
+     */
+    public void setLoanApproverId(String loanApproverId) {
+        this.loanApproverId = loanApproverId;
+    }
+
+    /**
+     * Gets the borrowerTypeId attribute.
+     *
+     * @return Returns the borrowerTypeId
+     */
+    public String getBorrowerTypeId() {
+        return borrowerTypeId;
+    }
+
+    /**
+     * Sets the borrowerTypeId attribute value.
+     *
+     * @param borrowerTypeId The borrowerTypeId to set.
+     */
+    public void setBorrowerTypeId(String borrowerTypeId) {
+        this.borrowerTypeId = borrowerTypeId;
+    }
+
+    /**
+     * Gets the itemInstitution attribute.
+     *
+     * @return Returns the itemInstitution
+     */
+    public String getItemInstitution() {
+        return itemInstitution;
+    }
+
+    /**
+     * Sets the itemInstitution attribute value.
+     *
+     * @param itemInstitution The itemInstitution to set.
+     */
+    public void setItemInstitution(String itemInstitution) {
+        this.itemInstitution = itemInstitution;
+    }
+
+    /**
+     * Gets the itemCampus attribute.
+     *
+     * @return Returns the itemCampus
+     */
+    public String getItemCampus() {
+        return itemCampus;
+    }
+
+    /**
+     * Sets the itemCampus attribute value.
+     *
+     * @param itemCampus The itemCampus to set.
+     */
+    public void setItemCampus(String itemCampus) {
+        this.itemCampus = itemCampus;
+    }
+
+    /**
+     * Gets the itemLibrary attribute.
+     *
+     * @return Returns the itemLibrary
+     */
+    public String getItemLibrary() {
+        return itemLibrary;
+    }
+
+    /**
+     * Sets the itemLibrary attribute value.
+     *
+     * @param itemLibrary The itemLibrary to set.
+     */
+    public void setItemLibrary(String itemLibrary) {
+        this.itemLibrary = itemLibrary;
+    }
+
+    /**
+     * Gets the itemCollection attribute.
+     *
+     * @return Returns the itemCollection
+     */
+    public String getItemCollection() {
+        return itemCollection;
+    }
+
+    /**
+     * Sets the itemCollection attribute value.
+     *
+     * @param itemCollection The itemCollection to set.
+     */
+    public void setItemCollection(String itemCollection) {
+        this.itemCollection = itemCollection;
+    }
+
+    /**
+     * Gets the itemLocation attribute.
+     *
+     * @return Returns the itemLocation
+     */
+    public String getItemLocation() {
+        return itemLocation;
+    }
+
+    /**
+     * Sets the itemLocation attribute value.
+     *
+     * @param itemLocation The itemLocation to set.
+     */
+    public void setItemLocation(String itemLocation) {
+        this.itemLocation = itemLocation;
+    }
+
+    /**
+     * Gets the itemType attribute.
+     *
+     * @return Returns the itemType
+     */
+    public String getItemType() {
+        return itemType;
+    }
+
+    /**
+     * Sets the itemType attribute value.
+     *
+     * @param itemType The itemType to set.
+     */
+    public void setItemType(String itemType) {
+        this.itemType = itemType;
+    }
+
+
+    /**
+     * Gets the itemLoanStatus attribute.
+     *
+     * @return Returns the itemLoanStatus
+     */
+    public String getItemLoanStatus() {
+        return itemLoanStatus;
+    }
+
+    /**
+     * Sets the itemLoanStatus attribute value.
+     *
+     * @param itemLoanStatus The itemLoanStatus to set.
+     */
+    public void setItemLoanStatus(String itemLoanStatus) {
+        this.itemLoanStatus = itemLoanStatus;
+    }
+
+    /**
+     * Gets the oleItem attribute.
+     *
+     * @return Returns the oleItem
+     */
+    public Item getOleItem() {
+        return oleItem;
+    }
+
+    /**
+     * Sets the oleItem attribute value.
+     *
+     * @param oleItem The oleItem to set.
+     */
+    public void setOleItem(Item oleItem) {
+        this.oleItem = oleItem;
+    }
+
+    /**
+     * Gets the itemVolumeNumber attribute.
+     *
+     * @return Returns the itemVolumeNumber
+     */
+    public String getItemVolumeNumber() {
+        return itemVolumeNumber;
+    }
+
+    /**
+     * Sets the itemVolumeNumber attribute value.
+     *
+     * @param itemVolumeNumber The oleItem to set.
+     */
+    public void setItemVolumeNumber(String itemVolumeNumber) {
+        this.itemVolumeNumber = itemVolumeNumber;
+    }
+
+    /**
+     * Gets the claims return date attribute value.
+     *
+     * @return Returns the claims return date
+     */
+    public Timestamp getClaimsReturnedDate() {
+        return claimsReturnedDate;
+    }
+
+    /**
+     * Sets the claims return date attribute value.
+     *
+     * @param claimsReturnedDate
+     */
+    public void setClaimsReturnedDate(Timestamp claimsReturnedDate) {
+        this.claimsReturnedDate = claimsReturnedDate;
+    }
+
+    /**
+     * Gets the loanDueDateTimeToAlter attribute value.
+     *
+     * @return Returns the loanDueDateTimeToAlter
+     */
+    public String getLoanDueDateTimeToAlter() {
+        return loanDueDateTimeToAlter;
+    }
+
+    /**
+     * Sets the loanDueDateTimeToAlter attribute value.
+     *
+     * @param loanDueDateTimeToAlter
+     */
+    public void setLoanDueDateTimeToAlter(String loanDueDateTimeToAlter) {
+        this.loanDueDateTimeToAlter = loanDueDateTimeToAlter;
+    }
+
+    public boolean isBackGroundCheckOut() {
+        return isBackGroundCheckOut;
+    }
+
+    public void setBackGroundCheckOut(boolean backGroundCheckOut) {
+        isBackGroundCheckOut = backGroundCheckOut;
+    }
+
+    public String getOverrideErrorMessage() {
+        return overrideErrorMessage;
+    }
+
+    public void setOverrideErrorMessage(String overrideErrorMessage) {
+        this.overrideErrorMessage = overrideErrorMessage;
+    }
+
+    public HashMap<String, String> getErrorsAndPermission() {
+        return errorsAndPermission;
+    }
+
+    public void setErrorsAndPermission(HashMap<String, String> errorsAndPermission) {
+        this.errorsAndPermission = errorsAndPermission;
+    }
+
+    public boolean isRenewPermission() {
+        return renewPermission;
+    }
+
+    public void setRenewPermission(boolean renewPermission) {
+        this.renewPermission = renewPermission;
+    }
+
+    public boolean isReplacementFeeExist() {
+        return replacementFeeExist;
+    }
+
+    public void setReplacementFeeExist(boolean replacementFeeExist) {
+        this.replacementFeeExist = replacementFeeExist;
+    }
+
+    public boolean isOverdueFineExist() {
+        return overdueFineExist;
+    }
+
+    public void setOverdueFineExist(boolean overdueFineExist) {
+        this.overdueFineExist = overdueFineExist;
+    }
+
+    public boolean isDifferentPatron() {
+        return differentPatron;
+    }
+
+    public void setDifferentPatron(boolean differentPatron) {
+        this.differentPatron = differentPatron;
+    }
+
+    public boolean isItemDamagedStatus() {
+        return itemDamagedStatus;
+    }
+
+    public void setItemDamagedStatus(boolean itemDamagedStatus) {
+        this.itemDamagedStatus = itemDamagedStatus;
+    }
+
+    public boolean isSkipDamagedCheckIn() {
+        return skipDamagedCheckIn;
+    }
+
+    public void setSkipDamagedCheckIn(boolean skipDamagedCheckIn) {
+        this.skipDamagedCheckIn = skipDamagedCheckIn;
+    }
+
+    public String getMissingPiecesCount() {
+        return missingPiecesCount;
+    }
+
+    public void setMissingPiecesCount(String missingPiecesCount) {
+        this.missingPiecesCount = missingPiecesCount;
+    }
+
+    public boolean isMissingPieceFlag() {
+        return missingPieceFlag;
+    }
+
+    public void setMissingPieceFlag(boolean missingPieceFlag) {
+        this.missingPieceFlag = missingPieceFlag;
+    }
+
+    public boolean isBackgroundCheckInMissingPiece() {
+        return backgroundCheckInMissingPiece;
+    }
+
+    public void setBackgroundCheckInMissingPiece(boolean backgroundCheckInMissingPiece) {
+        this.backgroundCheckInMissingPiece = backgroundCheckInMissingPiece;
+    }
+
+    public boolean isLostPatron() {
+        return lostPatron;
+    }
+
+    public void setLostPatron(boolean lostPatron) {
+        this.lostPatron = lostPatron;
+    }
+
+    public String getItemDamagedNote() {
+        return itemDamagedNote;
+    }
+
+    public void setItemDamagedNote(String itemDamagedNote) {
+        this.itemDamagedNote = itemDamagedNote;
+    }
+
+    public String getMissingPieceNote() {
+        return missingPieceNote;
+    }
+
+    public void setMissingPieceNote(String missingPieceNote) {
+        this.missingPieceNote = missingPieceNote;
+    }
+
+    public boolean isNoOfPiecesEditable() {
+        return noOfPiecesEditable;
+    }
+
+    public void setNoOfPiecesEditable(boolean noOfPiecesEditable) {
+        this.noOfPiecesEditable = noOfPiecesEditable;
+    }
+
+    public boolean isNoOfMissingPiecesEditable() {
+        return noOfMissingPiecesEditable;
+    }
+
+    public void setNoOfMissingPiecesEditable(boolean noOfMissingPiecesEditable) {
+        this.noOfMissingPiecesEditable = noOfMissingPiecesEditable;
+    }
+
+    public String getBackUpNoOfPieces() {
+        return backUpNoOfPieces;
+    }
+
+    public void setBackUpNoOfPieces(String backUpNoOfPieces) {
+        this.backUpNoOfPieces = backUpNoOfPieces;
+    }
+
+    public String getSuccessMessage() {
+        return successMessage;
+    }
+
+    public void setSuccessMessage(String successMessage) {
+        this.successMessage = successMessage;
+    }
+
+    public boolean isRenewPermissionForRequestedItem() {
+        return renewPermissionForRequestedItem;
+    }
+
+    public void setRenewPermissionForRequestedItem(boolean renewPermissionForRequestedItem) {
+        this.renewPermissionForRequestedItem = renewPermissionForRequestedItem;
+    }
+
+    public boolean isLoanModified() {
+        return loanModified;
+    }
+
+    public void setLoanModified(boolean loanModified) {
+        this.loanModified = loanModified;
+    }
+
+    public String getItemFullLocation() {
+        return itemFullLocation;
+    }
+
+    public void setItemFullLocation(String itemFullLocation) {
+        this.itemFullLocation = itemFullLocation;
+    }
+
+    @Override
+    public int compareTo(OleLoanDocument oleLoanDocument) {
+        if(this.itemId!=null && itemId.equals(oleLoanDocument.getItemId())){
+            return 0;
+        }
+        return -1;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj==null){
+           return super.equals(obj);
+        } else {
+             if(obj  instanceof OleLoanDocument){
+                 OleLoanDocument oleLoanDocument=(OleLoanDocument)obj;
+                 if(this.itemId!=null && itemId.equals(oleLoanDocument.getItemId())){
+                     return true;
+                 } else {
+                     return super.equals(obj);
+                 }
+             } else {
+                 return super.equals(obj);
+             }
+
+        }
+    }
+
+    public String getItemStatusEffectiveDate() {
+        return itemStatusEffectiveDate;
+    }
+
+    public void setItemStatusEffectiveDate(String itemStatusEffectiveDate) {
+        this.itemStatusEffectiveDate = itemStatusEffectiveDate;
+    }
+
+    public List<OLEDeliverNotice> getDeliverNotices() {
+        return deliverNotices;
+    }
+
+    public void setDeliverNotices(List<OLEDeliverNotice> deliverNotices) {
+        this.deliverNotices = deliverNotices;
+    }
+
+
+
+    public String getNoticeType() {
+        return noticeType;
+    }
+
+    public void setNoticeType(String noticeType) {
+        this.noticeType = noticeType;
+    }
+
+
+    public String getNoticeSendType() {
+        return noticeSendType;
+    }
+
+    public void setNoticeSendType(String noticeSendType) {
+        this.noticeSendType = noticeSendType;
+    }
+
+    public OLEDeliverNotice getOleDeliverNotice() {
+        return oleDeliverNotice;
+    }
+
+    public void setOleDeliverNotice(OLEDeliverNotice oleDeliverNotice) {
+        this.oleDeliverNotice = oleDeliverNotice;
+    }
+
+    public String getOleLocationCode() {
+        return oleLocationCode;
+    }
+
+    public void setOleLocationCode(String oleLocationCode) {
+        this.oleLocationCode = oleLocationCode;
+    }
+}

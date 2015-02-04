@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0"
+         xml:lang="en-US">
+    <title><anchor xml:id="_Toc358377144"/>Appendix</title>
+    <section>
+        <title><anchor xml:id="_DocStore_and_Editor"/>DocStore and Editor Terms and Definitions<indexterm
+                significance="normal">
+            <primary>Terms &amp; Definitions</primary>
+        </indexterm>
+        </title>
+        <para role="Normal"/>
+        <informaltable frame="all">
+            <tgroup cols="2">
+                <colspec colname="col1" colnum="1"/>
+                <colspec colname="col2" colnum="2"/>
+                <tbody>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                            <para role="TableHeading"><phrase role="Table Cells Emphasis">Term</phrase></para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                            <para role="TableHeading"><phrase role="Table Cells Emphasis">Definition</phrase></para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">Bibliographic Record</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">An OLE document that describes a bibliographic entity as published.  OLE
+                                will initially support two kinds of bibliographic records: (1) Those in the USMARC bibliographic
+                                formats, and (2) Dublin Core records.</para>
+                            <para role="Table Cells">Synonym: Bibliographic Description</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">Bound-with</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">A physical object where two or more titles are joined together under one
+                                cover.  The object is represented in a system as a single item which links to more than one
+                                bibliographic record.</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">[Element] Classification</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">The set of data elements within the OLE Instance Schema that, taken
+                                together, make up the “call number” and state what classification/call number system (e.g., Library
+                                of Congress, Superintendent of Documents, and Dewey Decimal) the call number conforms to.  </para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">Code</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">An individual Code within a Code List.  A Code within a table of Codes will
+                                have the attribute, Display Value.  See also Display Value.</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">Code List</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">A list of valid values for a particular data element within OLE.  For
+                                example, there will be a Code List for Locations; a user cannot assign a Location value within an
+                                Item unless it is part of the library’s Location Code List (which might be shown in an OLE editor in
+                                the form of a pull-down menu).  Ideally, the user could not assign the Code for a Location unless
+                                the user were authorized to assign that particular Code (in which case the OLE editor should show
+                                the user a pull-down menu of Locations that included only those Locations that the user is allowed
+                                to use).</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">Copy</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">A single specimen of an intellectual entity,
+                                e.g., a library can have one (or more) Copies of a multivolume set.
+                                 A single subscription to a journal may also be known as a Copy.  A
+                                multi-part book (or a serial subscription) is a Copy with as many
+                                Items as there are volumes.</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">Display Value</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">An attribute of a Code that specifies an alternate display value for the
+                                Code within a particular interface.  For example, the code “REGENSTEIN” might have Display Value
+                                “Regenstein Library.”  The display value could appear in places within the OLE user interface, but
+                                could also be used by an external Discovery Tool.</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">DocStore</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">OLE architecture for structured and unstructured metadata (e.g., bib, item,
+                                holding, authority, licenses) that works in conjunction with linked transactional data in OLE
+                                RDBMS/relational tables (e.g., purchasing, circulation, users, financial, borrowers).</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">Hide Record</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">To mark a record (bibliographic, holdings, item) so that is does not
+                                display in a public-facing service.</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">Holdings</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">Describes the extent of a resource available to the user.  In the case of
+                                continuing resources holdings data may record the pattern of issuance of a resource and/or a summary
+                                statement of volumes held.</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">Import Process</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">Batch process for importing bibliographic and/or authority records, as well
+                                as accompanying holdings and/or purchase order information</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">Item</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">The smallest unit of a resource that is managed and/or circulated
+                                individually.  It provides specific information about the physical location when pertinent.</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">Location</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">An element in a library’s system configuration that describes a conceptual
+                                entity or institution (e.g., “The University of X Library”) or a building (“John Doe Memorial
+                                Library”) or an area “Doe Library, Book stacks”; “Doe Library, Circulation Desk”) where items are
+                                shelved or work is performed.  All library items are assigned to a Shelving Location and this
+                                becomes an attribute for circulation policy.  Locations may also refer to library staff work areas
+                                at which certain functions (e.g., acquisitions (or ordering and receiving), cataloging, serials
+                                receiving, course reserve or circulation are the standard ones) are performed on or with items
+                                housed at Shelving Locations; work areas (e.g., circulation location) are identified as part of an
+                                operator’s login.</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">Location Code</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">A Code value from a Code List that describes, with a greater or lesser
+                                degree of specificity, the Location where an Item is located.</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">Match Point</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">A data element used to determine that a bibliographic record or authority
+                                record in a file of records being imported matches an existing record within OLE, such that the
+                                incoming record “overlays” and replaces the existing record completely or in part.  </para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">OLE Holding</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">This section of the OLE Instance records "general" holdings information in
+                                a format specific to OLE.</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">OLE Instance</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">OLE XML document type that describes individual Holdings and Items</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">OLE Source Holding</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">This section of the OLE Instance represents "specific" holdings information
+                                entered according to some standard external to OLE. Examples are MARC holdings, MODS holdings or any
+                                other format specific holdings.</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">Ownership</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">The idea that permissions or policies based on a piece of data in a
+                                document (bib control numbers, item location, and ownership field data) could be used to infer
+                                ownership, in conjunction with policies. Work Units or Roles would be connected or allowed to
+                                complete certain actions based on additional qualifier for ownership.</para>
+                            <note>
+                                <para>Work units are being defined in a future release.</para>
+                            </note>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">Public-facing Service</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">Any service/system that allows public users to query a library’s database.
+                                 Examples include discovery layers (such as VuFind) and Z39.50.</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">Role or Group Qualifier/</para>
+                            <para role="Table Cells">Parameter</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">OLE Roles or Groups will be extended to include optional qualifiers or
+                                parameters on applied permissions. A Role or Group can continue with no qualifiers, or
+                                multiple.</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">Work Unit</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">A location, departmental, or organizational field, used to as an attribute
+                                or match point between documents and Roles/Permissions. The Work Unit will be compared between a
+                                Document and as a qualifier on a Role, in order for Permissions/Policy to designate what staff can
+                                perform which actions on a document. Work units can be designated with parent-child relationships,
+                                to allow easier creation of roles/permissions across work units (one parent work unit can include or
+                                cover multiple child work units). </para>
+                            <note>
+                                <para role="Table Cells">While locations hierarchy could be replicated for Work units, it is more
+                                    granular than work units or document ownership designations may need to be. Work units and document
+                                    ownership will frequently be at the Library level.</para>
+                            </note>
+                        </entry>
+                    </row>
+                </tbody>
+            </tgroup>
+        </informaltable>
+        <para role="Normal"/>
+        <para role="Normal">For additional OLE terms and definitions, see the <link
+            xlink:href="../../../webhelp/BASICS/content/go01.html">OLE glossary</link></para>
+        <para role="Body Text"/>
+    </section>
+    <section>
+        <title><anchor xml:id="_DocStore_and_Editor_1"/>DocStore and Editor Roles<indexterm
+                significance="normal">
+            <primary>Role, intro</primary>
+        </indexterm></title>
+        <para role="Body Text">Below are some of the roles that will be authorized to use Describe
+            Workbench, Bound-withs, Import Bib, Editors, Transfers, and Instance maintenance documents. Please
+            see individual e-docs for specific requirements in each workflow. </para>
+        <note>
+            <para role="Body Text"> Sample users are provided for ease of testing and can be replaced with local
+                library users. </para>
+        </note>
+        <para role="Body Text"/>
+        <informaltable frame="all">
+            <tgroup cols="3">
+                <colspec colname="col1" colnum="1"/>
+                <colspec colname="col2" colnum="2"/>
+                <colspec colname="col3" colnum="3"/>
+                <tbody>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells"><phrase role="Table Cells Emphasis"><emphasis role="bold">Role
+                                Name</emphasis></phrase></para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells"><phrase role="Table Cells Emphasis"><emphasis role="bold">Sample
+                                User</emphasis></phrase></para>
+                        </entry>
+                        <entry colname="col3" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells"><phrase role="Table Cells Emphasis"><emphasis role="bold">Functions/
+                                Permissions</emphasis></phrase></para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                            <para role="Table Cells">OLE_Cataloging_Admin</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                            <para role="Table Cells">admin, admin 1</para>
+                        </entry>
+                        <entry colname="col3" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">Creates and edits Describe maintenance documents</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="bottom">Cataloging Super
+                            User</entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="bottom">supercat,
+                            ole-khuntley</entry>
+                        <entry colname="col3" colsep="1" rowsep="1" valign="top">Authorized for all Describe
+                            functions; permission to administer cataloging in all work units</entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="bottom">Cataloger
+                            Supervisor</entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="bottom">catsup</entry>
+                        <entry colname="col3" colsep="1" rowsep="1" valign="top">Authorized for all Describe
+                            functions; permission to administer cataloging within assigned work unit(s)</entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="bottom">Cataloger 1</entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="bottom">cat1</entry>
+                        <entry colname="col3" colsep="1" rowsep="1" valign="top">Authorized for all Describe
+                            functions; permission to administer cataloging within assigned work unit</entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="bottom">Cataloger 2</entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="bottom">cat2</entry>
+                        <entry colname="col3" colsep="1" rowsep="1" valign="top">Authorized for all Describe
+                            functions except batch imports and bound-withs; permission to administer cataloging within assigned
+                            work unit</entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="bottom">Temporary (Student) Staff
+                            Cataloger 1</entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="bottom">tempcat1</entry>
+                        <entry colname="col3" colsep="1" rowsep="1" valign="top">Authorized to create and edit
+                            holdings/items within assigned work unit</entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="bottom">Full Cataloging</entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="bottom">catfull</entry>
+                        <entry colname="col3" colsep="1" rowsep="1" valign="top">Authorized for all Describe
+                            functions without limitation by ownership, work unit, bibliographic status or any other field-level
+                            permission </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="bottom">Batch Cataloging</entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="bottom">catbatch</entry>
+                        <entry colname="col3" colsep="1" rowsep="1" valign="top">Authorized to do batch imports
+                            and exports</entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="bottom">Describe Read only</entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="bottom">describereadonly</entry>
+                        <entry colname="col3" colsep="1" rowsep="1" valign="top">Authorized only to view
+                            records in Describe</entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                            <para role="Table Cells">&lt;any user-Action List&gt;</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                            <para role="Table Cells">&lt;any Kuali user&gt;</para>
+                        </entry>
+                        <entry colname="col3" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">Most user roles have the permission to view editors. Anyone within OLE can
+                                search the Doc Store</para>
+                        </entry>
+                    </row>
+                </tbody>
+            </tgroup>
+        </informaltable>
+    </section>
+    <section>
+        <title><anchor xml:id="_Linked_Resources"/>Linked Resources<indexterm significance="normal">
+            <primary>Appendix</primary>
+            <secondary>Linked Resources</secondary>
+        </indexterm></title>
+        <para role="Body Text"/>
+        <itemizedlist mark="disc" spacing="normal">
+            <listitem>
+                <para role="List Paragraph"><link xlink:href="../../../webhelp/BASICS/index.html">OLE Basic
+                        Functionality and Key Concepts.</link>: E-docs, action buttons- basic
+                    overview of elements</para>
+            </listitem>
+            <listitem>
+                <para role="List Paragraph"><link xlink:href="../../../html/Index.html">OLE Documentation Portal</link>
+                </para>
+            </listitem>
+            <listitem>
+                <para role="List Paragraph"><link
+                        xlink:href="https://wiki.kuali.org/display/OLE/OLE+Published+Documentation"
+                        >OLE Published User Documentation</link> on the wiki</para>
+            </listitem>
+            <listitem>
+                <para role="List Paragraph"><link xlink:href="http://www.kuali.org/ole/roadmap">OLE
+                        Roadmap</link></para>
+            </listitem>
+        </itemizedlist>
+        <para role="Normal"/>
+    </section>
+</chapter>

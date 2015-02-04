@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+
+    <bean id="ShowBibView" parent="ShowBibView-parentBean"/>
+    <bean id="ShowBibView-parentBean" parent="Uif-OLEFormView">
+        <property name="headerText" value="Bound-With Summary"/>
+        <property name="items">
+            <list>
+                <bean id="ShowBibViewPage" parent="Uif-Page">
+                    <property name="items">
+                        <list>
+                            <ref bean="Show-Bibs"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>ole/describe/css/editor.css</value>
+            </list>
+        </property>
+        <property name="footer">
+            <ref bean="ClearFooterView-buttons"/>
+        </property>
+        <property name="formClass" value="org.kuali.ole.describe.form.EditorForm"/>
+    </bean>
+
+    <bean id="Show-Bibs" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="5"
+          p:render="@{bibList ne null}" p:style="border:1px solid;">
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.docstore.common.document.Bib"/>
+        <property name="propertyName" value="bibList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.generateAutoSequence" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <!--<property name="addLineLabel" value=""/>-->
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.applyDefaultCellWidths" value="false"/>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <!--<entry key="aaSorting" value="[[1,'asc']]"/>-->
+                <entry key="aoColumns"
+                       value="[
+                {'bSortable':true, 'sWidth':'40%'},
+                {'bSortable':true, 'sWidth':'15%'},
+                {'bSortable':true, 'sWidth':'10%'},
+                {'bSortable':false, 'sWidth':'10%'},
+                {'bSortable':false, 'sWidth':'10%'}
+                ]"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:label="Title" p:propertyName="title"/>
+                <bean parent="Uif-DataField" p:label="Author" p:propertyName="author"/>
+                <bean parent="Uif-DataField" p:label="Publication Date" p:propertyName="publicationDate"/>
+                <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
+                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=marc&amp;docId=@{#line.id}&amp;editable=false"
+                      p:linkText="View" p:target="_blank"/>
+                <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
+                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=marc&amp;docId=@{#line.id}&amp;editable=true&amp;fromSearch=true"
+                      p:linkText="Edit" p:target="_blank"/>
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+</beans>

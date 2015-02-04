@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<dublin_core schema="dc">
+  <dcvalue element="contributor" qualifier="author">Shackel, Paul A.</dcvalue>
+  <dcvalue element="contributor" qualifier="author">Secreto, Patricia</dcvalue>
+  <dcvalue element="contributor" qualifier="author">Williams, Eileen</dcvalue>
+  <dcvalue element="contributor" qualifier="author">Ernstein, Julie</dcvalue>
+  <dcvalue element="contributor" qualifier="author">Bomback, Robert</dcvalue>
+  <dcvalue element="date" qualifier="accessioned">2010-12-03T17:08:17Z</dcvalue>
+  <dcvalue element="date" qualifier="available">2010-12-03T17:08:17Z</dcvalue>
+  <dcvalue element="date" qualifier="issued">1993</dcvalue>
+  <dcvalue element="identifier" qualifier="uri">http://hdl.handle.net/1903/11006</dcvalue>
+  <dcvalue element="description" qualifier="abstract">The Shiplap House, 18AP30, located at 18 Pinkney Street, Annapolis, Maryland, was built ca. 1716. Located within the Historic District of Annapolis, Maryland (see Figures 2, 3, &amp; 4 for site location within the Annapolis Historic District), the Shiplap House lies in immediate proximity to features of local and national importance. Due to its potential as a significant archaeological site, the Shiplap property was selected as one of the locations to be investigated during the 1985 summer Fieldschool in Urban Archaeology, a course offerred by the University of Maryland, College Park, under the direction of Dr. Mark P. Leone.</dcvalue>
+  <dcvalue element="description" qualifier="provenance">Submitted by Joan Kaminer (jgibson@umd.edu) on 2010-12-02T19:11:25Z
+No. of bitstreams: 2
+AP30 1993.pdf: 5210602 bytes, checksum: b6fbb88cb9c154d5256a4d9887868023 (MD5)
+AP30 artifact catalog.xls: 540160 bytes, checksum: a4e570211ee5e5fe6d0f0690d9700359 (MD5)</dcvalue>
+  <dcvalue element="description" qualifier="provenance">Approved for entry into archive by Manager for faculty self-deposit collections(drum-help@umd.edu) on 2010-12-03T17:08:17Z (GMT) No. of bitstreams: 2
+AP30 1993.pdf: 5210602 bytes, checksum: b6fbb88cb9c154d5256a4d9887868023 (MD5)
+AP30 artifact catalog.xls: 540160 bytes, checksum: a4e570211ee5e5fe6d0f0690d9700359 (MD5)</dcvalue>
+  <dcvalue element="description" qualifier="provenance">Made available in DSpace on 2010-12-03T17:08:17Z (GMT). No. of bitstreams: 2
+AP30 1993.pdf: 5210602 bytes, checksum: b6fbb88cb9c154d5256a4d9887868023 (MD5)
+AP30 artifact catalog.xls: 540160 bytes, checksum: a4e570211ee5e5fe6d0f0690d9700359 (MD5)
+  Previous issue date: 1993</dcvalue>
+  <dcvalue element="subject" qualifier="none">Archaeology</dcvalue>
+  <dcvalue element="subject" qualifier="none">Annapolis, Maryland</dcvalue>
+  <dcvalue element="subject" qualifier="none">Shiplap House</dcvalue>
+  <dcvalue element="subject" qualifier="none">18AP30</dcvalue>
+  <dcvalue element="subject" qualifier="none">Pinkney Street</dcvalue>
+  <dcvalue element="subject" qualifier="none">artifact catalog</dcvalue>
+  <dcvalue element="title" qualifier="none">Results of the 1985 Excavations at Shiplap House (18AP30), 18 Pinkney Street, Annapolis, Maryland</dcvalue>
+  <dcvalue element="relation" qualifier="isAvailableAt">University of Maryland (College Park, Md)</dcvalue>
+  <dcvalue element="relation" qualifier="isAvailableAt">Digital Repository at the University of Maryland</dcvalue>
+</dublin_core>

@@ -1,0 +1,5 @@
+OLE_PO_PURP_ID,OLE_PO_PURP_CD,OLE_PO_PURP_NM,OLE_PO_PURP_DESC,ROW_ACT_IND,OBJ_ID,VER_NBR
+"1","Access Fee","Access Fee","Access Fee","Y","OLEPOPURPOSE1","1"
+"2","Hosting Fee","Hosting Fee","Hosting Fee","Y","OLEPOPURPOSE2","1"
+"3","Single Purchase","Single Purchase","Single Purchase","Y","OLEPOPURPOSE3","1"
+"4","Subscription","Subscription","Subscription","Y","OLEPOPURPOSE4","1"

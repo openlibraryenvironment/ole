@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2005-2008 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        
+    <bean id="ServiceBilling-checkItemsValidation" parent="CollectionValidation" abstract="true" scope="prototype">
+		<property name="collectionProperty" value="document.items" />
+		<property name="validations">
+			<list>
+				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="iterationSubject" />
+								<property name="targetValidationProperty" value="businessObjectForValidation" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="ServiceBilling-routeDocumentValidation" parent="ServiceBilling-routeDocumentValidation-parentBean" scope="prototype" />
+  
+  	<bean id="ServiceBilling-routeDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>
+  				<bean parent="AccountingDocument-RouteDocument-DefaultValidation" scope="prototype" />
+  				<bean parent="ServiceBilling-checkItemsValidation" scope="prototype" />		
+				<bean parent="CapitalAccountingLines-capitalAccountingLinesValidations" scope="prototype" />
+				<bean parent="CapitialAssetInformation-capitalAssetInformationValidation" scope="prototype" />  
+  			</list>
+  		</property>
+  	</bean>
+  	
+  	<bean id="ServiceBilling-saveDocumentValidation" parent="ServiceBilling-saveDocumentValidation-parentBean" scope="prototype" />
+  
+  	<bean id="ServiceBilling-saveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+    	<property name="validations">
+    		<list>
+    			<bean parent="AccountingDocument-SaveDocument-DefaultValidation" scope="prototype" />
+    		</list>
+    	</property>
+    </bean>
+  
+  	<bean id="ServiceBilling-approveDocumentValidation" parent="ServiceBilling-approveDocumentValidation-parentBean" scope="prototype" />
+  
+  	<bean id="ServiceBilling-approveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>
+  			    <bean parent="AccountingDocument-ApproveDocument-DefaultValidation" scope="prototype" />
+  			</list>
+  		</property>
+  	</bean>
+  
+	<bean id="ServiceBilling-blanketApproveDocumentValidation" parent="ServiceBilling-blanketApproveDocumentValidation-parentBean" scope="prototype" />
+  
+  	<bean id="ServiceBilling-blanketApproveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>
+  				<bean parent="AccountingDocument-BlanketApproveDocument-DefaultValidation" scope="prototype" />
+				<bean parent="CapitalAccountingLines-capitalAccountingLinesValidations" scope="prototype" />
+  				<bean parent="CapitialAssetInformation-capitalAssetInformationValidation" scope="prototype" />  
+  			</list>
+  		</property>
+	</bean>
+	
+	<bean id="ServiceBilling-addAccountingLine-fastFailValidation" abstract="true" scope="prototype" parent="CompositeValidation">
+		<property name="validations">
+			<list>
+				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+					<property name="parameterProperties">
+						<bean parent="accountingLineToBusinessObjectFieldConversion" />
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>
+				<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="accountingLineFieldConversion" />
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>  				
+				<bean parent="ServiceBilling-accountingLineAmountNonZeroValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="accountingLineFieldConversion" />
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>
+				<bean parent="AccountingDocument-defaultAccountingLineValuesAllowedValidation" scope="prototype">
+					<property name="accountingDocumentParameterPropertyName" value="document" />
+					<property name="accountingLineParameterPropertyName" value="accountingLine" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+  
+	<bean id="ServiceBilling-addAccountingLineValidation" parent="ServiceBilling-addAccountingLineValidation-parentBean" scope="prototype" />
+  
+	<bean id="ServiceBilling-addAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>
+  				<bean parent="ServiceBilling-addAccountingLine-fastFailValidation" scope="prototype" />
+				<bean parent="ServiceBilling-accountingLineAccessibleValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="accountingDocumentFieldConversion" />
+							<bean parent="accountingLineFieldConversion" />
+						</list>
+					</property>
+				</bean>
+			</list>
+  		</property>
+	</bean>
+  
+	<bean id="ServiceBilling-deleteAccountingLineValidation" parent="ServiceBilling-deleteAccountingLineValidation-parentBean" scope="prototype" />
+  
+	<bean id="ServiceBilling-deleteAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<bean parent="AccountingDocument-DeleteAccountingLine-DefaultValidation" scope="prototype" />
+  		</property>
+	</bean>
+	
+	<bean id="ServiceBilling-updateAccountingLine-fastFailValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+		<property name="validations">
+			<list>
+				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+					<property name="parameterProperties">
+						<bean parent="updatedAccountingLineToBusinessObjectFieldConversion" />
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>
+				<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="updatedAccountingLineFieldConversion" />
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>   				
+				  <bean parent="ServiceBilling-accountingLineAmountNonZeroValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="updatedAccountingLineFieldConversion" />
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>
+				<bean parent="AccountingDocument-defaultAccountingLineValuesAllowedValidation" scope="prototype">
+					<property name="accountingDocumentParameterPropertyName" value="document" />
+					<property name="accountingLineParameterPropertyName" value="updatedAccountingLine" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+  
+	<bean id="ServiceBilling-updateAccountingLineValidation" parent="ServiceBilling-updateAccountingLineValidation-parentBean" scope="prototype" />
+  
+	<bean id="ServiceBilling-updateAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>
+ 				<bean parent="ServiceBilling-updateAccountingLine-fastFailValidation" scope="prototype" />
+				<bean parent="ServiceBilling-accountingLineAccessibleValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="accountingDocumentFieldConversion" />
+							<bean parent="updatedAccountingLineFieldConversion" />
+						</list>
+					</property>
+				</bean>
+			</list>
+  		</property>
+	</bean>
+  
+	<bean id="ServiceBilling-reviewAccountingLineValidation" parent="ServiceBilling-reviewAccountingLineValidation-parentBean" scope="prototype" />
+  
+	<bean id="ServiceBilling-reviewAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>
+ 				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+					<property name="parameterProperties">
+						<bean parent="accountingLineToBusinessObjectFieldConversion" />
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>
+				<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="accountingLineFieldConversion" />
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>   				
+      	   	    <bean parent="ServiceBilling-accountingLineAmountNonZeroValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="accountingLineFieldConversion" />
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>
+            </list>
+  		</property>
+	</bean>
+<!-- object sub type check Event  -->
+	<bean id="ServiceBilling-capitalAccountingLinesObjectSubtypeValidations" parent="ServiceBilling-capitalAccountingLinesObjectSubtypeValidations-parentBean" scope="prototype" />
+  
+	<bean id="ServiceBilling-capitalAccountingLinesObjectSubtypeValidations-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>
+  				<bean parent="CapitalAccountingLines-objectCodeSubTypeValidation" scope="prototype">
+        			<property name="parameterProperties">
+           				<list>
+             				<bean parent="accountingDocumentFieldConversion" />
+           				</list> 
+                   </property>
+       			</bean>
+  			</list>
+  		</property>
+	</bean>
+
+</beans>

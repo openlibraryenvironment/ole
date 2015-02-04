@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <!--
+
+        Copyright 2005-2012 The Kuali Foundation
+
+        Licensed under the Educational Community License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at
+
+        http://www.opensource.org/licenses/ecl2.php
+
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+
+    -->
+    <bean id="OleAcquisitionMethod" parent="OleAcquisitionMethod-parentBean"/>
+
+    <bean id="OleAcquisitionMethod-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.describe.bo.OleAcquisitionMethod"/>
+        <property name="titleAttribute" value="acquisitionMethodId"/>
+        <property name="objectLabel" value="Acquisition Method"/>
+
+        <property name="attributes">
+            <list>
+                <ref bean="OleAcquisitionMethod-acquisitionMethodId"/>
+                <ref bean="OleAcquisitionMethod-acquisitionMethodCode"/>
+                <ref bean="OleAcquisitionMethod-acquisitionMethodName"/>
+                <ref bean="OleAcquisitionMethod-source"/>
+                <ref bean="OleAcquisitionMethod-sourceDate"/>
+                <ref bean="OleAcquisitionMethod-active"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <!-- Attribute Definitions -->
+
+
+    <bean id="OleAcquisitionMethod-acquisitionMethodId" parent="OleAcquisitionMethod-acquisitionMethodId-parentBean"/>
+
+    <bean id="OleAcquisitionMethod-acquisitionMethodId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Acquisition Method Id"/>
+        <property name="maxLength" value="10"/>
+        <property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+        <property name="name" value="acquisitionMethodId"/>
+        <property name="label" value="Acquisition Method Id"/>
+        <property name="description" value="Acquisition Method Id"/>
+    </bean>
+
+
+    <bean id="OleAcquisitionMethod-acquisitionMethodCode"
+          parent="OleAcquisitionMethod-acquisitionMethodCode-parentBean"/>
+
+    <bean id="OleAcquisitionMethod-acquisitionMethodCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Acquisition Method Code"/>
+        <property name="maxLength" value="30"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="acquisitionMethodCode"/>
+        <property name="label" value="Acquisition Method Code"/>
+        <property name="description" value="Acquisition Method Code"/>
+
+    </bean>
+
+
+    <bean id="OleAcquisitionMethod-acquisitionMethodName"
+          parent="OleAcquisitionMethod-acquisitionMethodName-parentBean"/>
+
+    <bean id="OleAcquisitionMethod-acquisitionMethodName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Acquisition Method Name"/>
+        <property name="maxLength" value="100"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="acquisitionMethodName"/>
+        <property name="label" value="Acquisition Method Name"/>
+        <property name="description" value="Acquisition Method Name"/>
+
+    </bean>
+
+    <bean id="OleAcquisitionMethod-source" parent="OleAcquisitionMethod-source-parentBean"/>
+
+    <bean id="OleAcquisitionMethod-source-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Source"/>
+        <property name="maxLength" value="100"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="source"/>
+        <property name="label" value="Source"/>
+        <property name="description" value="Source description"/>
+
+    </bean>
+
+    <bean id="OleAcquisitionMethod-sourceDate" parent="OleAcquisitionMethod-sourceDate-parentBean"/>
+
+    <bean id="OleAcquisitionMethod-sourceDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+        <property name="shortLabel" value="Source Date"/>
+        <property name="name" value="sourceDate"/>
+        <property name="label" value="Source Date"/>
+        <property name="required" value="true"/>
+    </bean>
+
+
+    <bean id="OleAcquisitionMethod-active" parent="OleAcquisitionMethod-active-parentBean"/>
+
+    <bean id="OleAcquisitionMethod-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+        <property name="name" value="active"/>
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+
+    <bean id="OleAcquisitionMethod-InquiryView" parent="Uif-OLEInquiryView">
+        <property name="headerText" value="Acquisition Method Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.describe.bo.OleAcquisitionMethod"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-VerticalBoxSection">
+                    <property name="header.headerText" value="Acquisition Method" />
+                    <property name="items">
+                        <list>
+                        <bean parent="Uif-GridGroup">
+                            <property name="items">
+                                 <list>
+                                        <bean id="inquiry_acquisitionMethodId" parent="Uif-InputField" p:propertyName="acquisitionMethodId"/>
+                                        <bean id="inquiry_acquisitionMethodCode" parent="Uif-InputField" p:propertyName="acquisitionMethodCode"/>
+                                        <bean id="inquiry_acquisitionMethodName" parent="Uif-InputField" p:propertyName="acquisitionMethodName"/>
+                                        <bean id="inquiry_source" parent="Uif-InputField" p:propertyName="source"/>
+                                        <bean id="inquiry_sourceDate" parent="Uif-InputField" p:propertyName="sourceDate"/>
+                                        <bean id="inquiry_active" parent="Uif-InputField" p:propertyName="active"/>
+                                 </list>
+                            </property>
+                        </bean>
+                        </list>
+                    </property>
+                    <property name="headerText" value="Acquisition Method Inquiry"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+
+    <bean id="OleAcquisitionMethod-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="Acquisition Method Lookup"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.describe.bo.OleAcquisitionMethod"/>
+        <property name="criteriaFields">
+            <list>
+                <bean id="acquisitionMethodCode" parent="Uif-LookupCriteriaInputField" p:propertyName="acquisitionMethodCode"/>
+                <bean id="acquisitionMethodName" parent="Uif-LookupCriteriaInputField" p:propertyName="acquisitionMethodName"/>
+                <bean id="source" parent="Uif-LookupCriteriaInputField" p:propertyName="source"/>
+                <bean id="sourceDate" parent="Uif-LookupCriteriaInputField" p:propertyName="sourceDate">
+                    <property name="control">
+                        <bean id="date" parent="Uif-DateControl" p:size="10"/>
+                    </property>
+                </bean>
+                <bean id="active" parent="Uif-LookupCriteriaInputField" p:propertyName="active"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean id="searchResult_acquisitionMethodId" parent="Uif-DataField" p:propertyName="acquisitionMethodId"/>
+                <bean id="searchResult_acquisitionMethodCode" parent="Uif-DataField" p:propertyName="acquisitionMethodCode"/>
+                <bean id="searchResult_acquisitionMethodName" parent="Uif-DataField" p:propertyName="acquisitionMethodName"/>
+                <bean id="searchResult_source" parent="Uif-DataField" p:propertyName="source"/>
+                <bean id="searchResult_sourceDate" parent="Uif-DataField" p:propertyName="sourceDate"/>
+                <bean id="searchResult_active" parent="Uif-DataField" p:propertyName="active"/>
+            </list>
+        </property>
+    </bean>
+</beans>

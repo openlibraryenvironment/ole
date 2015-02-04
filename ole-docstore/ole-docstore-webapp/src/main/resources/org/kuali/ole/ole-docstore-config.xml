@@ -1,0 +1,65 @@
+<!--
+
+  Copyright 2005-2012 The Kuali Foundation
+
+  Licensed under the Educational Community License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.opensource.org/licenses/ecl2.php
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
+-->
+<config>
+    <param name="application.url">${ole.docstore.url.base}</param>
+    <param name="appserver.url">${application.url}</param>
+    <param name="jdbc.username">OLE</param>
+
+    <param name="config.location">classpath:META-INF/${project.groupId.path}/${project.artifactId}/project-rice-properties.xml</param>
+    <param name="config.location">classpath:org/kuali/rice/standalone/config/standalone-config-defaults.xml</param>
+    <param name="config.location">classpath:${project.groupId.path}/oledocstore-config-defaults.xml</param>
+
+    <param name="config.location">classpath:${project.groupId.path}/url-rice-properties.xml</param>
+    <param name="config.location">classpath:${project.groupId.path}/jdbc-rice-properties.xml</param>
+
+    <param name="project.home">\${user.home}/kuali/main/${environment}/${project.artifactId}</param>
+
+    <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
+    <param name="config.location">classpath:META-INF/common-config-locations.xml</param>
+    <param name="config.location">${alt.config.location}</param>
+    <param name="version">${project.name} :: ${project.version} :: ${project.build.timestamp}</param>
+
+    <param name="rice.logging.configure">true</param>
+
+    <param name="location.mode">LOCAL</param>
+    <param name="coreservice.mode">LOCAL</param>
+    <param name="ken.mode">LOCAL</param>
+    <param name="kim.mode">LOCAL</param>
+    <param name="kew.mode">LOCAL</param>
+    <param name="krms.mode">LOCAL</param>
+    <param name="ksb.mode">LOCAL</param>
+
+    <param name="module.name">ole-docstore-webapp</param>
+    <param name="application.id">ole-docstore-webapp</param>
+    <param name="app.context.name">ole-docstore-webapp</param>
+
+    <param name="maxNumberOfSessionForms">20</param>
+
+    <param name="filter.login.class">org.kuali.ole.DevelopmentLoginFilter</param>
+    <param name="filtermapping.login.1">/*</param>
+
+    <param name="dev.mode">true</param>
+
+    <param name="data.xml.root.location">${project.home}/oledocstore/workflow</param>
+    <param name="data.xml.pending.location">${data.xml.root.location}/pending</param>
+    <param name="data.xml.loaded.location">${data.xml.root.location}/loaded</param>
+    <param name="data.xml.problem.location">${data.xml.root.location}/problem</param>
+
+
+
+</config>

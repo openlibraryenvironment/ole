@@ -1,0 +1,124 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="DeliverRequestSearch" parent="DeliverRequestSearch-parentBean" />
+    <bean id="DeliverRequestSearch-parentBean" parent="Uif-OLEFormView">
+        <property name="headerText" value="Request Re-Order"/>
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/CIRC/content/ch02s03.html"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="DeliverRequestSearchPage" parent="Uif-Page" >
+                    <property name="items">
+                        <list>
+                            <ref bean="message" />
+                            <ref bean="itemIdSearch" />
+                            <ref bean="RequestSearchSection-HorizontalBoxSection"/>
+                            <ref bean="DeliverRequestSearch-buttons" />
+                        </list>
+                    </property>
+                </bean>
+                <bean id="DeliverRequestSearchStartPage" parent="Uif-Page" >
+                    <property name="items">
+                        <list>
+                            <ref bean="message" />
+                            <ref bean="itemIdSearch"></ref>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="footer">
+            <ref bean="ClearFooterView-buttons" />
+        </property>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>ole/deliver/request/scripts/request.js</value>
+            </list>
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>ole/ingest/css/staffUpload.css</value>
+            </list>
+        </property>
+        <property name="formClass" value="org.kuali.ole.deliver.form.OleDeliverRequestReOrderForm"/>
+    </bean>
+    <bean id="itemIdSearch" parent="Uif-InputField" p:propertyName="itemId" p:label="Item" >
+        <property name="quickfinder">
+            <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.deliver.bo.OleItemSearch"
+                  p:fieldConversions="itemBarCode:itemId,title:title" p:lookupParameters="itemId:itemBarCode"/>
+        </property>
+    </bean>
+    <bean id="message" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="messageField" parent="Uif-MessageField" p:messageText="@{message}" p:cssClasses="messageClass"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="RequestSearchSection-HorizontalBoxSection" parent="RequestSearchSection-HorizontalBoxSection-parentBean" />
+    <bean id="RequestSearchSection-HorizontalBoxSection-parentBean" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="14">
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleDeliverRequestBo"/>
+        <property name="propertyName" value="deliverRequestBos"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <!--<property name="collectionLookup.render" value="false"/>-->
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="layoutManager.richTable.disableTableSort" value="false" />
+        <property name="items">
+            <list>
+                <bean id="requestId" parent="Uif-DataField" p:label="Request Id" p:propertyName="requestId">
+                </bean>
+                <bean id="requestTypeId" parent="Uif-DataField" p:label="Request Type" p:propertyName="oleDeliverRequestType.requestTypeCode">
+                </bean>
+                <bean id="borrowerQueuePosition" parent="Uif-InputField" p:label="Queue Position" p:propertyName="borrowerQueuePosition">
+                </bean>
+                <bean id="itemBarcode" parent="Uif-DataField" p:propertyName="oleItemSearch.itemBarCode" p:label="Item Barcode" >
+                </bean>
+                <bean id="itemTitle" parent="Uif-DataField" p:propertyName="oleItemSearch.title" p:label="Title" >
+                </bean>
+                <bean id="author" parent="Uif-DataField" p:propertyName="oleItemSearch.author" p:label="Author" >
+                </bean>
+                <bean id="itemType" parent="Uif-DataField" p:label="Item Type" p:propertyName="oleItemSearch.itemType">
+                </bean>
+                <bean id="callNumber" parent="Uif-DataField" p:label="Call Number" p:propertyName="oleItemSearch.callNumber">
+                </bean>
+                <bean id="copyNumber" parent="Uif-DataField" p:label="Copy Number" p:propertyName="oleItemSearch.copyNumber">
+                </bean>
+                <bean id="itemStatus" parent="Uif-DataField" p:label="Item Status" p:propertyName="oleItemSearch.itemStatus">
+                </bean>
+                <bean id="volumeNumber" parent="Uif-DataField" p:label="Volume Number" p:propertyName="oleItemSearch.volumeNumber">
+                </bean>
+                <bean id="borrowerId" parent="Uif-DataField" p:label="Patron Name" p:propertyName="borrowerName">
+                </bean>
+                <bean id="operatorId" parent="Uif-DataField" p:label="Operator Name" p:propertyName="operatorCreateId">
+                </bean>
+                <bean id="operatorModifierId" parent="Uif-DataField" p:label="Operator Modifier Name" p:propertyName="operatorModifiedId">
+                </bean>
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+
+    <bean id="DeliverRequestSearch-buttons" parent="DeliverRequestSearch-buttons-parentBean" />
+    <bean id="DeliverRequestSearch-buttons-parentBean" parent="Uif-FooterBase" p:componentSecurity.viewAuthz="true">
+        <property name="items">
+            <list>
+
+                <bean id="searchButton" parent="Uif-SecondaryActionButton" p:methodToCall="search" p:actionLabel="Search" p:style="float:left;margin-left:5em" p:hidden="true" p:ajaxSubmit="true"  p:successCallback="draggable()"/>
+                <bean id="reOrderButton" parent="Uif-SecondaryActionButton" p:methodToCall="reOrder" p:actionLabel="Save" p:style="float:left;margin-left:5em" p:render="@{deliverRequestBos ne null and deliverRequestBos.size() > 0}"/>
+                <!--<ref bean="SecondarySearchPatron" />
+                <ref bean="SecondarySearchItem" />-->
+            </list>
+        </property>
+    </bean>
+
+</beans>

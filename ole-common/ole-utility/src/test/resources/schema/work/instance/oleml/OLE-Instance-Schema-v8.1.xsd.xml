@@ -1,0 +1,328 @@
+<ole:instanceCollection xmlns:ole="http://ole.kuali.org/standards/ole-instance">
+<ole:instance >
+  <ole:instanceIdentifier>string</ole:instanceIdentifier>
+  <!--1 or more repetitions:-->
+  <ole:resourceIdentifier ole:source="string">string</ole:resourceIdentifier>
+  <!--1 or more repetitions:-->
+  <ole:formerResourceIdentifiers ole:source="string">string</ole:formerResourceIdentifiers>
+  <!--Zero or more repetitions:-->
+  <ole:extension displayLabel="string">
+    e
+    <!--You may enter ANY elements at this point-->
+    <AnyElement/>
+    gero
+  </ole:extension>
+  <ole:holdings>
+    <ole:holdingsIdentifier>string</ole:holdingsIdentifier>
+    <!--Zero or more repetitions:-->
+    <ole:formerIdentifiers>
+      <!--Optional:-->
+      <ole:identifier>string</ole:identifier>
+      <!--Optional:-->
+      <ole:identifierType>string</ole:identifierType>
+    </ole:formerIdentifiers>
+    <ole:recordType>v</ole:recordType>
+    <ole:encodingLevel>4</ole:encodingLevel>
+    <ole:receiptStatus>2</ole:receiptStatus>
+    <ole:acquisitionMethod>e</ole:acquisitionMethod>
+    <ole:expectedAcquisitionEndDate>stri</ole:expectedAcquisitionEndDate>
+    <ole:generalRetentionPolicy>5</ole:generalRetentionPolicy>
+    <ole:specificRetentionPolicy>
+      <ole:policyType>l</ole:policyType>
+      <!--Optional:-->
+      <ole:numberOfUnits>8</ole:numberOfUnits>
+      <!--Optional:-->
+      <ole:unitType>i</ole:unitType>
+    </ole:specificRetentionPolicy>
+    <!--Optional:-->
+    <ole:completeness>4</ole:completeness>
+    <!--Optional:-->
+    <ole:copiesReported>200</ole:copiesReported>
+    <!--Optional:-->
+    <ole:lendingPolicy>l</ole:lendingPolicy>
+    <!--Optional:-->
+    <ole:reproductionPolicy>b</ole:reproductionPolicy>
+    <!--Optional:-->
+    <ole:separateOrCompositeReport>0</ole:separateOrCompositeReport>
+    <!--Zero or more repetitions:-->
+    <ole:actionNote>
+      <ole:privacy></ole:privacy>
+      <ole:action>string</ole:action>
+      <!--Zero or more repetitions:-->
+      <ole:actionIdentification>string</ole:actionIdentification>
+      <!--Zero or more repetitions:-->
+      <ole:timeDateOfAction>100</ole:timeDateOfAction>
+      <!--Zero or more repetitions:-->
+      <ole:actionInterval>100</ole:actionInterval>
+      <!--Zero or more repetitions:-->
+      <ole:contingencyForAction>string</ole:contingencyForAction>
+      <!--Zero or more repetitions:-->
+      <ole:authorization>string</ole:authorization>
+      <!--Zero or more repetitions:-->
+      <ole:jurisdiction>string</ole:jurisdiction>
+      <!--Zero or more repetitions:-->
+      <ole:methodOfAction>string</ole:methodOfAction>
+      <!--Zero or more repetitions:-->
+      <ole:siteOfAction>string</ole:siteOfAction>
+      <!--Zero or more repetitions:-->
+      <ole:actionAgent>string</ole:actionAgent>
+      <!--Zero or more repetitions:-->
+      <ole:actionStatus>string</ole:actionStatus>
+      <!--Zero or more repetitions:-->
+      <ole:actionExtent>string</ole:actionExtent>
+      <!--Zero or more repetitions:-->
+      <ole:unitType>string</ole:unitType>
+      <!--Zero or more repetitions:-->
+      <ole:actionURI>string</ole:actionURI>
+      <!--Zero or more repetitions:-->
+      <ole:nonPublicNote>string</ole:nonPublicNote>
+      <!--Zero or more repetitions:-->
+      <ole:publicNote>string</ole:publicNote>
+      <!--Optional:-->
+      <ole:sourceOfTerm>string</ole:sourceOfTerm>
+      <!--Optional:-->
+      <ole:materialsSpecified>string</ole:materialsSpecified>
+      <!--Optional:-->
+      <ole:institutionToWhichFieldApplies>
+        <ole:value>anyType</ole:value>
+        <ole:typeOrSource>
+          <!--You have a CHOICE of the next 2 items at this level-->
+          <ole:pointer>http://www.my.com/profundum/sceptra</ole:pointer>
+          <ole:text>anyType</ole:text>
+        </ole:typeOrSource>
+      </ole:institutionToWhichFieldApplies>
+    </ole:actionNote>
+    <!--Zero or more repetitions:-->
+    <ole:extentOfOwnership>
+      <!--Optional:-->
+      <ole:typeOfOwnership>Textual Holdings - Indexes</ole:typeOfOwnership>
+      <!--Optional:-->
+      <ole:fieldEncodingLevel>3</ole:fieldEncodingLevel>
+      <!--Optional:-->
+      <ole:typeOfNotation>7</ole:typeOfNotation>
+      <!--Optional:-->
+      <ole:textualHoldings>string</ole:textualHoldings>
+      <!--Zero or more repetitions:-->
+      <ole:nonPublicNote>string</ole:nonPublicNote>
+      <!--Zero or more repetitions:-->
+      <ole:publicNote>string</ole:publicNote>
+      <!--Optional:-->
+      <ole:extentSourceOfNotation>string</ole:extentSourceOfNotation>
+    </ole:extentOfOwnership>
+    <!--Zero or more repetitions:-->
+    <ole:alternateGraphicRepresentation>
+      <!--Zero or more repetitions:-->
+      <ole:fieldName>string</ole:fieldName>
+      <!--Zero or more repetitions:-->
+      <ole:fieldValue>string</ole:fieldValue>
+    </ole:alternateGraphicRepresentation>
+    <!--Zero or more repetitions:-->
+    <ole:extension displayLabel="string">
+      flammato
+      <!--You may enter ANY elements at this point-->
+      <AnyElement/>
+      speluncis
+    </ole:extension>
+  </ole:holdings>
+  <!--1 or more repetitions:-->
+  <ole:item>
+    <ole:itemIdentifier>string</ole:itemIdentifier>
+    <!--Zero or more repetitions:-->
+    <ole:purchaseOrderLineItemIdentifier>string</ole:purchaseOrderLineItemIdentifier>
+    <!--Optional:-->
+    <ole:accessInformation>
+      <!--You have a CHOICE of the next 2 items at this level-->
+      <ole:barcode>string</ole:barcode>
+      <ole:uri resolvable="true"/>
+    </ole:accessInformation>
+    <!--Optional:-->
+    <ole:electronicLocationAndAccess>
+      <!--Optional:-->
+      <ole:accessMethod>3</ole:accessMethod>
+      <!--Optional:-->
+      <ole:relationship>8</ole:relationship>
+      <!--Zero or more repetitions:-->
+      <ole:hostName>string</ole:hostName>
+      <!--Zero or more repetitions:-->
+      <ole:accessNumber>string</ole:accessNumber>
+      <!--Zero or more repetitions:-->
+      <ole:compressionInformation>string</ole:compressionInformation>
+      <!--Zero or more repetitions:-->
+      <ole:path>string</ole:path>
+      <!--Zero or more repetitions:-->
+      <ole:electronicName>string</ole:electronicName>
+      <!--Zero or more repetitions:-->
+      <ole:requestProcessor>string</ole:requestProcessor>
+      <!--Zero or more repetitions:-->
+      <ole:instruction>string</ole:instruction>
+      <!--Optional:-->
+      <ole:bitsPerSecond>string</ole:bitsPerSecond>
+      <!--Optional:-->
+      <ole:password>string</ole:password>
+      <!--Optional:-->
+      <ole:logon>string</ole:logon>
+      <!--Zero or more repetitions:-->
+      <ole:accessAssistanceContact>string</ole:accessAssistanceContact>
+      <!--Optional:-->
+      <ole:locationHostName>string</ole:locationHostName>
+      <!--Optional:-->
+      <ole:operatingSystem>string</ole:operatingSystem>
+      <!--Optional:-->
+      <ole:port>string</ole:port>
+      <!--Optional:-->
+      <ole:electronicFormatType>string</ole:electronicFormatType>
+      <!--Optional:-->
+      <ole:settings>string</ole:settings>
+      <!--Zero or more repetitions:-->
+      <ole:fileSize>string</ole:fileSize>
+      <!--Zero or more repetitions:-->
+      <ole:terminalEmulation>string</ole:terminalEmulation>
+      <!--Zero or more repetitions:-->
+      <ole:hoursAccessMethodAvailable>string</ole:hoursAccessMethodAvailable>
+      <!--Zero or more repetitions:-->
+      <ole:recordControlNumber>string</ole:recordControlNumber>
+      <!--Zero or more repetitions:-->
+      <ole:nonPublicNote>string</ole:nonPublicNote>
+      <!--Zero or more repetitions:-->
+      <ole:linkText>string</ole:linkText>
+      <!--Zero or more repetitions:-->
+      <ole:publicNote>string</ole:publicNote>
+      <!--Optional:-->
+      <ole:additionalAccessMethodInformation>
+        <ole:value>anyType</ole:value>
+        <ole:typeOrSource>
+          <!--You have a CHOICE of the next 2 items at this level-->
+          <ole:pointer>http://www.any.edu/ac/hoc</ole:pointer>
+          <ole:text>anyType</ole:text>
+        </ole:typeOrSource>
+      </ole:additionalAccessMethodInformation>
+      <!--Optional:-->
+      <ole:materialsSpecified>string</ole:materialsSpecified>
+    </ole:electronicLocationAndAccess>
+    <!--Optional:-->
+    <ole:barcodeARSL>string</ole:barcodeARSL>
+    <!--Zero or more repetitions:-->
+    <ole:formerIdentifiers>
+      <!--Optional:-->
+      <ole:identifier>string</ole:identifier>
+      <!--Optional:-->
+      <ole:identifierType>string</ole:identifierType>
+    </ole:formerIdentifiers>
+    <!--Zero or more repetitions:-->
+    <ole:statisticalSearchingCodes>string</ole:statisticalSearchingCodes>
+    <!--Optional:-->
+    <ole:itemType>string</ole:itemType>
+    <!--Optional:-->
+    <ole:copyNumber>201</ole:copyNumber>
+    <!--Optional:-->
+    <ole:copyNumberLabel>string</ole:copyNumberLabel>
+    <!--Optional:-->
+    <ole:volumeNumber>100</ole:volumeNumber>
+    <!--Optional:-->
+    <ole:volumeNumberLabel>100</ole:volumeNumberLabel>
+    <!--Optional:-->
+    <ole:nonPublicNote>string</ole:nonPublicNote>
+    <!--Optional:-->
+    <ole:publicNote>string</ole:publicNote>
+    <!--Optional:-->
+    <ole:enumeration>string</ole:enumeration>
+    <!--Optional:-->
+    <ole:chronology>string</ole:chronology>
+    <!--0 to 2 repetitions:-->
+    <ole:location>
+      <!--0 to 2 repetitions:-->
+      <ole:locationStatus>Temporary</ole:locationStatus>
+      <ole:locationName>
+        <ole:value>Item location Name For testing</ole:value>
+        <ole:typeOrSource>
+          <!--You have a CHOICE of the next 2 items at this level-->
+          <ole:pointer>http://www.any.gov/speluncis/circum</ole:pointer>
+          <ole:text>anyType</ole:text>
+        </ole:typeOrSource>
+      </ole:locationName>
+      <ole:levelName>
+        <ole:value>Item level Name For testing</ole:value>
+        <ole:typeOrSource>
+          <!--You have a CHOICE of the next 2 items at this level-->
+          <ole:pointer>http://www.sample.com/praeterea/arce</ole:pointer>
+          <ole:text>anyType</ole:text>
+        </ole:typeOrSource>
+      </ole:levelName>
+      <ole:shelvingScheme>3</ole:shelvingScheme>
+      <ole:shelvingOrder>1</ole:shelvingOrder>
+      <!--Zero or more repetitions:-->
+      <ole:callNumberPrefix>string</ole:callNumberPrefix>
+      <!--Optional:-->
+      <ole:classificationPart>string</ole:classificationPart>
+      <!--Zero or more repetitions:-->
+      <ole:itemPart>string</ole:itemPart>
+      <!--Zero or more repetitions:-->
+      <ole:callNumberSuffix>string</ole:callNumberSuffix>
+      <ole:classificationSort>anyType</ole:classificationSort>
+      <ole:classificationView>anyType</ole:classificationView>
+      <!--Zero or more repetitions:-->
+      <ole:formerShelvingLocation>formerShelvingLocation</ole:formerShelvingLocation>
+      <!--Zero or more repetitions:-->
+      <ole:address>string</ole:address>
+      <!--Zero or more repetitions:-->
+      <ole:codedLocationQualifier>str</ole:codedLocationQualifier>
+      <!--Zero or more repetitions:-->
+      <ole:noncodedLocationQualifier>string</ole:noncodedLocationQualifier>
+      <!--Optional:-->
+      <ole:shelvingControlNumber>shelvingControlNumber</ole:shelvingControlNumber>
+      <!--Optional:-->
+      <ole:shelvingFormOfTitle>shelvingFormOfTitle</ole:shelvingFormOfTitle>
+      <!--Optional:-->
+      <ole:countryCode>
+        <ole:value>anyType</ole:value>
+        <ole:typeOrSource>
+          <!--You have a CHOICE of the next 2 items at this level-->
+          <ole:pointer>http://www.any.com/quisquam/et</ole:pointer>
+          <ole:text>anyType</ole:text>
+        </ole:typeOrSource>
+      </ole:countryCode>
+      <!--Zero or more repetitions:-->
+      <ole:copyrightArticleFeeCode>string</ole:copyrightArticleFeeCode>
+      <!--Optional:-->
+      <ole:copyNumber>100</ole:copyNumber>
+      <!--Optional:-->
+      <ole:pieceDesignation>string</ole:pieceDesignation>
+      <!--Optional:-->
+      <ole:piecePhysicalCondition>string</ole:piecePhysicalCondition>
+      <!--Zero or more repetitions:-->
+      <ole:nonPublicNote>string</ole:nonPublicNote>
+      <!--Zero or more repetitions:-->
+      <ole:publicNote>string</ole:publicNote>
+      <!--Optional:-->
+      <ole:classificationOrShelvingSchemeSource>
+        <ole:value>anyType</ole:value>
+        <ole:typeOrSource>
+          <!--You have a CHOICE of the next 2 items at this level-->
+          <ole:pointer>http://www.sample.gov/ac/sed</ole:pointer>
+          <ole:text>anyType</ole:text>
+        </ole:typeOrSource>
+      </ole:classificationOrShelvingSchemeSource>
+      <!--Optional:-->
+      <ole:materialsSpecified>string</ole:materialsSpecified>
+    </ole:location>
+    <!--Optional:-->
+    <ole:highDensityStorage>
+      <!--Optional:-->
+      <ole:row>string</ole:row>
+      <!--Optional:-->
+      <ole:module>string</ole:module>
+      <!--Optional:-->
+      <ole:shelf>string</ole:shelf>
+      <!--Optional:-->
+      <ole:hds>string</ole:hds>
+    </ole:highDensityStorage>
+    <!--Zero or more repetitions:-->
+    <ole:extension displayLabel="string">
+      pectore
+      <!--You may enter ANY elements at this point-->
+      <AnyElement/>
+      talia
+    </ole:extension>
+  </ole:item>
+</ole:instance>
+</ole:instanceCollection>

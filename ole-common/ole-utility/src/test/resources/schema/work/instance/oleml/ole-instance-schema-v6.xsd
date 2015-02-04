@@ -1,0 +1,1570 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+    xmlns="http://ole.kuali.org/standards/ole-instance" targetNamespace= "http://ole.kuali.org/standards/ole-instance"> 
+<!-- Changes for v6
+* made <formerIdentifiers> a global element.  It is referenced in both holdingsGroup and itemGroup - assumption that legacy data system PKs/identifiers may be migrated/captured in this element to making data migration easier to track.
+-->    
+<!-- OLE Instance schema has two primary sections holdingsGroup and itemGroup.  These sections are imbedded in the instanceGroup.  There may be one Holdings section to many Items sections.-->
+<!-- The following are global elements -->
+
+<xs:element name="instance" type="instanceGroup"/>
+<xs:element name="instanceIdentifier" type="xs:string">
+    <xs:annotation>
+        <xs:documentation>System-assigned unique ID for the Instance docuement.
+        </xs:documentation>
+    </xs:annotation>
+</xs:element>
+<xs:element name="resourceIdentifier" type="xs:string">
+  <xs:annotation>
+    <xs:documentation>Identifies the metadata of the bibliographic resource.  Maps to MFHD 004.
+    </xs:documentation>
+  </xs:annotation>
+</xs:element>
+<xs:element name="suppressFromPublic" type="xs:boolean" default="false"/>
+<xs:element name="harvestable" type="xs:boolean" default="true">
+        <xs:annotation>
+            <xs:documentation>Does not map to MFHD.  Indicates if the description may be harvested by another system.</xs:documentation>
+        </xs:annotation>
+</xs:element>
+<xs:element name="fastAddFlag" type="xs:boolean" default="false">
+        <xs:annotation>
+            <xs:documentation>Does not map to MFHD.  Indicates a temporary description created "on the fly" by a circulation staff operator in order to perform a checkout transaction since either no record for the item existed in the system or the item had no barcode label.  System-generated/auto-populated.
+            </xs:documentation>
+        </xs:annotation>
+</xs:element>    
+<xs:element name="formerIdentifiers">
+        <xs:annotation>
+            <xs:documentation>Does not map to MFHD.  Identifies previously used barcodes or other identifiers for the item being described.  Also allows for the identification of the type of identifier.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="identifier" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                <xs:element name="identifierType" type="xs:string" minOccurs="0" maxOccurs="1"/>   
+            </xs:sequence>
+        </xs:complexType>
+</xs:element>
+<xs:element name="holdings" type="holdingsGroup"/>
+<xs:element name="holdingsIdentifier" type="xs:string">
+        <xs:annotation>
+            <xs:documentation>Also known as OLE Holdings Identifier or maps to the MFHD 001 field.  System-assigned unique ID for the holdings data.
+            </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+<xs:element name="institutionToWhichFieldApplies" 
+        type="codeOrIdentifier">
+        <xs:annotation>
+            <xs:documentation>Maps to $5 "Institution to which field applies" in multiple MFHD fields. MARC code of the institution or organization that holds the copy to which the data in the field applies. Data in the field may not apply to the universal description of the item or may apply universally to the item but be of interest only to the location cited. See MARC Code List for Organizations for a listing of sources used in MARC 21 records which is found at http://www.loc.gov/marc/holdings/echdorg.html
+            </xs:documentation>
+        </xs:annotation>
+</xs:element>
+    <!-- Commenting out the <linkage> and <fieldLinkAndSequenceNumber> elements as these map to an MFHD "controlled" subfields.  
+        Linking within the Instance document needs further analysis of both the need for this and how it should best be done - as 
+        modeled in MFHD (in which case additional subelements are needed) or better modeled using xs attributes such as xs:ID and xs:KIDREF    
+<xs:element name="linkage" type="xs:string">
+        <xs:annotation>
+            <xs:documentation>Maps to $6 "Linkage" in multiple MFHD fields.   Data that links fields that are different script representations of each other. Subfield $6 may contain the tag number of an associated field, an occurrence number, a code that identifies the first script encountered in a left-to-right scan of the field, and an indication that the orientation for a display of the field data is right-to-left. A regular (non-880) field may be linked to one or more 880 fields that all contain different script representations of the same data. Subfield $6 is structured as follows: $6 &lt;linking tag&gt;-&lt;occurrence number&gt;/&lt;script identification code&gt;/&lt;field orientation code&gt; Subfield $6 is always the first subfield in the field. Descriptions of multiscript record models, with examples, are in Multiscript Records; specifications for field 880 are under that field; specifications for character sets and repertoires for scripts are found in MARC 21 Specifications for Record Structure, Character Sets, and Exchange Media. Linking tag part contains the tag number of the associated field and is always three characters in length. This part is followed immediately by a hyphen and the two-digit occurrence number part. A different occurrence number is assigned to each set of associated fields within a single record. The function of an occurrence number is to permit the matching of the associated fields (not to sequence the fields within the record). An occurrence number may be assigned at random for each set of associated fields. An occurrence number of less than two digits is right justified and the unused position contains a zero. When there is no associated field to which a field 880 is linked, the occurrence number in subfield $6 is 00. It is used if an agency wants to separate scripts in a record (see Multiscript Records). The linking tag part of subfield $6 will contain the tag that the associated regular field would have had if it had existed in the record. 852&#9;4#$6880-01$a[Location in Latin script] 880&#9;2#$6852-01/(2/r$a[Location in Hebrew script linked to associated field] Occurrence number is followed immediately by a slash (/) and the script identification code. This code identifies the alternate script found in the field. The following codes are used: Code&#9;Script (3&#9;Arabic (B&#9;Latin $1&#9;Chinese, Japanese, Korean (N&#9;Cyrillic (S&#9;Greek (2&#9;Hebrew 880&#9;1#$6852-01/(N$a[Location in Cyrillic script] [The (N identifies the Basic Cyrillic character set.] The entire field need not be in the script identified in subfield $6. If more than one script is present in the field, subfield $6 will contain the identification of the first alternate script encountered in a left-to-right scan of the field. Note also that the script identification code is used in field 880, subfield $6, but this data element is not generally used for subfield $6 of the associated regular field. In the associated field, the data is assumed to be the primary script(s) for the record. In a MARC record, the contents of field 880 are always recorded in their logical order, from the first character to the last, regardless of field orientation. For a display of the field, the default field orientation is left-to-right. When the field contains text that has a right-to-left orientation, the script identification code is followed by a slash (/) and the field orientation code. The MARC field orientation code for right-to-left scripts is the letter r. The orientation code is only included in fields with right-to-left orientation, since left-to-right orientation is the default orientation in 880 fields. (See MARC 21 Specifications for Record Structure, Character Sets, and Exchange Media for a detailed description of field orientation.) 880&#9;1#$6852-01/(2/r$h[Call number in Hebrew script] [The r indicates the right-to-left orientation of the Hebrew script.] Note that the orientation code is used in field 880, subfield $6, but this data element is not generally used for subfield $6 of the associated regular field. In the associated field, the data is assumed to be the usual orientation of the primary script(s) for the record.
+            </xs:documentation>
+        </xs:annotation>
+</xs:element> 
+  
+ <xs:element name="fieldLinkAndSequenceNumber" type="xs:string">
+        <xs:annotation>
+            <xs:documentation>Maps to $8 "Field link and sequence number" in multiple MFHD fields.  Subfield $8 contains data that links related 853-868 holdings data fields. Only a linking number is used in the Textual Holdings fields to include whether the field is: the only holdings data field in the holdings statement or the only holdings data field to be used for display, an alternative display for one or more portions of the holdings data in 863-865 Enumeration and Chronology field(s) contained in the holdings statement, or a holdings data field in addition to the 863-865 Enumeration and Chronology field(s) contained in the holdings statement. Linking number used in subfield $8 is determined by the following conditions: Linking number is 0 Holdings are recorded only in a 866-868 Textual Holdings field. No 853-855 Captions and Pattern and 863-865 Enumeration and Chronology fields occur in the holdings statement. 867&#9;31$80$a”Teacher’s guide” pt. A-B Holdings data are recorded in the linked 853-855 Captions and Pattern/863-865 Enumeration and Chronology fields but the display form of the holdings is recorded in a Textual Holdings field.  Subfield $8 contains data that links related 853-868 holdings data fields. Only a linking number is used in the Textual Holdings fields to include whether the field is: the only holdings data field in the holdings statement or the only holdings data field to be used for display, an alternative display for one or more portions of the holdings data in 863-865 Enumeration and Chronology field(s) contained in the holdings statement, or a holdings data field in addition to the 863-865 Enumeration and Chronology field(s) contained in the holdings statement. Linking number used in subfield $8 is determined by the following conditions: Linking number is 0 Holdings are recorded only in a 866-868 Textual Holdings field. No 853-855 Captions and Pattern and 863-865 Enumeration and Chronology fields occur in the holdings statement. 867&#9;31$80$a”Teacher’s guide” pt. A-B Holdings data are recorded in the linked 853-855 Captions and Pattern/863-865 Enumeration and Chronology fields but the display form of the holdings is recorded in a Textual Holdings field.  Linking number is unique and sequences the holdings data with the enumeration and chronology of the 863-865 fields When part of the holdings data is recorded in the 853-855 Captions and Pattern/863-865 Enumeration and Chronology fields and part is recorded in the Textual Holdings fields, displays may be generated from both types of fields. This situation may occur when the holdings are extremely complex or the publication pattern varies greatly for only a certain period of time. A unique whole number is used as the linking number in the Textual Holdings field to sequence the field among the linking numbers used in the 853-855/863-865 fields according to the enumeration and chronology recorded in each field.
+            </xs:documentation>
+        </xs:annotation>
+</xs:element>  
+    -->
+    
+<xs:element name="item" type="itemGroup"/>
+<xs:element name="itemIdentifier" type="xs:string">
+    <xs:annotation>
+        <xs:documentation>Maps to MFHD 876 $a Internal item number System-assigned unique ID [It might be convenient if item record number is based on bib/holdings/item hierarchy.  For example: "AAA1000.1.1", the first item record linked to the first holdings record linked to bib record AAA1000 -GC]
+        </xs:documentation>
+    </xs:annotation>
+ </xs:element>
+<xs:element name="purchaseOrderLineItemIdentifier" type="xs:string"/>
+<xs:element name="publicNote" type="xs:string"/>
+<xs:element name="nonPublicNote" type="xs:string"/>
+<xs:element name="dateEntered" type="xs:date"/>
+<xs:element name="lastUpdated" type="xs:date"/>   
+<xs:element name="extension" type="extensionDefinition">
+    <xs:annotation>
+        <xs:documentation>Element borrowed from/maps to MODS extension element.  It may be used for elements that are local to the creators of the Instance documents.  In addition, it may be used to extend the Instance schema for various purposes when another XML schema may handle the type of information.  </xs:documentation>
+    </xs:annotation>
+</xs:element>
+    
+<xs:complexType name="extensionDefinition" mixed="true">
+        <xs:sequence>
+            <xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="displayLabel" type="xs:string"/>
+</xs:complexType>
+ <!--This is the key part of the schema - the Instance Complex Type contains the Instance Identifier, the group of holdings elements that describe holdings and the group of item elements that describe the items  -->
+<xs:complexType name="instanceGroup">
+    <xs:annotation>
+        <xs:documentation>Provides information about the holdings and items.</xs:documentation>
+    </xs:annotation>
+  <xs:sequence>
+   <xs:element ref="instanceIdentifier"/>
+   <xs:element ref="resourceIdentifier" minOccurs="1" maxOccurs="unbounded"/>
+   <xs:element ref="extension"/>
+   <xs:element ref="holdings"/>
+   <xs:element ref="item" minOccurs="1" maxOccurs="unbounded"/>
+   
+  </xs:sequence>        
+</xs:complexType>
+
+<!-- The holdingsGroup is referenced in "instance" and includes all information captured for "holdings". Local, non-global elements are imbedded in the holdingsGroup-->
+<xs:complexType name="holdingsGroup">
+        <xs:annotation>
+            <xs:documentation>Describes the extent of a resource available to the user. In the case of continuing resources holdings data may record the pattern of issuance of a resource and/or a summary statement of volumes held.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>    
+            <xs:element ref="holdingsIdentifier"/>
+            <xs:element ref="formerIdentifiers" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element ref="suppressFromPublic"/>
+            <xs:element ref="fastAddFlag"/>
+            <xs:element name="status">
+                <xs:annotation>
+                    <xs:documentation>Maps to MFHD Leader 05 Record status Relationship of the record to a file.  Used for file maintenance purposes .Use allowable data values only.  
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="c">
+                            <xs:annotation><xs:documentation>c - Corrected or revised Addition or change has been made to the record.</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="d">
+                            <xs:annotation><xs:documentation> d - Deleted Record has been deleted.</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="n">
+                            <xs:annotation><xs:documentation>n - New Record is a newly input record.</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="recordType">
+                <xs:annotation>
+                    <xs:documentation>Maps to MFHD Leader 06 Type of record Characteristics and definitions of the components of the record. When holdings information is embedded in a MARC bibliographic record, the Leader/06 code may be contained in field 841 $a (Holdings Coded Data Values, Type of record). Use allowable data values only.  
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="u">
+                            <xs:annotation><xs:documentation>u - Unknown</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="v">
+                            <xs:annotation><xs:documentation>v - Multipart item holdings</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="x">
+                            <xs:annotation><xs:documentation>x - Single-part item holdings</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="y">
+                            <xs:annotation><xs:documentation>y - Serial item holdings</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="encodingLevel">
+                <xs:annotation>
+                    <xs:documentation>
+                        Level-of-specificity of the holdings statement. Codes 1, 2, 3, and 4 reflect the requirements of Levels 1, 2, 3, and 4 of Holdings Statements for Bibliographic Items (ANSI/NISO Z39.71) (formerly Serial Holdings Statements (ANSI/NISO Z39.44)) and Holdings Statements for Non-Serial Items (ANSI/NISO Z39.57)) and codes 1, 2, and 3 reflect the requirements of Levels 1, 2, and 3 of Holdings Statements-Summary Level (ISO 10324). The MARC content designators given in the description of each holdings level are the ones required by Z39.71. Optional data elements for each level are not mentioned here; they are given in each standard. A single-part item holdings statement is normally recorded at level 1. A multipart or serial item holdings statement may be recorded at any level.
+                        When holdings information is embedded in a MARC bibliographic record, this information may be contained in field 841 (Holdings Coded Data Values), subfield $e (Encoding level), which is also embedded in the bibliographic record.
+                        1 - Holdings level 1
+                        Holdings statement is formulated according to level 1 of the applicable standard. Minimally, it consists of an item identifier for the bibliographic item for which holdings are recorded and a location identifier.
+                        Item identifier may be contained in one of the following fields:
+                        004 	Control Number for Related Bibliographic Record
+                        010 	Library of Congress Control Number
+                        014 	Linkage Number
+                        020 	International Standard Book Number
+                        022 	International Standard Serial Number
+                        024 	Other Standard Identifier
+                        027 	Standard Technical Report Number
+                        030 	CODEN Designation
+                        Location identifier is contained in subfield $a (Location) of field 852 (Location).
+                        
+                        Leader/17 	1
+                        004 	###86104385#
+                        852 	##$aCSf$bSpCol
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="1">
+                            <xs:annotation><xs:documentation>Holdings level 1 </xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="2">
+                            <xs:annotation><xs:documentation>Holdings level 2 </xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="3">
+                            <xs:annotation><xs:documentation>Holdings level 3</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="4">
+                            <xs:annotation><xs:documentation>Holdings level 4 </xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="5">
+                            <xs:annotation><xs:documentation>Holdings level 4 with piece designation </xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="m">
+                            <xs:annotation><xs:documentation>Mixed level</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="u">
+                            <xs:annotation><xs:documentation>Unkown</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="z">
+                            <xs:annotation><xs:documentation>Other level</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <!-- QUESTION: Should lastUpdated or dateEntered be deleted and captured in audit trail or metadata about the Instance document?  -->
+            <xs:element ref="lastUpdated">
+                <xs:annotation>
+                    <xs:documentation>Maps to MFHD 005 Date and Time of Latest Transaction Sixteen characters that specify the date and time of the latest record transaction and serve as a version identifier for the record. They are recorded according to Representation of Dates and Times (ISO 8601). The date requires 	8 numeric characters in the pattern yyyymmdd (4 for the year, 2 for the month, and 2 for the day). The time requires 8 numeric characters in the pattern hhmmss.f, (2 for the hour, 2 for the minute, 2 for the second, and 2 for a 	decimal fraction of the second, including the decimal point)expressed in terms of the 24-hour (00-23) clock. 
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element ref="dateEntered">
+                <xs:annotation>
+                    <xs:documentation>Maps to MFHD 008 00-05 Date entered on file Computer-generated six-character numeric string that specifies the date the holdings report was first entered into machine-readable form. Date is given in the pattern yymmdd (yy for the year, mm for the month, and dd for the 	day).  If only the year and month are provided, the date is left justified and each unused position contains a zero.  Date entered on file in 008/00-05 is never changed. The date in 008/26-31 (Date of report) is changed each 	time the holdings information is updated. The date in field 005 (Date and Time of Latest Transaction) changes each time a transaction is made to a separate holdings record.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="receiptStatus">
+                <xs:annotation>
+                    <xs:documentation>Maps to MFHD 008-06 Receipt or acquisition status Whether newly published parts of a multipart (Leader/06, code v) or serial item (Leader/06, code y) are being received. Use allowable data values only  
+                             
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="0">
+                            <xs:annotation><xs:documentation>Unknown </xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="1">
+                            <xs:annotation><xs:documentation>Other receipt or acquisition status</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="2">
+                            <xs:annotation><xs:documentation>Received and complete or ceased</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="3">
+                            <xs:annotation><xs:documentation>On order</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="4">
+                            <xs:annotation><xs:documentation>Currently received</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="5">
+                            <xs:annotation><xs:documentation>Not currently received</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="acquisitionMethod">
+                <xs:annotation>
+                    <xs:documentation>Maps to MFHD 008-07 Method of Acquisition How the reporting organization acquires the bibliographic item. Use allowable data values only.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="c">
+                            <xs:annotation><xs:documentation>Cooperative or consortial purchase</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="d">
+                            <xs:annotation><xs:documentation>Deposit</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="e">
+                            <xs:annotation><xs:documentation>Exchange</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="f">
+                            <xs:annotation><xs:documentation>Free</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="g">
+                            <xs:annotation><xs:documentation>Gift</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="l">
+                            <xs:annotation><xs:documentation>Legal deposit</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="m">
+                            <xs:annotation><xs:documentation>Membership</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="n">
+                            <xs:annotation><xs:documentation>Non-library purchase</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="p">
+                            <xs:annotation><xs:documentation>Purchase</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="u">
+                            <xs:annotation><xs:documentation>Unknown</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="z">
+                            <xs:annotation><xs:documentation>Other method of acquisition</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="expectedAcquisitionEndDate">
+                <xs:annotation>
+                    <xs:documentation>Maps to MFHD 008-11 Expected acquisition end date Four characters indicate an intent to cancel, the effective date of a cancellation, or the date of the last expected part of a multipart or serial item (Leader/06, Type of record, code y) that is received on a continuing basis 	by the reporting organization. A date is recorded in the pattern yymm (2 for the year and 2 for the month). yymm - Date of cancellation or last expected part Effective date of either the cancellation of a multipart or serial item or the actual date of the last expected part. The volume or issue designation for the last expected part may be recorded in subfield $z (Public note) of 	field 852 (Location). uuuu - Intent to cancel; effective date not known Reporting organization intends to cancel its receipt of the multipart or serial item but that the effective date of the cancellation is unknown.  #### - No intent to cancel or not applicable Either the reporting organization does not intend to cancel its receipt of the multipart or serial item or that the information is not applicable to the item (the title has ceased, been superseded or the title is not a serial) 
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="4"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="generalRetentionPolicy">
+                <xs:annotation>
+                    <xs:documentation>Maps to MFHD 008 12 General retention policy Reporting organization's general retention policy for the bibliographic item. Organization's retention policy for specific parts or editions or for a limited time is contained in field 008/13-15 (Specific retention policy).  Use allowable values only. 
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="0">
+                            <xs:annotation><xs:documentation>Unknown</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="1">
+                            <xs:annotation><xs:documentation>Other general retention policy</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="2">
+                            <xs:annotation><xs:documentation>Retained except as replaced by updates</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="3">
+                            <xs:annotation><xs:documentation>Sample issue retained</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="4">
+                            <xs:annotation><xs:documentation>Retained until replaced by microform</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="5">
+                            <xs:annotation><xs:documentation>Retained until replaced by cumulation, replacement volume, or revision</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="6">
+                            <xs:annotation><xs:documentation>Retained for a limited period</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="7">
+                            <xs:annotation><xs:documentation>Not retained</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="8">
+                            <xs:annotation><xs:documentation>Permanently retained</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="specificRetentionPolicy">
+                <xs:annotation>
+                    <xs:documentation>Maps to MFHD 008 13-15 Specific Retention Policy. Specific parts of the bibliographic item that are retained for a limited time by the reporting organization, when field 008/12 (General retention policy) contains code 6 (Retained for a limited period).
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="policyType" minOccurs="1" maxOccurs="1">
+                            <xs:annotation>
+                                <xs:documentation>Maps to MFHD 008 13 Policy type Type of specific retention policy. Use only the allowable data values
+                                </xs:documentation>
+                            </xs:annotation>
+                            <xs:simpleType>
+                                <xs:restriction base="xs:string">
+                                    <xs:enumeration value="#">
+                                        <xs:annotation><xs:documentation>No specific retention policy</xs:documentation></xs:annotation>
+                                    </xs:enumeration>
+                                    <xs:enumeration value="l">
+                                        <xs:annotation><xs:documentation>Latest</xs:documentation></xs:annotation>
+                                    </xs:enumeration>
+                                    <xs:enumeration value="p">
+                                        <xs:annotation><xs:documentation>Previous</xs:documentation></xs:annotation>
+                                    </xs:enumeration>
+                                </xs:restriction>
+                            </xs:simpleType>
+                        </xs:element>
+                        <xs:element name="numberOfUnits" minOccurs="1" maxOccurs="1">
+                            <xs:annotation>
+                                <xs:documentation>Maps to MFHD 008 14 Number of units Number of time or part units used to specify the specific retention policy. Use only the allowable data values.
+                                    </xs:documentation>
+                            </xs:annotation>
+                            <xs:simpleType>
+                                <xs:restriction base="xs:string">
+                                    <xs:enumeration value="#">
+                                        <xs:annotation><xs:documentation>No information provided</xs:documentation></xs:annotation>
+                                    </xs:enumeration>
+                                    <xs:enumeration value="1">
+                                        <xs:annotation><xs:documentation>Number of Units</xs:documentation></xs:annotation>
+                                    </xs:enumeration>
+                                    <xs:enumeration value="2">
+                                        <xs:annotation><xs:documentation>Number of Units</xs:documentation></xs:annotation>
+                                    </xs:enumeration>
+                                    <xs:enumeration value="3">
+                                        <xs:annotation><xs:documentation>Number of Units</xs:documentation></xs:annotation>
+                                    </xs:enumeration>
+                                    <xs:enumeration value="4">
+                                        <xs:annotation><xs:documentation>Number of Units</xs:documentation></xs:annotation>
+                                    </xs:enumeration>
+                                    <xs:enumeration value="5">
+                                        <xs:annotation><xs:documentation>Number of Units</xs:documentation></xs:annotation>
+                                    </xs:enumeration>
+                                    <xs:enumeration value="6">
+                                        <xs:annotation><xs:documentation>Number of Units</xs:documentation></xs:annotation>
+                                    </xs:enumeration>
+                                    <xs:enumeration value="7">
+                                        <xs:annotation><xs:documentation>Number of Units</xs:documentation></xs:annotation>
+                                    </xs:enumeration>
+                                    <xs:enumeration value="8">
+                                        <xs:annotation><xs:documentation>Number of Units</xs:documentation></xs:annotation>
+                                    </xs:enumeration>
+                                    <xs:enumeration value="9">
+                                        <xs:annotation><xs:documentation>Number of Units</xs:documentation></xs:annotation>
+                                    </xs:enumeration>
+                                </xs:restriction>
+                            </xs:simpleType>
+                        </xs:element>
+                        <xs:element name="unitType" minOccurs="1" maxOccurs="1">
+                            <xs:annotation>
+                                <xs:documentation>Maps to MFHD 008-15 Unit type Describes either the period of retention or the part that is retained. Use only the allowable data values. 
+                                </xs:documentation>
+                            </xs:annotation>
+                            <xs:simpleType>
+                                <xs:restriction base="xs:string">                              
+                                    <xs:enumeration value="m">
+                                        <xs:annotation><xs:documentation>Month(s)</xs:documentation></xs:annotation>
+                                    </xs:enumeration>
+                                    <xs:enumeration value="w">
+                                        <xs:annotation><xs:documentation>Week(s)</xs:documentation></xs:annotation>
+                                    </xs:enumeration>
+                                    <xs:enumeration value="y">
+                                        <xs:annotation><xs:documentation>Year(s)</xs:documentation></xs:annotation>
+                                    </xs:enumeration>
+                                    <xs:enumeration value="e">
+                                        <xs:annotation><xs:documentation>Edition(s)</xs:documentation></xs:annotation>
+                                    </xs:enumeration>
+                                    <xs:enumeration value="i">
+                                        <xs:annotation><xs:documentation>Issue(s)</xs:documentation></xs:annotation>
+                                    </xs:enumeration>
+                                    <xs:enumeration value="s">
+                                        <xs:annotation><xs:documentation>Supplement(s)</xs:documentation></xs:annotation>
+                                    </xs:enumeration>
+                                </xs:restriction>
+                            </xs:simpleType>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="completeness">
+                <xs:annotation>
+                    <xs:documentation>Estimation of the general extent of the holdings for a multipart (Leader/06, Type of record, code v) or serial item (Leader/06, Type of record, code y).
+                        Percentages associated with values 1, 2, and 3 are for general guidance and are not prescriptive. They may be determined locally. </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="0">
+                            <xs:annotation><xs:documentation>Other</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="1">
+                            <xs:annotation><xs:documentation>Complete</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="2">
+                            <xs:annotation><xs:documentation>Incomplete</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="3">
+                            <xs:annotation><xs:documentation>Scattered</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="4">
+                            <xs:annotation><xs:documentation>Not applicable</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="copiesReported" type="xs:nonNegativeInteger">
+                <xs:annotation>
+                    <xs:documentation>Maps to MFHD 008 17 19 Number of copies reported.  The content can only be positive whole numbers including zero.  MFHD can only accept three numeric characters.  Three numeric characters indicate the number of copies represented in either a separate copy report (008/25, Separate or composite copy report, code 0) or a composite copy report (008/25, code 1). The number is right justified and each unused position contains a zero.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="lendingPolicy">
+                <xs:annotation>
+                    <xs:documentation>
+                        Reporting organization's external lending policy for the bibliographic item.
+                        More specific information about the lending policy may be contained in field 845 (Terms Governing Use and Reproduction Note). 
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="a">
+                            <xs:annotation><xs:documentation>Will lend</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="b">
+                            <xs:annotation><xs:documentation>Will not lend</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="c">
+                            <xs:annotation><xs:documentation>Will lend hard copy only</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="l">
+                            <xs:annotation><xs:documentation>Limited lending policy</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="u">
+                            <xs:annotation><xs:documentation>Unknown</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="reproductionPolicy">
+                <xs:annotation>
+                    <xs:documentation>Reporting organization's reproduction policy for the bibliographic item. More specific information about the reproduction policy may be contained in field 845 (Terms Governing Use and Reproduction Note). 
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="a">
+                            <xs:annotation><xs:documentation>Will reproduce</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="b">
+                            <xs:annotation><xs:documentation>Will not reproduce</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="u">
+                            <xs:annotation><xs:documentation>Unknown</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="separateOrCompositeReport">
+                <xs:annotation>
+                    <xs:documentation>Maps to MFHD 008 25 Separate or composite copy report Whether the holdings information represents a separate copy or a composite copy report.  Separate copy report contains holdings information for one copy of a bibliographic item. If more copies are held by the organization, a 	separate holdings report is made for each copy. Composite copy report consolidates into a single holdings report information about two or more copies of the same bibliographic item that are held at a single location or at one 	or more sublocations within the organization. The number of copies reported is contained in 008/17-19 (Number of copies reported). Use only allowable data values.</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="0">
+                            <xs:annotation><xs:documentation>Separate copy report - Holdings report is for one copy of the bibliographic item. </xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="1">
+                            <xs:annotation><xs:documentation>Composite copy report - Holdings statement is a consolidation of information about more than one copy of the same bibliographic item. </xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="reportDate" type="xs:integer">
+                <xs:annotation>
+                    <xs:documentation>Maps to MFHD 008 26 31 Date of report MFHD requires xix numeric characters that indicate the currency of the holdings information. The date is recorded in the pattern yymmdd (yy for the year, mm for the month, and dd for the day). A date that consists of only year and month information is left justified and each unused position contains a zero. An unknown date is represented by six zeros. Date on which the holdings report is first entered into machine-readable form is contained in field 008/00-05 (Date entered on file). This date never changes. In a separate holdings record, the date in field 005 (Date and Time of Latest Transaction) changes each time any transaction is made to the record, while Date of Report 	indicates only changes to the holdings information.  The standard XML date formats can not be used because all components (year, month, day are required).
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="actionNote" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:annotation>
+                        <xs:documentation>Maps to MFHD 583 Action Note Information about processing and reference or preservation actions related to the bibliographic item for which a separate holdings record is created. For those using the field to record preservation activities, a list of Standard Terminology for the MARC Actions Note Field may be used and the authority for the terminology may be indicated in subfield $2. Processing and reference actions may include a brief statement about solicitation to acquire material, whether the solicitation is active or inactive, and the date of the last item of correspondence. Preservation actions may include review of condition, queuing for preservation, and completion of preservation. Field 583 is repeatable to record information about different actions. This field is identical to field 583 (Action Note) defined in the MARC 21 Format for Bibliographic Data. 
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:sequence>
+                        <xs:element name="privacy">
+                            <xs:annotation>
+                                <xs:documentation>Maps to MFHD 583  1st Indicator Privacy Whether the contents of the field are private or not. The state of being private includes information that institutions do not want to display to the public. Only provide allowable data values.</xs:documentation>
+                            </xs:annotation>
+                            <xs:simpleType>
+                                <xs:restriction base="xs:string">
+                                    <xs:enumeration value="#">
+                                        <xs:annotation><xs:documentation>No information provided</xs:documentation></xs:annotation>
+                                    </xs:enumeration>
+                                    <xs:enumeration value="0">
+                                        <xs:annotation><xs:documentation>Private</xs:documentation></xs:annotation>
+                                    </xs:enumeration>
+                                    <xs:enumeration value="1">
+                                        <xs:annotation><xs:documentation>Not private</xs:documentation></xs:annotation>
+                                    </xs:enumeration>
+                                </xs:restriction>
+                            </xs:simpleType>
+                        </xs:element>
+                        <xs:element name="action">
+                            <xs:annotation>
+                                <xs:documentation>Maps to MFHD 583 $a Action Standardized terminology descriptive of the action. 
+                                    Refers to any action taken with respect to the described materials (e.g., accession, appraise, authenticate, classify, copy, describe, exhibit, lend, organize, microfilm, preserve, reference, schedule, solicit, survey, transfer, etc.). For preservation activities, this subfield contains a description of the action (e.g., condition reviewed, queued for preservation, preservation interim treatment, preservation completed).
+                                </xs:documentation>
+                            </xs:annotation>
+                            <xs:simpleType>
+                                <xs:restriction base="xs:string"> </xs:restriction>
+                            </xs:simpleType>
+                        </xs:element>
+                        <xs:element name="actionIdentification" minOccurs="0" maxOccurs="unbounded"
+                            type="xs:string">
+                            <xs:annotation>
+                                <xs:documentation>Maps to 583 $b  Code or designation assigned to identify a specific action or to identify it in conjunction with time of action (e.g., an accession number or project code).
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="timeDateOfAction" minOccurs="0" maxOccurs="unbounded"
+                            type="xs:integer">
+                            <xs:annotation>
+                                <xs:documentation>Maps to MFHD  583 $c Time/Date of Action  Concrete time or date of a future or past action.  In conjunction with the appropriate action this may indicate date of accessioning, acquisition, classification, transfer, or description. The date and time are recorded according to Representations of Dates and Times (ISO 8601). The date requires 8 numeric characters in the pattern yyyymmdd (4 for the year, 2 for the month, and 2 for the day). The time requires 8 numeric characters in the pattern hhmmss.f (2 for the hour, 2 for the minute, 2 for the second, and 2 for a decimal fraction of the second, including the decimal point). The 24-hour clock (00-23) is used.  
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="actionInterval" minOccurs="0" maxOccurs="unbounded" type="xs:integer">
+                            <xs:annotation>
+                                <xs:documentation>Maps to MFHD 583 $d Action interval  Time period which cannot be expressed as a specific date (e.g., at end of academic term or every six months).
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="contingencyForAction" minOccurs="0" maxOccurs="unbounded"
+                            type="xs:string">
+                            <xs:annotation>
+                                <xs:documentation>Maps to MFHD 583 $e Contingency for action   Time or time period expressed in terms of an unpredictable event (e.g., at conclusion of court case, after death of daughter, or upon receipt).
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="authorization" minOccurs="0" maxOccurs="unbounded" type="xs:string">
+                            <xs:annotation>
+                                <xs:documentation>Maps to MFHD 583 $f Authorization  Text of, or citation to, a statute, action order, report, rationale, or rule governing a particular action.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="jurisdiction" minOccurs="0" maxOccurs="unbounded" type="xs:string">
+                            <xs:annotation>
+                                <xs:documentation>Maps to MFHD 583 $h Jurisdiction  Name of a person, an institution, or a position or function within an institution, in whom or in which responsibility for an action is vested.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="methodOfAction" minOccurs="0" maxOccurs="unbounded" type="xs:string">
+                            <xs:annotation>
+                                <xs:documentation>Maps to MFHD 583 $i method of action  Means or technique by which an action was performed. Examples of means include: by mail, in person, by phone for reference services. Examples of technique include: scrap, incinerate, shred for disposition. 
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="siteOfAction" minOccurs="0" maxOccurs="unbounded" type="xs:string">
+                            <xs:annotation>
+                                <xs:documentation>Maps to MFHD 583 $h Site of action  Location at which the described materials are acted upon, including the site at which they are consulted by users.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="actionAgent" minOccurs="0" maxOccurs="unbounded" type="xs:string">
+                            <xs:annotation>
+                                <xs:documentation>Maps to MFHD 583$ k Action agent  Person or organization which performs the action.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="actionStatus" minOccurs="0" maxOccurs="unbounded" type="xs:string">
+                            <xs:annotation>
+                                <xs:documentation>Maps to MFHD 583 $l Action status  Condition or state of the described materials Condition is sometimes but not always resulting from an action (e.g., physical condition, insurance value, or description status). For preservation activities, this subfield may contain information about the condition of the item when the action is, for example, condition reviewed. This subfield may also contain information about the status of the item that caused preservation to be rejected (e.g., action is preservation rejected) or information about the disposition of the original item (e.g., action is reformatted). 
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="actionExtent" minOccurs="0" maxOccurs="unbounded" type="xs:string">
+                            <xs:annotation>
+                                <xs:documentation>Maps to MFHD 583 $n Extent  Number of items involved.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="unitType" minOccurs="0" maxOccurs="unbounded" type="xs:string">
+                            <xs:annotation>
+                                <xs:documentation>Maps to 583 $o Type of unit  Name of the unit of measurement.  If subfields $n and $o are repeated in one 583 field, each subfield $o follows its associated subfield $n. 
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="actionURI" minOccurs="0" maxOccurs="unbounded" type="xs:string">
+                            <xs:annotation>
+                                <xs:documentation>Maps to MFHD  583 $u Uniform Resource Identifier  Uniform Resource Identifier (URI), for example a URL or URN, which provides electronic access data in a standard syntax. This data can be used for automated access to an electronic item using one of the Internet protocols. In field 583, subfield $u is used to record the location of external or supplemental information accessible electronically. 
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element ref="nonPublicNote" minOccurs="0" maxOccurs="unbounded">
+                            <xs:annotation>
+                                <xs:documentation>Maps to MFDH  583 $x Nonpublic Note  Note pertaining to an action on an item that is not displayed to the public.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element ref="publicNote" minOccurs="0" maxOccurs="unbounded">
+                            <xs:annotation>
+                                <xs:documentation>Maps to MFDH  583 $z Public Note  Note pertaining to an action on an item that is displayed to the public.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="sourceOfTerm" minOccurs="0" maxOccurs="1" type="xs:string">
+                            <xs:annotation>
+                                <xs:documentation>Maps to MFHD 583 $2 Source of term MARC code that identifies the source of the term used to record the action information. Code from: Resource Action Term Source Codes found at http://www.loc.gov/standards/sourcelist/resource-action.html. If more than one source needs to be recorded, the entire Action Note field is repeated.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="materialsSpecified" minOccurs="0" maxOccurs="1" type="xs:string">
+                            <xs:annotation>
+                                <xs:documentation>Maps to MFHD 583 $3 Part of the described material to which the field applies. When separate holdings records are made for the parts of a bibliographic item, each record may contain a field 583 that contains a subfield $3 to specify the part to which the note applies. When holdings for all of the parts of a bibliographic item are contained in one holdings record (and there is no 863-865 Enumeration and Chronology field), subfield $3 may be used whenever a data element in field 583 differs for a specified part of the item. It may also be used to relate the 583 Action note to information in an 876-878 Item Information field, when it is necessary to provide action information for item level data.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element ref="institutionToWhichFieldApplies" minOccurs="0" maxOccurs="1">
+                            <xs:annotation>
+                                <xs:documentation>Maps to MFHD 583 $5 MARC code of the institution or organization that holds the copy to which the data in the field applies. Data in the field may not apply to the universal description of the item or may apply universally to the item but be of interest only to the location cited. See MARC Code List for Organizations for a listing of sources used in MARC 21 records which is found at http://www.loc.gov/marc/holdings/echdorg.html
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <!-- Commenting out <linkage> and <fieldLinkAndSequenceNumber> until further needs and modeling analysis is completed
+                        <xs:element ref="linkage" minOccurs="0" maxOccurs="1">
+                            <xs:annotation>
+                                <xs:documentation>Maps to MFHD 583 $6 Linkage Data that links fields that are different script representations of each other. Subfield $6 may contain the tag number of an associated field, an occurrence number, a code that identifies the first script encountered in a left-to-right scan of the field, and an indication that the orientation for a display of the field data is right-to-left. A regular (non-880) field may be linked to one or more 880 fields that all contain different script representations of the same data. Subfield $6 is structured as follows: $6 &lt;linking tag&gt;-&lt;occurrence number&gt;/&lt;script identification code&gt;/&lt;field orientation code&gt; Subfield $6 is always the first subfield in the field. Descriptions of multiscript record models, with examples, are in Multiscript Records; specifications for field 880 are under that field; specifications for character sets and repertoires for scripts are found in MARC 21 Specifications for Record Structure, Character Sets, and Exchange Media. Linking tag part contains the tag number of the associated field and is always three characters in length. This part is followed immediately by a hyphen and the two-digit occurrence number part. A different occurrence number is assigned to each set of associated fields within a single record. The function of an occurrence number is to permit the matching of the associated fields (not to sequence the fields within the record). An occurrence number may be assigned at random for each set of associated fields. An occurrence number of less than two digits is right justified and the unused position contains a zero. When there is no associated field to which a field 880 is linked, the occurrence number in subfield $6 is 00. It is used if an agency wants to separate scripts in a record (see Multiscript Records). The linking tag part of subfield $6 will contain the tag that the associated regular field would have had if it had existed in the record. 852&#9;4#$6880-01$a[Location in Latin script] 880&#9;2#$6852-01/(2/r$a[Location in Hebrew script linked to associated field] Occurrence number is followed immediately by a slash (/) and the script identification code. This code identifies the alternate script found in the field. The following codes are used: Code&#9;Script (3&#9;Arabic (B&#9;Latin $1&#9;Chinese, Japanese, Korean (N&#9;Cyrillic (S&#9;Greek (2&#9;Hebrew 880&#9;1#$6852-01/(N$a[Location in Cyrillic script] [The (N identifies the Basic Cyrillic character set.] The entire field need not be in the script identified in subfield $6. If more than one script is present in the field, subfield $6 will contain the identification of the first alternate script encountered in a left-to-right scan of the field. Note also that the script identification code is used in field 880, subfield $6, but this data element is not generally used for subfield $6 of the associated regular field. In the associated field, the data is assumed to be the primary script(s) for the record. In a MARC record, the contents of field 880 are always recorded in their logical order, from the first character to the last, regardless of field orientation. For a display of the field, the default field orientation is left-to-right. When the field contains text that has a right-to-left orientation, the script identification code is followed by a slash (/) and the field orientation code. The MARC field orientation code for right-to-left scripts is the letter r. The orientation code is only included in fields with right-to-left orientation, since left-to-right orientation is the default orientation in 880 fields. (See MARC 21 Specifications for Record Structure, Character Sets, and Exchange Media for a detailed description of field orientation.) 880&#9;1#$6852-01/(2/r$h[Call number in Hebrew script] [The r indicates the right-to-left orientation of the Hebrew script.] Note that the orientation code is used in field 880, subfield $6, but this data element is not generally used for subfield $6 of the associated regular field. In the associated field, the data is assumed to be the usual orientation of the primary script(s) for the record.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element ref="fieldLinkAndSequenceNumber" minOccurs="0" maxOccurs="unbounded">
+                            <xs:annotation>
+                                <xs:documentation>Maps to MFHD 583 $8 Field link and sequence number  Subfield $8 contains data that links related 853-868 holdings data fields. Only a linking number is used in the Textual Holdings fields to include whether the field is: the only holdings data field in the holdings statement or the only holdings data field to be used for display, an alternative display for one or more portions of the holdings data in 863-865 Enumeration and Chronology field(s) contained in the holdings statement, or a holdings data field in addition to the 863-865 Enumeration and Chronology field(s) contained in the holdings statement. Linking number used in subfield $8 is determined by the following conditions: Linking number is 0 Holdings are recorded only in a 866-868 Textual Holdings field. No 853-855 Captions and Pattern and 863-865 Enumeration and Chronology fields occur in the holdings statement. 867&#9;31$80$a”Teacher’s guide” pt. A-B Holdings data are recorded in the linked 853-855 Captions and Pattern/863-865 Enumeration and Chronology fields but the display form of the holdings is recorded in a Textual Holdings field.  Subfield $8 contains data that links related 853-868 holdings data fields. Only a linking number is used in the Textual Holdings fields to include whether the field is: the only holdings data field in the holdings statement or the only holdings data field to be used for display, an alternative display for one or more portions of the holdings data in 863-865 Enumeration and Chronology field(s) contained in the holdings statement, or a holdings data field in addition to the 863-865 Enumeration and Chronology field(s) contained in the holdings statement. Linking number used in subfield $8 is determined by the following conditions: Linking number is 0 Holdings are recorded only in a 866-868 Textual Holdings field. No 853-855 Captions and Pattern and 863-865 Enumeration and Chronology fields occur in the holdings statement. 867&#9;31$80$a”Teacher’s guide” pt. A-B Holdings data are recorded in the linked 853-855 Captions and Pattern/863-865 Enumeration and Chronology fields but the display form of the holdings is recorded in a Textual Holdings field.  Linking number is unique and sequences the holdings data with the enumeration and chronology of the 863-865 fields When part of the holdings data is recorded in the 853-855 Captions and Pattern/863-865 Enumeration and Chronology fields and part is recorded in the Textual Holdings fields, displays may be generated from both types of fields. This situation may occur when the holdings are extremely complex or the publication pattern varies greatly for only a certain period of time. A unique whole number is used as the linking number in the Textual Holdings field to sequence the field among the linking numbers used in the 853-855/863-865 fields according to the enumeration and chronology recorded in each field.
+                                </xs:documentation>
+                            </xs:annotation>
+                            </xs:element>   -->
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+              <xs:element name="extentOfOwnership" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:annotation>
+                        <xs:documentation>Maps to the 3 MFHD Extent of Ownership (Textual Holdings Statement) fields 866 (Textual Holdings - Basic Bibliographic Unit), 867 (Textual Holdings - Basic Bibliographic Unit), 868 (Textual Holdings - Indexes).  The Type of Extent of Ownership element allows you to identify which of these 3 types the captured data refers to.  Textual description which may include both the captions and enumeration and chronology for the holdings of a bibliographic item in the collections of the reporting organization. These fields are normally not used in holdings for single-part items. They may be used instead of the coded 853-855 Captions and Pattern and 863-865 Enumeration and Chronology fields for multipart and serial items when those fields cannot be used adequately to describe the holdings. The 866-868 fields may also be used in addition to an Enumeration and Chronology field and any related Captions and Pattern field to record and generate an alternative display for all or part of the enumeration and chronology and captions and pattern fields.  A general description of the four types of holdings data fields, their relationship to each other, and the repeatability of each is given in the Holdings Data--General Information section. Guidelines for recording item information related to holdings data in the 866-868 fields is given in the Item Information--General Information section.  Guidelines for applying the content designators for the 866-868 fields and input conventions are given in this section.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:sequence>
+                        <xs:element name="typeOfOwnership" minOccurs="0" maxOccurs="1">
+                            <xs:annotation>
+                                <xs:documentation>Allows user to identify the type of information to be captured for the extent of ownership.  Only use allowable data values:  Textual Holdings - Basic Bibliographic Unit - maps to MFHD 866 Textual Holdings - Supplementary Material - maps to MFHD 867l Textual Holdings - Indexes  - maps to MFHD 868 
+                                </xs:documentation>
+                            </xs:annotation>
+                            <xs:simpleType>
+                                <xs:restriction base="xs:string">
+                                    <xs:enumeration value="Textual Holdings - Basic Bibliographic Unit"/>
+                                    <xs:enumeration value="Textual Holdings - Supplementary Material"/>
+                                    <xs:enumeration value="Textual Holdings - Indexes"/>
+                                </xs:restriction> 
+                            </xs:simpleType>
+                        </xs:element>
+                        <xs:element name="fieldEncodingLevel" minOccurs="0" maxOccurs="1">
+                            <xs:annotation>
+                                <xs:documentation>Maps to MFHD 866 (Textual Holdings - Basic Bibliographic Unit), 867 (Textual Holdings - Supplementary Material), 868 (Textual Holdings - Supplementary Material) 1st Indicator Field Encoding Level   Level of specificity of the enumeration and chronology in the field.  Use only the allowable data values.  
+                                </xs:documentation>
+                            </xs:annotation>
+                            <xs:simpleType>
+                                <xs:restriction base="xs:string">
+                                    <xs:enumeration value="#">
+                                        <xs:annotation><xs:documentation>No information provided</xs:documentation></xs:annotation>
+                                    </xs:enumeration>
+                                    <xs:enumeration value="3">
+                                        <xs:annotation><xs:documentation>Holdings level 3</xs:documentation></xs:annotation>
+                                    </xs:enumeration>
+                                    <xs:enumeration value="4">
+                                        <xs:annotation><xs:documentation>Holdings level 4</xs:documentation></xs:annotation> 
+                                    </xs:enumeration>
+                                    <xs:enumeration value="5">
+                                        <xs:annotation><xs:documentation>Holdings level 4 with piece designation</xs:documentation></xs:annotation>
+                                    </xs:enumeration>
+                                </xs:restriction>
+                            </xs:simpleType>
+                        </xs:element>
+                        <xs:element name="typeOfNotation" minOccurs="0" maxOccurs="1">
+                            <xs:annotation>
+                                <xs:documentation>Maps to MFHD 866 (Textual Holdings - Basic Bibliographic Unit), 867 (Textual Holdings - Supplementary Material), 868 (Textual Holdings - Supplementary Material) 2nd Indicator Type of Notation   Whether the holdings contained in subfield $a (textual holdings)  is formulated according to standard or non-standard notation.  Use only the allowable data values. 
+                                </xs:documentation>
+                            </xs:annotation>
+                            <xs:simpleType>
+                                <xs:restriction base="xs:string">
+                                    <xs:enumeration value="0">
+                                        <xs:annotation><xs:documentation>Non-standard</xs:documentation></xs:annotation>
+                                    </xs:enumeration>
+                                    <xs:enumeration value="1">
+                                        <xs:annotation><xs:documentation>ANSI/NISO Z39.71 or ISO 10324</xs:documentation></xs:annotation>
+                                    </xs:enumeration>
+                                    <xs:enumeration value="2">
+                                        <xs:annotation><xs:documentation>ANSI Z39.42</xs:documentation></xs:annotation>
+                                    </xs:enumeration>
+                                    <xs:enumeration value="7">
+                                        <xs:annotation><xs:documentation>Source specified in Source of Notation</xs:documentation></xs:annotation>
+                                    </xs:enumeration>
+                                </xs:restriction>
+                            </xs:simpleType>
+                        </xs:element>
+                        <xs:element name="textualHoldings" minOccurs="0" maxOccurs="1" type="xs:string">
+                            <xs:annotation>
+                                <xs:documentation>Maps to MFHD 866 (Textual Holdings - Basic Bibliographic Unit), 867 (Textual Holdings - Supplementary Material), 868 (Textual Holdings - Supplementary Material) $ a Textual holdings  Textual form of the holdings may be used either instead of or in addition to holdings recorded in the 853-855 Captions and Pattern and 863-865 Enumeration and Chronology fields. 
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element ref="nonPublicNote" minOccurs="0" maxOccurs="unbounded">
+                            <xs:annotation>
+                                <xs:documentation>Maps to MFHD 866 (Textual Holdings - Basic Bibliographic Unit), 867 (Textual Holdings - Supplementary Material), 868 (Textual Holdings - Supplementary Material)  $x Nonpublic note.  Note that is not written in a form that is adequate for public display. A note adequate for public display is contained in subfield $z (Public note).
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element ref="publicNote" minOccurs="0" maxOccurs="unbounded">
+                            <xs:annotation>
+                                <xs:documentation>Maps to MFHD 866 (Textual Holdings - Basic Bibliographic Unit), 867 (Textual Holdings - Supplementary Material), 868 (Textual Holdings - Supplementary Material)  $z Public note  Note that is written in a form that is adequate for public display. It contains information that cannot be contained in subfield $a. For example, it may be used to specifically record missing issues or numbering irregularities. A note not adequate for public display is contained in subfield $x (Nonpublic note).
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="extentSourceOfNotation" minOccurs="0" maxOccurs="1" type="xs:string">
+                            <xs:annotation>
+                                <xs:documentation>Maps to MFHD 866 (Textual Holdings - Basic Bibliographic Unit), 867 (Textual Holdings - Supplementary Material), 868 (Textual Holdings - Supplementary Material) $2 Source of notation   Use only the allowable data values  MARC code that identifies the source of notation used to formulate the holdings statement. Code from: Holding Scheme Source Codes.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <!-- Commenting out <linkage> and <fieldLinkAndSequenceNumber> until further needs and modeling analysis is completed
+                        <xs:element ref="linkage">
+                            <xs:annotation>
+                                <xs:documentation>Maps to MFHD 866 (Textual Holdings - Basic Bibliographic Unit), 867 (Textual Holdings - Supplementary Material), 868 (Textual Holdings - Supplementary Material) $6   Data that links fields that are different script representations of each other. Subfield $6 may contain the tag number of an associated field, an occurrence number, a code that identifies the first script encountered in a left-to-right scan of the field, and an indication that the orientation for a display of the field data is right-to-left. A regular (non-880) field may be linked to one or more 880 fields that all contain different script representations of the same data. Subfield $6 is structured as follows: $6&lt;linking tag&gt;-&lt;occurrence number&gt;/&lt;script identification code&gt;/&lt;field orientation code&gt; Subfield $6 is always the first subfield in the field. Descriptions of multiscript record models, with examples, are in Multiscript Records; specifications for field 880 are under that field; specifications for character sets and repertoires for scripts are found in MARC 21 Specifications for Record Structure, Character Sets, and Exchange Media. Linking tag part contains the tag number of the associated field and is always three characters in length. This part is followed immediately by a hyphen and the two-digit occurrence number part. A different occurrence number is assigned to each set of associated fields within a single record. The function of an occurrence number is to permit the matching of the associated fields (not to sequence the fields within the record). An occurrence number may be assigned at random for each set of associated fields. An occurrence number of less than two digits is right justified and the unused position contains a zero. When there is no associated field to which a field 880 is linked, the occurrence number in subfield $6 is 00. It is used if an agency wants to separate scripts in a record (see Multiscript Records). The linking tag part of subfield $6 will contain the tag that the associated regular field would have had if it had existed in the record. 852&#9;4#$6880-01$a[Location in Latin script] 880&#9;2#$6852-01/(2/r$a[Location in Hebrew script linked to associated field] Occurrence number is followed immediately by a slash (/) and the script identification code. This code identifies the alternate script found in the field. The following codes are used: Code&#9;Script (3&#9;Arabic (B&#9;Latin $1&#9;Chinese, Japanese, Korean (N&#9;Cyrillic (S&#9;Greek (2&#9;Hebrew 880&#9;1#$6852-01/(N$a[Location in Cyrillic script] [The (N identifies the Basic Cyrillic character set.] The entire field need not be in the script identified in subfield $6. If more than one script is present in the field, subfield $6 will contain the identification of the first alternate script encountered in a left-to-right scan of the field. Note also that the script identification code is used in field 880, subfield $6, but this data element is not generally used for subfield $6 of the associated regular field. In the associated field, the data is assumed to be the primary script(s) for the record. In a MARC record, the contents of field 880 are always recorded in their logical order, from the first character to the last, regardless of field orientation. For a display of the field, the default field orientation is left-to-right. When the field contains text that has a right-to-left orientation, the script identification code is followed by a slash (/) and the field orientation code. The MARC field orientation code for right-to-left scripts is the letter r. The orientation code is only included in fields with right-to-left orientation, since left-to-right orientation is the default orientation in 880 fields. (See MARC 21 Specifications for Record Structure, Character Sets, and Exchange Media for a detailed description of field orientation.) 880&#9;1#$6852-01/(2/r$h[Call number in Hebrew script] [The r indicates the right-to-left orientation of the Hebrew script.] Note that the orientation code is used in field 880, subfield $6, but this data element is not generally used for subfield $6 of the associated regular field. In the associated field, the data is assumed to be the usual orientation of the primary script(s) for the record.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element ref="fieldLinkAndSequenceNumber" minOccurs="0"
+                            maxOccurs="unbounded">
+                            <xs:annotation>
+                                <xs:documentation>Maps to MFHD 866 (Textual Holdings - Basic Bibliographic Unit), 867 (Textual Holdings - Supplementary Material), 868 (Textual Holdings - Supplementary Material) subfield 8   Subfield $8 contains data that links related 853-868 holdings data fields. Only a linking number is used in the Textual Holdings fields to include whether the field is: the only holdings data field in the holdings statement or the only holdings data field to be used for display, an alternative display for one or more portions of the holdings data in 863-865 Enumeration and Chronology field(s) contained in the holdings statement, or a holdings data field in addition to the 863-865 Enumeration and Chronology field(s) contained in the holdings statement. Linking number used in subfield $8 is determined by the following conditions: Linking number is 0 Holdings are recorded only in a 866-868 Textual Holdings field. No 853-855 Captions and Pattern and 863-865 Enumeration and Chronology fields occur in the holdings statement. 867&#9;31$80$a”Teacher’s guide” pt. A-B Holdings data are recorded in the linked 853-855 Captions and Pattern/863-865 Enumeration and Chronology fields but the display form of the holdings is recorded in a Textual Holdings field.   Linking number is unique and sequences the holdings data with the enumeration and chronology of the 863-865 fields When part of the holdings data is recorded in the 853-855 Captions and Pattern/863-865 Enumeration and Chronology fields and part is recorded in the Textual Holdings fields, displays may be generated from both types of fields. This situation may occur when the holdings are extremely complex or the publication pattern varies greatly for only a certain period of time. A unique whole number is used as the linking number in the Textual Holdings field to sequence the field among the linking numbers used in the 853-855/863-865 fields according to the enumeration and chronology recorded in each field.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element> 
+                        -->
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>                      
+            <xs:element name="alternateGraphicRepresentation" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:annotation>
+                        <xs:documentation>Maps to MFHD 880 Alternate Graphic Representation  Fully content-designated, alternate graphic representation of another field in the same record. Field 880 is linked to the associated regular field by subfield $6 (Linkage). A subfield $6 in the associated field links that field to the 880 field. When an associated field does not exist in the record, field 880 is constructed as if it did and a reserved occurrence number (00) is used to indicate the special situation. The data in field 880 may be in more than one script. 
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:sequence>
+                        <xs:element name="fieldName" minOccurs="0" maxOccurs="unbounded" type="xs:string">
+                            <xs:annotation>
+                                <xs:documentation>Name of the associated field.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="fieldValue" minOccurs="0" maxOccurs="unbounded" type="xs:string">
+                            <xs:annotation>
+                                <xs:documentation>Alternate graphic representation field value for the associated field.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element> 
+            <xs:element ref="extension"/>
+       </xs:sequence>
+</xs:complexType>
+
+<!-- "location", "locationLevel, and physicalLocation are all referenced in itemGroup to describe an item's physical location. -->
+    <xs:element name="location" type="physicalLocation">
+        <xs:annotation>
+            <xs:documentation>Does not directly maps to MFHD 852.  Local implementers will need to determine how to map the hierarchical levels to the $a Location, $b Sublocation or collection, and $c Shelving location (although generally the lowest hierarchical level will map to $c).  
+                
+                Location describes the “object” thus it carries the location information; it is not carried with Holdings because Holdings data aggregates what is available from locations for all items; shared location data values can be globally changed in all items with a single process.
+            </xs:documentation>
+        </xs:annotation>
+    </xs:element>   
+    
+    <xs:group name="locationLevel">
+        <xs:annotation>
+            <xs:documentation>Repeatable elements that allows local implementers to capture the Physical Location with as many hierarchical levels as needed.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="locationName" type="codeOrIdentifier">
+                <xs:annotation>
+                    <xs:documentation>Enter the name of the location at the various levels.  codeOrIdentifier attribute allows the use of a code list to select the acceptable data value.  Also can be mapped to 852 $u</xs:documentation>
+                </xs:annotation>
+                
+            </xs:element>
+            <xs:element name="levelName" type="codeOrIdentifier">
+                <xs:annotation>
+                    <xs:documentation>Allows for the naming of each level for both identification and easier importing/exporting of data, e.g., Location, Sublocation or Collection, Shelving. Implementers can provide their own controlled values for the possible level names.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:group>  
+    
+    <xs:group name="classification">
+        <xs:sequence>
+            <xs:element name="shelvingScheme">
+                <xs:annotation>
+                    <xs:documentation>Maps to MFHD 852 1st Indicator Shelving Scheme - Also known as OLE Classification Scheme
+                        Scheme used to shelve a bibliographic item in the collections of the reporting organization. Use only allowable data value
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="#">
+                            <xs:annotation> <xs:documentation>No information provided</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="0">
+                            <xs:annotation> <xs:documentation>Library of Congress classification</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="1">
+                            <xs:annotation> <xs:documentation>Dewey Decimal classification </xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="2">
+                            <xs:annotation> <xs:documentation>National Library of Medicine classification</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="3">
+                            <xs:annotation><xs:documentation>Superintendent of Documents classification</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="4">
+                            <xs:annotation><xs:documentation>Shelving control number</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="5">
+                            <xs:annotation><xs:documentation>Title </xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="6">
+                            <xs:annotation><xs:documentation>Shelved separately </xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="7">
+                            <xs:annotation><xs:documentation>Source specified in subfield $2 </xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="8">
+                            <xs:annotation><xs:documentation>Other scheme</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="shelvingOrder">
+                <xs:annotation>
+                    <xs:documentation>Maps to MFHD 852 2nd IndicatorShelving Order - Whether a serial or multipart item is shelved under a primary or an alternative numbering scheme. The distinction is necessary when an item carries two numbering schemes. The numbering scheme may be an alphabetical, numerical, or chronological designation. Use only allowable data values. 
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="#">
+                            <xs:annotation> <xs:documentation>No information provided</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="0">
+                            <xs:annotation> <xs:documentation>Not enumeration</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="1">
+                            <xs:annotation> <xs:documentation>Primary enumeration</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="2">
+                            <xs:annotation> <xs:documentation>Alternative enumeration</xs:documentation></xs:annotation>
+                        </xs:enumeration>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="callNumberPrefix" minOccurs="0" maxOccurs="unbounded" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Maps to MFHD 852 $k  Call Number Prefix - Term that precedes a call number. Subfield $k is input before subfield $h (Classification part) or $i (Item part).
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="classificationPart" minOccurs="0" maxOccurs="1" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Maps to MFHD  852 $h Classification part - Also known as OLE Call Number. Classification portion of the call number used as the shelving scheme for an item. A Cutter, date, or term that is added to the classification to distinguish one item from any other item assigned the same classification is contained in subfield $i (Item part). A call number prefix is contained in subfield $k (Call number prefix).</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="itemPart" minOccurs="0" maxOccurs="unbounded" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Maps to MFHD 852 $i Item Part - Also known as OLE Call Number - Cutter, date, or term that is added to the classification contained in subfield $h (Classification part) to distinguish one item from any other item assigned the same classification. A call number suffix is contained in subfield $m (Call number suffix).</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="callNumberSuffix" minOccurs="0" maxOccurs="unbounded" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Maps to MFHD  852 $m Call Number Suffix- Term that follows a call number. Subfield $m is input after subfield $h (Classification part) or $i (Item part).</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="classificationSort">
+                <xs:annotation>
+                    <xs:documentation>TBD Element taken from localization-v4.xml and may be required by OLE future specifications.</xs:documentation>
+                </xs:annotation>
+            </xs:element>    
+            <xs:element name="classificationView">
+                <xs:annotation>
+                    <xs:documentation>TBD Element taken from localization-v4.xml and may be required by OLE future specifications.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            
+        </xs:sequence>
+    </xs:group>
+    
+    <xs:complexType name="physicalLocation">
+        <xs:sequence>
+            <xs:element name="locationStatus" minOccurs="0" maxOccurs="2">
+                <xs:annotation>
+                    <xs:documentation>Indicates whether or not this Physical Location is temporary or permanent.  Only one permanent and one temporary physical location should be provided.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="Permanent"/>
+                        <xs:enumeration value="Temporary"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:group ref="locationLevel" minOccurs="0" maxOccurs="5"/>
+            <xs:group ref="classification"/> 
+            <xs:element name="formerShelvingLocation" minOccurs="0" maxOccurs="unbounded"
+                type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Maps to MFHD 852 $d Former shelving location- Call numbers/shelf numbers where a resource was previously located, in cases of a relocation or a reordering/reorganization of a collection as a whole.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="address" minOccurs="0" maxOccurs="unbounded" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Maps to MFHD  852 $e address - Street address, city, state, zip code, and country information for the current physical location of the item. May be repeated to separate the parts of an address.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="codedLocationQualifier" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Three-character code that identifies the specific issues of the item that are located apart from the main holdings of the same item. Subfield $f immediately follows the subfield $a, $b, or $c being qualified.
+                        Code is composed of Qualifier type, Number of units, and Unit type codes. If the location qualifier cannot be expressed in coded form, it may be described in subfield $g (Non-coded location qualifier).
+                        l, p - Qualifier type
+                        One-character alphabetic code indicates if it is the latest or previous time or part unit that is housed in a different location.
+                        l - Latest
+                        Latest, including the current, time or part unit is housed in a different location.
+                        p - Previous
+                        Previous, not including the current, time or part unit is housed in a different location.
+                        1-9 - Number of units
+                        One-character number (1-9) specifies the number of time or part units that are housed in a different location. When a number is not required to identify the specific units, this character position contains a blank (#). If the number of time or parts units exceeds 9, they may be contained in subfield $g (Non-coded location qualifier) and this character position contains a blank (#).
+                        When Qualifier type is Latest (code l), the number includes the current time or part unit. When Qualifier type is Previous (code p), the number does not include the current time or part unit.
+                        m, w, y, e, i, s - Unit type
+                        One-character alphabetic code describes either the time period or the part that is housed in a different location.
+                        m - Month(s) time
+                        w - Week(s) time
+                        y - Year(s) time
+                        e - Edition(s) part
+                        i - Issue(s) part
+                        s - Supplement(s) part Three-character code that identifies the specific issues of the item that are located apart from the main holdings of the same item. Subfield $f immediately follows the subfield $a, $b, or $c being qualified.
+                        Code is composed of Qualifier type, Number of units, and Unit type codes. If the location qualifier cannot be expressed in coded form, it may be described in subfield $g (Non-coded location qualifier).
+                        l, p - Qualifier type
+                        One-character alphabetic code indicates if it is the latest or previous time or part unit that is housed in a different location.
+                        l - Latest
+                        Latest, including the current, time or part unit is housed in a different location.
+                        p - Previous
+                        Previous, not including the current, time or part unit is housed in a different location.
+                        1-9 - Number of units
+                        One-character number (1-9) specifies the number of time or part units that are housed in a different location. When a number is not required to identify the specific units, this character position contains a blank (#). If the number of time or parts units exceeds 9, they may be contained in subfield $g (Non-coded location qualifier) and this character position contains a blank (#).
+                        When Qualifier type is Latest (code l), the number includes the current time or part unit. When Qualifier type is Previous (code p), the number does not include the current time or part unit.
+                        m, w, y, e, i, s - Unit type
+                        One-character alphabetic code describes either the time period or the part that is housed in a different location.
+                        m - Month(s) time
+                        w - Week(s) time
+                        y - Year(s) time
+                        e - Edition(s) part
+                        i - Issue(s) part
+                        s - Supplement(s) part 
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:maxLength value="3"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="noncodedLocationQualifier" minOccurs="0" maxOccurs="unbounded"
+                type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Maps to MFHD 852 $g Non-coded location qualifier - Textual description that identifies the specific units of an item that are housed in a location different from that of the main holdings of the same item when the location qualifier cannot be expressed in coded form in subfield $f (Coded location qualifier). Immediately follows the subfield $a, $b, or $c being qualified.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+ 
+            <xs:element name="shelvingControlNumber" minOccurs="0" maxOccurs="1" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Maps to MFHD 852 $j Shelving control number - Shelving control number that is used as the shelving scheme for an item. The first indicator position contains value 4 (Shelving control number).
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="shelvingFormOfTitle" minOccurs="0" maxOccurs="1" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Maps to MFHD 852 $l Shelving form of title - Shelving title of an unclassified item that is shelved by title. The first indicator position contains value 5 (Title).
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="countryCode" minOccurs="0" maxOccurs="1" type="codeOrIdentifier">
+                <xs:annotation>
+                    <xs:documentation>Maps to MFHD 852 $n Country code Two- or three-character MARC country code for the principal location identified in subfield $a (Location). Code from: MARC Code List for Countries found at  http://www.loc.gov/marc/countries/.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="copyrightArticleFeeCode" minOccurs="0" maxOccurs="unbounded"
+                type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Maps to MFHD 852 $s Copyright article-fee code - Description of the copyright article-fee code is given in field 018 (Copyright Article-Fee Code) of the MARC 21 Format for Bibliographic Data.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="copyNumber" minOccurs="0" maxOccurs="1" type="xs:integer">
+                <xs:annotation>
+                    <xs:documentation>Maps to MFHD 852 $t Copy number - Copy number or a range of numbers for copies that have the same location and call number when the holdings information does not contain an 863-865 Enumeration and Chronology field that contains subfield $t (Copy number).&#10;If a break in the copy numbering sequence exists, each cluster of numbers is recorded in a separate field 852. Separate 852 fields also are used for each sublocation when parts of one copy of an item are housed in multiple locations.&#10;Contains a copy number, not the number of copies held. The number of copies held is contained in field 008/17-19 (Number of copies reported).
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="pieceDesignation" minOccurs="0" maxOccurs="1" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Maps to MFHD 852 $p Piece designation-Identification of a single piece when the holdings information does not contain a field 863-865 (Enumeration and Chronology) or 876-878 (Item Information) that contains a subfield $p (Piece designation). The designation may be an identification number such as a bar code number or an accession number.&#10;&#10;May be preceded by an uppercase B or U to specify whether the piece is bound or unbound. When no piece designation exists, a double slash (//) may be recorded in subfield $p to signify that the field relates to a piece.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="piecePhysicalCondition" minOccurs="0" maxOccurs="1" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Maps to MFHD 852 $q Piece physical condition - Description of any unusual characteristic of the physical condition of the piece when the information does not contain a field 863-865 (Enumeration and Chronology) or 876-878 (Item Information) that contains a subfield $q (Piece physical condition).  Not used for physical condition information resulting from a formal review for making preservation decisions. Preservation decisions are contained in field 583 (Action Note).
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element ref="nonPublicNote" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Maps to MFHD 852 $x Nonpublic note - Note relating to the location of the item identified in the field. The note is not written in a form that is adequate for public display. A note for public display is contained in subfield $z (Public note).&#10;&#10;Nonpublic note that applies to a specific part of the holdings is contained in subfield $x (Nonpublic note) of the 863-865 Enumeration and Chronology field relating to the part.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element ref="publicNote" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Maps to MFHD 852 $z Public note - Note relating to the location of the item identified in the field. The note is written in a form that is adequate for public display. A note not for public display is contained in subfield $x (Nonpublic note).&#10;Public note that applies to a specific part of the holdings is contained in subfield $z (Public note) of the 863-865 Enumeration and Chronology field relating to the part.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="classificationOrShelvingSchemeSource" minOccurs="0" maxOccurs="1"
+                type="codeOrIdentifier">
+                <xs:annotation>
+                    <xs:documentation>Maps to MFHD 852 $2 Source of classification or shelving scheme - ;MARC code that identifies the source from which the classification or shelving was assigned. It is used only when the first indicator position contains value 7 (Source specified in subfield $2). 
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="materialsSpecified" minOccurs="0" maxOccurs="1" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Maps to MFHD 852 $3 Materials specified - Part of the bibliographic item to which the field applies. Subfield $3 is the first subfield in the field.&#10;&#10;When separate holdings records are made for each part of a bibliographic item, each record may contain a field 852 that contains a subfield $3 to specify the part to which the field applies. When holdings for all of the parts of a bibliographic item are contained in one holdings record (and there is no 863-865 Enumeration and Chronology field), subfield $3 may be used whenever a data element in field 852 differs for a specified part of the item.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <!-- Commenting out <linkage> and <fieldLinkAndSequenceNumber> until further needs and modeling analysis is completed
+                <xs:element ref="linkage" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                <xs:documentation>Maps to MFHD 583 $6 Linkage Data that links fields that are different script representations of each other. Subfield $6 may contain the tag number of an associated field, an occurrence number, a code that identifies the first script encountered in a left-to-right scan of the field, and an indication that the orientation for a display of the field data is right-to-left. A regular (non-880) field may be linked to one or more 880 fields that all contain different script representations of the same data. Subfield $6 is structured as follows: $6 &lt;linking tag&gt;-&lt;occurrence number&gt;/&lt;script identification code&gt;/&lt;field orientation code&gt; Subfield $6 is always the first subfield in the field. Descriptions of multiscript record models, with examples, are in Multiscript Records; specifications for field 880 are under that field; specifications for character sets and repertoires for scripts are found in MARC 21 Specifications for Record Structure, Character Sets, and Exchange Media. Linking tag part contains the tag number of the associated field and is always three characters in length. This part is followed immediately by a hyphen and the two-digit occurrence number part. A different occurrence number is assigned to each set of associated fields within a single record. The function of an occurrence number is to permit the matching of the associated fields (not to sequence the fields within the record). An occurrence number may be assigned at random for each set of associated fields. An occurrence number of less than two digits is right justified and the unused position contains a zero. When there is no associated field to which a field 880 is linked, the occurrence number in subfield $6 is 00. It is used if an agency wants to separate scripts in a record (see Multiscript Records). The linking tag part of subfield $6 will contain the tag that the associated regular field would have had if it had existed in the record. 852&#9;4#$6880-01$a[Location in Latin script] 880&#9;2#$6852-01/(2/r$a[Location in Hebrew script linked to associated field] Occurrence number is followed immediately by a slash (/) and the script identification code. This code identifies the alternate script found in the field. The following codes are used: Code&#9;Script (3&#9;Arabic (B&#9;Latin $1&#9;Chinese, Japanese, Korean (N&#9;Cyrillic (S&#9;Greek (2&#9;Hebrew 880&#9;1#$6852-01/(N$a[Location in Cyrillic script] [The (N identifies the Basic Cyrillic character set.] The entire field need not be in the script identified in subfield $6. If more than one script is present in the field, subfield $6 will contain the identification of the first alternate script encountered in a left-to-right scan of the field. Note also that the script identification code is used in field 880, subfield $6, but this data element is not generally used for subfield $6 of the associated regular field. In the associated field, the data is assumed to be the primary script(s) for the record. In a MARC record, the contents of field 880 are always recorded in their logical order, from the first character to the last, regardless of field orientation. For a display of the field, the default field orientation is left-to-right. When the field contains text that has a right-to-left orientation, the script identification code is followed by a slash (/) and the field orientation code. The MARC field orientation code for right-to-left scripts is the letter r. The orientation code is only included in fields with right-to-left orientation, since left-to-right orientation is the default orientation in 880 fields. (See MARC 21 Specifications for Record Structure, Character Sets, and Exchange Media for a detailed description of field orientation.) 880&#9;1#$6852-01/(2/r$h[Call number in Hebrew script] [The r indicates the right-to-left orientation of the Hebrew script.] Note that the orientation code is used in field 880, subfield $6, but this data element is not generally used for subfield $6 of the associated regular field. In the associated field, the data is assumed to be the usual orientation of the primary script(s) for the record.
+                </xs:documentation>
+                </xs:annotation>
+                </xs:element>
+                <xs:element ref="fieldLinkAndSequenceNumber" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                <xs:documentation>Maps to MFHD 583 $8 Field link and sequence number  Subfield $8 contains data that links related 853-868 holdings data fields. Only a linking number is used in the Textual Holdings fields to include whether the field is: the only holdings data field in the holdings statement or the only holdings data field to be used for display, an alternative display for one or more portions of the holdings data in 863-865 Enumeration and Chronology field(s) contained in the holdings statement, or a holdings data field in addition to the 863-865 Enumeration and Chronology field(s) contained in the holdings statement. Linking number used in subfield $8 is determined by the following conditions: Linking number is 0 Holdings are recorded only in a 866-868 Textual Holdings field. No 853-855 Captions and Pattern and 863-865 Enumeration and Chronology fields occur in the holdings statement. 867&#9;31$80$a”Teacher’s guide” pt. A-B Holdings data are recorded in the linked 853-855 Captions and Pattern/863-865 Enumeration and Chronology fields but the display form of the holdings is recorded in a Textual Holdings field.  Subfield $8 contains data that links related 853-868 holdings data fields. Only a linking number is used in the Textual Holdings fields to include whether the field is: the only holdings data field in the holdings statement or the only holdings data field to be used for display, an alternative display for one or more portions of the holdings data in 863-865 Enumeration and Chronology field(s) contained in the holdings statement, or a holdings data field in addition to the 863-865 Enumeration and Chronology field(s) contained in the holdings statement. Linking number used in subfield $8 is determined by the following conditions: Linking number is 0 Holdings are recorded only in a 866-868 Textual Holdings field. No 853-855 Captions and Pattern and 863-865 Enumeration and Chronology fields occur in the holdings statement. 867&#9;31$80$a”Teacher’s guide” pt. A-B Holdings data are recorded in the linked 853-855 Captions and Pattern/863-865 Enumeration and Chronology fields but the display form of the holdings is recorded in a Textual Holdings field.  Linking number is unique and sequences the holdings data with the enumeration and chronology of the 863-865 fields When part of the holdings data is recorded in the 853-855 Captions and Pattern/863-865 Enumeration and Chronology fields and part is recorded in the Textual Holdings fields, displays may be generated from both types of fields. This situation may occur when the holdings are extremely complex or the publication pattern varies greatly for only a certain period of time. A unique whole number is used as the linking number in the Textual Holdings field to sequence the field among the linking numbers used in the 853-855/863-865 fields according to the enumeration and chronology recorded in each field.
+                </xs:documentation>
+                </xs:annotation>
+                </xs:element>   -->
+        </xs:sequence>
+    </xs:complexType>
+
+<!-- Referenced in itemGroup and provides information on how to access either a physical or electronic item -->
+<xs:complexType name="accessInformationType">
+   <xs:annotation>
+       <xs:documentation>Identifies 1 of 3 ways the resource may be accessed:  If tangible, 1) by barcode and if electronic 2) by resolvable URL or 3) by unresolvable URN.
+     </xs:documentation>
+   </xs:annotation>
+      <xs:choice>
+       <xs:element name="barcode" type="xs:string"/>
+       <xs:element name="uri">
+           <xs:annotation>
+               <xs:documentation>Maps to MFHD 856 $u Uniform Resource Identifier.</xs:documentation>
+           </xs:annotation>
+        <xs:complexType>
+         <xs:attribute name="resolvable" type="xs:boolean" default="true">
+          <xs:annotation>
+           <xs:documentation>Indicates whether the value of this element (which must be a URI) is
+           actually resolvable.  The MARC specification allows this value to be a URN, and 
+           thus not resolvable.  Defaults to "true".  
+           </xs:documentation>
+          </xs:annotation>
+         </xs:attribute>
+        </xs:complexType>
+       </xs:element>
+      </xs:choice>
+</xs:complexType>
+
+
+
+    
+<xs:complexType name="itemGroup">
+    <xs:annotation>
+        <xs:documentation>Describes the smallest unit of a resource that is managed and/or circulated individually.  It provides specific information regarding the physical location when pertinent.
+        </xs:documentation>
+    </xs:annotation>
+        <xs:sequence>
+            <xs:element ref="itemIdentifier"/>
+            <xs:element ref="purchaseOrderLineItemIdentifier" minOccurs="1" maxOccurs="unbounded"/>
+            <xs:element name="accessInformation" type="accessInformationType" minOccurs="0" maxOccurs="1"/> 
+            <xs:element name="electronicLocationAndAccess" minOccurs="0" maxOccurs="1">
+                <xs:complexType>
+                    <xs:annotation>
+                        <xs:documentation>Maps to MFHD 856 Electronic Location and Access.  Unlike MFHD, the OLE Instance document captures this information with Item data, not Holdings data and it is not repeatable.  When extracted to the MFHD format, this data will need to be mapped to the 856 field (and subfields) for the Holdings level.  Information required to locate an electronic resource. The information identifies the electronic location containing the resource or from which it is available. It also contains information needed to retrieve the resource by the access method identified in the first indicator position. The relationship of the electronic location and access information in field 856 to the resource identified by the record as a whole is identified by the second indicator. The information contained in this field is sufficient to allow for the electronic transfer of a file, subscription to an electronic journal, or logon to an electronic resource. In some cases, only unique data elements are recorded which allow the user to access a locator table on a remote host containing the remaining information needed to access the resource.  Field 856 is repeated when the location data elements vary (the URL in subfield $u or subfields $a, $b, $d, when used). It is also repeated when more than one access method is used, different portions of the item are available electronically, mirror sites are recorded, different formats/resolutions with different URLs are indicated, and related items are recorded.  See the Guidelines for the Use of Field 856 for a more thorough discussion on the use of field 856.  This field is identical to field 856 (Electronic Location and Access) defined in the MARC 21 Format for Bibliographic Data.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:sequence>
+                        <xs:element name="accessMethod" minOccurs="0" maxOccurs="1">
+                            <xs:annotation>
+                                <xs:documentation>Maps to 856 1st Indicator Access method  If the resource is available by more than one access method, the field is repeated with data appropriate to each method. When recording a URL in subfield $u, the value corresponds to the access method (URL scheme), which is also the first element in the string. The methods defined are the main TCP/IP (Transmission Control Protocol/Internet Protocol) protocols.  Only use the allowable data values. 
+                                </xs:documentation>
+                            </xs:annotation>
+                            <xs:simpleType>
+                                <xs:restriction base="xs:string">
+                                    <xs:enumeration value="#">
+                                        <xs:annotation><xs:documentation>No information provided </xs:documentation></xs:annotation>
+                                    </xs:enumeration>
+                                    <xs:enumeration value="0">
+                                        <xs:annotation><xs:documentation>Email</xs:documentation></xs:annotation>
+                                    </xs:enumeration>
+                                    <xs:enumeration value="1">
+                                        <xs:annotation><xs:documentation>FTP</xs:documentation></xs:annotation>
+                                    </xs:enumeration>
+                                    <xs:enumeration value="2">
+                                        <xs:annotation><xs:documentation>Remote login (Telnet)</xs:documentation></xs:annotation>
+                                    </xs:enumeration>
+                                    <xs:enumeration value="3">
+                                        <xs:annotation><xs:documentation>Dial-up</xs:documentation></xs:annotation>
+                                    </xs:enumeration>
+                                    <xs:enumeration value="4">
+                                        <xs:annotation><xs:documentation>HTTP</xs:documentation></xs:annotation>
+                                    </xs:enumeration>
+                                    <xs:enumeration value="7">
+                                        <xs:annotation><xs:documentation>Method specified in the additionalAccessMethodInformation element.</xs:documentation></xs:annotation>
+                                    </xs:enumeration>
+                                </xs:restriction>
+                            </xs:simpleType>
+                        </xs:element>
+                        <xs:element name="relationship" minOccurs="0" maxOccurs="1">
+                            <xs:annotation>
+                                <xs:documentation>Maps to MFHD 2nd Indicator Relationship  Relationship between the electronic resource at the location specified in field 856 and the item described in the record as a whole.  Used to provide further information about the relationship if it is not a one-to-one relationship.  Only use allowable data values. 
+                                </xs:documentation>
+                            </xs:annotation>
+                            <xs:simpleType>
+                                <xs:restriction base="xs:string">
+                                    <xs:enumeration value="#">
+                                        <xs:annotation><xs:documentation>No information provided </xs:documentation></xs:annotation>
+                                    </xs:enumeration>
+                                    <xs:enumeration value="0">
+                                        <xs:annotation><xs:documentation>Resource</xs:documentation></xs:annotation>
+                                    </xs:enumeration>
+                                    <xs:enumeration value="1">
+                                        <xs:annotation><xs:documentation>Version of resource</xs:documentation></xs:annotation>
+                                    </xs:enumeration>
+                                    <xs:enumeration value="2">
+                                        <xs:annotation><xs:documentation>Related resource</xs:documentation></xs:annotation>
+                                    </xs:enumeration>
+                                    <xs:enumeration value="8">
+                                        <xs:annotation><xs:documentation>No display constant generated</xs:documentation></xs:annotation>
+                                    </xs:enumeration>
+                                </xs:restriction>
+                            </xs:simpleType>
+                        </xs:element>
+                        <xs:element name="hostName" minOccurs="0" maxOccurs="unbounded" type="xs:string">
+                            <xs:annotation>
+                                <xs:documentation>Maps to MFHD 856 $a Host name  Fully qualified domain (host name) of the electronic location. It contains a network address which is repeated if there is more than one address for the same host.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="accessNumber" minOccurs="0" maxOccurs="unbounded" type="xs:string">
+                            <xs:annotation>
+                                <xs:documentation>Maps to MFHD 856 $b access number  Access number associated with a host. It can contain the Internet Protocol (IP) numeric address if the item is an Internet resource, or a telephone number if dial-up access is provided through a telephone line. This data changes frequently and may be generated by the system, rather than statically stored. May be repeated if all the other information in the field applies.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="compressionInformation" minOccurs="0" maxOccurs="unbounded"
+                            type="xs:string">
+                            <xs:annotation>
+                                <xs:documentation>Maps to 856 $c compression information  In particular, whether a specific program is required to decompress the file. May be repeated if two compression programs are used, noting the latest compression first.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="path" minOccurs="0" maxOccurs="unbounded" type="xs:string">
+                            <xs:annotation>
+                                <xs:documentation>Maps to MFHD 856 $d  Path, the series of logical directory and subdirectory names that indicate where a file is stored. The filename itself is recorded in subfield $f. This may be a surrogate path leading the user to the host where complete and current access information is stored in a locator table.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="electronicName" minOccurs="0" maxOccurs="unbounded" type="xs:string">
+                            <xs:annotation>
+                                <xs:documentation>Maps to 856 $f Electronic name  Electronic name of a file as it exists in the directory/subdirectory indicated in subfield $d on the host identified in subfield $a. May be repeated if a single logical file has been divided into parts and stored under different names. In this case, the separate parts should constitute a single bibliographic item. In all other cases, a file that may be retrieved under different filenames contains multiple occurrences of field 856, each with its corresponding electronic name in subfield $f. A filename may include wildcard characters (e.g., * or ?) if applicable. Use subfield $z to explain how files are named, if needed.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="requestProcessor" minOccurs="0" maxOccurs="unbounded"
+                            type="xs:string">
+                            <xs:annotation>
+                                <xs:documentation>Maps to  856 $h Processor of request  Username, or processor of the request; generally the data which precedes the at sign (@) in the host address.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="instruction" minOccurs="0" maxOccurs="unbounded" type="xs:string">
+                            <xs:annotation>
+                                <xs:documentation>Maps to 856 $i Instruction  Instruction or command needed for the remote host to process a request.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="bitsPerSecond" minOccurs="0" maxOccurs="1" type="xs:string">
+                            <xs:annotation>
+                                <xs:documentation>Maps to 856 $j Bits per second  Lowest and highest number of bits (binary units) of data that can be transmitted per second when connected to a host. The syntax for recording the number of bits per second (BPS) should be: &lt;Lowest BPS&gt;-&lt;Highest BPS&gt;. If only lowest given: &lt;Lowest BPS&gt;- ; If only highest given: -&lt;Highest BPS.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="password" minOccurs="0" maxOccurs="1" type="xs:string">
+                            <xs:annotation>
+                                <xs:documentation>Maps to MFHD 856$ k Password  Password required to access the electronic resource. An FTP site may require the user to enter an Internet Protocol address or may require a specific password. Electronically accessed catalogs may also require a password. If a system that requires a password will accept anything entered as valid, this subfield can be omitted from field 856. This subfield is used to record general-use passwords, and should not contain passwords requiring security. Textual instructions about passwords are contained in subfield $z (Public note).
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="logon" minOccurs="0" maxOccurs="1" type="xs:string">
+                            <xs:annotation>
+                                <xs:documentation>Maps to MFHD 856 $l Logon  Characters needed to connect (i.e., logon, login, etc.) to an electronic resource or FTP site. Used to record general-use logon strings which do not require special security.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="accessAssistanceContact" minOccurs="0" maxOccurs="unbounded"
+                            type="xs:string">
+                            <xs:annotation>
+                                <xs:documentation>Maps to MFHD 856 $m Contact for access assistance  Name of a contact for assistance in accessing a resource at the host specified in subfield $a. For addresses relating to the content of the resource itself (i.e. the item represented by the title recorded in field 245) rather than access assistance, field 270 is used. If the address data is the same, use field 270.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="locationHostName" minOccurs="0" maxOccurs="1" type="xs:string">
+                            <xs:annotation>
+                                <xs:documentation>Maps to MFHD 856 $n Name of location host  Conventional name of the location of the host in subfield $a host name, including its physical (geographic) location.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="operatingSystem" minOccurs="0" maxOccurs="1" type="xs:string">
+                            <xs:annotation>
+                                <xs:documentation>Maps to MFHD  856 $o Operating system  For informational purposes, the operating system used by the host specified in subfield $a may be indicated here. Conventions for the path and filenames may be dependent on the operating system of the host. For the operating system of the resource itself (i.e., the item represented by the title recorded in field 245), rather than the operating system of the host making it available, field 753 (Technical Details Access to Computer Files), subfield $c (Operating system) is used.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="port" minOccurs="0" maxOccurs="1" type="xs:string">
+                            <xs:annotation>
+                                <xs:documentation>Maps to MFHD 856 $p Port  Portion of the address that identifies a process or service in the host.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="electronicFormatType" minOccurs="0" maxOccurs="1" type="xs:string">
+                            <xs:annotation>
+                                <xs:documentation>Maps to 856 $q Electronic format type  Identification of the electronic format type, which is the data representation of the resource, such as text/html, ASCII, Postscript file, executable application, or JPEG image. Electronic format type may be taken from enumerated lists such as registered Internet Media Types (MIME types).  The intent of specifying this element is to provide information necessary to allow people or machines to make decisions about the usability of the encoded data (what hardware and software might be required to display or execute it, for example). The electronic format type also determines the file transfer mode, or how data are transferred through a network. (Usually, a text file can be transferred as character data which generally restricts the text to characters in the ASCII (American National Standard Code for Information Interchange (ANSI X3.4)) character set (i.e., the basic Latin alphabet, digits 0-9, a few special characters, and most punctuation marks) and text files with characters outside of the ASCII set, or non-textual data (e.g., computer programs, image data) must be transferred using another binary mode.)
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="settings" minOccurs="0" maxOccurs="1" type="xs:string">
+                            <xs:annotation>
+                                <xs:documentation>Maps to MFHD 856 $r Settings  Settings used for transferring data. Included in settings are: 1) Number Data Bits (the number of bits per character); 2) Number Stop Bits (the number of bits to signal the end of a byte); and 3) Parity (the parity checking technique used). The syntax of these elements is: &lt;Parity&gt;-&lt;Number Data Bits&gt;-&lt;Number Stop Bits&gt; If only the parity is given, the other elements of settings and their related hyphens are omitted (i.e., &lt;Parity&gt;). If one of the other two elements is given, the hyphen for the missing element is recorded in its proper position (i.e., &lt;Parity&gt;--&lt;Number Stop Bits&gt; or &lt;Parity&gt;-&lt;Number Data Bits&gt;- ). The values for parity are: O (Odd), E (Even), N (None), S (Space), and M (Mark).
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="fileSize" minOccurs="0" maxOccurs="unbounded" type="xs:string">
+                            <xs:annotation>
+                                <xs:documentation>Maps to 856 $s File size  Size of the file as stored under the filename indicated in subfield $f. It is generally expressed in terms of 8-bit bytes (octets). It may be repeated in cases where the filename is repeated and directly follows the subfield $f to which it applies. This information is not given for journals, since field 856 relates to the entire title, not to particular issues.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="terminalEmulation" minOccurs="0" maxOccurs="unbounded" type="xs:string">
+                            <xs:annotation>
+                                <xs:documentation>Maps to MFHD 856 $t Terminal emulation  Whether terminal emulation is supported. Terminal emulation is usually specified for remote login (first indicator contains value 2 (Remote login (Telnet)).
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="hoursAccessMethodAvailable" minOccurs="0" maxOccurs="unbounded"
+                            type="xs:string">
+                            <xs:annotation>
+                                <xs:documentation>Maps to MFHD 856 $v Hours access method available  Hours that access to an electronic resource is available at the location indicated in this field. If the record is for a system or service, the hours of availability are recorded in field 307 (Hours, etc.). This subfield is only used to record hours of availability of the specific location indicated in field 856.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="recordControlNumber" minOccurs="0" maxOccurs="unbounded"
+                            type="xs:string">
+                            <xs:annotation>
+                                <xs:documentation>Maps to MFHD 856 $w Record control number  System control number of the related record preceded by the MARC code, enclosed in parentheses, for the agency to which the control number applies. The data in the subfield links field 856 to the MARC record having the same data in a control number field. See Organization Code Sources for a listing of organization code sources used in MARC 21 records.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element ref="nonPublicNote" minOccurs="0" maxOccurs="unbounded">
+                            <xs:annotation>
+                                <xs:documentation>Maps to 856 $x Nonpublic note  Note relating to the electronic location of the source identified in the field. The note is written in a form that is not adequate or intended for public display. It may also contain processing information about the file at the location specified.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="linkText" minOccurs="0" maxOccurs="unbounded" type="xs:string">
+                            <xs:annotation>
+                                <xs:documentation>Maps to 856 $y Link text  Link text used for display in place of the URL in subfield $u. When subfield $y is present, applications should use the contents of it as the link instead of subfield $u when linking to the destination in subfield $u. Use of the link text is independent of any decision concerning the second indicator value.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element ref="publicNote" minOccurs="0" maxOccurs="unbounded">
+                            <xs:annotation>
+                                <xs:documentation>Maps to 856 $z Public note  Note relating to the electronic location of the source identified in the field. The note is written in a form that is adequate or intended for public display.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="additionalAccessMethodInformation" minOccurs="0" maxOccurs="1"
+                            type="codeOrIdentifier">
+                            <xs:annotation>
+                                <xs:documentation>Maps to MFHD 856 $2 Access method  Access method when the first indicator value contains value 7 (Method specified in subfield $2). Code from Electronic Access Methods Code List.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="materialsSpecified" minOccurs="0" maxOccurs="1" type="xs:string">
+                            <xs:annotation>
+                                <xs:documentation>Maps to 856 $3 materials specified  Part of the bibliographic item to which the field applies. Subfield $3 is the first subfield in the field.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <!-- Commenting out <linkage> and <fieldLinkAndSequenceNumber> until further needs and modeling analysis is completed
+                        <xs:element ref="linkage" minOccurs="0" maxOccurs="1">
+                            <xs:annotation>
+                                <xs:documentation>Maps to MFHD  856 $6 Linkage  Data that links fields that are different script representations of each other. Subfield $6 may contain the tag number of an associated field, an occurrence number, a code that identifies the first script encountered in a left-to-right scan of the field, and an indication that the orientation for a display of the field data is right-to-left. A regular (non-880) field may be linked to one or more 880 fields that all contain different script representations of the same data. Subfield $6 is structured as follows: $6&lt;linking tag&gt;-&lt;occurrence number&gt;/&lt;script identification code&gt;/&lt;field orientation code&gt; Subfield $6 is always the first subfield in the field. Descriptions of multiscript record models, with examples, are in Multiscript Records; specifications for field 880 are under that field; specifications for character sets and repertoires for scripts are found in MARC 21 Specifications for Record Structure, Character Sets, and Exchange Media. Linking tag part contains the tag number of the associated field and is always three characters in length. This part is followed immediately by a hyphen and the two-digit occurrence number part. A different occurrence number is assigned to each set of associated fields within a single record. The function of an occurrence number is to permit the matching of the associated fields (not to sequence the fields within the record). An occurrence number may be assigned at random for each set of associated fields. An occurrence number of less than two digits is right justified and the unused position contains a zero. When there is no associated field to which a field 880 is linked, the occurrence number in subfield $6 is 00. It is used if an agency wants to separate scripts in a record (see Multiscript Records). The linking tag part of subfield $6 will contain the tag that the associated regular field would have had if it had existed in the record. 852&#9;4#$6880-01$a[Location in Latin script] 880&#9;2#$6852-01/(2/r$a[Location in Hebrew script linked to associated field] Occurrence number is followed immediately by a slash (/) and the script identification code. This code identifies the alternate script found in the field. The following codes are used: Code&#9;Script (3&#9;Arabic (B&#9;Latin $1&#9;Chinese, Japanese, Korean (N&#9;Cyrillic (S&#9;Greek (2&#9;Hebrew 880&#9;1#$6852-01/(N$a[Location in Cyrillic script] [The (N identifies the Basic Cyrillic character set.] The entire field need not be in the script identified in subfield $6. If more than one script is present in the field, subfield $6 will contain the identification of the first alternate script encountered in a left-to-right scan of the field. Note also that the script identification code is used in field 880, subfield $6, but this data element is not generally used for subfield $6 of the associated regular field. In the associated field, the data is assumed to be the primary script(s) for the record. In a MARC record, the contents of field 880 are always recorded in their logical order, from the first character to the last, regardless of field orientation. For a display of the field, the default field orientation is left-to-right. When the field contains text that has a right-to-left orientation, the script identification code is followed by a slash (/) and the field orientation code. The MARC field orientation code for right-to-left scripts is the letter r. The orientation code is only included in fields with right-to-left orientation, since left-to-right orientation is the default orientation in 880 fields. (See MARC 21 Specifications for Record Structure, Character Sets, and Exchange Media for a detailed description of field orientation.) 880&#9;1#$6852-01/(2/r$h[Call number in Hebrew script] [The r indicates the right-to-left orientation of the Hebrew script.] Note that the orientation code is used in field 880, subfield $6, but this data element is not generally used for subfield $6 of the associated regular field. In the associated field, the data is assumed to be the usual orientation of the primary script(s) for the record.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element ref="fieldLinkAndSequenceNumber" minOccurs="0" maxOccurs="1">
+                            <xs:annotation>
+                                <xs:documentation>Maps to 856 $8 Field link and sequence number  Subfield $8 contains data that links related 853-868 holdings data fields. Only a linking number is used in the Textual Holdings fields to include whether the field is: the only holdings data field in the holdings statement or the only holdings data field to be used for display, an alternative display for one or more portions of the holdings data in 863-865 Enumeration and Chronology field(s) contained in the holdings statement, or a holdings data field in addition to the 863-865 Enumeration and Chronology field(s) contained in the holdings statement. Linking number used in subfield $8 is determined by the following conditions: Linking number is 0 Holdings are recorded only in a 866-868 Textual Holdings field. No 853-855 Captions and Pattern and 863-865 Enumeration and Chronology fields occur in the holdings statement. 867&#9;31$80$a”Teacher’s guide” pt. A-B Holdings data are recorded in the linked 853-855 Captions and Pattern/863-865 Enumeration and Chronology fields but the display form of the holdings is recorded in a Textual Holdings field.  Subfield $8 contains data that links related 853-868 holdings data fields. Only a linking number is used in the Textual Holdings fields to include whether the field is: the only holdings data field in the holdings statement or the only holdings data field to be used for display, an alternative display for one or more portions of the holdings data in 863-865 Enumeration and Chronology field(s) contained in the holdings statement, or a holdings data field in addition to the 863-865 Enumeration and Chronology field(s) contained in the holdings statement. Linking number used in subfield $8 is determined by the following conditions: Linking number is 0 Holdings are recorded only in a 866-868 Textual Holdings field. No 853-855 Captions and Pattern and 863-865 Enumeration and Chronology fields occur in the holdings statement. 867&#9;31$80$a”Teacher’s guide” pt. A-B Holdings data are recorded in the linked 853-855 Captions and Pattern/863-865 Enumeration and Chronology fields but the display form of the holdings is recorded in a Textual Holdings field.  Linking number is unique and sequences the holdings data with the enumeration and chronology of the 863-865 fields When part of the holdings data is recorded in the 853-855 Captions and Pattern/863-865 Enumeration and Chronology fields and part is recorded in the Textual Holdings fields, displays may be generated from both types of fields. This situation may occur when the holdings are extremely complex or the publication pattern varies greatly for only a certain period of time. A unique whole number is used as the linking number in the Textual Holdings field to sequence the field among the linking numbers used in the 853-855/863-865 fields according to the enumeration and chronology recorded in each field.</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        -->
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="barcodeARSL" minOccurs="0" maxOccurs="1" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Does not maps to MFHD   Enter barcode for the Automated Retrieval System Location (ARSL).
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>       
+            <xs:element ref="formerIdentifiers" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="statisticalSearchingCodes" minOccurs="0" maxOccurs="unbounded"
+                type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Does not mapp to MFHD.  Library-defined code used for searching.   Schema allows for locally configured code choices.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <!-- QUESTION: Should shadow or fastAddFlag be deleted and captured in audit trail or metadata about the Instance document?  -->
+            <xs:element ref="suppressFromPublic"/>
+            <xs:element ref="harvestable"/>
+            <xs:element ref="fastAddFlag"/>
+            <!-- QUESTION: Should lastUpdated or dateEntered be deleted and captured in audit trail or metadata about the Instance document?  -->
+            <xs:element ref="dateEntered">
+                <xs:annotation>
+                    <xs:documentation>Does not map to MFHD.  Date the Item was created.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>   
+            <xs:element ref="lastUpdated">
+                <xs:annotation>
+                    <xs:documentation>Does not map to MFHD.  Date the Item was created.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="itemType" minOccurs="0" maxOccurs="1" type="xs:string">
+              <xs:annotation>
+              <xs:documentation>Does not map to MFHD.  Identifies types of library items.  Should have controlled values that may be locally configured.  Sample data: stks, DVD, 2-hour reserve, building use only. Could be locally controlled by restricted data values.
+                  </xs:documentation>
+              </xs:annotation>
+            </xs:element>
+                <!-- QUESTION: Should itemStatus be deleted and captured in metadata about the Instance document?  -->
+            <xs:element name="itemStatus" minOccurs="0" maxOccurs="1" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Identifies the current stage of the order process or, once put out for public use, its current availability to potential users.  Sample data: on order; not checked out; recalled; on hold; lost?
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="copyNumber" minOccurs="0" maxOccurs="1" type="xs:positiveInteger">
+                <xs:annotation>
+                    <xs:documentation>Maps to MFHD 876 $t Copy number  Library-assigned to distinguish each copy of the same title; typically printed (with the label) at the end of the call number spine label.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="copyNumberLabel" minOccurs="0" maxOccurs="1" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Does not map to MFHD.  Identifies the nature of the following number. 
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="volumeNumber" minOccurs="0" maxOccurs="1" type="xs:integer">
+                <xs:annotation>
+                    <xs:documentation>Does not map to MFHD.  Library-assigned to distinguish each volume of a multipart title; typically printed (with the label) at the end of the call number spine label. 
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="volumeNumberLabel" minOccurs="0" maxOccurs="1" type="xs:integer">
+                <xs:annotation>
+                    <xs:documentation>Does not map to MFHD.  Identifies the nature of the volume number. 
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>           
+            <xs:element ref="nonPublicNote">
+                <xs:annotation>
+                    <xs:documentation>Maps to MFHD 876 $x Nonpublic note  Any information desired by staff.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element ref="publicNote">
+                <xs:annotation>
+                    <xs:documentation>Maps to MFHD 876 $z Public note.  Any information that should be displayed to users of the public interface.  May be used to indicate he number of physical objects in a single container that constitutes an item with a single barcode number.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="enumeration" minOccurs="0" maxOccurs="1" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Does not map to MFHD.  Designation used to identify a specific part of a multipart title when there are multiple levels. 
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="chronology" minOccurs="0" maxOccurs="1" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Does not map to MFHD.  Designation used to identify the issue date of a specific part of a multipart title; single dates may typically print at the end of the call number label attached to the part.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element ref="location" minOccurs="0" maxOccurs="2"/>
+            <xs:element name="highDensityStorage" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>Does not maps to MFHD   Enter the Row, Module, Shelf, and Tray information for the item's High Density Storage location. 
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="row" minOccurs="0" maxOccurs="1" type="xs:string">
+                            <xs:annotation>
+                                <xs:documentation>Does not maps to MFHD   Enter the Row for the High Density Storage location. 
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="module" minOccurs="0" maxOccurs="1" type="xs:string">
+                            <xs:annotation>
+                                <xs:documentation>Does not maps to MFHD   Enter the Module for the High Density Storage location. 
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="shelf" minOccurs="0" maxOccurs="1" type="xs:string">
+                            <xs:annotation>
+                                <xs:documentation>Does not maps to MFHD   Enter the Shelf for the High Density Storage location. 
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="hds" minOccurs="0" maxOccurs="1" type="xs:string">
+                            <xs:annotation>
+                                <xs:documentation>Does not maps to MFHD   Enter the Tray for the High Density Storage location. 
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element ref="extension"/>
+        </xs:sequence>
+ </xs:complexType>
+
+    <!--This complexType was borrowed from/maps to ISO 20775 standard (2009): Information and documentation - Schema for holdings information. This complexType allows for users to link data values to external code lists.-->
+    <xs:complexType name="codeOrIdentifier">
+        <xs:annotation>
+            <xs:documentation>Group of data elements comprising a value in the form of a code or identifier with an indication of a list or source within which the value is unique.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="value">
+                <xs:annotation>
+                    <xs:documentation>Identifier or identifying code</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="typeOrSource">
+                <xs:annotation>
+                    <xs:documentation>Code, phrase or pointer indicating a source within which a value is unique</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:choice>
+                        <xs:element name="pointer" type="xs:anyURI">
+                            <xs:annotation>
+                                <xs:documentation>Direction to a definitive list of values within which an identifier or code is unique such as a URL or URN</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="text">
+                            <xs:annotation>
+                                <xs:documentation>Phrase indicating a definitive list of values within which an identifier or code is unique</xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:choice>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+  <bean id="OleLocation" parent="OleLocation-parentBean"/>
+
+  <bean id="OleLocation-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.ole.describe.bo.OleLocation"/>
+    <property name="inquiryDefinition">
+      <ref bean="OleLocation-inquiryDefinition"/>
+    </property>
+    <property name="lookupDefinition">
+      <ref bean="OleLocation-lookupDefinition"/>
+    </property>
+    <property name="titleAttribute" value="locationId"/>
+    <property name="objectLabel" value="Ole Location Location"/>
+
+    <property name="attributes">
+      <list>
+        <ref bean="OleLocation-locationId"/>
+        <ref bean="OleLocation-locationCode"/>
+        <ref bean="OleLocation-locationName"/>
+        <ref bean="OleLocation-parentLocationId"/>
+        <ref bean="OleLocation-levelId"/>
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+  <bean id="OleLocation-locationId" parent="OleLocation-locationId-parentBean"/>
+
+  <bean id="OleLocation-locationId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="Location Id"/>
+    <property name="maxLength" value="40"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+      <property name="control">
+          <bean parent="TextControlDefinition" p:size="30"/>
+      </property>
+    <property name="name" value="locationId"/>
+    <property name="label" value="Location Id"/>
+    <property name="description" value="Location Id"/>
+  </bean>
+
+
+  <bean id="OleLocation-locationCode" parent="OleLocation-locationCode-parentBean"/>
+
+  <bean id="OleLocation-locationCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="Location Code"/>
+    <property name="maxLength" value="40"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="required" value="true"/>
+    <property name="controlField">
+        <bean parent="Uif-TextControl" p:size="30"/>
+    </property>
+    <property name="name" value="locationCode"/>
+    <property name="label" value="Location Code"/>
+    <property name="description" value="Location Code"/>
+  </bean>
+
+
+
+
+  <bean id="OleLocation-locationName" parent="OleLocation-locationName-parentBean"/>
+
+  <bean id="OleLocation-locationName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="Location Name"/>
+    <property name="maxLength" value="100"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="30"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-TextControl" p:size="30"/>
+    </property>
+    <property name="name" value="locationName"/>
+    <property name="label" value="Location Name"/>
+    <property name="description" value="Location Name"/>
+  </bean>
+
+
+
+   <bean id="OleLocation-parentLocationId" parent="OleLocation-parentLocationId-parentBean"/>
+
+  <bean id="OleLocation-parentLocationId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="Parent Location"/>
+    <property name="maxLength" value="40"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="30"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-TextControl" p:size="30"/>
+    </property>
+    <property name="name" value="parentLocationId"/>
+    <property name="label" value="Parent Location"/>
+    <property name="description" value="Parent Location"/>
+
+  </bean>
+
+    <bean id="OleLocation-levelId" parent="OleLocation-levelId-parentBean"/>
+
+  <bean id="OleLocation-levelId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="Location Level"/>
+    <property name="maxLength" value="30"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="30"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-TextControl" p:size="30"/>
+    </property>
+    <property name="name" value="levelId"/>
+    <property name="label" value="Location Level"/>
+    <property name="description" value="Location Level"/>
+
+  </bean>
+
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="OleLocation-inquiryDefinition" parent="OleLocation-inquiryDefinition-parentBean"/>
+
+  <bean id="OleLocation-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
+            <list>
+              <bean id="inquiry_locationId" parent="FieldDefinition" p:attributeName="locationId"/>
+              <bean id="inquiry_locationCode" parent="FieldDefinition" p:attributeName="locationCode"/>
+              <bean id="inquiry_locationName" parent="FieldDefinition" p:attributeName="locationName"/>
+              <bean id="inquiry_parentLocationId" parent="FieldDefinition" p:attributeName="parentLocationId"/>
+              <bean id="inquiry_levelId" parent="FieldDefinition" p:attributeName="levelId"/>
+            </list>
+          </property>
+          <property name="title" value="Ole Location "/>
+        </bean>
+      </list>
+    </property>
+    <property name="title" value="Ole Location "/>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="OleLocation-lookupDefinition" parent="OleLocation-lookupDefinition-parentBean"/>
+
+  <bean id="OleLocation-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean id="locationId" parent="FieldDefinition" p:attributeName="locationId"/>
+        <bean id="locationCode" parent="FieldDefinition" p:attributeName="locationCode"/>
+        <bean id="locationName" parent="FieldDefinition" p:attributeName="locationName"/>
+        <bean id="parentLocationId" parent="FieldDefinition" p:attributeName="parentLocationId"/>
+        <bean id="levelId" parent="FieldDefinition" p:attributeName="levelId"/>
+     </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean id="searchResult_locationId" parent="FieldDefinition" p:attributeName="locationId"/>
+        <bean id="searchResult_locationCode" parent="FieldDefinition" p:attributeName="locationCode"/>
+        <bean id="searchResult_locationName" parent="FieldDefinition" p:attributeName="locationName"/>
+        <bean id="searchResult_parentLocationId" parent="FieldDefinition" p:attributeName="parentLocationId" />
+        <bean id="searchResult_levelId" parent="FieldDefinition" p:attributeName="levelId"/>
+      </list>
+    </property>
+    <property name="title" value="Ole Location "/>
+  </bean>
+</beans>

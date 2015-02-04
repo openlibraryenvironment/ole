@@ -1,0 +1,148 @@
+/*
+ * Copyright 2011 The Kuali Foundation.
+ *
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.opensource.org/licenses/ecl2.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.kuali.ole.select.testing;
+
+import java.rmi.RemoteException;
+
+import javax.xml.namespace.QName;
+import javax.xml.ws.Service;
+
+import org.apache.commons.lang.StringUtils;
+import org.kuali.ole.sys.OLEConstants;
+import org.kuali.ole.sys.context.SpringContext;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.omg.CORBA.ParameterMode;
+
+public class WebserviceClient {
+
+    private ConfigurationService kualiConfigurationService;
+    String preOrderUrl = null;
+
+    //PropertyManager propertyManager = PropertyManager.getInstance();
+
+
+    public WebserviceClient(){
+        kualiConfigurationService = SpringContext.getBean(ConfigurationService.class);
+        String environment = kualiConfigurationService.getPropertyValueAsString(OLEConstants.ENVIRONMENT_KEY);
+        if("LOCAL".equalsIgnoreCase(environment)){
+            preOrderUrl = "PREORDER_LOCAL_URL";
+        }else if("DEV".equalsIgnoreCase(environment)){
+            preOrderUrl = "PREORDER_DEV_URL";
+        }else if("TST".equalsIgnoreCase(environment)){
+            preOrderUrl = "PREORDER_TST_URL";
+        }else if("DEMO".equalsIgnoreCase(environment)){
+            preOrderUrl = "PREORDER_DEMO_URL";
+        }
+    }
+
+    private String invokeWebservice(WebserviceInfo info, String[] input){
+        String strWSDLUrl = info.getUrl();
+        String strNameSpace = info.getNameSpace();
+        String portName = info.getPortName();
+        String operationName = info.getOperationName();
+        String result = null;
+        Object[] object = new Object[input.length];
+        try{
+            QName serviceQName = new QName(strNameSpace, info.getServiceName());
+            QName port = new QName(strNameSpace, info.getPortName());
+            QName operation = new QName(strNameSpace, info.getOperationName());
+            Service service = null;
+            Call call = null;
+            ServiceFactory factory = new ServiceFactory();
+            service = factory.createService(serviceQName);
+            call = (Call)service.createCall(port,operation);
+            String schemaSpace = "http://www.w3.org/2001/XMLSchema";
+            QName paramType = new QName(schemaSpace,"string");
+            QName returnType = new QName(schemaSpace,"string");
+            call.setReturnType(returnType);
+            for(int i=0;i<input.length;i++) {
+                call.addParameter("arg"+i,paramType,ParameterMode.PARAM_IN);
+            }
+            call.setTargetEndpointAddress(strWSDLUrl);
+            for(int i=0;i<input.length;i++){
+                object[i] = input[i];
+            }
+            result = (String) call.invoke(object);
+        }catch(ServiceException serviceException){
+            serviceException.printStackTrace();
+            result="ERROR: "+serviceException.getMessage();
+        }catch(RemoteException remoteException){
+            remoteException.printStackTrace();
+            result="ERROR: "+remoteException.getMessage();
+        }catch(Exception exception){
+            exception.printStackTrace();
+            result="ERROR: "+exception.getMessage();
+        }finally{
+            return result;
+        }
+    }
+
+    public String processCitationInput(String []inputArr){
+        WebserviceInfo wsInfo = new WebserviceInfo();
+        wsInfo.setUrl(kualiConfigurationService.getPropertyValueAsString(preOrderUrl));
+        wsInfo.setNameSpace(kualiConfigurationService.getPropertyValueAsString("PREORDER_NAMESPACE"));
+        wsInfo.setServiceName(kualiConfigurationService.getPropertyValueAsString("PREORDER_SERVICENAME"));
+        wsInfo.setPortName(kualiConfigurationService.getPropertyValueAsString("PREORDER_PORTNAME"));
+        wsInfo.setOperationName(kualiConfigurationService.getPropertyValueAsString("PREORDER_CITATION_OPR"));
+        String responseString = invokeWebservice(wsInfo,inputArr);
+        if(StringUtils.isNumeric(responseString)) {
+            return "Document Created successfully with Document ID : "+responseString;
+        }
+        else {
+            return responseString;
+        }
+    }
+
+    public String processWebformInput(String []inputArr){
+        WebserviceInfo wsInfo = new WebserviceInfo();
+        wsInfo.setUrl(kualiConfigurationService.getPropertyValueAsString(preOrderUrl));
+        wsInfo.setNameSpace(kualiConfigurationService.getPropertyValueAsString("PREORDER_NAMESPACE"));
+        wsInfo.setServiceName(kualiConfigurationService.getPropertyValueAsString("PREORDER_SERVICENAME"));
+        wsInfo.setPortName(kualiConfigurationService.getPropertyValueAsString("PREORDER_PORTNAME"));
+        wsInfo.setOperationName(kualiConfigurationService.getPropertyValueAsString("PREORDER_WFRM_OPR"));
+        String responseString = invokeWebservice(wsInfo,inputArr);
+        if(StringUtils.isNumeric(responseString)) {
+            return "Document Created successfully with Document ID : "+responseString;
+        }
+        else {
+            return responseString;
+        }
+    }
+
+    public String processOpenUrlInput(String []inputArr){
+        WebserviceInfo wsInfo = new WebserviceInfo();
+        wsInfo.setUrl(kualiConfigurationService.getPropertyValueAsString(preOrderUrl));
+        wsInfo.setNameSpace(kualiConfigurationService.getPropertyValueAsString("PREORDER_NAMESPACE"));
+        wsInfo.setServiceName(kualiConfigurationService.getPropertyValueAsString("PREORDER_SERVICENAME"));
+        wsInfo.setPortName(kualiConfigurationService.getPropertyValueAsString("PREORDER_PORTNAME"));
+        wsInfo.setOperationName(kualiConfigurationService.getPropertyValueAsString("PREORDER_OPENURL_OPR"));
+        String responseString = invokeWebservice(wsInfo,inputArr);
+
+        if(StringUtils.isNumeric(responseString)) {
+            return "Document Created successfully with Document ID : "+responseString;
+        }
+        else {
+            return responseString;
+        }
+    }
+
+    public static void main(String[] args) {
+        WebserviceClient ws = new WebserviceClient();
+        String[] input = new String[]{"http://resolver.example.edu/cgi?url_ver=Z39.88-2004&rft_val_fmt=info:ofi/fmt:kev:mtx:book&amp;rft.isbn=0836218310&rft.btitle=The+Far+Side+Gallery+3","","","","","","","","","","",""};;
+        String response = ws.processOpenUrlInput(input);
+    }
+
+}

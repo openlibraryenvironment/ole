@@ -1,0 +1,1290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"
+    version="5.0" xml:lang="en-US">
+    <title>Workflow Administrative Documents</title>
+    <para role="Body Text"><emphasis role="bold"><alt>Admin</alt><inlinemediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/Admin.png"/>
+                </imageobject>
+            </inlinemediaobject>&gt; <inlinemediaobject>
+                <alt>Workflow Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-11.png"/>
+                </imageobject>
+            </inlinemediaobject>&gt; <inlinemediaobject>
+                <alt>Workflow Admin Links</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-8a.png"/>
+                </imageobject>
+            </inlinemediaobject></emphasis></para>
+    <para role="Body Text">The Kuali OLE Modules submenu allows you to perform a variety of
+        functional and technical activities that affect the entire system. This includes uploading
+        XML and People Flow rules to modify workflows. Users may also access the Staff Upload
+        interface.</para>
+    <note>
+        <para>For information on Statistics, see the section <link linkend="_statisticsReport"
+                >Statistics Report</link></para>
+    </note>
+    <para> </para>
+    <section>
+        <title><anchor xml:id="_D2HTopic_125"/><anchor xml:id="_documentType"/>Document
+                Type<indexterm significance="normal">
+                <primary>Document Type document</primary>
+            </indexterm><indexterm significance="normal">
+                <primary>Functional configuration submenu group</primary>
+                <secondary>Document Type document</secondary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/Admin.png"/>
+                </imageobject>
+            </inlinemediaobject>&gt; <inlinemediaobject>
+                <alt>Workflow Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-11.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Document Type</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-306.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Document Type Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-307.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Document Type</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-308.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The Document Type document defines basic information about the
+            document types that exist in OLE. It also defines document types specific to workflow
+            and KIM. Many definitions of a document type not defined here are included in its
+            workflow process definition and the data dictionary (a technical resource). The workflow
+            process definition for a document type can be viewed using the Document Type
+            lookup.</para>
+        <note>
+            <para> For more information about workflow, see the <link
+                xlink:href="../../../webhelp/BASICS/content/ch04.html">OLE Workflow
+                Overview and Key Concepts</link> on the <link xlink:href="../../../webhelp/BASICS/content/pr01.html"><emphasis role="italic">Guide to OLE
+                        Basic Functionality and Key Concepts</emphasis></link>.</para>
+        </note>
+        <para role="Body Text">Document Type documents can only be created by members of OLE-SYS
+            Manager or KR-SYS Technical Administrator roles and they do not route for
+            approval.</para>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Document Type Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-310.jpg" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Body Text">The Document Type document contains the <emphasis role="bold"
+                    >Edit Document Type</emphasis> tab and the <emphasis role="bold">Fields
+                    Available for Retroactive Application</emphasis> tab.</para>
+            <section>
+                <title>Edit Document Type Tab<indexterm significance="normal">
+                        <primary>Document Type document</primary>
+                        <secondary>Edit Document Type tab</secondary>
+                    </indexterm></title>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Document Type Document: Edit Document Type</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/admin-311.png" width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="TableHeading"><emphasis role="bold">Edit Document Type tab
+                        definition</emphasis></para>
+                <informaltable frame="top">
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1"/>
+                        <colspec colname="c1" colnum="1"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Parent Name</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Every document type must
+                                        answer to another document type in a parent/child
+                                        relationship. Use the lookup to search for the document type
+                                        to which this document type will answer.</para>
+                                    <para role="Table Cells">Document types can inherit important
+                                        definitions from their parent document types, including
+                                        permissions and responsibilities.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Name</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. The common name of the
+                                        document type. For most OLE documents the name is a
+                                        four-character abbreviation. Note that while the name field
+                                        can support longer names (and KEW and KIM documents are
+                                        examples of these) the Labor Ledger and General Ledger can
+                                        only support document names up to four characters in length.
+                                        If you are creating a new document type that will eventually
+                                        populate the ledgers be sure to abide by this four character
+                                        convention.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Document Handler URL</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. (Technical) Identifies the
+                                        basic URL that will take a user to this document
+                                        type.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Notification From Address</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. The email address that will
+                                        appear as the 'From' address on any action list
+                                        notifications sent by workflow for this document type. This
+                                        allows several applications using workflow to maintain
+                                        separate notification email addresses.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Active</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. The box should be checked if
+                                        the document type is active and available for use. Uncheck
+                                        the box to inactivate the document type. Note that you
+                                        cannot post labor or General Ledger OLE entries with
+                                        inactive document types. </para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+                <para role="Body Text"/>
+            </section>
+            <section>
+                <title>Fields Available for Retroactive Application Tab<indexterm
+                        significance="normal">
+                        <primary>Document Type document</primary>
+                        <secondary>Fields Available for Retroactive Application tab</secondary>
+                    </indexterm></title>
+                <para role="Body Text">These are Document Type definitions that can be edited
+                    retroactively if need be. This means that should you decide to change one of
+                    these values for a given document type it is possible to apply the change
+                    retroactively to any documents of this type already created. For example, if you
+                    decided to change the Label of the Budget Adjustment document type you could
+                    choose to have that label change apply to historical Budget Adjustment documents
+                    in your OLE system.</para>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Document Type Document: Fields Available for Retroactive
+                                Application Tab</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/admin-312.png" width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="TableHeading"><emphasis role="bold">Fields Available for Retroactive
+                        Application tab definition</emphasis></para>
+                <informaltable frame="top">
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1"/>
+                        <colspec colname="c1" colnum="1"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Label</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">The Label appears in most places where
+                                        document types are displayed in results (including the
+                                        action list and document search screens) and is commonly
+                                        longer than the document Name, which is often an
+                                        abbreviation.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. A text description of this
+                                        document type.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Help Definition URL</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. (Technical) Identifies the
+                                        URL where the online help content for this document type
+                                        resides.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Apply Label Change Retroactively</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Check this box only when
+                                        updating an existing document type and only if you wish the
+                                        fields on this tab to be updated on previously created
+                                        versions of documents of this type.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+                <para role="Body Text"/>
+            </section>
+            <section>
+                <title>Document Type Inquiry<indexterm significance="normal">
+                        <primary>Functional configuration submenu group</primary>
+                        <secondary>Document Type Inquiry</secondary>
+                    </indexterm></title>
+                <para role="Body Text">The Document Type Inquiry contains some additional fields
+                    that are not defined on this document but referenced from their source (either
+                    the corresponding workflow process definition or data dictionary information).
+                    These fields are defined below.</para>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Document Type Document: Inquiry</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/admin-313.png" width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="TableHeading"><emphasis role="bold">Document Type Inquiry
+                        definition</emphasis></para>
+                <informaltable frame="none">
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1"/>
+                        <colspec colname="c1" colnum="1"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Parent ID</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Display only. The unique,
+                                        system-generated ID number that identifies the parent
+                                        document of this Document Type.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">ID</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Display only. The unique,
+                                        system-generated ID number that identifies this document
+                                        type.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Post Processor Class</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Display only. (Technical.) Identifies
+                                        the post processor this document type calls upon reaching a
+                                        completed workflow status (usually 'Final' or 'Processed').
+                                        The post processor is the code that tells OLE what tables to
+                                        update when a document is approved. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Application ID</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Display only. The namespace (large
+                                        functional category) that is associated with this document
+                                        type.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_PeopleFlow"/>PeopleFlow</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/Admin.png"/>
+                </imageobject>
+            </inlinemediaobject>&gt; <inlinemediaobject>
+                <alt>Workflow Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-11.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; </emphasis><inlinemediaobject>
+                <alt>People Flow</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-12.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>People Flow Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-11b.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>People Flow Maintenance</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-11a.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">PeopleFlow is, for all intents and purposes, a prioritized list of
+            people to send requests to. It does not require you to specify a hard coded route node
+            in the document type for each individual who might need to approve or be notified. You
+            can define "Stops" in a PeopleFlow, where everything in the same stop proceeds in
+            parallel, but all must be done within the stop before proceeding to the next stop. You
+            can call/execute a PeopleFlow from within a KEW workflow node directly, or you can
+            invoke the Kuali Rules Management System (KRMS) engine from an application and any
+            PeopleFlows that get selected during rule execution, defined in a KRMS agenda, will be
+            called. In this way, you can integrate business rules across applications and workflows.
+            The same PeopleFlow that defines a routing order among a set of persons, groups or roles
+            can be called by KRMS rules, with the KRMS rules defining which type of request to pass
+            to the PeopleFlow.</para>
+        <section>
+            <title>Getting Started</title>
+            <para> You can search for a PeopleFlow to copy from and modify (be sure to give it a new
+                unique name) or can create a new one (see the top right of the lookup screen). </para>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>People Flow Lookup Screen</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-12a.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+        </section>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>People Flow Maintenance Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-12b.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Body Text">The PeopleFlow document includes several unique tabs—<emphasis
+                    role="bold">PeopleFlow Summary</emphasis> and <emphasis role="bold">PeopleFlow
+                    Members</emphasis>.</para>
+            <section>
+                <title>PeopleFlow Summary Tab</title>
+                <para>The <emphasis role="bold">PeopleFlow Summary</emphasis> tab contains
+                    information in which to both identify the PeopleFlow and where the PeopleFlow is
+                    applicable.</para>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>People Flow Maintenance Document: People Flow Summary Tab</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/admin-32.png" width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="TableHeading"><emphasis role="bold">PeopleFlow Summary tab
+                        definition</emphasis></para>
+                <informaltable frame="top">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Namespace Code</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para> The Namespace to which this PeopleFlow will belong. A
+                                        Namespace is a way to set both Permissions and Entity
+                                        Attributes. Each Namespace instance is one level of
+                                        Permissions and Entity Attributes and is one record in OLE.
+                                        Select the Namespace from the drop down list.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Name</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. The name of the PeopleFlow.
+                                    </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Type</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Select the type of PeopleFlow from the
+                                        drop down list to assign the PeopleFlow to more specific
+                                        attributes.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Enter a description of the
+                                        PeopleFlow.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Active</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Indicates whether this PeopleFlow is
+                                        active or inactive. Remove the check mark to deactivate.
+                                    </para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+            <section>
+                <title>PeopleFlow Members Tab</title>
+                <para>The <emphasis role="bold">PeopleFlow Members</emphasis> tab allows users to
+                    add stops and add members to the PeopleFlow. PeopleFlows that you create can be
+                    called by rules, with the rules determining whether the PeopleFlow will be
+                    called for an action (such as approvals) or for notifications. Enter the
+                    required information and click <inlinemediaobject>
+                        <alt>Add</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-34.png"/>
+                        </imageobject>
+                    </inlinemediaobject>.</para>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>People Flow Maintenance Document: People Flow Members</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/admin-33.png" width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="TableHeading"><emphasis role="bold">PeopleFlow Summary tab
+                        definition</emphasis></para>
+                <informaltable frame="top">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Stop</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para> Required. The stops in the workflow. Everything assigned
+                                        to each stop must be complete before moving on to the next
+                                        stop.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Member Type</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Select the Member Type from
+                                        the drop down list. PeopleFlows can be assigned to a
+                                        Principal, a group, or a role. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Member</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Enter the member to be assigned to the
+                                        PeopleFlow stop or search for them from the lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">All or First Action</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">If the
+                                        <emphasis role="bold">Member Type</emphasis> Role or Group
+                                    is selected, select <emphasis role="bold">ALL</emphasis> or
+                                        <emphasis role="bold">FIRST</emphasis> from the drop down.
+                                    Selecting ALL means every person in the role or group must take
+                                    action. Selecting FIRST requires action from only one
+                                    person.</entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+                <section>
+                    <title>PeopleFlow Members Tab continued</title>
+                    <para>After clicking <inlinemediaobject>
+                            <alt>Add</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/admin-34.png"/>
+                            </imageobject>
+                        </inlinemediaobject>, an additional menu appears. Below shows an example of
+                        two stops added already added:</para>
+                    <para role="Illustration">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>People Flow Maintenance Document: People Flow Members Tab wtih
+                                    Additional Menu</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/admin-35.png" width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para/>
+                    <para>From here, <emphasis role="bold">Member Delegates</emphasis> may be added
+                        to allow others to take action for another person.</para>
+                    <orderedlist>
+                        <listitem>
+                            <para>Enter the <emphasis role="bold">Member Type</emphasis> and the
+                                    <emphasis role="bold">Member</emphasis>.</para>
+                        </listitem>
+                        <listitem>
+                            <para>Select the <emphasis role="bold">Delegation Type Code</emphasis>
+                                from the drop down. The two choices are:</para>
+                            <itemizedlist>
+                                <listitem>
+                                    <para><emphasis role="bold">Primary Delegate</emphasis>: The
+                                        delegator turns over his or her full authority to a primary
+                                        delegate. The Action Requests for the delegator only appear
+                                        in the Action List of the primary delegate. </para>
+                                </listitem>
+                                <listitem>
+                                    <para><emphasis role="bold">Secondary Delegate</emphasis>: The
+                                        secondary delegate acts as a temporary backup and has the
+                                        same authority as the delegator when the delegator is not
+                                        available to take action. Documents appear in the Action
+                                        Lists of both the delegator and the delegate. When either
+                                        acts on the document, it disappears from both Action Lists.
+                                        People often have a secondary delegate who takes care of
+                                        their action requests when they are out of the office.
+                                    </para>
+                                </listitem>
+                            </itemizedlist>
+                        </listitem>
+                        <listitem>
+                            <para>Select <emphasis role="bold">All of First Action</emphasis> from
+                                the drop down list.</para>
+                        </listitem>
+                        <listitem>
+                            <para>Click <inlinemediaobject>
+                                    <alt>Add</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/admin-34.png"/>
+                                    </imageobject>
+                                </inlinemediaobject>.</para>
+                        </listitem>
+                    </orderedlist>
+                    <para>Click <inlinemediaobject>
+                            <alt>Delete</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/admin-36.png"/>
+                            </imageobject>
+                        </inlinemediaobject> to remove the PeopleFlow stop.</para>
+                </section>
+            </section>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_D2HTopic_116"/><anchor xml:id="_routingAndIdentityManager"/>Routing
+            &amp; Identity Management Document Type Hierarchy<indexterm significance="normal">
+                <primary>Routing &amp; Identity Management Document Type Hierarchy</primary>
+            </indexterm><indexterm significance="normal">
+                <primary>Functional configuration submenu group</primary>
+                <secondary>Routing &amp; Identity Management Document Type Hierarchy</secondary>
+            </indexterm><indexterm significance="normal">
+                <primary>Kuali Identity Management (KIM)</primary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/Admin.png"/>
+                </imageobject>
+            </inlinemediaobject>&gt; <inlinemediaobject>
+                <alt>Workflow Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-11.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Routing and IDM Doc Type</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-317.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Routing &amp; Identity Management Document Type Hierarchy</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-318.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">This special view combines KIM data with OLE Document Type Hierarchy.
+            It visually displays the parent and child relationships between OLE document types and
+            the route nodes that are associated with each. Users may also choose to view detailed
+            configuration for each document type, including all KIM permissions and responsibilities
+            related to that document.</para>
+        <para role="Body Text">Users who are authorized to edit document types, permissions and
+            responsibilities may access these options directly via this screen.</para>
+        <section>
+            <title>Document Hierarchy View<indexterm significance="normal">
+                    <primary> document hierarchy view, KIM data </primary>
+                </indexterm><indexterm significance="normal">
+                    <primary>Kuali Identity Management (KIM)</primary>
+                    <secondary>document hierarchy view, KIM data </secondary>
+                </indexterm><indexterm significance="normal">
+                    <primary>Routing &amp; Identity Management Document Type Hierarchy</primary>
+                    <secondary>document hierarchy view, KIM data</secondary>
+                </indexterm></title>
+            <para role="Body Text">When you access the Routing &amp; Identity Management Document
+                Type Hierarchy screen, the system initially displays the document hierarchy itself.
+                Document types are indented under their parent document types.</para>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Routing &amp; Identity Management Document Type Hierarchy Sample
+                            Display</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-319.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Body Text">To display the Document Type Inquiry <indexterm
+                    significance="normal">
+                    <primary> Document Type Inquiry</primary>
+                    <secondary>displaying from document hierarchy view </secondary>
+                </indexterm>for a document, click the document type name.</para>
+            <para role="Body Text">Users with permissions to edit document types will see an extra
+                link displayed for each type. To initiate an OLE Document Type Maintenance document
+                    <indexterm significance="normal">
+                    <primary>DocumentTypeMaintenanceDocument</primary>
+                    <secondary> initiating from document hierarchy view </secondary>
+                </indexterm>to edit a document type, click the <emphasis role="bold">Edit Document
+                    Type</emphasis> link for it.</para>
+            <para role="Body Text">If a given document type does workflow routing, then the system
+                displays the route nodes associated with this type directly below the name of the
+                document. Route nodes are listed in the order in which this document passes through
+                them. Document types with branching routing logic may have further indentation
+                displaying route nodes that a document may only pass through under certain
+                conditions.</para>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Routing &amp; Identity Management Document Type Hierarchy Sample Route
+                            Nodes Display</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-320.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+        </section>
+        <section>
+            <title>Document Configuration View<indexterm significance="normal">
+                    <primary>Document Configuration view </primary>
+                </indexterm><indexterm significance="normal">
+                    <primary>Kuali Identity Management (KIM)</primary>
+                    <secondary>Document Configuration view, KIM data </secondary>
+                </indexterm><indexterm significance="normal">
+                    <primary>Routing &amp; Identity Management Document Type Hierarchy</primary>
+                    <secondary>Document Configuration view, KIM data </secondary>
+                </indexterm></title>
+            <para role="Body Text">To open a separate window displaying additional information about
+                a document type, click the <emphasis role="bold">View Document
+                    Configuration</emphasis> link.</para>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Document Configuration page</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-321.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Body Text">This view includes <emphasis role="bold">Document
+                    Information</emphasis>, <emphasis role="bold">Permissions</emphasis> and
+                    <emphasis role="bold">Workflow / Responsibilities</emphasis> tabs.</para>
+            <section>
+                <title>Document Information Tab<indexterm significance="normal">
+                        <primary>Document Configuration view</primary>
+                        <secondary>Document Information tab</secondary>
+                    </indexterm></title>
+                <para role="Body Text">This tab provides basic information about the document type.
+                    Much of the information here is identical to that available in the Document Type
+                    Inquiry.</para>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Document Configuration page: Document Information Tab</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/admin-322.png" width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="TableHeading"><emphasis role="bold">Document Information tab
+                        definition</emphasis></para>
+                <informaltable frame="top">
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1"/>
+                        <colspec colname="c1" colnum="1"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Name</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">The name that uniquely identifies this
+                                        type of document.</para>
+                                    <para role="Table Cells">If the user viewing the Configuration
+                                        screen has permission to edit document type maintenance
+                                        documents, the system also displays the <emphasis
+                                            role="bold">Edit Document Type</emphasis> link.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Label</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">A longer, more descriptive name for
+                                        this type of document. In some cases the name and the label
+                                        may be identical.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Parent Name</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">The type of document that is the parent
+                                        to (i.e., higher than) this document type in the document
+                                        type hierarchy. To display the Document Configuration view
+                                        for the parent document type, click the linked parent
+                                        name.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Doc Handler URL</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">The URL for the document handler
+                                        associated with this document type. This information is
+                                        helpful for technical users.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Help URL</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">The URL for the online help associated
+                                        with this document type.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Child Document Types</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">If this document type is a parent, the
+                                        system displays all of its types for all of its children
+                                        document types. To see the document configuration view for a
+                                        child document type, click the link for the desired child
+                                        document type.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+            <section>
+                <title>Permissions Tab<indexterm significance="normal">
+                        <primary> Document Configuration view</primary>
+                        <secondary>Permissions tab</secondary>
+                    </indexterm></title>
+                <para role="Body Text">This tab identifies the KIM permissions that are invoked by
+                    this type of document. Collapsible sections indicate how the document type is
+                    associated with each permission.</para>
+                <para role="Body Text">The <emphasis role="bold">Defined for This
+                        Document</emphasis> section lists permissions that specifically refer to
+                    this document type. But many document types receive most, if not all, their
+                    associated permissions by inheriting them from parent document types. Additional
+                    tabs display this inherited information and the name of the document type from
+                    which the permissions are inherited. For example, in the screenshot below, this
+                    document type inherits permissions from both OLEChartComplexMaintenanceDocument
+                    and OpenLibraryEnvironmentComplexMaintenanceDocument.</para>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Document Configuration page: Permissions Tab</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/admin-323.png" width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="Body Text">Because more specific permissions override more general ones,
+                    some listed permissions may not apply. The system displays overridden
+                    permissions as gray strike-through text. In the example below the 'Initiate
+                    Document' permission inherited from OLE is overridden by a more specific
+                    permission displayed in <emphasis role="bold">Inherited From:
+                        OLEChartComplexMaintenanceDocument</emphasis> section.</para>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Document Configuration page: Inherited From... Section on the
+                                Permissions Tab</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/admin-324.png" width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="TableHeading"><emphasis role="bold">Permissions tab
+                        definition</emphasis></para>
+                <informaltable frame="top">
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1"/>
+                        <colspec colname="c1" colnum="1"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Template Name</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Display only. The name of the
+                                        permissions template on which this permission is based. The
+                                        template often defines, in a broad sense, what the
+                                        permission controls. Similar types of permissions have the
+                                        same template.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Permission Name</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Display only. The name of this
+                                        permission. In most cases the permission name is the same as
+                                        the associated template name.</para>
+                                    <note>
+                                        <para role="Note in table"> Permission names are generally
+                                            not unique because they describe types of authorization
+                                            that may appear in many places throughout the
+                                            application.</para>
+                                    </note>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Detail Values</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Display only. Additional detailed
+                                        information that, when taken with the permission name,
+                                        defines the permission's function.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Granted to Roles</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Display only. The roles (i.e., the
+                                        namespace and name of each role) associated with this
+                                        permission. In some cases multiple roles may be associated
+                                        with the same permission. To view the Role Inquiry, click
+                                        the linked name of the desired role.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+            <section>
+                <title>Workflow / Responsibilities Tab<indexterm significance="normal">
+                        <primary> Document Configuration view</primary>
+                        <secondary>Workflow / Responsibilities tab</secondary>
+                    </indexterm></title>
+                <para role="Body Text">This tab identifies the route nodes associated with this
+                    document type and displays critical information about the KIM responsibilities
+                    associated with them.</para>
+                <para role="Body Text">On this tab, the system displays route nodes in the order in
+                    which the document passes through them. The system also displays responsibility
+                    information for the Exception Routing node that will be invoked for this
+                    document type only if the document encounters an error that prevents it from
+                    completing its normal routing.</para>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Document Configuration page: Workflow / Responsibilites Tab</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/admin-326.png" width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="Body Text">Responsibility information is presented for each route node
+                    in a standard format.</para>
+                <para role="TableHeading"><emphasis role="bold">Workflow / Responsibilities tab
+                        definition</emphasis></para>
+                <informaltable frame="top">
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1"/>
+                        <colspec colname="c1" colnum="1"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Display only. A Yes or No value that
+                                        indicates whether this responsibility must generate action
+                                        requests for this document type. If the value is 'Yes' and
+                                        the document generates no requests associated with this
+                                        responsibility, then the document goes into exception
+                                        status. If the value is 'No' and the responsibility
+                                        generates no action requests, the document continues to
+                                        route as normal.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Action Details at Role Member
+                                        Level</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Display only. A Yes or No value that
+                                        indicates where the details of this workflow action request
+                                        are defined. If the value is 'Yes,' the system collects
+                                        action details when members are assigned to the role. If the
+                                        value is 'No,' the system collects action details when this
+                                        responsibility is assigned to a role.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Granted to Roles</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Display only. The roles (that is, the
+                                        namespace and name of each role) associated with the
+                                        responsibility at this route node. To view the Role Inquiry,
+                                        click the linked name of the desired role. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Inherited</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Display only. Indicates whether this
+                                        responsibility is inherited from another document type. If
+                                        the value is 'No,' the responsibility is specifically
+                                        associated with this document type. If a document type name
+                                        appears here, the responsibility is inherited from the
+                                        specified document type. To view the Document Configuration
+                                        Inquiry for this document type, Click the linked name.
+                                    </para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+                <para role="Normal"/>
+            </section>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_ruleAttribute"/>Rule Attribute</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/Admin.png"/>
+                </imageobject>
+            </inlinemediaobject>&gt; <inlinemediaobject>
+                <alt>Workflow Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-11.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Rule Attribute</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-105.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Rule Attribute Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-331.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para>Rule attributes are a core KEW data element contained in a document that controls its
+            Routing. It participates in routing as part of a Rule Template and is responsible for
+            defining custom fields that can be rendered on a routing rule. It also defines the logic
+            for how rules that contain the attribute data are evaluated.</para>
+        <para>Technical considerations for a Rule Attribute are:</para>
+        <para>They might be backed by a Java class to provide lookups and validations of appropriate
+            values.</para>
+        <para>Define how a Routing Rule evaluates document data to determine whether or not the rule
+            data matches the document data.</para>
+        <para>Define what data is collected on a rule.</para>
+        <para>An attribute typically corresponds to one piece of data on a document (i.e dollar
+            amount, department, organization, account, etc.).</para>
+        <para>Can be written in Java or defined using XML (with matching done by XPath).</para>
+        <para>Can have multiple GUI fields defined in a single attribute.</para>
+    </section>
+    <section>
+        <title>Statistics</title>
+        <para role="Body Text"><inlinemediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/Admin.png"/>
+                </imageobject>
+            </inlinemediaobject>&gt; <inlinemediaobject>
+                <alt>Workflow Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-11.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Workflow Statistics</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-170.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para/>
+        <para role="Illustration">
+            <screenshot>
+                <mediaobject>
+                    <alt>Workflow Statistics Sample Display</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-171.png" width="100%"/>
+                    </imageobject>
+                </mediaobject>
+            </screenshot>
+        </para>
+    </section>
+    <section>
+        <title><anchor xml:id="_workflowAttribute"/>Workflow Attribute<indexterm
+                significance="normal">
+                <primary>Rule Definition Lookup</primary>
+            </indexterm><indexterm significance="normal">
+                <primary>Technical configuration submenu group</primary>
+                <secondary>Rule Definition Lookup</secondary>
+            </indexterm><indexterm significance="normal">
+                <primary>workflow, Rule Definition Lookup</primary>
+            </indexterm><anchor xml:id="_Toc276394167"/><anchor xml:id="_Toc290041272"/></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/Admin.png"/>
+                </imageobject>
+            </inlinemediaobject>&gt; <inlinemediaobject>
+                <alt>Workflow Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-11.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Workflow Attribute</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-330.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Rule Attribute Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-331.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The Rule Definition Lookup allows you to search for and report on
+            workflow rule definitions and export the definition data in XML format. Rule definitions
+            are used by document search and the action list.</para>
+        <para role="Body Text">This option consists only of a lookup and inquiry screen. There is no
+            document type associated with rule definitions.</para>
+        <para role="Illustration">
+            <screenshot>
+                <mediaobject>
+                    <alt>Rule Attribute Lookup Display with Search Results</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-332.png" width="100%"/>
+                    </imageobject>
+                </mediaobject>
+            </screenshot>
+        </para>
+        <para role="Body Text">Clicking the ID number of a given rule definition will take you to
+            the Rule Definition Inquiry screen.</para>
+        <para role="Illustration">
+            <screenshot>
+                <mediaobject>
+                    <alt>Rule Attribute Inquiry Display</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-333.png" width="100%"/>
+                    </imageobject>
+                </mediaobject>
+            </screenshot>
+        </para>
+        <para role="Body Text">Click the <inlinemediaobject>
+                <alt>Export</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-334.png"/>
+                </imageobject>
+            </inlinemediaobject> button to download the XML associated with a particular rule
+            definition.</para>
+        <para role="Illustration"><inlinemediaobject>
+                <alt>Rule Attribute Sample Export</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-335.png"/>
+                </imageobject>
+            </inlinemediaobject></para>
+    </section>
+    <section>
+        <title><anchor xml:id="_D2HTopic_126"/><anchor xml:id="_xmlImport"/>XML Import<indexterm
+                significance="normal">
+                <primary>XML Ingester</primary>
+            </indexterm><indexterm significance="normal">
+                <primary>Technical configuration submenu group</primary>
+                <secondary>XML Ingester</secondary>
+            </indexterm></title>
+        <para role="Body Text"><emphasis role="bold"><inlinemediaobject>
+                    <alt>Admin</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/Admin.png"/>
+                    </imageobject>
+                </inlinemediaobject>&gt; <inlinemediaobject>
+                    <alt>Workflow Admin</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-11.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>XML Import</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-339.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; </emphasis><inlinemediaobject>
+                <alt>Ingester</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-340.png"/>
+                </imageobject>
+            </inlinemediaobject></para>
+        <para role="Body Text">The XML Ingester allows you to upload the XML file to the KEW server.
+            These XML files might include workflow process definition files or rule definition
+            files.</para>
+        <para role="Illustration">
+            <screenshot>
+                <mediaobject>
+                    <alt>Ingester Screen</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-341.png" width="100%"/>
+                    </imageobject>
+                </mediaobject>
+            </screenshot>
+        </para>
+    </section>
+</chapter>

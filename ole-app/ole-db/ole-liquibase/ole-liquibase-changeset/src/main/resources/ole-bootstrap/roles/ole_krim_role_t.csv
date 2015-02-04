@@ -1,0 +1,86 @@
+ROLE_ID,OBJ_ID,VER_NBR,ROLE_NM,NMSPC_CD,DESC_TXT,KIM_TYP_ID,ACTV_IND
+OLE10000,OLE10000,1,OLE_User,OLE-SELECT,This role allows the User to search the Documents,OLE36,Y
+OLE10001,OLE10001,2,OLE_SYS,OLE-SELECT,This Role is used for Library Support System,1,Y
+OLE10002,OLE10002,1,OLE_Requestor,OLE-SELECT,This Role is for Requestor OLE,1,Y
+OLE10003,OLE10003,3,OLE_Load,OLE-SELECT,This Role is assigned to admin for Loading,1,Y
+OLE10004,OLE10004,4,OLE_Selectors,OLE-SELECT,This role for Selectors who take action on the Document,1,Y
+OLE10005,OLE10005,4,OLE_Super-Selectors,OLE-SELECT,This Role can assign actions to Super Selector,1,Y
+OLE10006,OLE10006,3,OLE_Acquisitions,OLE-SELECT,This Role is for Acquisitions Staff,1,Y
+OLE10012,OLE10012,9,OLE_ACQ-Mgr,OLE-SELECT,This Role is for Acquisitions Managers,1,Y
+OLE10013,OLE10013,1,OLE_App-Mgr,OLE-SELECT,This Role is for Approval Plan By Manager,1,Y
+OLE10014,OLE10014,2,OLE_ERMS,OLE-SELECT,This Role is for Staffs for Licensing,1,Y
+OLE10016,OLE10016,1,OLE_RCV,OLE-SELECT,This Role is for Receiving Staff,1,Y
+OLE10017,OLE10017,1,OLE_License-Mgr,OLE-SELECT,This Role authorises the Users to allow Licensing,1,Y
+OLE10018,OLE10018,2,OLE_Fund -Mgr,OLE-SELECT,This Role allows to take Action on Funds,1,Y
+OLE10019,OLE10019,7,OLE-Receive-Mgr,OLE-SELECT,Line Item Receiving Manager Role,1,Y
+OLE10020,OLE10020,7,OLE-Invoicing,OLE-SELECT,OLE-Invoicing,1,Y
+OLE10021,OLE10021,5,OLE-Payment,OLE-SELECT,OLE-Payment,1,Y
+OLE10022,OLE10022,4,OLE_Selectors-serial,OLE-SELECT,This role for Selectors who take action on the Document,1,Y
+OLE10023,OLE10023,3,OLE_Acquisitions-serial,OLE-SELECT,This Role is for Acquisitions Staff,1,Y
+OLE10024,OLE10024,9,OLE_ACQ-Mgr-serial,OLE-SELECT,This Role is for Acquisitions Managers,1,Y
+OLE10025,OLE10025,1,OLE_ORDQU-User,OLE-SELECT,Order Queue User Role,1,Y
+OLE10026,OLE10026,1,Acquisitions-AQ1,OLE-SELECT,This Role is for View only document(Not for edit),1,Y
+OLE10027,OLE10027,1,Acquisitions-AQ2,OLE-SELECT,This Role is for low-level staff with specific needs only. This role is able to create and edit selected functions.,1,Y
+OLE10028,OLE10028,1,Acquisitions-AQ3,OLE-SELECT,This Role is for staff performing function.This role is able to create and edit all functions.,1,Y
+OLE10029,OLE10029,1,Acquisitions-AQ4,OLE-SELECT,This Role is for when you want to restrict deletion to high-level staff. This role is able to create edit or delete all functions.,1,Y
+OLE10030,OLE10030,1,Acquisitions-AQ5,OLE-SELECT,This role can perform functions and assign appropriate security level to others.,1,Y
+OLE10031,OLE10031,1,Receiving-AQ1,OLE-SELECT,This Role is for View only document(Not for edit),1,Y
+OLE10032,OLE10032,1,Receiving-AQ2,OLE-SELECT,This Role is for low-level staff with specific needs only. This role is able to create and edit selected functions.,1,Y
+OLE10033,OLE10033,1,Receiving-AQ3,OLE-SELECT,This Role is for staff performing function. This role is able to create and edit all functions.,1,Y
+OLE10034,OLE10034,1,Receiving-AQ4,OLE-SELECT,This Role is for when you want to restrict deletion to high-level staff. This role is able to create edit or delete all functions.,1,Y
+OLE10035,OLE10035,1,Accounting-AQ1,OLE-SELECT,This Role is for View only document(Not for edit),1,Y
+OLE10036,OLE10036,1,Accounting-AQ2,OLE-SELECT,This Role is for low-level staff with specific needs only. This role is able to create and edit selected functions.,1,Y
+OLE10037,OLE10037,1,Accounting-AQ3,OLE-SELECT,This Role is for staff performing function. This role is able to create and edit all functions.,1,Y
+OLE10038,OLE10038,1,Accounting-AQ4,OLE-SELECT,This Role is for when you want to restrict deletion to high-level staff. This role is able to create edit or delete all functions.,1,Y
+OLE10039,OLE10039,1,Financial-AQ1,OLE-SELECT,This Role is for View only document(Not for edit),1,Y
+OLE10040,OLE10040,1,Financial-AQ2,OLE-SELECT,This Role is for low-level staff with specific needs only. This role is able to create and edit selected functions.,1,Y
+OLE10041,OLE10041,1,Financial-AQ3,OLE-SELECT,This Role is for staff performing function. This role is able to create and edit all functions.,1,Y
+OLE10042,OLE10042,1,Financial-AQ4,OLE-SELECT,This Role is for when you want to restrict deletion to high-level staff. This role is able to create edit or delete all functions.,1,Y
+OLE10043,OLE10043,1,Financial-AQ5,OLE-SELECT,This role can perform functions and assign appropriate security level to others.,1,Y
+OLE10044,OLE10044,1,OLE_Prepayment,OLE-SELECT,This Role perform the approval and security on the Documents DV CM DI Payment Request and the GEC.,1,Y
+OLE10045,OLE10045,1,OLE_Accounting,OLE-SELECT,This Role perform the approval on the DI and GEC document.,1,Y
+OLE10046,1000,1,Patron Manager,OLE-PTRN,All the Permissions of Patron and BorrowerType,1,Y
+OLE10047,1001,1,Full Circulation Attendent,OLE-PTRN,Edit Patron Document,1,Y
+OLE10048,1002,1,Limited Circulation Attendent,OLE-PTRN,View Patron Document no access to borrowerType,1,Y
+OLE10049,1003,1,Location Administrator,OLE-PTRN,Edit and View the Location Level Document,1,Y
+OLE10050,1004,1,Shelving Location Administrator,OLE-PTRN,View Location Level Document,1,Y
+OLE10051,OLE100011,1,OLE_Signatory,OLE-LIC,This role is a person with the authority to sign a license. Note: this role may not be used within OLE if license must be signed by an external party (outside of OLE).,1,Y
+OLE10052,OLE100021,1,OLE_LicenseManager,OLE-LIC,Group of users who actually do the work of license negotiation used for routing purposes.,1,Y
+OLE10053,OLE100031,1,OLE_Licenses,OLE-LIC,OLE_Licenses are the assignees for Requisitions requiring licenses or license negotiations. This role is the “owner” of the license agreement  and has full edit  attachment  routing  and status change permissions.,1,Y
+OLE10054,OLE100041,1,OLE_LicenseReviewer,OLE-LIC,This role is a person with the authority to sign a license.,1,Y
+OLE10055,OLE100051,1,OLE_Licensing_Approver,OLE-LIC,OLE_Licensing_Approver will receive License Requests in status “Complete” as final step in workflow.,1,Y
+OLE10056,OLE100061,1,OLE_LicenseViewer,OLE-LIC,License documents and Search on Licenses have very limited permissons. This role can view only Agreements Agreement docs License Requests.,1,Y
+OLE10057,OLE100071,1,OLE_LicenseConfiguration,OLE-LIC,This is a licensing superuser with authority to set default system configuration VALUES  such as the default notification period after inactivity.,1,Y
+OLE10058,1005,1,OLE_Cataloging_Admin,OLE-CAT,Initiate Catalogue Document,1,Y
+OLE10059,OLE10008,1,OLE_LicenseAssignee,OLE-LIC,This role will have the persons who can assign the License Request Document.,1,Y
+OLE10060,1100,1,Operator,OLE-PTRN,Operator,1,Y
+OLE10061,1101,1,Unit Manager,OLE-PTRN,UnitManager,1,Y
+OLE10062,1102,1,Deliver Admin,OLE-PTRN,Deliver Admin,1,Y
+OLE10063,2100,1,Operator,OLE-DLVR,Operator,1,Y
+OLE10064,OLE10010,1,OLE_Selector,OLE-SELECT,This Role edits  creates and close/cancel the E-Resource records if it is currently assigned to this group and also can begin the Trial ,1,Y
+OLE10065,OLE10011,1,OLE_Head,OLE-SELECT,This Role performs can create edit view but not delete E-Resource Records.,1,Y
+OLE10066,OLE100131,1,OLE_Acquisitions-select,OLE-SELECT,This Role performs can create edit view but not delete E-Resource Records.,1,Y
+OLE10067,OLE100141,1,Collection Management,OLE-SELECT,This Role can close/cancel E-Resource Record if it is currently assigned to this group and Can approve/route to Acquisitions for purchase.,1,Y
+OLE10068,OLE100151,1,OLE_E-Resource,OLE-SELECT,This role Can create edit delete E-Resource Record start any sub-workflow link to GOKb particular focus is on Activation and using the AccessDashboard.,1,Y
+OLE10069,OLE100161,1,OLE_Cataloger,OLE-SELECT,This role can only view E-Resource Record.,1,Y
+OLE10070,OLE100171,1,OLE_Circ_Staff,OLE-SELECT,This role can only view E-Resource Record.,1,Y
+OLE10071,OLE100181,1,OLE_E-ResourceManager,OLE-SELECT,This role manages site-wide configurations like values for the E-Resource status and time periods for alerts.,1,Y
+KR1000,CFBAA6F5F0D25D07E0406E0AC31D229B,1,GuestRole,KUALI,This role is used for no login guest users.,1,Y
+KR1001,D0C2892F47ED9142E0406E0AC31D23D6,1,Complete Request Recipient,KR-WKFLW,This role derives its members from users with an complete action request in the route log of a given document.,42,Y
+KRSAP10003,CDD8032915D1BF1FE040F90A05B94313,1,Sample App Admin,KR-SAP,Test role for the sample app,1,Y
+KRSAP10004,CDD8032915D3BF1FE040F90A05B94313,1,Sample App Users,KR-SAP,Test role for the sample app,1,Y
+OLE10072,10029,1,Operator,OLE-SELECT,Operator,1,Y
+OLE10073,OLE30000,1,Super Circulation Supervisor,OLE-PTRN,Super Circulation Supervisor,1,Y
+OLE10074,OLE30001,1,Circulation Supervisor,OLE-PTRN,Circulation Supervisor,1,Y
+OLE10075,OLE30002,1,Circ Desk Attendant I,OLE-PTRN,Circ Desk Attendant I,1,Y
+OLE10076,OLE30003,1,Circ Desk Attendant II,OLE-PTRN,Circ Desk Attendant II,1,Y
+OLE10077,OLE100001,1,Cataloging Super User,OLE-CAT,Authorized for all Describe functions; permission to administer cataloging in all work units,1,Y
+OLE10078,OLE100002,1,Cataloger Supervisor,OLE-CAT,Authorized for all Describe functions; permission to administer cataloging within assigned work unit(s),1,Y
+OLE10079,OLE100003,1,Cataloger 1,OLE-CAT,Authorized for all Describe functions; permission to administer cataloging within assigned work unit,1,Y
+OLE10080,OLE100004,1,Cataloger 2,OLE-CAT,Authorized for all Describe functions except batch imports and bound-withs; permission to administer cataloging within assigned work unit,1,Y
+OLE10081,OLE100005,1,Temporary (Student) Staff Cataloger  1,OLE-CAT,Authorized to create and edit holdings/items within assigned work unit,1,Y
+OLE10082,OLE100006,1,Full Cataloging,OLE-CAT,Authorized for all Describe functions without limitation by ownership work unit  bibliographic status or any other field-level permission restriction,1,Y
+OLE10083,OLE100007,1,Batch Cataloging,OLE-CAT,Authorized to do batch imports and exports,1,Y
+OLE10084,OLE100008,1,Describe Read only,OLE-CAT,Authorized only to view records in Describe,1,Y
+OLE10085,OLE100009,1,Cataloger,OLE-CAT,Authorized to perform Global Edit of Holdings/Items/EHoldings and Analytics,1,Y
+OLE10086,OLE100010,1,OLE_Serial-Receiving,OLE-SELECT,Authorized to edit Serial Receiving record.,1,Y

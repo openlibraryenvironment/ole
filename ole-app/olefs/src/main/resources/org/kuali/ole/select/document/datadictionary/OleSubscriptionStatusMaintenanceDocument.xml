@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <bean id="SubscriptionStatusMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+        <property name="workflowPropertyGroups">
+            <list>
+                <bean id="WorkflowPropertyGroup" parent="WorkflowPropertyGroup">
+                    <property name="workflowProperties">
+                        <list>
+                            <bean id="oldMaintainableObject" parent="WorkflowProperty" p:path="oldMaintainableObject.businessObject"/>
+                            <bean id="newMaintainableObject" parent="WorkflowProperty" p:path="newMaintainableObject.businessObject"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="SubscriptionStatus-MaintenanceView" parent="Uif-OLEMaintenanceView">
+        <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OleSubscriptionStatus"/>
+        <property name="headerText" value="Subscription Status"/>
+        <property name="items">
+            <list merge="true">
+                <bean  parent="Uif-MaintenanceGridSection">
+                    <property name="headerText" value="Add/Edit Subscription Status"/>
+                    <property name="items">
+                        <list>
+                            <bean id="create_subscriptionStatusCode" parent="Uif-InputField" p:propertyName="subscriptionStatusCode" p:enableAutoDirectInquiry="false" p:required="true"/>
+                            <bean id="create_subscriptionStatusName" parent="Uif-InputField" p:propertyName="subscriptionStatusName"/>
+                            <bean id="create_subscriptionStatusDescription" parent="Uif-InputField" p:propertyName="subscriptionStatusDescription"/>
+                            <bean id="create_active" parent="Uif-InputField" p:propertyName="active" p:defaultValue="true"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="subscriptionStatusMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
+        <property name="dataObjectClass" value="org.kuali.ole.select.bo.OleSubscriptionStatus"/>
+        <property name="documentTypeName" value="OLE_SUBSCRIPTION_STATUS"/>
+        <property name="businessRulesClass" value="org.kuali.ole.select.rule.OleSubscriptionStatusRule"/>
+        <property name="lockingKeys">
+            <list>
+                <value>subscriptionStatusId</value>
+            </list>
+        </property>
+    </bean>
+</beans>
+
+
+
+

@@ -1,0 +1,2136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"
+    version="5.0" xml:lang="en-US">
+    <title><anchor xml:id="_COAAttributeMaintenanceEdocs"/>COA Attribute Maintenance E-Docs</title>
+    <para role="Body Text"><inlinemediaobject>
+            <alt>Maintenance</alt>
+            <imageobject>
+                <imagedata fileref="../images/maintenanceMenu.png"/>
+            </imageobject>
+        </inlinemediaobject>
+        <emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+            <alt>Chart of Accounts</alt>
+            <imageobject>
+                <imagedata
+                    fileref="../images/ManagingAndEncumberingFundsNoTitlePageSAChartOfAccountsHeading.png"
+                />
+            </imageobject>
+        </inlinemediaobject><emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+            <alt>Account Attribute</alt>
+            <imageobject>
+                <imagedata fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-258.png"/>
+            </imageobject>
+        </inlinemediaobject><emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+            <alt>Chart of Account Maintenance Links</alt>
+            <imageobject>
+                <imagedata
+                    fileref="../images/ManagingAndEncumberingFundsNoTitlePageSAChartOfAccountsHeadingMenu.png"
+                />
+            </imageobject>
+        </inlinemediaobject></para>
+    <para role="Body Text">On the <emphasis role="bold">Maintenance</emphasis> menu tab, the
+            <emphasis role="bold">Chart of Accounts</emphasis> submenu provides access to numerous
+        maintenance documents for your institution's charts.</para>
+    <section>
+        <title><anchor xml:id="_accountType"/>Account Type</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; <inlinemediaobject>
+                    <alt>Chart of Accounts</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePageSAChartOfAccountsHeading.png"
+                        />
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Account Type</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-32.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Account Type Lookup</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-33.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Account Type</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-34.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The account type is an attribute of account that is used to
+            categorize accounts for reporting.</para>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Account Type Document</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-35.png"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Body Text">The Account Type document includes the <emphasis role="bold">Edit
+                    Account Type</emphasis> tab. The system automatically enters data into both the
+                    <emphasis role="bold">Old</emphasis> and <emphasis role="bold">New</emphasis>
+                sections. Selected data fields are available for editing.</para>
+            <para role="TableHeading"><emphasis role="bold">Edit Account Type tab
+                    definition</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Account Type Code </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">A two-digit code that identifies an account
+                                    type</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Account Type Name</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. A familiar title that describes
+                                    an account type</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Indicates whether this account type is
+                                    active or inactive. Remove the check mark to deactivate a
+                                    code.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_accountingPeriod"/>Accounting Period</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; <inlinemediaobject>
+                    <alt>Chart of Accounts</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePageSAChartOfAccountsHeading.png"
+                        />
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Accounting Period</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-36.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Accounting Period Lookup</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-37.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Accounting Period</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-40.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para>The Accounting Period document is used to define the accounting year, its subdivisions
+            and their attributes to be used throughout the Kuali Financial System. Accounting
+            periods usually correspond to calendar months but may include special processing
+            periods, such as a period 'thirteen' for processing year-end closing transactions.
+            Accounting periods are the periods to which financial transactions of any type are
+            posted.</para>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Accounting Period Document</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-39.png"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Body Text">The Accounting Period document includes the <emphasis role="bold"
+                    >Edit Accounting Period</emphasis> tab. The system automatically enters data
+                into both the <emphasis role="bold">Old</emphasis> and <emphasis role="bold"
+                    >New</emphasis> sections. Selected data fields are available for editing.</para>
+            <para role="TableHeading"><emphasis role="bold">Edit Accounting Period tab
+                    definition</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">University Fiscal Year</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">The university fiscal year for the
+                                    accounting period</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">University Fiscal Period Code</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">The university fiscal period within the
+                                    designated university fiscal year</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">University Fiscal Period Name</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. The familiar title for the
+                                    designated university fiscal period code</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Indicates whether this accounting period is
+                                    active or inactive. Remove the check mark to deactivate a
+                                    code.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Budget Rollover</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Indicates whether the sufficient funds
+                                    process is in use that allows the promised budgetary funds to be
+                                    carried over for the current fiscal year. Remove the check mark
+                                    if the funds should not be carried over.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">University Fiscal Period End Date</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. The last day of the university
+                                    fiscal period. This date may be retrieved from the <emphasis
+                                        role="bold">calendar</emphasis>
+                                    <inlinemediaobject>
+                                        <imageobject>
+                                            <imagedata fileref="../images/basic-miniCalendar.png"/>
+                                        </imageobject>
+                                    </inlinemediaobject></para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_balanceType"/>Balance Type</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; <inlinemediaobject>
+                    <alt>Chart of Accounts</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePageSAChartOfAccountsHeading.png"
+                        />
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Balance Type</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-41.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Balance Type Lookup</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-42.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Balance Type</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-44.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para>The Balance Type document defines the different types of balances supported by the
+            application. Common examples include actuals, current budget, and encumbrances. Posted
+            transactions are assigned a balance type. These different types facilitate balance
+            reporting and financial queries.</para>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Balance Type Document</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-43.png"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para>The Balance Type document includes the <emphasis role="bold">Edit Balance
+                    Type</emphasis> tab. The system automatically enters data into both the
+                    <emphasis role="bold">Old</emphasis> and <emphasis role="bold">New</emphasis>
+                sections. Selected data fields are available for editing.</para>
+            <para role="TableHeading"><emphasis role="bold">Edit Balance Type tab
+                    definition</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Balance Type Code</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Identifies the balance type for different
+                                    uses in system processes.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Balance Type Name</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. A descriptive title for this
+                                    balance type code.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Short Name</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. An abbreviated name for a
+                                    specific balance type to be used where space is limited.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Offset Generation</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Optional. Indicates if offsets are to be
+                                    generated automatically by the system for the balance type.
+                                    Remove the check mark if there are no offset generated
+                                    entries.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Encumbrance</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Optional. Indicates if the balance type
+                                    represents an encumbrance. Remove the check mark if the balance
+                                    type is not an encumbrance</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Indicates whether this balance type is
+                                    active or inactive. Remove the check mark to deactivate a
+                                    code.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_basicAccountingCategory"/>Basic Accounting Category</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; <inlinemediaobject>
+                    <alt>Chart of Accounts</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePageSAChartOfAccountsHeading.png"
+                        />
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Basic Accounting Category</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-45.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Basic Accounting Category Lookup</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-52.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Basic Accounting Category</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-57.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para>The basic accounting category code groups the object type codes into the basic
+            accounting categories for reporting purposes.</para>
+        <note>
+            <para>For more details about the object type code, see <link linkend="_ObjectType"
+                    >Object Type</link>.</para>
+        </note>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Basic Accounting Category Document</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-55.png"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para>The Basic Accounting Category document includes the <emphasis role="bold">Edit
+                    Basic Accounting Category</emphasis> tab. The system automatically enters data
+                into both the <emphasis role="bold">Old</emphasis> and <emphasis role="bold"
+                    >New</emphasis> sections. Selected data fields are available for editing.</para>
+            <para role="TableHeading"><emphasis role="bold">Edit Basic Accounting Category Code tab
+                    definition</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Basic Accounting Category Code</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">A code for the basic accounting category
+                                    that groups the object type codes for reporting purposes.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Basic Accounting Category
+                                    Description</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. The name that describes a basic
+                                    accounting category code</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Basic Accounting Category Short Name</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. An abbreviated name for a basic
+                                    accounting category code to be used for reporting where space is
+                                    limited</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Financial Reporting Sort Code</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. A financial reporting sort code
+                                    to place fund groups in a particular sequence on reports</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Indicates whether this basic accounting
+                                    category code is active or inactive. Remove the check mark to
+                                    deactivate a code.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_budgetAggregationCode"/>Budget Aggregation Code</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; <inlinemediaobject>
+                    <alt>Chart of Accounts</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePageSAChartOfAccountsHeading.png"
+                        />
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Budget Aggregation Code</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-60.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Budget Aggregation Code Lookup</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-63.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Budget Aggregation Code</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-65.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para>The Budget Aggregation Code document maintains the codes that indicate the level at
+            which the object code may be aggregated for budgeting. The standard values are Object
+            Code level ('O'), Consolidation Level ('C'), and Level ('L'). The code is referenced by
+            the Object Code document.</para>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Budget Aggregation Code Document</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-64.png"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para>The Budget Aggregation Code document includes the <emphasis role="bold">Edit
+                    Budget Aggregation Code</emphasis> tab. The system automatically enters data
+                into both the <emphasis role="bold">Old</emphasis> and <emphasis role="bold"
+                    >New</emphasis> sections. Selected data fields are available for editing.</para>
+            <para role="TableHeading"><emphasis role="bold">Edit Budget Aggregation Code tab
+                    definition</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Budget Aggregation Code</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">A code that uniquely identifies the level
+                                    at which the budget should be aggregated for object codes.
+                                </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Budget Aggregation Name</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. A descriptive label for this
+                                    budget aggregation code.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Indicates whether this budget aggregation
+                                    code is active or inactive. Remove the check mark to deactivate
+                                    a code.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+    <section>
+        <title/>
+        <para/>
+    </section>
+    <section>
+        <title><anchor xml:id="_FundGroup"/>Fund Group<indexterm significance="normal">
+                <primary>The Fund Group document</primary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; <inlinemediaobject>
+                    <alt>Chart of Accounts</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePageSAChartOfAccountsHeading.png"
+                        />
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Fund Group</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-401.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Fund Group Lookup</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-402.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Fund Group</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-403.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The Fund Group document is used to define the broadest category of
+            funds and is used for reporting and business rules. Examples of fund groups include
+            General Funds and Contracts and Grants Funds. Although fund group is the broadest
+            category of funds, it is an attribute of a narrower group: sub-fund. For example,
+            accounts have an assigned sub-fund and from that sub-fund a fund group is
+            retrieved.</para>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Fund Group Document</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-404.jpg"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Body Text">The Fund Group document includes the <emphasis role="bold">Edit
+                    Fund Group Code</emphasis> tab. The system automatically enters data into both
+                the <emphasis role="bold">Old</emphasis> and <emphasis role="bold">New</emphasis>
+                sections. Selected data fields are available for editing.</para>
+            <para role="TableHeading"><emphasis role="bold">Edit Fund Group tab
+                    definition</emphasis></para>
+            <informaltable frame="topbot">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Fund Group Code </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">The code to uniquely identify a specific
+                                    fund group.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Fund Group Name </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. The descriptive label of this
+                                    specific fund group.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Financial Reporting Sort Code </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. The code to place fund groups in
+                                    a particular sequence on reports</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Budget Adjustment Restriction Code</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. The code to define the level at
+                                    which business rules on the budget adjustment document are
+                                    checked. Existing budget adjustment restriction code may be
+                                    retrieved from the lookup <inlinemediaobject>
+                                        <imageobject>
+                                            <imagedata fileref="../images/Lookup.png"/>
+                                        </imageobject>
+                                    </inlinemediaobject> and are:</para>
+                                <para role="Table Cells"><emphasis role="bold">F</emphasis> = Fund
+                                        <emphasis role="bold">C</emphasis> = Chart <emphasis
+                                        role="bold">O</emphasis> = Organization <emphasis
+                                        role="bold">A</emphasis> = Account</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Indicates whether this fund group code is
+                                    active or inactive. Remove the check mark to deactivate a fund
+                                    group code.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_ObjectConsolidation"/>Object Consolidation<indexterm
+                significance="normal">
+                <primary>Object Consolidation document</primary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; <inlinemediaobject>
+                    <alt>Chart of Accounts</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePageSAChartOfAccountsHeading.png"
+                        />
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Object Consolidation</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-423.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Object Consolidation Lookup</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-424.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Object Consolidation</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-425.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The Object Consolidation document defines a general category of
+            object codes for reporting. One object consolidation includes the object codes belonging
+            to one or more object levels. </para>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Object Consolidation Document</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-426.jpg"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Body Text">The Object Consolidation document includes the <emphasis
+                    role="bold">Edit Object Consolidation </emphasis>tab. The system automatically
+                enters data into both the <emphasis role="bold">Old</emphasis> and <emphasis
+                    role="bold">New</emphasis> sections. Selected data fields are available for
+                editing.</para>
+            <para role="TableHeading"><emphasis role="bold">Object Consolidation tab
+                    definition</emphasis></para>
+            <informaltable frame="topbot">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Chart Code </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">The chart code for the associated object
+                                    consolidation.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Consolidation Code </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">A consolidation code associated with object
+                                    codes assigned to a particular reporting group of object
+                                    levels.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Consolidation Object Short Name </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. An abbreviated name used in
+                                    reporting where space is limited.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Consolidation Object Name </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. A descriptive label of this
+                                    specific object consolidation group.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Indicates whether this object consolidation
+                                    code is active or inactive. Remove the check mark to
+                                    deactivate.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Reporting Sort Code </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. The code that determines the
+                                    default sort sequence on reports.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_ObjectLevel"/>Object Level<indexterm significance="normal">
+                <primary>Object Level document</primary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; <inlinemediaobject>
+                    <alt>Chart of Accounts</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePageSAChartOfAccountsHeading.png"
+                        />
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Object Level</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-429.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Object Level Lookup</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-430.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Object Level</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-431.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The Object Level document is used to maintain an attribute of the
+            object code that is used to group similar object codes into categories for
+            reporting.</para>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Object Level Document</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-432.jpg"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Body Text">The Object Level document includes the <emphasis role="bold">Edit
+                    Object Level</emphasis> tab. The system automatically enters data into both the
+                    <emphasis role="bold">Old</emphasis> and <emphasis role="bold">New</emphasis>
+                sections. Selected data fields are available for editing.</para>
+            <para role="TableHeading"><emphasis role="bold">Edit Object Level tab
+                    definition</emphasis></para>
+            <informaltable frame="topbot">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Chart Code </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">The chart code for the associated object
+                                    level</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Level Code </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">The code assigned to a particular reporting
+                                    level of object codes.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Object Level Name </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. A descriptive label for this
+                                    specific object level.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Object Level </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. An abbreviated name for this
+                                    level to be used in reporting where space is limited.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Consolidation Code </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. The consolidation object code
+                                    associated with this object level code. Existing consolidation
+                                    codes may be retrieved from the lookup <inlinemediaobject>
+                                        <imageobject>
+                                            <imagedata fileref="../images/Lookup.png"/>
+                                        </imageobject>
+                                    </inlinemediaobject>.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Indicates whether this object level code is
+                                    active or inactive. Remove the check mark to deactivate this
+                                    code.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Report Sort Code </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. The code that determines the
+                                    default sort sequence on reports.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_ObjectSubType"/>Object Sub-Type<indexterm significance="normal">
+                <primary>Object Sub-Type document</primary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; <inlinemediaobject>
+                    <alt>Chart of Accounts</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePageSAChartOfAccountsHeading.png"
+                        />
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Object Sub-Type</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-436.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Object Sub-Type Lookup</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-437.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Object Sub-Type</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-438.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The Object Sub-Type document is used to further refine object type.
+            Object sub-type can be used for reporting and in some instances for the establishment of
+            business rules on e-docs (for example, a document might restrict the use of object codes
+            belonging to a certain object sub-type).</para>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Object Sub-Type Document</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-439.jpg"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Body Text">The Object Sub-Type document includes the <emphasis role="bold"
+                    >Edit Object Sub-Type</emphasis> tab. The system automatically enters data into
+                both the <emphasis role="bold">Old</emphasis> and <emphasis role="bold"
+                    >New</emphasis> sections. Selected data fields are available for editing.</para>
+            <para role="TableHeading"><emphasis role="bold">Edit Object Sub Type tab
+                    definition</emphasis></para>
+            <informaltable frame="topbot">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Object Sub-Type Code </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">The code assigned to a particular
+                                    subdivision of an object type.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Object Sub-Type Name </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. A descriptive label for this
+                                    specific object sub-type.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Indicates whether this object sub type code
+                                    is active or inactive. Remove the check mark to deactivate this
+                                    code.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_ObjectType"/>Object Type<indexterm significance="normal">
+                <primary>Object Type document</primary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; <inlinemediaobject>
+                    <alt>Chart of Accounts</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePageSAChartOfAccountsHeading.png"
+                        />
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Object Type</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-442.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Object Type Lookup</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-443.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Object Type</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-444.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The Object Type document defines the general use of an object code;
+            such as income, asset, expense, or liability.</para>
+        <tip>
+            <para> When you are configuring the object types, it is important to cross-reference the
+                Object Type table, the System Options table and the OBJECT_TYPES parameters in the
+                Parameter table. </para>
+        </tip>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Object Type Document</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-447.jpg"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Body Text">The Object Type document includes the <emphasis role="bold">Edit
+                    Object Type</emphasis> tab. The system automatically enters data into both the
+                    <emphasis role="bold">Old</emphasis> and <emphasis role="bold">New</emphasis>
+                sections. Selected data fields are available for editing.</para>
+            <para role="TableHeading"><emphasis role="bold">Edit Object Type tab
+                    definition</emphasis></para>
+            <informaltable frame="topbot">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Object Type Code </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">The code assigned to a particular object
+                                    type.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Object Type Name </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. A descriptive label for this
+                                    object type code.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Object Type Debit Credit Code </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. The default accounting balance
+                                    type of debit or credit for the object code that is retrieved
+                                    from the list.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">ICR Selection Indicator </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">The box is checked when the transactions
+                                    with the object type are eligible for automated indirect cost
+                                    calculation.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Fund Balance Indicator </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">The box is checked when the object type
+                                    code is used in the fund balance.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Reporting Sort Code </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. The code that determines the
+                                    default sort sequence of object types on certain reports.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Basic Accounting Category Code</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. The basic accounting category
+                                    code that groups object type codes for use in reporting and
+                                    business processes throughout the system. Existing basic
+                                    accounting category codes may be retrieved from the list or the
+                                    lookup <inlinemediaobject>
+                                        <imageobject>
+                                            <imagedata fileref="../images/Lookup.png"/>
+                                        </imageobject>
+                                    </inlinemediaobject>. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Indicates whether this object type code is
+                                    active or inactive. Remove the check mark to deactivate this
+                                    code.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_organizationType"/>Organization Type</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; <inlinemediaobject>
+                    <alt>Chart of Accounts</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePageSAChartOfAccountsHeading.png"
+                        />
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Organization Type</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-66.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Organization Type Lookup</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-75.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Organization Type</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-79.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para>The Organization Type document is used to categorize organizations for reporting
+            purposes.</para>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Organization Type Document</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-77.png"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para>The Organization Type document includes the <emphasis role="bold">Edit
+                    Organization Type</emphasis> tab. The system automatically enters data into both
+                the <emphasis role="bold">Old</emphasis> and <emphasis role="bold">New</emphasis>
+                sections. Selected data fields are available for editing.</para>
+            <para role="TableHeadidng"><emphasis role="bold">Edit Organization Type tab
+                    definition</emphasis></para>
+            <informaltable frame="topbot">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Organization Type Code </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">The code that identifies an organization
+                                    type.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Organization Type Name </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. The descriptive name for this
+                                    organization type code.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Indicates whether this restricted status
+                                    code is active or inactive. Remove the check mark to deactivate
+                                    this restrictive status code.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_RestrictedStatus"/>Restricted Status<indexterm significance="normal">
+                <primary>Restricted Status document</primary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; <inlinemediaobject>
+                    <alt>Chart of Accounts</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePageSAChartOfAccountsHeading.png"
+                        />
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Restricted Status</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-517.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Restricted Status Lookup</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-518.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Restricted Status</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-519.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The Restricted Status document is used to define whether the funds
+            within an account are restricted, unrestricted, temporarily restricted or not
+            applicable. Some OLE business rules refer to Restricted Status records when determining
+            the validity of an e-doc transaction.</para>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Restricted Status Document</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-520.jpg"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Body Text">The Restricted Status document includes the <emphasis role="bold"
+                    >Edit Restricted Status</emphasis> tab. The system automatically enters data
+                into both the <emphasis role="bold">Old</emphasis> and <emphasis role="bold"
+                    >New</emphasis> sections. Selected data fields are available for editing.</para>
+            <para role="TableHeadidng"><emphasis role="bold">Edit Restricted Status tab
+                    definition</emphasis></para>
+            <informaltable frame="topbot">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Restricted Status Code </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">The unique code that identifies a
+                                    particular restricted status.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Restricted Status Name </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. The descriptive name for this
+                                    restricted status code.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Indicates whether this restricted status
+                                    code is active or inactive. Remove the check mark to deactivate
+                                    this restrictive status code.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_Stewardship_Requirement"/>Stewardship Requirement</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; <inlinemediaobject>
+                    <alt>Chart of Accounts</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePageSAChartOfAccountsHeading.png"
+                        />
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Stewardship Requirement</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-523.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Stewardship Requirement Lookup</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-524.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Stewardship Requirement</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-525.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The Stewardship Requirement document is used to indicate the type of
+            stewardship on an account e-document, for example some stewardship requirements are
+            bookplates, annual reports for donors or departments.</para>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Stewardship Requirement Document</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-526.png"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Body Text">The Stewardship Requirement document includes the <emphasis
+                    role="bold">Edit Stewardship Requirement </emphasis>tab. The system
+                automatically enters data into both the <emphasis role="bold">Old</emphasis> and
+                    <emphasis role="bold">New</emphasis> sections. Selected data fields are
+                available for editing.</para>
+            <para role="TableHeading"><emphasis role="bold">Edit Stewardship Type tab
+                    definition</emphasis></para>
+            <informaltable frame="topbot">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Stewardship Type </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Identifies the type of stewardship, i.e.,
+                                    none, plating, reporting</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Indicates whether this sub fund group type
+                                    code is active or inactive. Remove the check mark to deactivate
+                                    this code.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_SubFundGroup"/>Sub-Fund Group<indexterm significance="normal">
+                <primary>Sub-Fund Group document</primary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; <inlinemediaobject>
+                    <alt>Chart of Accounts</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePageSAChartOfAccountsHeading.png"
+                        />
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Sub-Fund Group</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-529.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Sub-Fund Group Lookup</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-530.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Sub-Fund Group</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-531.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The Sub-Fund Group document defines the type, purpose or source of
+            funds that are found in that account. Sub-fund group may be used for reporting purposes
+            and for business rules on OLE e-docs.</para>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Sub-Fund Group Document</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-532.jpg"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Body Text">The Sub-Fund Group document includes the <emphasis role="bold"
+                    >Edit Sub-Fund Group</emphasis> tab. The system automatically enters data into
+                both the <emphasis role="bold">Old</emphasis> and <emphasis role="bold"
+                    >New</emphasis> sections. Selected data fields are available for editing.</para>
+            <para role="TableHeading"><emphasis role="bold">Edit Sub-Fund Group tab
+                    definition</emphasis></para>
+            <informaltable frame="topbot">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Sub-Fund Group Code </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">The unique code that identifies a
+                                    particular sub-fund group.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. The descriptive name for this
+                                    sub-fund group code.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Fund Group Code </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. The larger fund group to which
+                                    the sub-fund group is associated. Existing fund group codes may
+                                    be retrieved from the lookup<emphasis role="bold"> </emphasis><inlinemediaobject>
+                                        <imageobject>
+                                            <imagedata fileref="../images/Lookup.png"/>
+                                        </imageobject>
+                                    </inlinemediaobject>.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Indicates whether this sub fund group code
+                                    is active or inactive. Remove the check mark to deactivate this
+                                    code.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Sub Fund Group Type Code</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. A code that identifies the
+                                    sub-fund group type. Existing types may be retrieved from the
+                                    list or from the lookup <inlinemediaobject>
+                                        <imageobject>
+                                            <imagedata fileref="../images/Lookup.png"/>
+                                        </imageobject>
+                                    </inlinemediaobject>. Examples include: 'Auxiliary,' 'Internal
+                                    Service Organizations,' or 'Neither.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Default Account Restricted Status
+                                    Code</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">A unique code that identifies a particular
+                                    restricted status for the default account. Existing restricted
+                                    status codes may be retrieved from the list or from the lookup <inlinemediaobject>
+                                        <imageobject>
+                                            <imagedata fileref="../images/Lookup.png"/>
+                                        </imageobject>
+                                    </inlinemediaobject>.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Financial Reporting Sort Code </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. A code that designates the
+                                    default sort sequence on reports.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Wage Indicator </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">The box checked when the sub-fund group is
+                                    one that is expected to pay compensation expenses.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Budget Adjustment Restriction Code </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. The code that determines at what
+                                    level OLE checks for restrictions when an account of the
+                                    sub-fund group is used on a Budget Adjustment e-doc from the
+                                    budget adjustment restriction code list. Values retrievable from
+                                    the list include:</para>
+                                <para role="Table Cells"><emphasis role="bold">N</emphasis> = None
+                                        <emphasis role="bold">S</emphasis> = Sub-Fund<emphasis
+                                        role="bold"> C</emphasis> = Chart <emphasis role="bold"
+                                        >O</emphasis> = Organization <emphasis role="bold"
+                                        >A</emphasis> = Account</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_SubFundGroupType"/>Sub-Fund Group Type<indexterm
+                significance="normal">
+                <primary>Sub-Fund Group Type document</primary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; <inlinemediaobject>
+                    <alt>Chart of Accounts</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePageSAChartOfAccountsHeading.png"
+                        />
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Sub-Fund Group Type</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-538.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Sub-Fund Group Type Lookup</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-539.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Sub-Fund Group Type</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-540.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The Sub-Fund Group Type document defines further categorization of
+            sub-funds. Common sub-fund group types include 'Auxiliary,' 'Internal Service
+            Organization,' or 'Neither.</para>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Sub-Fund Group Type Document</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-541.jpg"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Body Text">The Sub-Fund Group Type document includes the <emphasis
+                    role="bold">Edit Sub-Fund Group Type</emphasis> tab. The system automatically
+                enters data into both the <emphasis role="bold">Old</emphasis> and <emphasis
+                    role="bold">New</emphasis> sections. Selected data fields are available for
+                editing.</para>
+            <para role="TableHeading"><emphasis role="bold">Edit Sub Fund Group Type tab
+                    definition</emphasis></para>
+            <informaltable frame="topbot">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Sub-Fund Group Type Code </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">A unique code that identifies the sub-fund
+                                    group type.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Sub-Fund Group Type Description </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. The descriptive name for this
+                                    sub-fund group type code.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Indicates whether this sub fund group type
+                                    code is active or inactive. Remove the check mark to deactivate
+                                    this code.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_Sufficient_Funds_Check"/>Sufficient Funds Check Type<indexterm
+                significance="normal">
+                <primary>Sufficient Funds Code document</primary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; <inlinemediaobject>
+                    <alt>Chart of Accounts</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePageSAChartOfAccountsHeading.png"
+                        />
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Sufficient Funds Check Type</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-550.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Sufficient Funds Check Type Lookup</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-551.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Sufficient Funds Check Type</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-552.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The Sufficient Funds Check Type is used to define the type of
+            sufficient fund check performed on the Account e-document.</para>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Sufficient Funds Check Type Document</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-553.png"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Body Text">The Sufficient Funds Check Type document includes the <emphasis
+                    role="bold">Edit Sufficient Funds Check Type</emphasis> tab. The system
+                automatically enters data into both the <emphasis role="bold">Old</emphasis> and
+                    <emphasis role="bold">New</emphasis> sections. Selected data fields are
+                available for editing.</para>
+            <para role="TableHeading"><emphasis role="bold">Edit Sufficient Funds Check Type tab
+                    definition</emphasis></para>
+            <informaltable frame="topbot">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Sufficient Funds Check Type </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Identifies the type of fund to check, i.e.,
+                                    “account”, “object”, “cash”</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Indicates whether this sufficient funds
+                                    code is active or inactive. Remove the check mark to deactivate
+                                    this code.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_SufficientFundCode"/>Sufficient Funds Code<indexterm
+                significance="normal">
+                <primary>Sufficient Funds Code document</primary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; <inlinemediaobject>
+                    <alt>Chart of Accounts</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePageSAChartOfAccountsHeading.png"
+                        />
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Sufficient Funds Code</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-544.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Sufficient Funds Code Lookup</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-545.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Sufficient Funds Code</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-546.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The Sufficient Funds Code document defines the codes that indicate
+            what level the account is checked for sufficient funds in the transaction processing
+            environment. The values are pre-determined within the system. The name of the code may
+            be edited or the code may be deactivated.</para>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Sufficient Funds Code Document</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-547.jpg"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Body Text">The Sufficient Funds Code document includes the <emphasis
+                    role="bold">Edit Sufficient Funds Code</emphasis> tab. The system automatically
+                enters data into both the <emphasis role="bold">Old</emphasis> and <emphasis
+                    role="bold">New</emphasis> sections. Selected data fields are available for
+                editing.</para>
+            <para role="TableHeading"><emphasis role="bold">Edit Sufficient Funds Code tab
+                    definition</emphasis></para>
+            <informaltable frame="topbot">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Account Sufficient Funds Code </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Display-only. A unique code that indicates
+                                    what level the account is going to be checked for sufficient
+                                    funds in the transaction processing environment. The values
+                                    defined by the system are:</para>
+                                <para role="Table Cells">A = Account C = Consolidation H = Cash L =
+                                    Level N = No Checking</para>
+                                <para role="Table Cells">O = Object Code</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Account Sufficient Funds Name</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. The descriptive name for the
+                                    account sufficient funds code.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Indicates whether this sufficient funds
+                                    code is active or inactive. Remove the check mark to deactivate
+                                    this code.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+</chapter>

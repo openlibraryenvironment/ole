@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="OLEBatchJobPopup" parent="Uif-OLEFormView">
+        <property name="items">
+            <list>
+                <bean id="OLEBatchJobPopupViewPage" parent="Uif-Page">
+                    <property name="items">
+                        <list>
+                            <ref bean="OLEBatchJobPopup-listOfItems-popup"/>
+                            <ref bean="OLEBatchJobPopup-listOfItems-popupCon"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>ole/batch/css/batch.css</value>
+            </list>
+        </property>
+        <property name="formClass" value="org.kuali.ole.batch.form.OLEBatchProcessJobDetailsForm"/>
+
+    </bean>
+
+    <bean id="OLEBatchJobPopup-listOfItems-popup" parent="Uif-HorizontalBoxSection"
+          p:style="float:left;margin-left:25em;width:500px"
+          p:layoutManager.cssClasses="fl-container-flex"
+
+          p:layoutManager.style="border:2px solid;"
+          p:render="@{oleBatchProcessJobDetailsBo.batchProcessType ne 'Batch Export'}">
+        <property name="items">
+            <list>
+                <!--<bean id="statusMessageFieldSection" parent="Uif-MessageField"
+                      p:messageText="@{oleBatchProcessJobDetailsBo.statusDesc}"
+                      p:cssClasses="messageClass"/>-->
+                <bean parent="Uif-PageHeader" p:headerText="Job Report" p:style="float:left;margin-left:15em"/>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2" p:style="float:left;margin-left:3em;width:400px">
+                    <property name="items">
+                        <list>
+                            <bean id="jobIdField-popup" parent="Uif-DataField"
+                                  p:propertyName="oleBatchProcessJobDetailsBo.jobId" p:label="Job Id"/>
+                            <bean id="jobNameField-popup" parent="Uif-DataField"
+                                  p:propertyName="oleBatchProcessJobDetailsBo.jobName" p:label="Job Name"/>
+                            <bean id="batchProcessType-popup" parent="Uif-DataField"
+                                  p:propertyName="oleBatchProcessJobDetailsBo.batchProcessType"
+                                  p:label="Batch Process Type"/>
+                            <bean id="batchProfileNameField-popup" parent="Uif-DataField"
+                                  p:propertyName="oleBatchProcessJobDetailsBo.batchProfileName"
+                                  p:label="Batch Profile Name"/>
+                            <bean id="uploadFileNameField-popup" parent="Uif-DataField"
+                                  p:propertyName="oleBatchProcessJobDetailsBo.uploadFileName"
+                                  p:label="Upload FileName"/>
+                            <bean id="createTimeField-popup" parent="Uif-DataField"
+                                  p:propertyName="oleBatchProcessJobDetailsBo.createTime" p:label="Create Time"/>
+                            <bean id="batchProcessIdField-popup" parent="Uif-DataField"
+                                  p:propertyName="oleBatchProcessJobDetailsBo.batchProcessId"
+                                  p:label="Batch Process Id"/>
+                            <bean id="userNameField-popup" parent="Uif-DataField"
+                                  p:propertyName="oleBatchProcessJobDetailsBo.userName" p:label="User Name"/>
+                            <bean id="totalNoOfRecordsField-popup" parent="Uif-DataField"
+                                  p:propertyName="oleBatchProcessJobDetailsBo.totalNoOfRecords"
+                                  p:label="Total Records"/>
+                            <bean id="noOfRecordsProcessedField-popup" parent="Uif-DataField"
+                                  p:propertyName="oleBatchProcessJobDetailsBo.noOfRecordsProcessed"
+                                  p:label="Records Processed"/>
+                            <bean id="noOfSuccessRecordsField-popup" parent="Uif-DataField"
+                                  p:propertyName="oleBatchProcessJobDetailsBo.noOfSuccessRecords"
+                                  p:label="Success Records" p:render="@{!oleBatchProcessJobDetailsBo.inputCSVFormatFlag}"/>
+                            <bean id="noOfFailureRecordsField-popup" parent="Uif-DataField"
+                                  p:propertyName="oleBatchProcessJobDetailsBo.noOfFailureRecords"
+                                  p:label="Failure Records" p:render="@{!oleBatchProcessJobDetailsBo.inputCSVFormatFlag}"/>
+                            <bean id="noOfSerialSuccessRecordsField-popup" parent="Uif-DataField"
+                                  p:propertyName="oleBatchProcessJobDetailsBo.noOfSuccessRecords"
+                                  p:label="Record Success Count" p:render="@{oleBatchProcessJobDetailsBo.batchProcessType ne null and oleBatchProcessJobDetailsBo.batchProcessType eq 'Serial Record Import' and oleBatchProcessJobDetailsBo.documentFlag}"/>
+                            <bean id="noOfSerialFailureRecordsField-popup" parent="Uif-DataField"
+                                  p:propertyName="oleBatchProcessJobDetailsBo.noOfFailureRecords"
+                                  p:label="Record Failure Count" p:render="@{oleBatchProcessJobDetailsBo.batchProcessType ne null and oleBatchProcessJobDetailsBo.batchProcessType eq 'Serial Record Import' and oleBatchProcessJobDetailsBo.documentFlag}"/>
+                            <bean id="noOfHstrySuccessRecordsField-popup" parent="Uif-DataField"
+                                  p:propertyName="oleBatchProcessJobDetailsBo.hstrySucceesCount"
+                                  p:label="History Success Count" p:render="@{oleBatchProcessJobDetailsBo.batchProcessType ne null and oleBatchProcessJobDetailsBo.batchProcessType eq 'Serial Record Import' and oleBatchProcessJobDetailsBo.historyFlag}"/>
+                            <bean id="noOfHstryFailureRecordsField-popup" parent="Uif-DataField"
+                                  p:propertyName="oleBatchProcessJobDetailsBo.hstryFailureCount"
+                                  p:label="History Failure Count" p:render="@{oleBatchProcessJobDetailsBo.batchProcessType ne null and oleBatchProcessJobDetailsBo.batchProcessType eq 'Serial Record Import' and oleBatchProcessJobDetailsBo.historyFlag}"/>
+                            <bean id="noOfTypeSuccessRecordsField-popup" parent="Uif-DataField"
+                                  p:propertyName="oleBatchProcessJobDetailsBo.typeSuccessCount"
+                                  p:label="Type Success Count" p:render="@{oleBatchProcessJobDetailsBo.batchProcessType ne null and oleBatchProcessJobDetailsBo.batchProcessType eq 'Serial Record Import' and oleBatchProcessJobDetailsBo.typeFlag}"/>
+                            <bean id="noOfTypeFailureRecordsField-popup" parent="Uif-DataField"
+                                  p:propertyName="oleBatchProcessJobDetailsBo.typeFailureCount"
+                                  p:label="Type Failure Count" p:render="@{oleBatchProcessJobDetailsBo.batchProcessType ne null and oleBatchProcessJobDetailsBo.batchProcessType eq 'Serial Record Import' and oleBatchProcessJobDetailsBo.typeFlag}"/>
+                            <bean id="createBibCountField-popup" parent="Uif-DataField"
+                                  p:propertyName="oleBatchProcessJobDetailsBo.createBibCount" p:label="Number of bibs added successfully" p:render="@{oleBatchProcessJobDetailsBo.batchProcessType eq 'Order Record Import'}" />
+                            <bean id="updateBibCountField-popup" parent="Uif-DataField"
+                                  p:propertyName="oleBatchProcessJobDetailsBo.updateBibCount" p:label="Number of bibs overlaid successfully" p:render="@{oleBatchProcessJobDetailsBo.batchProcessType eq 'Order Record Import'}" />
+                            <bean id="createHoldingsCountField-popup" parent="Uif-DataField"
+                                  p:propertyName="oleBatchProcessJobDetailsBo.createHoldingsCount" p:label="Number of holdings added successfully" p:render="@{oleBatchProcessJobDetailsBo.batchProcessType eq 'Order Record Import'}" />
+                            <bean id="orderImportSuccessCountField-popup" parent="Uif-DataField"
+                                  p:propertyName="oleBatchProcessJobDetailsBo.orderImportSuccessCount" p:label="Number of orders added successfully" p:render="@{oleBatchProcessJobDetailsBo.batchProcessType eq 'Order Record Import'}" />
+                            <bean id="orderImportFailureCountField-popup" parent="Uif-DataField"
+                                  p:propertyName="oleBatchProcessJobDetailsBo.orderImportFailureCount" p:label="Number of orders import errors" p:render="@{oleBatchProcessJobDetailsBo.batchProcessType eq 'Order Record Import'}"/>
+
+                            <bean id="noOfEinstanceAdded-popup" parent="Uif-DataField"
+                                  p:propertyName="oleBatchProcessJobDetailsBo.noOfEinstanceAdded"
+                                  p:label="Einstances Added"/>
+                            <bean id="noOfEinstanceDeleted-popup" parent="Uif-DataField"
+                                  p:propertyName="oleBatchProcessJobDetailsBo.noOfEinstanceDeleted"
+                                  p:label="Instances Deleted"/>
+                            <bean id="noOfEinstanceCreatedWithOutLink-popup" parent="Uif-DataField"
+                                  p:propertyName="oleBatchProcessJobDetailsBo.noOfEinstanceCreatedWithOutLink"
+                                  p:label="EInstances Created With Out Link Element"/>
+                            <bean id="noOfbibsHaveMoreThanOneEinstance-popup" parent="Uif-DataField"
+                                  p:propertyName="oleBatchProcessJobDetailsBo.noOfbibsHaveMoreThanOneEinstance"
+                                  p:label="Bibs Created With More Than One EInstances"/>
+
+
+                            <bean id="perCompletedField-popup" parent="Uif-DataField"
+                                  p:propertyName="oleBatchProcessJobDetailsBo.perCompleted" p:label="%Completed"/>
+                            <bean id="startTimeField-popup" parent="Uif-DataField"
+                                  p:propertyName="oleBatchProcessJobDetailsBo.startTime" p:label="Start Time"/>
+                            <bean id="endTimeField-popup" parent="Uif-DataField"
+                                  p:propertyName="oleBatchProcessJobDetailsBo.endTime" p:label="End Time"/>
+                            <bean id="timeSpentField-popup" parent="Uif-DataField"
+                                  p:propertyName="oleBatchProcessJobDetailsBo.timeSpent" p:label="Time Spent"/>
+                            <bean id="statusField-popup" parent="Uif-DataField"
+                                  p:propertyName="oleBatchProcessJobDetailsBo.status" p:label="Status"/>
+                            <bean id="statusDescField-popup" parent="Uif-DataField"
+                                  p:propertyName="oleBatchProcessJobDetailsBo.statusDesc" p:label="Status Desc"/>
+                           <!-- <bean id="oleBatchPrcsScheduleIdField-popup" parent="Uif-DataField"
+                                  p:propertyName="oleBatchProcessJobDetailsBo.oleBatchPrcsScheduleId"
+                                  p:label="RunNow/Scheduled"/>-->
+                            <bean id="viewFailRecordBibImport" parent="Uif-LinkField" p:style="font-weight:bold;"
+                                  p:linkText="View Output File"
+                                  p:target="_blank" p:href="@{oleBatchProcessJobDetailsBo.bibErrorPath}"
+                                  p:label="Output File Path"
+                                  p:render="@{oleBatchProcessJobDetailsBo.failureAttachmentFlag and oleBatchProcessJobDetailsBo.batchProcessType ne null and oleBatchProcessJobDetailsBo.batchProcessType eq 'Bib Import'}"/>
+
+                            <bean id="viewFailCSVRecords" parent="Uif-LinkField" p:style="font-weight:bold;"
+                                  p:linkText="View Error File"
+                                  p:target="_blank" p:href="@{oleBatchProcessJobDetailsBo.serialCSVErrorPath}"
+                                  p:label="Error File Path"
+                                  p:render="@{oleBatchProcessJobDetailsBo.failureCSVAttachmentFlag and oleBatchProcessJobDetailsBo.batchProcessType ne null and oleBatchProcessJobDetailsBo.batchProcessType eq 'Serial Record Import'}"/>
+
+                            <bean id="viewFailRecords" parent="Uif-LinkField" p:style="font-weight:bold;"
+                                  p:linkText="DownLoad Failure Record"
+                                  p:href="oleBatchProcessJobController?&amp;methodToCall=downLoadFile&amp;jobId=@{oleBatchProcessJobDetailsBo.jobId}"
+                                  p:render="@{oleBatchProcessJobDetailsBo.failureAttachmentFlag and oleBatchProcessJobDetailsBo.batchProcessType ne null and oleBatchProcessJobDetailsBo.batchProcessType ne 'Bib Import' and oleBatchProcessJobDetailsBo.batchProcessType ne 'Order Record Import'}"/>
+
+                            <bean id="downloadErrorAttachmentFile" parent="Uif-LinkField" p:style="font-weight:bold;"
+                                  p:linkText="Download Failure Reason"
+                                  p:href="oleBatchProcessJobController?&amp;methodToCall=downLoadErrorAttachmentFile&amp;jobId=@{oleBatchProcessJobDetailsBo.jobId}"
+                                  p:label="Reason For Failure"
+                                  p:render="@{oleBatchProcessJobDetailsBo.errorAttachmentFlag and oleBatchProcessJobDetailsBo.batchProcessType ne null and (oleBatchProcessJobDetailsBo.batchProcessType eq 'Bib Import' or oleBatchProcessJobDetailsBo.batchProcessType eq 'Order Record Import' or oleBatchProcessJobDetailsBo.batchProcessType eq 'Invoice Import')}"/>
+
+                            <bean id="viewBatchDeleteReport" parent="Uif-LinkField"
+                                  p:style="font-weight:bold;" p:linkText="View Batch Delete Report"
+                                  p:target="_blank" p:href="@{oleBatchProcessJobDetailsBo.batchDeletePath}"
+                                  p:render="@{(oleBatchProcessJobDetailsBo.noOfRecordsProcessed ne '0' and oleBatchProcessJobDetailsBo.noOfRecordsProcessed ne null) and (oleBatchProcessJobDetailsBo.totalNoOfRecords ne '0' and oleBatchProcessJobDetailsBo.totalNoOfRecords ne null) and oleBatchProcessJobDetailsBo.batchProcessType eq 'Batch Delete'}"/>
+
+                        </list>
+                    </property>
+                </bean>
+
+                   </list>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchJobPopup-listOfItems-popupCon" parent="Uif-HorizontalBoxSection"
+          p:style="float:left;margin-left:25em;width:500px"
+          p:layoutManager.cssClasses="fl-container-flex"
+          p:layoutManager.style="border:2px solid;"
+          p:render="@{oleBatchProcessJobDetailsBo.batchProcessType eq 'Batch Export'}">
+        <property name="items">
+            <list>
+                <bean parent="Uif-PageHeader" p:headerText="Job Report" p:style="float:left;margin-left:15em"/>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2" p:style="float:left;margin-left:3em;width:400px">
+                    <property name="headerText" value="Job Report"/>
+                    <property name="items">
+                        <list>
+                            <ref bean="jobIdField-popup"/>
+                            <ref bean="jobNameField-popup"/>
+                            <ref bean="batchProcessType-popup"/>
+                            <ref bean="batchProfileNameField-popup"/>
+                            <bean id="exportPath-popup" parent="Uif-LinkField"
+                                  p:style="font-weight:bold;" p:linkText="View Export File"
+                                  p:target="_blank" p:href="@{oleBatchProcessJobDetailsBo.uploadFileName}"
+                                  p:label="Export Path"
+                                  p:render="@{(oleBatchProcessJobDetailsBo.noOfRecordsProcessed ne '0' and oleBatchProcessJobDetailsBo.noOfRecordsProcessed ne null) and (oleBatchProcessJobDetailsBo.totalNoOfRecords ne '0' and oleBatchProcessJobDetailsBo.totalNoOfRecords ne null)}"/>
+                            <ref bean="createTimeField-popup"/>
+                            <ref bean="batchProcessIdField-popup"/>
+                            <ref bean="userNameField-popup"/>
+                            <ref bean="totalNoOfRecordsField-popup"/>
+                            <ref bean="noOfRecordsProcessedField-popup"/>
+                            <ref bean="noOfSuccessRecordsField-popup"/>
+                            <ref bean="noOfFailureRecordsField-popup"/>
+                            <ref bean="createBibCountField-popup"/>
+                            <ref bean="updateBibCountField-popup"/>
+                            <ref bean="createHoldingsCountField-popup"/>
+                            <ref bean="orderImportSuccessCountField-popup"/>
+                            <ref bean="orderImportFailureCountField-popup"/>
+                            <ref bean="perCompletedField-popup"/>
+                            <ref bean="startTimeField-popup"/>
+                            <ref bean="endTimeField-popup"/>
+                            <ref bean="timeSpentField-popup"/>
+                            <ref bean="statusField-popup"/>
+                            <ref bean="statusDescField-popup"/>
+                            <!--<ref bean="oleBatchPrcsScheduleIdField-popup"/>-->
+                            <ref bean="viewFailRecords"/>
+                            <ref bean="downloadErrorAttachmentFile"/>
+                            <bean id="downloadDeletedBibIdsFile" parent="Uif-LinkField" p:style="font-weight:bold;"
+                                  p:linkText="Download Deleted Bib Ids File"
+                                  p:href="oleBatchProcessJobController?&amp;methodToCall=downLoadFile&amp;jobId=@{oleBatchProcessJobDetailsBo.jobId}"
+                                  p:label="Deleted Records"
+                                  p:render="@{oleBatchProcessJobDetailsBo.bibsDeletedForExportFlag}"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+
+        </property>
+
+    </bean>
+
+</beans>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<browseParams>
+    <pageSize>0</pageSize>
+    <searchConditions>
+        <searchCondition>
+            <operator>OR</operator>
+            <searchField>
+                <docType>item</docType>
+                <fieldName>CallNumber_search</fieldName>
+                <fieldValue>1234</fieldValue>
+            </searchField>
+            <searchScope>OR</searchScope>
+        </searchCondition>
+    </searchConditions>
+    <searchResultFields>
+        <searchResultField>
+            <docType>item</docType>
+            <fieldName>ITEMIDENTIFIER</fieldName>
+        </searchResultField>
+        <searchResultField>
+            <docType>item</docType>
+            <fieldName>CALLNUMBER</fieldName>
+        </searchResultField>
+    </searchResultFields>
+    <sortConditions/>
+    <startIndex>0</startIndex>
+    <totalCount>1</totalCount>
+</browseParams>

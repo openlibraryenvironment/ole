@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="OLEEResourceRecordView-E-ResourceAdminDataTab" parent="E-Res-Uif-DocumentPage">
+        <property name="headerText" value="Admin Data"/>
+        <property name="items">
+            <list>
+                <ref bean="OLEEResourceRecordView-Overview"/>
+                <ref bean="OLEEResourceRecordView-PlatformDetails"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordView-PlatformDetails" parent="Uif-Disclosure-HorizontalBoxSection">
+        <property name="headerText" value="Platform Details"/>
+        <property name="items">
+            <list>
+                <bean id="PlatformDetails" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="6" p:layoutManager.cssClasses="fl-container-flex"
+                      p:style="width:1210px">
+                    <property name="collectionObjectClass" value="org.kuali.ole.select.bo.OLEPlatformAdminUrl"/>
+                    <property name="propertyName" value="olePlatformAdminUrlList" />
+                    <property name="layoutManager.renderSequenceField" value="false"/>
+                    <property name="layoutManager.richTable.render" value="false"/>
+                    <property name="layoutManager.richTable.disableTableSort" value="false" />
+                    <property name="renderLineActions" value="false"/>
+                    <property name="layoutManager.generateAutoSequence" value="false"/>
+                    <property name="renderAddLine" value="false"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-LinkField" p:label="Name"
+                                  p:linkText="@{#line.olePlatformRecordDocument.name}" p:target="_blank"
+                                  p:href="@{#ConfigProperties['ole.platform.url']}platformRecordController?viewId=OLEPlatformRecordView&amp;methodToCall=docHandler&amp;docId=@{#line.olePlatformRecordDocument.documentNumber}&amp;command=displayDocSearchView"
+                                  p:render="@{#line.olePlatformRecordDocument ne null}"/>
+                            <bean parent="Uif-DataField" p:label="Name" p:render="@{#line.olePlatformRecordDocument eq null}"/>
+                            <bean parent="Uif-DataField" p:label="Admin URL" p:propertyName="url"/>
+                            <bean parent="Uif-DataField" p:label="URL Type"
+                                  p:propertyName="olePlatformAdminUrlType.platformAdminUrlTypeName"
+                                  p:render="@{#line.olePlatformAdminUrlType ne null}" />
+                            <bean parent="Uif-DataField" p:label="URL Type" p:propertyName="typeId" p:render="@{#line.olePlatformAdminUrlType eq null}"/>
+                            <bean parent="Uif-DataField" p:propertyName="userName" p:label="Username"/>
+                            <bean parent="Uif-DataField" p:propertyName="password" p:label="Password" />
+                            <bean parent="Uif-DataField" p:propertyName="note" p:label="Note" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+</beans>

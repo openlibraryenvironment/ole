@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+  <bean id="OleLocationLevel" parent="OleLocationLevel-parentBean"/>
+
+  <bean id="OleLocationLevel-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.ole.describe.bo.OleLocationLevel"/>
+    <property name="titleAttribute" value="levelId"/>
+    <property name="objectLabel" value="Ole Location Level"/>
+
+    <property name="attributes">
+      <list>
+        <ref bean="OleLocationLevel-levelId"/>
+        <ref bean="OleLocationLevel-levelCode"/>
+        <ref bean="OleLocationLevel-levelName"/>
+        <ref bean="OleLocationLevel-parentLevelId"/>
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+  <bean id="OleLocationLevel-levelId" parent="OleLocationLevel-levelId-parentBean"/>
+
+  <bean id="OleLocationLevel-levelId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="Level Id"/>
+    <property name="maxLength" value="40"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="controlField">
+       <bean parent="Uif-HiddenControl"/>
+    </property>
+    <property name="name" value="levelId"/>
+    <property name="label" value="Level Id"/>
+    <property name="description" value="Level Id"/>
+  </bean>
+
+
+  <bean id="OleLocationLevel-levelCode" parent="OleLocationLevel-levelCode-parentBean"/>
+
+  <bean id="OleLocationLevel-levelCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="Level Code"/>
+    <property name="maxLength" value="40"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="required" value="true"/>
+    <property name="controlField">
+        <bean parent="Uif-TextControl" p:size="30"/>
+    </property>
+    <property name="name" value="levelCode"/>
+    <property name="label" value="Level Code"/>
+    <property name="description" value="Level Code"/>
+  </bean>
+
+
+
+  <bean id="OleLocationLevel-levelName" parent="OleLocationLevel-levelName-parentBean"/>
+
+  <bean id="OleLocationLevel-levelName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="Level Name"/>
+    <property name="maxLength" value="100"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="30"/>
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-TextControl" p:size="30"/>
+    </property>
+    <property name="name" value="levelName"/>
+    <property name="label" value="Level Name"/>
+    <property name="description" value="Level Name"/>
+  </bean>
+
+
+   <bean id="OleLocationLevel-parentLevelId" parent="OleLocationLevel-parentLevelId-parentBean"/>
+
+  <bean id="OleLocationLevel-parentLevelId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="Parent Level Id"/>
+    <property name="maxLength" value="40"/>
+
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="required" value="false"/>
+    <property name="control">
+ <bean parent="TextControlDefinition" p:size="30"/>
+
+    </property>
+    <property name="controlField">
+      <bean parent="Uif-TextControl" p:size="30"/>
+    </property>
+    <property name="name" value="parentLevelId"/>
+    <property name="label" value="Parent Level Id"/>
+    <property name="description" value="Parent Level Id"/>
+
+  </bean>
+
+
+<!-- Business Object Inquiry Definition -->
+    <bean id="OleLocationLevel-InquiryView" parent="Uif-OLEInquiryView">
+        <property name="headerText" value="Location Level Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.describe.bo.OleLocationLevel" />
+        <property name="singlePageView" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-VerticalBoxSection">
+                    <property name="header.headerText" value="Patron" />
+                    <property name="items">
+                        <list>
+                            <ref bean="OleLocationLevel-InquiryView-OverviewSection"/>
+                        </list>
+                    </property>
+                    <property name="headerText" value="Location Level Attributes"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OleLocationLevel-InquiryView-OverviewSection" parent="Uif-GridGroup">
+        <property name="headerText" value="Overview" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2">
+                    <property name="items">
+                        <list>
+                            <bean id="inquiry_levelId" parent="Uif-InputField" p:propertyName="levelId"/>
+                            <bean id="inquiry_levelCode" parent="Uif-InputField" p:propertyName="levelCode"/>
+                            <bean id="inquiry_levelName" parent="Uif-InputField" p:propertyName="levelName" />
+                            <bean id="inquiry_parentLevelId" parent="Uif-InputField" p:propertyName="parentLevelId" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+
+    <bean id="OleLocationLevel-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="Location Level Lookup" />
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="${ole.externalizable.help.url}/reference/webhelp/CIRC/content/ch04s11.html"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="dataObjectClassName" value="org.kuali.ole.describe.bo.OleLocationLevel" />
+        <property name="criteriaFields">
+            <list>
+                <bean id="levelId" parent="Uif-LookupCriteriaInputField" p:propertyName="levelId" />
+                <bean id="levelCode" parent="Uif-LookupCriteriaInputField" p:propertyName="levelCode" />
+                <bean id="levelName" parent="Uif-LookupCriteriaInputField" p:propertyName="levelName" />
+                <!--<bean parent="Uif-LookupCriteriaInputField" p:propertyName="parentLevelId"/>-->
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean id="searchResult_levelId" parent="Uif-DataField" p:propertyName="levelId" />
+                <bean id="searchResult_levelCode" parent="Uif-DataField" p:propertyName="levelCode" />
+                <bean id="searchResult_levelName" parent="Uif-DataField" p:propertyName="levelName" />
+                <bean id="searchResult_parentLevelId" parent="Uif-DataField" p:propertyName="parentLevelId" />
+            </list>
+        </property>
+    </bean>
+</beans>

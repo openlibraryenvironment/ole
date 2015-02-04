@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"
+    version="5.0" xml:lang="en-US">
+    <title><anchor xml:id="LicensingOverview"/>Licensing Overview<indexterm significance="normal">
+            <primary>Overview</primary>
+        </indexterm></title>
+    <para role="Body Text">The Licensing process in OLE includes a back and forth negotiating
+        process between the licensing institution and the electronic resource vendor to set the
+        final terms of the license contract. This is intended to be completed whenever appropriate
+        during the electronic resource acquisition process. OLE will store notes, data and attached
+        documents from this licensing period in an electronic document, or e-doc, called a License
+        Request. </para>
+    <para role="Body Text">Licensing workflows are a variable part of the electronic acquisitions
+        process. Some resources do not require a license at all and can be used within the
+        guidelines of copyright law, while others require extensive negotiation of business and
+        licensing terms. In general, the licensing process consists of:</para>
+    <itemizedlist mark="disc" spacing="normal">
+        <listitem>
+            <para role="List Paragraph">Requesting a standard license from a publisher for a
+                resource</para>
+        </listitem>
+        <listitem>
+            <para role="List Paragraph">Assigning the license to a “shepherd” or license
+                owner</para>
+        </listitem>
+        <listitem>
+            <para role="List Paragraph">Comparing the license with standard requirements established
+                by the institution and/or library</para>
+        </listitem>
+        <listitem>
+            <para role="List Paragraph">Back and forth negotiation with the publisher / library
+                administration to modify license language if necessary.</para>
+        </listitem>
+        <listitem>
+            <para role="List Paragraph">If approval, final signatures from both parties.</para>
+        </listitem>
+        <listitem>
+            <para role="List Paragraph">Storing final license document (generally a PDF) in
+                OLE.</para>
+        </listitem>
+        <listitem>
+            <para role="List Paragraph">Coding machine-readable interpretation of license terms in
+                OLE via a license editor (will be stored as ONIX-PL in the Doctor). Note that this
+                final step is planned for a future release.</para>
+        </listitem>
+    </itemizedlist>
+    <para role="Body Text">The documents and workflows in the Licensing sub-module will allow
+        authorized users to gather information on available terms, store reference materials from
+        providers, track and record external communications or “events,” and trace internal reviews,
+        approvals, and signatures/signed agreements.</para>
+    <note>
+        <para> In order to work efficiently in the system’s Licensing screens, you need to
+            understand the basics of the user interface. For information and instructions on logging
+            on and off, navigating, understanding the components of screens, and performing basic
+            operations in the screens, see the <link xlink:href="../../../webhelp/BASICS/content/pr01.html">OLE Basic
+                Functionality and Key Concepts.</link></para>
+    </note>
+    <para role="Body Text"/>
+    <section>
+        <title>Licensing e-documents</title>
+        <para role="Normal">OLE Licensing utilizes e-documents and XML documents to store
+            information about the Licensing process and all internal and external negotiations and
+            communications. Initial OLE licensing will utilize:</para>
+        <para role="Normal"/>
+        <itemizedlist mark="disc" spacing="normal">
+            <listitem>
+                <para role="List Paragraph">E-Resource Record to <link
+                        linkend="_Initiate_License_Workflow">initiate licensing workflows</link> by
+                    auto-creating the License Request when requested.</para>
+            </listitem>
+            <listitem>
+                <para role="List Paragraph"><link linkend="_License_Request">License Request</link>
+                    e-doc captures critical information and communication that takes place during
+                    vendor negotiations. It is used to create an institutional workflow for the
+                    license negotiation process.</para>
+                <itemizedlist mark="disc" spacing="normal">
+                    <listitem>
+                        <para role="List Paragraph"><link linkend="_Agreement_Documents_Tab"
+                                >Agreement Documents</link> (title lists, sample contracts, signed
+                            license, etc.) are external files that can be attached to License
+                            Requests </para>
+                    </listitem>
+                </itemizedlist>
+            </listitem>
+            <listitem>
+                <para role="List Paragraph">ONIX-PL <link linkend="_Agreement">Agreement</link> is
+                    used to record the interpreted terms of the license in a machine-readable
+                    format. Note that the Agreement is not available in the interface in 1.5, but
+                    the underlying infrastructure to import and store these documents has been
+                    created.</para>
+            </listitem>
+            <listitem>
+                <para role="List Paragraph">Maintenance Documents &amp; Code Lists</para>
+            </listitem>
+        </itemizedlist>
+        <para role="Normal">A License Request might be initiated for acquisitions of new titles,
+            renewals of existing titles, or making changes to previous Agreements (amendments). OLE
+            1.5 provides for a License Request generated from an E-Resource Record as part of the
+            acquisitions process. Future releases may address licensing for Addendums, Renewals, and
+            Trials in more detail.</para>
+    </section>
+</chapter>

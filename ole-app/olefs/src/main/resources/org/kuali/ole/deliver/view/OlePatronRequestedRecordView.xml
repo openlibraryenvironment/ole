@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="OlePatronRequestedRecordView" parent="OlePatronRequestedRecordView-parentBean" />
+    <bean id="OlePatronRequestedRecordView-parentBean" parent="Uif-OLEFormView">
+        <property name="headerText" value="Patron Record Import"/>
+        <property name="items">
+            <list>
+                <bean id="OlePatronRequestedRecordPage" parent="Uif-Page">
+                    <property name="headerText" value="Patron details"/>
+                    <property name="items">
+                        <list>
+                            <ref bean="OlePatronRequestedRecordSection"/>
+                        </list>
+                    </property>
+                </bean>
+
+            </list>
+        </property>
+        <property name="footer">
+            <ref bean="OlePatronRequestedRecordView-HorizontalBoxSection-button" />
+        </property>
+        <property name="formClass" value="org.kuali.ole.deliver.form.OlePatronRequestedRecordsForm"/>
+    </bean>
+
+
+    <bean id="OlePatronRequestedRecordSection" parent="Uif-VerticalBoxSection" p:render="true">
+        <property name="items">
+            <list>
+                <ref bean="OlePatronRequestedRecordView-OverViewSection"/>
+                <ref bean="OlePatronRequestedRecordView-OlePatronRequestedRecordsSection"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="OlePatronRequestedRecordView-OverViewSection" parent="Uif-VerticalBoxSection" >
+        <property name="headerText" value="Patron "/>
+        <property name="items">
+            <list>
+                <bean id="patronRequestedSection" parent="Uif-HorizontalFieldGroup" >
+                    <property name="items">
+                        <list>
+                            <bean id="viewRequest_patronId" parent="Uif-DataField" p:propertyName="olePatronDocument.olePatronId" p:label="Patron Id" />
+                            <bean id="viewRequest_barcode" parent="Uif-DataField" p:propertyName="olePatronDocument.barcode" p:label="Barcode" />
+                            <bean id="viewRequest_patronName" parent="Uif-DataField" p:propertyName="patronName" p:label="Name" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OlePatronRequestedRecordView-OlePatronRequestedRecordsSection" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="12">
+        <property name="headerText" value="Requested Items" />
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleDeliverRequestBo"/>
+        <property name="propertyName" value="requestBos"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <!--<property name="collectionLookup.render" value="false"/>-->
+        <!--<property name="addLineLabel" value="false"/>-->
+        <property name="layoutManager.richTable.disableTableSort" value="false" />
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="bPaginate" value="false"/>
+                <entry key="bFilter" value="false"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="viewRequest_itemId" parent="Uif-DataField" p:label="Item Barcode" p:propertyName="itemId"/>
+                <bean id="viewRequest_requestId" parent="Uif-DataField" p:label="Request Id" p:propertyName="requestId" />
+                <bean id="viewRequest_requestType" parent="Uif-DataField" p:label="Request Type" p:propertyName="oleDeliverRequestType.requestTypeCode" />
+                <bean id="viewRequest_borrowerQueuePosition" parent="Uif-DataField" p:label="Borrower Queue Position" p:propertyName="borrowerQueuePosition"/>
+                <bean id="viewRequest_itemTitle" parent="Uif-DataField" p:label="Title" p:propertyName="oleItemSearch.title" />
+                <bean id="viewRequest_author" parent="Uif-DataField" p:label="Author" p:propertyName="oleItemSearch.author" />
+                <bean id="viewRequest_copyNumber" parent="Uif-DataField" p:label="Copy Number" p:propertyName="oleItemSearch.copyNumber" />
+                <bean id="viewRequest_shelvingLocation" parent="Uif-DataField" p:label="Shelving Location" p:propertyName="oleItemSearch.shelvingLocation" />
+                <bean id="viewRequest_callNumber" parent="Uif-DataField" p:label="Call Number" p:propertyName="oleItemSearch.callNumber" />
+                <bean id="viewRequest_volumeNumber" parent="Uif-DataField" p:label="Volume Number" p:propertyName="oleItemSearch.volumeNumber" />
+                <bean id="viewRequest_itemType" parent="Uif-DataField" p:label="Item Type" p:propertyName="oleItemSearch.itemType" />
+                <bean id="viewRequest_itemStatus" parent="Uif-DataField" p:label="Item Status" p:propertyName="oleItemSearch.itemStatus" />
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+    <bean id="OlePatronRequestedRecordView-HorizontalBoxSection-button" parent="Uif-HorizontalBoxSection" >
+        <property name="items">
+            <list>
+                <bean id="close" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:15em" p:onClickScript="parent.window.close();"  p:actionLabel="Close"  />
+            </list>
+        </property>
+    </bean>
+</beans>

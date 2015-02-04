@@ -1,0 +1,31 @@
+VNDR_CNTCT_GNRTD_ID,OBJ_ID,VER_NBR,VNDR_HDR_GNRTD_ID,VNDR_DTL_ASND_ID,VNDR_CNTCT_TYP_CD,VNDR_CNTCT_NM,VNDR_CNTCT_EMAIL_ADDR,VNDR_CNTCT_CMNT_TXT,VNDR_LN1_ADDR,VNDR_LN2_ADDR,VNDR_CTY_NM,VNDR_ST_CD,VNDR_ZIP_CD,VNDR_CNTRY_CD,VNDR_ATTN_NM,VNDR_ADDR_INTL_PROV_NM,DOBJ_MAINT_CD_ACTV_IND,VNDR_ACCOUNT_NBR,VNDR_FIN_COA_CD
+1000,B4D4FDDE-99A1-ED2E-26C6-EB479F997ADC,5,1000,0,AR,Kelly Adams,null,Make sure you have a customer number,PO BOX 14456,null,TRUMANSBURG,NY,14886,US,ACCOUNTS RECEIVABLE DEPARTMENT,null,Y,null,null
+1001,A0497352-7990-D1CE-A639-E85CA9724D06,2,1001,0,IS,William Bowen,null,null,null,null,null,null,null,null,null,null,Y,null,null
+1002,B955E6A4-C3B8-4DB3-F1F7-FE4B180FC371,3,1002,0,CS,James Caan,null,null,null,null,null,null,null,null,null,null,Y,null,null
+1003,02C1600A-2042-18B3-91EE-10FC7EFE90F0,2,1010,0,SR,Sam Smith,null,Knows his subject matter well.,null,null,null,null,null,null,null,null,Y,null,null
+1004,00463961-9283-9AEC-F881-DE6B48678423,2,1011,0,AR,Sami Brady,null,null,8800 S. STREET,null,SALEM,MA,99844,US,null,null,Y,null,null
+1005,080D5DB2-D502-2493-559A-449E9369060C,2,1011,0,CS,Anyone who answers,null,null,null,null,null,null,null,null,null,null,Y,null,null
+1006,BD89037F-32B2-D48B-1350-0834BAF52163,2,1014,0,TS,James,null,null,null,null,null,null,null,null,null,null,Y,null,null
+1007,406378FC-FDB8-F9A7-EB85-B7DA091FD175,2,1014,0,AR,Sam,null,null,null,null,null,null,null,null,null,null,Y,null,null
+1008,9F22BDF6-633D-AA58-5FB8-7F95F82CE0D6,2,1015,0,CS,Joe Bond,null,null,null,null,null,null,null,null,null,null,Y,null,null
+1009,9ADDCDBD-ED26-B372-2D0B-7F82548503ED,1,1014,3,AR,James,null,null,null,null,null,null,null,null,null,null,Y,null,null
+1010,0929092C-F27E-0DB9-1988-3052D4132323,3,1016,0,AR,Anne Lee,null,null,null,null,null,null,null,null,null,null,Y,null,null
+1011,48B11CD0-3F1D-0E13-5F7A-82BDCE8D17BE,2,1017,0,AR,AR Contact,null,null,null,null,null,null,null,CA,null,null,Y,null,null
+1012,82E7EC7B-097B-B9C6-BF04-DFDB40F8F260,2,1017,0,CS,Marcia Helpful,null,null,null,null,null,null,null,null,null,null,Y,null,null
+1013,444833CE-A9BF-2D2D-0DAF-DA20B79DE6B2,2,1018,0,SE,Repair Shop,null,null,null,null,null,null,null,null,null,null,Y,null,null
+1014,C445B1C2-97F0-E6CC-C1C9-0511A6C96319,2,1018,0,AR,Susie Collector,null,null,null,null,null,null,null,null,null,null,Y,null,null
+1015,776FE4D9-7ADE-6C29-39AA-3984F884D370,2,1019,0,AR,Paul Collector,null,null,null,null,null,null,null,null,null,null,Y,null,null
+1016,63DBB55A-61A1-E86A-DBAF-124227CFFEA9,2,1020,0,CS,EASTMAN kODAK,null,null,123 MAIN ST,null,ROCHESTER,NY,14650,US,HARRY BROWN,null,Y,null,null
+1017,07C32BF4-4321-9F9C-354C-6A9AC289E412,2,1021,0,PT,ORDER CONTACT,null,null,999 WASHBURN ST,null,DOVER,DE,3280,US,null,null,Y,null,null
+2003,93B9DE36-9DE2-1C17-5ED5-A6EC484683EA,6,2003,0,AR,Mike,null,This is where we send the money.,158 NAILSBERG,ATTN: MIKE,CONSTRUCTION,MI,48727,US,MIKE,null,Y,null,null
+2004,18405909-003C-373C-89C3-E523F83D9173,6,2003,0,PT,Pete,null,Parts are us,456 PICK RD,SUITE 500,AKRON,OH,41522-5688,US,PETE,null,Y,null,null
+2007,C9AD005D-BB61-000A-B096-961242EB8085,3,2005,0,CS,Ted Jones,null,hrs 8-5 EST M-F,1212 STATE STREET,null,BRAZIL,IN,47834,US,MR. JONES,null,Y,null,null
+2008,6C86B7AE-3112-9C7D-425A-FC7C348E6B3C,6,2013,0,IS,Ken Lukowski,null,null,5226 STATE STREET,null,SAGINAW,MI,48603,US,null,null,Y,null,null
+2016,AB8FD75B-8B5E-ECDF-B42C-64AB3CA1F130,2,2021,0,CS,Sipper Joe,null,Service is great here,859 BLACK LANE,SUITE 4,PARIS,IL,60606,US,HOT JOE,null,Y,null,null
+2017,F5136647-DFE8-1732-DB21-2FB10FA3B044,3,2023,0,IS,Terry Greiner,AC@www.com,null,5617 ENTREPRISE DRIVE,null,LANSING,MI,48911-4194,US,TERRY,null,Y,null,null
+2018,CE4B3460-D712-F4B8-8DA1-E16C58198271,6,2025,0,TS,Sergey Ustov,null,null,null,null,null,null,null,null,null,null,Y,null,null
+12005,9E139A07A8DC5632E040DC0A70FD77CB,1,12106,0,AR,John,null,null,null,null,null,null,null,null,null,null,Y,null,null
+12006,E8468F08-D7D5-3ECC-6C20-0E0ACC4ABEE9,1,12111,0,CS,Justin Clarke,JClarke@ottosvc.com,null,null,null,null,null,null,null,null,null,Y,null,null
+12007,C21488F5-D521-BCE2-02F3-AF33329FF173,1,12106,0,CS,Jen Legier,jlegier@ybp.com,Per email 8/9/07 Jen Legier is our new account rep,null,null,null,null,null,null,null,null,Y,null,null
+12008,4B6DDABF-217B-9DAE-D0CC-C9C2091AB8E0,1,12106,0,SE,Joan Blanchard,jblanchard@ybp.com,As of 11/21/2003  Joan Blanchard is service rep for serials orders. SA020 11/24/2003,null,null,null,null,null,null,null,null,Y,null,null
+12009,838719A6-F475-C3AB-A3AC-AFA1907B825F,1,12106,0,SE,Julie Marston,null,SERVICE REPRESENTATIVE FOR SERIALS ORDERS SHE IS AT LOCATION 2 OF THE ADDRESSES BELOW (OR008 9/23/03),null,null,null,null,null,null,null,null,N,null,null

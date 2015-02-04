@@ -1,0 +1,1066 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<locationGroup xmlns="http://ole.kuali.org/standards/ole-location">
+    <location>
+        <locationCode>AANet</locationCode>
+        <locationName>Internet</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode>UC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>ASR</locationCode>
+        <locationName>Mansueto Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode>UC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>Eck</locationCode>
+        <locationName>Eckhart</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode>UC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>SPCL</locationCode>
+        <locationName>Special Collections</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode>UC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>SSAd</locationCode>
+        <locationName>Social Service Administration</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode>UC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>UCX</locationCode>
+        <locationName>Univerity of Chicago</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode>UC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>ITS</locationCode>
+        <locationName>IT Services at Regenstein</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode>UC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>ITSAVS</locationCode>
+        <locationName>AV Services, Stuart Hall</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode>UC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LMC</locationCode>
+        <locationName>Logan Media Center Cage</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode>UC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>MCS</locationCode>
+        <locationName>MCS</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode>UC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>Intrnet</locationCode>
+        <locationName>Online</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>AANet</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>ASRHP</locationCode>
+        <locationName>Headphones: Ask at Mansueto Circulation</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>ASR</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>GameASR</locationCode>
+        <locationName>Mansueto, Games</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>ASR</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>HarpASR</locationCode>
+        <locationName>Mansueto</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>ASR</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>JRLASR</locationCode>
+        <locationName>Mansueto</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>ASR</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LawSupr</locationCode>
+        <locationName>Mansueto</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>ASR</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>RRADiss</locationCode>
+        <locationName>Mansueto</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>ASR</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>SciASR</locationCode>
+        <locationName>Mansueto</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>ASR</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LawA</locationCode>
+        <locationName>D&apos;Angelo Law, Alumni Collection: Request from Storage</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>DLL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LawAcq</locationCode>
+        <locationName>D&apos;Angelo Law, Acquisitions Department: Ask at Law
+            Circulation</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>DLL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LawAid</locationCode>
+        <locationName>D&apos;Angelo Law, Legal Aid Clinic</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>DLL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LawAnxN</locationCode>
+        <locationName>D&apos;Angelo Law, North Annex: Request from Storage</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>DLL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LawAnxS</locationCode>
+        <locationName>D&apos;Angelo Law, South Annex: Request from Storage</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>DLL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LawASR</locationCode>
+        <locationName>Mansueto</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>ASR</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LawC</locationCode>
+        <locationName>D&apos;Angelo Law, Chicago Collection: Request from Storage</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>DLL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LawCat</locationCode>
+        <locationName>D&apos;Angelo Law, Cataloging Department: Ask at Law
+            Circulation</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>DLL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LawCity</locationCode>
+        <locationName>D&apos;Angelo Law, City Collection</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>DLL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LawCS</locationCode>
+        <locationName>D&apos;Angelo Law, Career Services</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>DLL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LawFul</locationCode>
+        <locationName>D&apos;Angelo Law, Fulton Room</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>DLL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LawMic</locationCode>
+        <locationName>D&apos;Angelo Law, Microforms, Request from Storage</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>DLL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LawMicG</locationCode>
+        <locationName>Regenstein, 3rd Floor Law Microforms</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>DLL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LawRar</locationCode>
+        <locationName>D&apos;Angelo Law, Rare Book Room: Request from Storage</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>DLL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LawRef</locationCode>
+        <locationName>D&apos;Angelo Law, Reference</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>DLL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LawResC</locationCode>
+        <locationName>D&apos;Angelo Law Reserve Room</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>DLL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LawResP</locationCode>
+        <locationName>D&apos;Angelo Law Reserve Room</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>DLL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LawRR</locationCode>
+        <locationName>D&apos;Angelo Law, Reading Room</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>DLL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LawShp</locationCode>
+        <locationName>D&apos;Angelo Law, Sharp Collection</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>DLL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LawStor</locationCode>
+        <locationName>D&apos;Angelo Law, Storage: Request from Storage</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>DLL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>ResupD</locationCode>
+        <locationName>D&apos;Angelo Law, Course Reserve</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>DLL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>EckX</locationCode>
+        <locationName>Eckhart</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>Eck</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>EckLg</locationCode>
+        <locationName>Eckhart, Oversize</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>Eck</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>EckOffc</locationCode>
+        <locationName>Eckhart, Office: Ask at Circulation</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>Eck</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>EckPer</locationCode>
+        <locationName>Eckhart</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>Eck</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>EckRef</locationCode>
+        <locationName>Eckhart, Reference</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>Eck</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>EckRes</locationCode>
+        <locationName>Eckhart, Reserve</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>Eck</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>EMedia</locationCode>
+        <locationName>Eckhart, Multimedia: Ask at Circulation</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>Eck</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>ERes</locationCode>
+        <locationName>On electronic reserve</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>Eck</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>ResupE</locationCode>
+        <locationName>Needed for Reserve Next Quarter; Ask at Eckhart Circulation
+            Desk</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>Eck</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>ITSadap</locationCode>
+        <locationName>Regenstein, 1st Floor, IT Services TECHB@R</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>ITS</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>ITScaco</locationCode>
+        <locationName>Regenstein, 1st Floor, IT Services TECHB@R</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>ITS</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>ITSipad</locationCode>
+        <locationName>Regenstein, 1st Floor, IT Services TECHB@R</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>ITS</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>ITSlap</locationCode>
+        <locationName>Regenstein, 1st Floor, IT Services TECHB@R</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>ITS</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>AVSasis</locationCode>
+        <locationName>Stuart Hall Room 004</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>ITSAVS</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>AVSmic</locationCode>
+        <locationName>Stuart Hall Room 004</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>ITSAVS</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>AVSport</locationCode>
+        <locationName>Stuart Hall Room 004</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>ITSAVS</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>AVSproj</locationCode>
+        <locationName>Stuart Hall Room 004</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>ITSAVS</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>AVSscre</locationCode>
+        <locationName>Stuart Hall Room 004</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>ITSAVS</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PerBio</locationCode>
+        <locationName>Crerar, 1st Floor Biomedical Journals</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PerPhy</locationCode>
+        <locationName>Crerar, 1st Floor Physical Science Journals</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>ResupC</locationCode>
+        <locationName>Needed for Reserve Next Quarter; Ask at Crerar Circulation Desk</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>SciMic</locationCode>
+        <locationName>Crerar, Microforms</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>SciRef</locationCode>
+        <locationName>Crerar, 1st Floor Reference Collection</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>SciRes</locationCode>
+        <locationName>Crerar, 1st Floor Reserve Desk</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>SciTecP</locationCode>
+        <locationName>Crerar, Processing: Ask at Reference</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>SDDCLg</locationCode>
+        <locationName>Crerar, Oversize: Ask at 1st Floor Circulation</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>SFilm</locationCode>
+        <locationName>Crerar, 1st Floor Film/DVD Collection: Take Container to Circulation for
+            Checkout</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>SMedia</locationCode>
+        <locationName>Crerar, 1st Floor Digital Media</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>SMicDDC</locationCode>
+        <locationName>Crerar, Microforms</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>SRefPer</locationCode>
+        <locationName>Crerar, 1st Floor Reference Collection</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>A</locationCode>
+        <locationName>Regenstein, A Level Staging Collection</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JRL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>Acq</locationCode>
+        <locationName>Regenstein, Acquisitions Department: Ask at 1st Floor Reference
+            Desk</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JRL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>Art420</locationCode>
+        <locationName>Regenstein, Room 420, Course Shelves</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JRL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>ArtResA</locationCode>
+        <locationName>Regenstein, Room 420, East Asian Art Collection</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JRL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>ArtResC</locationCode>
+        <locationName>Regenstein, A Level Staging Collection</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JRL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>Cat</locationCode>
+        <locationName>Regenstein, Cataloging Department: Ask at 1st Floor Reference
+            Desk</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JRL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>CircPer</locationCode>
+        <locationName>Ask at Regenstein 1st Floor Circulation</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JRL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>CJK</locationCode>
+        <locationName>Regenstein, 5th Floor Bookstacks, East Asian/CJK</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JRL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>CJKRar</locationCode>
+        <locationName>Regenstein, East Asian Treasure Room: Ask in Room 525</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JRL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>CJKRef</locationCode>
+        <locationName>Regenstein, Room 520, East Asian Reference Collection</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JRL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>CJKRfHY</locationCode>
+        <locationName>Regenstein, Room 520, East Asian Reference Collection</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JRL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>CJKSem</locationCode>
+        <locationName>Wiebolt Hall, East Asia Seminar Room</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JRL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>CJKSPer</locationCode>
+        <locationName>Regenstein, Room 520, East Asian Periodicals</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JRL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>CJKSpHY</locationCode>
+        <locationName>Regenstein, East Asian Treasure Room: Ask in Room 525</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JRL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>CJKSpl</locationCode>
+        <locationName>Regenstein, East Asian Reading Room, Closed Bookstacks: Ask in Room
+            525</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JRL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>CMC</locationCode>
+        <locationName>Regenstein, Room 354, K-12 Curriculum Materials Collection</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JRL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>GenCS</locationCode>
+        <locationName>Regenstein, Closed Bookstack -- Request at 1st Floor
+            Circulation</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JRL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>GenHY</locationCode>
+        <locationName>Regenstein, Bookstacks, Harvard Yenching/CJK</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JRL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>Harp</locationCode>
+        <locationName>Regenstein, A-Level Harper Collection</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JRL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>JMedia</locationCode>
+        <locationName>Regenstein, 4th Floor Digital Media Collection</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JRL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>JzAr</locationCode>
+        <locationName>Regenstein, Room 360, Chicago Jazz Archive</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JRL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>MapCl</locationCode>
+        <locationName>Regenstein, Room 370, Map Collection</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JRL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>MapRef</locationCode>
+        <locationName>Regenstein, Room 370, Map Reference Collection</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JRL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>Mic</locationCode>
+        <locationName>Regenstein, 3rd Floor Microforms</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JRL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>MidEMic</locationCode>
+        <locationName>Regenstein, 5th Floor Middle East Microforms</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JRL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>MSRGen</locationCode>
+        <locationName>Temporary Storage--Ask at Regenstein Circulation Desk</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JRL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>Rec</locationCode>
+        <locationName>Regenstein, Room 360, Recordings Collection</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JRL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>RecHP</locationCode>
+        <locationName>Regenstein, Headphones: Ask at Room 360</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JRL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>Resup</locationCode>
+        <locationName>Needed for Reserve Next Quarter: Ask at Regenstein, 1st Floor
+            Circulation</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JRL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>RR</locationCode>
+        <locationName>Regenstein, General Reference: A-L on 2nd Floor, M-Z on 3rd
+            Floor</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JRL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>RR2</locationCode>
+        <locationName>Regenstein, 2nd and 3rd Floor General Reference Collection</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JRL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>RR2Per</locationCode>
+        <locationName>Regenstein, 2nd Floor Current Periodicals &amp; Newspapers</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JRL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>RR3</locationCode>
+        <locationName>Regenstein, 2nd and 3rd Floor General Reference Collection</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JRL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>RR4</locationCode>
+        <locationName>Regenstein, 4th Floor Reference Collection</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JRL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>RR4Cla</locationCode>
+        <locationName>Regenstein, Room 470, Classics Reading Room</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JRL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>RR4J</locationCode>
+        <locationName>Regenstein, 4th Floor Judaica Reference Collection</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JRL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>RR5</locationCode>
+        <locationName>Regenstein, 5th Floor Reference Collection</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JRL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>RR5EA</locationCode>
+        <locationName>Regenstein, Room 520, East Asian Reference Collection, Western
+            Language</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JRL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>RR5EPer</locationCode>
+        <locationName>Regenstein, Room 520, East Asian Reference Collection, Western Language
+            Periodicals</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JRL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>RR5Per</locationCode>
+        <locationName>Regenstein, 5th Floor Middle East &amp; South Asia Current Periodicals &amp;
+            Newspapers</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JRL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>RRExp</locationCode>
+        <locationName>Regenstein, 1st Floor Reference Desk Collection</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JRL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>RRPer</locationCode>
+        <locationName>Regenstein, 1st Floor Reference Collection</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JRL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>RRRes</locationCode>
+        <locationName>Regenstein, Ask at 1st Floor Reference Desk</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JRL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>SAsia</locationCode>
+        <locationName>Regenstein, Room 560, South Asia Arrearage</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JRL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>Ser</locationCode>
+        <locationName>Regenstein, Serials Department: Ask at 1st Floor Reference Desk</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JRL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>SerArr</locationCode>
+        <locationName>Regenstein, Serials Department: Ask at 1st Floor Reference Desk</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JRL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>SerCat</locationCode>
+        <locationName>Regenstein, Serials Cataloging Department: Ask at 1st Floor Reference
+            Desk</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JRL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>Slav</locationCode>
+        <locationName>Regenstein, 4th Floor Slavic Reference Collection</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JRL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>SOA</locationCode>
+        <locationName>Regenstein, 5th Floor Southern Asia Reference Collection</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JRL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>W</locationCode>
+        <locationName>Regenstein, Bookstacks</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JRL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>WCJK</locationCode>
+        <locationName>Regenstein, 5th Floor Bookstacks, East Asian/CJK</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>JRL</parentLocationCode>
+    </location>
+   
+    <location>
+        <locationCode>LMCacc</locationCode>
+        <locationName>Logan Media Center, Kit Accessories</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LMC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LMCcabl</locationCode>
+        <locationName>Logan Media Center, Accessories</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LMC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LMCexib</locationCode>
+        <locationName>Logan Media Center, Exhibition Equipment</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LMC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LMCgear</locationCode>
+        <locationName>Logan Media Center Cage</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LMC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LMCstaf</locationCode>
+        <locationName>Logan Media Center, Staff-authorized Equipment</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LMC</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>MCSX</locationCode>
+        <locationName>Monographs classified separately</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>MCS</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>AmDrama</locationCode>
+        <locationName>Special Collections, American Drama</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SPCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>AmNewsp</locationCode>
+        <locationName>Special Collections, American Newspapers</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SPCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>Arch</locationCode>
+        <locationName>Special Collections, Archives</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SPCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>ArcMon</locationCode>
+        <locationName>Special Collections, Archival Monographs</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SPCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>ArcRef1</locationCode>
+        <locationName>Special Collections, Archival Reference</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SPCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>ArcSer</locationCode>
+        <locationName>Special Collections, Archival Serials</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SPCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>Atk</locationCode>
+        <locationName>Special Collections, Atkinson Collection of American Drama</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SPCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>Aust</locationCode>
+        <locationName>Special Collections, Austrian Collection of Drama</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SPCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>Drama</locationCode>
+        <locationName>Special Collections, Drama Collection</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SPCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>EB</locationCode>
+        <locationName>Special Collections, EB Children&apos;s Literature</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SPCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>French</locationCode>
+        <locationName>Special Collections, French Plays</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SPCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>Incun</locationCode>
+        <locationName>Special Collections, Incunabula</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SPCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>JzMon</locationCode>
+        <locationName>Special Collections, Chicago Jazz Archive Monographs</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SPCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>JzRec</locationCode>
+        <locationName>Chicago Jazz Archive Album Collection: Ask at Special
+            Collections</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SPCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>Linc</locationCode>
+        <locationName>Special Collections, Lincoln Collection</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SPCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>Lincke</locationCode>
+        <locationName>Special Collections, Lincke Collection of Popular German
+            Literature</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SPCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>MoPoRa</locationCode>
+        <locationName>Special Collections, Modern Poetry</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SPCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>Mss</locationCode>
+        <locationName>Special Collections, Manuscripts</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SPCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>MssBG</locationCode>
+        <locationName>Special Collections, Manuscripts, Butler-Gunsaulus Collection</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SPCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>MssCdx</locationCode>
+        <locationName>Special Collections, Codex Manuscripts</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SPCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>MssCr</locationCode>
+        <locationName>Special Collections, Crerar Manuscripts</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SPCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>MssJay</locationCode>
+        <locationName>Special Collections, Manuscripts, Frank Webster Jay Collection</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SPCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>MssLinc</locationCode>
+        <locationName>Special Collections, Lincoln Miscellaneous Manuscripts</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SPCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>MssMisc</locationCode>
+        <locationName>Special Collections, Miscellaneous Manuscripts Collection</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SPCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>MssSpen</locationCode>
+        <locationName>Special Collections, Manuscripts, William M. Spencer Collection</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SPCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>RaCrInc</locationCode>
+        <locationName>Special Collections, Crerar Incunabula</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SPCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>Rare</locationCode>
+        <locationName>Special Collections, Rare Books</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SPCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>RareCr</locationCode>
+        <locationName>Special Collections, Crerar Rare Books</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SPCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>RBMRef</locationCode>
+        <locationName>Special Collections, Rare Book and Manuscript Reference</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SPCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>RefA</locationCode>
+        <locationName>Special Collections, Reference, A-Level</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SPCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>Rege</locationCode>
+        <locationName>Special Collections, Helen and Ruth Regenstein Collection of Rare
+            Books</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SPCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>Rosen</locationCode>
+        <locationName>Special Collections, Ludwig Rosenberger Library of Judaica</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SPCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>SpClAr</locationCode>
+        <locationName>Special Collections, Arrearage</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SPCL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>UCPress</locationCode>
+        <locationName>Special Collections, University of Chicago Press Imprint
+            Collection</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>ASR</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>SSAdX</locationCode>
+        <locationName>Social Service Administration</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SSAd</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>SSAdBdP</locationCode>
+        <locationName>Social Service Administration, Journals</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SSAd</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>SSAdDep</locationCode>
+        <locationName>Social Service Administration: Ask at Circulation</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SSAd</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>SSAdDpY</locationCode>
+        <locationName>Social Service Administration, Dissertation Proposals</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SSAd</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>SSAdMed</locationCode>
+        <locationName>Social Service Administration, Multimedia</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SSAd</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>SSAdMic</locationCode>
+        <locationName>Social Service Administration, Microforms</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SSAd</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>SSAdPam</locationCode>
+        <locationName>Social Service Administration, Pamphlet File</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SSAd</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>SSAdPer</locationCode>
+        <locationName>Social Service Administration, Journals</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SSAd</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>SSAdRef</locationCode>
+        <locationName>Social Service Administration, Reference</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SSAd</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>SSAdRes</locationCode>
+        <locationName>Social Service Administration, Reserve</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SSAd</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>Order</locationCode>
+        <locationName>On order</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>UCX</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>InProc</locationCode>
+        <locationName>Received; in process</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>UCX</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>Staff</locationCode>
+        <locationName>Staff Collection</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>UCX</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>unk</locationCode>
+        <locationName>unknown</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>UCX</parentLocationCode>
+    </location>
+</locationGroup>

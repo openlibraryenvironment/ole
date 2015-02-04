@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="OLEEResourceRecordView" parent="E-Res-Uif-TransactionalDocumentView">
+        <property name="headerText" value="E-Resource"/>
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="${ole.externalizable.help.url}/reference/webhelp/AG/content/ch10s01.html"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="formClass" value="org.kuali.ole.select.form.OLEEResourceRecordForm"/>
+        <property name="documentClass" value="org.kuali.ole.select.document.OLEEResourceRecordDocument"/>
+        <!--<property name="businessRulesClass" value="org.kuali.ole.select.validation.impl.OLEEResourceRecordRule" />-->
+        <property name="entryPageId" value="OLEEResourceRecordView-E-ResourceRecordTab"/>
+        <property name="navigation">
+            <ref bean="OLEEResourceRecordView-Menu"/>
+        </property>
+        <!--<property name="footer">
+            <bean parent="Ole-Uif-DocumentPageFooter"/>
+        </property>-->
+        <property name="items">
+            <list>
+                <!--<bean parent="Uif-DocumentOverviewSection"/>-->
+                <ref bean="OLEEResourceRecordView-E-ResourceRecordTab"/>
+                <ref bean="OLEEResourceRecordView-E-ResourceInstanceTab"/>
+                <ref bean="OLEEResourceRecordView-E-ResourceImportFromGOKBTab"/>
+                <ref bean="OLEEResourceRecordView-E-ResourcePOTab"/>
+                <ref bean="OLEEResourceRecordView-E-ResourceInvoiceTab"/>
+                <ref bean="OLEEResourceRecordView-E-ResourceLicenseTab"/>
+                <ref bean="OLEEResourceRecordView-E-ResourceAccessTab"/>
+                <ref bean="OLEEResourceRecordView-E-ResourceContactsTab"/>
+                <ref bean="OLEEResourceRecordView-E-ResourceEventLogTab"/>
+                <ref bean="OLEEResourceRecordView-E-ResourceReviewDashBoardTab"/>
+                <ref bean="OLEEResourceRecordView-E-ResourceRelatedTab"/>
+                <ref bean="OLEEResourceRecordView-E-ResourceAdminDataTab"/>
+                <ref bean="Uif-DocumentAdHocRecipientsSection"/>
+                <ref bean="Uif-DocumentRouteLogSection"/>
+            </list>
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <!--            <value>ole/deliver/loan/css/loan.css</value>-->
+                <value>ole/eresource/css/eresource.css</value>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>ole/eresource/scripts/eresource.js</value>
+            </list>
+        </property>
+        <property name="dialogs">
+        <list>
+           <!-- <ref bean="OLEEResourceRecordView-DeleteRelatedInstancesPopUp"/>-->
+            <ref bean="OLEEResourceRecordView-DeleteRelatedInstancesPermanentPopUp"/>
+            <!--<ref bean="OLEEResourceRecordView-DeleteRelatedInstancesInfoPopUp"/>-->
+            <ref bean="OLEEResourceRecordView-PriceIncreaseAnalysis"/>
+            <ref bean="OLEEResourceRecordView-RemoveRelationShipParentPopUp"/>
+            <!--<ref bean="PlatformTippResults"/>-->
+        </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordView-Menu" parent="Uif-MenuNavigationGroup">
+        <property name="items">
+            <list>
+                <bean parent="Uif-HeaderTwo"/>
+                <bean parent="Uif-NavigationActionLink" id="E-Resource-Navigation" p:navigateToPageId="OLEEResourceRecordView-E-ResourceRecordTab" p:actionLabel="Main"/>
+                <bean parent="Uif-NavigationActionLink" id="E-Resource-Instance-Navigation" p:navigateToPageId="OLEEResourceRecordView-E-ResourceInstanceTab" p:actionLabel="Instances" p:ajaxSubmit="true" p:successCallback="displayLink()" />
+                <bean parent="Uif-NavigationActionLink" id="E-Resource-Related-Navigation" p:navigateToPageId="OLEEResourceRecordView-E-ResourceRelatedTab" p:actionLabel="Related E-Resource"/>
+                <bean parent="Uif-NavigationActionLink" id="E-Resource-PO-Navigation" p:navigateToPageId="OLEEResourceRecordView-E-ResourcePOTab" p:actionLabel="Purchase Orders"/>
+                <bean parent="Uif-NavigationActionLink" id="E-Resource-Invoice-Navigation" p:navigateToPageId="OLEEResourceRecordView-E-ResourceInvoiceTab" p:actionLabel="Invoices"/>
+                <bean parent="Uif-NavigationActionLink" id="E-Resource-License-Navigation" p:navigateToPageId="OLEEResourceRecordView-E-ResourceLicenseTab" p:actionLabel="Licenses"/>
+                <bean parent="Uif-NavigationActionLink" id="E-Resource-Access-Navigation" p:navigateToPageId="OLEEResourceRecordView-E-ResourceAccessTab" p:actionLabel="Access"/>
+                <bean parent="Uif-NavigationActionLink" id="E-Resource-Contacts-Navigation" p:navigateToPageId="OLEEResourceRecordView-E-ResourceContactsTab" p:actionLabel="Contacts"/>
+                <bean parent="Uif-NavigationActionLink" id="E-Resource-EventLog-Navigation" p:navigateToPageId="OLEEResourceRecordView-E-ResourceEventLogTab" p:actionLabel="Event Log"/>
+                <bean parent="Uif-NavigationActionLink" id="E-Resource-ImportFromGOKB-Navigation" p:navigateToPageId="OLEEResourceRecordView-E-ResourceImportFromGOKBTab" p:actionLabel="Import From GOKb" p:methodToCall="setDefaults"/>
+                <bean parent="Uif-NavigationActionLink" id="E-Resource-Dashboard-Navigation" p:navigateToPageId="OLEEResourceRecordView-E-ResourceReviewDashBoardTab" p:actionLabel="Review DashBoard"/>
+                <bean parent="Uif-NavigationActionLink" id="E-Resource-AdminData-Navigation" p:navigateToPageId="OLEEResourceRecordView-E-ResourceAdminDataTab" p:actionLabel="Admin Data"  p:methodToCall="getPlatformForEResource" />
+                <!--<bean parent="Uif-NavigationActionLink" id="E-Resource-PO-Navigation" p:navigateToPageId="OLEEResourceRecordView-E-ResourcePOPage"/>-->
+            </list>
+        </property>
+    </bean>
+
+    <bean id="E-Res-Uif-TransactionalDocumentView" abstract="true" parent="E-Res-Uif-TransactionalDocumentView-parentBean"/>
+    <bean id="E-Res-Uif-TransactionalDocumentView-parentBean" abstract="true"
+          class="org.kuali.rice.krad.uif.view.TransactionalDocumentView" parent="E-Res-Uif-DocumentView">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-transactionalView</value>
+            </list>
+        </property>
+        <property name="viewTypeName" value="TRANSACTIONAL"/>
+        <property name="viewName" value="default"/>
+        <property name="presentationControllerClass"
+                  value="org.kuali.rice.krad.document.TransactionalDocumentViewPresentationControllerBase"/>
+        <property name="authorizerClass" value="org.kuali.rice.krad.document.TransactionalDocumentViewAuthorizerBase"/>
+        <property name="formClass" value="org.kuali.rice.krad.web.form.TransactionalDocumentFormBase"/>
+    </bean>
+
+    <bean id="E-Res-Uif-DocumentView" abstract="true" parent="E-Res-Uif-DocumentView-parentBean"/>
+    <!--<bean id="E-Res-Uif-DocumentView-parentBean" abstract="true"
+          class="org.kuali.rice.krad.uif.view.DocumentView" parent="Uif-FormView-KnsTheme">-->
+    <bean id="E-Res-Uif-DocumentView-parentBean" abstract="true"
+          class="org.kuali.rice.krad.uif.view.DocumentView" parent="Uif-OLEFormView">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-documentView</value>
+            </list>
+        </property>
+        <property name="viewTypeName" value="DOCUMENT"/>
+        <property name="formClass" value="org.kuali.rice.krad.web.form.DocumentFormBase"/>
+        <property name="defaultBindingObjectPath" value="document"/>
+        <property name="presentationControllerClass"
+                  value="org.kuali.rice.krad.document.DocumentViewPresentationControllerBase"/>
+        <property name="authorizerClass" value="org.kuali.rice.krad.document.DocumentViewAuthorizerBase"/>
+        <property name="viewHelperServiceClass"
+                  value="org.kuali.rice.krad.uif.service.impl.DocumentViewHelperServiceImpl"/>
+        <property name="header">
+            <bean parent="Uif-E-Res-DocumentViewHeader"/>
+        </property>
+    </bean>
+
+    <bean id="Uif-E-Res-DocumentViewHeader" abstract="true" parent="Uif-ViewHeader">
+        <property name="rightGroup">
+            <bean parent="Uif-E-Res-DocumentInfoGroup">
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>uif-docheader</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="Uif-E-Res-DocumentInfoGroup" parent="Uif-GridGroup" p:readOnly="true">
+        <property name="items">
+            <list>
+                <bean parent="Uif-DocumentNumber"/>
+                <bean parent="Uif-DocumentStatus"/>
+                <bean parent="Uif-DocumentInitiatorNetworkId"/>
+                <bean parent="Uif-DocumentCreateDate"/>
+            </list>
+        </property>
+        <property name="layoutManager">
+            <bean parent="Uif-GridLayoutBase" p:numberOfColumns="8" p:applyDefaultCellWidths="false"/>
+        </property>
+        <property name="fieldBindingObjectPath" value="document"/>
+    </bean>
+
+    <bean id="E-Res-Uif-DocumentPage" parent="Uif-Disclosure-Page">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-documentPage</value>
+            </list>
+        </property>
+        <property name="defaultItemPosition" value="11"/>
+        <property name="items">
+            <list>
+                <!--<bean parent="Uif-DocumentOverviewSection" p:order="10"/>-->
+                <!--<bean parent="Uif-DocumentNotesSection" p:disclosure.defaultOpen="false" p:order="30"/>-->
+                <!--<bean parent="Uif-DocumentAdHocRecipientsSection" p:disclosure.defaultOpen="false" p:order="40"/>
+                <bean parent="Uif-DocumentRouteLogSection" p:disclosure.defaultOpen="false" p:order="50"/>-->
+            </list>
+        </property>
+        <property name="footer">
+            <bean parent="E-Res-Uif-DocumentPageFooter"/>
+        </property>
+    </bean>
+
+    <bean id="E-Res-Uif-DocumentPageFooter" parent="Uif-FooterBase">
+        <property name="items">
+            <list>
+            </list>
+        </property>
+    </bean>
+
+</beans>
+

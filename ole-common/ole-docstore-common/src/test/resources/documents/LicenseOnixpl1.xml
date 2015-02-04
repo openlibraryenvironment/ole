@@ -1,0 +1,12 @@
+<license>
+    <active>false</active>
+    <category>work</category>
+    <content>&lt;onix:ONIXPublicationsLicenseMessage version="1.0" datestamp="string" sourcetype="00"
+        sourcename="string"
+        xmlns:onix="http://www.editeur.org/onix-pl"&gt;&lt;/onix:ONIXPublicationsLicenseMessage&gt;</content>
+    <fastAdd>false</fastAdd>
+    <format>pdf</format>
+    <public>false</public>
+    <staffOnly>false</staffOnly>
+    <type>license</type>
+</license>

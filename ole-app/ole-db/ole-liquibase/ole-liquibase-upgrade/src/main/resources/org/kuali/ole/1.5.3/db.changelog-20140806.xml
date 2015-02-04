@@ -1,0 +1,242 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet context="bootstrap" author="ole" id="OLE_BAT_PRCS_PRFLE_CNST_S" dbms="mysql">
+        <sql>INSERT INTO OLE_BAT_PRCS_PRFLE_CNST_S values ()</sql>
+        <sql>set @last_id = last_insert_id()</sql>
+        <sql>INSERT INTO OLE_BAT_PRCS_PRFLE_CNST_T (OLE_USR_DEF_VAL_ID, ATT_NM, ATT_VAL, DATA_TYPE, BAT_PRCS_PRF_ID, DEF_VAL, OBJ_ID, VER_NBR) VALUES (@last_id, 'deliveryBuildingRoomNumber', '001', 'OrderImport', '6', 'default', '1', '1')
+        </sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_BAT_PRCS_PRFLE_CNST_S" dbms="oracle">
+        <sql>INSERT INTO OLE_BAT_PRCS_PRFLE_CNST_T (OLE_USR_DEF_VAL_ID, ATT_NM, ATT_VAL, DATA_TYPE, BAT_PRCS_PRF_ID, DEF_VAL, OBJ_ID, VER_NBR) VALUES (OLE_BAT_PRCS_PRFLE_CNST_S.NEXTVAL, 'deliveryBuildingRoomNumber', '001', 'OrderImport', '6', 'default', '1', '1')
+        </sql>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_PUR_PO_LOAD_SUM_T">
+        <addColumn catalogName="ole"
+                   schemaName="ole"
+                   tableName="OLE_PUR_PO_LOAD_SUM_T ">
+            <column name="BAT_PRCS_PRF_ID" type="varchar(40)"/>
+        </addColumn>
+        <dropForeignKeyConstraint baseTableName="OLE_PUR_PO_LOAD_SUM_T" constraintName="OLE_PUR_PO_LOAD_SUM_TR1"/>
+        <dropColumn catalogName="ole"
+                    schemaName="ole"
+                    columnName="PRFL_ID"
+                    tableName="OLE_PUR_PO_LOAD_SUM_T"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_CIRC_RECORD">
+        <modifyDataType catalogName="ole"
+                        columnName="BIB_TIT"
+                        newDataType="VARCHAR(4000)"
+                        schemaName="ole"
+                        tableName="OLE_DLVR_CIRC_RECORD"/>
+        <createIndex catalogName="ole"
+                     indexName="OLE_DLVR_CIRC_RECORD_TI1"
+                     schemaName="ole"
+                     tableName="OLE_DLVR_CIRC_RECORD">
+            <column name="LOAN_TRAN_ID" type="varchar(40)"/>
+        </createIndex>
+    </changeSet>
+
+    <!--Data update-->
+
+    <changeSet context="bootstrap" id="KRCR_PARM_T_cancellation" author="ole">
+        <update tableName="KRCR_PARM_T">
+            <column name="VAL" value="Your requested item(s) has been cancelled because it has become unavailable, either because it has been reported missing or is needed for course reserve. You may request another copy if you still need this item. Please contact the library if you need further details." />
+            <where>parm_nm = 'CANCELLATION_BODY'</where>
+        </update>
+    </changeSet>
+
+    <changeSet context="bootstrap" id="KRCR_PARM_T_helplink" author="ole">
+        <update tableName="KRCR_PARM_T">
+            <column name="VAL" value="customerLoadInputFileType=/reference/webhelp/AG/content/ch21s18.html;procurementCardInputFileType=/reference/webhelp/AG/content/ch21s18.html;collectorFlatFileInputFileType=/reference/webhelp/AG/content/ch21s18.html;collectorXmlInputFileType=/reference/webhelp/AG/content/ch21s18.html;enterpriseFeederFileSetType=/reference/webhelp/AG/content/ch21s18.html;laborEnterpriseFeederFileSetType=/reference/webhelp/AG/content/ch21s18.html;assetBarcodeInventoryInputFileType=/reference/webhelp/AG/content/ch21s18.html;paymentInputFileType=/reference/webhelp/AG/content/ch21s18.html" />
+            <where>parm_nm = 'BATCH_UPLOAD_HELP_URL'</where>
+        </update>
+    </changeSet>
+
+    <changeSet context="bootstrap" id="KREW_DOC_TYP_T_helpLink" author="ole">
+        <update tableName="KREW_DOC_TYP_T">
+            <column name="HELP_DEF_URL" value="${ole.externalizable.help.url}/reference/webhelp/ADMIN/content/ch08s03.html" />
+            <where>DOC_TYP_NM = 'CampusTypeMaintenanceDocument'</where>
+        </update>
+        <update tableName="KREW_DOC_TYP_T">
+            <column name="HELP_DEF_URL" value="${ole.externalizable.help.url}/reference/webhelp/ADMIN/content/ch04s09.html" />
+            <where>DOC_TYP_NM = 'ComponentMaintenanceDocument'</where>
+        </update>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="KRIM_PERM_T">
+        <update tableName="KRIM_PERM_T">
+            <column name="NM" value="Show Serials Receiving Record From Holding" />
+            <column name="DESC_TXT" value="Allows users to view Serial Receiving record from Holdings record." />
+            <where>perm_id = 'OLE10193'</where>
+        </update>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="KRIM_ROLE_PERM_T">
+        <update tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_ID" value="OLE10086" />
+            <where>role_perm_id = 'OLE10712'</where>
+        </update>
+        <update tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_ID" value="OLE10086" />
+            <where>role_perm_id = 'OLE12154'</where>
+        </update>
+        <update tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_ID" value="OLE10086" />
+            <where>role_perm_id = 'OLE12223'</where>
+        </update>
+        <delete tableName="KRIM_ROLE_PERM_T">
+            <where>role_perm_id = 'OLE750'</where>
+        </delete>
+        <delete tableName="KRIM_ROLE_PERM_T">
+            <where>role_perm_id = 'OLE12155'</where>
+        </delete>
+        <delete tableName="KRIM_ROLE_PERM_T">
+            <where>role_perm_id = 'OLE12224'</where>
+        </delete>
+        <delete tableName="KRIM_ROLE_PERM_T">
+            <where>role_perm_id = 'OLE12225'</where>
+        </delete>
+        <delete tableName="KRIM_ROLE_PERM_T">
+            <where>role_perm_id = 'OLE12226'</where>
+        </delete>
+        <delete tableName="KRIM_ROLE_PERM_T">
+            <where>role_perm_id = 'OLE12227'</where>
+        </delete>
+        <delete tableName="KRIM_ROLE_PERM_T">
+            <where>role_perm_id = 'OLE12228'</where>
+        </delete>
+        <delete tableName="KRIM_ROLE_PERM_T">
+            <where>perm_id = 'OLE10297'</where>
+        </delete>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DS_ITEM_T">
+        <addColumn catalogName="ole"
+                   schemaName="ole"
+                   tableName="OLE_DS_ITEM_T ">
+            <column name="CHECK_OUT_DATE_TIME" type="TIMESTAMP"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="KRIM_PERM_T_delete">
+        <delete tableName="KRIM_PERM_T">
+            <where>perm_id = 'OLE10297'</where>
+        </delete>
+    </changeSet>
+
+    <changeSet author="ole" id="OLE_LINK_PURAP_DONOR_T">
+        <createIndex catalogName="ole"
+                     indexName="OLE_LINK_PURAP_DONOR_TI1"
+                     schemaName="ole"
+                     tableName="OLE_LINK_PURAP_DONOR_T">
+            <column name="REQ_ITEM_ID" type="decimal(8,0)"/>
+        </createIndex>
+        <createIndex catalogName="ole"
+                     indexName="OLE_LINK_PURAP_DONOR_TI2"
+                     schemaName="ole"
+                     tableName="OLE_LINK_PURAP_DONOR_T">
+            <column name="FDOC_NBR" type="varchar(14)"/>
+        </createIndex>
+        <createIndex catalogName="ole"
+                     indexName="OLE_LINK_PURAP_DONOR_TI3"
+                     schemaName="ole"
+                     tableName="OLE_LINK_PURAP_DONOR_T">
+            <column name="PO_ITM_ID" type="decimal(8,0)"/>
+        </createIndex>
+        <createIndex catalogName="ole"
+                     indexName="OLE_LINK_PURAP_DONOR_TI4"
+                     schemaName="ole"
+                     tableName="OLE_LINK_PURAP_DONOR_T">
+            <column name="RCVNG_LN_ITM_ID" type="decimal(8,0)"/>
+        </createIndex>
+        <createIndex catalogName="ole"
+                     indexName="OLE_LINK_PURAP_DONOR_TI5"
+                     schemaName="ole"
+                     tableName="OLE_LINK_PURAP_DONOR_T">
+            <column name="RCVNG_COR_ITM_ID" type="decimal(8,0)"/>
+        </createIndex>
+        <createIndex catalogName="ole"
+                     indexName="OLE_LINK_PURAP_DONOR_TI6"
+                     schemaName="ole"
+                     tableName="OLE_LINK_PURAP_DONOR_T">
+            <column name="DONOR_ID" type="varchar(10)"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="ole" id="GL_PENDING_ENTRY_T">
+        <createIndex catalogName="ole"
+                     indexName="GL_PENDING_ENTRY_TI7"
+                     schemaName="ole"
+                     tableName="GL_PENDING_ENTRY_T">
+            <column name="FDOC_NBR" type="varchar(14)"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="ole" id="OLE_DLVR_PTRN_BILL_T">
+        <createIndex catalogName="ole"
+                     indexName="OLE_DLVR_PTRN_BILL_TI1"
+                     schemaName="ole"
+                     tableName="OLE_DLVR_PTRN_BILL_T">
+            <column name="OLE_PTRN_ID" type="varchar(40)"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="ole" id="OLE_DLVR_ADD_T">
+        <createIndex catalogName="ole"
+                     indexName="OLE_DLVR_ADD_TI1"
+                     schemaName="ole"
+                     tableName="OLE_DLVR_ADD_T">
+            <column name="OLE_PTRN_ID" type="varchar(36)"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="ole" id="OLE_ERES_REQ_T">
+        <createIndex catalogName="ole"
+                     indexName="OLE_ERES_REQ_TI1"
+                     schemaName="ole"
+                     tableName="OLE_ERES_REQ_T">
+            <column name="OLE_PTRN_ID" type="varchar(40)"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="ole" id="OLE_DLVR_RQST_T">
+        <createIndex catalogName="ole"
+                     indexName="OLE_DLVR_RQST_TI1"
+                     schemaName="ole"
+                     tableName="OLE_DLVR_RQST_T">
+            <column name="LOAN_TRAN_ID" type="varchar(40)"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="ole" id="OLE_AP_INV_ACCT_T">
+        <createIndex catalogName="ole"
+                     indexName="OLE_AP_INV_ACCT_TI2"
+                     schemaName="ole"
+                     tableName="OLE_AP_INV_ACCT_T">
+            <column name="FIN_COA_CD" type="varchar(2)"/>
+        </createIndex>
+        <createIndex catalogName="ole"
+                     indexName="OLE_AP_INV_ACCT_TI3"
+                     schemaName="ole"
+                     tableName="OLE_AP_INV_ACCT_T">
+            <column name="FIN_COA_CD" type="varchar(2)"/>
+            <column name="ACCOUNT_NBR" type="varchar(7)"/>
+        </createIndex>
+        <createIndex catalogName="ole"
+                     indexName="OLE_AP_INV_ACCT_TI4"
+                     schemaName="ole"
+                     tableName="OLE_AP_INV_ACCT_T">
+            <column name="FIN_COA_CD" type="varchar(2)"/>
+            <column name="ACCOUNT_NBR" type="varchar(7)"/>
+            <column name="SUB_ACCT_NBR" type="varchar(5)"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<article xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"
+    version="5.0" xml:lang="en-US">
+    <title>Kuali Open Library Environment, 1.5 Release Notes</title>
+    <warning>
+        <para>This is a draft.</para>
+    </warning>
+    <para dir="ltr" xml:id="docs-internal-guid-3cdd8b3b-216f-a785-100e-81b8f558a834">Kuali Open
+        Library Environment (OLE) 1.5 is the first release that will be implemented by several OLE
+        partners. OLE is delivered with demo and bootstrap data. A switch has been provided that
+        allows an option to load bootstrap, bootstrap and demo, or neither dataset. Data migration
+        plans and best practices continue to be documented, and an additional loader for Serials
+        Receiving records has been created. </para>
+    <para dir="ltr">A key change in OLE is searching and browsing for records. The previous Describe
+        Workbench and DocStore Search have been replaced by a single Search Workbench interface
+        which allows searching of Bibliographic, Holdings, Item, E-Holdings, and Licenses or
+        browsing by call numbers and titles. This new search will allow library staff to utilize
+        customizable facets along with standard Boolean searching.</para>
+    <para dir="ltr">OLE includes four core modules: Select and Acquire, Describe and Manage,
+        Deliver, and System Integration. </para>
+    <para> </para>
+    <para> Select and Acquire Modules includes: </para>
+    <itemizedlist>
+        <listitem>
+            <para>Claiming functionality has been added to the module. While in 1.0 users could
+                receive items from the Receiving Queue, the interface has been adapted to become the
+                Receiving and Claiming Queue. If a particular order should never be claimed, the
+                titles are marked from the Requisition or Purchase Order. Claim notices can be
+                accessed easily from the Select/Acquire tab.</para>
+        </listitem>
+        <listitem>
+            <para>Donor information may now be tracked and several reports on donor funds are
+                system-generated in OLE.</para>
+        </listitem>
+        <listitem>
+            <para>Additional modifications have been made to the Disbursement Voucher to allow for
+                deposit accounts. The initial payment is made from the Disbursement Voucher, and
+                then Purchase Orders and Invoices can be created to track item purchases.</para>
+        </listitem>
+        <listitem>
+            <para>The Invoice document has been enhanced to perform duplication checks, $0 invoices,
+                and as an added convenience to users, cloning is available.</para>
+        </listitem>
+        <listitem>
+            <para>Imported records with order data in the 9xx fields are now mapped to purchase
+                orders. Import profiles have also been established to allow the ingestion of
+                electronic holdings.</para>
+        </listitem>
+    </itemizedlist>
+    <para>Describe and Manange Module includes:</para>
+    <itemizedlist>
+        <listitem>
+            <para>Global changes to Holdings, Items, and E-Holdings is a new feature available in
+                1.5 that allows users to apply changes to multiple records at one time.</para>
+        </listitem>
+        <listitem>
+            <para>Analytics are also new for 1.5. The purpose of the feature is to allow a user of a
+                library's discovery layer to determine the status (loaned, missing, etc.) of an item
+                in a monographic series regardless of whether the user finds the item in the catalog
+                via the bibliographic record for the series or the bibliographic record for an
+                individual title in the series. Bound-withs have been available since the 0.8
+                release.</para>
+        </listitem>
+        <listitem>
+            <para>Clickable URLs have been added to OLE’s editors. Any URL on the bibliographic,
+                holdings, or item record is now hyperlinked.</para>
+        </listitem>
+        <listitem>
+            <para>Several new MARC bibliographic record functionality improvements were added such
+                as field-level validation and an improved user interface.</para>
+        </listitem>
+    </itemizedlist>
+    <para>Deliver Module includes:</para>
+    <itemizedlist>
+        <listitem>
+            <para>OLE has improved printing of routing and hold slips and included functionality to
+                print call slips.</para>
+        </listitem>
+        <listitem>
+            <para>Claim returns can be viewed, created and updated not only from the loan screen but
+                also the patron and item records. Missing pieces and damaged items functionality
+                have been modified to continue to allow items to be circulated if libraries so
+                choose. Missing pieces and damaged items notes can also be viewed from the patron
+                and item records, not only the loan screen.</para>
+        </listitem>
+        <listitem>
+            <para>Item records now display the patron that has borrowed the item.</para>
+        </listitem>
+        <listitem>
+            <para>Additional operator warnings have been created for circulating materials still
+                checked out, overdue, or lost. New blocks prevent staff from renewing an item that
+                precedes the existing due date.</para>
+        </listitem>
+    </itemizedlist>
+    <para>System Integration includes:</para>
+    <para>During the 1.5 development, OLE underwent significant structural changes. </para>
+    <itemizedlist>
+        <listitem>
+            <para>Due to performance and scalability concerns with Jackrabbit, OLE now incorporates
+                a relational database management system. </para>
+        </listitem>
+        <listitem>
+            <para>The DocStore schema was refactored and the Instance wrapper has been removed from
+                Holdings and Item records. (Labels remain in the interface but these will be removed
+                in a future release).</para>
+        </listitem>
+        <listitem>
+            <para>OLE saw several software upgrades: Rice to 2.3.2, MySQL to 5.6.12, and Tomcat to
+                7. Progress to make OLE a unified environment has been completed. </para>
+        </listitem>
+        <listitem>
+            <para>Significant user interface changes have impacted OLE. The portal has been
+                reorganized to correspond with library needs.</para>
+        </listitem>
+        <listitem>
+            <para>OLE now provides an API to interact with automated storage retrieval systems. In
+                1.5, the ASR system interacting with OLE is Dematic. Additionally, an API was
+                created to interact with NCIP for resource-sharing systems (ILL, self-service
+                kiosks, consortial borrowing).</para>
+        </listitem>
+    </itemizedlist>
+    <section>
+        <title>Known Bugs and Issues</title>
+        <para> Known issues to be addressed in OLE 2.0 include: </para>
+        <para>Initial import of records continues to need improvement and documentation. It has been
+            noted that OLE needs a standard format separate from the underlying data structure to
+            more easily load the records. Currently doing an initial load of records and documents
+            into OLE requires library financial data to be structured in a very particular way and
+            only with .csv files.</para>
+        <para>While OLE strives to be compatible with standard browsers, “support” implies that best
+            efforts will be made to ensure that data loss or unusably corrupted displays do not
+            occur with a plugin and extension free instance of the browser software. There have been
+            a few issues with plugins brought to our attention during 1.5 development.</para>
+        <para>Updating Persons in KIM will cause an exception. This is a known issue for Rice 2.3.6,
+            the Rice version that OLE 1.5 is packaged with. A fix was added in Rice 2.4, which will
+            be available in OLE 2.0. For the work around suggestion, see OLE-5972.</para>
+        <para> Additional issues can be found in Jira: <link
+                xlink:href="https://jira.kuali.org/browse/OLE"
+                >https://jira.kuali.org/browse/OLE</link>. </para>
+    </section>
+    <section>
+        <title>OLE Technical Notes</title>
+        <para>All technical installation notes for Kuali OLE Release 1.5 can be found on the public
+            documentation site at <link
+                xlink:href="https://wiki.kuali.org/display/OLE/OLE+Technical+Documentation">OLE
+                Technical Documentation</link>.</para>
+    </section>
+    <section>
+        <title>OLE User Documentation and Links to Test Drive</title>
+        <para>See the <link xlink:href="../html/Index.html">OLE Documentation Portal</link> to read
+            throug the Overviews and Manuals, and learn more about the 1.0 release.</para>
+        <para>Test drive OLE from Kuali.org: <link xlink:href="http://www.kuali.org/test-drives"
+                >http://www.kuali.org/test-drives</link>.</para>
+        <section>
+            <title>Glossary</title>
+            <para>The <link xlink:href="../webhelp/BASICS/content/go01.html">OLE glossary</link> is
+                available through the wiki.</para>
+        </section>
+    </section>
+    <section>
+        <title>Future Releases</title>
+        <para>The Kuali Open Library Environment project team is planning another release, OLE 2.0,
+            for the final quarter of 2014. </para>
+        <para>OLE 2.0 will be focused on new electronic resource management (ERM) development, which
+            will include subscription and organization information management, GOKb imports, a new
+            platform record, and linking E-Resources to Purchase Orders and other E-Resources. In
+            addition to ERM, 2.0 will include fiscal year rollover basic functionality, upgrade to
+            Solr 4, a major Rice upgrade that includes a conversion from the Kuali Nervous System
+            (KNS) framework to the Kuali Rapid Application Development (KRAD) framework that
+            modernizes the KFS-inherited screens, and additional initial bulk load procedures for
+            data migration (see OLE-6672).</para>
+        <para> See our timeline (<link xlink:href="http://www.kuali.org/ole/roadmap"
+                >http://www.kuali.org/ole/roadmap</link>) for a big picture of the 2.0 release, as
+            well as what has been developed in the current and past releases. </para>
+    </section>
+    <section>
+        <title>OLE Acknowledgements</title>
+        <para><link
+                xlink:href="https://wiki.kuali.org/display/OLE/Licenses+and+Acknowledgements+for+OLE+1.5"
+                >https://wiki.kuali.org/display/OLE/Licenses+and+Acknowledgements+for+OLE+1.5</link></para>
+    </section>
+    <section>
+        <title>Contact Us</title>
+        <para>If you have technical questions, please contact our collaboration community at <link
+                xlink:href="mailto:ole.technical.usergroup@kuali.org"
+                >ole.technical.usergroup@kuali.org</link>.</para>
+        <para>For functional questions, please contact our collaboration community at <link
+                xlink:href="mailto:ole.functional.usergroup@kuali.org"
+                >ole.functional.usergroup@kuali.org</link>.</para>
+    </section>
+</article>

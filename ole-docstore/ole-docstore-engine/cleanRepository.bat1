@@ -1,0 +1,9 @@
+d:
+cd D:\Projects\OLE-SVN\poc-02\oledocstore
+pwd
+echo Deleting all files in repository dir...
+pause
+del /s /q repository\*.*
+echo Removing repository dir...
+pause
+rmdir /s /q repository

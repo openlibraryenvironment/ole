@@ -1,0 +1,470 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+
+    <bean id="BillView" parent="BillView-parentBean" />
+    <bean id="BillView-parentBean" parent="Uif-OLEFormView">
+        <property name="headerText" value="Patron Bill Summary"/>
+        <property name="items">
+            <list>
+                <bean id="BillViewPage" parent="Uif-Page" >
+                    <property name="items">
+                        <list>
+                            <ref bean="message" />
+                            <ref bean="hdBillPay"/>
+                            <ref bean="patronDetailList"/>
+                            <ref bean="BillSection" />
+                            <ref bean="DetailBillSection"/>
+                            <ref bean="billView_payment_transaction_Details"/>
+                            <ref bean="BillFooter" />
+                            <ref bean="printFormKey" />
+                            <ref bean="hdnPatronBillPrint"/>
+                            <ref bean="hdnPrintBillReview"/>
+                            <ref bean="billpayment_patronId"/>
+                            <ref bean="billpayment_doubleSubmit"/>
+                            <ref bean="billpayment_userAmount"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="dialogs">
+            <list>
+                <bean id="forgiveNoteDialog" parent="ForgiveNoteSection"/>
+                <bean id="errorNoteDialog" parent="ErrorNoteSection"/>
+                <bean id="cancelNoteDialog" parent="CancelNoteSection"/>
+            </list>
+        </property>
+        <property name="footer">
+            <ref bean="ClearFooterView-buttons" />
+        </property>
+       <property name="additionalScriptFiles">
+            <list>
+                <value>ole/deliver/billPayment/script/BillPayment.js</value>
+                <value>ole/deliver/billPayment/script/BillPaymentTable.js</value>
+            </list>
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>ole/deliver/billPayment/css/BillPayment.css</value>
+            </list>
+        </property>
+        <property name="formClass" value="org.kuali.ole.deliver.form.PatronBillForm"/>
+        <property name="theme">
+            <bean parent="Uif-KbootTheme"/>
+        </property>
+    </bean>
+
+
+    <bean id="hdBillPay" parent="Uif-InputField" p:propertyName="billWisePayment">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
+    <bean id="patronDetailList" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="headerText" value="Patron Details"/>
+        <property name="items">
+            <list>
+               <ref bean="patronDetailList-section"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="patronDetailList-section" parent="Uif-HorizontalBoxSection" >
+        <property name="items">
+            <list>
+                <bean id="patron_details_patronId" parent="Uif-LinkField" p:target="_blank" p:style="font-weight:bold;text-align:left;" p:fieldLabel.renderColon="false" p:href="inquiry?olePatronId=@{patronId}&amp;methodToCall=start&amp;dataObjectClassName=org.kuali.ole.deliver.bo.OlePatronDocument&amp;dialogMode=true&amp;showHome=false&amp;showHistory=false" p:linkText="@{patronId}" p:label="Patron Id" p:labelPlacement="TOP" />
+                <bean id="patron_details_patronBarcode" parent="Uif-DataField" p:propertyName="olePatronDocument.barcode" p:label="Barcode" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                <bean id="patron_details_patronFirstName" parent="Uif-DataField" p:propertyName="olePatronDocument.firstName" p:label="First Name" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                <bean id="patron_details_patronLastName" parent="Uif-DataField" p:propertyName="olePatronDocument.lastName" p:label="Last Name" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                <bean id="patron_details_patronType" parent="Uif-DataField" p:propertyName="olePatronDocument.borrowerType" p:label="Borrower Type" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                <bean id="patron_details_grandOutStandingBal" parent="Uif-DataField" p:propertyName="grandTotal" p:label="Grand Total" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="BillSection" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="headerText" value="Bills" />
+        <property name="items">
+            <list>
+                <ref bean="BillView-Section"/>
+                <ref bean="BillView-Footer"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="BillView-Section" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="6" p:style="width:1325px">
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.PatronBillPayment"/>
+        <property name="propertyName" value="patronBillPaymentList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.disableTableSort" value="false" />
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="bFilter" value="true"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="selectBill" parent="Uif-InputField" p:label="Select Bill" p:width="2%" p:propertyName="selectBill">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" p:onClickScript="selectBill(@{#line?.unPaidBalance},this)" p:cssClasses="selectBill @{(#line?.unPaidBalance == 0)?'fullyPaid':''}" />
+                    </property>
+                </bean>
+                <bean id="billNumber" parent="Uif-DataField" p:label="Bill No" p:width="10%" p:propertyName="billNumber"/>
+                <bean id="billDate" parent="Uif-DataField" p:label="Bill Date" p:width="10%" p:propertyName="billDate"/>
+                <bean id="totalFeeAmount" parent="Uif-DataField" p:label="Total Fee Amount" p:width="10%" p:propertyName="totalAmount"/>
+                <bean id="totalPaidAmount" parent="Uif-DataField" p:label="Total Paid Amount" p:width="10%" p:propertyName="paidAmount"/>
+                <bean id="totalBillAmount" parent="Uif-DataField" p:label="Total OutStanding Amount" p:width="10%" p:propertyName="unPaidBalance"/>
+                <bean id="BillSection_note" parent="Uif-DataField" p:label="Text Note" p:width="10%" p:propertyName="note"/>
+                <bean id="BillView_Pay_Note" parent="Uif-DataField" p:label="Last Transaction Information" p:propertyName="freeTextNote"/>
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+    <bean id="BillView-Footer" parent="Uif-FooterBase">
+        <property name="items">
+            <list>
+                <bean id="BillView_selectBill" parent="Uif-SecondaryActionButton"  p:actionLabel="select all from this page"   p:successCallback="removeCurrencyPattern();"/>
+                <bean id="BillView_deselectBill" parent="Uif-SecondaryActionButton"    p:actionLabel="deselect all from this page"  p:successCallback="removeCurrencyPattern();"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="DetailedBillView-Footer" parent="Uif-FooterBase">
+        <property name="items">
+            <list>
+                <bean id="BillView_selectItem" parent="Uif-SecondaryActionButton"   p:actionLabel="select all from this page" p:successCallback="removeCurrencyPattern();" />
+                <bean id="BillView_deselectItem" parent="Uif-SecondaryActionButton"   p:actionLabel="deselect all from this page"  p:successCallback="removeCurrencyPattern();"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="DetailBillSection" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="headerText" value="Bills in Detail" />
+        <property name="items">
+            <list>
+                <ref bean="DetailedView-BillSection"/>
+                <ref bean="DetailedBillView-Footer"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="DetailedView-BillSection" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="10" p:style="width:1325px">
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.FeeType"/>
+        <property name="propertyName" value="feeTypes"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.applyDefaultCellWidths" value="false"/>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="bFilter" value="true"/>
+            </map>
+        </property>
+        <property name="layoutManager.rowDetailsGroup">
+            <bean parent="Uif-VerticalBoxGroup">
+                <property name="items">
+                    <list>
+                        <ref bean="detailed_Item_View-BillSection"/>
+                        <ref bean="detailed_Note_View-BillSection"/>
+                        <bean id="billView_itemLevelTransaction" parent="LineItemTransactionDetails" p:propertyName="itemLevelBillPaymentList"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.disableTableSort" value="false" />
+        <property name="items">
+            <list>
+                <bean id="active_item" parent="Uif-InputField" p:label="Select Item" p:width="3%" p:propertyName="activeItem" >
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" p:onClickScript="selectItem(@{#line?.balFeeAmount},this)"  p:cssClasses="selectItem @{(#line?.balFeeAmount == 0)?'fullyPaid':''}"/>
+                    </property>
+                </bean>
+                <bean id="billNumber" parent="Uif-DataField" p:label="Bill No" p:width="10%" p:propertyName="billNumber"/>
+                <bean id="billDate" parent="Uif-DataField" p:label="Bill Date" p:width="10%" p:propertyName="billDate"/>
+                <bean id="DetailBillSection_feeSource" parent="Uif-DataField" p:width="10%" p:label="Initiator" p:propertyName="feeSource"/>
+                <bean id="itemBarcode" parent="Uif-DataField" p:label="Item Barcode" p:width="10%" p:propertyName="itemBarcode"/>
+                <bean id="feeTypeName" parent="Uif-DataField" p:label="Fee Type" p:width="8%" p:propertyName="feeTypeName"/>
+                <bean id="feeAmount" parent="Uif-DataField" p:label="Fee Amount" p:width="5%" p:propertyName="feeAmount"/>
+                <bean id="paidAmount" parent="Uif-DataField" p:label="Paid Amount" p:width="5%" p:propertyName="paidAmount"/>
+                <bean id="balFeeAmount" parent="Uif-DataField" p:label="OutStanding Amount" p:width="5%" p:propertyName="balFeeAmount"/>
+                <bean id="paymentStatus" parent="Uif-DataField" p:label="Payment Status" p:width="10%" p:propertyName="olePaymentStatus.paymentStatusName"/>
+                <bean id="DetailBillSection_generalNote" parent="Uif-DataField" p:label="Note" p:width="20%" p:propertyName="generalNote"/>
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+
+    <bean id="detailed_Item_View-BillSection" parent="Uif-Disclosure-TableSubCollection-WithinSection" p:layoutManager.numberOfColumns="10" p:style="width:1325px" p:disclosure.defaultOpen="false">
+        <property name="headerText" value="Item Details" />
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.FeeType"/>
+        <property name="propertyName" value="feeTypes"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.applyDefaultCellWidths" value="false"/>
+        <property name="readOnly" value="true"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="layoutManager.richTable.disableTableSort" value="true" />
+        <property name="items">
+            <list>
+                <bean id="detailed_Item_View_itemBarcode" parent="Uif-DataField" p:label="Item Barcode" p:width="10%" p:propertyName="itemBarcode"/>
+                <bean id="detailed_Item_View_itemTitle" parent="Uif-DataField" p:label="Item Title" p:width="30%" p:propertyName="itemTitle"/>
+                <bean id="detailed_Item_View_itemAuthor" parent="Uif-DataField" p:label="Item Author" p:width="20%" p:propertyName="itemAuthor"/>
+                <bean id="detailed_Item_View_itemType" parent="Uif-DataField" p:label="Item Type" p:width="10%" p:propertyName="itemType"/>
+                <bean id="detailed_Item_View_itemCallNumber" parent="Uif-DataField" p:label="Item Call Number" p:width="10%" p:propertyName="itemCallNumber"/>
+                <bean id="detailed_Item_View_itemCopyNumber" parent="Uif-DataField" p:label="Item Copy Number" p:width="10%" p:propertyName="itemCopyNumber"/>
+                <bean id="detailed_Item_View_itemEnumeration" parent="Uif-DataField" p:label="Item Enumeration" p:width="10%" p:propertyName="itemEnumeration"/>
+                <bean id="detailed_Item_View_itemChronologyOwnLocation" parent="Uif-DataField" p:width="10%" p:label="Item Chronology Own Location" p:propertyName="itemChronologyOwnLocation"/>
+                <bean id="detailed_Item_View_itemCheckOutDate" parent="Uif-DataField" p:label="Check-Out Date" p:width="10%" p:propertyName="checkOutDate"/>
+                <bean id="detailed_Item_View_itemDueDate" parent="Uif-DataField" p:label="Due Date" p:width="10%" p:propertyName="dueDate"/>
+                <bean id="detailed_Item_View_itemCheckInDate" parent="Uif-DataField" p:label="Check-In Date" p:width="10%" p:propertyName="checkInDate"/>
+              </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+    <bean id="detailed_Note_View-BillSection" parent="Uif-Disclosure-TableSubCollection-WithinSection" p:layoutManager.numberOfColumns="3" p:style="width:1325px" p:disclosure.defaultOpen="false">
+        <property name="headerText" value="Note Details" />
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.FeeType"/>
+        <property name="propertyName" value="feeTypes"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.applyDefaultCellWidths" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="readOnly" value="true"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.disableTableSort" value="true" />
+        <property name="items">
+            <list>
+                <bean id="detailed_Note_View_cancelNote" parent="Uif-DataField" p:label="Cancel Note" p:width="25%" p:propertyName="cancellationNote"/>
+                <bean id="detailed_Note_View_forgiveNote" parent="Uif-DataField" p:label="Forgive Note" p:width="25%" p:propertyName="forgiveNote"/>
+                <bean id="detailed_Note_View_errorNote" parent="Uif-DataField" p:label="Error Note" p:width="25%" p:propertyName="errorNote"/>
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+
+    <bean id="LineItemTransactionDetails" parent="Uif-Disclosure-TableSubCollection-WithinSection" p:layoutManager.numberOfColumns="7" p:disclosure.defaultOpen="false">
+        <property name="headerText" value="Transaction Details" />
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleItemLevelBillPayment"/>
+        <property name="propertyName" value="itemLevelBillPaymentList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.disableTableSort" value="false" />
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="readOnly" value="true"/>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="bFilter" value="true"/>
+               <!-- <entry key="sDom" value="&lt;\'top\'i&gt;rt&lt;\'bottom\'flp&gt;"/>-->
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="trnsId" parent="Uif-DataField" p:propertyName="paymentId" p:label="Transaction Id" p:width="6%" />
+                <bean id="tranDate" parent="Uif-DataField" p:propertyName="paymentDate" p:label="Transaction Date" p:width="10%" />
+                <bean id="tranCreatedBy" parent="Uif-DataField" p:propertyName="createdUser" p:label="Operator Id" p:width="10%" />
+                <bean id="trnAmt" parent="Uif-DataField" p:propertyName="amount" p:label="Amount paid by user" p:width="5%"/>
+                <bean id="tranNumber" parent="Uif-DataField" p:propertyName="transactionNumber" p:label="Transaction Number" p:width="25%"/>
+                <bean id="trnsNote" parent="Uif-DataField" p:propertyName="transactionNote" p:label="Transaction Note" p:width="30%"/>
+                <bean id="paymentMode" parent="Uif-DataField" p:propertyName="paymentMode" p:label="Payment Mode" p:width="10%"/>
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+
+    <bean id="billView_payment_transaction_Details" parent="Uif-Disclosure-HorizontalBoxSection">
+        <property name="headerText" value="Payment and Transaction Details" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridSection" p:layoutManager.numberOfColumns="6" p:style="width:100%" >
+                    <property name="items">
+                        <list>
+                            <ref bean="billView_paymentDetails"/>
+                            <ref bean="billView_transactionDetails"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="billView_paymentDetails" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean  id="billView_paymentDetails_paymentMethod"  parent="Uif-InputField" p:propertyName="paymentMethod"  p:enableAutoDirectInquiry="false"  p:label=" Payment Mode (* for accept)" p:style="float:left;margin-left:2em" >
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.OlePaymentMethodKeyValue" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:style="width:100px" />
+                    </property>
+                </bean>
+
+                <bean id="billView_paymentDetails_paidAmount" parent="Uif-InputField" p:propertyName="paymentAmount"  p:label="Pay Amount" p:required="true" p:style="float:left;margin-left:2em">
+                    <property name="control">
+                        <bean id="name" parent="Uif-TextControl" p:style="width:100px" />
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="billView_transactionDetails" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="billView_transactionNumber" parent="Uif-InputField" p:propertyName="transactionNumber" p:label="Transaction Number"  p:style="float:left;margin-left:2em" p:constraintText="Please enter check Number or journal ledger number or credit card number"  >
+                    <property name="control">
+                        <bean id="name" parent="Uif-TextControl" p:style="width:150px" />
+                    </property>
+                </bean>
+
+                <bean id="billView_transactionNote" parent="Uif-InputField" p:propertyName="transactionNote" p:label="Note" p:style="float:left;margin-left:2em">
+                    <property name="control">
+                        <bean parent="Uif-TextAreaControl" p:rows="3" p:cols="20" p:maxLength="500"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="BillFooter" parent="Uif-FooterBase">
+        <property name="items">
+            <list>
+                <bean id="Accept_Button" parent="Uif-SecondaryActionButton" p:actionLabel="Accept" p:style="float:left;margin-left:2em" p:actionEvent="accept"  p:componentSecurity.performActionAuthz="true"/>
+                <bean id="Forgive_Button" parent="Uif-SecondaryActionButton" p:methodToCall="payment" p:actionLabel="Forgive" p:style="float:left;margin-left:2em" p:ajaxSubmit="true"  p:successCallback="showLightboxComponent('forgiveNoteDialog');" p:actionEvent="payment" p:componentSecurity.performActionAuthz="true"/>
+                <bean id="Print_Button" parent="Uif-SecondaryActionButton" p:methodToCall="printBillPayment" p:actionLabel="Print" p:style="float:left;margin-left:2em" p:ajaxSubmit="true"  p:successCallback="printPatronBill()"/>
+                <bean id="Cancel_Button" parent="Uif-SecondaryActionButton" p:methodToCall="payment" p:actionLabel="Cancel" p:style="float:left;margin-left:2em" p:ajaxSubmit="true"  p:successCallback="showLightboxComponent('cancelNoteDialog');" />
+                <bean id="Error_Button" parent="Uif-SecondaryActionButton" p:methodToCall="payment" p:actionLabel="Error" p:style="float:left;margin-left:2em" p:ajaxSubmit="true"  p:successCallback="showLightboxComponent('errorNoteDialog');"/>
+                <bean id="Close_Button" parent="Uif-SecondaryActionButton" p:methodToCall="close" p:actionLabel="Close" p:style="float:left;margin-left:2em" p:ajaxSubmit="true"  p:successCallback="closePatronBillWindow()"/>
+                <bean id="Mail_Button" parent="Uif-SecondaryActionButton" p:actionLabel="Email To Patron" p:style="float:left;margin-left:2em"/>
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="message" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="messageField" parent="Uif-MessageField" p:messageText="@{message}" p:cssClasses="messageClass"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="CancelNoteSection" parent="Uif-VerticalBoxSection"  >
+        <property name="hidden" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean id="cancellationNote_cancel" parent="Uif-InputField" p:label="Cancel Note" p:propertyName="cancellationNote" p:required="true" >
+                                <property name="control">
+                                    <bean parent="Uif-TextAreaControl" p:rows="5" p:cols="50" p:maxLength="500"/>
+                                </property>
+                            </bean>
+                            <bean id="okBtn" parent="Uif-SecondaryActionButton" p:actionLabel="OK" p:style="float:left;margin-left:2em" p:actionScript="closeCancelNote();"/>
+                            <bean id ="hdnOkBtn" parent="Uif-SecondaryActionButton" p:methodToCall="cancellationNote" p:hidden="true" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="ForgiveNoteSection" parent="Uif-VerticalBoxSection"  >
+        <property name="hidden" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean id="forgiveNote" parent="Uif-InputField" p:label="Forgive Note" p:propertyName="forgiveNote" p:required="true" >
+                                <property name="control">
+                                    <bean parent="Uif-TextAreaControl" p:rows="5" p:cols="50" p:maxLength="500"/>
+                                </property>
+                            </bean>
+                            <bean id="okforgiveBtn" parent="Uif-SecondaryActionButton" p:actionLabel="OK" p:style="float:left;margin-left:2em" p:actionScript="closeForgiveNote();"/>
+                            <bean id ="hdnOkForgiveBtn" parent="Uif-SecondaryActionButton" p:methodToCall="forgive" p:hidden="true" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="ErrorNoteSection" parent="Uif-VerticalBoxSection"  >
+        <property name="hidden" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean id="errorNote" parent="Uif-InputField" p:label="Error Note" p:propertyName="errorNote" p:required="true" >
+                                <property name="control">
+                                    <bean parent="Uif-TextAreaControl" p:rows="5" p:cols="50" p:maxLength="500"/>
+                                </property>
+                            </bean>
+                            <bean id="okErrorBtn" parent="Uif-SecondaryActionButton" p:actionLabel="OK" p:style="float:left;margin-left:2em" p:actionScript="closeErrorNote();"/>
+                            <bean id ="hdnOkErrorBtn" parent="Uif-SecondaryActionButton" p:methodToCall="error" p:hidden="true" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="printFormKey" parent="Uif-InputField" p:propertyName="formKey">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+    <bean id="hdnPatronBillPrint" parent="Uif-InputField" p:propertyName="printFlag">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+    <bean id="hdnPrintBillReview" parent="Uif-InputField" p:propertyName="printBillReview">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+    <bean id="billpayment_patronId" parent="Uif-InputField" p:propertyName="olePatronId">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+    <bean id="billpayment_doubleSubmit" parent="Uif-InputField" p:propertyName="doubleSubmit">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+    <bean id="billpayment_userAmount" parent="Uif-InputField" p:propertyName="userAmount">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+</beans>

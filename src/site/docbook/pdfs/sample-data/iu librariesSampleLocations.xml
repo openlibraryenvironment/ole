@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<locationGroup xmlns="http://ole.kuali.org/standards/ole-location">
+   <location>
+        <locationCode>B-AAAMC</locationCode>
+        <locationName>Blmgtn - Arch. of African American Music &amp; Culture</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>B-ALF</locationCode>
+        <locationName>Blmgtn - Auxiliary Library Facility</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>B-ARCHIVES</locationCode>
+        <locationName>Blmgtn - Archives &amp; Records Management</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>B-ATM</locationCode>
+        <locationName>Blmgtn - Archives of Traditional Music</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>B-BCC</locationCode>
+        <locationName>Blmgtn - Neal-Marshall Black Cultural Cent. Lib.</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>B-CEDIR</locationCode>
+        <locationName>Blmgtn - Indiana Institute on Disability</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>B-CHEM</locationCode>
+        <locationName>Blmgtn - Chemistry Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>B-CYCLOTRN</locationCode>
+        <locationName>Blmgtn - Cyclotron Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>B-EDUC</locationCode>
+        <locationName>Blmgtn - Education Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>B-FINEARTS</locationCode>
+        <locationName>Blmgtn - Fine Arts Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>B-GEOLOGY</locationCode>
+        <locationName>Blmgtn - Geology Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>B-HPER</locationCode>
+        <locationName>Blmgtn - HPER Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>B-JOURNLSM</locationCode>
+        <locationName>Blmgtn - Journalism Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>B-KINSEY</locationCode>
+        <locationName>Blmgtn - Kinsey Institute Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>B-LAW</locationCode>
+        <locationName>Blmgtn - Law Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>B-LIFESCI</locationCode>
+        <locationName>Blmgtn - Life Sciences Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>B-LILLY</locationCode>
+        <locationName>Blmgtn - Lilly Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>B-MUSIC</locationCode>
+        <locationName>Blmgtn - Music Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>B-OPTOMTRY</locationCode>
+        <locationName>Blmgtn - Optometry Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>B-SLIS</locationCode>
+        <locationName>Blmgtn - SLIS Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>B-SWAIN</locationCode>
+        <locationName>Blmgtn - Swain Hall Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>B-WELLS</locationCode>
+        <locationName>Blmgtn - Herman B Wells Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>BH-APTLIB</locationCode>
+        <locationName>Blmgtn Res Halls - Apt Housng Comm Lib &amp; Res Ctr</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>BH-BRISCOE</locationCode>
+        <locationName>Blmgtn Res Halls - Briscoe Mov Mus More</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>BH-COLLINS</locationCode>
+        <locationName>Blmgtn Res Halls - Collins Comm Lib &amp; Res Ctr</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>BH-DREISER</locationCode>
+        <locationName>Blmgtn Res Halls - Ashton Mov Mus More</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>BH-EIGENMN</locationCode>
+        <locationName>Blmgtn Res Halls - Eigenmann Comm Lib &amp; Res Ctr</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>BH-FOREST</locationCode>
+        <locationName>Blmgtn Res Halls - Forest Mov Mus More</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>BH-FOSTER</locationCode>
+        <locationName>Blmgtn Res Halls - Foster Comm Lib &amp; Res Ctr</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>BH-MCNUTT</locationCode>
+        <locationName>Blmgtn Res Halls - McNutt Mov Mus More</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>BH-READ</locationCode>
+        <locationName>Blmgtn Res Halls - Read Mov Mus More</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>BH-TETER</locationCode>
+        <locationName>Blmgtn Res Halls - Teter Comm Lib &amp; Res Ctr</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>BH-UNIONST</locationCode>
+        <locationName>Blmgtn Res Halls - Union Mov Mus More</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>BH-WILLKIE</locationCode>
+        <locationName>Blmgtn Res Halls - Willkie Comm Lib &amp; Res Ctr</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>BH-WRIGHT</locationCode>
+        <locationName>Blmgtn Res Halls - Wright Mov Mus More</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>COLUMBUS</locationCode>
+        <locationName>Columbus - University Library of Columbus</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>EAST</locationCode>
+        <locationName>East Library - Richmond</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>FORTWAYNE</locationCode>
+        <locationName>Fort Wayne Helmke Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>I-ART</locationCode>
+        <locationName>Indpls - Herron Art Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>I-DENTSTRY</locationCode>
+        <locationName>Indpls - Dentistry Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>I-LAW</locationCode>
+        <locationName>Indpls - Ruth Lilly Law Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>I-MEDICINE</locationCode>
+        <locationName>Indpls - Ruth Lilly Medical Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>I-UNIVLIB</locationCode>
+        <locationName>Indpls - IUPUI University Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>IL-ALEXAND</locationCode>
+        <locationName>IU School of Law-Indianapolis Program, Egypt (Alexandria)</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>IL-CAIRO</locationCode>
+        <locationName>IU School of Law-Indianapolis Program, Egypt (Cairo)</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>KOKOMO</locationCode>
+        <locationName>Kokomo Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>NORTHWEST</locationCode>
+        <locationName>Northwest Library - Gary</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>ONLINE</locationCode>
+        <locationName>Electronic resources available in all locations</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>SBEND</locationCode>
+        <locationName>South Bend - Schurz Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>SBENDLRC</locationCode>
+        <locationName>South Bend - Educational Resource Commons</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>SOUTHEAST</locationCode>
+        <locationName>Southeast Library - New Albany</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>B-BUSSPEA</locationCode>
+        <locationName>Blmgtn - Business/SPEA Information Commons</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>B-GEOMAP</locationCode>
+        <locationName>Blmgtn - Geography Map Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+</locationGroup>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<request>
+	<user>chuntley</user>
+	<operation>bulkIngest</operation>
+	<requestDocuments>
+		<ingestDocument id="1" category="work" type="license" format="xslt">
+            <documentName>LicenseDoc1.xslt</documentName>
+            <documentTitle>Readable Document Title</documentTitle>
+            <documentMimeType>application/pdf</documentMimeType>
+            <additionalAttributes>
+                <type>supplemental, trial, regular</type>
+                <name>test document</name>
+                <fileName>test.xslt</fileName>
+                <dateUploaded>01/06/2012</dateUploaded>
+                <owner>HTC</owner>
+                <notes>test</notes>
+            </additionalAttributes>
+
+	</ingestDocument>
+	</requestDocuments>
+</request>

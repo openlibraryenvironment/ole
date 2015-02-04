@@ -1,0 +1,60 @@
+RSP_ID,OBJ_ID,VER_NBR,RSP_TMPL_ID,NMSPC_CD,NM,DESC_TXT,ACTV_IND
+OLE990002,OLE10002,1,1,OLE-SELECT,Review OLE_REQS ShowDuplicateRecords,,Y
+OLE990009,OLE10009,3,1,OLE_SELECT,Review OLE_PVEN ForInformation,,Y
+OLE990016,OLE10016,1,1,OLE-SELECT,Review OLE_REQS GreaterLineItem,,Y
+OLE990018,OLE10018,1,1,OLE-SELECT,Review OLE_POA OrderChange,,Y
+OLE990019,OLE10019,1,1,OLE-SELECT,Review OLE_REQS NewVendor,,Y
+OLE990020,OLE990020,1,1,OLE-SELECT,Review OLE_RCVL ApproveReceiveLineItem,,Y
+OLE990021,OLE990021,1,1,OLE-SELECT,Review OLE_RCVC ApproveReceiveLineItemCorrection,,Y
+OLE990022,OLE990022,1,1,OLE-SELECT,Review OLE_PREQ Payment,,Y
+OLE990023,OLE990023,1,1,OLE-SELECT,Review OLE_REQS NoVendor,,Y
+OLE990024,OLE990024,1,1,OLE-PURAP,Review OLE_POA Tax,,Y
+OLE990025,OLE990025,1,1,OLE-SELECT,Review OLE_ACQBTHUPLOAD Approval,,Y
+OLE80004,80004,1,1,OLE-VND,Review OLE_PMCC CommodityCodeApprover,Approving the Commodity Code Document,Y
+OLE80006,80006,3,1,OLE-VND,Review OLE_PMCS CostSourceApprover,Approving the Cost Source Document,Y
+OLE80008,80008,1,1,OLE-VND,Review OLE_PMCT ContactTypeApprover,Approving ContactType Document,Y
+OLE80009,80009,1,1,OLE-PURAP,Review OLE_PMC CategoryApprover,Approver for Category Document,Y
+OLE80010,80010,1,1,OLE-PURAP,Review OLE_EXCTYP ExceptionTypeApprover,Approver for Exception Type Document,Y
+OLE80012,80012,1,1,OLE-PURAP,Review OLE_FTMAT FormatTypeApprover,Approving Format Type,Y
+OLE80013,80013,1,1,OLE-VND,Review OLE_NOTETYP NoteTypeApprover,Approving Note Type Document,Y
+OLE80015,80015,1,1,OLE-PURAP,Review OLE_PPOT PurchaseOrderTypeApprover,Approving OrderType Document,Y
+OLE80018,80018,1,1,OLE-VND,Review OLE_OIS OrderItemApprover,Approving OrderItemStatus Document,Y
+OLE80019,80019,1,1,OLE-VND,Review OLE_RSTMAT RequestSourceTypeApprover,Approving RequestSourceType Document,Y
+OLE80020,80020,1,1,OLE-PURAP,Review OLE_PMIPS ItemPriceSourceApprover,Approving ItemPriceSource Document,Y
+OLE80021,80021,1,1,OLE-SELECT,Review OLE_ACQBTHUPLOAD ForFYI,For FYI,Y
+OLE990026,OLE990026,1,1,OLE-SELECT,Review OLE_REQS LicenseRequest,,Y
+OLE990027,OLE990027,1,1,OLE-SELECT,Review OLE_CM PrepaidInvoiceType,Approving the Credit Memo Document with Prepaid Invoice Type,Y
+OLE990028,OLE990028,1,1,OLE-SELECT,Review OLE_CM NoPrepaidInvoiceType,Approving the Credit Memo Document with Invoice Type other than 'Prepaid',Y
+OLE990029,OLE990029,1,1,OLE-SELECT,Review OLE_CM PaymentMethod,Approving the document Vendor Credit Memo containing the Payment Method,Y
+OLE990030,OLE990030,1,1,OLE-SELECT,Review OLE_PREQ PrepaidInvoiceType,Approving the Payment Request Document with Prepaid Invoice Type,Y
+OLE990031,OLE990031,1,1,OLE-SELECT,Review OLE_PREQ NoPrepaidInvoiceType,Approving the Payment  Document with Invoice Type other than 'Prepaid',Y
+OLE990032,OLE990032,1,1,OLE-SELECT,Review OLE_DI FinancialAccount,,Y
+OLE990033,OLE990033,1,1,OLE-SELECT,Review OLE_DI VendorDepositAccount,,Y
+OLE990034,OLE990034,1,1,OLE-SELECT,Review OLE_DV ClearingAccountType,,Y
+OLE990035,OLE990035,1,1,OLE-SELECT,Review OLE_DV Payment,Approving the Disbursement Document with the Payment Method,Y
+OLE990036,OLE990036,1,1,OLE-SELECT,Review OLE_DV InvoiceType,,Y
+OLE990037,OLE990037,1,1,OLE-SELECT,Review OLE_GEC FinancialAccount,,Y
+OLE990038,OLE990038,1,1,OLE-SELECT,Review OLE_GEC VendorDepositAccount,,Y
+OLE990039,OLE990039,1,1,OLE-SELECT,Review OLE_PREQ VendorDepositAccount,,Y
+OLE990040,OLE990040,1,1,OLE-SELECT,Review OLE_CM FiscalOfficerReview,,Y
+OLE990041,OLE990041,1,1,OLE-SELECT,Review OLE_ACCT DepositAccount,,Y
+OLE990042,OLE990042,1,1,OLE-SELECT,Review OLE_PREQ SeparationOfDuties,,Y
+OLE990043,OLE990043,1,1,OLE-SELECT,Review OLE_BA BudgetAdjustment,For FYI,Y
+OLE990044,OLE990044,1,1,OLE-SELECT,Review OLE_TF TransferFund,For FYI,Y
+OLE990045,OLE990045,1,1,OLE-PURAP,Review Payment Request Budget,,Y
+OLE990046,OLE990046,1,1,OLE-SELECT,Review Requisition Budget,,Y
+OLE990047,OLE990047,1,1,OLE-SELECT,Review POA Budget,,Y
+OLE990048,OLE990048,1,1,OLE-SELECT,Review REQ FYI Budget,For FYI,Y
+OLE990049,OLE990049,1,1,OLE-SELECT,Review PO FYI Budget,For FYI,Y
+OLE990050,OLE990050,1,1,OLE-SELECT,Review POA FYI Budget,For FYI,Y
+OLE990051,OLE990051,1,1,OLE-SELECT,Review PREQ FYI Budget,For FYI,Y
+OLE990052,OLE990052,1,1,OLE-SELECT,Review OLE_PRQS Payment,,Y
+OLE990053,OLE990053,1,1,OLE-SELECT,Review OLE_PRQS PrepaidInvoiceType,Approving the Invoice Document with Prepaid Invoice Type,Y
+OLE990054,OLE990054,1,1,OLE-SELECT,Review OLE_PRQS NoPrepaidInvoiceType,Approving the Invoice Document with Invoice Type other than 'Prepaid',Y
+OLE990055,OLE990055,1,1,OLE-SELECT,Review OLE_PRQS VendorDepositAccount,,Y
+OLE990056,OLE990056,1,1,OLE-SELECT,Review OLE_PRQS SeparationOfDuties,,Y
+OLE990057,OLE990057,1,1,OLE-PURAP,Review Invoice Budget,,Y
+OLE990058,OLE990058,1,1,OLE-SELECT,Review PRQS FYI Budget,For FYI,Y
+OLE990059,OLE990059,1,1,OLE-SELECT,Review E-Resource Acquisition,This Responsibility has the Approval of E-Resource Document on Acquisition node,Y
+OLE990060,OLE990060,1,1,OLE-SELECT,Review E-Resource Cataloger,This Responsibility has the Approval of E-Resource Document on Cataloger node,Y
+OLE990061,OLE990061,1,1,OLE-SELECT,Review Serial Receiving Operator,This Responsibility has the Approval of Serial Receiving Document on Operator node,Y

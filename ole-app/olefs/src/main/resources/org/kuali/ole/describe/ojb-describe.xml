@@ -1,0 +1,545 @@
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<!--<!DOCTYPE descriptor-repository PUBLIC
+       "-//Apache Software Foundation//DTD OJB Repository//EN"
+       "http://db.apache.org/dtds/1.0/repository.dtd">-->
+
+<descriptor-repository version="1.0">
+
+    <!-- ******************************************************************* -->
+    <!-- Reference Tables -->
+    <!-- ******************************************************************* -->
+
+
+
+
+
+    <class-descriptor class="org.kuali.ole.describe.bo.OleInstanceItemType" table="ole_cat_itm_typ_t">
+        <field-descriptor name="instanceItemTypeId" column="ITM_TYP_CD_ID" jdbc-type="VARCHAR" primarykey="true"
+                          autoincrement="true" sequence-name="ole_cat_itm_typ_s"/>
+        <field-descriptor name="instanceItemTypeCode" column="ITM_TYP_CD" jdbc-type="VARCHAR"/>
+        <field-descriptor name="instanceItemTypeName" column="ITM_TYP_NM" jdbc-type="VARCHAR"/>
+        <field-descriptor name="instanceItemTypeDesc" column="ITM_TYP_DESC" jdbc-type="VARCHAR"/>
+        <field-descriptor name="source" column="SRC" jdbc-type="VARCHAR"/>
+        <field-descriptor name="sourceDate" column="SRC_DT" jdbc-type="DATE"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <field-descriptor name="active" column="ROW_ACT_IND" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.describe.bo.OleSpecificRetentionPolicyTypeUnit"
+                      table="ole_cat_spfc_rtn_pol_unt_typ_t">
+        <field-descriptor name="specificPolicyUnitTypeId" column="SPFC_RTN_POL_UNT_TYP_ID" jdbc-type="VARCHAR"
+                          primarykey="true" autoincrement="true" sequence-name="ole_cat_spfc_rtn_pol_unt_typ_s"/>
+        <field-descriptor name="specificPolicyUnitTypeCode" column="SPFC_RTN_POL_UNT_TYP_CD" jdbc-type="VARCHAR"/>
+        <field-descriptor name="specificPolicyUnitTypeName" column="SPFC_RTN_POL_UNT_TYP_NM" jdbc-type="VARCHAR"/>
+        <field-descriptor name="source" column="SRC" jdbc-type="VARCHAR"/>
+        <field-descriptor name="sourceDate" column="SRC_DT" jdbc-type="DATE"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <field-descriptor name="active" column="ROW_ACT_IND" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.describe.bo.OleSourceOfTerm" table="ole_cat_src_trm_t">
+        <field-descriptor name="sourceOfTermId" column="SRC_TRM_ID" jdbc-type="VARCHAR" primarykey="true"
+                          autoincrement="true" sequence-name="ole_cat_src_trm_s"/>
+        <field-descriptor name="sourceOfTermCode" column="SRC_TRM_CD" jdbc-type="VARCHAR"/>
+        <field-descriptor name="sourceOfTermName" column="SRC_TRM_NM" jdbc-type="VARCHAR"/>
+        <field-descriptor name="source" column="SRC" jdbc-type="VARCHAR"/>
+        <field-descriptor name="sourceDate" column="SRC_DT" jdbc-type="DATE"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <field-descriptor name="active" column="ROW_ACT_IND" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.describe.bo.OleNotationType" table="ole_cat_ntn_typ_t">
+        <field-descriptor name="notationTypeId" column="NTN_TYP_ID" jdbc-type="VARCHAR" primarykey="true"
+                          autoincrement="true" sequence-name="ole_cat_ntn_typ_s"/>
+        <field-descriptor name="notationTypeCode" column="NTN_TYP_CD" jdbc-type="VARCHAR"/>
+        <field-descriptor name="notationTypeName" column="NTN_TYP_NM" jdbc-type="VARCHAR"/>
+        <field-descriptor name="source" column="SRC" jdbc-type="VARCHAR"/>
+        <field-descriptor name="sourceDate" column="SRC_DT" jdbc-type="DATE"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <field-descriptor name="active" column="ROW_ACT_IND" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.describe.bo.OlePrivacy" table="ole_cat_prvcy_t">
+        <field-descriptor name="privacyId" column="PRVCY_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true"
+                          sequence-name="ole_cat_prvcy_s"/>
+        <field-descriptor name="privacyCode" column="PRVCY_CD" jdbc-type="VARCHAR"/>
+        <field-descriptor name="privacyName" column="PRVCY_NM" jdbc-type="VARCHAR"/>
+        <field-descriptor name="source" column="SRC" jdbc-type="VARCHAR"/>
+        <field-descriptor name="sourceDate" column="SRC_DT" jdbc-type="DATE"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <field-descriptor name="active" column="ROW_ACT_IND" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.describe.bo.OleReceiptStatus" table="ole_cat_rcpt_stat_t">
+        <field-descriptor name="receiptStatusId" column="RCPT_STAT_ID" jdbc-type="VARCHAR" primarykey="true"
+                          autoincrement="true" sequence-name="ole_cat_rcpt_stat_s"/>
+        <field-descriptor name="receiptStatusCode" column="RCPT_STAT_CD" jdbc-type="VARCHAR"/>
+        <field-descriptor name="receiptStatusName" column="RCPT_STAT_NM" jdbc-type="VARCHAR"/>
+        <field-descriptor name="source" column="SRC" jdbc-type="VARCHAR"/>
+        <field-descriptor name="sourceDate" column="SRC_DT" jdbc-type="DATE"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <field-descriptor name="active" column="ROW_ACT_IND" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.describe.bo.OleBibliographicRecordStatus" table="OLE_CAT_BIB_RECORD_STAT_T">
+        <field-descriptor name="bibliographicRecordStatusId" column="BIB_RECORD_STAT_ID" jdbc-type="VARCHAR" primarykey="true"
+                          autoincrement="true" sequence-name="OLE_CAT_BIB_RECORD_STAT_S"/>
+        <field-descriptor name="bibliographicRecordStatusCode" column="BIB_RECORD_STAT_CD" jdbc-type="VARCHAR"/>
+        <field-descriptor name="bibliographicRecordStatusName" column="BIB_RECORD_STAT_NM" jdbc-type="VARCHAR"/>
+        <field-descriptor name="source" column="SRC" jdbc-type="VARCHAR"/>
+        <field-descriptor name="sourceDate" column="SRC_DT" jdbc-type="DATE"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <field-descriptor name="active" column="ROW_ACT_IND" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.describe.bo.OleReproductionPolicy" table="OLE_CAT_REPRO_POL_T">
+        <field-descriptor name="reproductionPolicyId" column="REPRO_POL_ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true" sequence-name="OLE_CAT_REPRO_POL_S" />
+        <field-descriptor name="reproductionPolicyCode" column="REPRO_POL_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="reproductionPolicyName" column="REPRO_POL_NM" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="source" column="SRC" jdbc-type="VARCHAR" />
+        <field-descriptor name="sourceDate" column="SRC_DT" jdbc-type="DATE" />
+        <field-descriptor name="active" column="ROW_ACT_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.describe.bo.OleShelvingOrder" table="OLE_CAT_SHVLG_ORD_T">
+        <field-descriptor name="shelvingOrderId" column="SHVLG_ORD_ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true" sequence-name="OLE_CAT_SHVLG_ORD_S" />
+        <field-descriptor name="shelvingOrderCode" column="SHVLG_ORD_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="shelvingOrderName" column="SHVLG_ORD_NM" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="source" column="SRC" jdbc-type="VARCHAR" />
+        <field-descriptor name="sourceDate" column="SRC_DT" jdbc-type="DATE" />
+        <field-descriptor name="active" column="ROW_ACT_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.describe.bo.OleShelvingScheme" table="OLE_CAT_SHVLG_SCHM_T">
+        <field-descriptor name="shelvingSchemeId" column="SHVLG_SCHM_ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true" sequence-name="OLE_CAT_SHVLG_SCHM_S" />
+        <field-descriptor name="shelvingSchemeCode" column="SHVLG_SCHM_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="shelvingSchemeName" column="SHVLG_SCHM_NM" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="source" column="SRC" jdbc-type="VARCHAR" />
+        <field-descriptor name="sourceDate" column="SRC_DT" jdbc-type="DATE" />
+        <field-descriptor name="active" column="ROW_ACT_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.describe.bo.OleSpecificRetentionPolicyType" table="OLE_CAT_SPFC_RTN_POL_TYP_T">
+        <field-descriptor name="specificRetentionPolicyTypeId" column="SPFC_RTN_POL_TYP_ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true" sequence-name="OLE_CAT_SPFC_RTN_POL_TYP_S" />
+        <field-descriptor name="specificRetentionPolicyTypeCode" column="SPFC_RTN_POL_TYP_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="specificRetentionPolicyTypeName" column="SPFC_RTN_POL_TYP_NM" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="source" column="SRC" jdbc-type="VARCHAR" />
+        <field-descriptor name="sourceDate" column="SRC_DT" jdbc-type="DATE" />
+        <field-descriptor name="active" column="ROW_ACT_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.describe.bo.OleSeperateOrCompositeReport" table="OLE_CAT_SPCP_RPT_T">
+        <field-descriptor name="seperateOrCompositeReportId" column="SPCP_RPT_ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true" sequence-name="OLE_CAT_SPCP_RPT_S" />
+        <field-descriptor name="seperateOrCompositeReportCode" column="SPCP_RPT_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="seperateOrCompositeReportName" column="SPCP_RPT_NM" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="source" column="SRC" jdbc-type="VARCHAR" />
+        <field-descriptor name="sourceDate" column="SRC_DT" jdbc-type="DATE" />
+        <field-descriptor name="active" column="ROW_ACT_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.describe.bo.OleRecordType" table="OLE_CAT_REC_TYP_T">
+        <field-descriptor name="recordTypeId" column="REC_TYP_ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true" sequence-name="OLE_CAT_REC_TYP_S" />
+        <field-descriptor name="recordTypeCode" column="REC_TYP_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="recordTypeName" column="REC_TYP_NM" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="source" column="SRC" jdbc-type="VARCHAR" />
+        <field-descriptor name="sourceDate" column="SRC_DT" jdbc-type="DATE" />
+        <field-descriptor name="active" column="ROW_ACT_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.describe.bo.OleLendingPolicy" table="OLE_CAT_LND_POL_T">
+        <field-descriptor name="lendingPolicyId" column="LND_POL_ID " jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="OLE_CAT_LND_POL_s "></field-descriptor>
+        <field-descriptor name="lendingPolicyCode" column="LND_POL_CD" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="lendingPolicyName" column="LND_POL_NM" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="source" column="SRC" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="sourceDate" column="SRC_DT" jdbc-type="DATE"></field-descriptor>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <field-descriptor name="active" column="ROW_ACT_IND" jdbc-type="VARCHAR"  conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+    </class-descriptor>
+    <class-descriptor class="org.kuali.ole.describe.bo.OleCompleteness" table="OLE_CAT_CMPLT_T">
+        <field-descriptor name="completenessId" column="CMPLT_ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true" sequence-name="OLE_CAT_CMPLT_S"/>
+        <field-descriptor name="completenessCode" column="CMPLT_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="completenessName" column="CMPLT_NM" jdbc-type="VARCHAR" />
+        <field-descriptor name="source" column="SRC" jdbc-type="VARCHAR" />
+        <field-descriptor name="sourceDate" column="SRC_DT" jdbc-type="DATE" />
+        <field-descriptor name="active" column="ROW_ACT_IND" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    </class-descriptor>
+    <class-descriptor class="org.kuali.ole.describe.bo.OleElectronicLocationAndAccessRelationship" table="OLE_CAT_ELA_RLSHP_T">
+        <field-descriptor name="elaRelationshipId" column="ELE_RLSHP_ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true" sequence-name="OLE_CAT_ELA_RLSHP_S"/>
+        <field-descriptor name="elaRelationshipCode" column="ELE_RLSHP_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="elaRelationshipName" column="ELE_RLSHP_NM" jdbc-type="VARCHAR" />
+        <field-descriptor name="source" column="SRC" jdbc-type="VARCHAR" />
+        <field-descriptor name="sourceDate" column="SRC_DT" jdbc-type="DATE" />
+        <field-descriptor name="active" column="ROW_ACT_IND" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    </class-descriptor>
+    <class-descriptor class="org.kuali.ole.describe.bo.OleEncodingLevel" table="OLE_CAT_ENCD_LVL_T">
+        <field-descriptor name="encodingLevelId" column="ENCD_LVL_ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true" sequence-name="OLE_CAT_ENCD_LVL_S"/>
+        <field-descriptor name="encodingLevelCode" column="ENCD_LVL_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="encodingLevelName" column="ENCD_LVL_NM" jdbc-type="VARCHAR" />
+        <field-descriptor name="source" column="SRC" jdbc-type="VARCHAR" />
+        <field-descriptor name="sourceDate" column="SRC_DT" jdbc-type="DATE" />
+        <field-descriptor name="active" column="ROW_ACT_IND" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    </class-descriptor>
+    <class-descriptor class="org.kuali.ole.describe.bo.OleFieldEncodingLevel" table="OLE_CAT_FLD_ENCD_LVL_T">
+        <field-descriptor name="fieldEncodingLevelId" column="FLD_ENCD_LVL_ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true" sequence-name="OLE_CAT_FLD_ENCD_LVL_S"/>
+        <field-descriptor name="fieldEncodingLevelCode" column="FLD_ENCD_LVL_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="fieldEncodingLevelName" column="FLD_ENCD_LVL_NM" jdbc-type="VARCHAR" />
+        <field-descriptor name="source" column="SRC" jdbc-type="VARCHAR" />
+        <field-descriptor name="sourceDate" column="SRC_DT" jdbc-type="DATE" />
+        <field-descriptor name="active" column="ROW_ACT_IND" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    </class-descriptor>
+
+
+    <class-descriptor class="org.kuali.ole.describe.bo.OleGeneralRetentionPolicy" table="OLE_CAT_GEN_RTN_POL_T">
+        <field-descriptor name="generalRetentionPolicyId" column="GEN_RTN_POL_ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true" sequence-name="OLE_CAT_GEN_RTN_POL_S"/>
+        <field-descriptor name="generalRetentionPolicyCode" column="GEN_RTN_POL_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="generalRetentionPolicyName" column="GEN_RTN_POL_NM" jdbc-type="VARCHAR" />
+        <field-descriptor name="source" column="SRC" jdbc-type="VARCHAR" />
+        <field-descriptor name="sourceDate" column="SRC_DT" jdbc-type="DATE" />
+        <field-descriptor name="active" column="ROW_ACT_IND" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.describe.bo.OleStatisticalSearchingCodes" table="OLE_CAT_STAT_SRCH_CD_T">
+        <field-descriptor name="statisticalSearchingCodeId" column="STAT_SRCH_CD_ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true" sequence-name="OLE_CAT_STAT_SRCH_CD_S" />
+        <field-descriptor name="statisticalSearchingCode" column="STAT_SRCH_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="statisticalSearchingName" column="STAT_SRCH_NM" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="source" column="SRC" jdbc-type="VARCHAR" />
+        <field-descriptor name="sourceDate" column="SRC_DT" jdbc-type="DATE" />
+        <field-descriptor name="active" column="ROW_ACT_IND" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.describe.bo.OleCountryCodes" table="OLE_CAT_LOC_COUNTRY_CD_T">
+        <field-descriptor name="countryCodeId" column="LOC_COUNTRY_CD_ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true" sequence-name="OLE_CAT_LOC_COUNTRY_CD_S" />
+        <field-descriptor name="countryCode" column="LOC_COUNTRY_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="countryName" column="LOC_COUNTRY_NM" jdbc-type="VARCHAR" />
+        <field-descriptor name="countryRegionName" column="LOC_COUNTRY_REGION_NM" jdbc-type="VARCHAR" />
+        <field-descriptor name="countryNameSequence" column="LOC_COUNTRY_SEQUENCE_NM" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="source" column="SRC" jdbc-type="VARCHAR" />
+        <field-descriptor name="sourceDate" column="SRC_DT" jdbc-type="DATE" />
+        <field-descriptor name="active" column="ROW_ACT_IND" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.describe.bo.OleTypeOfOwnership" table="OLE_CAT_TYPE_OWNERSHIP_T">
+        <field-descriptor name="typeOfOwnershipId" column="TYPE_OWNERSHIP_ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true" sequence-name="OLE_CAT_TYPE_OWNERSHIP_S" />
+        <field-descriptor name="typeOfOwnershipCode" column="TYPE_OWNERSHIP_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="typeOfOwnershipName" column="TYPE_OWNERSHIP_NM" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="source" column="SRC" jdbc-type="VARCHAR" />
+        <field-descriptor name="sourceDate" column="SRC_DT" jdbc-type="DATE" />
+        <field-descriptor name="active" column="ROW_ACT_IND" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.describe.bo.OleAction" table="OLE_CAT_ACTION_T">
+        <field-descriptor name="actionId" column="ACTION_ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true" sequence-name="OLE_CAT_ACTION_S" />
+        <field-descriptor name="actionCode" column="ACTION_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="actionName" column="ACTION_NM" jdbc-type="VARCHAR" />
+        <field-descriptor name="actionDescription" column="ACTION_DESC" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="source" column="SRC" jdbc-type="VARCHAR" />
+        <field-descriptor name="sourceDate" column="SRC_DT" jdbc-type="DATE" />
+        <field-descriptor name="active" column="ROW_ACT_IND" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.describe.bo.OleAccessMethod" table="OLE_CAT_ACCS_MTHD_T">
+        <field-descriptor name="accessMethodId" column="ACCS_MTHD_ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true" sequence-name="OLE_CAT_ACCS_MTHD_S" />
+        <field-descriptor name="accessMethodCode" column="ACCS_MTHD_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="accessMethodName" column="ACCS_MTHD_NM" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="source" column="SRC" jdbc-type="VARCHAR" />
+        <field-descriptor name="sourceDate" column="SRC_DT" jdbc-type="DATE" />
+        <field-descriptor name="active" column="ROW_ACT_IND" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.describe.bo.OleAcquisitionMethod" table="OLE_CAT_ACQ_MTHD_T">
+        <field-descriptor name="acquisitionMethodId" column="ACQ_MTHD_ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true" sequence-name="OLE_CAT_ACQ_MTHD_S" />
+        <field-descriptor name="acquisitionMethodCode" column="ACQ_MTHD_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="acquisitionMethodName" column="ACQ_MTHD_NM" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="source" column="SRC" jdbc-type="VARCHAR" />
+        <field-descriptor name="sourceDate" column="SRC_DT" jdbc-type="DATE" />
+        <field-descriptor name="active" column="ROW_ACT_IND" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+    </class-descriptor>
+    <class-descriptor class="org.kuali.ole.describe.bo.OleItemAvailableStatus" table="ole_dlvr_item_avail_stat_t">
+        <field-descriptor name="itemAvailableStatusId" column="ITEM_AVAIL_STAT_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="ole_dlvr_item_avail_stat_s" />
+        <field-descriptor name="itemAvailableStatusCode" column="ITEM_AVAIL_STAT_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="itemAvailableStatusName" column="ITEM_AVAIL_STAT_NM" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="active" column="ROW_ACT_IND" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.describe.bo.ExternalDataSourceConfig" table="OLE_DESC_EXT_DATASRC_T">
+        <field-descriptor name="id" column="DS_ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true" sequence-name="OLE_DESC_EXT_DATASRC_S" />
+        <field-descriptor name="name" column="DS_NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="desc" column="DS_DESC" jdbc-type="VARCHAR" />
+        <field-descriptor name="portNum" column="PORT_NUM" jdbc-type="VARCHAR"/>
+        <field-descriptor name="domainName" column="DOMAIN_NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="loginId" column="LOGIN_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="authKey" column="AUTH_KEY" jdbc-type="VARCHAR" />
+        <field-descriptor name="password" column="PWD" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.describe.bo.ImportBibUserPreferences" table="OLE_DESC_USER_PREF_T">
+        <field-descriptor name="prefId" column="PREF_ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true" sequence-name="OLE_DESC_USER_PREF_S" />
+        <field-descriptor name="userId" column="USER_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="userRole" column="USER_ROLE" jdbc-type="VARCHAR" />
+        <field-descriptor name="prefName" column="PREF_NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="importType" column="IMPORT_TYPE" jdbc-type="VARCHAR" />
+        <field-descriptor name="importStatus" column="IMPORT_STATUS" jdbc-type="VARCHAR" />
+        <field-descriptor name="permLocation" column="PERM_LOC" jdbc-type="VARCHAR"/>
+        <field-descriptor name="tempLocation" column="TEMP_LOC" jdbc-type="VARCHAR" />
+        <field-descriptor name="removalTags" column="REMOVAL_TAGS" jdbc-type="VARCHAR" />
+        <field-descriptor name="protectedTags" column="PROTECTED_TAGS" jdbc-type="VARCHAR" />
+        <field-descriptor name="shelvingScheme" column="CLASSIFICATION_SCHEME" jdbc-type="VARCHAR" />
+        <field-descriptor name="callNumberSource1" column="CALL_NUM_1" jdbc-type="VARCHAR" />
+        <field-descriptor name="callNumberSource2" column="CALL_NUM_2" jdbc-type="VARCHAR" />
+        <field-descriptor name="callNumberSource3" column="CALL_NUM_3" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.describe.bo.OleDiscoveryExportProfile" table="OLE_DISC_EXP_PROFILE_T">
+        <field-descriptor name="exportId" column="EXP_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_DISC_EXP_PROFILE_S"/>
+        <field-descriptor name="exportProfileCode" column="EXP_PROF_CD" jdbc-type="VARCHAR"/>
+        <field-descriptor name="exportProfileName" column="EXP_PROF_NM" jdbc-type="VARCHAR"/>
+        <field-descriptor name="exportFormat" column="EXP_FORMAT" jdbc-type="VARCHAR"/>
+        <field-descriptor name="exportType" column="EXP_TYPE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="exportTo" column="EXP_TO" jdbc-type="VARCHAR"/>
+        <field-descriptor name="noOfExportThreads" column="NO_OF_THREADS" jdbc-type="INTEGER"/>
+        <field-descriptor name="noOfRecords" column="NO_OF_RECORDS" jdbc-type="INTEGER"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <field-descriptor name="dataField" column="DATA_FIELD" jdbc-type="VARCHAR" />
+        <collection-descriptor name="oleDiscoveryExportMappingFields" element-class-ref="org.kuali.ole.describe.bo.OleDiscoveryExportMappingFields"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                               auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+            <inverse-foreignkey field-ref="exportId"/>
+        </collection-descriptor>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.describe.bo.OleDiscoveryExportMappingFields" table="OLE_DISC_EXP_MAP_T">
+        <field-descriptor name="mappingFieldId" column="MAP_FIELD_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_DISC_EXP_MAP_S" />
+        <field-descriptor name="exportId" column="EXP_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="marcField" column="MARC_FLD" jdbc-type="VARCHAR" />
+        <field-descriptor name="itemField" column="ITEM_FLD" jdbc-type="VARCHAR" />
+        <field-descriptor name="description" column="MAP_DESC" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <reference-descriptor name="oleDiscoveryExportProfile" class-ref="org.kuali.ole.describe.bo.OleDiscoveryExportProfile"
+                              auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+            <foreignkey field-ref="exportId"/>
+        </reference-descriptor>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.describe.bo.OleLocationLevel" table="ole_locn_level_t">
+        <field-descriptor name="levelId" column="LEVEL_ID " jdbc-type="VARCHAR" primarykey="true" index="true"
+                          autoincrement="true" sequence-name="ole_locn_level_s"></field-descriptor>
+        <field-descriptor name="levelCode" column="LEVEL_CD" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="levelName" column="LEVEL_NAME" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="parentLevelId" column="PARENT_LEVEL" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <reference-descriptor name="oleLocationLevel" class-ref="org.kuali.ole.describe.bo.OleLocationLevel"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="parentLevelId" target-field-ref="levelCode"/>
+        </reference-descriptor>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.describe.bo.OleLocation" table="ole_locn_t">
+        <field-descriptor name="locationId" column="LOCN_ID " jdbc-type="VARCHAR" primarykey="true" index="true"
+                          autoincrement="true" sequence-name="ole_locn_s"></field-descriptor>
+        <field-descriptor name="locationCode" column="LOCN_CD" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="locationName" column="LOCN_NAME" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="parentLocationId" column="PARENT_LOCN_ID" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="levelId" column="LEVEL_ID" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <reference-descriptor name="oleLocation" class-ref="org.kuali.ole.describe.bo.OleLocation" auto-retrieve="true"
+                              auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="parentLocationId" target-field-ref="locationId"/>
+        </reference-descriptor>
+        <reference-descriptor name="oleLocationLevel" class-ref="org.kuali.ole.describe.bo.OleLocationLevel"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="levelId" target-field-ref="levelId"/>
+        </reference-descriptor>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.describe.bo.OleLocationIngestSummaryRecord" table="ole_locn_sum_t">
+        <field-descriptor name="oleLocationSummaryId" column="OLE_LOCN_SUM_ID" jdbc-type="VARCHAR" primarykey="true"
+                          autoincrement="true" sequence-name="ole_locn_sum_s" />
+        <field-descriptor name="fileName" column="FILE_NM" jdbc-type="VARCHAR" />
+        <field-descriptor name="oleLocationTotCount" column="LOCN_TOT_CNT" jdbc-type="INTEGER" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="oleLocationCreateCount" column="LOCN_CRE_CNT" jdbc-type="INTEGER" />
+        <field-descriptor name="oleLocationFailedCount" column="LOCN_FL_CNT" jdbc-type="INTEGER" />
+        <field-descriptor name="oleLocationRejectCount" column="LOCN_REJ_CNT" jdbc-type="INTEGER" />
+        <field-descriptor name="oleLocationUpdateCount" column="LOCN_UP_CNT" jdbc-type="INTEGER" />
+        <field-descriptor name="olePrincipalName" column="LOCN_PRI_NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="date" column="LOCN_DATE" jdbc-type="TIMESTAMP" />
+
+    </class-descriptor>
+
+
+    <class-descriptor class="org.kuali.ole.docstore.common.document.config.DocTypeConfig" table="ole_ds_doc_type_t">
+        <field-descriptor name="id" column="DOC_TYPE_ID" jdbc-type="INTEGER" primarykey="true" index="true"
+                          autoincrement="true" sequence-name="OLE_DS_DOC_TYPE_S"></field-descriptor>
+        <field-descriptor name="name" column="NAME" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="label" column="DISPLAY_LABEL" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.docstore.common.document.config.DocFormatConfig" table="ole_ds_doc_format_t">
+        <field-descriptor name="id" column="DOC_FORMAT_ID" jdbc-type="INTEGER" primarykey="true" index="true"
+                          autoincrement="true" sequence-name="OLE_DS_DOC_FORMAT_S"></field-descriptor>
+        <field-descriptor name="docTypeId" column="DOC_TYPE_ID" jdbc-type="INTEGER"></field-descriptor>
+        <field-descriptor name="name" column="NAME" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="label" column="DISPLAY_LABEL" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <reference-descriptor name="docType" class-ref="org.kuali.ole.docstore.common.document.config.DocTypeConfig" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="docTypeId" />
+        </reference-descriptor>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.docstore.common.document.config.DocFieldConfig" table="ole_ds_doc_field_t">
+        <field-descriptor name="id" column="DOC_FIELD_ID" jdbc-type="INTEGER" primarykey="true" index="true"
+                          autoincrement="true" sequence-name="OLE_DS_DOC_FIELD_S"></field-descriptor>
+        <field-descriptor name="docTypeId" column="DOC_TYPE_ID" jdbc-type="INTEGER"></field-descriptor>
+        <field-descriptor name="docFormatId" column="DOC_FORMAT_ID" jdbc-type="INTEGER"></field-descriptor>
+        <field-descriptor name="name" column="NAME" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="label" column="DISPLAY_LABEL" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="includePath" column="INCLUDE_PATH" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="excludePath" column="EXCLUDE_PATH" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="searchable" column="IS_SEARCH" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="displayable" column="IS_DISPLAY" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="globallyEditable" column="IS_GLOBAL_EDIT" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="exportable" column="IS_EXPORT" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="facet" column="IS_FACET" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <reference-descriptor name="docType" class-ref="org.kuali.ole.docstore.common.document.config.DocTypeConfig" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="docTypeId" />
+        </reference-descriptor>
+        <reference-descriptor name="docFormat" class-ref="org.kuali.ole.docstore.common.document.config.DocFormatConfig" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="docFormatId" />
+        </reference-descriptor>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.docstore.common.document.config.SearchResultPage" table="ole_ds_search_result_page_t">
+        <field-descriptor name="id" column="DOC_SEARCH_PAGE_SIZE_ID" jdbc-type="INTEGER" primarykey="true" index="true"
+                          autoincrement="true" sequence-name="OLE_DS_SEARCH_RESULT_PAGE_S"></field-descriptor>
+        <field-descriptor name="size" column="PAGE_SIZE" jdbc-type="INTEGER"></field-descriptor>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.docstore.common.document.config.SearchFacetPage" table="ole_ds_search_facet_size_t">
+        <field-descriptor name="id" column="DOC_SEARCH_FACET_SIZE_ID" jdbc-type="INTEGER" primarykey="true" index="true"
+                          autoincrement="true" sequence-name="OLE_DS_SEARCH_FACET_SIZE_S"></field-descriptor>
+        <field-descriptor name="shotSize" column="SHORT_SIZE" jdbc-type="INTEGER"></field-descriptor>
+        <field-descriptor name="longSize" column="LONG_SIZE" jdbc-type="INTEGER"></field-descriptor>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    </class-descriptor>
+
+
+
+</descriptor-repository>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,1728 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"
+ version="5.0" xml:lang="en-US">
+ <title>Circulation Admin</title>
+ <para role="Body Text"><inlinemediaobject>
+   <alt>Maintenance</alt>
+   <imageobject>
+    <imagedata fileref="../images/maintenanceMenu.png"/>
+   </imageobject>
+  </inlinemediaobject> &gt; <inlinemediaobject>
+   <alt>Circulation Admin</alt>
+   <imageobject>
+    <imagedata fileref="../images/DeliverNoTitlePage-CirculationAdmin.png"/>
+   </imageobject>
+  </inlinemediaobject> &gt;<inlinemediaobject>
+   <alt>Circulation Admin Links</alt>
+   <imageobject>
+    <imagedata fileref="../images/DeliverNoTitlePage-CirculationAdminMenu.png"/>
+   </imageobject>
+  </inlinemediaobject>
+ </para>
+ <para role="Body Text">On the Maintenance menu, Circulation Admin provides access to a number of
+  circulation functions that allow users to view and maintain a variety of standard Circulation
+  E-Docs.</para>
+ <section>
+  <title><anchor xml:id="_Barcode_Status"/>Barcode Status</title>
+  <para role="Body Text">
+   <inlinemediaobject>
+    <alt>Maintenance</alt>
+    <imageobject>
+     <imagedata fileref="../images/maintenanceMenu.png"/>
+    </imageobject>
+   </inlinemediaobject> &gt; <inlinemediaobject>
+    <alt>Circulation Admin</alt>
+    <imageobject>
+     <imagedata fileref="../images/DeliverNoTitlePage-CirculationAdmin.png"/>
+    </imageobject>
+   </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+     <alt>Barcode Status</alt>
+     <imageobject>
+      <imagedata fileref="../images/DeliverNoTitlePage-140.png"/>
+     </imageobject>
+    </inlinemediaobject> &gt;<inlinemediaobject>
+     <alt>Barcode Status Lookup</alt>
+     <imageobject>
+      <imagedata fileref="../images/DeliverNoTitlePage-143.png"/>
+     </imageobject>
+    </inlinemediaobject>&gt; <inlinemediaobject>
+     <alt>Barcode Status</alt>
+     <imageobject>
+      <imagedata fileref="../images/DeliverNoTitlePage-141.png"/>
+     </imageobject>
+    </inlinemediaobject>
+   </emphasis></para>
+  <para>The Barcode Status lookup is used to review available statuses for a barcode. Barcode
+   statuses are used in the <emphasis role="bold">Patron</emphasis> document to indicate active,
+   lost or stolen patron barcodes.</para>
+  <note>
+   <para>Users cannot add or edit the barcode statuses without making changes to the underlying
+    code.  This maintenance document is to be removed in 2.0.  See <link
+     xlink:href="https://jira.kuali.org/browse/OLE-6788">OLE-6788</link>.</para>
+  </note>
+  <para/>
+  <section>
+   <title role="Heading 4circ">Document Layout</title>
+   <para role="Normal"/>
+   <para role="Normal">
+    <screenshot>
+     <mediaobject>
+      <alt>Barcode Status Document</alt>
+      <imageobject>
+       <imagedata fileref="../images/DeliverNoTitlePage-142.png" width="100%"/>
+      </imageobject>
+     </mediaobject>
+    </screenshot>
+   </para>
+  </section>
+ </section>
+ <section>
+  <title><anchor xml:id="_Calendar"/>Calendar</title>
+  <para role="Body Text"><inlinemediaobject>
+    <alt>Maintenance</alt>
+    <imageobject>
+     <imagedata fileref="../images/maintenanceMenu.png"/>
+    </imageobject>
+   </inlinemediaobject> &gt; <inlinemediaobject>
+    <alt>Circulation Admin</alt>
+    <imageobject>
+     <imagedata fileref="../images/DeliverNoTitlePage-CirculationAdmin.png"/>
+    </imageobject>
+   </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+     <alt>Calendar</alt>
+     <imageobject>
+      <imagedata fileref="../images/DeliverNoTitlePage-12.png"/>
+     </imageobject>
+    </inlinemediaobject>&gt; <inlinemediaobject>
+     <alt>Calendar Lookup</alt>
+     <imageobject>
+      <imagedata fileref="../images/DeliverNoTitlePage-13.png"/>
+     </imageobject>
+    </inlinemediaobject>&gt; <inlinemediaobject>
+     <alt>Calendar</alt>
+     <imageobject>
+      <imagedata fileref="../images/DeliverNoTitlePage-15.png"/>
+     </imageobject>
+    </inlinemediaobject></emphasis></para>
+  <para>A Calendar defines a library’s open and closed days/hours for a definite or indefinite
+   chronological period. </para>
+  <para>Each Calendar is assigned to a Calendar Group (even if the library uses only one Calendar).
+   A Calendar Group can have one Calendar with no End Date and be used indefinitely OR a Calendar
+   Group can have a chronological sequence of Calendars, one becoming active automatically as soon
+   as the previous one expires. </para>
+  <para>Each Circulation Desk defines the Calendar Group it uses; if a library has multiple
+   Circulation Desks that share the same hours, all of those Circulation Desks can use the same
+   Calendar Group. Any Circulation Desk with its own hours will need its own Calendar Group. </para>
+  <para>A Calendar can define individual hours for each day of the week or define the days that
+   share the same hours. Exceptions can be defined by specific dates or by periods of time. </para>
+  <note>
+   <para>Day(s) on which a library is always closed are simply not defined when creating a Calendar
+    and therefore do NOT display on any Calendar.</para>
+  </note>
+  <para/>
+  <para>Each library must have at least one Calendar with a Calendar Group.</para>
+  <section>
+   <title role="Heading 4circ">Document Layout</title>
+   <para role="Body Text">
+    <screenshot>
+     <mediaobject>
+      <alt>Calendar Document</alt>
+      <imageobject>
+       <imagedata fileref="../images/DeliverNoTitlePage-16.png" width="100%"/>
+      </imageobject>
+     </mediaobject>
+    </screenshot>
+   </para>
+   <para role="Body Text">The Calendar document includes three unique tabs - <emphasis role="bold"
+     >General</emphasis>, <emphasis role="bold">Exception Day</emphasis>, and <emphasis role="bold"
+     >Exception Period</emphasis>. Above these three tabs, enter the <emphasis role="bold">Begin
+     Date</emphasis>, a <emphasis role="bold">Group Name</emphasis>, and a <emphasis role="bold"
+     >Description</emphasis>. </para>
+   <para role="Normal"/>
+   <para role="TableHeading"><emphasis role="bold">Definitions</emphasis></para>
+   <informaltable frame="top">
+    <tgroup cols="2">
+     <colspec colname="col1" colnum="1"/>
+     <colspec colname="col2" colnum="2"/>
+     <tbody>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Title </para>
+       </entry>
+       <entry colname="col2" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Description </para>
+       </entry>
+      </row>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Begin Date</para>
+       </entry>
+       <entry colname="col2" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Required. Autopopulates today's date. Enter another date or use the
+         calendar icon <inlinemediaobject>
+          <imageobject>
+           <imagedata fileref="../images/DeliverNoTitlePage-27.png"/>
+          </imageobject>
+         </inlinemediaobject>.</para>
+       </entry>
+      </row>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">End Date</para>
+       </entry>
+       <entry colname="col2" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">If the calendar is part of a chronological sequence within the
+         Calendar Group, an End Date may be required, depending on the position within the sequence.
+         If the Calendar is the only one in the Calendar Group, the End Date is optional.</para>
+       </entry>
+      </row>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Group Name</para>
+       </entry>
+       <entry colname="col2" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Required. Select the Calendar Group name to which the Calendar
+         belongs from the drop down menu.</para>
+       </entry>
+      </row>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Description</para>
+       </entry>
+       <entry colname="col2" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Required. The familiar description, or name, of the calendar. The
+         data entered here appears in a column on the search results when searching for a Calendar.
+         If you will have a sequence of Calendars within a Calendar Group, the Description could be
+         a sequence,, e.g., “Calendar 1”, “Calendar 2”, etc. However, this is free text so you may
+         describe any Calendar as desired. </para>
+       </entry>
+      </row>
+     </tbody>
+    </tgroup>
+   </informaltable>
+   <section>
+    <title>General Tab</title>
+    <para>Click <inlinemediaobject>
+      <alt>Add</alt>
+      <imageobject>
+       <imagedata fileref="../images/DeliverNoTitlePage-48.png"/>
+      </imageobject>
+     </inlinemediaobject>.</para>
+    <para>
+     <screenshot>
+      <mediaobject>
+       <alt>Calendar Document: General Tab</alt>
+       <imageobject>
+        <imagedata fileref="../images/DeliverNoTitlePage-18.png" width="100%"/>
+       </imageobject>
+      </mediaobject>
+     </screenshot>
+    </para>
+    <para/>
+    <para role="TableHeading"><emphasis role="bold">General Tab Definitions</emphasis></para>
+    <informaltable frame="top">
+     <tgroup cols="2">
+      <colspec colname="col1" colnum="1"/>
+      <colspec colname="col2" colnum="2"/>
+      <tbody>
+       <row>
+        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">Title </para>
+        </entry>
+        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">Description </para>
+        </entry>
+       </row>
+       <row>
+        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">Each day of week<emphasis> </emphasis></para>
+        </entry>
+        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">If the library is open 7 days a week and has the same open/close
+          times every day, select Monday for the first day and Sunday for the next day (or whatever
+          span of days your week covers, e.g., Monday and Saturday), enter the open/close times, and
+          then check the “Each Day of the Week” box. If the library has different open/close times
+          for different days, select the same day for the first and second days and then enter the
+          open/close times. Repeat for the other days. NOTE: if you are always closed on a
+          particular day(s) of the week, do NOT enter that day(s). The system does not accept a day
+          entry with blank open/close times.</para>
+        </entry>
+       </row>
+       <row>
+        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">Open Time/ Closed Time</para>
+        </entry>
+        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">Enter the open and close time for the library and choose "AM" or
+          "PM" from the drop down list.</para>
+        </entry>
+       </row>
+       <row>
+        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">Actions</para>
+        </entry>
+        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">Click <emphasis role="bold">Add</emphasis> to add the general
+          calendar times.</para>
+        </entry>
+       </row>
+      </tbody>
+     </tgroup>
+    </informaltable>
+    <para role="Normal"/>
+   </section>
+   <section>
+    <title>Exception Day Tab</title>
+    <para>
+     <screenshot>
+      <mediaobject>
+       <alt>Calendar Document: Exception Day Tab</alt>
+       <imageobject>
+        <imagedata fileref="../images/DeliverNoTitlePage-19.png" width="100%"/>
+       </imageobject>
+      </mediaobject>
+     </screenshot>
+    </para>
+    <para/>
+    <para role="TableHeading"><emphasis role="bold">Exception Day Tab Definitions</emphasis></para>
+    <informaltable frame="top">
+     <tgroup cols="2">
+      <colspec colname="col1" colnum="1"/>
+      <colspec colname="col2" colnum="2"/>
+      <tbody>
+       <row>
+        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">Title </para>
+        </entry>
+        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">Description </para>
+        </entry>
+       </row>
+       <row>
+        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">Date<emphasis> </emphasis></para>
+        </entry>
+        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">The date of the calendar exception. Use this to define any day
+          when the library is closed or when a day has open/closed hours that differ from the normal
+          hours as defined in the general tab. Enter the date or use the calendar icon <inlinemediaobject>
+           <imageobject>
+            <imagedata fileref="../images/DeliverNoTitlePage-27.png"/>
+           </imageobject>
+          </inlinemediaobject>.</para>
+        </entry>
+       </row>
+       <row>
+        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">Exception Type</para>
+        </entry>
+        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">Required if exception date is entered; select from the drop down
+          menu</para>
+        </entry>
+       </row>
+       <row>
+        <entry colname="col1" colsep="1" rowsep="1" valign="top">Open Time/Closed Time</entry>
+        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">Blank means closed all day; enter and select "AM" or "PM" to
+          define specific times.</para>
+        </entry>
+       </row>
+       <row>
+        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">Actions</para>
+        </entry>
+        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">Click <emphasis role="bold">Add</emphasis> to add the exception
+          day.</para>
+        </entry>
+       </row>
+      </tbody>
+     </tgroup>
+    </informaltable>
+    <para role="Normal"/>
+   </section>
+   <section>
+    <title>Exception Period Tab</title>
+    <para>If an Exception Period is added, specify days of the week as above. Exception Periods are
+     most likely to be defined when the Calendar has Begin and End Dates. If your Calendar has no
+     End Date, you typically will use Exceptions Days instead of Exception Periods. </para>
+    <para>
+     <screenshot>
+      <mediaobject>
+       <alt>Calendar Document: Exception Period Tab</alt>
+       <imageobject>
+        <imagedata fileref="../images/DeliverNoTitlePage-21.png" width="100%"/>
+       </imageobject>
+      </mediaobject>
+     </screenshot>
+    </para>
+    <para/>
+    <para role="TableHeading"><emphasis role="bold">Exception Period Tab
+     Definitions</emphasis></para>
+    <informaltable frame="top">
+     <tgroup cols="2">
+      <colspec colname="col1" colnum="1"/>
+      <colspec colname="col2" colnum="2"/>
+      <tbody>
+       <row>
+        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">Title </para>
+        </entry>
+        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">Description </para>
+        </entry>
+       </row>
+       <row>
+        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">Begin Date<emphasis> </emphasis></para>
+        </entry>
+        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">The beginning date of the calendar exception period. Enter the
+          date or use the calendar icon <inlinemediaobject>
+           <imageobject>
+            <imagedata fileref="../images/DeliverNoTitlePage-27.png"/>
+           </imageobject>
+          </inlinemediaobject>.</para>
+        </entry>
+       </row>
+       <row>
+        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">End Date</para>
+        </entry>
+        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">The end date of the calendar exception period. Enter the date or
+          use the calendar icon <inlinemediaobject>
+           <imageobject>
+            <imagedata fileref="../images/DeliverNoTitlePage-27.png"/>
+           </imageobject>
+          </inlinemediaobject>.</para>
+        </entry>
+       </row>
+       <row>
+        <entry colname="col1" colsep="1" rowsep="1" valign="top">Description</entry>
+        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">A descriptive title of the exception period.</para>
+        </entry>
+       </row>
+       <row>
+        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">Actions</para>
+        </entry>
+        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">Click <emphasis role="bold">Add</emphasis> to add the exception
+          period.</para>
+        </entry>
+       </row>
+      </tbody>
+     </tgroup>
+    </informaltable>
+    <para role="Normal"/>
+   </section>
+   <section>
+    <title>Process Overview</title>
+    <section>
+     <title>Business Rules</title>
+     <itemizedlist>
+      <listitem>
+       <para>Operators without create permission will NOT be able to create a new Calendar.</para>
+      </listitem>
+      <listitem>
+       <para>For “Each day of week”, you can either enter each day separately (if open/close times
+        vary by day) or enter a span of days (if open/close times are the same for each day).</para>
+      </listitem>
+      <listitem>
+       <para>Each day of the week check box must be checked for a span of days.</para>
+      </listitem>
+      <listitem>
+       <para>A day’s closed time may be after midnight, e.g., open time=8 AM and close time=1AM.
+       </para>
+      </listitem>
+      <listitem>
+       <para>If a closing time for <emphasis role="bold"><emphasis role="italic"
+         >any</emphasis></emphasis> day of the week is after midnight, you must enter each day
+        separately with its own open/close times.</para>
+      </listitem>
+      <listitem>
+       <para> If the library is always closed on a day(s) of the week, simply omit that day(s) from
+        your Calendar. The system automatically assumes the library is always closed on that day(s).
+        Do NOT define a regularly-closed day as an Exception Day or Exception Type.</para>
+      </listitem>
+      <listitem>
+       <para>If a library has hours associated with an academic term, interrupted by interim periods
+        with different hours, the library may wish to define a chronological sequence of Calendars
+        within a Calendar Group; in such a scenario, the system expects the Begin Date of the second
+        Calendar in the sequence to be the day after the End Date of the first Calendar in the
+        sequence; and so forth. New Calendars are simply added to the chronological sequence. The
+        final Calendar in the sequence may or may not have an End Date. Alternatively, the library
+        COULD define one Calendar with no End Date, continue to add Exception Days and define its
+        academic interims as Exception Types. </para>
+      </listitem>
+      <listitem>
+       <para>Validation rules have been set up to make it as difficult as possible to define a
+        Calendar or sequence of Calendars with overlapping Begin/End Dates.</para>
+      </listitem>
+      <listitem>
+       <para>It is possible to define an End Date for a Calendar without a chronological successor
+        Calendar. </para>
+      </listitem>
+      <listitem>
+       <para>Exception Days can be added after the fact to record a closed day or a day with
+        abbreviated hours caused by unexpected circumstances or emergencies, e.g., weather, natural
+        disasters, problems with a building’s mechanicals, etc. While this will not automatically
+        adjust certain situations (e.g., this does NOT automatically extend a loan period for items
+        due on that day), it will serve as a reference point for staff asked, e.g., to forgive
+        overdue fines or make other adjustments related to the unanticipated closing. </para>
+      </listitem>
+     </itemizedlist>
+    </section>
+    <section>
+     <title>Creating Calendars</title>
+     <orderedlist>
+      <listitem>
+       <para>Open the Calendar Document from the <emphasis role="bold">Maintenance</emphasis>
+        tab.</para>
+      </listitem>
+      <listitem>
+       <para>Enter the appropriate data. Click <inlinemediaobject>
+         <alt>Add</alt>
+         <imageobject>
+          <imagedata fileref="../images/DeliverNoTitlePage-48.png"/>
+         </imageobject>
+        </inlinemediaobject> to add a General calendar, exception day or exception period.</para>
+      </listitem>
+      <listitem>
+       <para>Click <emphasis role="bold">Submit</emphasis>.</para>
+      </listitem>
+     </orderedlist>
+    </section>
+    <section>
+     <title>Maintaining Calendars</title>
+     <para>Libraries must establish internal procedures for ensuring that Calendars are created
+      prior to the dates that they need to become effective. There is no automatic alert system in
+      place to notify staff that a Calendar is nearing its End Date. </para>
+    </section>
+   </section>
+  </section>
+ </section>
+ <section>
+  <title><anchor xml:id="_CalendarExceptionType"/>Calendar Exception Type</title>
+  <para role="Body Text"><inlinemediaobject>
+    <alt>Maintenance</alt>
+    <imageobject>
+     <imagedata fileref="../images/maintenanceMenu.png"/>
+    </imageobject>
+   </inlinemediaobject> &gt; <inlinemediaobject>
+    <alt>Circulation Admin</alt>
+    <imageobject>
+     <imagedata fileref="../images/DeliverNoTitlePage-CirculationAdmin.png"/>
+    </imageobject>
+   </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+     <alt>Calendar Exception Type</alt>
+     <imageobject>
+      <imagedata fileref="../images/DeliverNoTitlePage-93.png"/>
+     </imageobject>
+    </inlinemediaobject>&gt; <inlinemediaobject>
+     <alt>Calendar Exception Type Lookup</alt>
+     <imageobject>
+      <imagedata fileref="../images/DeliverNoTitlePage-92.png"/>
+     </imageobject>
+    </inlinemediaobject>&gt; <inlinemediaobject>
+     <alt>Calendar Exception Type</alt>
+     <imageobject>
+      <imagedata fileref="../images/DeliverNoTitlePage-92a.png"/>
+     </imageobject>
+    </inlinemediaobject></emphasis></para>
+  <para>Before setting up an OLE Calendar (used by each Circulation Desk), you must first define
+   Exception Types. Exception Types define the most common reasons that a library is closed on a
+   day(s) that it would otherwise normally be open. Typical Exception Types might include, but are
+   not limited to:</para>
+  <para> Holiday</para>
+  <para> Building Evacuation</para>
+  <para> Weather Event</para>
+  <para> Snow Day</para>
+  <para> Spring Break</para>
+  <para>As soon as you create a Calendar Exception Type, the name appears in a drop-down menu on a
+   Calendar for use when defining Exception Days and/or Exception Periods. </para>
+  <para role="Normal"/>
+  <section>
+   <title role="Heading 4circ">Document Layout</title>
+   <para role="Body Text">
+    <screenshot>
+     <mediaobject>
+      <alt>Calendar Exception Type Document</alt>
+      <imageobject>
+       <imagedata fileref="../images/DeliverNoTitlePage-96.png" width="100%"/>
+      </imageobject>
+     </mediaobject>
+    </screenshot>
+   </para>
+   <para role="Body Text">The Exception Type document includes the <emphasis role="bold">Add/Edit
+     Calendar Exception Type</emphasis> tab. The system automatically enters data into both the
+     <emphasis role="bold">Old</emphasis> and <emphasis role="bold">New</emphasis> sections in this
+    tab. Selected data fields are available for editing.</para>
+   <para role="Normal"/>
+   <para role="TableHeading"><emphasis role="bold">Add/Edit Calendar Exception Type Tab
+     Definitions</emphasis></para>
+   <informaltable frame="top">
+    <tgroup cols="2">
+     <colspec colname="col1" colnum="1"/>
+     <colspec colname="col2" colnum="2"/>
+     <tbody>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Title </para>
+       </entry>
+       <entry colname="col2" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Description </para>
+       </entry>
+      </row>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Calendar Exception Type Code<emphasis> </emphasis></para>
+       </entry>
+       <entry colname="col2" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Required. A unique code that identifies the Calendar Exception
+         Type</para>
+       </entry>
+      </row>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Calendar Exception Type Name</para>
+       </entry>
+       <entry colname="col2" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Required. A descriptive title for the exception type. This displays
+         in a drop-down menu on the Calendar for Exception Day and Exception Period</para>
+       </entry>
+      </row>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Active Indicator</para>
+       </entry>
+       <entry colname="col2" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Indicates whether this Calendar Exception Type is active or
+         inactive. Remove the check mark to deactivate.</para>
+       </entry>
+      </row>
+     </tbody>
+    </tgroup>
+   </informaltable>
+   <para role="Normal"/>
+  </section>
+ </section>
+ <section>
+  <title><anchor xml:id="_CalendarGroup"/>Calendar Group</title>
+  <para role="Body Text"><inlinemediaobject>
+    <alt>Maintenance</alt>
+    <imageobject>
+     <imagedata fileref="../images/maintenanceMenu.png"/>
+    </imageobject>
+   </inlinemediaobject> &gt; <inlinemediaobject>
+    <alt>Circulation Admin</alt>
+    <imageobject>
+     <imagedata fileref="../images/DeliverNoTitlePage-CirculationAdmin.png"/>
+    </imageobject>
+   </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+     <alt>Calendar Group</alt>
+     <imageobject>
+      <imagedata fileref="../images/DeliverNoTitlePage-9.png"/>
+     </imageobject>
+    </inlinemediaobject>&gt; <inlinemediaobject>
+     <alt>Calendar Group Lookup</alt>
+     <imageobject>
+      <imagedata fileref="../images/DeliverNoTitlePage-5.png"/>
+     </imageobject>
+    </inlinemediaobject>&gt; <inlinemediaobject>
+     <alt>Calendar Group</alt>
+     <imageobject>
+      <imagedata fileref="../images/DeliverNoTitlePage-7.png"/>
+     </imageobject>
+    </inlinemediaobject></emphasis></para>
+  <para>A Calendar defines a library’s open and closed days/hours for a definite or indefinite
+   chronological period. </para>
+  <para>Each Calendar is assigned to a Calendar Group (even if the library uses only one Calendar).
+   A Calendar Group can have one Calendar with no End Date and be used indefinitely OR a Calendar
+   Group can have a chronological sequence of Calendars, one becoming active automatically as soon
+   as the previous one expires. </para>
+  <para>Each Circulation Desk defines the Calendar Group it uses; if a library has multiple
+   Circulation Desks that share the same hours, all of those Circulation Desks can use the same
+   Calendar Group. Any Circulation Desk with its own hours will need its own Calendar Group. </para>
+  <para>A Calendar can define individual hours for each day of the week or define the days that
+   share the same hours. Exceptions can be defined by specific dates or by periods of time. </para>
+  <note>
+   <para>Day(s) on which a library is always closed are simply not defined when creating a Calendar
+    and therefore do NOT display on any Calendar.</para>
+  </note>
+  <para/>
+  <para>Each library must have at least one Calendar Group.</para>
+  <section>
+   <title role="Heading 4circ">Document Layout</title>
+   <para role="Body Text">
+    <screenshot>
+     <mediaobject>
+      <alt>Calendar Group Document</alt>
+      <imageobject>
+       <imagedata fileref="../images/DeliverNoTitlePage-8.png" width="100%"/>
+      </imageobject>
+     </mediaobject>
+    </screenshot>
+   </para>
+   <para role="Body Text">The Calendar Group document includes the <emphasis role="bold">Add/Edit
+     Calendar Group</emphasis> tab. The system automatically enters data into both the <emphasis
+     role="bold">Old</emphasis> and <emphasis role="bold">New</emphasis> sections in this tab.
+    Selected data fields are available for editing.</para>
+   <para role="Normal"/>
+   <para role="TableHeading"><emphasis role="bold">Add/Edit Calendar Group Tab
+     Definitions</emphasis></para>
+   <informaltable frame="top">
+    <tgroup cols="2">
+     <colspec colname="col1" colnum="1"/>
+     <colspec colname="col2" colnum="2"/>
+     <tbody>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Title </para>
+       </entry>
+       <entry colname="col2" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Description </para>
+       </entry>
+      </row>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Calendar Group Code<emphasis> </emphasis></para>
+       </entry>
+       <entry colname="col2" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Required. A unique code to identify the calendar group.</para>
+       </entry>
+      </row>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Calendar Group Name</para>
+       </entry>
+       <entry colname="col2" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Required. A descriptive name of the calendar group.</para>
+       </entry>
+      </row>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Active Indicator</para>
+       </entry>
+       <entry colname="col2" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Indicates whether this Calendar Group is active or inactive. Remove
+         the check mark to deactivate</para>
+       </entry>
+      </row>
+     </tbody>
+    </tgroup>
+   </informaltable>
+   <para role="Normal"/>
+  </section>
+  <section>
+   <title>Process Overview</title>
+   <section>
+    <title>Business Rules</title>
+    <itemizedlist>
+     <listitem>
+      <para>Operators without create permission will NOT be able to create a new Calendar
+       Group.</para>
+     </listitem>
+     <listitem>
+      <para>Each Circulation Desk is associated with a Calendar Group which contains a
+       Calendar(s)—see <link linkend="_Calendar">Calendar</link>. If all Circulation Desks have
+       identical hours, they can all share the same Calendar Group. Any Circulation Desk with its
+       own hours will need to have its own Calendar Group. </para>
+     </listitem>
+     <listitem>
+      <para>Define as many Calendar Groups as you have Circulation Desks with their own hours.
+      </para>
+     </listitem>
+     <listitem>
+      <para>Calendar Groups no longer needed or used should be marked “inactive”. </para>
+     </listitem>
+    </itemizedlist>
+   </section>
+  </section>
+ </section>
+ <section>
+  <title><anchor xml:id="_Circulation_Desk_1"/>Circulation Desk</title>
+  <para><inlinemediaobject>
+    <alt>Maintenance</alt>
+    <imageobject>
+     <imagedata fileref="../images/maintenanceMenu.png"/>
+    </imageobject>
+   </inlinemediaobject> &gt; <inlinemediaobject>
+    <alt>Circulation Admin</alt>
+    <imageobject>
+     <imagedata fileref="../images/DeliverNoTitlePage-CirculationAdmin.png"/>
+    </imageobject>
+   </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+     <alt>Circulation Desk</alt>
+     <imageobject>
+      <imagedata fileref="../images/DeliverNoTitlePage-44.png"/>
+     </imageobject>
+    </inlinemediaobject><emphasis role="bold">&gt;</emphasis><inlinemediaobject>
+     <alt>Circulation Desk Lookup</alt>
+     <imageobject>
+      <imagedata fileref="../images/DeliverNoTitlePage-78.png"/>
+     </imageobject>
+    </inlinemediaobject>&gt;</emphasis><inlinemediaobject>
+    <alt>Circulation Desk</alt>
+    <imageobject>
+     <imagedata fileref="../images/DeliverNoTitlePage-45a.png"/>
+    </imageobject>
+   </inlinemediaobject></para>
+  <para role="Body Text">Circulation desks are the basic work locations where operators circulate
+   items to patrons, check-in items, hold items to give to patrons, and help patrons by creating
+   requests. Circulation Desks can also function as pick-up locations where patrons can claim their
+   requested items. </para>
+  <section>
+   <title role="Heading 4circ">Document Layout</title>
+   <para role="Normal">
+    <screenshot>
+     <mediaobject>
+      <alt>Circulation Desk Document</alt>
+      <imageobject>
+       <imagedata fileref="../images/DeliverNoTitlePage-45.png" width="100%"/>
+      </imageobject>
+     </mediaobject>
+    </screenshot>
+   </para>
+   <para role="Body Text">The Circulation Desk document includes the <emphasis role="bold">Add/Edit
+     Circulation Desk</emphasis> tab and the <emphasis role="bold">Location </emphasis>tab. </para>
+   <section>
+    <title>Add/Edit Circulation Desk Tab</title>
+    <para role="Body Text">The system automatically enters data into both the <emphasis role="bold"
+      >Old</emphasis> and <emphasis role="bold">New</emphasis> sections in the <emphasis role="bold"
+      >Add/Edit Circulation Desk</emphasis> tab. Selected data fields are available for
+     editing.</para>
+    <para/>
+    <para role="Normal">
+     <screenshot>
+      <mediaobject>
+       <alt>Circulation Desk Document: Add/Edit Circulation Desk</alt>
+       <imageobject>
+        <imagedata fileref="../images/DeliverNoTitlePage-79.png" width="100%"/>
+       </imageobject>
+      </mediaobject>
+     </screenshot>
+    </para>
+    <para role="Normal"/>
+    <para role="TableHeading"><emphasis role="bold">Add/Edit Circulation Desk Tab
+      Definitions</emphasis></para>
+    <informaltable frame="top">
+     <tgroup cols="2">
+      <colspec colname="col1" colnum="1"/>
+      <colspec colname="col2" colnum="2"/>
+      <tbody>
+       <row>
+        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">Title </para>
+        </entry>
+        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">Description </para>
+        </entry>
+       </row>
+       <row>
+        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">Circulation Desk Code<emphasis> </emphasis></para>
+        </entry>
+        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">Required. The circulation desk code associated with this
+          circulation desk.</para>
+        </entry>
+       </row>
+       <row>
+        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">Circulation Desk Public Name</para>
+        </entry>
+        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">Required. The familiar title of the circulation desk’s public
+          view.</para>
+        </entry>
+       </row>
+       <row>
+        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">Circulation Desk Staff Name</para>
+        </entry>
+        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">Required. The familiar title of the circulation desk’s staff view;
+          may be the same as the public name.</para>
+        </entry>
+       </row>
+       <row>
+        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">On-Hold Days</para>
+        </entry>
+        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">Required. The number of days an item will remain on hold at this
+          circulation desk.</para>
+        </entry>
+       </row>
+       <row>
+        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">Shelving Lag Time (minutes)</para>
+        </entry>
+        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">Required. The amount of time, in minutes, between check-in and
+          reshelving.</para>
+         <note>
+          <para>This time is dependant on the batch job
+           updateStatusIntoAvailableAfterReShelvingJob.  Statuses will not be updated to "available"
+           until this job has run.  If the Shelving Lag Time is set to "15", but the job is set to
+           run only at midnight, then this is when statuses will be updated.  However if the job is
+           set to run every 5 minutes, the job will run three times before statuses are
+           updated.</para>
+         </note>
+        </entry>
+       </row>
+       <row>
+        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">Pick Up Location</para>
+        </entry>
+        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">Indicates whether this circulation desk can be used as a pick up
+          location for holds.</para>
+        </entry>
+       </row>
+       <row>
+        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">ASR Pick Up Location</para>
+        </entry>
+        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">Indicates whether this circulation desk can be used as a pick up
+          location for items on hold from an Automated Storage Retrieval System (ASR).</para>
+        </entry>
+       </row>
+       <row>
+        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">Print Slip</para>
+        </entry>
+        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">Indicates whether this circulation desk can print receipts for
+          patrons.</para>
+        </entry>
+       </row>
+       <row>
+        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">Active Indicator</para>
+        </entry>
+        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">Indicates whether this circulation desk is active or inactive.
+          Remove the check mark to deactivate.</para>
+        </entry>
+       </row>
+       <row>
+        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">Group Name</para>
+        </entry>
+        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">Indicates the Calendar Group assigned to the circulation desk.
+          Select a calendar group from the dropdown list or search for one from the lookup <inlinemediaobject>
+           <imageobject>
+            <imagedata fileref="../images/Lookup2.png"/>
+           </imageobject>
+          </inlinemediaobject></para>
+        </entry>
+       </row>
+       <row>
+        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">Hold Format</para>
+        </entry>
+        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">Indicates the format of the printed on-hold slips for a
+          circulation desk. </para>
+         <para role="Table Cells">Receipt Printer will format the page to print on 3.5" x 6" paper. </para>
+         <para role="Table Cells">Normal Printer will format the page to print on standard 8.5" x
+          11" paper.</para>
+        </entry>
+       </row>
+       <row>
+        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">Hold Queue</para>
+        </entry>
+        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">Indicates whether all on-hold slips print together after a
+          circulation attendant clicks "end session" or individually, after each circulation
+          transaction occurs. Check the box to print the slips all together.</para>
+        </entry>
+       </row>
+      </tbody>
+     </tgroup>
+    </informaltable>
+    <para role="Normal"/>
+   </section>
+  </section>
+  <section>
+   <title>Location tab</title>
+   <para role="Normal"/>
+   <para role="Normal">A circulation desk can have multiple shelving locations but each shelving
+    location can have only a single circulation desk. On the <emphasis role="bold"
+     >Location</emphasis> tab, you may add and/or delete shelving locations to circulation
+    desks.</para>
+   <orderedlist>
+    <listitem>
+     <para role="Normal">Enter a location or search for it from the lookup <inlinemediaobject>
+       <imageobject>
+        <imagedata fileref="../images/Lookup2.png"/>
+       </imageobject>
+      </inlinemediaobject>.</para>
+     <para/>
+    </listitem>
+    <listitem>
+     <para role="Normal">Click <inlinemediaobject>
+       <alt>Add</alt>
+       <imageobject>
+        <imagedata fileref="../images/DeliverNoTitlePage-48.png"/>
+       </imageobject>
+      </inlinemediaobject>.</para>
+    </listitem>
+    <listitem>
+     <para role="Normal">To remove an existing location, click <inlinemediaobject>
+       <alt>Delete</alt>
+       <imageobject>
+        <imagedata fileref="../images/DeliverNoTitlePage-49.png"/>
+       </imageobject>
+      </inlinemediaobject>.</para>
+     <para role="Normal"/>
+     <para role="Normal">
+      <screenshot>
+       <mediaobject>
+        <alt>Circulation Desk Document: Location Tab</alt>
+        <imageobject>
+         <imagedata fileref="../images/DeliverNoTitlePage-46.png" width="100%"/>
+        </imageobject>
+       </mediaobject>
+      </screenshot>
+     </para>
+    </listitem>
+   </orderedlist>
+  </section>
+ </section>
+ <section>
+  <title><anchor xml:id="_Circulation_Desk_Mapping_1"/>Circulation Desk Mapping</title>
+  <para role="Body Text"><inlinemediaobject>
+    <alt>Maintenance</alt>
+    <imageobject>
+     <imagedata fileref="../images/maintenanceMenu.png"/>
+    </imageobject>
+   </inlinemediaobject> &gt; <inlinemediaobject>
+    <alt>Circulation Admin</alt>
+    <imageobject>
+     <imagedata fileref="../images/DeliverNoTitlePage-CirculationAdmin.png"/>
+    </imageobject>
+   </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+     <alt>Circulation Desk Mapping</alt>
+     <imageobject>
+      <imagedata fileref="../images/DeliverNoTitlePage-52.png"/>
+     </imageobject>
+    </inlinemediaobject>&gt; <inlinemediaobject>
+     <alt>Circulation Desk Mapping</alt>
+     <imageobject>
+      <imagedata fileref="../images/DeliverNoTitlePage-53.png"/>
+     </imageobject>
+    </inlinemediaobject></emphasis></para>
+  <para role="Normal">Circulation Desk Mapping allows users with the role OLE-PTRN Deliver Admin to
+   map circulation desks to OLE operators.</para>
+  <para role="Normal"/>
+  <para role="Normal">Each operator will have a default circulation desk but they can have one or
+   more circulation desks where they can work. If they have more than one circulation desk, they
+   will be able to change from one circulation desk to another to indicate where they are when
+   circulating library materials. </para>
+  <section>
+   <title role="Heading 4circ">Process Overview</title>
+   <para role="Normal">To map circulation desks, staff will find the <emphasis role="bold"
+     >Circulation Desk Mapping</emphasis> interface under <emphasis role="bold">Circulation
+     Admin</emphasis> on the <emphasis role="bold">Deliver</emphasis> menu. </para>
+   <orderedlist numeration="arabic" spacing="normal">
+    <listitem>
+     <para role="List Paragraph">Enter the <emphasis role="bold">Operator</emphasis> or search for
+      the person from the lookup <inlinemediaobject>
+       <imageobject>
+        <imagedata fileref="../images/Lookup.png"/>
+       </imageobject>
+      </inlinemediaobject>.</para>
+    </listitem>
+    <listitem>
+     <para role="List Paragraph">Press <emphasis role="bold">Enter</emphasis>.</para>
+     <para role="Body Text">
+      <screenshot>
+       <mediaobject>
+        <alt>Circulation Desk Mapping Interface</alt>
+        <imageobject>
+         <imagedata fileref="../images/DeliverNoTitlePage-55.png" width="100%"/>
+        </imageobject>
+       </mediaobject>
+      </screenshot>
+     </para>
+    </listitem>
+    <listitem>
+     <para role="Body Text">You may change the default circulation desk by checking one of the boxes
+      in the <emphasis role="bold">default</emphasis> column. Every time an operator logs into OLE
+      to circulate materials, they will be at this location.</para>
+    </listitem>
+    <listitem>
+     <para role="Body Text">You may select or deselect allowed circulation desks by checking or
+      unchecking the boxes in the <emphasis role="bold">allowed</emphasis> column. These will appear
+      in the <emphasis role="bold">Circulation Desk</emphasis> drop down on the <emphasis
+       role="bold">Loan/Return</emphasis> interface.</para>
+     <para role="Body Text">A list of circulation desks will appear below the search.</para>
+    </listitem>
+    <listitem>
+     <para role="Body Text">Click <inlinemediaobject>
+       <alt>Save</alt>
+       <imageobject>
+        <imagedata fileref="../images/DeliverNoTitlePage-56.png"/>
+       </imageobject>
+      </inlinemediaobject>.</para>
+    </listitem>
+   </orderedlist>
+  </section>
+ </section>
+ <section>
+  <title>Copy Format</title>
+  <para role="Body Text"><inlinemediaobject>
+    <alt>Maintenance</alt>
+    <imageobject>
+     <imagedata fileref="../images/maintenanceMenu.png"/>
+    </imageobject>
+   </inlinemediaobject> &gt; <inlinemediaobject>
+    <alt>Circulation Admin</alt>
+    <imageobject>
+     <imagedata fileref="../images/DeliverNoTitlePage-CirculationAdmin.png"/>
+    </imageobject>
+   </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+     <alt>Copy Format</alt>
+     <imageobject>
+      <imagedata fileref="../images/DeliverNoTitlePage-99.png"/>
+     </imageobject>
+    </inlinemediaobject>&gt; <inlinemediaobject>
+     <alt>Copy Format Type</alt>
+     <imageobject>
+      <imagedata fileref="../images/DeliverNoTitlePage-100.png"/>
+     </imageobject>
+    </inlinemediaobject></emphasis></para>
+  <para role="Normal">The Copy Format document defines the format of a copy request. Though locally
+   configurable, some examples of copy format include "photocopy" and "PDF".</para>
+  <para role="Normal"/>
+  <section>
+   <title>Document Layout</title>
+   <para role="Body Text">
+    <screenshot>
+     <mediaobject>
+      <alt>Copy Format Type Document</alt>
+      <imageobject>
+       <imagedata fileref="../images/DeliverNoTitlePage-111.png" width="100%"/>
+      </imageobject>
+     </mediaobject>
+    </screenshot>
+   </para>
+   <para role="Body Text">The Copy Format document includes the <emphasis role="bold">Add/Edit Copy
+     Format</emphasis> tab. The system automatically enters data into both the <emphasis role="bold"
+     >Old</emphasis> and <emphasis role="bold">New</emphasis> sections in this tab. Selected data
+    fields are available for editing.</para>
+   <para role="Normal"/>
+   <para role="TableHeading"><emphasis role="bold">Add/Edit Copy Format Tab
+    Definitions</emphasis></para>
+   <informaltable frame="top">
+    <tgroup cols="2">
+     <colspec colname="col1" colnum="1"/>
+     <colspec colname="col2" colnum="2"/>
+     <tbody>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Title </para>
+       </entry>
+       <entry colname="col2" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Description </para>
+       </entry>
+      </row>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Copy Format Code<emphasis> </emphasis></para>
+       </entry>
+       <entry colname="col2" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Required. The code to identify the copy format.</para>
+       </entry>
+      </row>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Copy Format Name</para>
+       </entry>
+       <entry colname="col2" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Required. A descriptive name of the copy format.</para>
+       </entry>
+      </row>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Active Indicator</para>
+       </entry>
+       <entry colname="col2" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Indicates whether this Copy Format is active or inactive. Remove
+         the check mark to deactivate</para>
+       </entry>
+      </row>
+     </tbody>
+    </tgroup>
+   </informaltable>
+   <para role="Normal"/>
+  </section>
+ </section>
+ <section>
+  <title><anchor xml:id="_FixedDueDate"/>Fixed Due Date</title>
+  <para role="Body Text"><inlinemediaobject>
+    <alt>Maintenance</alt>
+    <imageobject>
+     <imagedata fileref="../images/maintenanceMenu.png"/>
+    </imageobject>
+   </inlinemediaobject> &gt; <inlinemediaobject>
+    <alt>Circulation Admin</alt>
+    <imageobject>
+     <imagedata fileref="../images/DeliverNoTitlePage-CirculationAdmin.png"/>
+    </imageobject>
+   </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+     <alt>Fixed Due Date</alt>
+     <imageobject>
+      <imagedata fileref="../images/DeliverNoTitlePage-112.png"/>
+     </imageobject>
+    </inlinemediaobject> &gt; <inlinemediaobject>
+     <alt>Fixed Due Date Lookup</alt>
+     <imageobject>
+      <imagedata fileref="../images/DeliverNoTitlePage-1.png"/>
+     </imageobject>
+    </inlinemediaobject>&gt; <inlinemediaobject>
+     <alt>Fixed Due Date</alt>
+     <imageobject>
+      <imagedata fileref="../images/DeliverNoTitlePage-118.png"/>
+     </imageobject>
+    </inlinemediaobject></emphasis></para>
+  <para>A <emphasis role="bold">Fixed Due Date</emphasis> schedule allows a library to determine
+   that materials loaned during specific periods all come due at the same time. This maintenance
+   document makes it possible to set up a system wherein everything loaned during an academic term
+   comes due at the end of the term, and everything loaned during the summer break comes due at the
+   end of the summer.</para>
+  <para>Staff can create multiple fixed due date schedules.</para>
+  <note>
+   <para>The from and to dates of multiple entries in a fixed due date schedule must not
+    intersect.</para>
+  </note>
+  <section>
+   <title role="Heading 4circ">Getting Started</title>
+   <para>Fixed due dates are tied into circulation policies. If a fixed due date is in effect for
+    the circulation policy, then any loan that takes place between the start and end dates of the
+    fixed due date schedule will use the fixed due date.</para>
+   <tip>
+    <para>You need to be familiar with the circulation policy KRMS rules built into your local
+     implementation to assign fixed due dates.</para>
+   </tip>
+   <para>Because fixed due dates are tied into circulation policies, the <emphasis role="bold">Fixed
+     Due Date Lookup</emphasis> only allows uses to search by the policy set.</para>
+   <para/>
+   <para role="Body Text">
+    <screenshot>
+     <mediaobject>
+      <alt>Fixed Due Date Lookup Screen</alt>
+      <imageobject>
+       <imagedata fileref="../images/DeliverNoTitlePage-2.png" width="100%"/>
+      </imageobject>
+     </mediaobject>
+    </screenshot>
+   </para>
+  </section>
+  <section>
+   <title>Document Layout</title>
+   <para role="Body Text">
+    <screenshot>
+     <mediaobject>
+      <alt>Fixed Due Date Document</alt>
+      <imageobject>
+       <imagedata fileref="../images/DeliverNoTitlePage-3.png" width="100%"/>
+      </imageobject>
+     </mediaobject>
+    </screenshot>
+   </para>
+   <para role="Body Text">This screen includes unique <emphasis role="bold">Add/Edit Fixed Due
+     Date</emphasis> and <emphasis role="bold">Time Span</emphasis> tabs in addition to the standard
+    tabs that display at the bottom of OLE documents.</para>
+   <note>
+    <para> For more information about the standard tabs, see <link
+      xlink:href="../../../webhelp/BASICS/content/ch02s02.html#_standardTabs">Standard Tabs</link>
+     on the <emphasis>Guide to OLE Basic Functionality and Key Concepts</emphasis>.</para>
+   </note>
+   <section>
+    <title>Add/Edit Fixed Due Date Tab</title>
+    <para>The <emphasis role="bold">Add/Edit Fixed Due Date</emphasis> tab allows staff to assign
+     the fixed due date to a circulation policy set. A fixed due date must be tied to a policy set.
+     Select the <emphasis role="bold">Circulation Policy Set</emphasis> from the dropdown
+     list.</para>
+    <para>Circulation Policy Sets are created from the KRMS rules written in xml and loaded into OLE
+     by an administrator.  While all KRMS rules display in the dropdown, not all of them can have
+     fixed due dates applied.  You will need to select a Circulation Policy Set that is applicable
+     to checkouts/loans, see an administrator familiar with your institution's circulation policy
+     xml to determine which circulation policy set to select.</para>
+    <para role="Normal"/>
+    <para role="Body Text">
+     <screenshot>
+      <mediaobject>
+       <alt>Fixed Due Date Document: Add/Edit Fixed Due Date Tab</alt>
+       <imageobject>
+        <imagedata fileref="../images/DeliverNoTitlePage-120.png"/>
+       </imageobject>
+      </mediaobject>
+     </screenshot>
+    </para>
+   </section>
+   <section>
+    <title>Time Span Tab</title>
+    <para>The <emphasis role="bold">Time Span</emphasis> tab allows staff set the time frame for the
+     fixed due date schedule as well as the assign the due date for a circulation policy.</para>
+    <para role="Normal"/>
+    <para role="Body Text">
+     <screenshot>
+      <mediaobject>
+       <alt>Fixed Due Date Document: Time Span Tab</alt>
+       <imageobject>
+        <imagedata fileref="../images/DeliverNoTitlePage-4.png" width="100%"/>
+       </imageobject>
+      </mediaobject>
+     </screenshot>
+    </para>
+    <para role="TableHeading"><emphasis role="bold">Time Span Tab Definitions</emphasis></para>
+    <informaltable frame="top">
+     <tgroup cols="2">
+      <colspec colname="col1" colnum="1"/>
+      <colspec colname="col2" colnum="2"/>
+      <tbody>
+       <row>
+        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">Title </para>
+        </entry>
+        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">Description </para>
+        </entry>
+       </row>
+       <row>
+        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">From Date<emphasis> </emphasis></para>
+        </entry>
+        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">The starting date for the fixed due date schedule. Anything loaned
+          from this date on and apply to the circulation policy noted above will be assigned the
+          fixed due date.</para>
+        </entry>
+       </row>
+       <row>
+        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">To Date</para>
+        </entry>
+        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">The ending date for the fixed due date schedule. Anything loaned
+          before and on this date and apply to the circulation policy noted above will be assigned
+          the fixed due date.</para>
+        </entry>
+       </row>
+       <row>
+        <entry colname="col1" colsep="1" rowsep="1" valign="top">Fixed Due Date</entry>
+        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+         <para role="Table Cells">The date every item loaned within the circulation policy noted
+          above will be due.</para>
+         <para>Fixed Due Dates are scheduled to be due on the date entered, at 23:59:59.  This time
+          can be changed from the parameter DEF_CLOSE_TIME.</para>
+        </entry>
+       </row>
+       <row>
+        <entry colname="col1" colsep="1" rowsep="1" valign="top">Action</entry>
+        <entry colname="col2" colsep="1" rowsep="1" valign="top">Click <emphasis role="bold"
+          >add</emphasis> to add the time span.</entry>
+       </row>
+      </tbody>
+     </tgroup>
+    </informaltable>
+   </section>
+  </section>
+ </section>
+ <section>
+  <title><anchor xml:id="_FlaggedItemSearch"/>Flagged Item Search</title>
+  <para role="Body Text"><inlinemediaobject>
+    <alt>Maintenance</alt>
+    <imageobject>
+     <imagedata fileref="../images/maintenanceMenu.png"/>
+    </imageobject>
+   </inlinemediaobject> &gt; <inlinemediaobject>
+    <alt>Circulation Admin</alt>
+    <imageobject>
+     <imagedata fileref="../images/DeliverNoTitlePage-CirculationAdmin.png"/>
+    </imageobject>
+   </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+     <alt>Flagged Items Search</alt>
+     <imageobject>
+      <imagedata fileref="../images/DeliverNoTitlePage-101.png"/>
+     </imageobject>
+    </inlinemediaobject>&gt; <inlinemediaobject>
+     <alt>Flagged Items Search</alt>
+     <imageobject>
+      <imagedata fileref="../images/DeliverNoTitlePage-104.png"/>
+     </imageobject>
+    </inlinemediaobject></emphasis></para>
+  <para role="Normal">The Flagged Item Search allows users to look up items that have been flagged
+   as damaged, missing pieces, or lost during circulation. Users may click the hyperlinked barcode
+   to open the Item record.</para>
+  <note>
+   <para>For information on the item record, see <link
+     xlink:href="../../../webhelp/CG/content/ch01s04.html#_Item">OLE Items</link> in the <emphasis
+     role="italic"><link xlink:href="../../../webhelp/CG/index.html">Guide to OLE Describe and
+      Manage Module</link></emphasis>. </para>
+  </note>
+  <para role="Normal"/>
+  <section>
+   <title role="Heading 4circ">Document Layout</title>
+   <para role="Body Text">
+    <screenshot>
+     <mediaobject>
+      <alt>Flagged Items Search with Sample Data Result</alt>
+      <imageobject>
+       <imagedata fileref="../images/DeliverNoTitlePage-35.png" width="100%"/>
+      </imageobject>
+     </mediaobject>
+    </screenshot>
+   </para>
+  </section>
+ </section>
+ <section>
+  <title><anchor xml:id="_Location"/>Location</title>
+  <para role="Body Text"><inlinemediaobject>
+    <alt>Maintenance</alt>
+    <imageobject>
+     <imagedata fileref="../images/maintenanceMenu.png"/>
+    </imageobject>
+   </inlinemediaobject> &gt; <inlinemediaobject>
+    <alt>Circulation Admin</alt>
+    <imageobject>
+     <imagedata fileref="../images/DeliverNoTitlePage-CirculationAdmin.png"/>
+    </imageobject>
+   </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+     <alt>Location</alt>
+     <imageobject>
+      <imagedata fileref="../images/DescribeNoTitlePage-182.png"/>
+     </imageobject>
+    </inlinemediaobject> &gt; <inlinemediaobject>
+     <alt>Location Lookup</alt>
+     <imageobject>
+      <imagedata fileref="../images/DescribeNoTitlePage-183.png"/>
+     </imageobject>
+    </inlinemediaobject> &gt; <inlinemediaobject>
+     <alt>Location</alt>
+     <imageobject>
+      <imagedata fileref="../images/DescribeNoTitlePage-184.png"/>
+     </imageobject>
+    </inlinemediaobject></emphasis></para>
+  <para role="Normal"/>
+  <para role="Normal">The goals of the location system are to:</para>
+  <orderedlist numeration="arabic" spacing="normal">
+   <listitem>
+    <para role="Normal">Model the organization’s structure clearly and accurately. </para>
+   </listitem>
+   <listitem>
+    <para role="Normal">Support storing configuration information at the appropriate level of the
+     organizational structure. </para>
+   </listitem>
+   <listitem>
+    <para role="Normal">Allow libraries to establish policies for a location that apply to the
+     organization’s components. This makes administration easier. </para>
+   </listitem>
+   <listitem>
+    <para role="Normal">Support modeling relationships between parts of the organization.</para>
+   </listitem>
+   <listitem>
+    <para role="Normal">Support consortial models.  </para>
+   </listitem>
+  </orderedlist>
+  <para role="Normal">The general idea is that a location’s setting or policy will automatically
+   apply to the location’s children, unless the children override the setting. </para>
+  <note>
+   <para role="Normal">Only users with an OLE-PTRN Shelving Location Administrator or OLE-PTRN
+    Location Administrator role may create and manage Locations.</para>
+  </note>
+  <section>
+   <title>Document Layout</title>
+   <para role="Normal"/>
+   <para role="Normal">
+    <screenshot>
+     <mediaobject>
+      <alt>Location Document</alt>
+      <imageobject>
+       <imagedata fileref="../images/DescribeNoTitlePage-185.png" width="100%"/>
+      </imageobject>
+     </mediaobject>
+    </screenshot>
+   </para>
+   <para role="Body Text">The OLE Location document includes the <emphasis role="bold">Add/Edit
+     Location</emphasis> tab. The system automatically enters data into both the <emphasis
+     role="bold">Old</emphasis> and <emphasis role="bold">New</emphasis> sections in this tab.
+    Selected data fields are available for editing.</para>
+   <para role="TableHeading"><emphasis role="bold">Add/Edit Location tab
+    definition</emphasis></para>
+   <informaltable frame="top">
+    <tgroup cols="2">
+     <colspec colname="c1" colnum="1"/>
+     <colspec colname="c1" colnum="1"/>
+     <tbody>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Title </para>
+       </entry>
+       <entry colname="col2" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Description </para>
+       </entry>
+      </row>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Location Code </para>
+       </entry>
+       <entry colname="col2" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">The code to identify the location of the Instance Record. Each
+         location must have a unique code with a maximum length of 40 characters.</para>
+       </entry>
+      </row>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Location Name</para>
+       </entry>
+       <entry colname="col2" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Required. The familiar title of the location. Maximum length is 100
+         characters.</para>
+       </entry>
+      </row>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Location Level</para>
+       </entry>
+       <entry colname="col2" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Required. The numerical representation of the location hierarchy.
+         Locally configured, valid values are 1-5.</para>
+       </entry>
+      </row>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Parent Location</para>
+       </entry>
+       <entry colname="col2" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">If the location level is NOT 1, chose a parent location by clicking
+         on the magnifying glass icon. A valid parent location must be at a higher level than the
+         new location being created.</para>
+       </entry>
+      </row>
+     </tbody>
+    </tgroup>
+   </informaltable>
+  </section>
+ </section>
+ <section>
+  <title><anchor xml:id="_Location_Level"/>Location Level</title>
+  <para role="Body Text"><inlinemediaobject>
+    <alt>Maintenance</alt>
+    <imageobject>
+     <imagedata fileref="../images/maintenanceMenu.png"/>
+    </imageobject>
+   </inlinemediaobject> &gt; <inlinemediaobject>
+    <alt>Circulation Admin</alt>
+    <imageobject>
+     <imagedata fileref="../images/DeliverNoTitlePage-CirculationAdmin.png"/>
+    </imageobject>
+   </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+     <alt>Location Level</alt>
+     <imageobject>
+      <imagedata fileref="../images/DescribeNoTitlePage-176.png"/>
+     </imageobject>
+    </inlinemediaobject> &gt; <inlinemediaobject>
+     <alt>Location Level Lookup</alt>
+     <imageobject>
+      <imagedata fileref="../images/DescribeNoTitlePage-177.png"/>
+     </imageobject>
+    </inlinemediaobject> &gt; <inlinemediaobject>
+     <alt>Location Level</alt>
+     <imageobject>
+      <imagedata fileref="../images/DescribeNoTitlePage-178.png"/>
+     </imageobject>
+    </inlinemediaobject></emphasis></para>
+  <para role="Body Text">Locations are structured so that a location can be part of another
+   location. The various levels that make up a location are named and structured in this maintenance
+   document.</para>
+  <note>
+   <para role="Normal">Only users with an OLE-PTRN Location Administrator role may create and manage
+    Location Levels.</para>
+  </note>
+  <section>
+   <title>Document Layout</title>
+   <para role="Normal"/>
+   <para role="Normal">
+    <screenshot>
+     <mediaobject>
+      <alt>Location Level Document</alt>
+      <imageobject>
+       <imagedata fileref="../images/DescribeNoTitlePage-179.png" width="100%"/>
+      </imageobject>
+     </mediaobject>
+    </screenshot>
+   </para>
+   <para role="Body Text">The OLE Location Level document includes the <emphasis role="bold"
+     >Add/Edit Location Level </emphasis>tab. The system automatically enters data into both the
+     <emphasis role="bold">Old</emphasis> and <emphasis role="bold">New</emphasis> sections in this
+    tab. Selected data fields are available for editing.</para>
+   <para role="TableHeading"><emphasis role="bold">Add/Edit Location Level tab
+    definition</emphasis></para>
+   <informaltable frame="top">
+    <tgroup cols="2">
+     <colspec colname="c1" colnum="1"/>
+     <colspec colname="c1" colnum="1"/>
+     <tbody>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Title </para>
+       </entry>
+       <entry colname="col2" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Description </para>
+       </entry>
+      </row>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Level Code </para>
+       </entry>
+       <entry colname="col2" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">The code to identify location level</para>
+       </entry>
+      </row>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Level Name</para>
+       </entry>
+       <entry colname="col2" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Required. The familiar title of this location level</para>
+       </entry>
+      </row>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Parent Level ID</para>
+       </entry>
+       <entry colname="col2" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">The level in the hierarchy above this location level </para>
+       </entry>
+      </row>
+     </tbody>
+    </tgroup>
+   </informaltable>
+  </section>
+ </section>
+ <section>
+  <title><anchor xml:id="_Request_Type"/>Request Type</title>
+  <para role="Body Text"><inlinemediaobject>
+    <alt>Maintenance</alt>
+    <imageobject>
+     <imagedata fileref="../images/maintenanceMenu.png"/>
+    </imageobject>
+   </inlinemediaobject> &gt; <inlinemediaobject>
+    <alt>Circulation Admin</alt>
+    <imageobject>
+     <imagedata fileref="../images/DeliverNoTitlePage-CirculationAdmin.png"/>
+    </imageobject>
+   </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+     <alt>Request Type</alt>
+     <imageobject>
+      <imagedata fileref="../images/DeliverNoTitlePage-80.png"/>
+     </imageobject>
+    </inlinemediaobject>&gt; <inlinemediaobject>
+     <alt>Request Type Lookup</alt>
+     <imageobject>
+      <imagedata fileref="../images/DeliverNoTitlePage-130.png"/>
+     </imageobject>
+    </inlinemediaobject>&gt; <inlinemediaobject>
+     <alt>Request Type</alt>
+     <imageobject>
+      <imagedata fileref="../images/DeliverNoTitlePage-81.png"/>
+     </imageobject>
+    </inlinemediaobject></emphasis></para>
+  <para role="Normal">The Request Type document defines the type of request available on the Request
+   e-document and allows the system to apply logic unique to each type. For example, a request,
+   which could include recalls, holds or pages, could be hold or delivery. Hold means that the
+   patron will come to a pick-up location to retrieve the item when it becomes available. Deliver
+   means that the item will be delivered to the patron when it becomes available. Request types
+   could also include Copy or In Transit Requests. </para>
+  <para role="Normal"/>
+  <para role="Normal">Requests are managed via check-in or check-out transactions and those
+   operations have business logic to follow when an item has a pending request(s) of any kind.
+   Because of that, creating a new request type without adding business logic to the code will be
+   pointless. The Request Type is used by an operator when creating a request for a patron. The
+   Request Type determines the business logic to be followed.</para>
+  <para role="Normal"/>
+  <section>
+   <title role="Heading 4circ">Document Layout</title>
+   <para role="Body Text">
+    <screenshot>
+     <mediaobject>
+      <alt>Request Type Document</alt>
+      <imageobject>
+       <imagedata fileref="../images/DeliverNoTitlePage-82.png" width="100%"/>
+      </imageobject>
+     </mediaobject>
+    </screenshot>
+   </para>
+   <para role="Body Text">The Request Type document includes the <emphasis role="bold">Add/Edit
+     Request Type</emphasis> tab. The system automatically enters data into both the <emphasis
+     role="bold">Old</emphasis> and <emphasis role="bold">New</emphasis> sections in this tab.
+    Selected data fields are available for editing.</para>
+   <para role="Normal"/>
+   <para role="TableHeading"><emphasis role="bold">Add/Edit Request Type Tab
+    Definitions</emphasis></para>
+   <informaltable frame="top">
+    <tgroup cols="2">
+     <colspec colname="col1" colnum="1"/>
+     <colspec colname="col2" colnum="2"/>
+     <tbody>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Title </para>
+       </entry>
+       <entry colname="col2" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Description </para>
+       </entry>
+      </row>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Request Type Code<emphasis> </emphasis></para>
+       </entry>
+       <entry colname="col2" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Required. The request type code associated with this request
+         type</para>
+       </entry>
+      </row>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Request Type Name</para>
+       </entry>
+       <entry colname="col2" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Required. The familiar title of the request type.</para>
+       </entry>
+      </row>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Request Type Description</para>
+       </entry>
+       <entry colname="col2" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">The familiar description of the request type.</para>
+       </entry>
+      </row>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Active Indicator</para>
+       </entry>
+       <entry colname="col2" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Indicates whether this Request Type is active or inactive. Remove
+         the check mark to deactivate</para>
+       </entry>
+      </row>
+     </tbody>
+    </tgroup>
+   </informaltable>
+   <para role="Normal"/>
+  </section>
+ </section>
+</chapter>

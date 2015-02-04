@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="OLEPlatformRecordDocument" parent="OLEPlatformRecordDocument-parentBean"/>
+    <bean id="OLEPlatformRecordDocument-parentBean" abstract="true" parent="uifTransactionalDocumentEntry">
+        <property name="documentTypeName" value="OLE_PLTFRM_DOC"/>
+        <property name="workflowAttributes">
+            <ref bean="PlatformAttributes-workflowAttributes"/>
+        </property>
+        <property name="documentClass" value="org.kuali.ole.select.document.OLEPlatformRecordDocument"/>
+        <property name="documentPresentationControllerClass" value="org.kuali.ole.module.purap.document.authorization.PlatformDocumentPresentationController"/>
+        <property name="attributes">
+            <list>
+                <ref bean="OLEPlatformRecordDocument-name"/>
+                <ref bean="OLEPlatformRecordDocument-olePlatformId"/>
+                <ref bean="OLEPlatformRecordDocument-statusId"/>
+                <ref bean="OLEPlatformRecordDocument-statusName"/>
+                <ref bean="OLEPlatformRecordDocument-gokbId"/>
+                <ref bean="OLEPlatformRecordDocument-vendorDetailAssignedIdentifier"/>
+                <ref bean="OLEPlatformRecordDocument-vendorHeaderGeneratedIdentifier"/>
+                <ref bean="OLEPlatformRecordDocument-platformProviderName"/>
+                <ref bean="OLEPlatformRecordDocument-active"/>
+                <ref bean="OLEPlatformRecordDocument-software"/>
+                <ref bean="OLEPlatformRecordDocument-branded"/>
+                <ref bean="OLEPlatformRecordDocument-brandingNote"/>
+                <ref bean="OLEPlatformRecordDocument-linkResolver"/>
+                <ref bean="OLEPlatformRecordDocument-linkResolverNote"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEPlatformRecordDocument-name" parent="OLEPlatformRecordDocument-name-parentBean"/>
+    <bean id="OLEPlatformRecordDocument-name-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="100"/>
+        <property name="shortLabel" value="Name"/>
+        <property name="description" value="Name"/>
+        <property name="name" value="name"/>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Name"/>
+    </bean>
+
+    <bean id="OLEPlatformRecordDocument-olePlatformId" parent="OLEPlatformRecordDocument-olePlatformId-parentBean"/>
+    <bean id="OLEPlatformRecordDocument-olePlatformId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="40"/>
+        <property name="shortLabel" value="OLE Id"/>
+        <property name="description" value="OLE Id"/>
+        <property name="name" value="olePlatformId"/>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="OLE Id"/>
+    </bean>
+
+    <bean id="OLEPlatformRecordDocument-statusId" parent="OLEPlatformRecordDocument-statusId-parentBean"/>
+    <bean id="OLEPlatformRecordDocument-statusId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="10"/>
+        <property name="shortLabel" value="Status"/>
+        <property name="description" value="Status"/>
+        <property name="name" value="statusId"/>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="10"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="10"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Status"/>
+    </bean>
+
+    <bean id="OLEPlatformRecordDocument-statusName" parent="OLEPlatformRecordDocument-statusName-parentBean"/>
+    <bean id="OLEPlatformRecordDocument-statusName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="40"/>
+        <property name="shortLabel" value="Status"/>
+        <property name="description" value="Status"/>
+        <property name="name" value="statusName"/>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Status"/>
+    </bean>
+
+    <bean id="OLEPlatformRecordDocument-gokbId" parent="OLEPlatformRecordDocument-gokbId-parentBean"/>
+    <bean id="OLEPlatformRecordDocument-gokbId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="10"/>
+        <property name="shortLabel" value="GOKb Id"/>
+        <property name="description" value="GOKb Id"/>
+        <property name="name" value="gokbId"/>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="10"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="10"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="GOKb Id"/>
+    </bean>
+
+    <bean id="OLEPlatformRecordDocument-vendorDetailAssignedIdentifier"
+          parent="OLEPlatformRecordDocument-vendorDetailAssignedIdentifier-parentBean"/>
+    <bean id="OLEPlatformRecordDocument-vendorDetailAssignedIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="10"/>
+        <property name="shortLabel" value="Vendor Detail Assigned Identifier"/>
+        <property name="description" value="Vendor Detail Assigned Identifierr"/>
+        <property name="name" value="vendorDetailAssignedIdentifier"/>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="10"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="10"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Vendor Detail Assigned Identifier"/>
+    </bean>
+
+    <bean id="OLEPlatformRecordDocument-vendorHeaderGeneratedIdentifier"
+          parent="OLEPlatformRecordDocument-vendorHeaderGeneratedIdentifier-parentBean"/>
+    <bean id="OLEPlatformRecordDocument-vendorHeaderGeneratedIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="10"/>
+        <property name="shortLabel" value="Vendor Header Generated Identifier"/>
+        <property name="description" value="Vendor Header Generated Identifier"/>
+        <property name="name" value="vendorHeaderGeneratedIdentifier"/>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="10"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="10"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Vendor Header Generated Identifier"/>
+    </bean>
+
+    <bean id="OLEPlatformRecordDocument-platformProviderName"
+          parent="OLEPlatformRecordDocument-platformProviderName-parentBean"/>
+    <bean id="OLEPlatformRecordDocument-platformProviderName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="40"/>
+        <property name="shortLabel" value="Platform Provider Name"/>
+        <property name="description" value="Platform Provider Name"/>
+        <property name="name" value="platformProviderName"/>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Platform Provider Name"/>
+    </bean>
+
+    <bean id="OLEPlatformRecordDocument-active" parent="OLEPlatformRecordDocument-active-parentBean"/>
+    <bean id="OLEPlatformRecordDocument-active-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="active"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="active"/>
+        <property name="maxLength" value="1"/>
+        <property name="summary" value="Active Indicator"/>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+        <property name="label" value="Active Indicator"/>
+        <property name="description"
+                  value="This attribute is used to describe whether the associated object is active or inactive."/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-CheckboxControl"/>
+        </property>
+    </bean>
+
+    <bean id="OLEPlatformRecordDocument-software" parent="OLEPlatformRecordDocument-software-parentBean"/>
+    <bean id="OLEPlatformRecordDocument-software-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="40"/>
+        <property name="shortLabel" value="Software"/>
+        <property name="description" value="Software"/>
+        <property name="name" value="software"/>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Software"/>
+    </bean>
+
+    <bean id="OLEPlatformRecordDocument-branded" parent="OLEPlatformRecordDocument-branded-parentBean"/>
+    <bean id="OLEPlatformRecordDocument-branded-parentBean" abstract="true"
+          parent="AttributeDefinition">
+        <property name="name" value="branded"/>
+        <property name="shortLabel" value="Branded"/>
+        <property name="label" value="Branded"/>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="OLEPlatformRecordDocument-brandingNote" parent="OLEPlatformRecordDocument-brandingNote-parentBean"/>
+    <bean id="OLEPlatformRecordDocument-brandingNote-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Branding Note"/>
+        <property name="maxLength" value="800"/>
+        <property name="name" value="brandingNote"/>
+        <property name="label" value="Branding Note"/>
+        <property name="description" value="Branding Note"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextAreaControl" p:cols="30" p:rows="3"/>
+        </property>
+    </bean>
+
+    <bean id="OLEPlatformRecordDocument-linkResolver" parent="OLEPlatformRecordDocument-linkResolver-parentBean"/>
+    <bean id="OLEPlatformRecordDocument-linkResolver-parentBean" abstract="true"
+          parent="AttributeDefinition">
+        <property name="name" value="linkResolver"/>
+        <property name="shortLabel" value="Link-Resolver"/>
+        <property name="label" value="Link-Resolver"/>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="OLEPlatformRecordDocument-linkResolverNote"
+          parent="OLEPlatformRecordDocument-linkResolverNote-parentBean"/>
+    <bean id="OLEPlatformRecordDocument-linkResolverNote-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Link-Resolver"/>
+        <property name="maxLength" value="800"/>
+        <property name="name" value="linkResolverNote"/>
+        <property name="label" value="Link-Resolver"/>
+        <property name="description" value="Link-Resolver"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextAreaControl" p:cols="30" p:rows="3"/>
+        </property>
+    </bean>
+
+    <bean id="PlatformAttributes-workflowAttributes" parent="PlatformAttributes-workflowAttributes-parentBean"/>
+    <bean id="PlatformAttributes-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+        <property name="searchingTypeDefinitions">
+            <ref bean="PlatformAttributes-searchingTypeDefinitions"/>
+        </property>
+    </bean>
+
+    <bean id="PlatformAttributes-searchingTypeDefinitions"
+          parent="PlatformAttributes-searchingTypeDefinitions-parentBean"/>
+    <bean id="PlatformAttributes-searchingTypeDefinitions-parentBean" abstract="true"
+          class="org.springframework.beans.factory.config.ListFactoryBean">
+        <property name="sourceList">
+            <list>
+                <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+                    <property name="searchingAttribute">
+                        <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+                            <property name="businessObjectClassName"
+                                      value="org.kuali.ole.select.document.OLEPlatformRecordDocument"/>
+                            <property name="attributeName" value="documentNumber"/>
+                            <property name="showAttributeInSearchCriteria" value="false"/>
+                            <property name="showAttributeInResultSet" value="true"/>
+                        </bean>
+                    </property>
+                    <property name="documentValues">
+                        <list>
+                            <value>documentNumber</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+                    <property name="searchingAttribute">
+                        <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+                            <property name="businessObjectClassName"
+                                      value="org.kuali.ole.select.document.OLEPlatformRecordDocument"/>
+                            <property name="attributeName" value="gokbId"/>
+                            <property name="showAttributeInSearchCriteria" value="true"/>
+                            <property name="showAttributeInResultSet" value="true"/>
+                        </bean>
+                    </property>
+                    <property name="documentValues">
+                        <list>
+                            <value>gokbId</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+                    <property name="searchingAttribute">
+                        <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+                            <property name="businessObjectClassName"
+                                      value="org.kuali.ole.select.document.OLEPlatformRecordDocument"/>
+                            <property name="attributeName" value="name"/>
+                            <property name="showAttributeInSearchCriteria" value="true"/>
+                            <property name="showAttributeInResultSet" value="true"/>
+                        </bean>
+                    </property>
+                    <property name="documentValues">
+                        <list>
+                            <value>variantTitles.variantTitle</value>
+                            <value>name</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+                    <property name="searchingAttribute">
+                        <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+                            <property name="businessObjectClassName"
+                                      value="org.kuali.ole.select.document.OLEPlatformRecordDocument"/>
+                            <property name="attributeName" value="platformProviderName"/>
+                            <property name="showAttributeInSearchCriteria" value="true"/>
+                            <property name="showAttributeInResultSet" value="true"/>
+                        </bean>
+                    </property>
+                    <property name="documentValues">
+                        <list>
+                            <value>platformProviderName</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+                    <property name="searchingAttribute">
+                        <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+                            <property name="businessObjectClassName"
+                                      value="org.kuali.ole.select.document.OLEPlatformRecordDocument"/>
+                            <property name="attributeName" value="statusName"/>
+                            <property name="showAttributeInSearchCriteria" value="true"/>
+                            <property name="showAttributeInResultSet" value="true"/>
+                        </bean>
+                    </property>
+                    <property name="documentValues">
+                        <list>
+                            <value>statusName</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+                    <property name="searchingAttribute">
+                        <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+                            <property name="businessObjectClassName"
+                                      value="org.kuali.ole.select.document.OLEPlatformRecordDocument"/>
+                            <property name="attributeName" value="olePlatformId"/>
+                            <property name="showAttributeInSearchCriteria" value="true"/>
+                            <property name="showAttributeInResultSet" value="false"/>
+                        </bean>
+                    </property>
+                    <property name="documentValues">
+                        <list>
+                            <value>olePlatformId</value>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>

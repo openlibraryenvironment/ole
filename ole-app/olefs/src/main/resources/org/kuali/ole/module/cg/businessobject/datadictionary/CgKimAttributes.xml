@@ -1,0 +1,49 @@
+<!--
+ Copyright 2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:dd="http://rice.kuali.org/dd"
+    xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+
+  <bean id="CgKimAttributes" parent="CgKimAttributes-parentBean" />
+
+  <bean id="CgKimAttributes-parentBean" abstract="true" parent="OleKimAttributes-parentBean"
+        p:businessObjectClass="org.kuali.ole.module.cg.identity.CgKimAttributes"
+        p:objectLabel="OLE C&amp;G KIM Attributes">
+    <property name="attributes">
+      <list merge="true">
+        <ref bean="CgKimAttributes-researchRiskTypeCode" />
+      </list>
+    </property>
+    <property name="relationships">
+      <list merge="true">
+        <dd:relationship objectAttribute="researchRiskType">
+            <dd:primitiveAttribute source="researchRiskTypeCode" target="researchRiskTypeCode" />
+        </dd:relationship>          
+      </list>
+    </property>
+  </bean>
+
+  
+  <bean id="CgKimAttributes-researchRiskTypeCode" parent="ResearchRiskType-researchRiskTypeCode">
+    <property name="required" value="true"/>
+  </bean>
+  
+
+</beans>

@@ -1,0 +1,45 @@
+<request>
+    <user>ole-khuntley</user>
+    <operation>checkIn</operation>
+    <requestDocuments>
+        <ingestDocument id="b9b93313-69dc-462c-8f30-fdd4a0a82ce1" category="work" type="sourceHoldings" format="oleml">
+            <content><![CDATA[
+		<ole:sourceHoldings primary="string" xmlns:ole="http://ole.kuali.org/standards/ole-instance">
+            <ole:holdingsIdentifier>string</ole:holdingsIdentifier>
+            <ole:name>string</ole:name>
+            <ole:holdings displayLabel="string">
+                <collection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                            xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd"
+                            xmlns="">
+                    <record>
+                        <leader>00190cy a22000854 4500</leader>
+                        <controlfield tag="001">701487</controlfield>
+                        <controlfield tag="008">061109 eng 061109</controlfield>
+                        <datafield tag="852" ind1=" " ind2=" ">
+                            <subfield code="b">B-ALF</subfield>
+                            <subfield code="c">HTC GLOBAL Services. </subfield>
+                            <subfield code="h">Z1019 .I515 1985</subfield>
+                        </datafield>
+                        <datafield tag="866" ind1=" " ind2=" ">
+                            <subfield code="a">v.5</subfield>
+                        </datafield>
+                        <datafield tag="901" ind1=" " ind2=" ">
+                            <subfield code="a">AAB0451BB</subfield>
+                        </datafield>
+                    </record>
+                </collection>
+            </ole:holdings>
+            <ole:extension displayLabel="string">
+                <additionalAttributes>
+                    <dateEntered>12-12-2-2010</dateEntered>
+                    <dateLastUpdated>12-11-2011</dateLastUpdated>
+                    <fastAddFlag>true</fastAddFlag>
+                    <supressFromPublic>false</supressFromPublic>
+                </additionalAttributes>
+            </ole:extension>
+        </ole:sourceHoldings>
+           		]]>
+            </content>
+        </ingestDocument>
+    </requestDocuments>
+</request>

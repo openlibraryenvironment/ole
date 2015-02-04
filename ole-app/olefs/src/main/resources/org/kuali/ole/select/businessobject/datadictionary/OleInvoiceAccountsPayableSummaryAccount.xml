@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+ Copyright 2008-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean id="OleInvoiceAccountsPayableSummaryAccount" parent="OleInvoiceAccountsPayableSummaryAccount-parentBean"/>
+
+  <bean id="OleInvoiceAccountsPayableSummaryAccount-parentBean" abstract="true" parent="BusinessObjectEntry">
+  	<property name="objectLabel" value="Accounts Payable Summary Account"/>
+    <property name="businessObjectClass" value="org.kuali.ole.select.businessobject.OleInvoiceAccountsPayableSummaryAccount"/>
+    <property name="inquiryDefinition">
+      <ref bean="OleInvoiceAccountsPayableSummaryAccount-inquiryDefinition"/>
+    </property>
+    <property name="lookupDefinition">
+      <ref bean="OleInvoiceAccountsPayableSummaryAccount-lookupDefinition"/>
+    </property>
+    <property name="attributes">
+      <list>
+        <ref bean="OleInvoiceAccountsPayableSummaryAccount-accountIdentifier"/>
+        <ref bean="OleInvoiceAccountsPayableSummaryAccount-invoiceIdentifier"/>
+        <ref bean="OleInvoiceAccountsPayableSummaryAccount-creditMemoIdentifier"/>
+        <ref bean="OleInvoiceAccountsPayableSummaryAccount-amount"/>
+        <ref bean="OleInvoiceAccountsPayableSummaryAccount-chartOfAccountsCode"/>
+        <ref bean="OleInvoiceAccountsPayableSummaryAccount-accountNumber"/>
+        <ref bean="OleInvoiceAccountsPayableSummaryAccount-financialObjectCode"/>
+        <ref bean="OleInvoiceAccountsPayableSummaryAccount-financialSubObjectCode"/>
+        <ref bean="OleInvoiceAccountsPayableSummaryAccount-organizationReferenceId"/>
+        <ref bean="OleInvoiceAccountsPayableSummaryAccount-projectCode"/>
+        <ref bean="OleInvoiceAccountsPayableSummaryAccount-subAccountNumber"/>
+        <ref bean="OleInvoiceAccountsPayableSummaryAccount-updateTimestamp"/>
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="OleInvoiceAccountsPayableSummaryAccount-accountIdentifier" parent="OleInvoiceAccountsPayableSummaryAccount-accountIdentifier-parentBean"/>
+  <bean id="OleInvoiceAccountsPayableSummaryAccount-accountIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="accountIdentifier"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Account Identifier"/>
+    <property name="shortLabel" value="Identifier"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <ref bean="NumericValidation" />
+    </property>
+    <property name="control">
+      <ref bean="StandardShortNameTextControl" />
+    </property>
+  </bean>
+  <bean id="OleInvoiceAccountsPayableSummaryAccount-accountNumber" parent="OleInvoiceAccountsPayableSummaryAccount-accountNumber-parentBean"/>
+
+  <bean id="OleInvoiceAccountsPayableSummaryAccount-accountNumber-parentBean" abstract="true" parent="AccountAttribute">
+    <property name="required" value="false"/>
+  </bean>
+
+  <bean id="OleInvoiceAccountsPayableSummaryAccount-amount" parent="OleInvoiceAccountsPayableSummaryAccount-amount-parentBean"/>
+  <bean id="OleInvoiceAccountsPayableSummaryAccount-amount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="amount"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Amount"/>
+    <property name="shortLabel" value="Amount"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <ref bean="FloatingPointValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
+    </property>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
+  </bean>
+
+  <bean id="OleInvoiceAccountsPayableSummaryAccount-chartOfAccountsCode" parent="OleInvoiceAccountsPayableSummaryAccount-chartOfAccountsCode-parentBean"/>
+  <bean id="OleInvoiceAccountsPayableSummaryAccount-chartOfAccountsCode-parentBean" abstract="true" parent="ChartAttribute-TextControl">
+    <property name="required" value="false"/>
+  </bean>
+
+  <bean id="OleInvoiceAccountsPayableSummaryAccount-financialObjectCode" parent="OleInvoiceAccountsPayableSummaryAccount-financialObjectCode-parentBean"/>
+  <bean id="OleInvoiceAccountsPayableSummaryAccount-financialObjectCode-parentBean" abstract="true" parent="ObjectCodeAttribute">
+    <property name="required" value="false"/>
+  </bean>
+
+  <bean id="OleInvoiceAccountsPayableSummaryAccount-financialSubObjectCode" parent="OleInvoiceAccountsPayableSummaryAccount-financialSubObjectCode-parentBean"/>
+  <bean id="OleInvoiceAccountsPayableSummaryAccount-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
+    <property name="required" value="false"/>
+  </bean>
+
+  <bean id="OleInvoiceAccountsPayableSummaryAccount-organizationReferenceId" parent="OleInvoiceAccountsPayableSummaryAccount-organizationReferenceId-parentBean"/>
+  <bean id="OleInvoiceAccountsPayableSummaryAccount-organizationReferenceId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationReferenceId"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Organization Reference Id"/>
+    <property name="shortLabel" value="Id"/>
+    <property name="maxLength" value="8"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterValidation" />
+    </property>
+    <property name="control">
+      <ref bean="TenCharacterTextControl" />
+    </property>
+  </bean>
+
+  <bean id="OleInvoiceAccountsPayableSummaryAccount-projectCode" parent="OleInvoiceAccountsPayableSummaryAccount-projectCode-parentBean"/>
+  <bean id="OleInvoiceAccountsPayableSummaryAccount-projectCode-parentBean" abstract="true" parent="ProjectCode-code">
+    <property name="name" value="projectCode"/>
+    <property name="required" value="false"/>
+  </bean>
+
+
+  <bean id="OleInvoiceAccountsPayableSummaryAccount-invoiceIdentifier" parent="OleInvoiceAccountsPayableSummaryAccount-invoiceIdentifier-parentBean"/>
+  <bean id="OleInvoiceAccountsPayableSummaryAccount-invoiceIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="invoiceIdentifier"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Invoice Identifier"/>
+    <property name="shortLabel" value="Identifier"/>
+    <property name="maxLength" value="9"/>
+    <property name="validationPattern">
+      <ref bean="NumericValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="11"/>
+    </property>
+  </bean>
+  
+
+  <bean id="OleInvoiceAccountsPayableSummaryAccount-creditMemoIdentifier" parent="OleInvoiceAccountsPayableSummaryAccount-creditMemoIdentifier-parentBean"/>
+  <bean id="OleInvoiceAccountsPayableSummaryAccount-creditMemoIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="creditMemoIdentifier"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Credit Memo Identifier"/>
+    <property name="shortLabel" value="Identifier"/>
+    <property name="maxLength" value="9"/>
+    <property name="validationPattern">
+      <ref bean="NumericValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="11"/>
+    </property>
+  </bean>
+
+  <bean id="OleInvoiceAccountsPayableSummaryAccount-subAccountNumber" parent="OleInvoiceAccountsPayableSummaryAccount-subAccountNumber-parentBean"/>
+  <bean id="OleInvoiceAccountsPayableSummaryAccount-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
+    <property name="required" value="false"/>
+  </bean>
+ 
+  <bean id="OleInvoiceAccountsPayableSummaryAccount-updateTimestamp" parent="OleInvoiceAccountsPayableSummaryAccount-updateTimestamp-parentBean"/>
+  <bean id="OleInvoiceAccountsPayableSummaryAccount-updateTimestamp-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="updateTimestamp"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Update Timestamp"/>
+    <property name="shortLabel" value="Timestamp"/>
+    <property name="validationPattern" ref="DateValidation" />
+    <property name="control">
+      <ref bean="StandardShortNameTextControl" />
+    </property>
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="OleInvoiceAccountsPayableSummaryAccount-inquiryDefinition" parent="OleInvoiceAccountsPayableSummaryAccount-inquiryDefinition-parentBean"/>
+
+  <bean id="OleInvoiceAccountsPayableSummaryAccount-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Invoice Summary Account Inquiry"/>
+    <property name="inquirySections">
+      <list>
+		<ref bean="OleInvoiceAccountsPayableSummaryAccount-inquirySectionDefinition"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="OleInvoiceAccountsPayableSummaryAccount-inquirySectionDefinition" parent="OleInvoiceAccountsPayableSummaryAccount-inquirySectionDefinition-parentBean"/>
+  <bean id="OleInvoiceAccountsPayableSummaryAccount-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="accountIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="amount"/>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialSubObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationReferenceId"/>
+        <bean parent="FieldDefinition" p:attributeName="projectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="subAccountNumber"/>
+      </list>
+    </property>
+  </bean>
+        
+        
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="OleInvoiceAccountsPayableSummaryAccount-lookupDefinition" parent="OleInvoiceAccountsPayableSummaryAccount-lookupDefinition-parentBean"/>
+
+  <bean id="OleInvoiceAccountsPayableSummaryAccount-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Invoice Summary Account Lookup"/>
+    
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="accountIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="amount"/>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialSubObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationReferenceId"/>
+        <bean parent="FieldDefinition" p:attributeName="projectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="subAccountNumber"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="accountIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="amount"/>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="financialSubObjectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationReferenceId"/>
+        <bean parent="FieldDefinition" p:attributeName="projectCode"/>
+        <bean parent="FieldDefinition" p:attributeName="subAccountNumber"/>
+      </list>
+    </property>
+  </bean>
+</beans>

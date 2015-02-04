@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <!--
+
+        Copyright 2005-2012 The Kuali Foundation
+
+        Licensed under the Educational Community License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at
+
+        http://www.opensource.org/licenses/ecl2.php
+
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+
+    -->
+    <bean id="OlePurchaseOrderPurpose" parent="OlePurchaseOrderPurpose-parentBean"/>
+
+    <bean id="OlePurchaseOrderPurpose-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.select.bo.OlePurchaseOrderPurpose"/>
+        <property name="titleAttribute" value="purchaseOrderPurposeCode"/>
+        <property name="objectLabel" value="Purpose"/>
+        <property name="attributes">
+            <list>
+                <ref bean="OlePurchaseOrderPurpose-PurposeId"/>
+                <ref bean="OlePurchaseOrderPurpose-code"/>
+                <ref bean="OlePurchaseOrderPurpose-name"/>
+                <ref bean="OlePurchaseOrderPurpose-desc"/>
+                <ref bean="OlePurchaseOrderPurpose-active"/>
+            </list>
+        </property>
+        <property name="primaryKeys">
+            <list>
+                <value>purchaseOrderPurposeId</value>
+            </list>
+        </property>
+    </bean>
+
+     <!--Attribute Definitions -->
+
+    <bean id="OlePurchaseOrderPurpose-PurposeId" parent="OlePurchaseOrderPurpose-PurposeId-parentBean"/>
+
+    <bean id="OlePurchaseOrderPurpose-PurposeId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Purchase Order Purpose Id"/>
+        <property name="maxLength" value="40"/>
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+        <property name="name" value="purchaseOrderPurposeId"/>
+        <property name="label" value="Purchase Order Purpose Id"/>
+        <property name="description" value="Purchase Order Purpose Id"/>
+    </bean>
+
+    <bean id="OlePurchaseOrderPurpose-code" parent="OlePurchaseOrderPurpose-code-parentBean"/>
+
+    <bean id="OlePurchaseOrderPurpose-code-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Purchase Order Purpose Code"/>
+        <property name="maxLength" value="25"/>
+        <!--<property name="control">-->
+            <!--<bean id="TextControlDefinition_purposeCode" parent="TextControlDefinition" p:size="10"/>-->
+        <!--</property>-->
+        <property name="controlField">
+            <bean id="Uif-TextControl_purposeCode" parent="Uif-TextControl" p:size="27"/>
+        </property>
+        <property name="name" value="purchaseOrderPurposeCode"/>
+        <property name="label" value="Purchase Order Purpose Code"/>
+        <property name="description" value="Purchase Order Purpose Code"/>
+    </bean>
+
+    <bean id="OlePurchaseOrderPurpose-name" parent="OlePurchaseOrderPurpose-name-parentBean"/>
+
+    <bean id="OlePurchaseOrderPurpose-name-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Purchase Order Purpose Name"/>
+        <property name="maxLength" value="25"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="false"/>
+        <!--<property name="control">-->
+            <!--<bean id="TextControlDefinition_purposeName" parent="TextControlDefinition" p:size="10"/>-->
+        <!--</property>-->
+        <property name="controlField">
+            <bean id="Uif-TextControl_purposeName" parent="Uif-TextControl" p:size="27"/>
+        </property>
+        <property name="name" value="purchaseOrderPurposeName"/>
+        <property name="label" value="Purchase Order Purpose Name"/>
+        <property name="description" value="Purchase Order Purpose Name"/>
+    </bean>
+
+
+    <bean id="OlePurchaseOrderPurpose-desc" parent="OlePurchaseOrderPurpose-desc-parentBean"/>
+
+    <bean id="OlePurchaseOrderPurpose-desc-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Purchase Order Purpose Description"/>
+        <property name="maxLength" value="40"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="false"/>
+        <property name="control">
+            <bean id="TextControlDefinition_purposeDesc" parent="TextControlDefinition" p:size="40"/>
+        </property>
+        <property name="controlField">
+            <bean id="Uif-TextControl_purposeDesc" parent="Uif-TextControl" p:size="47"/>
+        </property>
+        <property name="name" value="purchaseOrderPurposeDescription"/>
+        <property name="label" value="Purchase Order Purpose Description"/>
+        <property name="description" value="Purchase Order Purpose Description"/>
+    </bean>
+
+    <bean id="OlePurchaseOrderPurpose-active" parent="OlePurchaseOrderPurpose-active-parentBean"/>
+    <bean id="OlePurchaseOrderPurpose-active-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="active"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="active"/>
+        <property name="maxLength" value="1"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-CheckboxControl"/>
+        </property>
+        <property name="summary" value="Active Indicator"/>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+        <property name="label" value="Active Indicator"/>
+        <property name="description"
+                  value="This attribute is used to describe whether the associated object is active or inactive."/>
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+
+    <bean id="OlePurchaseOrderPurpose-InquiryView" parent="Uif-InquiryView">
+        <property name="headerText" value="Purpose Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OlePurchaseOrderPurpose" />
+        <property name="singlePageView" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-VerticalBoxSection">
+                    <property name="header.headerText" value="Purchase Order Purpose" />
+                      <property name="items">
+                        <list>
+                            <bean parent="Uif-GridGroup">
+                                <property name="layoutManager.numberOfColumns" value="2" />
+                                <property name="items">
+                                    <list>
+                                        <bean id="inquiry_PurposeId" parent="Uif-InputField" p:propertyName="purchaseOrderPurposeId" />
+                                        <bean id="inquiry_PurposeCode" parent="Uif-InputField" p:propertyName="purchaseOrderPurposeCode" p:enableAutoDirectInquiry="false"/>
+                                        <bean id="inquiry_PurposeName" parent="Uif-InputField" p:propertyName="purchaseOrderPurposeName"/>
+                                        <bean id="inquiry_PurposeDescription" parent="Uif-InputField" p:propertyName="purchaseOrderPurposeDescription"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+
+    <bean id="OlePurchaseOrderPurpose-LookupView" parent="Uif-LookupView">
+        <property name="headerText" value="Purchase Order Purpose Lookup" />
+        <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OlePurchaseOrderPurpose" />
+        <!--<property name="viewHelperServiceClass" value="org.kuali.ole.deliver.lookup.OleCalendarLookupableImpl"/>-->
+        <property name="criteriaFields">
+            <list>
+                <bean id="purposeId" parent="Uif-LookupCriteriaInputField" p:propertyName="purchaseOrderPurposeId" />
+                <bean id="purposeCode" parent="Uif-LookupCriteriaInputField" p:propertyName="purchaseOrderPurposeCode" p:enableAutoDirectInquiry="false"/>
+                <bean id="purposeName" parent="Uif-LookupCriteriaInputField" p:propertyName="purchaseOrderPurposeName" />
+                <bean id="purposeDesc" parent="Uif-LookupCriteriaInputField" p:propertyName="purchaseOrderPurposeDescription" />
+                <bean id="purposeActive" p:propertyName="active" parent="Uif-LookupCriteriaInputField"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <!--<bean id="searchResult_purposeId" parent="Uif-DataField" p:propertyName="purchaseOrderPurposeId" />-->
+                <bean id="searchResult_purposeCode" parent="Uif-DataField" p:propertyName="purchaseOrderPurposeCode" />
+                <bean id="searchResult_purposeName" parent="Uif-DataField" p:propertyName="purchaseOrderPurposeName" />
+                <bean id="searchResult_purposeDesc" parent="Uif-DataField" p:propertyName="purchaseOrderPurposeDescription" />
+                <bean id="searchResult_active" p:propertyName="active" parent="Uif-DataField"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<data xmlns="ns:workflow" xmlns:fo="http://www.w3.org/1999/XSL/Format"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="ns:workflow resource:WorkflowData">
+	<documentTypes xmlns="ns:workflow/DocumentType"
+		xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<documentType>
+			<name>OLE_DFTTABCLM</name>
+			<parent>OLESelectSimpleMaintenanceDocument</parent>
+			<label>Default Table Column</label>
+		</documentType>
+		<documentType>
+			<name>OLE_DFTVL</name>
+			<parent>OLESelectSimpleMaintenanceDocument</parent>
+			<label>Default Value</label>
+		</documentType>
+		<documentType>
+			<name>OLE_OLR</name>
+			<parent>OLESelectSimpleMaintenanceDocument</parent>
+			<label>Load Error</label>
+		</documentType>
+		<documentType>
+			<name>OLE_LOADSUM</name>
+			<parent>OLESelectSimpleMaintenanceDocument</parent>
+			<label>Load Summary Records</label>
+		</documentType>
+		<documentType>
+			<name>OLE_LICRQMT</name>
+			<parent>OLESelectSimpleMaintenanceDocument</parent>
+			<label>Licensing Requirement</label>
+		</documentType>
+	</documentTypes>
+</data>

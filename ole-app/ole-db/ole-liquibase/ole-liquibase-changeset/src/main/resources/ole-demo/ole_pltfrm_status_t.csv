@@ -1,0 +1,5 @@
+PLTFRM_STATUS_ID,NAME,DESCRIPTION,ROW_ACT_IND,OBJ_ID,VER_NBR
+"1","Current","Current","Y","OLEPLTFRM1","1"
+"2","Expected","Expected","Y","OLEPLTFRM2","1"
+"3","Retired","Retired","Y","OLEPLTFRM3","1"
+"4","Deleted","Deleted","Y","OLEPLTFRM4","1"

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<collection>
+    <record>
+        <leader>00315nam  2200109z  4500</leader>
+        <controlfield tag="001">a246794</controlfield>
+        <controlfield tag="003">InU</controlfield>
+        <controlfield tag="008">750321s1962  u</controlfield>
+        <datafield tag="020" ind1=" " ind2=" ">
+            <subfield code="a">8800000000002</subfield>
+        </datafield>
+        <datafield tag="035" ind1=" " ind2=" ">
+            <subfield code="a">(YBP)100552240</subfield>
+        </datafield>
+        <datafield tag="100" ind1=" " ind2=" ">
+            <subfield code="a">Wong</subfield>
+        </datafield>
+        <datafield tag="049" ind1=" " ind2=" ">
+            <subfield code="a">NCCP</subfield>
+        </datafield>
+        <datafield tag="245" ind1=" " ind2=" ">
+            <subfield code="a">Chemistry</subfield>
+        </datafield>
+        <datafield tag="260" ind1=" " ind2=" ">
+            <subfield code="a">BLOOMINGTON</subfield>
+            <subfield code="b">INDIANA UNIVERSITY</subfield>
+            <subfield code="c">2011</subfield>
+        </datafield>
+        <datafield tag="852" ind1=" " ind2=" ">
+            <subfield code="b">BL</subfield>
+            <subfield code="c">BOOK</subfield>
+            <subfield code="4">Library</subfield>
+            <subfield code="5">200</subfield>
+        </datafield>
+        <datafield tag="670" ind1=" " ind2=" ">
+            <subfield code="a">100</subfield>
+        </datafield>
+        <datafield tag="670" ind1=" " ind2=" ">
+            <subfield code="b">200</subfield>
+        </datafield>
+        <datafield tag="680" ind1=" " ind2=" ">
+            <subfield code="a">300</subfield>
+        </datafield>
+        <datafield tag="690" ind1=" " ind2=" ">
+            <subfield code="a">400</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">ACJ8747</subfield>
+            <subfield code="w">ASIS</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">30000038431064</subfield>
+            <subfield code="d">1/16/2009</subfield>
+            <subfield code="e">1/16/2009</subfield>
+            <subfield code="j">4</subfield>
+            <subfield code="l">_MUFRSCOR</subfield>
+            <subfield code="m">B-MUSIC</subfield>
+            <subfield code="n">7</subfield>
+            <subfield code="q">1</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">NORMAL</subfield>
+            <subfield code="u">11/5/2000</subfield>
+            <subfield code="o">.STAFF.  "TO HAVE PREPARED FOR YOUR USE, ASK LIBRARY STAFF"</subfield>
+            <subfield code="o">.STAFF. Trumpet part missing 1/16/09 - WDH</subfield>
+        </datafield>
+    </record>
+</collection>

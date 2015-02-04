@@ -1,0 +1,66 @@
+<oleHoldings primary="string">
+  <holdingsType>string</holdingsType>
+  <!--Optional:-->
+  <resourceIdentifier>string</resourceIdentifier>
+  <holdingsIdentifier>string</holdingsIdentifier>
+  <!--Zero or more repetitions:-->
+  <extentOfOwnership>
+    <textualHoldings>string</textualHoldings>
+    <!--Zero or more repetitions:-->
+    <note type="string">string</note>
+    <type>string</type>
+
+  </extentOfOwnership>
+  <receiptStatus>string</receiptStatus>
+  <!--Zero or more repetitions:-->
+  <uri resolvable="string">string</uri>
+  <!--Zero or more repetitions:-->
+  <note type="string">string</note>
+  <location status="string" primary="string">
+    <locationLevel>
+      <name>string</name>
+      <level>string</level>
+      <!--Optional:-->
+      <code>string</code>
+      <!--Optional:-->
+      <locationLevel/>
+    </locationLevel>
+  </location>
+  <extension displayLabel="string">
+    e
+    <!--You may enter ANY elements at this point-->
+    <AnyElement/>
+    gero
+  </extension>
+  <callNumber>
+    <type>string</type>
+    <prefix>string</prefix>
+    <number>string</number>
+    <classificationPart>string</classificationPart>
+    <itemPart>string</itemPart>
+    <shelvingScheme>
+      <codeValue>string</codeValue>
+      <fullValue>string</fullValue>
+      <typeOrSource>
+        <!--Optional:-->
+        <pointer>string</pointer>
+        <!--Optional:-->
+        <text>string</text>
+      </typeOrSource>
+    </shelvingScheme>
+    <shelvingOrder>
+      <codeValue>string</codeValue>
+      <fullValue>string</fullValue>
+      <typeOrSource>
+        <!--Optional:-->
+        <pointer>string</pointer>
+        <!--Optional:-->
+        <text>string</text>
+      </typeOrSource>
+    </shelvingOrder>
+  </callNumber>
+  <copyNumber>string</copyNumber>
+
+  <staffOnlyFlag>true</staffOnlyFlag>
+
+</oleHoldings>

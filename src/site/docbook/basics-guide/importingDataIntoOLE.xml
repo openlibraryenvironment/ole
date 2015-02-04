@@ -1,0 +1,1212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"
+    version="5.0" xml:lang="en-US">
+    <title><anchor xml:id="_importingDataIntoOLE"/>Importing Data into OLE</title>
+    <para role="Body Text"/>
+    <para role="Body Text"> OLE allows users to import multiple types of records.  In
+        Select/Acquire, financial data can be inverted from spreadsheets (.csv files). 
+        Bibliographic records, Orders, Patrons, and Locations can be imported with the <emphasis
+            role="bold">Batch Process</emphasis> using <emphasis role="bold">Batch Process
+            Profiles</emphasis>.  The first part of this page describes how to import data using
+        templated spreadsheets.  The second part gives users sample data to modify and use for batch
+        processing. </para>
+    <note>
+        <para> For information on importing via the batch process and the batch process profile,
+            please refer to the <link xlink:href="../../../webhelp/ADMIN/index.html">Guide to the OLE System
+                Administration Module</link>. </para>
+    </note>
+    <section>
+        <title>Data Import Templates for Select/Acquire</title>
+        <para role="Normal"> OLE import templates allow you to import any number of accounting
+            lines, endowment transaction lines, purchasing line items, and other types of data from
+            a comma-delimited (.csv) file. This section contains a table that lists types of e-docs
+            for which templates are available in the default system and provides a link to the
+            corresponding template for each document type. </para>
+        <para role="Normal"> Following the table is a process overview that includes complete
+            instructions for using templates to import multiple lines of data. Additional
+            subsections contain detailed information about each template. </para>
+        <para role="TableHeading"><emphasis role="bold">Data import templates by document
+                type</emphasis></para>
+        <informaltable frame="top">
+            <tgroup cols="2">
+                <colspec colname="col1" colnum="1"/>
+                <colspec colname="col2" colnum="2"/>
+                <tbody>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">Document Type</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">Description </para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">Advance Deposits (AD)</para>
+                            <para role="Table Cells">Disbursement Voucher (DV)</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">AC_CR_CCR_DV_SB_Import.xls</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells"> Budget Adjustment (BA) </para>
+                            <para role="Table Cells">Year End Budget Adjustment (YEBA) </para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells"> If an amount is erroneously entered in the
+                                    <emphasis role="bold">Base Budget Adjustment Amount</emphasis>
+                                column, it is imported to the accounting line of the e-doc. An error
+                                is displayed when the data is validated via saving or submitting the
+                                e-doc. </para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells"> Distribution of Income and Expense (DI)</para>
+                            <para role="Table Cells"> Pre-Encumbrance (PE) - encumbrance lines
+                                only</para>
+                            <para role="Table Cells"> Transfer of Funds (TF)</para>
+                            <para role="Table Cells"> Year End Distribution of Income and Expense
+                                (YEDI)</para>
+                            <para role="Table Cells"> Year End Transfer of Funds (YETF)</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">
+                                DI_YEDI_IB_TF_YETF_PE_Encumbrance_Only_Import.xls</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells"> General Error Correction (GEC)</para>
+                            <para role="Table Cells"> Year End General Error Correction
+                                (YEGEC)</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells"> GEC_YEGEC_Import.xls</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells"> Pre-Encumbrance (PE) -disencumbrance lines
+                                only </para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells"> Disencumbrance lines only </para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells"> Purchase Requisition (REQS) and Purchase Order
+                                (PO) account import </para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                            <para>PURAP_Account_Import.xls</para>
+                            <para role="Table Cells"> The REQS and PO documents have no <emphasis
+                                    role="bold">Accounting Lines</emphasis> tab, but clicking
+                                    <emphasis role="bold">setup distribution</emphasis> in the
+                                    <emphasis role="bold">Items</emphasis> tab opens an <emphasis
+                                    role="bold">Accounting Lines</emphasis> section. This template
+                                imports account data into the <emphasis role="bold">Accounting
+                                    Lines</emphasis> section. </para>
+                        </entry>
+                    </row>
+                </tbody>
+            </tgroup>
+        </informaltable>
+        <section>
+            <title>Process Overview</title>
+            <para role="Normal"> The <emphasis role="bold">import lines</emphasis> button is located
+                in the upper right corner of the appropriate tab (for example, the <emphasis
+                    role="bold">Accounting Lines</emphasis> tab). This button allows you to import a
+                .csv file containing multiple lines of data into the tab. </para>
+            <para> Different types of e-docs use different import templates, but in some cases
+                multiple e-docs use the same template. </para>
+            <note>
+                <para> The layout and format of the .csv import template files varies by document
+                    type. Using the incorrect format for the .csv file causes the import to fail.
+                    Note that, for financial transactions, a separate file is needed for each
+                        <emphasis role="bold">Accounting Lines</emphasis> tab section (for example,
+                    the <emphasis role="bold">From</emphasis> and <emphasis role="bold"
+                        >To</emphasis> sections). </para>
+            </note>
+            <section>
+                <title>Creating a .csv File</title>
+                <para> OLE provides a template for each document type (in some cases, multiple
+                    document types use the same template), for example: </para>
+                <para/>
+                <para><inlinemediaobject>
+                        <alt>Sample Template for .csv files</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/basic-41.png"/>
+                        </imageobject>
+                    </inlinemediaobject></para>
+                <para/>
+                <para> The format of the .cvs file varies depending on the document type. The
+                    desired template file for the document may be downloaded from <link
+                        xlink:href="https://docs.google.com/a/kuali.org/?tab=mo#folders/0B1zG4eNDtxYpTFB5dzR1VkhTdUt2a3MtZkZFVUUxUQ"
+                        >Google Docs</link> (PURAP_Account_Import, PE_Disencumbrance_only_Import,
+                    BA_YEBA_Import). </para>
+                <orderedlist>
+                    <listitem>
+                        <para> Please find the import rules and format requirements in the <link
+                            xlink:href="../../../webhelp/AG/index.html">Guide to the OLE Select and Acquire
+                                Module</link>.  </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            <emphasis role="bold">In Google Docs</emphasis>, open the template file
+                            that corresponds to the type of financial transaction document you are
+                            working on. You may "Download As" from the File menu of Google Docs to
+                            save the template to your desktop, please do not try to edit the
+                            document within Google Docs/Drive. </para>
+                        <para/>
+                        <para>
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>From Google Docs: File > Download as to save the file
+                                        locally</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/basic-42.png" width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para> Save the template to your computer as an Excel workbook. </para>
+                        <para/>
+                        <para>
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Download as Excel Confirmation Screen</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/basic-43.png"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para> Add data to the file. </para>
+                        <note>
+                            <para> Required field headings are marked with an asterisk and appear in
+                                red. </para>
+                        </note>
+                        <para/>
+                        <para>
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Sample Data on a spreadsheet</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/basic-44.png"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para> If the file is to be used again in the future, save the file as an
+                            Excel workbook (don't delete the headers yet). If the file is not to be
+                            used again, skip this step. </para>
+                        <para/>
+                        <para>
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Save the File: Enter a File Name and Click Save</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/basic-45.png"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>Delete the header rows at the top. </para>
+                        <para/>
+                        <para>
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Deleting the header rows</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/basic-46.png"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>Save the file again, with a new name, in .csv format. </para>
+                    </listitem>
+                    <listitem>
+                        <para>Click <inlinemediaobject>
+                                <alt>Import Lines</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/basic-48.png"/>
+                                </imageobject>
+                            </inlinemediaobject>. In OLE the <emphasis role="bold">import
+                                lines</emphasis> button is located in the upper right corner of the
+                            applicable tab. </para>
+                        <para/>
+                        <para>
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Import Lines on an OLE tab</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/basic-49.png"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                        <para> The system displays additional buttons such as <emphasis role="bold"
+                                >Browse</emphasis>, <emphasis role="bold">add</emphasis>, and
+                                <emphasis role="bold">cancel import</emphasis>. </para>
+                    </listitem>
+                    <listitem>
+                        <para>Click <inlinemediaobject>
+                                <alt>Browse</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/basic-50.png"/>
+                                </imageobject>
+                            </inlinemediaobject> and locate the file you have created from your
+                            computer. </para>
+                        <para/>
+                        <para>
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Browse  button in an OLE tab</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/basic-51.png"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para> From the Choose File window, select the .csv file to be imported and
+                            click <inlinemediaobject>
+                                <alt>Open</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/basic-52.png"/>
+                                </imageobject>
+                            </inlinemediaobject></para>
+                    </listitem>
+                    <listitem>
+                        <para>Click<inlinemediaobject>
+                                <alt>Add</alt>
+                                <imageobject>
+                                    <imagedata
+                                        fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-21.png"
+                                    />
+                                </imageobject>
+                            </inlinemediaobject>.</para>
+                        <para> The screen displays the imported data. </para>
+                        <para/>
+                        <para>
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Accounting Lines with Sample Data Imported</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/basic-53.png" width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para> When finished, archive or delete the .csv file. </para>
+                    </listitem>
+                </orderedlist>
+                <para> When the file is needed again, follow these instructions: </para>
+                <orderedlist>
+                    <listitem>
+                        <para>Open the saved Excel workbook with the data from Step 5 above.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Edit the file as necessary.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Follow steps 6 - 12 above.</para>
+                    </listitem>
+                </orderedlist>
+            </section>
+        </section>
+        <section>
+            <title>AD_CR_CCR_DV_SB_Import.xls</title>
+            <para role="Normal"> The <link
+                    xlink:href="https://docs.google.com/a/kuali.org/spreadsheet/ccc?key=0AoD2uLuq2OS7dFI1Z1R6eWlUb2hrYjZoa3lwNExHU3c&amp;usp=drive_web#gid=0"
+                    >AC_CR_CCR_DV_SB_Import Google Doc</link> template applies to two OLE document
+                types: </para>
+            <itemizedlist>
+                <listitem>
+                    <para> Advance Deposits Document (AD)</para>
+                </listitem>
+                <listitem>
+                    <para>Disbursement Voucher (DV)</para>
+                </listitem>
+            </itemizedlist>
+            <para/>
+            <para>
+                <screenshot>
+                    <mediaobject>
+                        <alt>AD_CR_CCR_DV_SB_Import Template Header</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/basic-107.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <para role="TableHeading"><emphasis role="bold">
+                    <emphasis role="bold">AD_CR_CCR_DV_SB_Import template format</emphasis>
+                </emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Column</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Field Name </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">A</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Chart Code* </para>
+                                <note>
+                                    <para> If your institution has set the
+                                        ACCOUNTS_CAN_CROSS_CHARTS_IND parameter to NO, delete this
+                                        column before using the template </para>
+                                </note>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">B</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Account Number* </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">C</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Sub-Account Number </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">D</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Object Code* </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">E</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Sub-Object Code </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">F</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Project Code </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">G</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Organization Reference Id </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">H</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Line Description</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">I</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Amount* </para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+        <section>
+            <title>BA_YEBA_Import.xls</title>
+            <para role="Normal"> The <link
+                    xlink:href="https://docs.google.com/a/kuali.org/spreadsheet/ccc?key=0AlzG4eNDtxYpdElsczBhNi1oVXU2bHluTFUzeHdrRFE#gid=0"
+                    >BA_YEBA_Import Google Doc</link> template applies to two document types: </para>
+            <itemizedlist>
+                <listitem>
+                    <para> Budget Adjustment </para>
+                </listitem>
+                <listitem>
+                    <para>Year End Budget Adjustment</para>
+                </listitem>
+            </itemizedlist>
+            <para/>
+            <para>
+                <screenshot>
+                    <mediaobject>
+                        <alt>BA_YEBA_Import Template Header</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/basic-54.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para>
+                <screenshot>
+                    <mediaobject>
+                        <alt>BA_YEBA_Import Template Header Continued</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/basic-55.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <para role="TableHeading"><emphasis role="bold">
+                    <emphasis role="bold">BA_YEBA_Import template format</emphasis>
+                </emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Column</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Field Name </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">A</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Chart Code* </para>
+                                <note>
+                                    <para> If your institution has set the
+                                        ACCOUNTS_CAN_CROSS_CHARTS_IND parameter to NO, delete this
+                                        column before using the template </para>
+                                </note>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">B</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Account Number* </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">C</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Sub-Account Number </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">D</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Object Code* </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">E</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Sub-Object Code </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">F</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Project Code </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">G</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Organization Reference Id </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">H</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Current Budget Adjustment Amount* </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">I</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Base Budget Adjustment Amount </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">J</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Month 1 Budget Amount </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">K</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Month 2 Budget Amount </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">L</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Month 3 Budget Amount </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">M</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Month 4 Budget Amount </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">N</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Month 5 Budget Amount </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">O</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Month 6 Budget Amount </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">P</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Month 7 Budget Amount </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Q</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Month 8 Budget Amount </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">R</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Month 9 Budget Amount </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">S</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Month 10 Budget Amount </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">T</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Month 11 Budget Amount </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">U</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Month 12 Budget Amount </para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+            <note>
+                <para> If an amount is erroneously entered in the Base Budget Adjustment Amount
+                    column, it is imported to the accounting line of the e-doc. An error is
+                    displayed when the data is validated via saving or submitting the e-doc. </para>
+            </note>
+        </section>
+        <section>
+            <title>DI_YEDI_IB_TF_YETF_PE_Encumbrance_Only_Import.xls</title>
+            <para> The <link
+                    xlink:href="https://docs.google.com/a/kuali.org/spreadsheet/ccc?key=0AoD2uLuq2OS7dGVGbXlqdG9waUtTcUxuUHNLRHF2aHc&amp;usp=drive_web#gid=0"
+                    >DI_YEDI_IB_TF_YETF_PE_Encumbrance_only_Import Google Doc</link> template
+                applies to several document types. </para>
+            <itemizedlist>
+                <listitem>
+                    <para>Distribution of Income and Expense (DI)</para>
+                </listitem>
+                <listitem>
+                    <para>Pre-Encumbrance - encumbrance lines only</para>
+                </listitem>
+                <listitem>
+                    <para>Transfer of Funds (TF)</para>
+                </listitem>
+                <listitem>
+                    <para>Year-End Distribution of Income and Expense (YEDI)</para>
+                </listitem>
+                <listitem>
+                    <para>Year-End Transfer of Funds (YETF)</para>
+                </listitem>
+            </itemizedlist>
+            <para>The basic format of the template is shown below. </para>
+            <para>
+                <screenshot>
+                    <mediaobject>
+                        <alt>DI_YEDI_IB_TF_YETF_PE_Encumbrance_Only_Import Template Header</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/basic-108.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <para role="TableHeading"><emphasis role="bold">
+                    <emphasis role="bold">DI_YEDI_IB_TF_YETF_PE_Encumbrance_Only_Import template
+                        format</emphasis>
+                </emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Column</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Field Name </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">A</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Chart Code* </para>
+                                <note>
+                                    <para> If your institution has set the
+                                        ACCOUNTS_CAN_CROSS_CHARTS_IND parameter to NO, delete this
+                                        column before using the template </para>
+                                </note>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">B</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Account Number* </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">C</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Sub-Account Number </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">D</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Object Code* </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">E</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Sub-Object Code </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">F</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Project Code </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">G</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Organization Reference Id </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">H</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Line Description</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">I</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Amount* </para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+        <section>
+            <title>GEC_YEGEC_Import.xls</title>
+            <para> The <link
+                    xlink:href="https://docs.google.com/a/kuali.org/spreadsheet/ccc?key=0AoD2uLuq2OS7dGVGbXlqdG9waUtTcUxuUHNLRHF2aHc&amp;usp=drive_web#gid=0"
+                    >GEC_YEGEC_Import Google Doc</link> template applies to the General Error
+                Correction and Year End General Error Correction document types. The basic format of
+                the template is shown below. </para>
+            <para>
+                <screenshot>
+                    <mediaobject>
+                        <alt>GEC_YEGEC_Import Template Header</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/basic-109.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <para role="TableHeading"><emphasis role="bold">
+                    <emphasis role="bold">GEC_YEGEC_Import template format</emphasis>
+                </emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Column</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Field Name </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">A</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Chart Code* </para>
+                                <note>
+                                    <para> If your institution has set the
+                                        ACCOUNTS_CAN_CROSS_CHARTS_IND parameter to NO, delete this
+                                        column before using the template </para>
+                                </note>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">B</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Account Number* </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">C</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Sub-Account Number </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">D</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Object Code* </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">E</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Sub-Object Code </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">F</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Project Code </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">G</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Organization Reference Id </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">H</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Reference Origin Code*</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">I</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Reference Number* </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">J</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Line Description</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">K</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Amount*</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+        <section>
+            <title>PE_Disencumbrance_Only_Import.xls</title>
+            <para> The <link
+                    xlink:href="https://docs.google.com/a/kuali.org/spreadsheet/ccc?key=0AlzG4eNDtxYpdFNBbnlZUmFsbWg1U1JQa29yVEJkbmc#gid=0"
+                    >PE_Disencumbrance_only_Import Google Doc</link> template applies to the
+                Pre-Encumbrance (disencumbrance lines only) document type. The basic format of the
+                template is shown below. </para>
+            <para>
+                <screenshot>
+                    <mediaobject>
+                        <alt>PE_Disencumbrance_Only_Import Template Header</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/basic-56.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <para role="TableHeading"><emphasis role="bold">
+                    <emphasis role="bold">PE_Disencumbrance_Only_Import template format</emphasis>
+                </emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Column</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Field Name </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">A</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Chart Code* </para>
+                                <note>
+                                    <para> If your institution has set the
+                                        ACCOUNTS_CAN_CROSS_CHARTS_IND parameter to NO, delete this
+                                        column before using the template </para>
+                                </note>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">B</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Account Number* </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">C</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Sub-Account Number </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">D</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Object Code* </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">E</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Sub-Object Code </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">F</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Project Code </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">G</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Organization Reference Id </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">H</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Reference Number*</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">I</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Amount* </para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+        <section>
+            <title><anchor xml:id="_PURAPAccountImport"/>PURAP_Account_Import.xls</title>
+            <para> The <link
+                    xlink:href="https://docs.google.com/a/kuali.org/spreadsheet/ccc?key=0AlzG4eNDtxYpdGFvZWh1MW5XeTlNTDg1NHlCNm41bnc#gid=0"
+                    >PURAP_Account_Import Google Doc</link> template applies to both the Requisition
+                document type and the Purchase Order document type. It is used to import accounting
+                lines into a requisition or purchase order.</para>
+            <para> The basic format of the template is shown below. </para>
+            <para>
+                <screenshot>
+                    <mediaobject>
+                        <alt>PURAP_Account_Import Template Header</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/basic-57.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <para role="TableHeading"><emphasis role="bold">
+                    <emphasis role="bold">PURAP_Account_Import template format</emphasis>
+                </emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Column</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Field Name </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">A</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Chart Code* </para>
+                                <note>
+                                    <para> If your institution has set the
+                                        ACCOUNTS_CAN_CROSS_CHARTS_IND parameter to NO, delete this
+                                        column before using the template </para>
+                                </note>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">B</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Account Number* </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">C</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Sub-Account Number </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">D</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Object Code* </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">E</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Sub-Object Code </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">F</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Project Code </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">G</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Organization Reference Id </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">H</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">%*</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+    <section>
+        <title>Sample Data</title>
+        <para> The <emphasis role="bold">Batch Process</emphasis> on the <emphasis role="bold"
+                >Admin</emphasis> tab, along with the <emphasis role="bold">Batch Process
+                Profile</emphasis>, allows OLE users to import several types of records into OLE. </para>
+        <note>
+            <para> To learn more about Batch Process and the Profile, see the <link
+                xlink:href="../../../webhelp/ADMIN/content/ch01.html">Batch Processes</link> section
+                of the <link xlink:href="../../../webhelp/ADMIN/index.html">OLE Guide to System
+                    Administration</link>. </para>
+        </note>
+        <section>
+            <title>Patron</title>
+            <para>Patron Sample Data - <link
+                xlink:href="https://svn.kuali.org/repos/ole/trunk/src/site/docbook/basics-guide/sample-data/singlePatron.xml"
+                    >singlePatron.xml</link></para>
+            <para>Patron Schema - <link
+                xlink:href="https://svn.kuali.org/repos/ole/trunk/src/site/docbook/basics-guide/sample-data/Patron%20v2.xsd.xml"
+                    >Patron v2.xsd.xml</link></para>
+        </section>
+        <section>
+            <title>Circulation</title>
+            <para> Circulation loan policy - <link xlink:href="https://svn.kuali.org/repos/ole/trunk/src/site/docbook/basics-guide/sample-data/deliver.xml">deliver.xml</link> (Not imported via
+                Batch Process but XML Import) </para>
+        </section>
+        <section>
+            <title>Location</title>
+            <para> Location Sample Data from IU - <link
+                xlink:href="https://svn.kuali.org/repos/ole/trunk/src/site/docbook/basics-guide/sample-data/iu%20librariesSampleLocations.xml"
+                    >iu librariesSampleLocations.xml</link>
+            </para>
+        </section>
+    </section>
+</chapter>

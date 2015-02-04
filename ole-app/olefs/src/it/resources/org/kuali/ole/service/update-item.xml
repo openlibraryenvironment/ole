@@ -1,0 +1,112 @@
+<request>
+    <user>ole-khuntley</user>
+    <operation>checkIn</operation>
+    <requestDocuments>
+        <ingestDocument id="c19d7c4d-6fb5-49e1-a77f-d2d557da34ea" category="work" type="item" format="oleml">
+
+            <content><![CDATA[
+		<item>
+			<itemIdentifier>Item 1</itemIdentifier>
+			<purchaseOrderLineItemIdentifier>PO 1 </purchaseOrderLineItemIdentifier>
+			<accessInformation>
+				<barcode>barcode-1 Updated Item rec from check in function</barcode>
+			</accessInformation>
+			<electronicLocationAndAccess>
+				<accessMethod>n</accessMethod>
+				<relationship>continuetion</relationship>
+				<hostName>hostName-1</hostName>
+				<accessNumber>accessNumber-01254531</accessNumber>
+				<compressionInformation>compressionInformation-1</compressionInformation>
+				<path>//kok/owk</path>
+				<electronicName>electronicName-1</electronicName>
+				<requestProcessor>requestProcessor-1</requestProcessor>
+				<instruction>instruction-1</instruction>
+				<bitsPerSecond>bitsPerSecond-1</bitsPerSecond>
+				<password>password-1</password>
+				<logon>logon-ID-1</logon>
+				<accessAssistanceContact>accessAssistanceContact-1</accessAssistanceContact>
+				<locationHostName>locationHostName-1</locationHostName>
+				<operatingSystem>operatingSystem-1</operatingSystem>
+				<port>port-9809</port>
+				<electronicFormatType>electronicFormatType-1</electronicFormatType>
+				<settings>settings-1</settings>
+				<fileSize>fileSize-1</fileSize>
+				<terminalEmulation>terminalEmulation-1</terminalEmulation>
+				<hoursAccessMethodAvailable>hoursAccessMethodAvailable-1</hoursAccessMethodAvailable>
+				<recordControlNumber>recordControlNumber-1</recordControlNumber>
+				<nonPublicNote>nonPublicNote-1</nonPublicNote>
+				<linkText>linkText-1</linkText>
+				<publicNote>publicNote-1</publicNote>
+				<additionalAccessMethodInformation>
+					<value> infor 2</value>
+					<typeOrSource>
+						<pointer>http://jira.kuali.org</pointer>
+					</typeOrSource>
+				</additionalAccessMethodInformation>
+				<materialsSpecified>materialsSpecified-1</materialsSpecified>
+			</electronicLocationAndAccess>
+			<barcodeARSL>barcodeARSL-1</barcodeARSL>
+			<formerIdentifiers>
+				<identifier>identifier-1 Updated Item rec from check in function</identifier>
+				<identifierType>identifierType-1 Updated Item rec from check in function</identifierType>
+			</formerIdentifiers>
+			<statisticalSearchingCodes>statisticalSearchingCodes-1</statisticalSearchingCodes>
+			<itemType>itemType-1</itemType>
+			<copyNumber>1</copyNumber>
+			<copyNumberLabel>copyNumberLabel-1</copyNumberLabel>
+			<volumeNumber>0</volumeNumber>
+			<volumeNumberLabel>0</volumeNumberLabel>
+			<nonPublicNote>nonPublicNote-1</nonPublicNote>
+			<publicNote>publicNote-1</publicNote>
+			<enumeration>enumeration-1</enumeration>
+			<chronology>chronology-1</chronology>
+			<location>
+				<locationStatus>Permanent-1</locationStatus>
+				<formerShelvingLocation>formerShelvingLocation-1</formerShelvingLocation>
+				<address>address-1 Updated Iten rec from check in function</address>
+				<codedLocationQualifier>codedLocationQualifier-1</codedLocationQualifier>
+				<noncodedLocationQualifier>noncodedLocationQualifier-1</noncodedLocationQualifier>
+				<shelvingControlNumber>shelvingControlNumber-1</shelvingControlNumber>
+				<shelvingFormOfTitle>shelvingFormOfTitle-1</shelvingFormOfTitle>
+				<countryCode>
+					<value>Ind</value>
+					<typeOrSource>
+						<pointer>http://tempuri.org</pointer>
+					</typeOrSource>
+				</countryCode>
+				<copyrightArticleFeeCode>copyrightArticleFeeCode-1</copyrightArticleFeeCode>
+				<copyNumber>1</copyNumber>
+				<pieceDesignation>pieceDesignation-1</pieceDesignation>
+				<piecePhysicalCondition>piecePhysicalCondition-1</piecePhysicalCondition>
+				<nonPublicNote>nonPublicNote-1</nonPublicNote>
+				<publicNote>publicNote-1</publicNote>
+				<classificationOrShelvingSchemeSource>
+					<value>History</value>
+					<typeOrSource>
+						<pointer>http://tempuri.org</pointer>
+					</typeOrSource>
+				</classificationOrShelvingSchemeSource>
+				<materialsSpecified>materialsSpecified-1</materialsSpecified>
+			</location>
+			<highDensityStorage>
+				<row>row-1</row>
+				<module>module-1</module>
+				<shelf>shelf-1</shelf>
+				<hds>hds-1</hds>
+			</highDensityStorage>
+			<extension displayLabel="Extension LAbel 2">
+				<additionalAttributes>
+					<dateEntered>12-2-2011</dateEntered>
+					<lastUpdated>12-11-2012</lastUpdated>
+					<fastAddFlag>true</fastAddFlag>
+					<supressFromPublic>false</supressFromPublic>
+					<harvestable>false</harvestable>
+				<status>n</status>
+				</additionalAttributes>
+			</extension>
+		</item>
+           		]]>
+            </content>
+        </ingestDocument>
+    </requestDocuments>
+</request>

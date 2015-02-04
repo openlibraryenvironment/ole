@@ -1,0 +1,1827 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0"
+    xml:lang="en-US">
+    <title>System Admin Maintenance Documents</title>
+    <para role="Body Text"><inlinemediaobject>
+            <alt>Maintenance</alt>
+            <imageobject>
+                <imagedata fileref="../images/maintenanceMenu.png"/>
+            </imageobject>
+        </inlinemediaobject>
+        <emphasis role="bold"><emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                <alt>System Admin</alt>
+                <imageobject>
+                    <imagedata
+                        fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-213.png"/>
+                </imageobject>
+            </inlinemediaobject>&gt; </emphasis><inlinemediaobject>
+            <alt>System Admin Links</alt>
+            <imageobject>
+                <imagedata fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-215.png"/>
+            </imageobject>
+        </inlinemediaobject></para>
+    <para role="Body Text">System Admin maintenance e-docs are available via the System Admin
+        submenu on the <emphasis role="bold">Maintenance</emphasis> menu. </para>
+    <section>
+        <title><anchor xml:id="_campus"/>Campus<indexterm significance="normal">
+                <primary>CampusMaintenanceDocument</primary>
+            </indexterm><indexterm significance="normal">
+                <primary>Locations submenu group</primary>
+                <secondary>CampusMaintenanceDocument</secondary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold"><emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                    <alt>System Admin</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-213.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Locations</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-118.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Campus</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-119.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Campus Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-120.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Campus Maintenance Document</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-121.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The CampusMaintenanceDocument is used to identify the different
+            fiscal and physical operating entities of an institution for use in OLE. A campus may be
+            identified as a fiscal entity, a physical entity, or both.</para>
+        <para role="Body Text">When the user chooses the Campus option, the system displays the
+            Campus Lookup screen. After the user selects a campus or clicks the <phrase
+                role="Strong">create new</phrase> button, the system presents the
+            CampusMaintenanceDocument.</para>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Campus Maintenance Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-122.jpg" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <section>
+                <title>Edit Campus Tab</title>
+                <para role="Body Text">The CampusMaintenanceDocument includes the <emphasis
+                        role="bold">Edit Campus</emphasis> tab<indexterm significance="normal">
+                        <primary>CampusMaintenanceDocument</primary>
+                        <secondary>Edit Campus tab</secondary>
+                    </indexterm>.</para>
+                <para role="Body Text">In edit mode, the <emphasis role="bold">Edit Campus
+                        tab</emphasis> presents a display-only set of fields on the left and
+                    editable fields on the right in which the user may enter changes.</para>
+                <para role="TableHeading"><emphasis role="bold">Edit Campus tab
+                        definition</emphasis></para>
+                <informaltable frame="top">
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1"/>
+                        <colspec colname="c1" colnum="1"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Campus Code </para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. The unique identifying code
+                                        assigned to a campus.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Campus Name </para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. The familiar name for a
+                                        specific university campus.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Campus Short Name </para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. An abbreviated name for a
+                                        specific campus; used in reports in which space is
+                                        limited.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Campus Type Code </para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Indicates the type of campus.
+                                        Valid values are:</para>
+                                    <para role="Table Cells">B: - Both</para>
+                                    <para role="Table Cells">F - Fiscal</para>
+                                    <para role="Table Cells">P - Physical</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_country"/>Country<indexterm significance="normal">
+                <primary>CountryMaintenanceDocument</primary>
+            </indexterm><indexterm significance="normal">
+                <primary>Locations submenu group</primary>
+                <secondary>CountryMaintenanceDocument</secondary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold"><emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                    <alt>System Admin</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-213.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Locations</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-118.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Country</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-126.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Country Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-127.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Country Maintenance Document</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-128.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The Country Maintenance document is used to assign specific
+            identifying codes to country names.</para>
+        <para role="Body Text">When the user chooses the <emphasis role="bold">Country</emphasis>
+            option from the menu, the system displays the Country Lookup screen. After the user
+            selects a country or clicks the <emphasis role="bold">create new</emphasis> button, the
+            system presents the Country Maintenance document.</para>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Country Maintenance Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-129.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <section>
+                <title>Edit Country Tab</title>
+                <para role="Body Text">The Country Maintenance document includes the <emphasis
+                        role="bold">Edit Country</emphasis> tab<indexterm significance="normal">
+                        <primary>CountryMaintenanceDocument</primary>
+                        <secondary>Edit Country tab</secondary>
+                    </indexterm>.</para>
+                <para role="Body Text">In edit mode, the <emphasis role="bold">Edit
+                        Country</emphasis> tab presents a display-only set of fields on the left and
+                    editable fields on the right in which the user may enter changes.</para>
+                <para role="TableHeading"><emphasis role="bold">Edit Country tab
+                        definition</emphasis></para>
+                <informaltable frame="top">
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1"/>
+                        <colspec colname="c1" colnum="1"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Country Code </para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"><phrase role="Strong">Required. A
+                                            unique identifying code assigned to a
+                                        country.</phrase></para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Country Name </para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"><phrase role="Strong">Required. A
+                                            familiar name of a specific country.</phrase></para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Alternate Country Code</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">An alternative code assigned to a
+                                        country.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Active Indicator</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Indicates whether this country code is
+                                        active or inactive in OLE. Remove the check mark to
+                                        deactivate this country code. </para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_county"/>County<indexterm significance="normal">
+                <primary>CountyMaintenanceDocument</primary>
+            </indexterm><indexterm significance="normal">
+                <primary>Locations submenu group</primary>
+                <secondary>CountyMaintenanceDocument</secondary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold"><emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                    <alt>System Admin</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-213.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Locations</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-118.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>County</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-133.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>County Code Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-134.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>County Maintenance Document</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-135.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The County Maintenance document is used to assign specific
+            identifying codes to county names.</para>
+        <para role="Body Text">When the user chooses the <emphasis role="bold">County</emphasis>
+            option from the <emphasis role="bold">Admin</emphasis> menu tab, the system displays the
+            County Lookup screen. After the user selects a county or clicks the <emphasis
+                role="bold">create new</emphasis> button, the system presents the County Maintenance
+            document.</para>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>County Maintenance Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-136.jpg" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <section>
+                <title>Edit Counties Tab</title>
+                <para role="Body Text">The County Maintenance document includes the <emphasis
+                        role="bold">Edit Counties</emphasis> tab<indexterm significance="normal">
+                        <primary>CountyMaintenanceDocument</primary>
+                        <secondary>Edit Counties tab</secondary>
+                    </indexterm>.</para>
+                <para role="Body Text">In edit mode, the <emphasis role="bold">Edit
+                        Counties</emphasis> tab presents a display-only set of fields on the left
+                    and editable fields on the right in which the user may enter changes.</para>
+                <para role="TableHeading"><emphasis role="bold">Edit Counties tab
+                        definition</emphasis></para>
+                <informaltable frame="top">
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1"/>
+                        <colspec colname="c1" colnum="1"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Country Code </para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"><phrase role="Strong">The country code
+                                            for the country in which this county is located.
+                                        </phrase></para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">County Code </para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">A unique identifying code assigned to
+                                        this county.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">State</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">The state abbreviation assigned to
+                                            <phrase role="Strong">the state in which a county is
+                                            located.</phrase>
+                                    </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">County Name </para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. The familiar name of this
+                                        county.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Active Indicator</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Indicates whether the county code is
+                                        active or inactive in OLE. Remove the check mark to
+                                        deactivate this county code. </para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_postalCode"/>Postal Code<indexterm significance="normal">
+                <primary>PostalCodeMaintenanceDocument</primary>
+            </indexterm><indexterm significance="normal">
+                <primary>Locations submenu group</primary>
+                <secondary>PostalCodeMaintenanceDocument</secondary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold"><emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                    <alt>System Admin</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-213.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Locations</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-118.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Postal Code</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-140.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Postal Code Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-141.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Postal Code Maintenance Document</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-142.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The Postal Code Maintenance document defines the zip code by city and
+            state. When the user chooses the <emphasis role="bold">Postal Code</emphasis> option
+            from the <emphasis role="bold">Admin</emphasis> menu tab, the system displays the Postal
+            Code Lookup screen. After the user selects a postal code or clicks the <emphasis
+                role="bold">create new</emphasis> button, the system presents the Postal Code
+            Maintenance document. </para>
+        <note>
+            <para> The user may also enter a city and state to find the associated zip code.</para>
+        </note>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Postal Code Maintenance Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-144.jpg" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <section>
+                <title>Edit Postal Codes Tab</title>
+                <para role="Body Text">The Postal Code Maintenance document includes the <emphasis
+                        role="bold">Edit Postal Codes</emphasis> tab<indexterm significance="normal">
+                        <primary>PostalCodeMaintenanceDocument</primary>
+                        <secondary>Edit Postal Codes tab</secondary>
+                    </indexterm>.</para>
+                <para role="Body Text">In edit mode, the <emphasis role="bold">Edit Postal
+                        Codes</emphasis> tab presents a display-only set of fields on the left and
+                    editable fields on the right in which the user may enter changes.</para>
+                <para role="TableHeading"><emphasis role="bold">Edit Postal Codes tab
+                        definition</emphasis></para>
+                <informaltable frame="top">
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1"/>
+                        <colspec colname="c1" colnum="1"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Country Code </para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"><phrase role="Strong">The country code
+                                            for the country associated with the zip (postal) code.
+                                        </phrase></para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Postal Code </para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Identifies a Postal Service
+                                        code.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">State </para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. The state <phrase
+                                            role="Strong">associated with the zip (postal)
+                                            code.</phrase></para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">County Code </para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">The unique identifying code for the
+                                        county <phrase role="Strong">associated with the zip
+                                            (postal) code</phrase>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">City Name </para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. The name of the city <phrase
+                                            role="Strong">associated with the zip (postal)
+                                            code</phrase>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Active Indicator</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Indicates whether the postal code is
+                                        active or inactive in OLE. Remove the check mark to
+                                        deactivate this postal code.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_state"/>State<indexterm significance="normal">
+                <primary>StateMaintenanceDocument</primary>
+            </indexterm><indexterm significance="normal">
+                <primary>Locations submenu group</primary>
+                <secondary>StateMaintenanceDocument</secondary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold"><emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                    <alt>System Admin</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-213.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Locations</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-118.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>State</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-148.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>State Code Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-149.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>State Maintenance Document</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-150.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The State Maintenance document defines the U.S. Postal Service codes
+            used to identify states. When the user chooses the <emphasis role="bold"
+                >State</emphasis> option from the <emphasis role="bold">Admin</emphasis> menu tab,
+            the system displays the State Code Lookup screen. After the user selects a state code or
+            clicks the <emphasis role="bold">create new</emphasis> button, the system presents the
+            State Maintenance document.</para>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>State Maintenance Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-151.jpg" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <section>
+                <title>Edit States Tab</title>
+                <para role="Body Text">The State Maintenance document includes the <emphasis
+                        role="bold">Edit States </emphasis>tab<indexterm significance="normal">
+                        <primary>StateMaintenanceDocument</primary>
+                        <secondary>Edit States tab</secondary>
+                    </indexterm>.</para>
+                <para role="Body Text">In edit mode, the <emphasis role="bold">Edit
+                        States</emphasis> tab presents a display-only set of fields on the left and
+                    editable fields on the right in which the user may enter changes.</para>
+                <para role="TableHeading"><emphasis role="bold">Edit States tab
+                        definition</emphasis></para>
+                <informaltable frame="top">
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1"/>
+                        <colspec colname="c1" colnum="1"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Country Code </para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">A unique identifying code assigned to
+                                        the country of which this state is a part.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">State Abbreviation</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">The state abbreviation.<phrase
+                                            role="Strong"> </phrase></para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">State Name </para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. The full name of the state
+                                        associated with the state abbreviation.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Active Indicator</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Indicates whether the state code is
+                                        active or inactive in OLE. Remove the check mark to
+                                        deactivate the state code.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_systemAddressType"/>Address Type<indexterm significance="normal">
+                <primary>Address Type Lookup</primary>
+            </indexterm><indexterm significance="normal">
+                <primary>Reference submenu group</primary>
+                <secondary>Address Type Lookup</secondary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold"><emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                    <alt>System Admin</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-213.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Reference</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-157.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Address Type</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-158.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Address Type Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-159.png"/>
+                    </imageobject>
+                </inlinemediaobject>
+            </emphasis></para>
+        <para role="Body Text">The Address Type Lookup displays the types of addresses that may be
+            associated with Person records in KIM. </para>
+        <note>
+            <para> Address types cannot be edited via the interface. Technical assistance is
+                required to add new or edit existing address types.</para>
+        </note>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Address Type Lookup with Search Results Displayed</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-161.jpg" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="TableHeading"><emphasis role="bold">Address Type Lookup results
+                    definition</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="c1" colnum="1"/>
+                    <colspec colname="c1" colnum="1"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Address Type Code </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Display only. The unique code for this type
+                                    of address.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Address Type Name </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Display only. The familiar title of this
+                                    address type.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Display Sort Code</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Display only. An alphabetical character
+                                    used to determine the order in which address types are displayed
+                                    in the list on the Person document.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Display only. Indicates whether this
+                                    address type is active (in which case the system displays it in
+                                        the<phrase role="Strong"> Address Type</phrase> list on the
+                                    Person document). </para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_affiliationType"/>Affiliation Type<indexterm significance="normal">
+                <primary>Affiliation Type Lookup</primary>
+            </indexterm><indexterm significance="normal">
+                <primary>Reference submenu group</primary>
+                <secondary>Affiliation Type Lookup</secondary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold"><emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                    <alt>System Admin</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-213.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Reference</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-157.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Affiliation Type</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-165.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Affiliation Type Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-166.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">Affiliation types specify codes and text descriptions for the
+            different types of affiliations that can be associated with a Person record in KIM.
+            These codes may be used for data sorting or retrieval purposes. The Affiliation Type
+            Lookup displays the valid affiliation code types. </para>
+        <note>
+            <para> Affiliation types cannot be edited via the interface. Technical assistance is
+                required to add new or edit existing affiliation types.</para>
+        </note>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Affiliation Type Lookup Screen with Search Results Displayed</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-168.jpg" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="TableHeading"><emphasis role="bold">Affiliation Type Lookup results
+                    definition</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="c1" colnum="1"/>
+                    <colspec colname="c1" colnum="1"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Description</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Affiliation Type Code</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Display only. A unique code that identifies
+                                    this type of affiliation. The base values are:</para>
+                                <para role="Table Cells">AFLT = Affiliate, FCLTY = Faculty, STAFF =
+                                    Staff, STDNT = Student</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Affiliation Type Name</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Display only. A text description of this
+                                    type of affiliation.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Display Sort Code</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Display only. An alphabetical character
+                                    used to determine the order in which the system displays
+                                    affiliation types in the list. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Display only. Indicates whether this type
+                                    of affiliation is active (in which case the system displays it
+                                    in the <emphasis role="bold">Affiliation Type</emphasis>list on
+                                    the Person document). </para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_campusType"/>Campus Type<indexterm significance="normal">
+                <primary>Campus Type Lookup</primary>
+            </indexterm><indexterm significance="normal">
+                <primary>CampusTypeMaintenanceDocument</primary>
+            </indexterm><indexterm significance="normal">
+                <primary>Reference submenu group</primary>
+                <secondary>Campus Type Lookup</secondary>
+            </indexterm><indexterm significance="normal">
+                <primary>Reference submenu group</primary>
+                <secondary>CampusTypeMaintenanceDocument</secondary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold"><emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                    <alt>System Admin</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-213.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Reference</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-157.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Campus Type</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-172.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Campus Type Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-173.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Campus Type Maintenance Document</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-174.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">When the user selects <emphasis role="bold">Campus Type</emphasis>
+            from the <emphasis role="bold">Admin</emphasis> menu tab, the system displays the Campus
+            Type Lookup. From this screen, the user may either create a new type or search for an
+            existing type. This defines the valid types of campuses that can be selected when
+            creating a new campus.</para>
+        <para role="Body Text">After performing a search based on user-specified criteria, the
+            system displays a results table. The user may then choose to edit or copy a retrieved
+            record.</para>
+        <para role="Body Text">After the user selects <emphasis role="bold">create new</emphasis>,
+                <emphasis role="bold">edit</emphasis>, or <emphasis role="bold">copy</emphasis>, the
+            system displays the Campus Type Maintenance document. This document allows users to add
+            and maintain campus types. </para>
+        <note>
+            <para> While anyone can view the current values for campus type, only members of OLE-SYS
+                Manager or KR-SYS Technical Manager roles can create new campus types or edit
+                existing values. This document does not route for approval.</para>
+        </note>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Campus Type Maintenance Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-176.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <section>
+                <title>Edit Campus Type Tab</title>
+                <para role="Body Text">The Campus Type Maintenance document includes the <emphasis
+                        role="bold">Edit Campus Type</emphasis> tab<indexterm significance="normal">
+                        <primary>PostalCodeMaintenanceDocument</primary>
+                        <secondary>Edit Postal Codes tab</secondary>
+                    </indexterm>.</para>
+                <para role="Body Text">In edit mode, the <emphasis role="bold">Edit Campus
+                        Type</emphasis> tab presents a display-only set of fields on the left and
+                    editable fields on the right in which the user may enter changes.</para>
+                <para role="TableHeading"><emphasis role="bold">Edit Campus Type tab
+                        definition</emphasis></para>
+                <informaltable frame="top">
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1"/>
+                        <colspec colname="c1" colnum="1"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Campus Type Code </para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter a code to identify this
+                                        type of campus.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Campus Type Name </para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter a descriptive name for
+                                        this campus type.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_citizenshipStatus"/>Citizenship Status</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold"><emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                    <alt>System Admin</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-213.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Reference</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-157.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Citizenship Status</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-180.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Citizenship Status Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-181.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="">The Citizenship Status Lookup is used to display the types of statuses that
+            may be entered on a Person record in KIM. </para>
+        <note>
+            <para> Citizenship Status cannot be edited via the interface. Technical assistance is
+                required to add new or edit existing status types.</para>
+        </note>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Citizenship Status Lookup Screen</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-182.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="TableHeading"><emphasis role="bold">Citizenship Status Lookup results
+                    definition</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="c1" colnum="1"/>
+                    <colspec colname="c1" colnum="1"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Description</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Citizenship Status Code</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">The code used to identify citizen
+                                    status.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Citizenship Status Name</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">The familiar name of the citizen
+                                    status.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Display only. Indicates whether this
+                                    citizen status type is active (in which case the system displays
+                                    it in the <emphasis role="bold">Citizen Status</emphasis> list
+                                    on the Person document). </para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_emailType"/>Email Type<indexterm significance="normal">
+                <primary>Email Type Lookup</primary>
+            </indexterm><indexterm significance="normal">
+                <primary>Reference submenu group</primary>
+                <secondary>Email Type Lookup</secondary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold"><emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                    <alt>System Admin</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-213.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Reference</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-157.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Email Type</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-187.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Email Type Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-188.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The Email Type Lookup is used to display the types of email addresses
+            that may be entered on a Person record in KIM.</para>
+        <note>
+            <para> Email types cannot be edited via the interface. Technical assistance is required
+                to add new or edit existing email types.</para>
+        </note>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Email Type Lookup with Search Results Displayed</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-190.jpg" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="TableHeading"><emphasis role="bold">Email Type Code Lookup results
+                    definition</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="c1" colnum="1"/>
+                    <colspec colname="c1" colnum="1"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Description</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Email Type Code</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Display only. A unique code identifying
+                                    this type of email address. The base data values are:</para>
+                                <para role="Table Cells">HM = Home, OTH = Other, WRK = Work</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Email Type Name</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Display only. A descriptive label for this
+                                    type of email address.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Display Sort Code</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Display only. An alphabetical character
+                                    used to determine the order in which email address types are
+                                    displayed in the list on the Person record. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Display only. Indicates whether this email
+                                    address type is active (in which case the system displays it in
+                                    the <emphasis role="bold">Email Type</emphasis> list on the
+                                    Person document). </para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_employeeType"/>Employee Type<indexterm significance="normal">
+                <primary>Employee Type Lookup</primary>
+            </indexterm><indexterm significance="normal">
+                <primary>Reference submenu group</primary>
+                <secondary>Employee Type Lookup</secondary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold"><emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                    <alt>System Admin</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-213.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Employment Status</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-160.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Employee Type</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-201.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Employee Type Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-202.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The Employee Type Lookup allows you to view the various status codes
+            that can be assigned to a faculty or staff type of affiliation on the Person document in
+            KIM.</para>
+        <note>
+            <para> Employee types cannot be edited via the interface. Technical assistance is
+                required to add new or edit existing employee types.</para>
+        </note>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Employee Type Lookup with Search Results Displayed</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-204.jpg" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="TableHeading"><emphasis role="bold">Employee Type Lookup results
+                    definition</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="c1" colnum="1"/>
+                    <colspec colname="c1" colnum="1"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Description</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Employee Type Code</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Display only. A unique code identifying
+                                    this type of employee. The base data values are:</para>
+                                <para role="Table Cells">N = Non-Professional, O = Other, P =
+                                    Professional</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Employee Type Name</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Display only. A descriptive label for this
+                                    type of employee.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Display Sort Code</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Display only. A numeric value used to
+                                    determine the order in which employee types are displayed in the
+                                    list. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Display only. Indicates whether this
+                                    employee type is active (in which case the system displays it in
+                                    the <emphasis role="bold">Employee Type </emphasis>list on the
+                                    Person document). </para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_entityType"/>Entity Type<indexterm significance="normal">
+                <primary>Entity Type Lookup</primary>
+            </indexterm><indexterm significance="normal">
+                <primary>Reference submenu group</primary>
+                <secondary>Entity Type Lookup</secondary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold"><emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                    <alt>System Admin</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-213.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Employment Status</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-160.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Entity Type</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-208.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Entity Type Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-209.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The Entity Type Lookup displays the various entity types recognized
+            in KIM. </para>
+        <note>
+            <para> Entity types cannot be edited via the interface. Technical assistance is required
+                to add new or edit existing entity types.</para>
+        </note>
+        <section>
+            <title>Document Layout </title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Entity Type Lookup With Search Results Displayed</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-211.jpg" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="TableHeading"><emphasis role="bold">Entity Type Lookup results
+                    definition</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="c1" colnum="1"/>
+                    <colspec colname="c1" colnum="1"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Description</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Entity Type Code</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Display only. A unique code that identifies
+                                    this entity type. The base data values are:</para>
+                                <para role="Table Cells">PERSON = Person, SYSTEM = System</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Entity Type Name</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Display only. A descriptive label for this
+                                    entity type.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Display Sort Code</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Display only. A numeric value used to
+                                    determine the order in which entity types would be displayed in
+                                    a list. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Display only. Indicates whether this entity
+                                    type is active. Because entity types are not viewable elsewhere
+                                    in the application, inactivation will have no apparent
+                                    effect.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_externalIdentifierType"/>External Identifier Type<indexterm
+                significance="normal">
+                <primary>External Identifier Type Lookup</primary>
+            </indexterm><indexterm significance="normal">
+                <primary>Reference submenu group</primary>
+                <secondary>External Identifier Type Lookup</secondary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold"><emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                    <alt>System Admin</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-213.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Employment Status</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-160.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>External Identifier Type</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-215.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>External Identifier Type Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-216.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The External Identifier Type Lookup displays the identifiers that may
+            be associated with a Person record that has been generated by a non-Kuali system. The
+            only example in OLE base data is Tax ID number.</para>
+        <note>
+            <para> External identifier types cannot be edited via the interface. Technical
+                assistance is required to add new or edit existing external identifier types.</para>
+        </note>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>External Identifier Type Lookup with Search Results Displayed</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-218.jpg" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="TableHeading"><emphasis role="bold">External Identifier Lookup results
+                    definition</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="c1" colnum="1"/>
+                    <colspec colname="c1" colnum="1"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Description</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">External Identifier Type Code</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Display only. A unique code that identifies
+                                    this external identifier type. The base data value is:</para>
+                                <para role="Table Cells">TAX = Tax ID</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">External Identifier Type Name</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Display only. A descriptive label for this
+                                    external identifier type.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Display Sort Code</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Display only. A numeric value that
+                                    determines the order in which external identifier types are
+                                    displayed in the list. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Display only. Indicates whether this
+                                    external identifier type is active. </para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_nameType"/>Name Type<indexterm significance="normal">
+                <primary>Entity Name Type Lookup</primary>
+            </indexterm><indexterm significance="normal">
+                <primary>Reference submenu group</primary>
+                <secondary>Entity Name Type Lookup</secondary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold"><emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                    <alt>System Admin</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-213.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Employment Status</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-160.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Name Type</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-222.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Entity Name Type Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-223.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The Entity Name Type Lookup allows you to view the types of names
+            that can be associated with a person on the <emphasis role="bold">Contact</emphasis> tab
+            of a KIM Person document.</para>
+        <note>
+            <para> Name types cannot be edited via the interface. Technical assistance is required
+                to add new or edit existing name types.</para>
+        </note>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Entity Name Type Lookup With Search Results Displayed</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-225.jpg" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="TableHeading"><emphasis role="bold">Entity Name Type Lookup results
+                    definition</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="c1" colnum="1"/>
+                    <colspec colname="c1" colnum="1"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Description</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Entity Name Type Code</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Display only. A unique code that identifies
+                                    this type of name. The base data values are:</para>
+                                <para role="Table Cells">OTH = Other, PRFR = Preferred, PRM =
+                                    Primary</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Entity Name Type Name</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Display only. A descriptive label for this
+                                    name type.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Display Sort Code</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Display only. An alphabetic value that
+                                    determines the order in which name types are displayed in the
+                                    list. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Display only. Indicates whether this name
+                                    type is active (in which case the system displays it in the
+                                        <emphasis role="bold">Name Type</emphasis>list on the Person
+                                    document). </para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_phoneType"/>Phone Type<indexterm significance="normal">
+                <primary>Phone Type Lookup</primary>
+            </indexterm><indexterm significance="normal">
+                <primary>Reference submenu group</primary>
+                <secondary>Phone Type Lookup</secondary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold"><emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                    <alt>System Admin</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-213.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Employment Status</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-160.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Phone Type</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-229.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Phone Type Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-230.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The Phone Type Lookup displays codes that identify various categories
+            of phone numbers on the Person document.</para>
+        <note>
+            <para> Phone types cannot be edited via the interface. Technical assistance is required
+                to add new or edit existing phone types.</para>
+        </note>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Phone Type Lookup With Search Results Displayed</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-232.jpg" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="TableHeading">Phone Type Lookup results definition</para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="c1" colnum="1"/>
+                    <colspec colname="c1" colnum="1"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Phone Type Code </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Display only. The code that identifies the
+                                    type of phone number.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Phone Type Name </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Display only. The descriptive name for this
+                                    type of phone number.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Display Sort Code</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Display only. An alphabetic value that
+                                    determines the order in which phone types are displayed in the
+                                    list. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Display only. Indicates whether this phone
+                                    type is active (in which case the system displays it in the
+                                        <emphasis role="bold">Phone Type</emphasis> list on the
+                                    Person document). </para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+</chapter>

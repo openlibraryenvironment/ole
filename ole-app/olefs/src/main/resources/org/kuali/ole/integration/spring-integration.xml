@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2008-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="contractsAndGrantsModuleService"  parent="contractsAndGrantsModuleService-parentBean"/>
+	<bean id="contractsAndGrantsModuleService-parentBean" class="org.kuali.ole.integration.cg.ContractsAndGrantsModuleServiceNoOp"  abstract="true"/>
+ 				
+	<bean id="purchasingAccountsPayableModuleService"  parent="purchasingAccountsPayableModuleService-parentBean"/>
+	<bean id="purchasingAccountsPayableModuleService-parentBean" class="org.kuali.ole.integration.purap.PurchasingAccountsPayableModuleServiceNoOp"  abstract="true"/>
+ 	
+    <bean id="capitalAssetBuilderModuleService"  parent="capitalAssetBuilderModuleService-parentBean"/>
+    <bean id="capitalAssetBuilderModuleService-parentBean" class="org.kuali.ole.integration.cab.CapitalAssetBuilderModuleServiceNoOp" abstract="true"/>
+     
+    <bean id="capitalAssetManagementModuleService"  parent="capitalAssetManagementModuleService-parentBean"/>
+    <bean id="capitalAssetManagementModuleService-parentBean" class="org.kuali.ole.integration.cam.CapitalAssetManagementModuleServiceNoOp" abstract="true"/>
+     
+    <bean id="cgModuleConfiguration"  parent="cgModuleConfiguration-parentBean"/>
+    <bean id="cgModuleConfiguration-parentBean" class="org.kuali.ole.sys.FinancialSystemModuleConfiguration" abstract="true">
+        <property name="namespaceCode" value="OLE-CG" />
+        <property name="initializeDataDictionary" value="true" />
+        <property name="packagePrefixes">
+            <list>
+                <value>org.kuali.ole.integration.cg</value>
+            </list>
+        </property>
+        <property name="dataDictionaryPackages">
+            <list>
+                <value>org/kuali/ole/integration/cg/businessobject/datadictionary</value>
+            </list>
+        </property>
+        <property name="externalizableBusinessObjectImplementations">
+            <map>
+                <entry key="org.kuali.ole.integration.cg.ContractsAndGrantsAccountAwardInformation" value="org.kuali.ole.integration.cg.businessobject.AwardAccount" />
+                <entry key="org.kuali.ole.integration.cg.ContractsAndGrantsAward" value="org.kuali.ole.integration.cg.businessobject.Award" />
+                <entry key="org.kuali.ole.integration.cg.ContractAndGrantsProposal" value="org.kuali.ole.integration.cg.businessobject.Proposal" />
+                <entry key="org.kuali.ole.integration.cg.ContractsAndGrantsAgency" value="org.kuali.ole.integration.cg.businessobject.Agency" />
+	            <entry key="org.kuali.ole.integration.cg.ContractsAndGrantsUnit" value="org.kuali.ole.integration.cg.businessobject.UnitDTO" /> 
+       			<entry key="org.kuali.ole.integration.cg.ContractsAndGrantsBudgetCategory" value="org.kuali.ole.integration.cg.businessobject.BudgetCategoryDTO" />                
+            </map>
+        </property>
+    </bean>
+
+    <bean id="cgModuleService"  parent="cgModuleService-parentBean"/>
+    <bean id="cgModuleService-parentBean" class="org.kuali.ole.integration.UnimplementedKfsModuleServiceImpl" abstract="true">
+        <property name="moduleConfiguration" ref="cgModuleConfiguration" />
+    </bean>
+
+    <bean id="camModuleConfiguration"  parent="camModuleConfiguration-parentBean"/>
+    <bean id="camModuleConfiguration-parentBean" class="org.kuali.ole.sys.FinancialSystemModuleConfiguration" abstract="true">
+        <property name="namespaceCode" value="OLE-CAM" />
+        <property name="initializeDataDictionary" value="true" />
+        <property name="packagePrefixes">
+            <list>
+                <value>org.kuali.ole.integration.cam</value>
+            </list>
+        </property>
+        <property name="externalizableBusinessObjectImplementations">
+            <map>
+                <entry key="org.kuali.ole.integration.cam.CapitalAssetManagementAsset" value="org.kuali.ole.integration.cam.businessobject.Asset" />
+                <entry key="org.kuali.ole.integration.cam.CapitalAssetManagementAssetType" value="org.kuali.ole.integration.cam.businessobject.AssetType" />
+            </map>
+        </property>
+        <property name="dataDictionaryPackages">
+            <list>
+                <value>org/kuali/ole/integration/cam/businessobject/datadictionary</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="camModuleService"  parent="camModuleService-parentBean"/>
+    <bean id="camModuleService-parentBean" class="org.kuali.ole.integration.UnimplementedKfsModuleServiceImpl" abstract="true">
+        <property name="moduleConfiguration" ref="camModuleConfiguration" />
+    </bean>
+
+
+    <bean id="cabModuleConfiguration"  parent="cabModuleConfiguration-parentBean"/>
+    <bean id="cabModuleConfiguration-parentBean" class="org.kuali.ole.sys.FinancialSystemModuleConfiguration" abstract="true">
+        <property name="namespaceCode" value="OLE-CAB" />
+        <property name="initializeDataDictionary" value="true" />
+        <property name="packagePrefixes">
+            <list>
+                <value>org.kuali.ole.integration.cab</value>
+            </list>
+        </property>
+        <property name="dataDictionaryPackages">
+            <list>
+                <value>org/kuali/ole/integration/cab/businessobject/datadictionary</value>
+            </list>
+        </property>
+                
+        <property name="externalizableBusinessObjectImplementations">
+            <map>
+                <entry key="org.kuali.ole.integration.cab.CapitalAssetBuilderAssetTransactionType" value="org.kuali.ole.integration.cab.businessobject.AssetTransactionType" />
+            </map>
+        </property> 
+    </bean>
+
+    <bean id="cabModuleService"  parent="cabModuleService-parentBean"/>
+    <bean id="cabModuleService-parentBean" class="org.kuali.ole.integration.UnimplementedKfsModuleServiceImpl" abstract="true">
+        <property name="moduleConfiguration" ref="cabModuleConfiguration" />
+    </bean>
+
+    <bean id="purapModuleConfiguration"  parent="purapModuleConfiguration-parentBean"/>
+    <bean id="purapModuleConfiguration-parentBean" class="org.kuali.rice.krad.bo.ModuleConfiguration" abstract="true">
+        <property name="namespaceCode" value="OLE-PURAP" />
+        <property name="initializeDataDictionary" value="true" />
+        <property name="packagePrefixes">
+            <list>
+                <value>org.kuali.ole.integration.purap</value>
+            </list>
+        </property>
+        <property name="dataDictionaryPackages">
+            <list>
+                <value>org/kuali/ole/integration/purap/businessobject/datadictionary</value>
+            </list>
+        </property>
+        <property name="externalizableBusinessObjectImplementations">
+            <map>
+                <entry key="org.kuali.ole.integration.purap.PurchasingAccountsPayableSensitiveData" value="org.kuali.ole.integration.purap.businessobject.SensitiveData" />
+            </map>
+        </property> 
+    </bean>
+    
+    <bean id="purapModuleService"  parent="purapModuleService-parentBean"/>
+    <bean id="purapModuleService-parentBean" class="org.kuali.ole.integration.UnimplementedKfsModuleServiceImpl" abstract="true">
+        <property name="moduleConfiguration" ref="purapModuleConfiguration" />
+    </bean>
+
+</beans>

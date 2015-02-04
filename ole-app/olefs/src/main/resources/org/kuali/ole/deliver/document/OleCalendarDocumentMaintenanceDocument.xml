@@ -1,0 +1,702 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <bean id="OleCalendarDocumentMaintenanceDocument-workflowProperties-parentBean" abstract="true"
+          parent="WorkflowProperties">
+        <property name="workflowPropertyGroups">
+            <list>
+                <bean parent="WorkflowPropertyGroup">
+                    <property name="workflowProperties">
+                        <list>
+                            <bean parent="WorkflowProperty" p:path="oldMaintainableObject.businessObject"/>
+                            <bean parent="WorkflowProperty" p:path="newMaintainableObject.businessObject"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="OleCalendarDocumentMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
+        <property name="dataObjectClass" value="org.kuali.ole.deliver.calendar.bo.OleCalendar"/>
+        <property name="maintainableClass"
+                  value="org.kuali.ole.deliver.calendar.maintenance.OleCalendarMaintenanceImpl"/>
+        <property name="documentTypeName" value="OLE_DLVR_CAL_DOC"/>
+        <property name="documentAuthorizerClass"
+                  value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+        <property name="businessRulesClass" value="org.kuali.ole.deliver.calendar.rule.OleCalendarRule" />
+        <property name="allowsRecordDeletion" value="true"/>
+        <property name="lockingKeys">
+            <list>
+                <value>calendarId</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="OleCalendarDocument-MaintenanceView" parent="Uif-OLEMaintenanceView">
+        <property name="dataObjectClassName" value="org.kuali.ole.deliver.calendar.bo.OleCalendar"/>
+        <property name="viewHelperServiceClass"
+                  value="org.kuali.ole.deliver.calendar.maintenance.OleCalendarMaintenanceImpl"/>
+        <!--<property name="documentTypeName" value="OLE_DLVR_CAL_DOC"/>&lt;!&ndash;aaa&ndash;&gt;
+        <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>&lt;!&ndash;aaa&ndash;&gt;-->
+        <property name="headerText" value="Calendar"/>
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="${ole.externalizable.help.url}/reference/webhelp/CIRC/content/ch04s02.html"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="items">
+            <list merge="false">
+                <ref bean="OleCalendarDetails"/>
+            </list>
+        </property>
+        <property name="page">
+            <bean parent="Uif-RemoveDocumentDescriptionSection-MaintenancePage"/>
+        </property>
+
+        <property name="additionalScriptFiles">
+        <list>
+        <value>ole/deliver/loan/script/olecalendar.js</value>
+        </list>
+        </property>
+
+        <property name="page.footer">
+            <bean id="calendar-footer" parent="Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean id="calendarButton" parent="Uif-PrimaryActionButton" p:methodToCall="calendarPopUp" p:actionLabel="Submit"  p:ajaxSubmit="true"  p:successCallback="endDate();" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] AND  maintenanceAction ne 'Copy' AND maintenanceAction ne 'Delete'}"/>
+                        <bean id="calendarSubmitButton" parent="Uif-PrimaryActionButton" p:methodToCall="route" p:actionLabel="Submit"
+                              p:performClientSideValidation="true"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] AND maintenanceAction ne 'Delete' AND maintenanceAction ne 'New' AND maintenanceAction ne 'Edit'}" /><!--p:hidden="true"-->
+                        <bean parent="Uif-PrimaryActionButton" p:methodToCall="save" p:actionLabel="save"
+                              p:performClientSideValidation="true"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE] AND maintenanceAction ne 'Delete'}"/>
+                        <bean parent="Uif-PrimaryActionButton" p:methodToCall="blanketApprove"
+                              p:actionLabel="blanket approve" p:performClientSideValidation="true"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE] AND maintenanceAction ne 'Delete'}"/>
+                        <bean id="CalendarCloseButton" parent="Uif-BackAction" p:ajaxSubmit="false"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}"/>
+                        <bean parent="Uif-PrimaryActionButton" p:methodToCall="cancel" p:actionLabel="cancel"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL] AND maintenanceAction ne 'Delete'}"/>
+                        <bean id="deletesButton" parent="Uif-PrimaryActionButton" p:methodToCall="deleteDocument"
+                              p:actionLabel="Delete" p:render="@{maintenanceAction eq 'Delete'}"/>
+
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>ole/deliver/calendar/css/oleCalendar.css</value>
+            </list>
+        </property>
+        <!--<property name="formClass" value="org.kuali.ole.deliver.calendar.form.OleCalendarForm"/>-->
+    </bean>
+
+
+    <bean id="Uif-RemoveDocumentDescriptionSection-MaintenancePage" abstract="true"
+          parent="Uif-RemoveDocumentDescriptionSection-MaintenancePage-parentBean"/>
+    <bean id="Uif-RemoveDocumentDescriptionSection-MaintenancePage-parentBean"
+          parent="Uif-RemoveDocumentDescriptionSection-DocumentPage">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-maintenancePage</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Uif-RemoveDocumentDescriptionSection-DocumentPage" parent="Uif-Disclosure-Page">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-documentPage</value>
+            </list>
+        </property>
+        <property name="defaultItemPosition" value="11"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-DocumentNotesSection" p:disclosure.defaultOpen="false" p:order="30"/>
+                <bean parent="Uif-DocumentAdHocRecipientsSection" p:disclosure.defaultOpen="false" p:order="40"/>
+                <bean parent="Uif-DocumentRouteLogSection" p:disclosure.defaultOpen="false" p:order="50"/>
+            </list>
+        </property>
+        <property name="footer">
+            <bean parent="Uif-DocumentPageFooter"/>
+        </property>
+    </bean>
+
+    <bean id="OleCalendarDetails" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list merge="false">
+                <ref bean="CalendarDate"/>
+                <ref bean="GeneralInfo"/>
+                <ref bean="ExceptionDay"/>
+                <ref bean="ExceptionPeriod"/>
+                <ref bean="CalenderEndDate"/>
+                <ref bean="EndDatePopUp"/>
+                <ref bean="HdnCancelOperationEndDate"/>
+                <ref bean="HdnCancelOperation"/>
+                <ref bean="oleExceptionDayChecking"/>
+                <ref bean="oleChronologicalSequence"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CalendarDate" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="oleCalendarStartDate" parent="Uif-InputField" p:propertyName="beginDate" p:label="Begin Date" p:required="true" p:readOnly="@{maintenanceAction eq 'Edit'}"> <!--p:render="@{maintenanceAction ne 'Edit'}"-->
+                    <property name="control">
+                        <bean parent="Uif-DateControl" p:size="10"/>
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="BasicDatePatternConstraint"/>
+                    </property>
+                </bean>
+               <bean id="oleCalendarEndDate" parent="Uif-InputField" p:propertyName="endDate" p:label="End Date" ><!--date--><!--p:render="@{maintenanceAction ne 'Edit'}"-->
+                    <property name="control">
+                        <bean parent="Uif-DateControl" p:size="10"/>
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="BasicDatePatternConstraint"/>
+                    </property>
+                </bean>
+               <bean id="oleCalendarGroupId" parent="Uif-InputField" p:propertyName="calendarGroupId"
+                      p:label="Group Name" p:required="true" p:enableAutoDirectInquiry="false">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.calendar.finder.OLECalendarGroupNameValuesFinder"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-20-select"/>
+                    </property>
+
+                </bean>
+                <bean id="oleCalendarDescription" parent="Uif-InputField" p:propertyName="calendarDescription"
+                      p:label="Description" p:required="true" p:enableAutoDirectInquiry="false"/>
+                <bean id="messageId" parent="Uif-InputField" p:propertyName="message"
+                      p:label="message"  p:enableAutoDirectInquiry="false" p:hidden="true"/>
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="oleExceptionDayChecking" parent="Uif-InputField" p:propertyName="exceptionDayChecking"
+          p:label="Exception Day Checking" p:hidden="true"/>
+    <bean id="oleChronologicalSequence" parent="Uif-InputField" p:propertyName="chronologicalSequence"
+          p:label="chronologicalSequence" p:hidden="true"/>
+
+    <bean id="GeneralInfo" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="3">
+        <property name="headerText" value="General"/>
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.calendar.bo.OleCalendarWeek"/>
+        <property name="propertyName" value="oleCalendarWeekList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderLineActions" value="true"/>
+        <!--<property name="collectionLookup.render" value="false"/>-->
+        <property name="items">
+            <list>
+                <bean id="OleWeekDayHorizontalGroup" parent="Uif-HorizontalFieldGroup" >
+                    <property name="items">
+                        <list>
+
+                            <bean id="eachDayWeekFromEdit" parent="Uif-InputField" p:propertyName="startDay"
+                                  p:label="Each day of week">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="dropDownSize">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="9" p:value=""/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="0" p:value="Sunday"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="1" p:value="Monday"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="2" p:value="Tuesday"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="3" p:value="Wednesday"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="4" p:value="Thursday"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="5" p:value="Friday"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="6" p:value="Saturday"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+
+                            <bean id="eachDayWeekToEdit" parent="Uif-InputField" p:propertyName="endDay" p:label="" >     <!--p:render="@{maintenanceAction eq 'Edit'}"-->
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="dropDownSize">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="9" p:value=""/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="0" p:value="Sunday"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="1" p:value="Monday"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="2" p:value="Tuesday"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="3" p:value="Wednesday"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="4" p:value="Thursday"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="5" p:value="Friday"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="6" p:value="Saturday"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+
+                        </list>
+                    </property>
+                </bean>
+
+                <bean id="OleWeekDayTimeHorizontalGroup" parent="Uif-HorizontalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean id="openTimeWeek" parent="Uif-InputField" p:propertyName="openTime"
+                                  p:label="Open Time">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="6" p:watermarkText="hh:mm"/>
+                                </property>
+                                <property name="validCharactersConstraint">
+                                    <bean parent="TimePatternConstraint" />
+                                </property>
+                            </bean>
+                            <bean id="openTimeWeekSession" parent="Uif-InputField" p:propertyName="openTimeSession"
+                                  p:label="">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="dropDownSize">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="AM" p:value="AM"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="PM" p:value="PM"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+
+                            <bean id="closeTimeWeek" parent="Uif-InputField" p:propertyName="closeTime"
+                                  p:label="Close Time">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="6" p:watermarkText="hh:mm"/>
+                                </property>
+                                <property name="validCharactersConstraint">
+                                    <bean parent="TimePatternConstraint" />
+                                </property>
+                            </bean>
+                            <bean id="closeTimeWeekSession" parent="Uif-InputField" p:propertyName="closeTimeSession"
+                                  p:label="">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="dropDownSize">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="AM" p:value="AM"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="PM" p:value="PM"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean id="Week_Active" parent="Uif-InputField" p:propertyName="eachDayWeek"  p:label="Each Day Of The Week">
+                    <property name="validCharactersConstraint">
+                        <bean  parent="AnyCharacterPatternConstraint"/>
+                    </property>
+                    <property name="control">
+                        <bean  parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="CalendarWeek-delete" parent="Uif-PrimaryActionButton-Small" p:methodToCall="calendarWeekDelete" p:actionLabel="Delete"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ExceptionDay" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="3">
+        <property name="headerText" value="Exception Day"/>
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.calendar.bo.OleCalendarExceptionDate"/>
+        <property name="propertyName" value="oleCalendarExceptionDateList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderLineActions" value="true"/>
+        <!--<property name="collectionLookup.render" value="false"/>-->
+        <property name="items">
+            <list>
+                <bean id="OleExceptionDayHorizontalGroup" parent="Uif-HorizontalFieldGroup" p:style="width:70%">
+                    <property name="items">
+                        <list>
+                            <bean id="oleExceptionStartDate" parent="Uif-InputField" p:propertyName="date"
+                                  p:label="Date">
+                                <property name="control">
+                                    <bean parent="Uif-DateControl" p:size="10"/>
+                                </property>
+                                <property name="validCharactersConstraint">
+                                    <bean parent="BasicDatePatternConstraint"/>
+                                </property>
+                            </bean>
+
+
+                        </list>
+                    </property>
+                </bean>
+
+                <bean id="OleExceptionDayTypeHorizontalGroup" parent="Uif-HorizontalFieldGroup" p:style="width:70%">
+                    <property name="items">
+                        <list>
+                            <bean id="oleCalendarExceptionType" parent="Uif-InputField" p:label="Exception Type"  p:propertyName="exceptionType">
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.deliver.calendar.finder.OleCalendarExceptionTypeValuesFinder" />
+                                </property>
+
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="exceptionTypeDropDownSize"/>
+                                </property>
+                            </bean>
+                           <bean id="exceptionDateBtn" parent="Uif-SecondaryActionButton-Small"
+                                  p:methodToCall="exceptionDateMethod" p:actionLabel="OK" p:hidden="true"/>
+                           </list>
+                    </property>
+                </bean>
+                <bean id="openTime-bean" parent="Uif-InputField" p:propertyName="openTime"
+                      p:render="@{!document.newMaintainableObject.dataObject.hideTime}" p:hidden="true"/>
+                <bean id="OleExceptionDayTimeHorizontalGroup" parent="Uif-HorizontalFieldGroup" p:style="width:70%"
+                      p:render="@{document.newMaintainableObject.dataObject.hideTime}">
+                    <property name="items">
+                        <list>
+                            <bean id="openExcepDayTime" parent="Uif-InputField" p:propertyName="openTime"
+                                  p:label="Open Time">  <!--p:render="@{!document.newMaintainableObject.dataObject.hideTime}"-->
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="6" p:watermarkText="hh:mm"/>
+                                </property>
+
+                                <property name="validCharactersConstraint">
+                                    <bean parent="TimePatternConstraint" />
+                                </property>
+                                <!---->
+                            </bean>
+                            <!--<bean id="openExcepDayTimeTemp" parent="Uif-DataField" p:propertyName="openTime" p:label="Open Time" p:render="@{document.newMaintainableObject.dataObject.hideTime}"/>-->
+                            <bean id="openTimeExcepDaySession" parent="Uif-InputField" p:propertyName="openTimeSession"
+                                  p:label="">    <!--p:render="@{document.newMaintainableObject.dataObject.hideTime}"-->
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="dropDownSize">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="AM" p:value="AM"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="PM" p:value="PM"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+
+                            <bean id="closeExcepDayTime" parent="Uif-InputField" p:propertyName="closeTime"
+                                  p:label="Close Time">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="6" p:watermarkText="hh:mm"/>
+                                </property>
+                                <property name="validCharactersConstraint">
+                                    <bean parent="TimePatternConstraint" />
+                                </property>
+                            </bean>
+                            <bean id="closeTimeExcepDaySession" parent="Uif-InputField"
+                                  p:propertyName="closeTimeSession" p:label="">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="dropDownSize">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="AM" p:value="AM"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="PM" p:value="PM"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="exceptionDay-delete" parent="Uif-PrimaryActionButton-Small" p:methodToCall="exceptionDayDelete" p:actionLabel="Delete"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ExceptionPeriod" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="1">
+        <property name="headerText" value="Exception Period"/>
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.calendar.bo.OleCalendarExceptionPeriod"/>
+        <property name="propertyName" value="oleCalendarExceptionPeriodList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderLineActions" value="true"/>
+        <!--<property name="collectionLookup.render" value="false"/>-->
+        <property name="items">
+            <list>
+                <bean id="OleExceptionalPeriodHorizontalGroup" parent="Uif-HorizontalFieldGroup" p:style="width:70%">
+                    <property name="items">
+                        <list>
+                            <bean id="oleExceptionPeriodStartDate" parent="Uif-InputField" p:propertyName="beginDate"
+                                  p:label="Begin Date">
+                                <property name="control">
+                                    <bean parent="Uif-DateControl" p:size="10"/>
+                                </property>
+                                <property name="validCharactersConstraint">
+                                    <bean parent="BasicDatePatternConstraint"/>
+                                </property>
+                            </bean>
+
+                            <bean id="oleExceptionPeriodEndDate" parent="Uif-InputField" p:propertyName="endDate"
+                                  p:label="End Date">
+                                <property name="control">
+                                    <bean parent="Uif-DateControl" p:size="10"/>
+                                </property>
+                                <property name="validCharactersConstraint">
+                                    <bean parent="BasicDatePatternConstraint"/>
+                                </property>
+                            </bean>
+                            <bean id="oleCalendarExceptionPeriodType" parent="Uif-InputField" p:label="Exception Period Type"  p:propertyName="exceptionPeriodType">
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.deliver.calendar.finder.OleCalendarExceptionTypeValuesFinder" />
+                                </property>
+
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="exceptionTypeDropDownSize"/>
+                                </property>
+                            </bean>
+                            <bean id="oleExceptionPeriodDescription" parent="Uif-InputField"
+                                  p:propertyName="calendarExceptionPeriodDesc" p:label="Description"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="addLineActions">
+            <list>
+                <bean id="ExceptionPeriodList-add" parent="Uif-PrimaryActionButton-Small" p:methodToCall="exceptionPeriodListAdd" p:actionLabel="Add"/>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="ExceptionPeriodList-delete" parent="Uif-PrimaryActionButton-Small" p:methodToCall="exceptionPeriodListDelete" p:actionLabel="Delete"/>
+            </list>
+        </property>
+        <property name="subCollections">
+            <list>
+                <ref bean="ExceptionPeriodWeek" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ExceptionPeriodWeek" parent="Uif-TableSubCollection-WithinSection" p:layoutManager.numberOfColumns="3"  p:render="@{#parentLine?.exceptionPeriodType ne 'Holiday' and #parentLine?.exceptionPeriodType ne ''}">      <!--p:render="@{#line?.exceptionPeriodType ne 'Holiday'  and #line?.exceptionPeriodType ne null }"-->
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.deliver.calendar.bo.OleCalendarExceptionPeriodWeek"/>
+        <property name="propertyName" value="oleCalendarExceptionPeriodWeekList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderLineActions" value="true"/>
+        <!--<property name="collectionLookup.render" value="false"/>-->
+        <property name="items">
+            <list>
+                <bean id="OleExceptionalPeriodWeekHorizontalGroup" parent="Uif-HorizontalFieldGroup"><!--p:style="width:90%"-->
+                    <property name="items">
+                        <list>
+
+                            <bean id="eachDayExceptionPeriodFromEdit" parent="Uif-InputField" p:propertyName="startDay"
+                                  p:label="Each day of week">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="dropDownSize">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="9" p:value=""/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="0" p:value="Sunday"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="1" p:value="Monday"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="2" p:value="Tuesday"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="3" p:value="Wednesday"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="4" p:value="Thursday"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="5" p:value="Friday"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="6" p:value="Saturday"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+
+
+                            <bean id="eachDayExceptionPeriodToEdit" parent="Uif-InputField" p:propertyName="endDay"
+                                  p:label="">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="dropDownSize" >
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="9" p:value=""/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="0" p:value="Sunday"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="1" p:value="Monday"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="2" p:value="Tuesday"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="3" p:value="Wednesday"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="4" p:value="Thursday"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="5" p:value="Friday"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="6" p:value="Saturday"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+
+                        </list>
+                    </property>
+                </bean>
+
+                <bean id="OleExceptionPeriodWeekTimeHorizontalGroup" parent="Uif-HorizontalFieldGroup" ><!--p:style="width:50%"
+                -->
+                    <property name="items">
+                        <list>
+                            <bean id="openTimeExceptionPeriod" parent="Uif-InputField" p:propertyName="openTime"
+                                  p:label="Open Time">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="6" p:watermarkText="hh:mm"/>
+                                </property>
+                                <property name="validCharactersConstraint">
+                                    <bean parent="TimePatternConstraint" />
+                                </property>
+                            </bean>
+                            <bean id="openTimeExceptionPeriodSession" parent="Uif-InputField"
+                                  p:propertyName="openTimeSession" p:label="">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="dropDownSize">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="AM" p:value="AM"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="PM" p:value="PM"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+
+                            <bean id="closeTimeExceptionPeriod" parent="Uif-InputField" p:propertyName="closeTime"
+                                  p:label="Close Time">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="6" p:watermarkText="hh:mm"/>
+                                </property>
+                                <property name="validCharactersConstraint">
+                                    <bean parent="TimePatternConstraint" />
+                                </property>
+                            </bean>
+                            <bean id="closeTimeExceptionPeriodSession" parent="Uif-InputField"
+                                  p:propertyName="closeTimeSession" p:label="">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="dropDownSize">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="AM" p:value="AM"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="PM" p:value="PM"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean id="Period_Active" parent="Uif-InputField" p:propertyName="eachDayOfExceptionWeek"  p:label="Each Day Of Exception Week">
+                    <property name="validCharactersConstraint">
+                        <bean  parent="AnyCharacterPatternConstraint"/>
+                    </property>
+                    <property name="control">
+                        <bean  parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+
+            </list>
+        </property>
+        <!--<property name="filters">
+            <list>
+                <bean parent="Uif-ConditionalCollectionFilter" p:expression="#line.oleCalendarExceptionPeriod.exceptionPeriodType ne 'Holiday'"/>
+            </list>
+        </property>-->
+        <property name="lineActions">
+            <list>
+                <bean id="ExceptionPeriodWeekList-delete" parent="Uif-PrimaryActionButton-Small" p:methodToCall="exceptionPeriodWeekListDelete" p:actionLabel="Delete"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="CalenderEndDate" parent="Uif-VerticalBoxSection" > <!-- p:render="@{document.newMaintainableObject.dataObject.endDateFlag}"-->
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <ref bean="CalenderEndDate-Message"/>
+                            <ref bean="CalenderEndDateButton"/>
+                            <ref bean="HdnEndDateYesFlag"/>
+                            <ref bean="HdnEndDateNoFlag"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="EndDatePopUp" parent="Uif-VerticalBoxSection" >
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <ref bean="CalenderEndDate-MessageField"/>
+                            <ref bean="CannotEditingMsgBtn"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CalenderEndDate-MessageField" parent="Uif-MessageField" p:style="font-weight:bold;" p:messageText="@{document.newMaintainableObject.dataObject.message}"/>
+
+    <bean id="CalenderEndDate-Message" parent="Uif-HorizontalBoxSubSection">
+        <property name="items">
+            <list>
+                <ref bean="CalenderEndDateYesMessage" />
+                <ref bean="CalenderEndDateNoMessage" />
+            </list>
+        </property>
+    </bean>
+    <bean id="CalenderEndDateButton" parent="Uif-HorizontalBoxSubSection">
+        <property name="items">
+            <list>
+                <ref bean="RouteCalendarBtn" />
+                <ref bean="RouteCalendarCloseBtn" />
+            </list>
+        </property>
+    </bean>
+    <bean id="CalenderEndDateYesMessage" parent="Uif-MessageField" p:style="font-weight:bold;" p:messageText="@{document.newMaintainableObject.dataObject.endDateYesMessage}"/>
+    <bean id="CalenderEndDateNoMessage" parent="Uif-MessageField" p:style="font-weight:bold;" p:messageText="@{document.newMaintainableObject.dataObject.endDateNoMessage}"/>
+    <bean id="RouteCalendarBtn" parent="Uif-PrimaryActionButton" p:methodToCall="route" p:actionLabel="Yes" p:ajaxSubmit="true" p:successCallback="cancelOperation();"/>
+    <bean id="RouteCalendarCloseBtn" parent="Uif-PrimaryActionButton"  p:methodToCall="cancelOperation" p:actionLabel="No" p:ajaxSubmit="true" p:successCallback="cancelOperation();"/>
+    <bean id="CannotEditingMsgBtn" parent="Uif-PrimaryActionButton"  p:methodToCall="cancelOperation" p:actionLabel="OK" p:ajaxSubmit="true" p:successCallback="cancelOperationEndDate();"/>
+
+    <bean id="HdnEndDateYesFlag" parent="Uif-InputField" p:propertyName="endDateYesFlag">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
+    <bean id="HdnEndDateNoFlag" parent="Uif-InputField" p:propertyName="endDateNoFlag">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
+    <bean id="HdnCancelOperation" parent="Uif-InputField" p:propertyName="cancelOperationFlag" p:hidden="true"/>
+        <!--<property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+    <bean id="HdnCancelOperationEndDate" parent="Uif-InputField" p:propertyName="cancelOperationEndDateFlag" p:hidden="true"/>
+        <!--<property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+
+</beans>

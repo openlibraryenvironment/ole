@@ -1,0 +1,21 @@
+<request>
+    <user>ole-khuntley</user>
+    <operation>ingest</operation>
+    <requestDocuments>
+        <ingestDocument id="2" category="work" type="bibliographic" format="marc">
+            <content><![CDATA[
+                        <collection xmlns="http://www.loc.gov/MARC21/slim">
+                            <record>
+                                <datafield tag="100" ind1="1" ind2="5">
+                                    <subfield code="a">Ball,Philip</subfield>
+                                </datafield>
+                                <datafield tag="245" ind1="1" ind2="3">
+                                    <subfield code="a">An April Shower</subfield>
+                                </datafield>
+                              </record>
+                        </collection>
+                        ]]>
+            </content>
+        </ingestDocument>
+    </requestDocuments>
+</request> 

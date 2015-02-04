@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+<!--
+ Copyright 2008-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean id="OleExchangeRate" parent="OleExchangeRate-parentBean"/>
+
+  <bean id="OleExchangeRate-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.ole.vnd.businessobject.OleExchangeRate"/>
+    <property name="inquiryDefinition">
+      <ref bean="OleExchangeRate-inquiryDefinition"/>
+    </property>
+    <property name="lookupDefinition">
+      <ref bean="OleExchangeRate-lookupDefinition"/>
+    </property>
+    <property name="titleAttribute" value="exchangeRateCode"/>
+    <property name="objectLabel" value="Exchange Rate Code"/>
+    <property name="attributes">
+      <list>
+        <ref bean="OleExchangeRate-exchangeRateCode"/>
+        <ref bean="OleExchangeRate-exchangeRate"/>
+        <ref bean="OleExchangeRate-exchangeRateDate"/>
+        <ref bean="OleExchangeRate-exchangeRateSource"/>
+        <ref bean="OleExchangeRate-currencyTypeId"/>
+        <ref bean="OleExchangeRate-currencyType.currencyType"/>
+        <ref bean="OleExchangeRate-active"/>
+       </list></property>
+       <property name="relationships">
+      <list>
+       <dd:relationship objectAttribute="currencyType">
+        	<dd:primitiveAttribute source="currencyTypeId" target="currencyTypeId"/>
+        </dd:relationship> 
+        </list>  
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="OleExchangeRate-exchangeRateCode" parent="OleExchangeRate-exchangeRateCode-parentBean"/>
+
+  <bean id="OleExchangeRate-exchangeRateCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="exchangeRateCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Exchange Rate Code"/>
+    <property name="shortLabel" value="Exch Code"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <ref bean="NumericValidation" />
+    </property>
+    <property name="control">
+      <bean parent="HiddenControl" />
+    </property>
+  </bean>
+  
+  <bean id="OleExchangeRate-currencyTypeId" parent="OleExchangeRate-currencyTypeId-parentBean"/>
+
+  <bean id="OleExchangeRate-currencyTypeId-parentBean" abstract="true" parent="AttributeDefinition"> 
+    <property name="name" value="currencyTypeId"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Currency Type"/>
+    <property name="shortLabel" value="Curr Type"/>
+    <property name="maxLength" value="20"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterValidation" />
+    </property>
+    <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.ole.vnd.businessobject.options.OleCurrencyTypeValuesFinder" p:includeKeyInLabel="false"/>
+        </property>
+    </bean>
+    
+     <bean id="OleExchangeRate-currencyType.currencyType" parent="OleExchangeRate-currencyType.currencyType-parentBean"/>
+    <bean id="OleExchangeRate-currencyType.currencyType-parentBean" abstract="true" parent="OleCurrencyType-currencyType">
+        <property name="name" value="currencyType.currencyType"/>
+        <property name="label" value="Currency Type"/>
+    </bean>
+         
+  <bean id="OleExchangeRate-exchangeRate" parent="OleExchangeRate-exchangeRate-parentBean"/>
+
+  <bean id="OleExchangeRate-exchangeRate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="exchangeRate"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Exchange Rate"/>
+    <property name="shortLabel" value="Exch Rate"/>
+    <property name="maxLength" value="200"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="50"/>
+    </property>
+  </bean>
+  <bean id="OleExchangeRate-exchangeRateDate" parent="OleExchangeRate-exchangeRateDate-parentBean"/>
+
+  <bean id="OleExchangeRate-exchangeRateDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+    <property name="name" value="exchangeRateDate"/>
+    <property name="label" value="Exchange Rate Date"/>
+    <property name="shortLabel" value="Exch Rate Date"/>
+    </bean>
+  <bean id="OleExchangeRate-exchangeRateSource" parent="OleExchangeRate-exchangeRateSource-parentBean"/>
+
+  <bean id="OleExchangeRate-exchangeRateSource-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="exchangeRateSource"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Exchange Rate Source"/>
+    <property name="shortLabel" value="Exch Rate Src"/>
+    <property name="maxLength" value="300"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="100"/>
+    </property>
+  </bean>
+  
+
+   
+  <bean id="OleExchangeRate-active" parent="OleExchangeRate-active-parentBean"/>
+
+  <bean id="OleExchangeRate-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active"/>
+  </bean>
+    
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="OleExchangeRate-inquiryDefinition" parent="OleExchangeRate-inquiryDefinition-parentBean"/>
+
+  <bean id="OleExchangeRate-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Exchange Rate Inquiry"/>
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Exchange Rate"/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="exchangeRateCode"/>
+              <bean parent="FieldDefinition" p:attributeName="exchangeRate"/>
+              <bean parent="FieldDefinition" p:attributeName="exchangeRateDate"/>
+              <bean parent="FieldDefinition" p:attributeName="exchangeRateSource"/>
+			  <bean parent="FieldDefinition" p:attributeName="currencyTypeId"/>                    
+              <bean parent="FieldDefinition" p:attributeName="active"/>
+            </list>
+          </property>
+        </bean>
+        </list>
+  </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="OleExchangeRate-lookupDefinition" parent="OleExchangeRate-lookupDefinition-parentBean"/>
+
+  <bean id="OleExchangeRate-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Exchange Rate Lookup"/>
+    
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="exchangeRateCode"/>
+        <bean parent="FieldDefinition" p:attributeName="exchangeRate"/>
+        <bean parent="FieldDefinition" p:attributeName="exchangeRateDate"/>
+        <bean parent="FieldDefinition" p:attributeName="exchangeRateSource"/>
+        <bean parent="FieldDefinition" p:attributeName="currencyTypeId"/>      
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+     </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="exchangeRateCode"/>
+        <bean parent="FieldDefinition" p:attributeName="exchangeRate"/>
+        <bean parent="FieldDefinition" p:attributeName="exchangeRateDate"/>
+        <bean parent="FieldDefinition" p:attributeName="exchangeRateSource"/>
+        <bean parent="FieldDefinition" p:attributeName="currencyType.currencyType"/>  
+        <bean parent="FieldDefinition" p:attributeName="active"/>                      
+      </list>
+    </property>
+  </bean>
+  
+</beans>

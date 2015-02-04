@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+<!--
+ Copyright 2008-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean id="BankMaintenanceDocument" parent="BankMaintenanceDocument-parentBean"/>
+
+  <bean id="BankMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.ole.sys.businessobject.Bank"/>
+    <property name="maintainableClass" value="org.kuali.ole.sys.document.FinancialSystemMaintainable"/>
+    <property name="maintainableSections">
+      <list>
+        <ref bean="BankMaintenanceDocument-EditBank"/>
+      </list>
+    </property>
+    <property name="defaultExistenceChecks">
+      <list>
+        <bean parent="ReferenceDefinition" p:attributeName="cashOffsetFinancialChartOfAccount" p:attributeToHighlightOnFail="cashOffsetFinancialChartOfAccountCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="cashOffsetAccount" p:attributeToHighlightOnFail="cashOffsetAccountNumber"/>
+        <bean parent="ReferenceDefinition" p:attributeName="cashOffsetObject" p:attributeToHighlightOnFail="cashOffsetObjectCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="cashOffsetSubAccount" p:attributeToHighlightOnFail="cashOffsetSubAccountNumber"/>
+        <bean parent="ReferenceDefinition" p:attributeName="cashOffsetSubObject" p:attributeToHighlightOnFail="cashOffsetSubObjectCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="continuationBank" p:attributeToHighlightOnFail="continuationBankCode"/>
+      </list>
+    </property>
+    <property name="lockingKeys">
+      <list>
+        <value>bankCode</value>
+      </list>
+    </property>
+    
+    <property name="webScriptFiles">
+      <list>
+        <value>../dwr/interface/AccountService.js</value>
+        <value>../scripts/coa/accountDocument.js</value>
+      </list>
+    </property>
+        
+    <property name="documentTypeName" value="OLE_BANK"/>
+    <property name="businessRulesClass" value="org.kuali.ole.sys.document.validation.impl.BankRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.ole.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
+    <property name="workflowAttributes">
+    	<ref bean="BankMaintenanceDocument-workflowAttributes"/>
+    </property>
+  </bean>
+
+<!-- Maintenance Section Definitions -->
+
+
+  <bean id="BankMaintenanceDocument-EditBank" parent="BankMaintenanceDocument-EditBank-parentBean"/>
+
+  <bean id="BankMaintenanceDocument-EditBank-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Bank"/>
+    <property name="title" value="Edit Bank"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="bankCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="bankName" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="bankShortName" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="bankRoutingNumber" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="bankAccountNumber" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="bankAccountDescription"/>
+        <bean parent="MaintainableFieldDefinition" p:name="cashOffsetFinancialChartOfAccountCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="cashOffsetAccountNumber" p:webUILeaveFieldFunction="onblur_accountNumber">
+			<property name="webUILeaveFieldFunctionParameters">
+				<list>
+					<value>cashOffsetFinancialChartOfAccountCode</value>
+				</list>
+			</property> 
+		</bean>        
+        <bean parent="MaintainableFieldDefinition" p:name="cashOffsetSubAccountNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="cashOffsetObjectCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="cashOffsetSubObjectCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="continuationBankCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="bankDepositIndicator"/>                           
+        <bean parent="MaintainableFieldDefinition" p:name="bankDisbursementIndicator"/>
+        <bean parent="MaintainableFieldDefinition" p:name="bankAchIndicator"/>
+        <bean parent="MaintainableFieldDefinition" p:name="bankCheckIndicator"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active"/>               
+      </list>
+    </property>
+  </bean>
+  
+  <!-- workflow attributes -->
+  <bean id="BankMaintenanceDocument-workflowAttributes" parent="BankMaintenanceDocument-workflowAttributes-parentBean"/>
+  
+  <bean id="BankMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true"/>
+</beans>

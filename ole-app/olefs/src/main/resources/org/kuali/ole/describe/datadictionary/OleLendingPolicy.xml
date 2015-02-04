@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <!--
+
+        Copyright 2005-2012 The Kuali Foundation
+
+        Licensed under the Educational Community License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at
+
+        http://www.opensource.org/licenses/ecl2.php
+
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+
+    -->
+    <bean id="OleLendingPolicy" parent="OleLendingPolicy-parentBean"/>
+
+    <bean id="OleLendingPolicy-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.describe.bo.OleLendingPolicy"/>
+        <property name="titleAttribute" value="lendingPolicyId"/>
+        <property name="objectLabel" value="Lending Policy"/>
+
+        <property name="attributes">
+            <list>
+                <ref bean="OleLendingPolicy-lendingPolicyId"/>
+                <ref bean="OleLendingPolicy-lendingPolicyCode"/>
+                <ref bean="OleLendingPolicy-lendingPolicyName"/>
+                <ref bean="OleLendingPolicy-source"/>
+                <ref bean="OleLendingPolicy-sourceDate"/>
+                <ref bean="OleLendingPolicy-active"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+
+    <bean id="OleLendingPolicy-lendingPolicyId" parent="OleLendingPolicy-lendingPolicyId-parentBean"/>
+
+    <bean id="OleLendingPolicy-lendingPolicyId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Lending Policy Id"/>
+        <property name="maxLength" value="10"/>
+        <property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+        <property name="name" value="lendingPolicyId"/>
+        <property name="label" value="Lending Policy Id"/>
+        <property name="description" value="Lending Policy Id"/>
+    </bean>
+
+
+    <bean id="OleLendingPolicy-lendingPolicyCode" parent="OleLendingPolicy-lendingPolicyCode-parentBean"/>
+
+    <bean id="OleLendingPolicy-lendingPolicyCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Lending Policy Code"/>
+        <property name="maxLength" value="30"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="lendingPolicyCode"/>
+        <property name="label" value="Lending Policy Code"/>
+        <property name="description" value="Lending Policy Code"/>
+
+    </bean>
+
+
+    <bean id="OleLendingPolicy-lendingPolicyName" parent="OleLendingPolicy-lendingPolicyName-parentBean"/>
+
+    <bean id="OleLendingPolicy-lendingPolicyName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Lending Policy Name"/>
+        <property name="maxLength" value="100"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="lendingPolicyName"/>
+        <property name="label" value="Lending Policy Name"/>
+        <property name="description" value="Lending Policy Name"/>
+
+    </bean>
+
+    <bean id="OleLendingPolicy-source" parent="OleLendingPolicy-source-parentBean"/>
+    <bean id="OleLendingPolicy-source-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Source"/>
+        <property name="maxLength" value="100"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="source"/>
+        <property name="label" value="Source"/>
+        <property name="description" value="Source"/>
+
+    </bean>
+
+    <bean id="OleLendingPolicy-sourceDate" parent="OleLendingPolicy-sourceDate-parentBean"/>
+    <bean id="OleLendingPolicy-sourceDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+        <property name="shortLabel" value="Source Date"/>
+        <property name="name" value="sourceDate"/>
+        <property name="label" value="Source Date"/>
+        <property name="required" value="true"/>
+    </bean>
+
+
+    <bean id="OleLendingPolicy-active" parent="OleLendingPolicy-active-parentBean"/>
+
+    <bean id="OleLendingPolicy-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+        <property name="name" value="active"/>
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+
+    <bean id="OleLendingPolicy-InquiryView" parent="Uif-OLEInquiryView">
+        <property name="headerText" value="Lending Policy Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.describe.bo.OleLendingPolicy"/>
+        <property name="singlePageView" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-VerticalBoxSection">
+                    <property name="header.headerText" value="Lending Policy"/>
+                    <property name="items">
+                        <list>
+                        <bean parent="Uif-GridGroup">
+                            <property name="items">
+                                <list>
+                                    <bean id="inquiry_lendingPolicyId" parent="Uif-InputField" p:propertyName="lendingPolicyId"/>
+                                    <bean id="inquiry_lendingPolicyCode" parent="Uif-InputField" p:propertyName="lendingPolicyCode"/>
+                                    <bean id="inquiry_lendingPolicyName" parent="Uif-InputField" p:propertyName="lendingPolicyName"/>
+                                    <bean id="inquiry_source" parent="Uif-InputField" p:propertyName="source"/>
+                                    <bean id="inquiry_sourceDate" parent="Uif-InputField" p:propertyName="sourceDate"/>
+                                    <bean id="inquiry_active" parent="Uif-InputField" p:propertyName="active"/>
+                                </list>
+                            </property>
+                        </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+
+    <bean id="OleLendingPolicy-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="Lending Policy Lookup"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.describe.bo.OleLendingPolicy"/>
+        <property name="criteriaFields">
+            <list>
+                <bean id="lendingPolicyCode" parent="Uif-LookupCriteriaInputField" p:propertyName="lendingPolicyCode"/>
+                <bean id="lendingPolicyName" parent="Uif-LookupCriteriaInputField" p:propertyName="lendingPolicyName"/>
+                <bean id="source" parent="Uif-LookupCriteriaInputField" p:propertyName="source"/>
+                <bean id="sourceDate" parent="Uif-LookupCriteriaInputField" p:propertyName="sourceDate">
+                    <property name="control">
+                        <bean id="date" parent="Uif-DateControl" p:size="10"/>
+                    </property>
+                </bean>
+                <bean id="active" parent="Uif-LookupCriteriaInputField" p:propertyName="active"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean id="searchResult_lendingPolicyId" parent="Uif-DataField" p:propertyName="lendingPolicyId"/>
+                <bean id="searchResult_lendingPolicyCode" parent="Uif-DataField" p:propertyName="lendingPolicyCode"/>
+                <bean id="searchResult_lendingPolicyName" parent="Uif-DataField" p:propertyName="lendingPolicyName"/>
+                <bean id="searchResult_source" parent="Uif-DataField" p:propertyName="source"/>
+                <bean id="searchResult_sourceDate" parent="Uif-DataField" p:propertyName="sourceDate"/>
+                <bean id="searchResult_active" parent="Uif-DataField" p:propertyName="active"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

@@ -1,0 +1,133 @@
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:beans="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:jms="http://www.springframework.org/schema/jms"
+       xmlns:lang="http://www.springframework.org/schema/lang"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:oxm="http://www.springframework.org/schema/oxm"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+                           http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context-3.0.xsd
+                           http://www.springframework.org/schema/jdbc
+                           http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+                           http://www.springframework.org/schema/jee
+                           http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+                           http://www.springframework.org/schema/jms
+                           http://www.springframework.org/schema/jms/spring-jms-3.0.xsd
+                           http://www.springframework.org/schema/lang
+                           http://www.springframework.org/schema/lang/spring-lang-3.0.xsd
+                           http://www.springframework.org/schema/mvc
+                           http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+                           http://www.springframework.org/schema/oxm
+                           http://www.springframework.org/schema/oxm/spring-oxm-3.0.xsd
+                           http://www.springframework.org/schema/task
+                           http://www.springframework.org/schema/task/spring-task-3.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+                           http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+
+    <bean id="deliverModuleConfiguration" class="org.kuali.rice.krad.bo.ModuleConfiguration">
+        <property name="namespaceCode" value="tv"/>
+        <property name="initializeDataDictionary" value="true"/>
+        <property name="dataDictionaryPackages">
+            <list>
+                <value>classpath:org/kuali/ole/deliver/datadictionary</value>
+                <value>classpath:org/kuali/ole/deliver/document</value>
+                <value>classpath:org/kuali/ole/deliver/uif</value>
+                <value>classpath:org/kuali/ole/deliver/view</value>
+                <value>classpath:org/kuali/ole/alert/view</value>
+                <value>classpath:org/kuali/ole/alert/businessobject/datadictionary</value>
+                <value>classpath:org/kuali/ole/alert/document/datadictionary</value>
+                <value>classpath:org/kuali/ole/ingest/datadictionary</value>
+                <value>classpath:org/kuali/ole/ingest/document</value>
+                <value>classpath:org/kuali/ole/ingest/uif</value>
+                <value>classpath:org/kuali/ole/ingest/view</value>
+
+            </list>
+        </property>
+        <property name="databaseRepositoryFilePaths">
+            <list>
+                <value>org/kuali/ole/deliver/ojb-deliver.xml</value>
+            </list>
+        </property>
+        <property name="packagePrefixes">
+            <list>
+                <value>org.kuali.ole</value>
+                <value>org.kuali.rice</value>
+            </list>
+        </property>
+    </bean>
+    <bean class="org.kuali.ole.deliver.service.OleBatchJobService"/>
+
+
+    <bean id="deliverModuleService" class="org.kuali.rice.krad.service.impl.ModuleServiceBase">
+        <property name="moduleConfiguration" ref="deliverModuleConfiguration"/>
+    </bean>
+    <bean id="docstoreUtil" class="org.kuali.ole.util.DocstoreUtil"/>
+
+    <bean id="loanProcessor" class="org.kuali.ole.deliver.processor.LoanProcessor">
+        <property name="businessObjectService" ref="businessObjectService"/>
+        <property name="oleCirculationPolicyService" ref="oleCirculationPolicyService"/>
+        <property name="docstoreClientLocator" ref="docstoreClientLocator"/>
+        <property name="itemOlemlRecordProcessor" ref="itemOlemlRecordProcessor"/>
+        <property name="dataCarrierService" ref="dataCarrierService"/>
+        <property name="oleLoanDocumentDaoOjb" ref="oleLoanDao"/>
+        <property name="oleDeliverNoticeHelperService" ref="oleDeliverNoticeHelperService"/>
+    </bean>
+    <bean id="oleCirculationPolicyService" class="org.kuali.ole.service.OleCirculationPolicyServiceImpl">
+        <property name="loanProcessor" ref="loanProcessor"/>
+    </bean>
+    <bean id="oleDeliverRequestDocumentHelperService" class="org.kuali.ole.deliver.service.OleDeliverRequestDocumentHelperServiceImpl">
+        <property name="loanProcessor" ref="loanProcessor"/>
+        <property name="businessObjectService" ref="businessObjectService"/>
+        <property name="docstoreClientLocator" ref="docstoreClientLocator"/>
+        <property name="docstoreUtil" ref="docstoreUtil"/>
+    </bean>
+    <bean id="oleDeliverBatchService" class=" org.kuali.ole.deliver.batch.OleDeliverBatchServiceImpl">
+        <property name="loanProcessor" ref="loanProcessor"/>
+        <property name="docstoreClientLocator" ref="docstoreClientLocator"/>
+    </bean>
+
+    <bean id="oleLoanDao" parent="platformAwareDao" class="org.kuali.ole.deliver.service.OleLoanDocumentDaoOjb" />
+
+    <bean id="oleDeliverNoticeHelperService" class="org.kuali.ole.deliver.service.impl.OLEDeliverNoticeHelperServiceImpl">
+        <property name="loanProcessor" ref="loanProcessor"/>
+        <property name="businessObjectService" ref="businessObjectService"/>
+    </bean>
+
+
+    <bean id="deliverNoticeTypeService" class="org.kuali.ole.ingest.krms.action.OleDeliverNoticeTypeService">
+        <property name="oleDeliverNoticeHelperService" ref="oleDeliverNoticeHelperService"/>
+    </bean>
+
+</beans>

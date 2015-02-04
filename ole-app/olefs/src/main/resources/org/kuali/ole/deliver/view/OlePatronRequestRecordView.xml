@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+
+    <bean id="OlePatronRequestRecordView" parent="OlePatronRequestRecordView-parentBean" />
+    <bean id="OlePatronRequestRecordView-parentBean" parent="Uif-OLEFormView">
+        <property name="items">
+            <list>
+                <bean id="OlePatronRequestRecordPage" parent="Uif-Page">
+                    <property name="headerText" value="Request Records"/>
+                    <property name="items">
+                        <list>
+                            <ref bean="OlePatronRequestSection"/>
+                            <ref bean="PatronRequestView_Footer"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="footer">
+            <ref bean="ClearFooterView-buttons" />
+        </property>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>/ole/myaccount/renewal/renewal.js</value>
+            </list>
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>/ole/ingest/css/staffUpload.css</value>
+            </list>
+        </property>
+        <property name="formClass" value="org.kuali.ole.deliver.form.OleMyAccountRequestForm"/>
+    </bean>
+
+
+
+
+    <bean id="OlePatronRequestSection" parent="Uif-VerticalBoxSection" p:render="true">
+        <property name="items">
+            <list>
+                <ref bean="MyAccountRequestInformationSection"/>
+                <ref bean="OleMyAccRequestView-RequestRecords"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="MyAccountRequestInformationSection" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="MyAccountRequestInformationField" parent="Uif-MessageField" p:messageText="@{requestMessage}" p:cssClasses="messageClass"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="OleMyAccRequestView-RequestRecords" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="11">
+        <property name="headerText" value="Requested Items"/>
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleDeliverRequestBo" />
+        <property name="propertyName" value="oleDeliverRequestBos" />
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <!--<property name="addLineLabel" value="false"/>-->
+        <property name="layoutManager.richTable.disableTableSort" value="true" />
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean id="viewRequest_requestFlag" parent="Uif-InputField" p:label="Select" p:propertyName="requestFlag">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+                <bean id="viewRequest_requestType" parent="Uif-DataField" p:label="Request Type" p:propertyName="oleDeliverRequestType.requestTypeCode" />
+                <bean id="viewRequest_borrowerQueuePosition" parent="Uif-DataField" p:label="Borrower Queue Position" p:propertyName="borrowerQueuePosition"/>
+                <bean id="viewRequest_itemTitle" parent="Uif-DataField" p:label="Title" p:propertyName="title" />
+                <bean id="viewRequest_author" parent="Uif-DataField" p:label="Author" p:propertyName="author" />
+                <bean id="viewRequest_copyNumber" parent="Uif-DataField" p:label="Copy Number" p:propertyName="copyNumber" />
+                <bean id="viewRequest_shelvingLocation" parent="Uif-DataField" p:label="Shelving Location" p:propertyName="shelvingLocation" />
+                <bean id="viewRequest_callNumber" parent="Uif-DataField" p:label="Call Number" p:propertyName="callNumber" />
+                <bean id="viewRequest_volumeNumber" parent="Uif-DataField" p:label="Volume Number" p:propertyName="volumeNumber" />
+                <bean id="viewRequest_itemType" parent="Uif-DataField" p:label="Item Type" p:propertyName="itemType" />
+                <bean id="viewRequest_itemStatus" parent="Uif-DataField" p:label="Item Status" p:propertyName="itemStatus" />
+
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+    <bean id="PatronRequestView_Footer" parent="Uif-FooterBase" >
+        <property name="items">
+            <list>
+                <bean id="myAccount_cancelButton" parent="Uif-SecondaryActionButton" p:methodToCall="cancelRequest" p:actionLabel="Cancel Request" p:style="float:left;margin-left:0.2em"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

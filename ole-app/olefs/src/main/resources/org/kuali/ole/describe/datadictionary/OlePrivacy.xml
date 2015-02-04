@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <!--
+
+        Copyright 2005-2012 The Kuali Foundation
+
+        Licensed under the Educational Community License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at
+
+        http://www.opensource.org/licenses/ecl2.php
+
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+
+    -->
+    <bean id="OlePrivacy" parent="OlePrivacy-parentBean"/>
+
+    <bean id="OlePrivacy-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.describe.bo.OlePrivacy"/>
+        <property name="titleAttribute" value="privacyId"/>
+        <property name="objectLabel" value="Ole Privacy"/>
+
+        <property name="attributes">
+            <list>
+                <ref bean="OlePrivacy-privacyId"/>
+                <ref bean="OlePrivacy-privacyCode"/>
+                <ref bean="OlePrivacy-privacyName"/>
+                <ref bean="OlePrivacy-source"/>
+                <ref bean="OlePrivacy-sourceDate"/>
+                <ref bean="OlePrivacy-active"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+
+    <bean id="OlePrivacy-privacyId" parent="OlePrivacy-privacyId-parentBean"/>
+
+    <bean id="OlePrivacy-privacyId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Privacy Id"/>
+        <property name="maxLength" value="10"/>
+        <property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+        <property name="name" value="privacyId"/>
+        <property name="label" value="Privacy Id"/>
+        <property name="description" value="Privacy Id"/>
+    </bean>
+
+
+    <bean id="OlePrivacy-privacyCode" parent="OlePrivacy-privacyCode-parentBean"/>
+
+    <bean id="OlePrivacy-privacyCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Privacy Code"/>
+        <property name="maxLength" value="30"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="false"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="privacyCode"/>
+        <property name="label" value="Privacy Code"/>
+        <property name="description" value="Privacy Code"/>
+
+    </bean>
+
+
+    <bean id="OlePrivacy-privacyName" parent="OlePrivacy-privacyName-parentBean"/>
+
+    <bean id="OlePrivacy-privacyName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Privacy Name"/>
+        <property name="maxLength" value="100"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="privacyName"/>
+        <property name="label" value="Privacy Name"/>
+        <property name="description" value="Privacy Name"/>
+
+    </bean>
+
+
+    <bean id="OlePrivacy-source" parent="OlePrivacy-source-parentBean"/>
+
+    <bean id="OlePrivacy-source-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Source"/>
+        <property name="maxLength" value="100"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="source"/>
+        <property name="label" value="Source"/>
+        <property name="description" value="Source"/>
+
+    </bean>
+
+
+    <bean id="OlePrivacy-sourceDate" parent="OlePrivacy-sourceDate-parentBean"/>
+    <bean id="OlePrivacy-sourceDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+        <property name="shortLabel" value="Source Date"/>
+        <property name="name" value="sourceDate"/>
+        <property name="label" value="Source Date"/>
+        <property name="required" value="true"/>
+    </bean>
+
+
+    <bean id="OlePrivacy-active" parent="OlePrivacy-active-parentBean"/>
+
+    <bean id="OlePrivacy-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+        <property name="name" value="active"/>
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+
+    <bean id="OlePrivacy-InquiryView" parent="Uif-OLEInquiryView">
+        <property name="headerText" value="Privacy Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.describe.bo.OlePrivacy"/>
+        <property name="singlePageView" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-VerticalBoxSection">
+                    <property name="header.headerText" value="Privacy"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2">
+                                <property name="items">
+                                    <list>
+                                        <bean id="inquiry_privacyId" parent="Uif-InputField" p:propertyName="privacyId"/>
+                                        <bean id="inquiry_privacyCode" parent="Uif-InputField" p:propertyName="privacyCode"/>
+                                        <bean id="inquiry_privacyName" parent="Uif-InputField" p:propertyName="privacyName"/>
+                                        <bean id="inquiry_source" parent="Uif-InputField" p:propertyName="source"/>
+                                        <bean id="inquiry_sourceDate" parent="Uif-InputField" p:propertyName="sourceDate"/>
+                                        <bean id="inquiry_active" parent="Uif-InputField" p:propertyName="active"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                    <property name="headerText" value="Privacy"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+
+    <bean id="OlePrivacy-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="Privacy Lookup"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.describe.bo.OlePrivacy"/>
+        <property name="criteriaFields">
+            <list>
+                <bean id="privacyCode" parent="Uif-LookupCriteriaInputField" p:propertyName="privacyCode"/>
+                <bean id="privacyName" parent="Uif-LookupCriteriaInputField" p:propertyName="privacyName"/>
+                <bean id="source" parent="Uif-LookupCriteriaInputField" p:propertyName="source"/>
+                <bean id="sourceDate" parent="Uif-LookupCriteriaInputField" p:propertyName="sourceDate">
+                    <property name="control">
+                        <bean id="date" parent="Uif-DateControl" p:size="10"/>
+                    </property>
+                </bean>
+                <bean id="active" parent="Uif-LookupCriteriaInputField" p:propertyName="active"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean id="searchResult_privacyId" parent="Uif-DataField" p:propertyName="privacyId"/>
+                <bean id="searchResult_privacyCode" parent="Uif-DataField" p:propertyName="privacyCode"/>
+                <bean id="searchResult_privacyName" parent="Uif-DataField" p:propertyName="privacyName"/>
+                <bean id="searchResult_source" parent="Uif-DataField" p:propertyName="source"/>
+                <bean id="searchResult_sourceDate" parent="Uif-DataField" p:propertyName="sourceDate"/>
+                <bean id="searchResult_active" parent="Uif-DataField" p:propertyName="active"/>
+            </list>
+        </property>
+    </bean>
+</beans>

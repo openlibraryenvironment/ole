@@ -1,0 +1,34 @@
+KIM_TYP_ID,OBJ_ID,VER_NBR,NM,SRVC_NM,ACTV_IND,NMSPC_CD
+OLE25,OLE25,1,Chart,{OLE}chartRoleTypeService,Y,OLE-COA
+OLE26,OLE26,1,Account,{OLE}accountRoleTypeService,Y,OLE-COA
+OLE27,OLE27,1,Organization,{OLE}organizationRoleTypeService,Y,OLE-COA
+OLE28,OLE28,1,Organization: Optionally Hierarchical,{OLE}organizationOptionalHierarchyQualifierRoleTypeService,Y,OLE-SYS
+OLE29,OLE29,1,Organization: Always Hierarchical & Document Type,{OLE}organizationHierarchyReviewRoleTypeService,Y,OLE-SYS
+OLE30,OLE30,1,Organization: Always Hierarchical Document Type & Accounting,{OLE}accountingOrganizationHierarchyReviewRoleTypeService,Y,OLE-SYS
+OLE31,OLE31,1,Sub-Fund & Document Type,{OLE}subFundReviewRoleTypeService,Y,OLE-COA
+OLE32,OLE32,1,Customer,{OLE}customerRoleTypeService,Y,OLE-PDP
+OLE33,OLE33,1,Commodity & Document Type,{OLE}commodityReviewRoleTypeService,Y,OLE-VND
+OLE34,OLE34,1,Contract Manager,{OLE}contractManagerRoleTypeService,Y,OLE-VND
+OLE35,OLE35,1,Sensitive Data,{OLE}sensitiveDataRoleTypeService,Y,OLE-PURAP
+OLE36,OLE36,1,Financial System User,{OLE}financialSystemUserRoleTypeService,Y,OLE-SYS
+OLE37,OLE37,1,Vendor Type,{OLE}vendorTypeRoleTypeService,Y,OLE-VND
+OLE39,OLE39,1,Derived Role: Account,{OLE}accountDerivedRoleTypeService,Y,OLE-COA
+OLE40,OLE40,1,Derived Role: Chart,{OLE}chartDerivedRoleTypeService,Y,OLE-COA
+OLE41,OLE41,1,Derived Role: Employee,{OLE}employeeDerivedRoleTypeService,Y,OLE-SYS
+OLE46,OLE46,1,Payment Method,{OLE}paymentMethodRoleTypeService,Y,OLE-FP
+OLE47,OLE47,1,Sub-Account & Document Type,{OLE}subAccountReviewRoleTypeService,Y,OLE-COA
+OLE48,OLE48,1,Derived Role: Purchasing Document,{OLE}relatedDocumentDerivedRoleTypeService,Y,OLE-PURAP
+OLE51,OLE51,1,Financial System Document Type,{OLE}financialSystemDocumentTypePermissionTypeService,Y,OLE-SYS
+OLE58,OLE58,1,Derived Role: Permission (Modify Batch Job),{OLE}batchJobModifierRoleTypeService,Y,OLE-SYS
+OLE61,OLE61,1,Derived Role: Payment Request Hold / Cancel Initiator,{OLE}paymentRequestHoldCancelInitiatorDerivedRoleTypeService,Y,OLE-PURAP
+OLE62,OLE62,1,Sensitive Document Indicator,{OLE}potentiallySensitiveDocumentRoleTypeService,Y,OLE-PURAP
+OLE65,OLE65,1,Derived Role: Cash Receipt Initiator,{OLE}cashReceiptInitiatorDerivedRoleTypeService,Y,OLE-FP
+OLE68,OLE68,1,Organization Group,{OLE}organizationGroupTypeService,Y,OLE-COA
+OLE69,OLE69,1,Derived Role: Accounts Payable Document Reviewer,{OLE}accountsPayableDocumentDerivedRoleTypeService,Y,OLE-PURAP
+OLESEC1,OLESEC1,1,Attribute Name & Document Type,{OLE}securityAttributeDocTypePermissionTypeService,Y,OLE-SEC
+OLESEC2,OLESEC2,1,Attribute Name,{OLE}securityAttributePermissionTypeService,Y,OLE-SEC
+OLESEC3,OLESEC3,1,Attribute Name & Namespace,{OLE}securityAttributeNamespacePermissionTypeService,Y,OLE-SEC
+OLESEC4,OLESEC4,1,Constraint Operator & Value,{OLE}securityAttributeRoleTypeService,Y,OLE-SEC
+OLEMI4553-1,OLEMI4553-1,1,Exclude Single Actor Separation Of Duties,{OLE}excludeSingleActorSeparationOfDutiesRoleTypeService,Y,OLE-SYS
+OLEMI6886-TYP,OLEMI6886-TYP,1,Payee ACH Account,{OLE}payeeACHAccountRoleTypeService,Y,OLE-PDP
+OLECNTRB199-TYP1,OLECNTRB199-TYP1,1,Namespace or File Path,{OLE}namespaceOrFilePathPermissionTypeService,Y,OLE-SYS

@@ -1,0 +1,1345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="OLEInvoiceView-ProcessItem-PurchaseOrder"   parent="Uif-Disclosure-HorizontalBoxSection" p:style="width: auto">
+        <property name="items">
+            <list>
+                <bean id="OleInvoice_POLookup" parent="Uif-InputField" p:propertyName="poId" p:label="Purchase Order  " >
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.select.document.OLEInvoicePurchaseOrderSearch"
+                              p:fieldConversions="vendorNumber:vendorNumber,purapDocumentIdentifier:poId" p:lookupParameters="vendorHeaderGeneratedIdentifier:vendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier:vendorDetailAssignedIdentifier,vendorName:vendorName"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" p:maxLength="10"/>
+                    </property>
+                </bean>
+                <bean id="addProcessItem-button" parent="Uif-SecondaryActionButton-Small" p:methodToCall="addProcessItem" p:actionLabel="add"  p:hidden="true" p:ajaxSubmit="true" p:successCallback="toggleCollapseAllSections()"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OleInvoiceView-POItems" parent="Uif-Disclosure-GridSection" p:layoutManager.numberOfColumns="1" p:layoutManager.applyDefaultCellWidths="false"  p:style="width:auto">
+        <property name="headerText" value="Process Titles"/>
+        <property name="items">
+            <list>
+                <bean  id="OLEInvoiceView-processItems-purchaseOrderDocuments"  parent="Uif-TableCollectionSection"  p:layoutManager.numberOfColumns="10"
+                       p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto">
+                    <property name="headerText" value="Purchase Order Documents" />
+                    <property name="collectionObjectClass" value="org.kuali.ole.select.document.OlePurchaseOrderDocument" />
+                    <property name="propertyName" value="purchaseOrderDocuments" />
+                    <property name="layoutManager.renderSequenceField" value="false" />
+                    <property name="layoutManager.richTable.templateOptions" value="false"/>
+                    <property name="layoutManager.richTable.render" value="false"/>
+                    <property name="renderAddLine" value="false"/>
+                    <property name="renderLineActions" value="false"/>
+                    <property name="layoutManager.actionColumnPlacement" value="LEFT" />
+                    <!--<property name="collectionLookup.render" value="true"/>-->
+                    <!--<property name="layoutManager.actionColumnPlacement" value="LEFT" />-->
+                    <!--<property name="layoutManager.columnCalculations">
+                        <list>
+                            <bean parent="Uif-ColumnCalculationInfo-Sum" p:propertyName="field1"/>
+                        </list>
+                    </property>-->
+                    <property name="items">
+                        <list>
+
+                            <bean id="process_item_po_doc" parent="Uif-LinkField" p:label="PO #"  p:style="word-break: break-all;word-wrap: break-word"
+                                  p:linkText="@{#line.purapDocumentIdentifier}" p:target="_blank" p:href="@{#line.poItemLink}"/>
+
+                            <!-- <bean id="invoice-poEndDate" parent="Uif-InputField" p:propertyName="poEndDate" p:label="P.O. End Date " p:width="8%">
+                                 <property name="control">
+                                     <bean parent="Uif-DateControl" p:size="10" />
+                                 </property>
+                             </bean>-->
+
+                            <bean id="CurrentItem_closePO" parent="Uif-InputField"
+                                  p:propertyName="closePO" p:label="Close P.O" p:width="6%">
+                                <property name="control">
+                                    <bean parent="Uif-CheckboxControl"/>
+                                </property>
+                            </bean>
+
+                            <!--<bean id="CurrentItem_poNotes" parent="Uif-InputField" p:label="PO Notes" p:propertyName="poNotes" p:readOnly="true"  p:width="18%"/>-->
+
+                            <bean id="CurrentItem_deletePO" parent="Uif-HorizontalFieldGroup" p:width="10%" p:label="Action">
+                                <property name="items">
+                                    <list>
+                                        <bean id="addPOItems_button_test" parent="Uif-SecondaryActionButton-Small" p:methodToCall="addPoItems" p:actionLabel="Add P.O" p:title="Add selected PO Items"  p:ajaxSubmit="true" p:successCallback="toggleCollapseInvoice()"/>
+                                        <bean id="CurrentItem_deletePurchaseOrder" parent="Uif-SecondaryActionButton-Small" p:actionLabel="Delete P.O" p:methodToCall="deletePO"/>
+                                    </list>
+                                </property>
+                            </bean>
+
+                            <ref bean="OLEInvoiceView-poDoc-relatedView"/>
+                            <!--<bean parent="OLEInvoice-ProcessTitle-PurchaseOrder"/>-->
+                            <!--<bean parent="OLEInvoice-ProcessTitle-PurchaserOrderLineItemForInvoice"/>
+                            <bean parent="OLEInvoice-ProcessTitle-PaymentHistory"/>
+                            <bean parent="OLEInvoice-ProcessTitle-ViewRelatedDocument"/>-->
+                        </list>
+                    </property>
+                    <property name="layoutManager.rowDetailsGroup" >
+                        <bean parent="Uif-HorizontalBoxGroup" >
+                            <!-- p:label="Purchase Order Line Item Total">-->
+                            <property name="items">
+                                <list>
+                                    <bean id="InvoiceLineItems_poNumber" parent="Uif-DataField" p:label="PO #"  p:propertyName="purapDocumentIdentifier"/>
+                                    <bean id="InvoiceLineItems_encumFreight" parent="Uif-DataField" p:label="Encumbrance Excluding freight and S/H" p:propertyName="encumbranceTotalAmount"/>
+                                    <bean id="InvoiceLineItems_encumTot" parent="Uif-DataField" p:label="Total Encumbrance Amount"  p:propertyName="encumbranceAmount"/>
+                                    <bean id="InvoiceLineItems_paidAmt" parent="Uif-DataField" p:label="Total Paid Amount"  p:propertyName="paidAmount"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                    <property name="subCollections">
+                        <list>
+                            <ref bean="OLEInvoiceView-processItems-currentItems"/>
+                            <!--<ref bean="OLEInvoiceView-InvoiceLineItems-POLineForInvoice"/>-->
+                        </list>
+                    </property>
+                    <!-- <property name="lineActions">
+                         <list>
+                             <bean id="addPOItems_button" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addPoItems" p:actionLabel="Add" p:title="Add selected PO Items" p:refreshId="OLEInvoiceView-processItems" />
+                         </list>
+                     </property>-->
+                </bean>
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEInvoiceView-poDoc-relatedView" parent="Uif-HorizontalFieldGroup"  p:label="View Related Documents" p:style="width:auto" p:render="@{#line.relatedViews ne null}">
+        <property name="items">
+            <list>
+                <ref bean="OLEInvoiceView-PurchaseOrder-RequisitionView"/>
+                <ref bean="OLEInvoiceView-PurchaseOrder-LineItemReceivingView"/>
+                <ref bean="OLEInvoiceView-PurchaseOrder-CorrectionView"/>
+                <ref bean="OLEInvoiceView-PurchaseOrder-PaymentRequestView"/>
+                <ref bean="OLEInvoiceView-PurchaseOrder-CreditMemoView"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEInvoiceView-processItems-poDetails" parent="Uif-VerticalBoxGroup">
+        <property name="items">
+            <list>
+                <ref bean="OLEInvoiceView-processItems-accountingLines" />
+                <ref bean="OLEInvoiceView-processItems-invoiceNotes"/>
+                <ref bean="OLEInvoiceView-donors"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEInvoiceView-processItems-currentItems"  parent="Uif-Disclosure-TableSubCollection-WithinSection"  p:layoutManager.suppressLineWrapping="true"
+          p:fieldBindingObjectPath="purchaseOrderDocuments" p:renderInactiveToggleButton="false" p:style="width:auto">
+        <property name="headerText" value="Current Items" />
+        <property name="collectionObjectClass" value="org.kuali.ole.select.businessobject.OlePurchaseOrderItem" />
+        <property name="propertyName" value="items" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="layoutManager.rowDetailsOpen" value="true"/>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="false">
+                <!-- infinite scrolling settings from http://datatables.net/examples/basic_init/scroll_y_infinite.html -->
+                <entry key="iDisplayLength" value="@{itemLimit}"/>
+                <entry key="bLengthChange" value="false"/>
+                <entry key="bFilter" value="false"/>
+                <entry key="bAutoWidth" value="true"/>
+                <!-- end of infinite scrolling settings -->
+            </map>
+        </property>
+        <property name="layoutManager.rowDetailsGroup">
+            <bean parent="Uif-HorizontalBoxGroup">
+                <property name="items">
+                    <list>
+
+                        <bean id="CurrentItem_RouteToRequestor" parent="Uif-InputField"
+                              p:propertyName="itemRouteToRequestorIndicator" p:label="Route To Requestor" p:render="@{document.foreignCurrencyFlag}">
+                            <property name="control">
+                                <bean parent="Uif-CheckboxControl"/>
+                            </property>
+                        </bean>
+
+                        <bean id="CurrentItem_PublicView" parent="Uif-InputField"
+                              p:propertyName="itemPublicViewIndicator" p:label="Public View" p:render="@{document.foreignCurrencyFlag}">
+                            <property name="control">
+                                <bean parent="Uif-CheckboxControl"/>
+                            </property>
+                        </bean>
+                        <ref bean="OLEInvoiceView-processItems-poDetails" />
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="CurrentItem_LineItemNo" parent="Uif-DataField" p:label="Item Line #" p:propertyName="itemLineNumber" />
+
+                <bean id="CurrentItem_subscriptionOverlay" parent="Uif-InputField"
+                      p:propertyName="subscriptionOverlap" p:label="Check Subscription Date Overlap" p:width="6%">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+
+                <bean id="CurrentItem_subscriptionFromDate" parent="Uif-InputField" p:propertyName="subscriptionFromDate" p:label="Subscription From Date ">
+                    <property name="control">
+                        <bean parent="Uif-DateControl" p:size="10" />
+                    </property>
+                </bean>
+
+                <bean id="CurrentItem_subscriptionToDate" parent="Uif-InputField" p:propertyName="subscriptionToDate" p:label="To Date ">
+                    <property name="control">
+                        <bean parent="Uif-DateControl" p:size="10" />
+                    </property>
+                </bean>
+
+
+
+                <bean id="CurrentItem_openQuantity" parent="Uif-InputField" p:label="Open Quantity" p:propertyName="openQuantity" p:readOnly="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="5" p:maxLength="25"/>
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="IntegerPatternConstraint"/>
+                    </property>
+                </bean>
+
+                <!--<bean id="CurrentItem_OpenQty" parent="Uif-DataField" p:label="Open Qty" p:propertyName="oleItemQuantity"/>-->
+
+                <bean id="CurrentItem_Title" parent="Uif-LinkField" p:label="Title" p:style="word-break: break-all;word-wrap: break-word" p:linkText="@{#line.title}" p:target="_blank" p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=marc&amp;docId=@{#line.itemTitleId}&amp;editable=true" p:render="@{#line.itemTitleId ne null and #line.docFormat eq 'marc'}"/>
+                <bean id="CurrentItem_TitleDublinunq" parent="Uif-LinkField" p:label="Title" p:style="word-break: break-all;word-wrap: break-word" p:linkText="@{#line.title}" p:target="_blank" p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=dublinunq&amp;docId=@{#line.itemTitleId}&amp;editable=true" p:render="@{#line.itemTitleId ne null and #line.docFormat eq 'dublinunq'}"/>
+                <bean id="CurrentItem_Title_DataField" parent="Uif-DataField" p:label="Title" p:propertyName="title" p:render="@{#line.itemTitleId eq null}"/>
+
+                <bean id="Donor_Code" parent="Uif-LinkField" p:label="Donor" p:style="word-break: break-all;word-wrap: break-word" p:linkText="@{#line.donorCode}" p:target="_blank" p:href="inquiry?methodToCall=start&amp;donorId=@{#line.donorId}&amp;dataObjectClassName=org.kuali.ole.select.bo.OLEDonor"/>
+
+                <!--   <bean id="CurrentItem_POUnitExtPrice" parent="Uif-DataField" p:label="PO Unit Ext Price" p:propertyName="itemUnitPrice"/>-->
+
+                <!--<bean id="CurrentItem_VendorId" parent="Uif-DataField" p:label="Vendor Id" p:propertyName="purchaseOrder.vendorDetail.vendorNumber"/>-->
+
+                <bean id="CurrentItem_NoOfCopiesOrdered" parent="Uif-InputField" p:label="Copies Ordered" p:propertyName="copiesOrdered" p:readOnly="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="5" p:maxLength="25"/>
+                    </property>
+                </bean>
+
+                <bean id="CurrentItem_NoOfParts" parent="Uif-InputField" p:label="Parts Ordered" p:propertyName="noOfItemParts" p:readOnly="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="5" p:maxLength="25"/>
+                    </property>
+                </bean>
+
+                <bean id="CurrentItem_NoOfCopiesInvoice" parent="Uif-InputField" p:label="Invoiced Copies" p:propertyName="copiesInvoicedNumber">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="5" p:maxLength="25"/>
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="IntegerPatternConstraint"/>
+                    </property>
+                </bean>
+
+                <bean id="CurrentItem_NoOfPartsInvoice" parent="Uif-InputField" p:label="Invoiced Parts" p:propertyName="partsInvoicedNumber">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="5" p:maxLength="25"/>
+                    </property>
+                </bean>
+
+                <bean id="CurrentItem_ListPrice" parent="Uif-InputField" p:label="Invoiced Price" p:propertyName="invoiceItemListPrice" p:readOnly="@{document.foreignCurrencyFlag}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="5" p:maxLength="25"/>
+                    </property>
+                </bean>
+
+                <bean id="CurrentItem_Discount" parent="Uif-InputField" p:label="Discount" p:propertyName="itemDiscount" p:render="@{!document.foreignCurrencyFlag}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="5" p:maxLength="25"/>
+                    </property>
+                </bean>
+
+                <bean id="CurrentItem_DiscountType" parent="Uif-InputField" p:propertyName="itemDiscountType" p:label="Discount type" p:render="@{!document.foreignCurrencyFlag}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.module.purap.businessobject.options.DiscountTypeValuesFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-50-select"/>
+                    </property>
+                </bean>
+
+                <!-- <bean id="CurrentItem_ProratedSurCharge" parent="Uif-DataField" p:label="Prorated SurCharge"  p:propertyName="itemSurcharge" p:render="@{document.prorateManual ne true}"/>
+         <bean id="CurrentItem_ProratedSurChargeInputField" parent="Uif-InputField" p:label="Prorated SurCharge"  p:propertyName="itemSurcharge" p:render="@{document.prorateManual}"/>-->
+
+                <bean id="CurrentItem_UnitCost" parent="Uif-DataField" p:label="Unit Cost" p:propertyName="itemUnitPrice"/>
+
+                <bean id="CurrentItem_ExtendedCost" parent="Uif-DataField" p:label="Extended Cost" p:propertyName="extendedPrice"/>
+
+                <bean id="CurrentItem_ForeignListPrice" parent="Uif-InputField" p:label="Invoiced Foreign Price" p:propertyName="invoiceForeignItemListPrice" p:render="@{document.foreignCurrencyFlag}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="5" p:maxLength="25"/>
+                    </property>
+                </bean>
+
+                <bean id="CurrentItem_ForeignDiscount" parent="Uif-InputField" p:label="Foreign Discount" p:propertyName="invoiceForeignDiscount" p:render="@{document.foreignCurrencyFlag}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="5" p:maxLength="25"/>
+                    </property>
+                </bean>
+
+                <bean id="CurrentItem_ForeignDiscountType" parent="Uif-InputField" p:propertyName="invoiceForeignDiscountType" p:label="Discount type" p:render="@{document.foreignCurrencyFlag}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.module.purap.businessobject.options.DiscountTypeValuesFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-50-select"/>
+                    </property>
+                </bean>
+
+                <bean id="CurrentItem_CurrencyType" parent="Uif-DataField" p:label="Currency Type" p:propertyName="invoiceForeignCurrency" p:render="@{document.foreignCurrencyFlag}"/>
+
+                <bean id="CurrentItem_ExchangeRate" parent="Uif-DataField" p:label="Exchange Rate" p:propertyName="invoiceExchangeRate" p:render="@{document.foreignCurrencyFlag}"/>
+
+                <bean id="CurrentItem_ForeignUnitCost" parent="Uif-DataField" p:label="Foreign Unit Cost" p:propertyName="invoiceForeignUnitCost" p:render="@{document.foreignCurrencyFlag}"/>
+
+                <bean id="CurrentItem_ItemForInvoice" parent="Uif-InputField"
+                      p:propertyName="itemForInvoice" p:label="Select Item For Invoice">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+       <!-- <property name="subCollections">
+            <list>
+                <ref bean="OLEInvoiceView-processItems-accountingLines" />
+                <ref bean="OLEInvoiceView-processItems-invoiceNotes"/>
+                <ref bean="OLEInvoiceView-donors"/>
+            </list>
+        </property>-->
+    </bean>
+
+    <bean id="OLEInvoiceView-processItems-accountingLines"  parent="Uif-Disclosure-TableSubCollection-WithinSubSection"  p:layoutManager.numberOfColumns="10"
+          p:layoutManager.applyDefaultCellWidths="false"  p:style="width:1360" >
+        <property name="headerText" value="Accounting Lines" />
+        <property name="collectionObjectClass" value="org.kuali.ole.select.businessobject.OlePurchaseOrderAccount" />
+        <property name="propertyName" value="sourceAccountingLines" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.templateOptions" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <!--<property name="renderAddBlankLineButton" value="true" />-->
+        <property name="renderAddLine" value="true"/>
+        <property name="renderLineActions" value="true"/>
+        <!--<property name="collectionLookup.render" value="true"/>-->
+        <property name="items">
+            <list>
+                <bean id="Invoice-chartOfAccountsCode"  parent="Uif-InputField" p:label="Chart" p:propertyName="chartOfAccountsCode" p:required="false"
+                      p:optionsFinderClass="org.kuali.ole.coa.businessobject.options.SimpleChartValuesFinder">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                </bean>
+                <bean  id="Invoice-accountNumber" parent="Uif-InputField" p:propertyName="accountNumber"  p:label="Account Number" p:required="true">
+                    <!--p:webUILeaveFieldFunction="loadChartInfo">-->
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10"  p:disabled="false"/>
+                    </property>
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.coa.businessobject.Account"
+                              p:fieldConversions="chartOfAccountsCode:chartOfAccountsCode,accountNumber:accountNumber" p:lookupParameters="chartOfAccountsCode:chartOfAccountsCode"/>
+                    </property>
+                </bean>
+                <bean  id="Invoice-subAccountNumber"  parent="Uif-InputField" p:propertyName="subAccountNumber"  p:label=" Sub Account Number">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.coa.businessobject.SubAccount"
+                              p:fieldConversions="chartOfAccountsCode:chartOfAccountsCode,accountNumber:accountNumber,subAccountNumber:subAccountNumber" p:lookupParameters="chartOfAccountsCode:chartOfAccountsCode,accountNumber:accountNumber"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" />
+                    </property>
+                </bean>
+                <bean id="Invoice-financialObjectCode" parent="Uif-InputField" p:propertyName="financialObjectCode"  p:label="Object Code"
+                      p:required="true">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.coa.businessobject.ObjectCode"
+                              p:fieldConversions="financialObjectCode:financialObjectCode" p:lookupParameters="chartOfAccountsCode:chartOfAccountsCode"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" />
+                    </property>
+                </bean>
+                <bean id="Invoice-financialSubObjectCode" parent="Uif-InputField" p:propertyName="financialSubObjectCode"
+                      p:label="Sub Object Code">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.coa.businessobject.SubObjectCode"
+                              p:fieldConversions="chartOfAccountsCode:chartOfAccountsCode,accountNumber:accountNumber,financialObjectCode:financialObjectCode,financialSubObjectCode,financialSubObjectCode" p:lookupParameters="financialObjectCode:financialObjectCode"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" />
+                    </property>
+                </bean>
+                <bean id="Invoice-projectCode" parent="Uif-InputField" p:propertyName="projectCode"  p:label="Project">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.coa.businessobject.ProjectCode"
+                              p:fieldConversions="code:projectCode"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" />
+                    </property>
+                </bean>
+                <bean  id="Invoice-orgRefId" parent="Uif-InputField" p:label="Org Ref Id" p:propertyName="organizationReferenceId" p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" />
+                    </property>
+                </bean>
+                <bean id="Invoice-amount" parent="Uif-InputField" p:label="Dollar" p:propertyName="amount" >
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" />
+                    </property>
+                </bean>
+                <bean id="Invoice-percent" parent="Uif-InputField" p:label="Percentage" p:propertyName="accountLinePercent" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" />
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="addLineActions">
+            <list>
+                <bean id="PoAccountingLine" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addPOAccountingLine" p:actionLabel="Add" p:title="Add PO Accounting Line"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEInvoiceView-processItems-invoiceNotes"  parent="Uif-Disclosure-TableSubCollection-WithinSubSection" p:layoutManager.numberOfColumns="3"
+          p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto" p:disclosure.defaultOpen="false">
+        <property name="headerText" value="Line Item Note for Invoice"/>
+        <property name="collectionObjectClass" value="org.kuali.ole.select.businessobject.OleInvoiceNote" />
+        <property name="propertyName" value="invoiceNotes" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.templateOptions" value="false" />
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderAddLine" value="true"/>
+        <property name="renderLineActions" value="true"/>
+        <property name="items">
+            <list>
+                <bean id="invoice-note"  parent="Uif-InputField" p:label="Invoice Note" p:propertyName="note" p:required="false" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OleInvoiceView-invoiceItems"  parent="Uif-Disclosure-TableCollectionSection"  p:layoutManager.suppressLineWrapping="true"
+          p:renderInactiveToggleButton="false" p:style="width:auto" p:disclosure.defaultOpen="@{document.currentItemsFlag}">
+         <!-- p:render="@{document.enableCurrentItems}">-->
+        <property name="headerText" value="Current Items" />
+        <property name="collectionObjectClass" value="org.kuali.ole.select.businessobject.OleInvoiceItem" />
+        <property name="propertyName" value="items" />
+        <property name="layoutManager.renderSequenceField" value="true" />
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.generateAutoSequence" value="true"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="useServerPaging" value="true"/><!--
+        <property name="collectionLookup.render" value="true"/>-->
+        <!--<property name="layoutManager.rowDetailsLinkName" value="PO  Details"/>-->
+        <property name="layoutManager.rowDetailsOpen" value="true"/>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="false">
+                <!-- infinite scrolling settings from http://datatables.net/examples/basic_init/scroll_y_infinite.html -->
+                <entry key="iDisplayLength" value="@{itemLimit}"/>
+                <entry key="bLengthChange" value="false"/>
+                <entry key="bFilter" value="false"/>
+                <entry key="bAutoWidth" value="true"/>
+                <!-- end of infinite scrolling settings -->
+            </map>
+        </property>
+        <property name="layoutManager.rowDetailsGroup" >
+            <bean parent="Uif-HorizontalBoxGroup">
+                <property name="items">
+                    <list>
+                    <!--    <bean parent="Uif-Disclosure-HorizontalBoxSection">
+                            <property name="items">
+                                <list>-->
+                                    <!--<bean id="invoiceItem-poEndDate" parent="Uif-DataField" p:propertyName="purchaseOrderEndDate"
+                                          p:label="P.O. End Date " >
+                                        &lt;!&ndash;<property name="control">
+                                           <bean parent="Uif-DateControl" p:size="10" />
+                                       </property>&ndash;&gt;
+                                    </bean>-->
+
+                                    <bean id="invoiceItem_closePO" parent="Uif-DataField"
+                                          p:propertyName="closePurchaseOrderIndicator" p:label="Close P.O" >
+                                        <!-- <property name="control">
+                                            <bean parent="Uif-CheckboxControl"/>
+                                        </property>-->
+                                    </bean>
+                                    <bean id="invoiceItem_subscriptionOverlay" parent="Uif-InputField"
+                                          p:propertyName="subscriptionOverlap" p:label="Check Subscription Date Overlap" p:labelPlacement="LEFT" >
+                                        <property name="control">
+                                            <bean parent="Uif-CheckboxControl"/>
+                                        </property>
+                                    </bean>
+
+                                    <bean id="invoiceItem_subscriptionFromDate" parent="Uif-InputField" p:propertyName="subscriptionFromDate"
+                                          p:label="Subscription From Date " p:labelPlacement="LEFT" >
+                                        <property name="control">
+                                            <bean parent="Uif-DateControl" p:size="10" />
+                                        </property>
+                                    </bean>
+
+                                    <bean id="invoiceItem_subscriptionToDate" parent="Uif-InputField" p:propertyName="subscriptionToDate" p:label="To Date "
+                                          p:labelPlacement="LEFT" >
+                                        <property name="control">
+                                            <bean parent="Uif-DateControl" p:size="10" />
+                                        </property>
+                                    </bean>
+
+                                    <bean id="invoiceItem_RouteToRequestor" parent="Uif-InputField"
+                                          p:propertyName="itemRouteToRequestorIndicator" p:label="Route To Requestor" p:render="@{document.foreignCurrencyFlag}">
+                                        <property name="control">
+                                            <bean parent="Uif-CheckboxControl"/>
+                                        </property>
+                                    </bean>
+
+                                    <bean id="invoiceItem_PublicView" parent="Uif-InputField"
+                                          p:propertyName="itemPublicViewIndicator" p:label="Public View" p:render="@{document.foreignCurrencyFlag}">
+                                        <property name="control">
+                                            <bean parent="Uif-CheckboxControl"/>
+                                        </property>
+                                    </bean>
+
+
+                                    <!--<bean id="invoiceItem_poNotes" parent="Uif-DataField" p:label="PO Notes" p:propertyName="purchaseOrderDocument.poNotes"
+                                          p:width="18%"/>-->
+                              <!--  </list>
+                            </property>
+                        </bean>-->
+
+                        <ref bean="OLEInvoiceView-invoiceItem-poDetails"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <!--<bean id="invoiceItem-itemNumber" parent="Uif-DataField" p:propertyName="itemLineNumber"
+                      p:label="Item Line #" p:width="8%" />-->
+                <bean id="invoiceItem_poDoc_num_item" parent="Uif-LinkField" p:label="PO #"
+                      p:linkText="@{#line.tempPurchaseOrderIdentifier}" p:target="_blank" p:href="@{#line.poItemLink}"/>
+                <!--<bean id="invoiceItem_itemLineNumber" parent="Uif-DataField" p:label="Item Line #" p:propertyName="itemLineNumber"/>-->
+                <bean id="invoiceItem_olePoOutstandingQuantity" parent="Uif-DataField" p:label="Open Qty" p:propertyName="oleOpenQuantity"/>
+                <bean id="invoiceItem_itemDescription" parent="Uif-LinkField" p:label="Title" p:width="15%" p:style="word-break: break-all;word-wrap: break-word"
+                      p:linkText="@{#line.itemTitle}" p:target="_blank" p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=marc&amp;docId=@{#line.itemTitleId}&amp;editable=true" p:render="@{#line.itemTitleId ne null and #line.docFormat eq 'marc'}"/>
+                <bean id="invoiceItem_itemDescriptionDublinunq" parent="Uif-LinkField" p:label="Title" p:style="word-break: break-all;word-wrap: break-word"
+                      p:linkText="@{#line.itemTitle}" p:target="_blank" p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=dublinunq&amp;docId=@{#line.itemTitleId}&amp;editable=ture"  p:render="@{#line.itemTitleId ne null and #line.docFormat eq 'dublinunq'}"/>
+                <bean id="invoiceItem_itemDescription_dataField" parent="Uif-DataField" p:label="Title" p:propertyName="itemTitle" p:render="@{#line.itemTitleId eq null}"/>
+                <bean id="donor_Code" parent="Uif-LinkField" p:label="Donor" p:style="word-break: break-all;word-wrap: break-word" p:linkText="@{#line.donorCode}" p:target="_blank" p:href="inquiry?methodToCall=start&amp;donorId=@{#line.donorId}&amp;dataObjectClassName=org.kuali.ole.select.bo.OLEDonor"/>
+                <bean id="invoiceItem_purchaseOrderItemUnitPrice" parent="Uif-DataField" p:label="PO Unt/Ext Price" p:propertyName="purchaseOrderItemUnitPrice"/>
+                <bean id="invoiceItem_oleItemQuantity" parent="Uif-InputField" p:label="Copies Invoiced" p:propertyName="oleCopiesOrdered" />
+                <bean id="invoiceItem_itemListPrice" parent="Uif-InputField" p:label="Invoiced Price" p:propertyName="listPrice" p:readOnly="@{document.foreignCurrencyFlag}">
+                    <property name="onChangeScript" value="onChangePriceScript();"/>
+                </bean>
+                <bean id="invoiceItem_itemDiscount" parent="Uif-InputField" p:label="Discount" p:propertyName="discountItem"  p:onChangeScript="onChangePriceScript();" p:render="@{!document.foreignCurrencyFlag}">
+                </bean>
+
+                <bean id="invoiceItem_itemDiscountType" parent="Uif-InputField" p:label="Discount Type" p:propertyName="itemDiscountType" p:render="@{!document.foreignCurrencyFlag}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.module.purap.businessobject.options.DiscountTypeValuesFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-50-select"/>
+                    </property>
+                </bean>
+
+                <!--<bean id="invoiceItem_itemSurcharge" parent="Uif-DataField" p:label="Prorated Surcharge" p:propertyName="itemSurcharge"/>-->
+                <bean id="invoiceItem_itemUnitPrice" parent="Uif-DataField" p:label="Unit Cost" p:propertyName="itemUnitPrice"/>
+                <bean id="invoiceItem_extendedPrice" parent="Uif-DataField" p:label="Extended Cost" p:propertyName="extendedPrice"/>
+                <bean id="invoiceItem_ForeignListPrice" parent="Uif-InputField" p:label="Invoiced Foreign Price" p:propertyName="foreignListPrice" p:onChangeScript="onChangePriceScript();" p:render="@{document.foreignCurrencyFlag}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" />
+                    </property>
+                </bean>
+
+                <bean id="invoiceItem_ForeignDiscount" parent="Uif-InputField" p:label="Foreign Discount" p:propertyName="foreignDiscount" p:onChangeScript="onChangePriceScript();" p:render="@{document.foreignCurrencyFlag}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" />
+                    </property>
+                </bean>
+
+                <bean id="invoiceItem_itemForeignDiscountType" parent="Uif-InputField" p:label="Discount Type" p:propertyName="itemForeignDiscountType" p:render="@{document.foreignCurrencyFlag}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.module.purap.businessobject.options.DiscountTypeValuesFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-50-select"/>
+                    </property>
+                </bean>
+
+                <bean id="invoiceItem_CurrencyType" parent="Uif-DataField" p:label="Currency Type" p:propertyName="invoicedCurrency" p:render="@{document.foreignCurrencyFlag}" />
+
+                <bean id="invoiceItem_ExchangeRate" parent="Uif-DataField" p:label="Exchange Rate" p:propertyName="exchangeRate" p:render="@{document.foreignCurrencyFlag}"/>
+
+                <bean id="invoiceItem_ForeignUnitCost" parent="Uif-DataField" p:label="Foreign Unit Cost" p:propertyName="foreignUnitCost" p:render="@{document.foreignCurrencyFlag}"/>
+                <bean id="invoiceItem_totalAmount" parent="Uif-DataField" p:label="Total Cost" p:propertyName="totalAmount"/>
+                <!--<bean id="invoiceItem_itemAssignedToTradeInIndicator" parent="Uif-DataField" p:label="Item Line #" p:propertyName="itemAssignedToTradeInIndicator"/>-->
+                <bean id="CurrentItem_deleteInvoiceItem_Group" parent="Uif-HorizontalFieldGroup" p:width="10%" p:label="Action">
+                    <property name="items">
+                        <list>
+                            <bean id="CurrentItem_deleteInvoiceItem" parent="Uif-SecondaryActionButton-Small" p:actionLabel="Delete" p:methodToCall="deleteInvoice" p:render="@{document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.saved}"/>
+                            <bean id="CurrentItem_unlinkInvoiceItem" parent="Uif-SecondaryActionButton-Small" p:actionLabel="UnLink" p:methodToCall="unlinkInvoice" p:render="@{(document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.saved or document.documentHeader.workflowDocument.enroute) and (#line.itemTitleId ne null or #line.tempPurchaseOrderIdentifier ne null)}"/>
+                            <bean id="OLEInvoiceView-invoiceItem-relatedView_Btn" parent="Uif-PrimaryActionButton-Small" p:methodToCall="relatedViewBtn" p:hidden="true" p:refreshId="OLEInvoiceView-invoiceItem-poDetails@{#lineSuffix}"/><!--"@{#line.detailsBeanName}"/>-->
+                            <bean  id="CurrentItem_relinkInvoiceItem" parent="Uif-InputField" p:propertyName="reLinkPO"  p:label="Relink" p:render="@{(document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.saved or document.documentHeader.workflowDocument.enroute) and (#line.itemTitleId eq null or #line.tempPurchaseOrderIdentifier eq null)}">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="10"  p:disabled="true"/>
+                                </property>
+                                <property name="quickfinder">
+                                    <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.select.businessobject.OLEPurchaseOrderItemSearch"
+                                          p:fieldConversions="tempItemIdentifier:tempItemIdentifier,purapDocumentIdentifier:purchaseOrderIdentifier,purchaseOrderItemID:tempPurchaseOrderIdentifier,purchaseOrderItemID:poItemIdentifier,localId:itemTitleId,itemDescription:itemDescription,accountsPayableLinkIdentifier:accountsPayablePurchasingDocumentLinkIdentifier,poItemPrice:purchaseOrderItemUnitPrice,docFormat:docFormat,itemLineNumber:itemLineNumber"
+                                          p:lookupParameters="purapDocument.vendorName:vendorName,purapDocument.vendorDetailAssignedIdentifier:vendorDetailAssignedIdentifier,purapDocument.vendorHeaderGeneratedIdentifier:vendorHeaderGeneratedIdentifier"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+
+            </list>
+        </property>
+        <property name="filters">
+            <list>
+                <bean parent="Uif-ConditionalCollectionFilter" p:expression="#line.itemType.itemTypeDescription eq 'Qty'"/>
+            </list>
+        </property>
+        <!-- <property name="lineActions">
+             <list>
+                 <bean id="deleteInvoiceItem_Btn" parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteInvoiceItem" p:actionLabel="Delete" p:title="Delete a Invoice Item" />
+             </list>
+         </property>-->
+    </bean>
+
+    <bean id="OLEInvoiceView-invoiceItem-poDetails" parent="Uif-VerticalBoxSection" p:render="@{#line.enableDetailsSection}">
+        <property name="items">
+            <list>
+                <ref bean="OLEInvoiceView-InvoiceItem-RequisitionView"/>
+                <ref bean="OLEInvoiceView-InvoiceItem-LineItemReceivingView"/>
+                <ref bean="OLEInvoiceView-InvoiceItem-CorrectionView"/>
+                <ref bean="OLEInvoiceView-InvoiceItem-PaymentRequestView"/>
+                <ref bean="OLEInvoiceView-InvoiceItem-CreditMemoView"/>
+                <ref bean="OLEInvoiceView-ProcessTitle-PaymentRequestHistory"/>
+                <ref bean="OLEInvoiceView-ProcessTitle-CreditMemoHistory"/>
+                <ref bean="OLEInvoiceView-Item-accountingLines"/>
+                <ref bean="OLEInvoiceView-AdditionalCharges-offsetAccountingLines"/>
+                <ref bean="OLEInvoiceView-invoiceNotes"/>
+                <ref bean="OLEInvoiceView-donors"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEInvoiceView-invoiceItem-relatedView" parent="Uif-HorizontalFieldGroup"  p:label="View Related Documents" p:style="width:auto">
+        <property name="items">
+            <list>
+                <ref bean="OLEInvoiceView-InvoiceItem-RequisitionView"/>
+                <ref bean="OLEInvoiceView-InvoiceItem-LineItemReceivingView"/>
+                <ref bean="OLEInvoiceView-InvoiceItem-CorrectionView"/>
+                <ref bean="OLEInvoiceView-InvoiceItem-PaymentRequestView"/>
+                <ref bean="OLEInvoiceView-InvoiceItem-CreditMemoView"/>
+                <ref bean="OLEInvoiceView-ProcessTitle-PaymentRequestHistory"/>
+                <ref bean="OLEInvoiceView-ProcessTitle-CreditMemoHistory"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEInvoiceView-ProcessTitle-PaymentRequestHistory"  parent="Uif-Disclosure-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
+          p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto" p:disclosure.defaultOpen="false"
+          p:render="@{#line.relatedViews ne null and #line.relatedViews.paymentHistoryPaymentRequestViews ne null and #line.relatedViews.paymentHistoryPaymentRequestViews.size()>0}">
+        <property name="collectionObjectClass" value="org.kuali.ole.module.purap.businessobject.PaymentRequestView" />
+        <property name="headerText" value="Payment Request History" />
+        <property name="propertyName" value="relatedViews.paymentHistoryPaymentRequestViews" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.templateOptions" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <!--<property name="collectionLookup.render" value="true"/>-->
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="purapDocumentIdentifier" p:label="PREQ #"  />
+                <bean parent="Uif-DataField" p:propertyName="invoiceNumber" p:label="Invoice #" />
+                <bean parent="Uif-DataField" p:propertyName="purchaseOrderIdentifier" p:label="PO #" />
+                <bean parent="Uif-DataField" p:propertyName="applicationDocumentStatus" p:label="PREQ Status" />
+                <bean parent="Uif-DataField" p:propertyName="vendorName" p:label="Vendor Name" />
+                <bean parent="Uif-DataField" p:propertyName="vendorCustomerNumber" p:label="Customer #" />
+                <bean parent="Uif-DataField" p:propertyName="totalAmount" p:label="Amount" />
+                <bean parent="Uif-DataField" p:propertyName="paymentRequestPayDate" p:label="Pay Date" />
+            </list>
+        </property>
+        <property name="subCollections">
+            <list>
+                <ref bean="OLEInvoice-ProcessTitle-relatedDocumentDetails-notes" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEInvoiceView-ProcessTitle-CreditMemoHistory"  parent="Uif-Disclosure-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
+          p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto" p:disclosure.defaultOpen="false"
+          p:render="@{#line.relatedViews ne null and #line.relatedViews.paymentHistoryCreditMemoViews ne null and #line.relatedViews.paymentHistoryCreditMemoViews.size()>0}">
+        <property name="collectionObjectClass" value="org.kuali.ole.module.purap.businessobject.CreditMemoView" />
+        <property name="propertyName" value="relatedViews.paymentHistoryCreditMemoViews" />
+        <property name="headerText" value="Credit Memo History" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.templateOptions" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <!--<property name="collectionLookup.render" value="true"/>-->
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="purapDocumentIdentifier" p:label="CM #" />
+                <bean parent="Uif-DataField" p:propertyName="creditMemoNumber" p:label="Vendor CM #"  />
+                <bean parent="Uif-DataField" p:propertyName="paymentRequestIdentifier" p:label="PREQ #" />
+                <bean parent="Uif-DataField" p:propertyName="purchaseOrderIdentifier" p:label="PO #" />
+                <bean parent="Uif-DataField" p:propertyName="applicationDocumentStatus" p:label="Credit Memo Status" />
+                <bean parent="Uif-DataField" p:propertyName="vendorName" p:label="Vendor Name" />
+                <bean parent="Uif-DataField" p:propertyName="vendorCustomerNumber" p:label="Customer #" />
+                <bean parent="Uif-DataField" p:propertyName="totalAmount" p:label="Amount" />
+                <bean parent="Uif-DataField" p:propertyName="accountsPayableApprovalTimestamp" p:label="APAD Date" />
+            </list>
+        </property>
+        <property name="subCollections">
+            <list>
+                <ref bean="OLEInvoice-ProcessTitle-relatedDocumentDetails-notes" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEInvoiceView-invoiceNotes"  parent="Uif-Disclosure-TableSubCollection-WithinSubSection" p:layoutManager.numberOfColumns="3"
+          p:layoutManager.applyDefaultCellWidths="false" p:style="width:1080px" p:disclosure.defaultOpen="false">
+        <property name="headerText" value="Line Item Note for Invoice"/>
+        <property name="collectionObjectClass" value="org.kuali.ole.select.businessobject.OleInvoiceNote" />
+        <property name="propertyName" value="notes" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.templateOptions" value="false" />
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderAddLine" value="true"/>
+        <property name="renderLineActions" value="true"/>
+        <property name="items">
+            <list>
+                <bean id="OLEInvoiceView-invoice-note"  parent="Uif-InputField" p:label="Invoice Note" p:propertyName="note" p:required="false" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEInvoiceView-donors"  parent="Uif-Disclosure-TableSubCollection-WithinSubSection" p:layoutManager.numberOfColumns="3"
+          p:layoutManager.applyDefaultCellWidths="false" p:style="width:1080px" p:disclosure.defaultOpen="false"
+          p:render="@{#line.oleDonors ne null and #line.oleDonors.size()>0}">
+        <property name="headerText" value="Donor"/>
+        <property name="collectionObjectClass" value="org.kuali.ole.select.bo.OLELinkPurapDonor" />
+        <property name="propertyName" value="oleDonors" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.templateOptions" value="false" />
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="items">
+            <list>
+                <bean id="OLEInvoiceView-donor"  parent="Uif-LinkField" p:style="word-break: break-all;word-wrap: break-word" p:linkText="@{#line.donorCode}" p:target="_blank" p:href="inquiry?methodToCall=start&amp;donorId=@{#line.donorId}&amp;dataObjectClassName=org.kuali.ole.select.bo.OLEDonor" p:align="CENTER"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEInvoiceView-ProcessItem-InvoiceTotal" parent="Uif-Disclosure-VerticalBoxSection" p:style="width:auto">
+        <property name="headerText" value="" />
+        <property name="items">
+            <list>
+                <bean id="OLEInvoiceView-invoiceTotal" parent="Uif-InputField" p:label="Invoice Total Prior to Additional Charges" p:propertyName="itemTotal" p:readOnly="true"/>
+                <bean id="OLEInvoiceView-foreignInvoiceTotal" parent="Uif-InputField" p:label="Foreign Invoice Total Prior to Additional Charges" p:propertyName="foreignItemTotal" p:readOnly="true" p:render="@{document.foreignCurrencyFlag}"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEInvoiceView-ProcessItem-AdditionalCharges" parent="Uif-Disclosure-VerticalBoxSection" p:style="width:1468px"
+          p:disclosure.defaultOpen="@{document.additionalChargesFlag}">
+        <property name="headerText" value="Additional Charges" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridSection" p:layoutManager.numberOfColumns="2"  >
+                    <property name="items">
+                        <list>
+                            <ref bean="OLEInvoiceView-AdditionalCharges-additionalItems"/>
+                            <!-- <bean parent="Uif-GridSection" p:layoutManager.numberOfColumns="1"
+                                  p:layoutManager.applyDefaultCellWidths="false" p:style="width:1300px" p:align="CENTER">
+                                <property name="items">
+                                    <list>
+
+                                        <ref bean="OLEInvoiceView-AdditionalCharges-additionalItems"/>
+                                    </list>
+                                </property>
+                            </bean>-->
+                            <bean parent="OLEInvoice-AdditionalCharges-Prorate" p:align="CENTER" p:style="float:middle"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEInvoiceView-AdditionalCharges-additionalItems"  parent="Uif-Disclosure-TableCollectionSection"  p:layoutManager.suppressLineWrapping="true"
+          p:renderInactiveToggleButton="false" p:style="width:1290px" >
+        <property name="collectionObjectClass" value="org.kuali.ole.select.businessobject.OleInvoiceItem" />
+        <property name="propertyName" value="items" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.templateOptions" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <!--<property name="collectionLookup.render" value="true"/>-->
+        <property name="items">
+            <list>
+                <bean id="additionalItem_description" parent="Uif-DataField" p:label="Item Type" p:width="50%" p:propertyName="itemType.itemTypeDescription"/>
+
+                <!--<bean id="additionalItem_originalAmt" parent="Uif-DataField" p:label="Open Qty" p:propertyName="itemUnitPrice"/>
+
+                <bean id="additionalItem_encumberedAmt" parent="Uif-DataField" p:label="Title" p:propertyName="itemUnitPrice"/>-->
+
+                <bean id="additionalItem_extendedCost" parent="Uif-InputField" p:label="Price" p:propertyName="additionalUnitPrice" p:readOnly="@{document.foreignCurrencyFlag}"/>
+
+                <bean id="additionalItem_foreignPrice" parent="Uif-InputField" p:label="Foreign Price" p:propertyName="additionalForeignUnitCost" p:render="@{document.foreignCurrencyFlag}"/>
+
+                <bean id="additionalItem_itemDesc" parent="Uif-InputField" p:label="Description" p:propertyName="itemDescription"><!--
+                    <property name="controlField">
+                        <bean parent="Uif-TextAreaControl" p:rows="5" p:cols="50" />
+                    </property>-->
+                </bean>
+            </list>
+        </property>
+        <property name="filters">
+            <list>
+                <bean parent="Uif-ConditionalCollectionFilter" p:expression="#line.itemType.itemTypeDescription ne 'Qty'"/>
+            </list>
+        </property>
+        <property name="subCollections">
+            <list>
+                <bean id="OLEInvoiceView-accountingLines" parent="OLEInvoiceView-AdditionalCharges-accountingLines" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEInvoiceView-AdditionalCharges-accountingLines"  parent="Uif-Disclosure-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="10"
+          p:layoutManager.applyDefaultCellWidths="false" p:style="width:1360"  p:disclosure.defaultOpen="false">
+        <property name="headerText" value="Accounting Lines" />
+        <property name="collectionObjectClass" value="org.kuali.ole.module.purap.businessobject.InvoiceAccount" />
+        <property name="propertyName" value="sourceAccountingLines" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.templateOptions" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderAddLine" value="true"/>
+        <!-- <property name="renderAddBlankLineButton" value="true" />-->
+        <property name="renderLineActions" value="true"/>
+        <!--<property name="collectionLookup.render" value="true"/>-->
+        <property name="items">
+            <list>
+                <bean id="additionalItem-chartOfAccountsCode"  parent="Uif-InputField" p:label="Chart" p:propertyName="chartOfAccountsCode" p:required="false"
+                      p:optionsFinderClass="org.kuali.ole.coa.businessobject.options.SimpleChartValuesFinder">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                </bean>
+                <bean  id="additionalItem-accountNumber" parent="Uif-InputField" p:propertyName="accountNumber"  p:label="Account Number" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10"  p:disabled="false"/>
+                    </property>
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.coa.businessobject.Account"
+                              p:fieldConversions="chartOfAccountsCode:chartOfAccountsCode,accountNumber:accountNumber" p:lookupParameters="chartOfAccountsCode:chartOfAccountsCode"/>
+                    </property>
+                </bean>
+                <bean  id="additionalItem-subAccountNumber"  parent="Uif-InputField" p:propertyName="subAccountNumber"  p:label=" Sub Account Number">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.coa.businessobject.SubAccount"
+                              p:fieldConversions="chartOfAccountsCode:chartOfAccountsCode,accountNumber:accountNumber,subAccountNumber:subAccountNumber" p:lookupParameters="chartOfAccountsCode:chartOfAccountsCode,accountNumber:accountNumber"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" />
+                    </property>
+                </bean>
+                <bean id="additionalItem-financialObjectCode" parent="Uif-InputField" p:propertyName="financialObjectCode"  p:label="Object Code"
+                      p:required="true">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.coa.businessobject.ObjectCode"
+                              p:fieldConversions="financialObjectCode:financialObjectCode" p:lookupParameters="chartOfAccountsCode:chartOfAccountsCode"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" />
+                    </property>
+                </bean>
+                <bean id="additionalItem-financialSubObjectCode" parent="Uif-InputField" p:propertyName="financialSubObjectCode"
+                      p:label="Sub ObjectCode">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.coa.businessobject.SubObjectCode"
+                              p:fieldConversions="chartOfAccountsCode:chartOfAccountsCode,accountNumber:accountNumber,financialObjectCode:financialObjectCode,financialSubObjectCode:financialSubObjectCode" p:lookupParameters="financialObjectCode:financialObjectCode"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" />
+                    </property>
+                </bean>
+                <bean id="additionalItem-projectCode" parent="Uif-InputField" p:propertyName="projectCode"  p:label="Project">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.coa.businessobject.ProjectCode"
+                              p:fieldConversions="code:projectCode" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" />
+                    </property>
+                </bean>
+                <bean  id="additionalItem-orgRefId" parent="Uif-InputField" p:label="Org Ref Id" p:propertyName="organizationReferenceId" p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" />
+                    </property>
+                </bean>
+                <bean id="additionalItem-amount" parent="Uif-InputField" p:label="Dollar $" p:propertyName="bigDecimalAmount">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" />
+                    </property>
+                </bean>
+                <bean id="additionalItem-percent" parent="Uif-InputField" p:label="Percentage" p:propertyName="accountLinePercent" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" />
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="addLineActions">
+            <list>
+                <bean id="addSourceAccountingLine" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addSourceAccountingLine" p:actionLabel="Add" p:title="Add Source Accounting Line" p:ajaxSubmit="true"  p:successCallback="selectNoProrate()"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="OLEInvoiceView-AdditionalCharges-offsetAccountingLines"  parent="Uif-Disclosure-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="10"
+          p:layoutManager.applyDefaultCellWidths="false" p:style="width:1360"  p:disclosure.defaultOpen="true" p:render="@{document.offsetAccountIndicator or document.paymentMethodIdentifier eq '7'}">
+        <property name="headerText" value="Offset Accounting Lines" />
+        <property name="collectionObjectClass" value="org.kuali.ole.select.businessobject.OLEInvoiceOffsetAccountingLine" />
+        <property name="propertyName" value="sourceAccountingLineList" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.templateOptions" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderAddLine" value="true"/>
+        <property name="renderLineActions" value="true"/>
+        <property name="items">
+            <list>
+
+                <bean id="oleAdditionalItem-chartOfAccountsCode"  parent="Uif-InputField"  p:label="Chart" p:propertyName="chartOfAccountsCode" p:required="false"
+                      p:optionsFinderClass="org.kuali.ole.coa.businessobject.options.SimpleChartValuesFinder" >
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" />
+                    </property>
+                </bean>
+                <bean  id="OleInvoice-accountNo" parent="Uif-InputField" p:propertyName="accountNumber"  p:label="Account Number"  p:required="true" >
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10"  p:disabled="false"/>
+                    </property>
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.coa.businessobject.Account"
+                              p:fieldConversions="chartOfAccountsCode:chartOfAccountsCode,accountNumber:accountNumber" p:lookupParameters="chartOfAccountsCode:chartOfAccountsCode,subFundGroupCode:subFundGroupCode,vendorName:vendorName"/>
+                    </property>
+                </bean>
+                <bean  id="additionalItem-subAccountNo"  parent="Uif-InputField" p:propertyName="subAccountNumber"  p:label=" Sub Account Number">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.coa.businessobject.SubAccount"
+                              p:fieldConversions="chartOfAccountsCode:chartOfAccountsCode,accountNumber:accountNumber,subAccountNumber:subAccountNumber" p:lookupParameters="chartOfAccountsCode:chartOfAccountsCode,accountNumber:accountNumber"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" />
+                    </property>
+                </bean>
+                <bean id="additionalItem-financialObjectCd" parent="Uif-InputField" p:propertyName="financialObjectCode"  p:label="Object Code"
+                      p:required="true">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.coa.businessobject.ObjectCode"
+                              p:fieldConversions="financialObjectCode:financialObjectCode" p:lookupParameters="chartOfAccountsCode:chartOfAccountsCode"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" />
+                    </property>
+                </bean>
+                <bean id="additionalItem-financialSubObjectCd" parent="Uif-InputField" p:propertyName="financialSubObjectCode"
+                      p:label="Sub ObjectCode">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.coa.businessobject.SubObjectCode"
+                              p:fieldConversions="chartOfAccountsCode:chartOfAccountsCode,accountNumber:accountNumber,financialObjectCode:financialObjectCode,financialSubObjectCode:financialSubObjectCode" p:lookupParameters="financialObjectCode:financialObjectCode"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" />
+                    </property>
+                </bean>
+                <bean id="additionalItem-projectCd" parent="Uif-InputField" p:propertyName="projectCode"  p:label="Project">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.coa.businessobject.ProjectCode"
+                              p:fieldConversions="code:projectCode" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" />
+                    </property>
+                </bean>
+                <bean  id="oleAdditionalItem-orgRefId" parent="Uif-InputField" p:label="Org Ref Id" p:propertyName="organizationReferenceId" p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" />
+                    </property>
+                </bean>
+                <bean id="oleAdditionalItem-amount" parent="Uif-InputField" p:label="Dollar $" p:propertyName="bigDecimalAmount">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" />
+                    </property>
+                </bean>
+                <bean id="oleAdditionalItem-percent" parent="Uif-InputField" p:label="Percentage" p:propertyName="accountLinePercent" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" />
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="addLineActions">
+            <list>
+                <bean id="oleAddSourceAccountingLine" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addOffsetSourceAccountingLine" p:actionLabel="Add" p:title="Add Source Accounting Line" p:ajaxSubmit="true" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEInvoiceView-ProcessItem-GrandTotal"   parent="Uif-GridSection" p:layoutManager.numberOfColumns="2" p:style="width:auto">
+        <property name="items">
+            <list>
+                <bean id="myAccount_grandTotal" parent="Uif-DataField" p:propertyName="grantTotal" p:label="Grand Total"/>
+                <bean id="myAccount_foreignGrandTotal" parent="Uif-DataField" p:propertyName="foreignGrandTotal" p:label="Foreign Grand Total" p:render="@{document.foreignCurrencyFlag}"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEInvoiceView-InvoiceItem-RequisitionView"  parent="Uif-Disclosure-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
+          p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto" p:disclosure.defaultOpen="false"
+          p:render="@{#line.relatedViews ne null  and #line.relatedViews.relatedRequisitionViews ne null and #line.relatedViews.relatedRequisitionViews.size()>0}">
+        <property name="collectionObjectClass" value="org.kuali.ole.module.purap.businessobject.AbstractRelatedView" />
+        <property name="headerText" value="Requisitions" />
+        <property name="propertyName" value="relatedViews.relatedRequisitionViews" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.templateOptions" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <!--<property name="collectionLookup.render" value="true"/>-->
+        <property name="items">
+            <list>
+                <bean id="RequisitionView_notes" parent="Uif-LinkField" p:style="font-weight:bold;" p:link.href="@{#line.url}"  p:link.linkText="@{#line.documentIdentifierString}"  p:target="_blank"  p:label="@{#line.documentLabel}"/>
+            </list>
+        </property>
+        <property name="subCollections">
+            <list>
+                <ref bean="OLEInvoice-ProcessTitle-relatedDocumentDetails-notes" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEInvoiceView-InvoiceItem-LineItemReceivingView"  parent="Uif-Disclosure-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
+          p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto" p:disclosure.defaultOpen="false"
+          p:render="@{#line.relatedViews ne null and #line.relatedViews.relatedLineItemReceivingViews ne null and #line.relatedViews.relatedLineItemReceivingViews.size()>0}">
+        <property name="collectionObjectClass" value="org.kuali.ole.module.purap.businessobject.AbstractRelatedView" />
+        <property name="headerText" value="Line Item Receiving" />
+        <property name="propertyName" value="relatedViews.relatedLineItemReceivingViews" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.templateOptions" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <!--<property name="collectionLookup.render" value="true"/>-->
+        <property name="items">
+            <list>
+                <bean id="LineItemReceivingView_notes" parent="Uif-LinkField" p:style="font-weight:bold;" p:link.href="@{#line.url}"  p:link.linkText="@{#line.documentIdentifierString}"  p:target="_blank"  p:label="@{#line.documentLabel}"/>
+            </list>
+        </property>
+        <property name="subCollections">
+            <list>
+                <ref bean="OLEInvoice-ProcessTitle-relatedDocumentDetails-notes" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEInvoiceView-InvoiceItem-CorrectionView"  parent="Uif-Disclosure-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
+          p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto" p:disclosure.defaultOpen="false"
+          p:render="@{#line.relatedViews ne null and #line.relatedViews.relatedCorrectionReceivingViews ne null and #line.relatedViews.relatedCorrectionReceivingViews.size()>0}">
+        <property name="collectionObjectClass" value="org.kuali.ole.module.purap.businessobject.AbstractRelatedView" />
+        <property name="propertyName" value="relatedViews.relatedCorrectionReceivingViews" />
+        <property name="headerText" value="Correction Receiving" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.templateOptions" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <!--<property name="collectionLookup.render" value="true"/>-->
+        <property name="items">
+            <list>
+                <bean id="CorrectionView_notes" parent="Uif-LinkField" p:style="font-weight:bold;" p:link.href="@{#line.url}"  p:link.linkText="@{#line.documentIdentifierString}"  p:target="_blank"  p:label="@{#line.documentLabel}"/>
+            </list>
+        </property>
+        <property name="subCollections">
+            <list>
+                <ref bean="OLEInvoice-ProcessTitle-relatedDocumentDetails-notes" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEInvoiceView-InvoiceItem-PaymentRequestView"  parent="Uif-Disclosure-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
+          p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto" p:disclosure.defaultOpen="false"
+          p:render="@{#line.relatedViews ne null and #line.relatedViews.relatedPaymentRequestViews ne null and #line.relatedViews.relatedPaymentRequestViews.size()>0}">
+        <property name="collectionObjectClass" value="org.kuali.ole.module.purap.businessobject.AbstractRelatedView" />
+        <property name="headerText" value="Payment Request" />
+        <property name="propertyName" value="relatedViews.relatedPaymentRequestViews" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.templateOptions" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <!--<property name="collectionLookup.render" value="true"/>-->
+        <property name="items">
+            <list>
+                <bean id="PaymentRequestView_notes" parent="Uif-LinkField" p:style="font-weight:bold;" p:link.href="@{#line.url}"  p:link.linkText="@{#line.documentIdentifierString}"  p:target="_blank"  p:label="@{#line.documentLabel}"/>
+            </list>
+        </property>
+        <property name="subCollections">
+            <list>
+                <ref bean="OLEInvoice-ProcessTitle-relatedDocumentDetails-notes" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEInvoiceView-InvoiceItem-CreditMemoView"  parent="Uif-Disclosure-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
+          p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto" p:disclosure.defaultOpen="false"
+          p:render="@{#line.relatedViews ne null and #line.relatedViews.relatedCreditMemoViews ne null and #line.relatedViews.relatedCreditMemoViews.size()>0}">
+        <property name="collectionObjectClass" value="org.kuali.ole.module.purap.businessobject.AbstractRelatedView" />
+        <property name="headerText" value="Credit Memo" />
+        <property name="propertyName" value="relatedViews.relatedCreditMemoViews" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.templateOptions" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <!--<property name="collectionLookup.render" value="true"/>-->
+        <property name="items">
+            <list>
+                <bean id="CreditMemoView_notes" parent="Uif-LinkField" p:style="font-weight:bold;" p:link.href="@{#line.url}"  p:link.linkText="@{#line.documentIdentifierString}"  p:target="_blank"  p:label="@{#line.documentLabel}"/>
+            </list>
+        </property>
+        <property name="subCollections">
+            <list>
+                <ref bean="OLEInvoice-ProcessTitle-relatedDocumentDetails-notes" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEInvoiceView-PurchaseOrder-RequisitionView"  parent="Uif-Disclosure-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
+          p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto" p:disclosure.defaultOpen="false"
+          p:render="@{#line.relatedViews.relatedRequisitionViews ne null and #line.relatedViews.relatedRequisitionViews.size()>0}">
+        <property name="collectionObjectClass" value="org.kuali.ole.module.purap.businessobject.AbstractRelatedView" />
+        <property name="headerText" value="Requisitions" />
+        <property name="propertyName" value="relatedViews.relatedRequisitionViews" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.templateOptions" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <!--<property name="collectionLookup.render" value="true"/>-->
+        <property name="items">
+            <list>
+                <bean id="po_requisitionView_notes" parent="Uif-LinkField" p:style="font-weight:bold;" p:link.href="@{#line.url}"  p:link.linkText="@{#line.documentIdentifierString}"  p:target="_blank"  p:label="@{#line.documentLabel}"/>
+            </list>
+        </property>
+        <property name="subCollections">
+            <list>
+                <ref bean="OLEInvoice-ProcessTitle-relatedDocumentDetails-notes" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEInvoiceView-PurchaseOrder-LineItemReceivingView"  parent="Uif-Disclosure-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
+          p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto" p:disclosure.defaultOpen="false"
+          p:render="@{#line.relatedViews.relatedLineItemReceivingViews ne null and #line.relatedViews.relatedLineItemReceivingViews.size()>0}">
+        <property name="collectionObjectClass" value="org.kuali.ole.module.purap.businessobject.AbstractRelatedView" />
+        <property name="headerText" value="Line Item Receiving" />
+        <property name="propertyName" value="relatedViews.relatedLineItemReceivingViews" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.templateOptions" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <!--<property name="collectionLookup.render" value="true"/>-->
+        <property name="items">
+            <list>
+                <bean id="po_lineItemReceivingView_notes" parent="Uif-LinkField" p:style="font-weight:bold;" p:link.href="@{#line.url}"  p:link.linkText="@{#line.documentIdentifierString}"  p:target="_blank"  p:label="@{#line.documentLabel}"/>
+            </list>
+        </property>
+        <property name="subCollections">
+            <list>
+                <ref bean="OLEInvoice-ProcessTitle-relatedDocumentDetails-notes" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEInvoiceView-PurchaseOrder-CorrectionView"  parent="Uif-Disclosure-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
+          p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto" p:disclosure.defaultOpen="false"
+          p:render="@{#line.relatedViews.relatedCorrectionReceivingViews ne null and #line.relatedViews.relatedCorrectionReceivingViews.size()>0}">
+        <property name="collectionObjectClass" value="org.kuali.ole.module.purap.businessobject.AbstractRelatedView" />
+        <property name="propertyName" value="relatedViews.relatedCorrectionReceivingViews" />
+        <property name="headerText" value="Correction Receiving" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.templateOptions" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <!--<property name="collectionLookup.render" value="true"/>-->
+        <property name="items">
+            <list>
+                <bean id="po_correctionView_notes" parent="Uif-LinkField" p:style="font-weight:bold;" p:link.href="@{#line.url}"  p:link.linkText="@{#line.documentIdentifierString}"  p:target="_blank"  p:label="@{#line.documentLabel}"/>
+            </list>
+        </property>
+        <property name="subCollections">
+            <list>
+                <ref bean="OLEInvoice-ProcessTitle-relatedDocumentDetails-notes" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEInvoiceView-PurchaseOrder-PaymentRequestView"  parent="Uif-Disclosure-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
+          p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto" p:disclosure.defaultOpen="false"
+          p:render="@{#line.relatedViews.relatedPaymentRequestViews ne null and #line.relatedViews.relatedPaymentRequestViews.size()>0}">
+        <property name="collectionObjectClass" value="org.kuali.ole.module.purap.businessobject.AbstractRelatedView" />
+        <property name="headerText" value="Payment Request" />
+        <property name="propertyName" value="relatedViews.relatedPaymentRequestViews" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.templateOptions" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <!--<property name="collectionLookup.render" value="true"/>-->
+        <property name="items">
+            <list>
+                <bean id="po_paymentRequestView_notes" parent="Uif-LinkField" p:style="font-weight:bold;" p:link.href="@{#line.url}"  p:link.linkText="@{#line.documentIdentifierString}"  p:target="_blank"  p:label="@{#line.documentLabel}"/>
+            </list>
+        </property>
+        <property name="subCollections">
+            <list>
+                <ref bean="OLEInvoice-ProcessTitle-relatedDocumentDetails-notes" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEInvoiceView-PurchaseOrder-CreditMemoView"  parent="Uif-Disclosure-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="1"
+          p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto" p:disclosure.defaultOpen="false"
+          p:render="@{#line.relatedViews.relatedCreditMemoViews ne null and #line.relatedViews.relatedCreditMemoViews.size()>0}">
+        <property name="collectionObjectClass" value="org.kuali.ole.module.purap.businessobject.AbstractRelatedView" />
+        <property name="headerText" value="Credit Memo" />
+        <property name="propertyName" value="relatedViews.relatedCreditMemoViews" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.templateOptions" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <!--<property name="collectionLookup.render" value="true"/>-->
+        <property name="items">
+            <list>
+                <bean id="po_creditMemoView_notes" parent="Uif-LinkField" p:style="font-weight:bold;" p:link.href="@{#line.url}"  p:link.linkText="@{#line.documentIdentifierString}"  p:target="_blank"  p:label="@{#line.documentLabel}"/>
+            </list>
+        </property>
+        <property name="subCollections">
+            <list>
+                <ref bean="OLEInvoice-ProcessTitle-relatedDocumentDetails-notes" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEInvoiceView-Item-accountingLines"  parent="Uif-Disclosure-TableSubCollection-WithinSection"  p:layoutManager.numberOfColumns="10"
+          p:layoutManager.applyDefaultCellWidths="false" p:style="width:1360"  p:disclosure.defaultOpen="false">
+        <property name="headerText" value="Accounting Lines" />
+        <property name="collectionObjectClass" value="org.kuali.ole.module.purap.businessobject.InvoiceAccount" />
+        <property name="propertyName" value="sourceAccountingLines" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.templateOptions" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderAddLine" value="true"/>
+        <!-- <property name="renderAddBlankLineButton" value="true" />-->
+        <property name="renderLineActions" value="true"/>
+        <!--<property name="collectionLookup.render" value="true"/>-->
+        <property name="items">
+            <list>
+                <bean id="currentItem-chartOfAccountsCode"  parent="Uif-InputField" p:label="Chart" p:propertyName="chartOfAccountsCode" p:required="false"
+                      p:optionsFinderClass="org.kuali.ole.coa.businessobject.options.SimpleChartValuesFinder">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                </bean>
+                <bean  id="currentItem-accountNumber" parent="Uif-InputField" p:propertyName="accountNumber"  p:label="Account Number" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10"  p:disabled="false"/>
+                    </property>
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.coa.businessobject.Account"
+                              p:fieldConversions="chartOfAccountsCode:chartOfAccountsCode,accountNumber:accountNumber" p:lookupParameters="chartOfAccountsCode:chartOfAccountsCode"/>
+                    </property>
+                </bean>
+                <bean  id="currentItem-subAccountNumber"  parent="Uif-InputField" p:propertyName="subAccountNumber"  p:label=" Sub Account Number">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.coa.businessobject.SubAccount"
+                              p:fieldConversions="chartOfAccountsCode:chartOfAccountsCode,accountNumber:accountNumber,subAccountNumber:subAccountNumber" p:lookupParameters="chartOfAccountsCode:chartOfAccountsCode,accountNumber:accountNumber"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" />
+                    </property>
+                </bean>
+                <bean id="currentItem-financialObjectCode" parent="Uif-InputField" p:propertyName="financialObjectCode"  p:label="Object Code"
+                      p:required="true">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.coa.businessobject.ObjectCode"
+                              p:fieldConversions="financialObjectCode:financialObjectCode" p:lookupParameters="chartOfAccountsCode:chartOfAccountsCode"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" />
+                    </property>
+                </bean>
+                <bean id="currentItem-financialSubObjectCode" parent="Uif-InputField" p:propertyName="financialSubObjectCode"
+                      p:label="Sub ObjectCode">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.coa.businessobject.SubObjectCode"
+                              p:fieldConversions="chartOfAccountsCode:chartOfAccountsCode,accountNumber:accountNumber,financialObjectCode:financialObjectCode,financialSubObjectCode:financialSubObjectCode" p:lookupParameters="financialObjectCode:financialObjectCode"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" />
+                    </property>
+                </bean>
+                <bean id="currentItem-projectCode" parent="Uif-InputField" p:propertyName="projectCode"  p:label="Project">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.coa.businessobject.ProjectCode"
+                              p:fieldConversions="code:projectCode" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" />
+                    </property>
+                </bean>
+                <bean  id="currentItem-orgRefId" parent="Uif-InputField" p:label="Org Ref Id" p:propertyName="organizationReferenceId" p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" />
+                    </property>
+                </bean>
+                <bean id="currentItem-amount" parent="Uif-InputField" p:label="Dollar $" p:propertyName="bigDecimalAmount">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" />
+                    </property>
+                </bean>
+                <bean id="currentItem-percent" parent="Uif-InputField" p:label="Percentage" p:propertyName="accountLinePercent" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" />
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="addLineActions">
+            <list>
+                <bean id="item_AccountingLine" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addSourceAccountingLine" p:actionLabel="Add" p:title="Add Source Accounting Line" p:ajaxSubmit="true" />
+            </list>
+        </property>
+    </bean>
+
+</beans>
+

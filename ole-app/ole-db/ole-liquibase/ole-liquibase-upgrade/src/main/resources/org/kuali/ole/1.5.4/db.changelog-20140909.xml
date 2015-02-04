@@ -1,0 +1,61 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <!--Schema update-->
+
+
+    <!--Data update-->
+
+    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_KRCR_PARM_T_oracle" dbms="oracle">
+        <loadData tableName="KRCR_PARM_T" file="org/kuali/ole/1.5.4/data/krcr_parm_t.csv"/>
+        <rollback>
+            <delete tableName="KRCR_PARM_T">
+                <where>APPL_ID = 'OLE'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_KRCR_PARM_T_mysql" dbms="mysql">
+        <sql>
+            SET sql_mode='NO_BACKSLASH_ESCAPES'
+        </sql>
+        <loadData tableName="KRCR_PARM_T" file="org/kuali/ole/1.5.4/data/krcr_parm_t.csv"/>
+        <rollback>
+            <delete tableName="KRCR_PARM_T">
+                <where>APPL_NMSPC_CD = 'OLE'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_LOAN_NOTICE_DATE_INDX">
+        <createIndex catalogName="ole"
+                     indexName="NTC_TO_SND_DT_INDX"
+                     schemaName="ole"
+                     tableName="OLE_DLVR_LOAN_NOTICE_T">
+            <column name="NTC_TO_SND_DT" type="TIMESTAMP"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_LOAN_NOTICE_TYP_INDX">
+        <createIndex catalogName="ole"
+                     indexName="NTC_TYP_INDX"
+                     schemaName="ole"
+                     tableName="OLE_DLVR_LOAN_NOTICE_T">
+            <column name="NTC_TYP" type="VARCHAR(37)"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_LOAN_NOTICE_PTRN_INDX">
+        <createIndex catalogName="ole"
+                     indexName="PTRN_ID_INDX"
+                     schemaName="ole"
+                     tableName="OLE_DLVR_LOAN_NOTICE_T">
+            <column name="PTRN_ID" type="VARCHAR(37)"/>
+        </createIndex>
+    </changeSet>
+
+
+</databaseChangeLog>

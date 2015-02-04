@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+ Copyright 2008-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+  version="2.0">
+    
+  <description>JSTL 1.1 functions library</description>
+  <display-name>JSTL functions</display-name>
+  <tlib-version>1.1</tlib-version>
+  <short-name>sys-java</short-name>
+  <uri>http://www.kuali.org/communities/kfs/jsp/sys-java</uri>
+  
+  <tag>
+    <name>accountingLines</name>
+    <tagclass>org.kuali.ole.sys.document.web.AccountingLinesTag</tagclass>
+    <bodycontent>JSP</bodycontent>
+    <info>
+		Renders groups of accounting lines
+    </info>
+  </tag>
+  
+  <tag>
+  	<name>accountingLineGroup</name>
+  	<tagclass>org.kuali.ole.sys.document.web.AccountingLineGroupTag</tagclass>
+  	<bodycontent>empty</bodycontent>
+  	<info>
+  		Determines the rendering of a group of accounting lines; note that the actual rendering
+  		itself is done by the wrapping AccountingLineTag
+  	</info>
+  	<attribute>
+  		<name>collectionPropertyName</name>
+  		<required>true</required>
+  		<rtexprvalue>true</rtexprvalue>
+  	</attribute>
+  	<attribute>
+  		<name>collectionItemPropertyName</name>
+  		<required>false</required>
+  		<rtexprvalue>true</rtexprvalue>
+  	</attribute>
+  	<attribute>
+  		<name>newLinePropertyName</name>
+  		<required>false</required>
+  		<rtexprvalue>true</rtexprvalue>
+  	</attribute>
+  	<attribute>
+  		<name>attributeGroupName</name>
+  		<required>true</required>
+  		<rtexprvalue>true</rtexprvalue>
+  	</attribute>
+  	<attribute>
+  		<name>importLineOverride</name>
+  		<required>false</required>
+  		<rtexprvalue>false</rtexprvalue>
+  	</attribute>
+  </tag>
+  
+</taglib>

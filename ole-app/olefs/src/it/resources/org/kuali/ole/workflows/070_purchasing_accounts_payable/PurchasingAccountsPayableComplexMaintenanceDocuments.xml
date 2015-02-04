@@ -1,0 +1,140 @@
+<data xmlns="ns:workflow" xsi:schemaLocation="ns:workflow resource:WorkflowData"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<documentTypes xmlns="ns:workflow/DocumentType"
+		xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<!-- OLE-added documents -->
+		<documentType>
+			<name>OLE_PPOT</name>
+			<parent>OLEPurchasingAccountsPayableComplexMaintenanceDocument</parent>
+			<label>
+				Order Type
+			</label>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Fpurchaseordertype.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="PurchaseOrderTypeApprover" />
+					<role name="PurchaseOrderTypeApprover" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc" />
+				<role name="PurchaseOrderTypeApprover">
+					<qualifierResolverClass>
+						org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+					<activationType>
+						P
+					</activationType>
+				</role>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>OLE_OIS</name>
+			<parent>OLEPurchasingAccountsPayableComplexMaintenanceDocument</parent>
+			<label>
+				Order Item Status
+			</label>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Forderitemstatus.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="OrderItemApprover" />
+					<role name="OrderItemApprover" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc" />
+				<role name="OrderItemApprover">
+					<qualifierResolverClass>
+						org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+					<activationType>
+						P
+					</activationType>
+				</role>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>OLE_EXCTYP</name>
+			<parent>OLEReceivingComplexMaintenanceDocument</parent>
+			<label>
+				OleExceptionTypeDocument
+			</label>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Foleexceptiontypedocument.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="ExceptionTypeApprover" />
+					<role name="ExceptionTypeApprover" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc" />
+				<role name="ExceptionTypeApprover">
+					<qualifierResolverClass>
+						org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+					<activationType>
+						P
+					</activationType>
+				</role>
+			</routeNodes>
+		</documentType>
+		<documentType>
+			<name>OLE_NOTETYP</name>
+			<parent>OLEReceivingComplexMaintenanceDocument</parent>
+			<label>
+				OleNoteTypeDocument
+			</label>
+			<helpDefinitionURL>
+				default.htm?turl=WordDocuments%2Folenotetypedocument.htm
+			</helpDefinitionURL>
+			<active>
+				true
+			</active>
+			<routingVersion>
+				2
+			</routingVersion>
+			<routePaths>
+				<routePath>
+					<start name="AdHoc" nextNode="NoteTypeApprover" />
+					<role name="NoteTypeApprover" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="AdHoc" />
+				<role name="NoteTypeApprover">
+					<qualifierResolverClass>
+						org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+					</qualifierResolverClass>
+					<activationType>
+						P
+					</activationType>
+				</role>
+			</routeNodes>
+		</documentType>
+		<!-- END OLE-added documents -->
+	</documentTypes>
+</data>

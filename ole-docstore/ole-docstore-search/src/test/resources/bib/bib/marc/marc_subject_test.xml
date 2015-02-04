@@ -1,0 +1,259 @@
+<collection>
+    <record>
+    <datafield tag="600" ind1="1" ind2="0">
+        <subfield code="a">Blok, Aleksandr Aleksandrovich,</subfield>
+        <subfield code="b">Dept. of Defense</subfield>
+        <subfield code="d">1880-1921.</subfield>
+        <subfield code="6">LANGUAGE</subfield>
+    </datafield>
+    <datafield tag="600" ind1="1" ind2="0">
+        <subfield code="a">Herzen, Aleksandr,</subfield>
+        <subfield code="d">1812-1870.</subfield>
+    </datafield>
+    <datafield tag="610" ind1="1" ind2="0">
+        <subfield code="a">United States.</subfield>
+        <subfield code="b">Dept. of Defense</subfield>
+        <subfield code="x">Appropriations and expenditures.</subfield>
+    </datafield>
+    <datafield tag="611" ind1="1" ind2="0">
+        <subfield code="a">Century 21 Exposition</subfield>
+        <subfield code="d">(1962 :</subfield>
+        <subfield code="c">Seattle, Wash.)</subfield>
+    </datafield>
+    <datafield tag="630" ind1="0" ind2="0">
+        <subfield code="a">Nag Hammadi codices.</subfield>
+        <subfield code="b">Dept. of Defense</subfield>
+        <subfield code="v">20th century.</subfield>
+        <subfield code="x">Health aspects</subfield>
+        <subfield code="y">Congresses.</subfield>
+    </datafield>
+    <datafield tag="650" ind1=" " ind2="0">
+        <subfield code="a">Asbestos</subfield>
+        <subfield code="x">Health aspects</subfield>
+        <subfield code="x">Congresses</subfield>
+    </datafield>
+    <datafield tag="650" ind1=" " ind2="2">
+        <subfield code="a">Environmental Exposure</subfield>
+        <subfield code="x">prevention &amp; control</subfield>
+        <subfield code="x">congresses</subfield>
+    </datafield>
+    <datafield tag="651" ind1=" " ind2="0">
+        <subfield code="a">United States</subfield>
+        <subfield code="x">Foreign relations</subfield>
+        <subfield code="y">1945-1989.</subfield>
+    </datafield>
+    <datafield tag="653" ind1="1" ind2=" ">
+        <subfield code="a">traffic signs</subfield>
+    </datafield>
+    <datafield tag="690" ind1=" " ind2="0">
+        <subfield code="a">Traffic signs and signals</subfield>
+        <subfield code="x">Design and construction.</subfield>
+    </datafield>
+    </record>
+    <record>
+        <leader>00407nam 2200145z 4500</leader>
+        <controlfield tag="003">InU</controlfield>
+        <controlfield tag="008">110630n xx | u||| || und u</controlfield>
+        <datafield tag="600" ind1="1" ind2="0">
+            <subfield code="a">Herzen, Aleksandr,</subfield>
+            <subfield code="d">1812-1870.</subfield>
+        </datafield>
+        <datafield tag="610" ind1="1" ind2="0">
+            <subfield code="a">United States.</subfield>
+            <subfield code="b">Dept. of Defense</subfield>
+            <subfield code="x">Appropriations and expenditures.</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>00407nam 2200145z 4500</leader>
+        <controlfield tag="003">InU</controlfield>
+        <controlfield tag="008">110630n xx | u||| || und u</controlfield>
+        <datafield tag="611" ind1="1" ind2="0">
+            <subfield code="a">Century 21 Exposition</subfield>
+            <subfield code="d">(1962 :</subfield>
+            <subfield code="c">Seattle, Wash.)</subfield>
+        </datafield>
+        <datafield tag="630" ind1="0" ind2="0">
+            <subfield code="a">Nag Hammadi codices.</subfield>
+            <subfield code="b">Dept. of Defense</subfield>
+            <subfield code="v">20th century.</subfield>
+            <subfield code="x">Health aspects</subfield>
+            <subfield code="y">Congresses.</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>00407nam 2200145z 4500</leader>
+        <controlfield tag="003">InU</controlfield>
+        <controlfield tag="008">110630n xx | u||| || und u</controlfield>
+        <datafield tag="600" ind1="1" ind2="0">
+            <subfield code="a">Blok, Aleksandr Aleksandrovich,</subfield>
+            <subfield code="d">1880-1921.</subfield>
+            <subfield code="6">LANGUAGE</subfield>
+        </datafield>
+        <datafield tag="600" ind1="1" ind2="0">
+            <subfield code="a">Herzen, Aleksandr,</subfield>
+            <subfield code="d">1812-1870.</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>00407nam 2200145z 4500</leader>
+        <controlfield tag="003">InU</controlfield>
+        <controlfield tag="008">110630n xx | u||| || und u</controlfield>
+        <datafield tag="600" ind1="1" ind2="0">
+            <subfield code="a">Herzen, Aleksandr,</subfield>
+            <subfield code="d">1812-1870.</subfield>
+        </datafield>
+        <datafield tag="610" ind1="1" ind2="0">
+            <subfield code="a">United States.</subfield>
+            <subfield code="b">Dept. of Defense</subfield>
+            <subfield code="x">Appropriations and expenditures.</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>00407nam 2200145z 4500</leader>
+        <controlfield tag="003">InU</controlfield>
+        <controlfield tag="008">110630n xx | u||| || und u</controlfield>
+        <datafield tag="611" ind1="1" ind2="0">
+            <subfield code="a">Century 21 Exposition</subfield>
+            <subfield code="d">(1962 :</subfield>
+            <subfield code="c">Seattle, Wash.)</subfield>
+        </datafield>
+        <datafield tag="630" ind1="0" ind2="0">
+            <subfield code="a">Nag Hammadi codices.</subfield>
+            <subfield code="b">Dept. of Defense</subfield>
+            <subfield code="v">20th century.</subfield>
+            <subfield code="x">Health aspects</subfield>
+            <subfield code="y">Congresses.</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>00407nam 2200145z 4500</leader>
+        <controlfield tag="003">InU</controlfield>
+        <controlfield tag="008">110630n xx | u||| || und u</controlfield>
+        <datafield tag="600" ind1="1" ind2="0">
+            <subfield code="a">Blok, Aleksandr Aleksandrovich,</subfield>
+            <subfield code="d">1880-1921.</subfield>
+            <subfield code="6">LANGUAGE</subfield>
+        </datafield>
+        <datafield tag="600" ind1="1" ind2="0">
+            <subfield code="a">Herzen, Aleksandr,</subfield>
+            <subfield code="d">1812-1870.</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>00407nam 2200145z 4500</leader>
+        <controlfield tag="003">InU</controlfield>
+        <controlfield tag="008">110630n xx | u||| || und u</controlfield>
+        <datafield tag="600" ind1="1" ind2="0">
+            <subfield code="a">Herzen, Aleksandr,</subfield>
+            <subfield code="d">1812-1870.</subfield>
+        </datafield>
+        <datafield tag="610" ind1="1" ind2="0">
+            <subfield code="a">United States.</subfield>
+            <subfield code="b">Dept. of Defense</subfield>
+            <subfield code="x">Appropriations and expenditures.</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>00407nam 2200145z 4500</leader>
+        <controlfield tag="003">InU</controlfield>
+        <controlfield tag="008">110630n xx | u||| || und u</controlfield>
+        <datafield tag="611" ind1="1" ind2="0">
+            <subfield code="a">Century 21 Exposition</subfield>
+            <subfield code="d">(1962 :</subfield>
+            <subfield code="c">Seattle, Wash.)</subfield>
+        </datafield>
+        <datafield tag="630" ind1="0" ind2="0">
+            <subfield code="a">Nag Hammadi codices.</subfield>
+            <subfield code="b">Dept. of Defense</subfield>
+            <subfield code="v">20th century.</subfield>
+            <subfield code="x">Health aspects</subfield>
+            <subfield code="y">Congresses.</subfield>
+        </datafield>
+    </record>
+    <record>
+        <datafield tag="600" ind1="1" ind2="0">
+            <subfield code="a">Blok, Aleksandr Aleksandrovich,</subfield>
+            <subfield code="b">Dept. of Defense</subfield>
+            <subfield code="d">1880-1921.</subfield>
+            <subfield code="6">LANGUAGE</subfield>
+        </datafield>
+        <datafield tag="630" ind1="0" ind2="0">
+            <subfield code="a">Nag Hammadi codices.</subfield>
+            <subfield code="b">Dept. of Defense</subfield>
+            <subfield code="v">20th century.</subfield>
+            <subfield code="x">Health aspects</subfield>
+            <subfield code="y">Congresses.</subfield>
+        </datafield>
+        <datafield tag="650" ind1=" " ind2="0">
+            <subfield code="a">Asbestos</subfield>
+            <subfield code="x">Health aspects</subfield>
+            <subfield code="x">Congresses</subfield>
+        </datafield>
+        <datafield tag="650" ind1=" " ind2="2">
+            <subfield code="a">Environmental Exposure</subfield>
+            <subfield code="x">prevention &amp; control</subfield>
+            <subfield code="x">congresses.</subfield>
+        </datafield>
+        <datafield tag="651" ind1=" " ind2="0">
+            <subfield code="a">United States</subfield>
+            <subfield code="x">Foreign relations</subfield>
+            <subfield code="y">1945-1989.</subfield>
+        </datafield>
+    </record>
+    <record>
+        <datafield tag="630" ind1="0" ind2="0">
+            <subfield code="a">Nag Hammadi codices</subfield>
+            <subfield code="b">Dept. of Defense</subfield>
+            <subfield code="v">20th century</subfield>
+            <subfield code="x">Health aspects</subfield>
+            <subfield code="y">Congresses.</subfield>
+        </datafield>
+        <datafield tag="650" ind1=" " ind2="0">
+            <subfield code="a">Asbestos</subfield>
+            <subfield code="x">Health aspects</subfield>
+            <subfield code="x">Congresses</subfield>
+        </datafield>
+    </record>
+    <record>
+        <datafield tag="630" ind1="0" ind2="0">
+            <subfield code="a">Nag Hammadi codices</subfield>
+            <subfield code="b">Dept. of Defense</subfield>
+            <subfield code="v">20th century</subfield>
+            <subfield code="x">Health aspects</subfield>
+            <subfield code="y">Congresses.</subfield>
+        </datafield>
+        <datafield tag="650" ind1=" " ind2="0">
+            <subfield code="a">Criticism</subfield>
+            <subfield code="z">Former Soviet republics</subfield>
+            <subfield code="x">History</subfield>
+            <subfield code="y">20th century.</subfield>
+        </datafield>
+    </record>
+    <record>
+        <datafield tag="651" ind1=" " ind2="0">
+            <subfield code="a">Latin America</subfield>
+            <subfield code="x">Foreign relations</subfield>
+            <subfield code="z">United States.</subfield>
+        </datafield>
+        <datafield tag="653" ind1=" " ind2=" ">
+            <subfield code="a">Filipinas</subfield>
+            <subfield code="a">Historia</subfield>
+            <subfield code="a">Siglo XIX</subfield>
+            <subfield code="a">Congresos, conferencias, etc.</subfield>
+        </datafield>
+    </record>
+    <record>
+        <datafield tag="610" ind1="1" ind2="0">
+            <subfield code="a">United States.</subfield>
+            <subfield code="b">Army</subfield>
+            <subfield code="x">History.</subfield>
+        </datafield>
+        <datafield tag="651" ind1=" " ind2="0">
+            <subfield code="a">Rome</subfield>
+            <subfield code="x">History</subfield>
+            <subfield code="y">Empire, 284-476.</subfield>
+        </datafield>
+    </record>
+
+</collection>

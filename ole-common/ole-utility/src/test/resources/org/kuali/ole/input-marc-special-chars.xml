@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?><collection xmlns="http://www.loc.gov/MARC21/slim">
+    <record>
+        <leader>MockLeader1</leader><controlfield tag="001">a6536425-0132-4b40-bcb7-e82097450476</controlfield>  <controlfield tag="003">controlfield003-1</controlfield>
+        <datafield tag="020" ind1="" ind2="">
+            <subfield code="a">870972046</subfield>
+        </datafield>
+        <datafield tag="245" ind1="" ind2="">
+            <subfield code="a">CAMBRIDGE INTRODUCTION TO C++ Books &amp; READ**.</subfield>
+        </datafield>
+    </record>
+</collection>

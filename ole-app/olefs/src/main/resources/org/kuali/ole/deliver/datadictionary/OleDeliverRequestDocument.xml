@@ -1,0 +1,913 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="OleRequestDocument" parent="OleRequestDocument-parentBean"/>
+    <bean id="OleRequestDocument-parentBean" abstract="true" parent="BusinessObjectEntry"
+          p:businessObjectClass="org.kuali.ole.deliver.bo.OleDeliverRequestBo" p:titleAttribute="requestId"
+          p:objectLabel="Request">
+        <property name="attributes">
+            <list>
+                <ref bean="OleRequestDocument-requestId"/>
+                <ref bean="OleRequestDocument-poLineItemNo"/>
+                <ref bean="OleRequestDocument-borrowerId"/>
+                <ref bean="OleRequestDocument-borrowerQueuePosition"/>
+                <ref bean="OleRequestDocument-proxyBorrowerId"/>
+                <ref bean="OleRequestDocument-loanTransactionRecordNumber"/>
+                <ref bean="OleRequestDocument-courtesyNotice"/>
+                <ref bean="OleRequestDocument-requestTypeId"/>
+                <ref bean="OleRequestDocument-contentDescription"/>
+                <ref bean="OleRequestDocument-copyFormat"/>
+                <ref bean="OleRequestDocument-pickUpLocationId"/>
+                <ref bean="OleRequestDocument-operatorCreateId"/>
+                <ref bean="OleRequestDocument-machineId"/>
+                <ref bean="OleRequestDocument-circulationLocationId"/>
+                <ref bean="OleRequestDocument-createDate"/>
+                <ref bean="OleRequestDocument-requestExpiryDate"/>
+                <ref bean="OleRequestDocument-onHoldNoticeSentDate"/>
+                <ref bean="OleRequestDocument-recallNoticeSentDate"/>
+                <ref bean="OleRequestDocument-itemId"/>
+
+                <ref bean="OleRequestDocument-operatorModifiedId"/>
+                <ref bean="OleRequestDocument-modifiedDate"/>
+
+                <ref bean="OleRequestDocument-title"/>
+                <ref bean="OleRequestDocument-author"/>
+                <ref bean="OleRequestDocument-shelvingLocation"/>
+                <ref bean="OleRequestDocument-callNumber"/>
+                <ref bean="OleRequestDocument-copyNumber"/>
+                <ref bean="OleRequestDocument-patronName"/>
+
+                <ref bean="OleRequestDocument-pickUpLocationCode"/>
+                <ref bean="OleRequestDocument-requestCreator"/>
+                <ref bean="OleRequestDocument-circulationLocationCode"/>
+                <ref bean="OleRequestDocument-requestTypeCode"/>
+                <ref bean="OleRequestDocument-borrowerBarcode"/>
+                <ref bean="OleRequestDocument-proxyBorrowerBarcode"/>
+
+            </list>
+        </property>
+        <property name="primaryKeys">
+            <list>
+                <value>requestId</value>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="OleRequestDocument-requestCreator" parent="OleRequestDocument-requestCreator-parentBean"/>
+
+    <bean id="OleRequestDocument-requestCreator-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="100"/>
+        <property name="shortLabel" value="Request Id"/>
+        <property name="description" value="Patron Identifier"/>
+        <property name="name" value="requestCreator"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="User Type"/>
+    </bean>
+
+    <bean id="OleRequestDocument-requestId" parent="OleRequestDocument-requestId-parentBean"/>
+
+    <bean id="OleRequestDocument-requestId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="100"/>
+        <property name="shortLabel" value="Request Id"/>
+        <property name="description" value="Patron Identifier"/>
+        <property name="name" value="requestId"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Request Id"/>
+    </bean>
+
+    <bean id="OleRequestDocument-itemId" parent="OleRequestDocument-itemId-parentBean"/>
+
+    <bean id="OleRequestDocument-itemId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="100"/>
+        <property name="shortLabel" value="Item Id"/>
+        <property name="description" value="Patron Identifier"/>
+        <property name="name" value="itemId"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Item Barcode"/>
+    </bean>
+
+    <bean id="OleRequestDocument-poLineItemNo" parent="OleRequestDocument-poLineItemNo-parentBean"/>
+
+    <bean id="OleRequestDocument-poLineItemNo-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="100"/>
+        <property name="shortLabel" value="Po Line Item No"/>
+        <property name="description" value="poLineItemNo"/>
+        <property name="name" value="poLineItemNo"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Po Line Item No"/>
+    </bean>
+
+    <bean id="OleRequestDocument-borrowerId" parent="OleRequestDocument-borrowerId-parentBean"/>
+
+    <bean id="OleRequestDocument-borrowerId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="100"/>
+        <property name="shortLabel" value="Patron Id"/>
+        <property name="description" value="Patron Identifier"/>
+        <property name="name" value="borrowerId"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Patron Id"/>
+    </bean>
+
+    <bean id="OleRequestDocument-borrowerBarcode" parent="OleRequestDocument-borrowerBarcode-parentBean"/>
+
+    <bean id="OleRequestDocument-borrowerBarcode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="100"/>
+        <property name="shortLabel" value="Patron Barcode"/>
+        <property name="description" value="Patron Identifier"/>
+        <property name="name" value="borrowerBarcode"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Patron Barcode"/>
+    </bean>
+
+
+    <bean id="OleRequestDocument-proxyBorrowerBarcode" parent="OleRequestDocument-proxyBorrowerBarcode-parentBean"/>
+
+    <bean id="OleRequestDocument-proxyBorrowerBarcode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="100"/>
+        <property name="shortLabel" value="Proxy Patron Barcode"/>
+        <property name="description" value="Patron Identifier"/>
+        <property name="name" value="proxyBorrowerBarcode"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Proxy Patron Barcode"/>
+    </bean>
+
+    <bean id="OleRequestDocument-borrowerQueuePosition" parent="OleRequestDocument-borrowerQueuePosition-parentBean"/>
+
+    <bean id="OleRequestDocument-borrowerQueuePosition-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="100"/>
+        <property name="shortLabel" value="borrowerQueuePosition"/>
+        <property name="description" value="Patron Identifier"/>
+        <property name="name" value="borrowerQueuePosition"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="5"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="5" p:readOnly="true"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Patron Queue Position"/>
+    </bean>
+
+    <bean id="OleRequestDocument-proxyBorrowerId" parent="OleRequestDocument-proxyBorrowerId-parentBean"/>
+
+    <bean id="OleRequestDocument-proxyBorrowerId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="100"/>
+        <property name="shortLabel" value="Proxy Patron Id"/>
+        <property name="name" value="proxyBorrowerId"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Proxy Patron Id"/>
+    </bean>
+
+
+    <bean id="OleRequestDocument-loanTransactionRecordNumber" parent="OleRequestDocument-loanTransactionRecordNumber-parentBean"/>
+
+    <bean id="OleRequestDocument-loanTransactionRecordNumber-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="100"/>
+        <property name="shortLabel" value="Loan Transaction Record Number"/>
+        <property name="name" value="loanTransactionRecordNumber"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Loan Transaction Record Number"/>
+    </bean>
+
+    <bean id="OleRequestDocument-requestTypeId" parent="OleRequestDocument-requestTypeId-parentBean"/>
+
+    <bean id="OleRequestDocument-requestTypeId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="100"/>
+        <property name="shortLabel" value="Request Type Id"/>
+        <property name="name" value="requestTypeId"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Request Type Id"/>
+    </bean>
+
+    <bean id="OleRequestDocument-requestTypeCode" parent="OleRequestDocument-requestTypeCode-parentBean"/>
+
+    <bean id="OleRequestDocument-requestTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="100"/>
+        <property name="shortLabel" value="Request Type Code"/>
+        <property name="name" value="requestTypeCode"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Request Type Code"/>
+    </bean>
+
+    <bean id="OleRequestDocument-contentDescription" parent="OleRequestDocument-contentDescription-parentBean"/>
+
+    <bean id="OleRequestDocument-contentDescription-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="100"/>
+        <property name="shortLabel" value="Pages"/>
+        <property name="name" value="contentDescription"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Pages"/>
+    </bean>
+
+    <bean id="OleRequestDocument-copyFormat" parent="OleRequestDocument-copyFormat-parentBean"/>
+
+    <bean id="OleRequestDocument-copyFormat-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="100"/>
+        <property name="shortLabel" value="Copy Format"/>
+        <property name="name" value="copyFormat"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Copy Format"/>
+    </bean>
+
+    <bean id="OleRequestDocument-pickUpLocationId" parent="OleRequestDocument-pickUpLocationId-parentBean"/>
+
+    <bean id="OleRequestDocument-pickUpLocationId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="100"/>
+        <property name="shortLabel" value="PickUp Location Id"/>
+        <property name="name" value="pickUpLocationId"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="PickUp Location"/>
+    </bean>
+
+    <bean id="OleRequestDocument-pickUpLocationCode" parent="OleRequestDocument-pickUpLocationCode-parentBean"/>
+
+    <bean id="OleRequestDocument-pickUpLocationCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="100"/>
+        <property name="shortLabel" value="PickUp Location code"/>
+        <property name="name" value="pickUpLocationCode"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="PickUp Location"/>
+    </bean>
+
+    <bean id="OleRequestDocument-operatorCreateId" parent="OleRequestDocument-operatorCreateId-parentBean"/>
+
+    <bean id="OleRequestDocument-operatorCreateId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="100"/>
+        <property name="shortLabel" value="Operator Creator"/>
+        <property name="name" value="operatorCreateId"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Operator Creator"/>
+    </bean>
+
+    <bean id="OleRequestDocument-operatorModifiedId" parent="OleRequestDocument-operatorModifiedId-parentBean"/>
+
+    <bean id="OleRequestDocument-operatorModifiedId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="100"/>
+        <property name="shortLabel" value="Operator Modifier"/>
+        <property name="name" value="operatorModifiedId"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Operator Modifier"/>
+    </bean>
+
+    <bean id="OleRequestDocument-machineId" parent="OleRequestDocument-machineId-parentBean"/>
+
+    <bean id="OleRequestDocument-machineId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="100"/>
+        <property name="shortLabel" value="Machine Id"/>
+        <property name="name" value="machineId"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Machine Id"/>
+    </bean>
+
+    <bean id="OleRequestDocument-circulationLocationId" parent="OleRequestDocument-circulationLocationId-parentBean"/>
+
+    <bean id="OleRequestDocument-circulationLocationId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="100"/>
+        <property name="shortLabel" value="Circulation Location Id"/>
+        <property name="name" value="circulationLocationId"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Circulation Location Id"/>
+    </bean>
+
+    <bean id="OleRequestDocument-circulationLocationCode" parent="OleRequestDocument-circulationLocationCode-parentBean"/>
+
+    <bean id="OleRequestDocument-circulationLocationCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="100"/>
+        <property name="shortLabel" value="Circulation Location Code"/>
+        <property name="name" value="circulationLocationCode"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Circulation Location Code"/>
+    </bean>
+
+
+    <bean id="OleRequestDocument-title" parent="OleRequestDocument-title-parentBean"/>
+
+    <bean id="OleRequestDocument-title-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="title"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Title"/>
+    </bean>
+
+
+    <bean id="OleRequestDocument-author" parent="OleRequestDocument-author-parentBean"/>
+
+    <bean id="OleRequestDocument-author-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="author"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Item Author"/>
+    </bean>
+
+    <bean id="OleRequestDocument-shelvingLocation" parent="OleRequestDocument-shelvingLocation-parentBean"/>
+
+    <bean id="OleRequestDocument-shelvingLocation-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="100"/>
+        <property name="name" value="shelvingLocation"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Shelving Location"/>
+    </bean>
+
+    <bean id="OleRequestDocument-callNumber" parent="OleRequestDocument-callNumber-parentBean"/>
+
+    <bean id="OleRequestDocument-callNumber-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="100"/>
+        <property name="name" value="callNumber"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Call Number"/>
+    </bean>
+
+    <bean id="OleRequestDocument-copyNumber" parent="OleRequestDocument-copyNumber-parentBean"/>
+
+    <bean id="OleRequestDocument-copyNumber-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="100"/>
+        <property name="name" value="copyNumber"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Copy Number"/>
+    </bean>
+
+    <bean id="OleRequestDocument-patronName" parent="OleRequestDocument-patronName-parentBean"/>
+
+    <bean id="OleRequestDocument-patronName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="100"/>
+        <property name="name" value="patronName"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Patron Name"/>
+    </bean>
+
+    <bean id="OleRequestDocument-courtesyNotice" parent="OleRequestDocument-courtesyNotice-parentBean"/>
+
+    <bean id="OleRequestDocument-courtesyNotice-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="100"/>
+        <property name="name" value="courtesyNotice"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Courtesy Notice"/>
+    </bean>
+
+
+    <bean id="OleRequestDocument-createDate" parent="OleRequestDocument-createDate-parentBean"/>
+    <bean id="OleRequestDocument-createDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+        <property name="name" value="createDate"/>
+        <property name="shortLabel" value="Create Date"/>
+        <property name="label" value="Create Date"/>
+    </bean>
+    <bean id="OleRequestDocument-modifiedDate" parent="OleRequestDocument-modifiedDate-parentBean"/>
+    <bean id="OleRequestDocument-modifiedDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+        <property name="name" value="modifiedDate"/>
+        <property name="shortLabel" value="Modified Date"/>
+        <property name="label" value="Modified Date"/>
+    </bean>
+
+    <bean id="OleRequestDocument-requestExpiryDate" parent="OleRequestDocument-requestExpiryDate-parentBean"/>
+    <bean id="OleRequestDocument-requestExpiryDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+        <property name="name" value="requestExpiryDate"/>
+        <property name="shortLabel" value="RequestExpiryDate"/>
+        <property name="label" value="Request Expiry Date"/>
+    </bean>
+
+    <bean id="OleRequestDocument-onHoldNoticeSentDate" parent="OleRequestDocument-onHoldNoticeSentDate-parentBean"/>
+    <bean id="OleRequestDocument-onHoldNoticeSentDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+        <property name="name" value="onHoldNoticeSentDate"/>
+        <property name="shortLabel" value="onHoldNoticeSentDate"/>
+        <property name="label" value="OnHold Notice Sent Date"/>
+    </bean>
+
+    <bean id="OleRequestDocument-recallNoticeSentDate" parent="OleRequestDocument-recallNoticeSentDate-parentBean"/>
+    <bean id="OleRequestDocument-recallNoticeSentDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+        <property name="name" value="recallNoticeSentDate"/>
+        <property name="shortLabel" value="recallNoticeSentDate"/>
+        <property name="label" value="Recall Notice Sent Date"/>
+    </bean>
+
+    <bean id="OleRequestDocument-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="Request Lookup" />
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value=" @{#ConfigProperties['externalizable.help.url']}/reference/webhelp/BASICS/content/ch02s04.html#_lookupHelp"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="dataObjectClassName" value="org.kuali.ole.deliver.bo.OleDeliverRequestBo" />
+        <property name="viewHelperServiceClass" value="org.kuali.ole.deliver.lookup.OleDeliverRequestLookupableImpl"/>
+        <property name="criteriaFields">
+            <list>
+                <bean id="olePatronBarcode" parent="Uif-LookupCriteriaInputField" p:propertyName="borrowerBarcode" p:label="Patron Barcode" p:enableAutoDirectInquiry="false">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.deliver.bo.OLEPatronEntityViewBo"
+                              p:fieldConversions="patronBarcode:borrowerBarcode,firstName:firstName,lastName:lastName" p:lookupParameters="borrowerBarcode:patronBarcode,firstName:firstName,lastName:lastName"/>
+                    </property>
+                </bean>
+                <!--<bean id="olePatronBarcode" parent="Uif-LookupCriteriaInputField" p:propertyName="borrowerBarcode" p:label="Patron Barcode"/>-->
+                <bean id="olePatronFName" parent="Uif-LookupCriteriaInputField" p:propertyName="firstName" p:label="Patron First Name"/>
+                <bean id="olePatronLName" parent="Uif-LookupCriteriaInputField" p:propertyName="lastName" p:label="Patron Last Name"/>
+                <bean id="itemId" parent="Uif-LookupCriteriaInputField" p:propertyName="itemId" p:label="Item Barcode">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.deliver.bo.OleItemSearch"
+                              p:fieldConversions="itemBarCode:itemId,title:title" p:lookupParameters="itemId:itemBarCode,title:title"/>
+                    </property>
+                </bean>
+                <bean id="title" parent="Uif-LookupCriteriaInputField" p:propertyName="title" p:label="Item Title"/>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>ole/deliver/request/scripts/requestMaintenance.js</value>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean id="result-borrowerQueuePosition" parent="Uif-DataField" p:propertyName="borrowerQueuePosition" />
+                <bean id="result-requestType" parent="Uif-LinkField" p:style="font-weight:bold;" p:href="inquiry?methodToCall=start&amp;docCategory=work&amp;requestId=@{#line.requestId}&amp;dataObjectClassName=org.kuali.ole.deliver.bo.OleDeliverRequestBo" p:target="_blank" p:label="Request Type Code" p:linkText="@{#line.requestTypeCode}"/>
+                <bean id="result-olePatronFN" parent="Uif-DataField" p:propertyName="firstName" p:label="Patron First Name" />
+                <bean id="result-olePatronLN" parent="Uif-DataField" p:propertyName="lastName" p:label="Patron Last Name" />
+                <bean id="result-olePatronBarcode" parent="Uif-DataField" p:propertyName="borrowerBarcode" p:label="Patron Barcode" />
+                <bean id="result-itemBarcode" parent="Uif-DataField" p:propertyName="itemId" />
+                <bean id="result-itemType" parent="Uif-DataField" p:propertyName="itemType" p:label="Item Type"/>
+                <bean id="result-title" parent="Uif-DataField" p:propertyName="title" />
+                <bean id="result-author" parent="Uif-DataField" p:propertyName="author" />
+                <bean id="result-callNumber" parent="Uif-DataField" p:propertyName="callNumber" />
+                <bean id="result-itemStatus" parent="Uif-DataField" p:propertyName="itemStatus" p:label="Item Status"/>
+                <bean id="result-shelvingLocation" parent="Uif-DataField" p:propertyName="shelvingLocation" />
+                <bean id="result-volumeNumber" parent="Uif-DataField" p:propertyName="volumeNumber" p:label="Volume Number"/>
+                <bean id="result-createDate" parent="Uif-DataField" p:propertyName="createDate" />
+                <bean id="result-expirationDate" parent="Uif-DataField" p:propertyName="requestExpiryDate"/>
+            </list>
+        </property>
+        <property name="resultsGroup">
+            <bean parent="OLEDeliverRequest-Uif-LookupResultsCollectionSection"/>
+        </property>
+        <!--<property name="resultsActionsFieldGroup">
+            <bean parent="Uif-FieldGroupBase">
+                <property name="label" value="Actions"/>
+                <property name="group">
+                    <bean parent="OleRequestDocument-LookupView-ResultActions"/>
+                </property>
+            </bean>
+        </property>-->
+        <property name="criteriaGroup">
+            <bean parent="OLE_DeliverRequest_Uif_LookupCriteriaGroup"/>
+        </property>
+    </bean>
+
+    <bean id="OLE_DeliverRequest_Uif_LookupCriteriaGroup" parent="Uif-GridGroup">
+        <property name="headerText" value="Lookup Criteria"/>
+        <property name="fieldBindingObjectPath" value="lookupCriteria"/>
+        <property name="layoutManager.numberOfColumns" value="2"/>
+        <property name="footer">
+            <bean parent="OLE_DeliverRequest_Uif-LookupCriteriaFooter"/>
+        </property>
+    </bean>
+
+    <bean id="OLE_DeliverRequest_Uif-LookupCriteriaFooter" parent="Uif-FooterBase">
+        <property name="items">
+            <list>
+                <bean id="searchReqBtn" parent="Uif-PrimaryActionButton" p:methodToCall="search" p:actionLabel="Search"/>
+                <bean id="clearReqBtn" parent="Uif-PrimaryActionButton" p:methodToCall="clearValues" p:actionLabel="Clear Values"/>
+                <bean id="cancelReqBtn" parent="Uif-PrimaryActionButton" p:methodToCall="cancel" p:actionLabel="Cancel"
+                      p:render="@{!#form.renderedInLightBox}"/>
+                <bean id="cancelHisReqBtn" parent="Uif-PrimaryActionButton" p:methodToCall="returnToPrevious" p:actionLabel="Cancel"
+                      p:render="@{#form.renderedInLightBox}"/>
+                <bean id="homeReqBtn" parent="Uif-PrimaryActionButton" p:methodToCall="returnToHub" p:actionLabel="Home"
+                      p:render="@{#form.renderedInLightBox}"/>
+                <bean id="closeReqBtn" parent="Uif-PrimaryActionButton" p:actionLabel="Close" p:render="@{#form.renderedInLightBox}"
+                      p:onClickScript="e.preventDefault();closeLightbox();return false;"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="OleRequestDocument-LookupView-ResultActions" parent="Uif-LookupResultsCollectionSection">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-lookupView-resultActions</value>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-ActionLink" p:order="10">
+                    <property name="actionLabel" value="edit"/>
+                    <property name="finalizeMethodToCall" value="getMaintenanceActionLink"/>
+                    <property name="finalizeMethodAdditionalArguments">
+                        <list>
+                            <value>maintenanceEdit</value>
+                        </list>
+                    </property>
+                    <property name="render"
+                              value="@{#ViewHelper.allowsMaintenanceEditAction(#line) and view.showMaintenanceLinks}"/>
+                </bean>
+                <bean parent="Uif-ActionLink" p:order="30">
+                    <property name="actionLabel" value="cancel"/>
+                    <property name="finalizeMethodToCall" value="getMaintenanceActionLink"/>
+                    <property name="finalizeMethodAdditionalArguments">
+                        <list>
+                            <value>maintenanceCancel</value>
+                        </list>
+                    </property>
+                    <property name="render"
+                              value="@{#ViewHelper.allowsMaintenanceDeleteAction(#line) and view.showMaintenanceLinks}"/>
+                </bean>
+                <bean parent="Uif-ActionLink">
+                    <property name="actionLabel" value="Return Value"/>
+                    <property name="finalizeMethodToCall" value="getReturnUrlForResults"/>
+                    <property name="render"
+                              value="@{!#empty(returnFormKey) and !#empty(returnLocation) and !view.hideReturnLinks}"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="OleRequestDocument-InquiryView" parent="Uif-OLEInquiryView">
+        <property name="headerText" value="Request Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.deliver.bo.OleDeliverRequestBo" />
+        <property name="viewHelperServiceClass" value="org.kuali.ole.deliver.inquiry.OleDeliverRequestInquirableImpl"/>
+        <property name="singlePageView" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-VerticalBoxSection">
+                    <property name="header.headerText" value="Request" />
+                    <property name="items">
+                        <list>
+                            <ref bean="OleRequestDocument-InquiryView-requestDetails"/>
+                            <ref bean="OleRequestDocument-InquiryView-recallRequest"/>
+                            <ref bean="OleRequestDocument-InquiryView-onHoldRequest"/>
+                            <ref bean="OleRequestDocument-InquiryView-pageRequest"/>
+                            <ref bean="OleRequestDocument-InquiryView-copyRequest"/>
+                            <ref bean="OleRequestDocument-InquiryView-inTransitRequest"/>
+                            <ref bean="OleRequestDocument-InquiryView-modifiedDetails"/>
+                        </list>
+                    </property>
+                    <property name="headerText" value="Request Attributes"/>
+                </bean>
+            </list>
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>/ole/ingest/css/patron.css</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="OleRequestDocument-InquiryView-modifiedDetails" parent="Uif-VerticalBoxSection" p:render="@{dataObject.modifiedDate ne null and dataObject.operatorModifiedId ne null}">
+        <property name="headerText" value="Modified Details" />
+        <property name="items">
+            <list>
+                <bean id="modifiedDetails-inquiry-modifiedDates" parent="Uif-InputField" p:propertyName="modifiedDate" />
+                <bean id="modifiedDetails-inquiry-operatorModifiedIds" parent="Uif-InputField" p:propertyName="operatorModifiedId"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OleRequestDocument-InquiryView-requestDetails" parent="Uif-VerticalBoxSection">
+        <property name="headerText" value="Request Details" />
+        <property name="items">
+            <list>
+                <bean id="requestTypeCode-select-requestTypeCode" parent="Uif-InputField" p:propertyName="oleDeliverRequestType.requestTypeCode"></bean>
+                <bean id="borrowerId-inquiry-borrowerId" parent="Uif-InputField" p:propertyName="borrowerId" p:render="@{dataObject.borrowerId ne null}"/>
+                <bean id="borrowerId-inquiry-borrowerBarcode" parent="Uif-InputField" p:propertyName="olePatron.barcode" p:label="patron Barcode" p:render="@{dataObject.borrowerId ne null}"/>
+                <bean id="borrowerId-inquiry-borrowerFName" parent="Uif-InputField" p:propertyName="firstName" p:label="patron first name" p:render="@{dataObject.borrowerId ne null}"/>
+                <bean id="borrowerId-inquiry-borrowerLName" parent="Uif-InputField" p:propertyName="lastName" p:label="patron last name" p:render="@{dataObject.borrowerId ne null}"/>
+                <bean id="proxyBorrowerId-inquiry-proxyBorrowerId" parent="Uif-InputField" p:propertyName="proxyBorrowerId" p:render="@{dataObject.proxyBorrowerId ne null}"/>
+                <bean id="borrowerId-inquiry-proxyBorrowerBarcode" parent="Uif-InputField" p:propertyName="oleProxyPatron.barcode" p:label="Proxy Patron Barcode" p:render="@{dataObject.proxyBorrowerId ne null}"/>
+               <!--<bean id="borrowerId-inquiry-proxyBorrowerName" parent="Uif-InputField" p:propertyName="patronName" p:label="Proxy Patron name" p:render="@{dataObject.proxyBorrowerId ne null}"/>-->
+                <bean id="borrowerId-inquiry-proxyBorrowerFName" parent="Uif-InputField" p:propertyName="ProxyBorrowerFirstName" p:label=" proxy patron first name" p:render="@{dataObject.proxyBorrowerId ne null}"/>
+                <bean id="borrowerId-inquiry-proxyBorrowerLName" parent="Uif-InputField" p:propertyName="proxyBorrowerLastName" p:label="proxy patron last name" p:render="@{dataObject.proxyBorrowerId ne null}"/>
+                <bean id="operatorCreateId-inquiry-operatorCreateId" parent="Uif-InputField" p:propertyName="operatorCreateId" p:render="@{dataObject.operatorCreateId ne null}"/>
+                <bean id="borrowerId-inquiry-operateCreateName" parent="Uif-InputField" p:propertyName="operatorCreateId" p:label="Operator name" p:render="@{dataObject.operatorCreateId ne null}"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OleRequestDocument-InquiryView-recallRequest" parent="Uif-VerticalBoxSection" p:render="@{dataObject.requestTypeId eq '1' or dataObject.requestTypeId eq '1' or dataObject.requestTypeId eq '2' or dataObject.requestTypeId eq '2'}">
+        <property name="headerText" value="Recall Request" />
+        <property name="items">
+            <list>
+
+                <bean id="recallInquiryRequest-borrowerQueuePosition" parent="Uif-InputField" p:propertyName="borrowerQueuePosition"/>
+                <bean id="recallInquiryRequest-itemId" parent="Uif-InputField" p:propertyName="itemId"/>
+                <bean id="recallInquiryRequest-title" parent="Uif-InputField" p:propertyName="title"/>
+                <bean id="recallInquiryRequest-author" parent="Uif-InputField" p:propertyName="author"/>
+                <bean id="recallInquiryRequest-shelvingLocation" parent="Uif-InputField" p:propertyName="shelvingLocation"/>
+                <bean id="recallInquiryRequest-callNumber" parent="Uif-InputField" p:propertyName="callNumber"/>
+                <bean id="recallInquiryRequest-copyNumber" parent="Uif-InputField" p:propertyName="copyNumber"/>
+                <bean id="recallInquiryRequest-volumeNumber" parent="Uif-InputField" p:propertyName="volumeNumber"/>
+                <bean id="recallInquiryRequest-pickUpLocationId" parent="Uif-InputField" p:propertyName="pickUpLocationCode" p:label="Pickup Location"/>
+                <bean id="recallInquiryRequest-recallNoticeSentDate" parent="Uif-InputField" p:propertyName="recallNoticeSentDate">
+                </bean>
+                <bean id="recallInquiryRequest-createDate" parent="Uif-InputField" p:propertyName="createDate">
+                </bean>
+                <bean id="recallInquiryRequest-expirationDate" parent="Uif-InputField" p:propertyName="requestExpiryDate">
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OleRequestDocument-InquiryView-onHoldRequest" parent="Uif-VerticalBoxSection" p:render="@{dataObject.requestTypeId eq '3' or dataObject.requestTypeId eq '3' or dataObject.requestTypeId eq '4' or dataObject.requestTypeId eq '4'}">
+        <property name="headerText" value="On Hold Request" />
+        <property name="items">
+            <list>
+
+                <bean id="onHoldInquiryRequest-borrowerQueuePosition" parent="Uif-InputField" p:propertyName="borrowerQueuePosition"/>
+                <bean id="onHoldInquiryRequest-itemId" parent="Uif-InputField" p:propertyName="itemId"/>
+                <bean id="onHoldInquiryRequest-title" parent="Uif-InputField" p:propertyName="title"/>
+                <bean id="onHoldInquiryRequest-author" parent="Uif-InputField" p:propertyName="author"/>
+                <bean id="onHoldInquiryRequest-shelvingLocation" parent="Uif-InputField" p:propertyName="shelvingLocation"/>
+                <bean id="onHoldInquiryRequest-callNumber" parent="Uif-InputField" p:propertyName="callNumber"/>
+                <bean id="onHoldInquiryRequest-copyNumber" parent="Uif-InputField" p:propertyName="copyNumber"/>
+                <bean id="onHoldInquiryRequest-volumeNumber" parent="Uif-InputField" p:propertyName="volumeNumber"/>
+                <bean  id="onHoldInquiryRequest-pickUpLocationId" parent="Uif-InputField" p:propertyName="pickUpLocationCode" p:label="Pickup Location"/>
+                <bean id="onHoldInquiryRequest-onHoldNoticeSentDate" parent="Uif-InputField" p:propertyName="onHoldNoticeSentDate">
+                </bean>
+                <bean id="onHoldRequestRequest-createDate" parent="Uif-InputField" p:propertyName="createDate">
+                </bean>
+                <bean id="onHoldRequestRequest-expirationDate" parent="Uif-InputField" p:propertyName="requestExpiryDate">
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OleRequestDocument-InquiryView-pageRequest" parent="Uif-VerticalBoxSection" p:render="@{dataObject.requestTypeId eq '5' or dataObject.requestTypeId eq '5' or dataObject.requestTypeId eq '6' or dataObject.requestTypeId eq '6'}">
+        <property name="headerText" value="Page Request" />
+        <property name="items">
+            <list>
+                <bean id="pageInquiryRequest-borrowerQueuePosition" parent="Uif-InputField" p:propertyName="borrowerQueuePosition"/>
+                <bean id="pageInquiryRequest-select-itemId" parent="Uif-InputField" p:propertyName="itemId"/>
+                <bean id="pageInquiryRequest-itemId" parent="Uif-InputField" p:propertyName="title"/>
+                <bean id="pageRequest-inquiryItemDetails-author"  parent="Uif-InputField" p:propertyName="author"/>
+                <bean id="pageRequest-inquiryItemDetails-shelvingLocation"  parent="Uif-InputField" p:propertyName="shelvingLocation"/>
+                <bean id="pageRequest-inquiryItemDetails-callNumber"  parent="Uif-InputField" p:propertyName="callNumber"/>
+                <bean id="pageRequest-inquiryItemDetails-copyNumber"  parent="Uif-InputField" p:propertyName="copyNumber"/>
+                <bean id="pageRequest-inquiryItemDetails-volumeNumber" parent="Uif-InputField" p:propertyName="volumeNumber"/>
+
+                <bean  id="pageRequest-inquiryItemDetails-pickUpLocationId" parent="Uif-InputField" p:propertyName="pickUpLocationCode" p:label="Pickup Location"/>
+                <bean id="pageRequest-inquiryItemDetails-createDate"  parent="Uif-InputField" p:propertyName="createDate">
+
+                </bean>
+                <bean id="pageRequest-inquiryItemDetails-expirationDate"  parent="Uif-InputField" p:propertyName="requestExpiryDate"/>
+            </list>
+        </property>
+    </bean>
+
+
+
+
+    <bean id="OleRequestDocument-InquiryView-copyRequest" parent="Uif-VerticalBoxSection" p:render="@{dataObject.requestTypeId eq '7' or dataObject.requestTypeId eq '7'}">
+        <property name="headerText" value="Copy Request" />
+        <property name="items">
+            <list>
+                <bean id="copyInquiryRequest-select-itemId" parent="Uif-InputField" p:propertyName="itemId"/>
+                <bean id="copyInquiryRequest-itemId" parent="Uif-InputField" p:propertyName="title"/>
+                <bean id="copyInquiryRequest-borrowerQueuePosition" parent="Uif-InputField" p:propertyName="borrowerQueuePosition"/>
+                <bean id="copyInquiryRequest-pickupLocation" parent="Uif-InputField" p:propertyName="pickUpLocationCode" p:label="Pickup Location"/>
+                <bean id="copyInquiryRequest-author" parent="Uif-InputField" p:propertyName="author"/>
+                <bean id="copyInquiryRequest-shelvingLocation" parent="Uif-InputField" p:propertyName="shelvingLocation"/>
+                <bean id="copyInquiryRequest-callNumber" parent="Uif-InputField" p:propertyName="callNumber"/>
+                <bean id="copyInquiryRequest-copyNumber" parent="Uif-InputField" p:propertyName="copyNumber"/>
+                <bean id="copyInquiryRequest-date" parent="Uif-InputField" p:propertyName="createDate">
+                </bean>
+                <bean id="copyInquiryRequest-copyFormat" parent="Uif-InputField" p:propertyName="copyFormat"/>
+                <bean id="copyInquiryRequest-contentDescription" parent="Uif-InputField" p:propertyName="contentDescription"/>
+                <bean id="copyInquiryRequest-expirationDate" parent="Uif-InputField" p:propertyName="requestExpiryDate">
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+
+    <bean id="OleRequestDocument-InquiryView-inTransitRequest" parent="Uif-VerticalBoxSection" p:render="@{dataObject.requestTypeId eq '8' or dataObject.requestTypeId eq '8'}">
+        <property name="headerText" value="In-Transit Request" />
+        <property name="items">
+            <list>
+                <bean id="inTransitInquiryRequest-borrowerQueuePosition" parent="Uif-InputField" p:propertyName="borrowerQueuePosition"/>
+                <bean id="inTransitInquiryRequest-select-itemId" parent="Uif-InputField" p:propertyName="itemId"/>
+                <bean id="inTransitInquiryRequest-itemId" parent="Uif-InputField" p:propertyName="title"/>
+                <bean id="inTransitInquiryRequest-author" parent="Uif-InputField" p:propertyName="author"/>
+                <bean id="inTransitInquiryRequest-shelvingLocation" parent="Uif-InputField" p:propertyName="shelvingLocation"/>
+                <bean id="inTransitInquiryRequest-callNumber" parent="Uif-InputField" p:propertyName="callNumber"/>
+                <bean id="inTransitInquiryRequest-copyNumber" parent="Uif-InputField" p:propertyName="copyNumber"/>
+              <bean id="inTransitInquiryRequest-circulationLocationId" parent="Uif-InputField" p:propertyName="circulationLocationCode"/>
+                <bean id="inTransitInquiryRequest-createDate" parent="Uif-InputField" p:propertyName="createDate">
+                </bean>
+                <bean id="inTransitInquiryRequest-expirationDate" parent="Uif-InputField" p:propertyName="requestExpiryDate">
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEDeliverRequest-Uif-LookupResultsCollectionSection" parent="Uif-TableCollectionSection"
+          p:id="uLookupResults" p:layoutManager.suppressLineWrapping="true">
+        <property name="showInactiveLines" value="true"/>
+        <property name="propertyName" value="lookupResults"/>
+        <property name="headerText" value="Lookup Results"/>
+        <property name="header.cssClasses" value="uif-hideHeaderText"/>
+        <property name="validationMessages.displayHeaderMessageSummary" value="false"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="renderLineActions" value="@{(!#view.suppressActions and view.showMaintenanceLinks) or
+           (!#empty(returnFormKey) and !#empty(returnLocation) and !view.hideReturnLinks)}"/>
+        <property name="layoutManager.actionColumnPlacement" value="LEFT"/>
+        <property name="layoutManager.selectFieldPrototype.finalizeMethodToCall" value="setMultiValueLookupSelect"/>
+        <property name="layoutManager.selectFieldPrototype.control.onChangeScript"
+                  value="setMultivalueLookupReturnButton(this)"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="readOnly" value="false"/>
+        <property name="includeLineSelectionField" value="@{#view.multipleValuesSelect}"/>
+        <property name="header.lowerGroup">
+            <bean parent="Uif-VerticalBoxGroup"/>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-ActionLink" p:order="10">
+                    <property name="actionLabel" value="edit"/>
+                    <property name="finalizeMethodToCall" value="getMaintenanceActionLink"/>
+                    <property name="finalizeMethodAdditionalArguments">
+                        <list>
+                            <value>maintenanceEdit</value>
+                        </list>
+                    </property>
+                    <property name="render"
+                              value="@{#ViewHelper.allowsMaintenanceEditAction(#line) and view.showMaintenanceLinks}"/>
+                </bean>
+                <bean parent="Uif-ActionLink" p:order="30">
+                    <property name="actionLabel" value="cancel"/>
+                    <property name="finalizeMethodToCall" value="getMaintenanceActionLink"/>
+                    <property name="finalizeMethodAdditionalArguments">
+                        <list>
+                            <value>maintenanceCancel</value>
+                        </list>
+                    </property>
+                    <property name="render"
+                              value="@{#ViewHelper.allowsMaintenanceEditAction(#line) and view.showMaintenanceLinks}"/>
+                </bean>
+            </list>
+        </property>
+        <property name="validationMessages.additionalKeysToMatch">
+            <list merge="true">
+                <value>LookupResultMessages</value>
+            </list>
+        </property>
+        <property name="footer">
+            <bean parent="Uif-LookupResultsFooter"
+                  p:render="@{#view.multipleValuesSelect and (lookupResults != null) and !lookupResults.empty}"/>
+        </property>
+    </bean>
+
+</beans>

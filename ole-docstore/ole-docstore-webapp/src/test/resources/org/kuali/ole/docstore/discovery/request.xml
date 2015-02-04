@@ -1,0 +1,765 @@
+<request>
+    <user>ole-khuntley</user>
+    <operation>ingest</operation>
+    <requestDocuments>
+        <ingestDocument id="1" category="work" type="bibliographic" format="marc">
+            <content><![CDATA[
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+    <record>
+        <leader>01142cam 2200301 a 4500</leader>
+        <controlfield tag="001">92005291</controlfield>
+        <controlfield tag="003">DLC</controlfield>
+        <controlfield tag="005">19930521155141.9</controlfield>
+        <controlfield tag="008">920219s1993 caua j 000 0 eng</controlfield>
+        <datafield tag="010" ind1=" " ind2=" ">
+            <subfield code="a">92005291</subfield>
+        </datafield>
+        <datafield tag="020" ind1=" " ind2=" ">
+            <subfield code="a">0152038655 :</subfield>
+            <subfield code="c">$15.95</subfield>
+        </datafield>
+        <datafield tag="040" ind1=" " ind2=" ">
+            <subfield code="a">DLC</subfield>
+            <subfield code="c">DLC</subfield>
+            <subfield code="d">DLC</subfield>
+        </datafield>
+        <datafield tag="042" ind1=" " ind2=" ">
+            <subfield code="a">lcac</subfield>
+        </datafield>
+        <datafield tag="050" ind1="0" ind2="0">
+            <subfield code="a">PS3537.A618</subfield>
+            <subfield code="b">A88 1993</subfield>
+        </datafield>
+        <datafield tag="082" ind1="0" ind2="0">
+            <subfield code="a">811/.52</subfield>
+            <subfield code="2">20</subfield>
+        </datafield>
+        <datafield tag="100" ind1="1" ind2=" ">
+            <subfield code="a">Sandburg, Carl,</subfield>
+            <subfield code="d">1878-1967.</subfield>
+        </datafield>
+        <datafield tag="245" ind1="1" ind2="0">
+            <subfield code="a">Arithmetic /</subfield>
+            <subfield code="c">
+                Carl Sandburg ; illustrated as an anamorphic adventure by Ted Rand.
+            </subfield>
+        </datafield>
+        <datafield tag="250" ind1=" " ind2=" ">
+            <subfield code="a">1st ed.</subfield>
+        </datafield>
+        <datafield tag="260" ind1=" " ind2=" ">
+            <subfield code="a">San Diego :</subfield>
+            <subfield code="b">Harcourt Brace Jovanovich,</subfield>
+            <subfield code="c">c1993.</subfield>
+        </datafield>
+        <datafield tag="300" ind1=" " ind2=" ">
+            <subfield code="a">1 v. (unpaged) :</subfield>
+            <subfield code="b">ill. (some col.) ;</subfield>
+            <subfield code="c">26 cm.</subfield>
+        </datafield>
+        <datafield tag="500" ind1=" " ind2=" ">
+            <subfield code="a">One Mylar sheet included in pocket.</subfield>
+        </datafield>
+        <datafield tag="520" ind1=" " ind2=" ">
+            <subfield code="a">
+                A poem about numbers and their characteristics. Features anamorphic, or distorted,
+                drawings which can be
+                restored to normal by viewing from a particular angle or by viewing the image's
+                reflection in the
+                provided Mylar cone.
+            </subfield>
+        </datafield>
+        <datafield tag="650" ind1=" " ind2="0">
+            <subfield code="a">Arithmetic</subfield>
+            <subfield code="x">Juvenile poetry.</subfield>
+        </datafield>
+        <datafield tag="650" ind1=" " ind2="0">
+            <subfield code="a">Children's poetry, American.</subfield>
+        </datafield>
+        <datafield tag="650" ind1=" " ind2="1">
+            <subfield code="a">Arithmetic</subfield>
+            <subfield code="x">Poetry.</subfield>
+        </datafield>
+        <datafield tag="650" ind1=" " ind2="1">
+            <subfield code="a">American poetry.</subfield>
+        </datafield>
+        <datafield tag="650" ind1=" " ind2="1">
+            <subfield code="a">Visual perception.</subfield>
+        </datafield>
+        <datafield tag="700" ind1="1" ind2=" ">
+            <subfield code="a">Rand, Ted,</subfield>
+            <subfield code="e">ill.</subfield>
+        </datafield>
+    </record>
+</collection>
+                ]]>
+            </content>
+            <!--optional -->
+            <additionalAttributes>
+                <dateEntered>12-12-2-2010</dateEntered>
+                <lastUpdated>12-11-2011</lastUpdated>
+                <fastAddFlag>true</fastAddFlag>
+                <supressFromPublic>false</supressFromPublic>
+                <harvestable>false</harvestable>
+                <status>n</status>
+            </additionalAttributes>
+            <linkedIngestDocuments>
+                <linkedIngestDocument id="1001" category="work" type="instance" format="oleml">
+                    <content><![CDATA[
+<ole:instanceCollection xmlns:ole="http://ole.kuali.org/standards/ole-instance">
+  <!--1 or more repetitions:-->
+  <ole:instance>
+    <ole:instanceIdentifier>string</ole:instanceIdentifier>
+    <!--Zero or more repetitions:-->
+    <ole:resourceIdentifier>string</ole:resourceIdentifier>
+    <!--Zero or more repetitions:-->
+    <ole:formerResourceIdentifier>
+      <ole:identifier source="string">
+        <ole:identifierValue>string</ole:identifierValue>
+      </ole:identifier>
+      <ole:identifierType>string</ole:identifierType>
+    </ole:formerResourceIdentifier>
+    <ole:oleHoldings primary="string">
+      <ole:holdingsIdentifier>string</ole:holdingsIdentifier>
+      <!--Zero or more repetitions:-->
+      <ole:extentOfOwnership>
+        <ole:textualHoldings>string</ole:textualHoldings>
+        <!--Zero or more repetitions:-->
+        <ole:note type="string">string</ole:note>
+        <ole:type>string</ole:type>
+      </ole:extentOfOwnership>
+      <ole:receiptStatus>string</ole:receiptStatus>
+      <!--Zero or more repetitions:-->
+      <ole:uri resolvable="string">string</ole:uri>
+      <!--Zero or more repetitions:-->
+      <ole:note type="string">string</ole:note>
+      <ole:location>
+        <ole:locationLevel>
+          <ole:name>string</ole:name>
+          <ole:level>string</ole:level>
+          <!--Optional:-->
+          <ole:locationLevel></ole:locationLevel>
+        </ole:locationLevel>
+      </ole:location>
+      <ole:extension displayLabel="string">
+        e
+        <!--You may enter ANY elements at this point-->
+        <AnyElement></AnyElement>
+        gero
+      </ole:extension>
+      <ole:callNumber>
+        <ole:type>string</ole:type>
+        <ole:prefix>string</ole:prefix>
+        <ole:number>string</ole:number>
+        <ole:classificationPart>string</ole:classificationPart>
+        <ole:itemPart>string</ole:itemPart>
+        <ole:shelvingScheme>
+          <ole:codeValue>string</ole:codeValue>
+          <ole:fullValue>string</ole:fullValue>
+          <ole:typeOrSource>
+            <ole:pointer>http://www.your.com/tempestatesque/e</ole:pointer>
+            <ole:text>string</ole:text>
+          </ole:typeOrSource>
+        </ole:shelvingScheme>
+        <ole:shelvingOrder>
+          <ole:codeValue>string</ole:codeValue>
+          <ole:fullValue>string</ole:fullValue>
+          <ole:typeOrSource>
+            <ole:pointer>http://www.your.com/tempestatesque/e</ole:pointer>
+            <ole:text>string</ole:text>
+          </ole:typeOrSource>
+        </ole:shelvingOrder>
+      </ole:callNumber>
+    </ole:oleHoldings>
+    <ole:sourceHoldings primary="string">
+      <ole:holdingsIdentifier>string</ole:holdingsIdentifier>
+      <ole:name>string</ole:name>
+      <ole:holdings>string</ole:holdings>
+      <ole:extension displayLabel="string">
+        aeoliam
+        <!--You may enter ANY elements at this point-->
+        <AnyElement></AnyElement>
+        quae
+      </ole:extension>
+    </ole:sourceHoldings>
+    <ole:items>
+      <!--1 or more repetitions:-->
+      <ole:item analytic="string" resourceIdentifier="string">
+        <ole:itemIdentifier>string</ole:itemIdentifier>
+        <ole:purchaseOrderLineItemIdentifier>string</ole:purchaseOrderLineItemIdentifier>
+        <ole:vendorLineItemIdentifier>string</ole:vendorLineItemIdentifier>
+        <ole:accessInformation>
+          <ole:barcode>string</ole:barcode>
+          <ole:uri resolvable="string">string</ole:uri>
+        </ole:accessInformation>
+        <ole:barcodeARSL>string</ole:barcodeARSL>
+        <!--Zero or more repetitions:-->
+        <ole:formerIdentifier>
+          <ole:identifier source="string">
+            <ole:identifierValue>string</ole:identifierValue>
+          </ole:identifier>
+          <ole:identifierType>string</ole:identifierType>
+        </ole:formerIdentifier>
+        <!--Zero or more repetitions:-->
+        <ole:statisticalSearchingCode>
+          <ole:codeValue>string</ole:codeValue>
+          <ole:fullValue>string</ole:fullValue>
+          <ole:typeOrSource>
+            <ole:pointer>http://www.your.com/tempestatesque/e</ole:pointer>
+            <ole:text>string</ole:text>
+          </ole:typeOrSource>
+        </ole:statisticalSearchingCode>
+        <ole:itemType>
+          <ole:codeValue>string</ole:codeValue>
+          <ole:fullValue>string</ole:fullValue>
+          <ole:typeOrSource>
+            <ole:pointer>http://www.test.com/gero/nimborum</ole:pointer>
+            <ole:text>string</ole:text>
+          </ole:typeOrSource>
+        </ole:itemType>
+        <!--Optional:-->
+        <ole:location>
+          <ole:locationLevel>
+            <ole:name>string</ole:name>
+            <ole:level>string</ole:level>
+            <!--Optional:-->
+            <ole:locationLevel></ole:locationLevel>
+          </ole:locationLevel>
+        </ole:location>
+        <ole:copyNumber>string</ole:copyNumber>
+        <ole:copyNumberLabel>string</ole:copyNumberLabel>
+        <ole:volumeNumber>string</ole:volumeNumber>
+        <ole:volumeNumberLabel>string</ole:volumeNumberLabel>
+        <ole:note type="string">string</ole:note>
+        <ole:enumeration>string</ole:enumeration>
+        <ole:chronology>string</ole:chronology>
+        <ole:highDensityStorage>
+          <ole:row>string</ole:row>
+          <ole:module>string</ole:module>
+          <ole:shelf>string</ole:shelf>
+          <ole:tray>string</ole:tray>
+        </ole:highDensityStorage>
+        <ole:temporaryItemType>
+          <ole:codeValue>string</ole:codeValue>
+          <ole:fullValue>string</ole:fullValue>
+          <ole:typeOrSource>
+            <ole:pointer>http://www.test.org/montis/flammato</ole:pointer>
+            <ole:text>string</ole:text>
+          </ole:typeOrSource>
+        </ole:temporaryItemType>
+        <ole:fund>string</ole:fund>
+        <ole:donorPublicDisplay>string</ole:donorPublicDisplay>
+        <ole:donorNote>string</ole:donorNote>
+        <ole:callNumber>
+          <ole:type>string</ole:type>
+          <ole:prefix>string</ole:prefix>
+          <ole:number>string</ole:number>
+          <ole:classificationPart>string</ole:classificationPart>
+          <ole:itemPart>string</ole:itemPart>
+          <ole:shelvingScheme>
+            <ole:codeValue>string</ole:codeValue>
+            <ole:fullValue>string</ole:fullValue>
+            <ole:typeOrSource>
+              <ole:pointer>http://www.test.com/gero/nimborum</ole:pointer>
+              <ole:text>string</ole:text>
+            </ole:typeOrSource>
+          </ole:shelvingScheme>
+          <ole:shelvingOrder>
+            <ole:codeValue>string</ole:codeValue>
+            <ole:fullValue>string</ole:fullValue>
+            <ole:typeOrSource>
+              <ole:pointer>http://www.test.com/metuens/montis</ole:pointer>
+              <ole:text>string</ole:text>
+            </ole:typeOrSource>
+          </ole:shelvingOrder>
+        </ole:callNumber>
+        <ole:price>string</ole:price>
+        <ole:numberOfPieces>string</ole:numberOfPieces>
+        <ole:itemStatus>string</ole:itemStatus>
+        <ole:itemStatusEffectiveDate>string</ole:itemStatusEffectiveDate>
+        <ole:checkinNote>string</ole:checkinNote>
+        <ole:staffOnlyFlag>true</ole:staffOnlyFlag>
+        <ole:fastAddFlag>false</ole:fastAddFlag>
+        <ole:extension displayLabel="string">
+          nimborum
+          <!--You may enter ANY elements at this point-->
+          <AnyElement></AnyElement>
+          fremunt
+        </ole:extension>
+      </ole:item>
+    </ole:items>
+    <ole:extension displayLabel="string">
+      foedere
+      <!--You may enter ANY elements at this point-->
+      <AnyElement></AnyElement>
+      ferant
+    </ole:extension>
+  </ole:instance>
+</ole:instanceCollection>
+                		]]>
+                    </content>
+                    <additionalAttributes></additionalAttributes>
+                    <linkedIngestDocuments></linkedIngestDocuments>
+                </linkedIngestDocument>
+            </linkedIngestDocuments>
+        </ingestDocument>
+        <ingestDocument id="2" category="work" type="bibliographic" format="marc">
+            <content><![CDATA[
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+	<record>
+        <leader>00407nam 2200145z 4500</leader>
+        <controlfield tag="003">InU</controlfield>
+        <controlfield tag="008">110630n xx | u||| ||               und u</controlfield>
+        <datafield tag="020" ind1=" " ind2=" ">
+            <subfield code="a">9780748636358</subfield>
+        </datafield>
+        <datafield tag="020" ind1=" " ind2=" ">
+            <subfield code="z">221175</subfield>
+        </datafield>
+        <datafield tag="022" ind1=" " ind2=" ">
+            <subfield code="a">123456789</subfield>
+        </datafield>
+        <datafield tag="022" ind1=" " ind2=" ">
+            <subfield code="z">98765</subfield>
+        </datafield>
+        <datafield tag="100" ind1=" " ind2=" ">
+            <subfield code="a">WHONG, MELINDA</subfield>
+            <subfield code="6">880-03</subfield>
+        </datafield>
+        <datafield tag="110" ind1=" " ind2=" ">
+            <subfield code="a">MELINDA,WHONG</subfield>
+        </datafield>
+        <datafield tag="111" ind1="2" ind2="0">
+            <subfield code="a">Urban Summit</subfield>
+            <subfield code="d">(1990 :</subfield>
+            <subfield code="c">New York, N.Y.)</subfield>
+            <subfield code="t">xyz</subfield>
+        </datafield>
+        <datafield tag="700" ind1="1" ind2="0">
+            <subfield code="a">Schaeffer, Pierre,</subfield>
+            <subfield code="d">1910-1995</subfield>
+        </datafield>
+        <datafield tag="710" ind1="2" ind2="0">
+            <subfield code="a">Radiodiffusion-Tlvision franaise.</subfield>
+            <subfield code="b">Groupe de recherches musicales.</subfield>
+            <subfield code="4">prf</subfield>
+        </datafield>
+        <datafield tag="800" ind1="1" ind2=" ">
+            <subfield code="a">Rheinberger, Josef,</subfield>
+            <subfield code="d">1839-1901.</subfield>
+            <subfield code="t">Organ music.</subfield>
+            <subfield code="k">Selections (Novello &amp; Co.)</subfield>
+        </datafield>
+        <datafield tag="810" ind1="2" ind2=" ">
+            <subfield code="a">Indiana University, Bloomington.</subfield>
+            <subfield code="b">School of Music.</subfield>
+            <subfield code="t">Program ;</subfield>
+            <subfield code="v">1991-1992, no. 847.</subfield>
+        </datafield>
+        <datafield tag="811" ind1="2" ind2=" ">
+            <subfield code="a">Congrès national des sociétés savantes.</subfield>
+            <subfield code="p">Commission de pré- et protohistoire ;</subfield>
+            <subfield code="v">114.</subfield>
+        </datafield>
+        <datafield tag="400" ind1="2" ind2=" ">
+            <subfield code="a">International Congress on Quaternary</subfield>
+            <subfield code="d">1965 :</subfield>
+        </datafield>
+        <datafield tag="410" ind1="1" ind2=" ">
+            <subfield code="a">Raddatz, Fritz Joachim.</subfield>
+            <subfield code="v">2.</subfield>
+        </datafield>
+        <datafield tag="411" ind1="2" ind2=" ">
+            <subfield code="a">Indiana University</subfield>
+        </datafield>
+        <datafield tag="245" ind1=" " ind2=" ">
+            <subfield code="a">LANGUAGE TEACHING : LINGUISTIC THEORY IN PRACTICE.</subfield>
+            <subfield code="b">CAMBRIDGE INTRODUCTIONS TO LITERATURE.</subfield>
+            <subfield code="c">INTRODUCTIONS</subfield>
+            <subfield code="6">LANGUAGE</subfield>
+        </datafield>
+        <datafield tag="130" ind1="0" ind2=" ">
+            <subfield code="a">Castle of Andalusia.</subfield>
+            <subfield code="s">Vocal score.</subfield>
+        </datafield>
+        <datafield tag="240" ind1="1" ind2="0">
+            <subfield code="a">Scke,</subfield>
+            <subfield code="m">piano, winds, string</subfield>
+        </datafield>
+        <datafield tag="246" ind1="3" ind2="0">
+            <subfield code="a">Blokovskii sbornik</subfield>
+        </datafield>
+        <datafield tag="247" ind1="1" ind2="0">
+            <subfield code="a">Marquis Who's Who index to Who's Who books.</subfield>
+        </datafield>
+        <datafield tag="440" ind1=" " ind2="0">
+            <subfield code="a">Tartu Riikliku likooli toimetised</subfield>
+        </datafield>
+        <datafield tag="490" ind1="0" ind2=" ">
+            <subfield code="a">Myo quarto ;</subfield>
+            <subfield code="v">3</subfield>
+        </datafield>
+        <datafield tag="730" ind1="0" ind2="2">
+            <subfield code="a">Castle of Andalusia.</subfield>
+            <subfield code="s">Libretto.</subfield>
+        </datafield>
+        <datafield tag="740" ind1="0" ind2="1">
+            <subfield code="a">Educating tomorrow's workforce.</subfield>
+        </datafield>
+        <datafield tag="773" ind1="0" ind2=" ">
+            <subfield code="t">The narrative history of King James</subfield>
+            <subfield code="d">London, 1651</subfield>
+            <subfield code="w">(OCoLC)13510619</subfield>
+        </datafield>
+        <datafield tag="774" ind1="0" ind2="1">
+            <subfield code="a">Educating workforce.</subfield>
+        </datafield>
+        <datafield tag="780" ind1="0" ind2="0">
+            <subfield code="a">Nauchnai</subfield>
+            <subfield code="t">Blokovskii sbornik</subfield>
+            <subfield code="w">(DLC) 65051053</subfield>
+        </datafield>
+        <datafield tag="785" ind1="0" ind2="0">
+            <subfield code="t">Blokovskii</subfield>
+            <subfield code="w">(OCoLC)25560454</subfield>
+        </datafield>
+        <datafield tag="830" ind1=" " ind2="0">
+            <subfield code="a">Publicacions del Departament de Música,</subfield>
+            <subfield code="v">1.</subfield>
+        </datafield>
+        <datafield tag="840" ind1=" " ind2="0">
+            <subfield code="a">Tendencias (Barcelona, Spain)</subfield>
+        </datafield>
+        <datafield tag="260" ind1=" " ind2=" ">
+            <subfield code="a">EDINBURGH</subfield>
+            <subfield code="b">EDINBURGH UNIV PRESS</subfield>
+            <subfield code="c">2011</subfield>
+        </datafield>
+        <datafield tag="260" ind1=" " ind2=" ">
+            <subfield code="a">Soul Tlsi :</subfield>
+            <subfield code="b">Changjak</subfield>
+            <subfield code="c">1983.</subfield>
+        </datafield>
+        <datafield tag="505" ind1=" " ind2=" ">
+            <subfield code="a">score (20 p.) and 4 parts.</subfield>
+        </datafield>
+        <datafield tag="505" ind1="" ind2=" ">
+            <subfield code="a">Sonatas for flute and harpsichord</subfield>
+        </datafield>
+        <datafield tag="600" ind1="1" ind2="0">
+            <subfield code="a">Blok, Aleksandr Aleksandrovich,</subfield>
+            <subfield code="d">1880-1921.</subfield>
+            <subfield code="6">LANGUAGE</subfield>
+        </datafield>
+        <datafield tag="600" ind1="1" ind2="0">
+            <subfield code="a">Herzen, Aleksandr,</subfield>
+            <subfield code="d">1812-1870.</subfield>
+        </datafield>
+        <datafield tag="610" ind1="1" ind2="0">
+            <subfield code="a">United States.</subfield>
+            <subfield code="b">Dept. of Defense</subfield>
+            <subfield code="x">Appropriations and expenditures.</subfield>
+        </datafield>
+        <datafield tag="611" ind1="1" ind2="0">
+            <subfield code="a">Century 21 Exposition</subfield>
+            <subfield code="d">(1962 :</subfield>
+            <subfield code="c">Seattle, Wash.)</subfield>
+        </datafield>
+        <datafield tag="630" ind1="0" ind2="0">
+            <subfield code="a">Nag Hammadi codices.</subfield>
+        </datafield>
+        <datafield tag="650" ind1=" " ind2="0">
+            <subfield code="a">Asbestos</subfield>
+            <subfield code="x">Health aspects</subfield>
+            <subfield code="x">Congresses.</subfield>
+        </datafield>
+        <datafield tag="650" ind1=" " ind2="2">
+            <subfield code="a">Environmental Exposure</subfield>
+            <subfield code="x">prevention &amp; control</subfield>
+            <subfield code="x">congresses.</subfield>
+        </datafield>
+        <datafield tag="651" ind1=" " ind2="0">
+            <subfield code="a">United States</subfield>
+            <subfield code="x">Foreign relations</subfield>
+            <subfield code="y">1945-1989.</subfield>
+        </datafield>
+        <datafield tag="653" ind1="1" ind2=" ">
+            <subfield code="a">traffic signs</subfield>
+        </datafield>
+        <datafield tag="690" ind1=" " ind2="0">
+            <subfield code="a">Traffic signs and signals</subfield>
+            <subfield code="x">Design and construction.</subfield>
+        </datafield>
+        <datafield tag="655" ind1=" " ind2="7">
+            <subfield code="a">Cuir-ciselé bindings (Binding)</subfield>
+            <subfield code="z">France</subfield>
+            <subfield code="y">19th century.</subfield>
+        </datafield>
+        <datafield tag="655" ind1=" " ind2="7">
+            <subfield code="v">20th century.</subfield>
+        </datafield>
+        <datafield tag="250" ind1=" " ind2=" ">
+            <subfield code="a">New and enl. ed.</subfield>
+        </datafield>
+        <datafield tag="250" ind1=" " ind2=" ">
+            <subfield code="a">2nd ed. /</subfield>
+            <subfield code="b">rev. and expanded by Andrew Oram.</subfield>
+        </datafield>
+        <datafield tag="960" ind1=" " ind2=" ">
+            <subfield code="a">65</subfield>
+        </datafield>
+        <datafield tag="980" ind1=" " ind2=" ">
+            <subfield code="b">32.00</subfield>
+            <subfield code="q">1</subfield>
+        </datafield>
+        <datafield tag="982" ind1=" " ind2=" ">
+            <subfield code="a">99943744781</subfield>
+            <subfield code="b">524010</subfield>
+            <subfield code="d">Paper</subfield>
+            <subfield code="f">CM</subfield>
+        </datafield>
+        <datafield tag="984" ind1=" " ind2=" ">
+            <subfield code="a">20110629</subfield>
+            <subfield code="c">US</subfield>
+        </datafield>
+        <datafield tag="987" ind1=" " ind2=" ">
+            <subfield code="a">100552240</subfield>
+        </datafield>
+        <datafield tag="856" ind1="4" ind2="1">
+            <subfield code="a">IUPUI</subfield>
+            <subfield code="u">http://atoz.ebsco.com/titles.asp?KW=1056-8719&amp;id=792&amp;SF=ISSN&amp;ST=Contains</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">ACJ8747</subfield>
+            <subfield code="w">ASIS</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">30000038431048</subfield>
+            <subfield code="d">1/16/2009</subfield>
+            <subfield code="e">1/16/2009</subfield>
+            <subfield code="j">4</subfield>
+            <subfield code="l">_MUFRSCOR</subfield>
+            <subfield code="m">B-MUSIC</subfield>
+            <subfield code="n">7</subfield>
+            <subfield code="q">1</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">NORMAL</subfield>
+            <subfield code="u">11/5/2000</subfield>
+            <subfield code="o">.STAFF. "TO HAVE PREPARED FOR YOUR USE, ASK LIBRARY STAFF"</subfield>
+            <subfield code="o">.STAFF. Trumpet part missing 1/16/09 - WDH</subfield>
+        </datafield>
+    </record>
+</collection>
+				]]>
+            </content>
+            <!--optional -->
+            <additionalAttributes>
+                <dateEntered>12-12-2-2010</dateEntered>
+                <lastUpdated>12-11-2011</lastUpdated>
+                <fastAddFlag>true</fastAddFlag>
+                <supressFromPublic>false</supressFromPublic>
+                <harvestable>false</harvestable>
+                <status>n</status>
+            </additionalAttributes>
+            <linkedIngestDocuments>
+                <linkedIngestDocument id="1002" category="work" type="instance" format="oleml">
+                    <content><![CDATA[
+<ole:instanceCollection xmlns:ole="http://ole.kuali.org/standards/ole-instance">
+  <!--1 or more repetitions:-->
+  <ole:instance>
+    <ole:instanceIdentifier>string</ole:instanceIdentifier>
+    <!--Zero or more repetitions:-->
+    <ole:resourceIdentifier>string</ole:resourceIdentifier>
+    <!--Zero or more repetitions:-->
+    <ole:formerResourceIdentifier>
+      <ole:identifier source="string">
+        <ole:identifierValue>string</ole:identifierValue>
+      </ole:identifier>
+      <ole:identifierType>string</ole:identifierType>
+    </ole:formerResourceIdentifier>
+    <ole:oleHoldings primary="string">
+      <ole:holdingsIdentifier>string</ole:holdingsIdentifier>
+      <!--Zero or more repetitions:-->
+      <ole:extentOfOwnership>
+        <ole:textualHoldings>string</ole:textualHoldings>
+        <!--Zero or more repetitions:-->
+        <ole:note type="string">string</ole:note>
+        <ole:type>string</ole:type>
+      </ole:extentOfOwnership>
+      <ole:receiptStatus>string</ole:receiptStatus>
+      <!--Zero or more repetitions:-->
+      <ole:uri resolvable="string">string</ole:uri>
+      <!--Zero or more repetitions:-->
+      <ole:note type="string">string</ole:note>
+      <ole:location>
+        <ole:locationLevel>
+          <ole:name>string</ole:name>
+          <ole:level>string</ole:level>
+          <!--Optional:-->
+          <ole:locationLevel></ole:locationLevel>
+        </ole:locationLevel>
+      </ole:location>
+      <ole:extension displayLabel="string">
+        e
+        <!--You may enter ANY elements at this point-->
+        <AnyElement></AnyElement>
+        gero
+      </ole:extension>
+      <ole:callNumber>
+        <ole:type>string</ole:type>
+        <ole:prefix>string</ole:prefix>
+        <ole:number>string</ole:number>
+        <ole:classificationPart>string</ole:classificationPart>
+        <ole:itemPart>string</ole:itemPart>
+        <ole:shelvingScheme>
+          <ole:codeValue>string</ole:codeValue>
+          <ole:fullValue>string</ole:fullValue>
+          <ole:typeOrSource>
+            <ole:pointer>http://www.your.com/tempestatesque/e</ole:pointer>
+            <ole:text>string</ole:text>
+          </ole:typeOrSource>
+        </ole:shelvingScheme>
+        <ole:shelvingOrder>
+          <ole:codeValue>string</ole:codeValue>
+          <ole:fullValue>string</ole:fullValue>
+          <ole:typeOrSource>
+            <ole:pointer>http://www.your.com/tempestatesque/e</ole:pointer>
+            <ole:text>string</ole:text>
+          </ole:typeOrSource>
+        </ole:shelvingOrder>
+      </ole:callNumber>
+    </ole:oleHoldings>
+    <ole:sourceHoldings primary="string">
+      <ole:holdingsIdentifier>string</ole:holdingsIdentifier>
+      <ole:name>string</ole:name>
+      <ole:holdings>string</ole:holdings>
+      <ole:extension displayLabel="string">
+        aeoliam
+        <!--You may enter ANY elements at this point-->
+        <AnyElement></AnyElement>
+        quae
+      </ole:extension>
+    </ole:sourceHoldings>
+    <ole:items>
+      <!--1 or more repetitions:-->
+      <ole:item analytic="string" resourceIdentifier="string">
+        <ole:itemIdentifier>string</ole:itemIdentifier>
+        <ole:purchaseOrderLineItemIdentifier>string</ole:purchaseOrderLineItemIdentifier>
+        <ole:vendorLineItemIdentifier>string</ole:vendorLineItemIdentifier>
+        <ole:accessInformation>
+          <ole:barcode>string</ole:barcode>
+          <ole:uri resolvable="string">string</ole:uri>
+        </ole:accessInformation>
+        <ole:barcodeARSL>string</ole:barcodeARSL>
+        <!--Zero or more repetitions:-->
+        <ole:formerIdentifier>
+          <ole:identifier source="string">
+            <ole:identifierValue>string</ole:identifierValue>
+          </ole:identifier>
+          <ole:identifierType>string</ole:identifierType>
+        </ole:formerIdentifier>
+        <!--Zero or more repetitions:-->
+        <ole:statisticalSearchingCode>
+          <ole:codeValue>string</ole:codeValue>
+          <ole:fullValue>string</ole:fullValue>
+          <ole:typeOrSource>
+            <ole:pointer>http://www.your.com/tempestatesque/e</ole:pointer>
+            <ole:text>string</ole:text>
+          </ole:typeOrSource>
+        </ole:statisticalSearchingCode>
+        <ole:itemType>
+          <ole:codeValue>string</ole:codeValue>
+          <ole:fullValue>string</ole:fullValue>
+          <ole:typeOrSource>
+            <ole:pointer>http://www.test.com/gero/nimborum</ole:pointer>
+            <ole:text>string</ole:text>
+          </ole:typeOrSource>
+        </ole:itemType>
+        <!--Optional:-->
+        <ole:location>
+          <ole:locationLevel>
+            <ole:name>string</ole:name>
+            <ole:level>string</ole:level>
+            <!--Optional:-->
+            <ole:locationLevel></ole:locationLevel>
+          </ole:locationLevel>
+        </ole:location>
+        <ole:copyNumber>string</ole:copyNumber>
+        <ole:copyNumberLabel>string</ole:copyNumberLabel>
+        <ole:volumeNumber>string</ole:volumeNumber>
+        <ole:volumeNumberLabel>string</ole:volumeNumberLabel>
+        <ole:note type="string">string</ole:note>
+        <ole:enumeration>string</ole:enumeration>
+        <ole:chronology>string</ole:chronology>
+        <ole:highDensityStorage>
+          <ole:row>string</ole:row>
+          <ole:module>string</ole:module>
+          <ole:shelf>string</ole:shelf>
+          <ole:tray>string</ole:tray>
+        </ole:highDensityStorage>
+        <ole:temporaryItemType>
+          <ole:codeValue>string</ole:codeValue>
+          <ole:fullValue>string</ole:fullValue>
+          <ole:typeOrSource>
+            <ole:pointer>http://www.test.org/montis/flammato</ole:pointer>
+            <ole:text>string</ole:text>
+          </ole:typeOrSource>
+        </ole:temporaryItemType>
+        <ole:fund>string</ole:fund>
+        <ole:donorPublicDisplay>string</ole:donorPublicDisplay>
+        <ole:donorNote>string</ole:donorNote>
+        <ole:callNumber>
+          <ole:type>string</ole:type>
+          <ole:prefix>string</ole:prefix>
+          <ole:number>string</ole:number>
+          <ole:classificationPart>string</ole:classificationPart>
+          <ole:itemPart>string</ole:itemPart>
+          <ole:shelvingScheme>
+            <ole:codeValue>string</ole:codeValue>
+            <ole:fullValue>string</ole:fullValue>
+            <ole:typeOrSource>
+              <ole:pointer>http://www.test.com/gero/nimborum</ole:pointer>
+              <ole:text>string</ole:text>
+            </ole:typeOrSource>
+          </ole:shelvingScheme>
+          <ole:shelvingOrder>
+            <ole:codeValue>string</ole:codeValue>
+            <ole:fullValue>string</ole:fullValue>
+            <ole:typeOrSource>
+              <ole:pointer>http://www.test.com/metuens/montis</ole:pointer>
+              <ole:text>string</ole:text>
+            </ole:typeOrSource>
+          </ole:shelvingOrder>
+        </ole:callNumber>
+        <ole:price>string</ole:price>
+        <ole:numberOfPieces>string</ole:numberOfPieces>
+        <ole:itemStatus>string</ole:itemStatus>
+        <ole:itemStatusEffectiveDate>string</ole:itemStatusEffectiveDate>
+        <ole:checkinNote>string</ole:checkinNote>
+        <ole:staffOnlyFlag>true</ole:staffOnlyFlag>
+        <ole:fastAddFlag>false</ole:fastAddFlag>
+        <ole:extension displayLabel="string">
+          nimborum
+          <!--You may enter ANY elements at this point-->
+          <AnyElement></AnyElement>
+          fremunt
+        </ole:extension>
+      </ole:item>
+    </ole:items>
+    <ole:extension displayLabel="string">
+      foedere
+      <!--You may enter ANY elements at this point-->
+      <AnyElement></AnyElement>
+      ferant
+    </ole:extension>
+  </ole:instance>
+</ole:instanceCollection>
+                ]]>
+                    </content>
+                    <additionalAttributes></additionalAttributes>
+                    <linkedIngestDocuments></linkedIngestDocuments>
+                </linkedIngestDocument>
+            </linkedIngestDocuments>
+        </ingestDocument>
+    </requestDocuments>
+</request>

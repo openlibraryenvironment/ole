@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="UTF-8"?><article xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en-US"><title>OLE Describe overview</title><para role="No Spacing"><emphasis role="bold">September 2014, Milestone Release
+        1.5</emphasis></para><section><title/><section>
+            <title> </title>
+            <para role="Normal">Cataloging is the term most commonly used in libraries for what OLE
+                defines as Describe and Manage activities. Cataloging involves the creation and
+                maintenance of various kinds of core metadata that are used to support the business
+                activities of the library as well as the library’s OPAC.</para>
+            <para role="Normal"/>
+            <para role="Normal">The OLE Describe-Manage module incorporates the creation and
+                management of bibliographic, OLE Instance (holdings and item) records as well as
+                electronic Instances. Support is confined to MARC 21 but will extend to Dublin Core
+                in a later release. Ultimately OLE will be flexible to support multiple formats of
+                bibliographic and holdings records along with licenses and authority records.
+                Reporting functionality will also be included within OLE but methodology and details
+                are yet to be determined.</para>
+            <para role="Normal"/>
+            <para role="Normal">Describe-Manage features:</para>
+            <para role="Normal"/>
+            <itemizedlist mark="disc" spacing="normal">
+                <listitem>
+                    <para role="List Paragraph">All cataloging activities using widely available web
+                        browsers without the need to download a client onto the user’s
+                        workstation.</para>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">Manually creating and updating bibliographic,
+                        holding and item records using a record editor.</para>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">Bibliographic and holdings records, in multiple
+                        formats. Item records for circulation and inventory control.</para>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">Importing batch records from vendors and ingesting
+                        single records from external sources such as OCLC.</para>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">Up to five levels of hierarchically-related
+                        locations (e.g., institution, campus, library, collection, and
+                        shelving).</para>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">Internal linking to the OLE Select and Acquire and
+                        Deliver modules.</para>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">“Staff only” flagging and record ownership (allowing
+                        only authorized staff to modify records)</para>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">“Bound-withs” and “analytics”.</para>
+                </listitem>
+            </itemizedlist>
+        </section>
+        <section>
+            <title>Cataloging Record Types</title>
+            <para role="Normal"><inlinemediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/InstanceDiagram.png" scalefit="1" width="100%"
+                            contentdepth="100%"/>
+                    </imageobject>
+                </inlinemediaobject></para>
+            <section>
+                <title>Bibliographic records </title>
+                <para role="Normal">MARC and Dublin Core are supported but eventually bibliographic
+                    records can be in a variety of formats. The MARC Editor has undergone extensive
+                    modifications since 0.8; the Dublin Core Editor remains available as a proof of
+                    concept. It is anticipated that support for additional or newer formats (such as
+                    BIBFRAME) will be added later as required by the OLE member community. OLE is
+                    also compliant with Unicode standards.</para>
+                <note>
+                    <para role="Normal"> To learn more about <link
+                        xlink:href="../webhelp/CG/content/ch01s02.html">bibliographic records</link> and
+                        how to create and modify them, see the <link xlink:href="../webhelp/CG/content/pr01.html"
+                                ><emphasis>Guide to the OLE Describe and Manage
+                            Module</emphasis></link>.</para>
+                </note>
+            </section>
+            <section>
+                <title>E-Instances</title>
+                <para role="No Spacing">OLE E-Instances (Electronic Instances) store and view data
+                    about individual titles that make up an E-Resource purchase. The E-Instance
+                    record stores data that is unique to the title level, such as URL, coverage
+                    dates, and post-cancellation access dates. The E-Instance also inherits data
+                    from its parent E-Resource record. This inherited data can be customized with
+                    the E-Instance editor. In future releases, the link to the parent E-Resource
+                    will provide a convenient link to the license, trial, access, and purchase
+                    information that pertains to the E-Instance.</para>
+                <note>
+                    <para role="Normal"> To learn more about <link
+                        xlink:href="../webhelp/CG/content/ch01s04.html">E-Instance records</link>
+                        and how to create and modify them, see the <link
+                            xlink:href="../webhelp/CG/content/pr01.html"><emphasis>Guide to the OLE Describe and
+                                Manage Module</emphasis></link>.</para>
+                </note>
+            </section>
+            <section>
+                <title>OLE Instances</title>
+                <para role="No Spacing">OLE Instances serve as containers for Holdings and Item
+                    records.</para>
+                <section>
+                    <title>Holdings records</title>
+                    <para role="Normal">OLE Holding Records store information about particular
+                        copies, including “base” call numbers and shelving locations. In OLE 1.5,
+                        holdings are maintained in a format specific to OLE called “OLE holdings”
+                        which also provides the ability to record summary holdings information. In
+                        the future, other types of holdings formats (collectively referred to as
+                        “source holdings”) will be supported. “OLE holdings” records have a field
+                        for summary holdings statements. Thus, some sites may find that they can use
+                        “OLE holdings” exclusively without the need to create MARC holdings records.
+                        At the present time, it is anticipated that a cataloger would be able to
+                        convert an “OLE holdings” record to a MARC holdings record by clicking on a
+                        button, but not vice-versa.</para>
+                </section>
+                <section>
+                    <title>Item records</title>
+                    <para role="Normal">Item records support the traditional functions of
+                        circulation and inventory control. Barcode numbers for physical items are
+                        recorded here and may be subject to a validation routine according to
+                        site-configurable parameters. There is a provision for public and staff
+                        notes. </para>
+                    <para role="Normal"/>
+                    <para role="Normal">Cataloging Record Features:</para>
+                    <itemizedlist mark="disc" spacing="normal">
+                        <listitem>
+                            <para role="List Paragraph">Full authority control (will be available in
+                                a future release).</para>
+                        </listitem>
+                        <listitem>
+                            <para role="List Paragraph">Internal linkages to acquisitions and
+                                circulation records.</para>
+                        </listitem>
+                        <listitem>
+                            <para role="List Paragraph">URL links to external resources from any
+                                level of the cataloging record hierarchy (bibliographic, holdings,
+                                or item).</para>
+                        </listitem>
+                        <listitem>
+                            <para role="List Paragraph">Ability to flag records as “staff only” so
+                                that they can be excluded from public indexes but displayed in the
+                                library’s discovery layer.</para>
+                        </listitem>
+                    </itemizedlist>
+                    <note>
+                        <para role="Normal"> To learn more about <link
+                            xlink:href="../webhelp/CG/content/ch01s03.html">Instance
+                                records</link> and how to create and modify them, see the <link
+                                    xlink:href="../webhelp/CG/content/pr01.html"><emphasis>Guide to the OLE Describe and
+                                    Manage Module</emphasis></link>.</para>
+                    </note>
+                </section>
+            </section>
+        </section>
+        <section>
+            <title>OLE Cataloging Record Relationships</title>
+            <section>
+                <title>Loading/Importing Records</title>
+                <para role="Normal">Bibliographic records may enter OLE in a variety of ways:</para>
+                <itemizedlist mark="disc" spacing="normal">
+                    <listitem>
+                        <para role="List Paragraph">Batch imports of large number of records
+                            simultaneously.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="List Paragraph">Downloaded individual records from a
+                            bibliographic utility such as OCLC (a cataloger may download a number of
+                            records into a single file on his or her workstation, and then upload
+                            all of the records in the file at once).</para>
+                    </listitem>
+                    <listitem>
+                        <para role="List Paragraph">Manual creation of individual records using the
+                            editor. While this might typically be done by a cataloger, it might also
+                            be done by someone in an acquisition unit of by a staff member at a
+                            circulation desk. Brief bibliographic records created by circulation
+                            staff will be flagged as “fast add” records so they can be reviewed
+                            later by catalogers and corrected and upgraded to fuller records if
+                            necessary.</para>
+                    </listitem>
+                </itemizedlist>
+                <para role="Normal"/>
+                <para role="Normal">Batch imports and single record downloads may overlay existing
+                    bibliographic records rather than create new ones. Records to be overlaid can be
+                    identified by a number of match points. When downloading a single record, a
+                    cataloger may overlay an existing record that he or she has called up on the
+                    screen without needing to specify a match point. When bibliographic records are
+                    overlaid, certain fields in the original record may be protected from overlay
+                    and replacement so that they are retained in the updated record and not
+                    lost.</para>
+                <para role="Normal"/>
+                <para role="Normal">Import Features:</para>
+                <itemizedlist mark="disc" spacing="normal">
+                    <listitem>
+                        <para role="List Paragraph">Downloading bibliographic records one at a time
+                            from external data sources such as OCLC.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="List Paragraph">Importing batch files of bibliographic records
+                            such as those that might be received from a vendor.</para>
+                    </listitem>
+                </itemizedlist>
+                <note>
+                    <para role="Normal"> To learn more about single record importing, see the <link
+                            xlink:href="../webhelp/CG/content/ch03s01.html">Import Bibliographic
+                            Records</link> section of <link
+                            xlink:href="../webhelp/CG/content/pr01.html"><emphasis>Guide to the OLE
+                                Describe and Manage Module</emphasis></link>. </para>
+                    <para role="Normal"> To learn more about <link
+                            xlink:href="../webhelp/ADMIN/content/ch01.html">importing batch
+                            records</link> (Batch Processes), see the relevant section of <link
+                            xlink:href="../webhelp/ADMIN/content/pr01.html"><emphasis>Guide to the
+                                OLE System Administration Functions</emphasis></link>.</para>
+                    <para role="Normal"> To learn more about <link
+                        xlink:href="../webhelp/CIRC/content/ch02s01.html#_FastAdds">fast adds</link>, see the
+                        relevant section of <link xlink:href="../webhelp/CIRC/content/pr01.html"><emphasis>Guide to
+                                the OLE Deliver Module</emphasis></link>.</para>
+                </note>
+                <para role="Normal"/>
+            </section>
+        </section>
+        <section>
+            <title>Editors</title>
+            <para role="Style1"/>
+            <para role="Normal">OLE stores MARC records in the form of MARCXML. Catalogers add or
+                update MARC records using an editor that hides the details of the XML stored behind
+                the scenes.</para>
+            <para role="Normal"/>
+            <para role="Normal">In OLE, multiple copies of an individual volume shelved in the same
+                location can be handled by attaching multiple items to the same holdings record, one
+                for each copy. Alternatively, multiple copies in the same location can be handled by
+                creating a separate holdings record for each copy. If the different copies are in
+                different locations, then separate holdings records <emphasis>must</emphasis> be
+                created. </para>
+            <para role="Normal"/>
+            <para role="Normal">Editor Features:</para>
+            <itemizedlist mark="disc" spacing="normal">
+                <listitem>
+                    <para role="List Paragraph">Audit trail of changes to bibliographic records
+                        (planned for a future release).</para>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">Validation of bibliographic data. Initially, OLE
+                        will support a “light” validation with limited requirements (e.g. does this
+                        MARC record have a 245 field?). Subsequently, an option for full MARC
+                        validation is planned for a future release.</para>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">The ability to make global changes to OLE Instance
+                        holdings records.</para>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">Locally defined status codes (e.g. “Not yet
+                        cataloged” or “Cataloged”) for bibliographic records. </para>
+                </listitem>
+            </itemizedlist>
+            <para role="Normal"/>
+            <note>
+                <para role="Normal"> To learn more about the <link
+                    xlink:href="../webhelp/CG/content/ch01s02.html">OLE MARC Editor</link>, see the Editor
+                    section of <link xlink:href="../webhelp/CG/content/pr01.html"><emphasis>Guide to the OLE
+                            Describe and Manage Module</emphasis></link></para>
+                <para role="Normal"> To learn more about OLE’s prerelease <link
+                    xlink:href="../webhelp/CG/content/ch01s01.html">Dublin Core Editor</link>, see
+                    the Dublin Core Editor section.</para>
+            </note>
+            <para role="Normal"/>
+            <section>
+                <title>Bound-withs and Analytics</title>
+                <para role="Normal">OLE offers flexibility to cater to each library’s needs. With
+                    that flexibility includes “bound-withs”, a physical object that contains two or
+                    more titles. The requirement of “bound withs” can be satisfied by having one
+                    item record linked to a holdings record which is in turn linked to two or more
+                    bibliographic records. When a library wishes to have a bibliographic record for
+                    a series as well as separate bibliographic records (“analytics”) for the
+                    individual titles in the series, this requirement can be met by having one item
+                    record linked to two or more holdings records, with each holdings record linked
+                    to a different bibliographic record. </para>
+                <para role="Normal"/>
+                <note>
+                    <para role="Normal"> To learn more about how <link
+                        xlink:href="../webhelp/CG/content/ch02s02.html">bound-withs</link> function in
+                        OLE, see the Bound-Withs section of <link xlink:href="../webhelp/CG/content/pr01.html"
+                                ><emphasis>Guide to the OLE Describe and Manage
+                            Module</emphasis></link>.</para>
+                    <para role="Normal"> To learn more about how <link
+                        xlink:href="../webhelp/CG/content/ch02s01.html">analytics</link> function in
+                        OLE, see the Analytics section.</para>
+                </note>
+            </section>
+        </section>
+        <section>
+            <title>Locations</title>
+            <para role="Normal">Locations<emphasis role="bold"> </emphasis>in OLE are defined by
+                each partner site at the time of implementation. Locations are defined in terms of a
+                hierarchy of up to five levels. As delivered, the levels (from broadest to most
+                specific) are:</para>
+            <itemizedlist mark="disc" spacing="normal">
+                <listitem>
+                    <para role="List Paragraph">Institution</para>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">Campus</para>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">Library</para>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">Collection</para>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">Shelving location</para>
+                </listitem>
+            </itemizedlist>
+            <para role="Normal"/>
+            <para role="Normal">An OLE site may rename these levels and need not use all of them.
+                All locations must be unique. Thus, if an OLE site has two libraries, and each
+                library has a “stacks” location, two different stacks locations would have to be
+                defined in OLE, one for each library.</para>
+            <para role="Normal"/>
+            <para role="Normal">Locations are ordinarily recorded in holdings records, and only one
+                location may be used per record. Typically it would be the lowest level in the
+                location hierarchy that is known. Higher levels of location may be inferred from the
+                level specified in the record because of the hierarchy that has been defined in the
+                OLE maintenance documents. The location recorded in a holdings record is the place
+                where something is ordinarily shelved or housed. Shelving locations are sometimes
+                also recorded in item records; the “item” location is a temporary location for the
+                item, such as “Reserve.” </para>
+            <note>
+                <para role="Normal"> To learn more about <link
+                    xlink:href="../webhelp/CIRC/content/ch04s10.html">Locations</link> and <link
+                        xlink:href="../webhelp/CIRC/content/ch04s11.html">Location Levels</link>, see
+                    the relevant section of <link xlink:href="../webhelp/CIRC/content/pr01.html"><emphasis>Guide to
+                            the OLE Deliver Module</emphasis></link>.</para>
+            </note>
+        </section>
+        <section>
+            <title>Search Workbench</title>
+            <para role="Normal">OLE records are saved in the <emphasis role="bold">Document
+                    Store</emphasis> (DocStore). The DocStore can be searched from the <emphasis
+                    role="bold">Search Workbench</emphasis> button available at the top of each
+                module tab. </para>
+            <para/>
+            <para role="Body Text"><inlinemediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/DescribeNoTitlePage-14.png" scalefit="1"
+                            width="100%" contentdepth="100%"/>
+                    </imageobject>
+                </inlinemediaobject></para>
+            <para/>
+            <para role="Normal">Catalogers may do searches against bibliographic records, holdings
+                records, and item records, using the standard Boolean operators AND, OR, and NOT. An
+                asterisk may be used as a truncation symbol or as a wildcard within a word. Response
+                sets can be sorted by title (A-Z or Z-A), author (A-Z or Z-A), publication date
+                (newest to oldest or oldest to newest), or relevance. Response sets can also be
+                further limited by facet. </para>
+            <para role="Normal">Search Workbench Features:</para>
+            <itemizedlist mark="disc" spacing="normal">
+                <listitem>
+                    <para role="List Paragraph">Quick record search and retrieval via a variety of
+                        access points.</para>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">Real-time indexing using Apache Solr.</para>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">Improved performance with data now stored in an
+                        RDBMS.</para>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">Unicode compliance.</para>
+                </listitem>
+            </itemizedlist>
+            <para role="Normal">The use of DocStore technology allows OLE to rely exclusively on
+                real-time indexing instead of having to defer some or all indexing for large batch
+                loads to off-hours processing.</para>
+            <para role="Normal"/>
+            <note>
+                <para role="Normal"> To learn more about the <link
+                    xlink:href="../webhelp/BASICS/content/ch02s04.html#_Describe_Workbench">Search Workbench</link>
+                    in OLE, see the relevant section in the <link xlink:href="../webhelp/BASICS/content/pr01.html"
+                            ><emphasis>Guide to OLE Basic Functionality and Key
+                        Concepts</emphasis></link>. </para>
+            </note>
+            <para role="Normal"/>
+        </section></section></article>

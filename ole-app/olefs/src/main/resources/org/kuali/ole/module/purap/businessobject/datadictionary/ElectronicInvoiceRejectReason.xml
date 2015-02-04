@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+<!--
+ Copyright 2008-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean id="ElectronicInvoiceRejectReason" parent="ElectronicInvoiceRejectReason-parentBean"/>
+
+  <bean id="ElectronicInvoiceRejectReason-parentBean" abstract="true" parent="BusinessObjectEntry">
+  	<property name="objectLabel" value="Electronic Invoice Reject Reason"/>
+    <property name="businessObjectClass" value="org.kuali.ole.module.purap.businessobject.ElectronicInvoiceRejectReason"/>
+    <property name="inquiryDefinition">
+      <ref bean="ElectronicInvoiceRejectReason-inquiryDefinition"/>
+    </property>
+    <property name="lookupDefinition">
+      <ref bean="ElectronicInvoiceRejectReason-lookupDefinition"/>
+    </property>
+    <property name="attributes">
+      <list>
+        <ref bean="ElectronicInvoiceRejectReason-purapDocumentIdentifier"/>
+        <ref bean="ElectronicInvoiceRejectReason-invoiceRejectReasonDescription"/>
+        <ref bean="ElectronicInvoiceRejectReason-invoiceRejectReasonIdentifier"/>
+        <ref bean="ElectronicInvoiceRejectReason-invoiceRejectReasonTypeCode"/>
+        <ref bean="ElectronicInvoiceRejectReason-invoiceFileName"/>
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="ElectronicInvoiceRejectReason-purapDocumentIdentifier" parent="ElectronicInvoiceRejectReason-purapDocumentIdentifier-parentBean"/>
+
+  <bean id="ElectronicInvoiceRejectReason-purapDocumentIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="purapDocumentIdentifier"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Invoice Header Information Identifier"/>
+    <property name="shortLabel" value="Identifier"/>
+    <property name="maxLength" value="9"/>
+    <property name="validationPattern">
+      <ref bean="NumericValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="11"/>
+    </property>
+  </bean>
+  <bean id="ElectronicInvoiceRejectReason-invoiceRejectReasonDescription" parent="ElectronicInvoiceRejectReason-invoiceRejectReasonDescription-parentBean"/>
+
+  <bean id="ElectronicInvoiceRejectReason-invoiceRejectReasonDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="invoiceRejectReasonDescription"/>
+    <property name="label" value="Invoice Reject Reason Description"/>
+    <property name="shortLabel" value="Description"/>
+    <property name="maxLength" value="400"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextareaControlDefinition" p:rows="5" p:cols="80"/>
+    </property>
+  </bean>
+  <bean id="ElectronicInvoiceRejectReason-invoiceRejectReasonIdentifier" parent="ElectronicInvoiceRejectReason-invoiceRejectReasonIdentifier-parentBean"/>
+
+  <bean id="ElectronicInvoiceRejectReason-invoiceRejectReasonIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="invoiceRejectReasonIdentifier"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Invoice Reject Reason Identifier"/>
+    <property name="shortLabel" value="Identifier"/>
+    <property name="maxLength" value="9"/>
+    <property name="validationPattern">
+      <ref bean="NumericValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="11"/>
+    </property>
+  </bean>
+  <bean id="ElectronicInvoiceRejectReason-invoiceRejectReasonTypeCode" parent="ElectronicInvoiceRejectReason-invoiceRejectReasonTypeCode-parentBean"/>
+
+  <bean id="ElectronicInvoiceRejectReason-invoiceRejectReasonTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="invoiceRejectReasonTypeCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Invoice Reject Reason Type Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="6"/>
+    </property>
+  </bean>
+
+  <bean id="ElectronicInvoiceRejectReason-invoiceFileName" parent="ElectronicInvoiceRejectReason-invoiceFileName-parentBean"/>
+
+  <bean id="ElectronicInvoiceRejectReason-invoiceFileName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="invoiceFileName"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Invoice File Name"/>
+    <property name="shortLabel" value="Name"/>
+    <property name="maxLength" value="200"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="45"/>
+    </property>
+  </bean>
+
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="ElectronicInvoiceRejectReason-inquiryDefinition" parent="ElectronicInvoiceRejectReason-inquiryDefinition-parentBean"/>
+
+  <bean id="ElectronicInvoiceRejectReason-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Electronic Invoice Reject Reason Inquiry"/>
+    <property name="inquirySections">
+      <list>
+		<ref bean="ElectronicInvoiceRejectReason-inquirySectionDefinition"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="ElectronicInvoiceRejectReason-inquirySectionDefinition" parent="ElectronicInvoiceRejectReason-inquirySectionDefinition-parentBean"/>
+  <bean id="ElectronicInvoiceRejectReason-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="purapDocumentIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceRejectReasonDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceRejectReasonIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceRejectReasonTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceFileName"/>
+      </list>
+    </property>
+  </bean>
+  
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="ElectronicInvoiceRejectReason-lookupDefinition" parent="ElectronicInvoiceRejectReason-lookupDefinition-parentBean"/>
+
+  <bean id="ElectronicInvoiceRejectReason-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Electronic Invoice Reject Reason Lookup"/>
+    
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="purapDocumentIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceRejectReasonDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceRejectReasonIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceRejectReasonTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceFileName"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="purapDocumentIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceRejectReasonDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceRejectReasonIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceRejectReasonTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="invoiceFileName"/>
+      </list>
+    </property>
+  </bean>
+</beans>

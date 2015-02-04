@@ -1,0 +1,36 @@
+.dataTables_filter {
+    float: none;
+    width: 100%;
+    background: #dbdbdb;
+}
+
+.dataTables_length {
+    margin: 0;
+}
+.uif-tableCollectionLayout {
+    width: 900px;
+}
+
+.paginate_disabled_previous {
+    color: #999999;
+}
+.paginate_disabled_previous:focus{
+    color: #999999;
+    text-decoration: none;
+}
+.paginate_disabled_previous:hover{
+    color: #999999;
+    text-decoration: none;
+}
+.paginate_disabled_next{
+    color: #999999;
+}
+.paginate_disabled_next:hover{
+    color: #999999;
+    text-decoration: none;
+}
+.paginate_disabled_next:focus{
+    color: #999999;
+    text-decoration: none;
+}
+

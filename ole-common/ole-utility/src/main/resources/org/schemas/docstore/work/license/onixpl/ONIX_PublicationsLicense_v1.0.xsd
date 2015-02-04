@@ -1,0 +1,3621 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.editeur.org/onix-pl" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ople="http://www.editeur.org/ople" targetNamespace="http://www.editeur.org/onix-pl" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:include schemaLocation="ONIX_PublicationsLicense_CodeLists_v1.0.xsd"/>
+	<xs:element name="ONIXPublicationsLicenseMessage">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Header">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Sender">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:choice>
+											<xs:sequence>
+												<xs:element name="SenderIdentifier">
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element name="SenderIDType">
+																<xs:complexType>
+																	<xs:simpleContent>
+																		<xs:extension base="SenderIDTypeCode">
+																			<xs:attributeGroup ref="dataRevisionAttributes"/>
+																		</xs:extension>
+																	</xs:simpleContent>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="IDTypeName" minOccurs="0">
+																<xs:complexType>
+																	<xs:simpleContent>
+																		<xs:extension base="xs:string">
+																			<xs:attributeGroup ref="dataRevisionAttributes"/>
+																		</xs:extension>
+																	</xs:simpleContent>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="IDValue">
+																<xs:complexType>
+																	<xs:simpleContent>
+																		<xs:extension base="xs:string">
+																			<xs:attributeGroup ref="dataRevisionAttributes"/>
+																		</xs:extension>
+																	</xs:simpleContent>
+																</xs:complexType>
+															</xs:element>
+														</xs:sequence>
+														<xs:attributeGroup ref="dataRevisionAttributes"/>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="SenderName" type="PartyName" minOccurs="0"/>
+											</xs:sequence>
+											<xs:element name="SenderName" type="PartyName"/>
+										</xs:choice>
+										<xs:element name="SenderContact" minOccurs="0">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:string">
+														<xs:attributeGroup ref="dataRevisionAttributes"/>
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="SenderEmail" minOccurs="0">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:string">
+														<xs:attributeGroup ref="dataRevisionAttributes"/>
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attributeGroup ref="dataRevisionAttributes"/>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Addressee" minOccurs="0" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:choice>
+											<xs:sequence>
+												<xs:element name="AddresseeIdentifier">
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element name="AddresseeIDType">
+																<xs:complexType>
+																	<xs:simpleContent>
+																		<xs:extension base="AddresseeIDTypeCode">
+																			<xs:attributeGroup ref="dataRevisionAttributes"/>
+																		</xs:extension>
+																	</xs:simpleContent>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="IDTypeName" minOccurs="0">
+																<xs:complexType>
+																	<xs:simpleContent>
+																		<xs:extension base="xs:string">
+																			<xs:attributeGroup ref="dataRevisionAttributes"/>
+																		</xs:extension>
+																	</xs:simpleContent>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="IDValue">
+																<xs:complexType>
+																	<xs:simpleContent>
+																		<xs:extension base="xs:string">
+																			<xs:attributeGroup ref="dataRevisionAttributes"/>
+																		</xs:extension>
+																	</xs:simpleContent>
+																</xs:complexType>
+															</xs:element>
+														</xs:sequence>
+														<xs:attributeGroup ref="dataRevisionAttributes"/>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="AddresseeName" type="PartyName" minOccurs="0"/>
+											</xs:sequence>
+											<xs:element name="AddresseeName" type="PartyName"/>
+										</xs:choice>
+										<xs:element name="AddresseeContact" minOccurs="0">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:string">
+														<xs:attributeGroup ref="dataRevisionAttributes"/>
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="AddresseeEmail" minOccurs="0">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:string">
+														<xs:attributeGroup ref="dataRevisionAttributes"/>
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attributeGroup ref="dataRevisionAttributes"/>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="MessageNumber" minOccurs="0">
+								<xs:complexType>
+									<xs:simpleContent>
+										<xs:extension base="xs:string">
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:extension>
+									</xs:simpleContent>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="MessageRepeat" minOccurs="0">
+								<xs:complexType>
+									<xs:simpleContent>
+										<xs:extension base="xs:int">
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:extension>
+									</xs:simpleContent>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="SentDateTime">
+								<xs:complexType>
+									<xs:simpleContent>
+										<xs:extension base="DateOrDateTime">
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:extension>
+									</xs:simpleContent>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="MessageNote" minOccurs="0">
+								<xs:complexType>
+									<xs:simpleContent>
+										<xs:extension base="xs:string">
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:extension>
+									</xs:simpleContent>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attributeGroup ref="dataRevisionAttributes"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="PublicationsLicenseExpression" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:group ref="PublicationsLicenseExpression-group"/>
+						<xs:attribute name="version" type="VersionList" use="optional"/>
+						<xs:attributeGroup ref="dataRevisionAttributes"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="version" type="VersionList" use="required"/>
+			<xs:attributeGroup ref="dataRevisionAttributes"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PublicationsLicenseExpression">
+		<xs:complexType>
+			<xs:group ref="PublicationsLicenseExpression-group"/>
+			<xs:attribute name="version" type="VersionList" use="required"/>
+			<xs:attributeGroup ref="dataRevisionAttributes"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:group name="PublicationsLicenseExpression-group">
+		<xs:sequence>
+			<xs:element name="ExpressionDetail">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ExpressionType">
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="ExpressionTypeCode">
+										<xs:attributeGroup ref="dataRevisionAttributes"/>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="ExpressionIdentifier" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="ExpressionIDType">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="ExpressionIDTypeCode">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="IDTypeName" minOccurs="0">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="xs:string">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="IDValue">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="xs:string">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+								<xs:attributeGroup ref="dataRevisionAttributes"/>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="ExpressionVersion" minOccurs="0">
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="xs:int">
+										<xs:attributeGroup ref="dataRevisionAttributes"/>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="ExpressionStatus">
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="ExpressionStatusCode">
+										<xs:attributeGroup ref="dataRevisionAttributes"/>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="Authority" minOccurs="0">
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="xs:string">
+										<xs:attributeGroup ref="dataRevisionAttributes"/>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="Description" minOccurs="0">
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="xs:string">
+										<xs:attributeGroup ref="dataRevisionAttributes"/>
+										<xs:attributeGroup ref="dataFormatAttributes"/>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="Annotation" type="Annotation" minOccurs="0" maxOccurs="unbounded"/>
+						<xs:element name="ExpressionReference" minOccurs="0" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="ReferenceRelator">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="ReferenceRelatorCode">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="ExpressionIdentifier">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="ExpressionIDType">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="ExpressionIDTypeCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="IDTypeName" minOccurs="0">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="IDValue">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="ExpressionVersion" minOccurs="0">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="xs:int">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+								<xs:attributeGroup ref="dataRevisionAttributes"/>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="ExpressionRelatedAgent" minOccurs="0" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="ExpressionAgentRelator">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="ExpressionAgentRelatorCode">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="Name">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="xs:string">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+								<xs:attributeGroup ref="dataRevisionAttributes"/>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="ExpressionRelatedTimePoint" minOccurs="0" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="ExpressionTimePointRelator">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="ExpressionTimePointRelatorCode">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="TimePointIdentifier" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="TimePointIDType">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="TimePointIDTypeCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="IDValue">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+								<xs:attributeGroup ref="dataRevisionAttributes"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attributeGroup ref="dataRevisionAttributes"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="LicenseDetail">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:choice>
+							<xs:sequence>
+								<xs:element name="LicenseIdentifier" maxOccurs="unbounded">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="LicenseIDType">
+												<xs:complexType>
+													<xs:simpleContent>
+														<xs:extension base="LicenseIDTypeCode">
+															<xs:attributeGroup ref="dataRevisionAttributes"/>
+														</xs:extension>
+													</xs:simpleContent>
+												</xs:complexType>
+											</xs:element>
+											<xs:element name="IDTypeName" minOccurs="0">
+												<xs:complexType>
+													<xs:simpleContent>
+														<xs:extension base="xs:string">
+															<xs:attributeGroup ref="dataRevisionAttributes"/>
+														</xs:extension>
+													</xs:simpleContent>
+												</xs:complexType>
+											</xs:element>
+											<xs:element name="IDValue">
+												<xs:complexType>
+													<xs:simpleContent>
+														<xs:extension base="xs:string">
+															<xs:attributeGroup ref="dataRevisionAttributes"/>
+														</xs:extension>
+													</xs:simpleContent>
+												</xs:complexType>
+											</xs:element>
+										</xs:sequence>
+										<xs:attributeGroup ref="dataRevisionAttributes"/>
+									</xs:complexType>
+								</xs:element>
+								<xs:element name="Description" type="LicenseDescription" minOccurs="0" maxOccurs="unbounded"/>
+							</xs:sequence>
+							<xs:element name="Description" type="LicenseDescription" maxOccurs="unbounded"/>
+						</xs:choice>
+						<xs:element name="LicenseStatus" minOccurs="0">
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="LicenseStatusCode">
+										<xs:attributeGroup ref="dataRevisionAttributes"/>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="LicenseRenewalType" minOccurs="0">
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="LicenseRenewalTypeCode">
+										<xs:attributeGroup ref="dataRevisionAttributes"/>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="Annotation" type="Annotation" minOccurs="0" maxOccurs="unbounded"/>
+						<xs:element name="LicenseDocument" minOccurs="0" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="LicenseDocumentType">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="LicenseDocumentTypeCode">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="DocumentLabel">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="xs:string">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+								<xs:attributeGroup ref="dataRevisionAttributes"/>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="OtherDocumentReference" minOccurs="0" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="ReferenceRelator" minOccurs="0">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="ReferenceRelatorCode">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="DocumentLabel">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="xs:string">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+								<xs:attributeGroup ref="dataRevisionAttributes"/>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="LicenseRelatedAgent" minOccurs="2" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="LicenseAgentRelator">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="LicenseAgentRelatorCode">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="RelatedAgent" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="xs:string">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+								<xs:attributeGroup ref="dataRevisionAttributes"/>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="LicenseRelatedResource" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="LicenseResourceRelator">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="LicenseResourceRelatorCode">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="RelatedResource" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="xs:string">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+								<xs:attributeGroup ref="dataRevisionAttributes"/>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="LicenseRelatedTimePoint" minOccurs="0" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="LicenseTimePointRelator">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="LicenseTimePointRelatorCode">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="RelatedTimePoint" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="xs:string">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+								<xs:attributeGroup ref="dataRevisionAttributes"/>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="LicenseRelatedPlace" minOccurs="0" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="LicensePlaceRelator">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="LicensePlaceRelatorCode">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="RelatedPlace" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="xs:string">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+								<xs:attributeGroup ref="dataRevisionAttributes"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attributeGroup ref="dataRevisionAttributes"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Definitions">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="AgentDefinition" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="AgentLabel">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="xs:string">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="AgentType">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="AgentTypeCode">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="Authority" minOccurs="0">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="xs:string">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="AgentIdentifier" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="AgentIDType">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="AgentIDTypeCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="IDTypeName" minOccurs="0">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="IDValue">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="AgentName" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="AgentNameType" minOccurs="0">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="AgentNameTypeCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:choice>
+													<xs:element name="Name">
+														<xs:complexType>
+															<xs:simpleContent>
+																<xs:extension base="xs:string">
+																	<xs:attributeGroup ref="dataRevisionAttributes"/>
+																</xs:extension>
+															</xs:simpleContent>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="AgentNamePart" maxOccurs="unbounded">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="AgentNamePartType">
+																	<xs:complexType>
+																		<xs:simpleContent>
+																			<xs:extension base="AgentNamePartTypeCode">
+																				<xs:attributeGroup ref="dataRevisionAttributes"/>
+																			</xs:extension>
+																		</xs:simpleContent>
+																	</xs:complexType>
+																</xs:element>
+																<xs:element name="NamePart">
+																	<xs:complexType>
+																		<xs:simpleContent>
+																			<xs:extension base="xs:string">
+																				<xs:attributeGroup ref="dataRevisionAttributes"/>
+																			</xs:extension>
+																		</xs:simpleContent>
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attributeGroup ref="dataRevisionAttributes"/>
+														</xs:complexType>
+													</xs:element>
+												</xs:choice>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="Description" minOccurs="0">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="xs:string">
+													<xs:attributeGroup ref="dataFormatAttributes"/>
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="Annotation" type="Annotation" minOccurs="0" maxOccurs="unbounded"/>
+									<xs:element name="LicenseTextLink" type="LicenseTextLink" minOccurs="0" maxOccurs="unbounded"/>
+									<xs:element name="LicenseDocumentReference" type="LicenseDocumentReference" minOccurs="0" maxOccurs="unbounded"/>
+									<xs:element name="OtherDocumentReference" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="ReferenceRelator" minOccurs="0">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="ReferenceRelatorCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="DocumentLabel">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="SectionDesignation" minOccurs="0">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="SectionIdentifier" type="SectionIdentifier" minOccurs="0"/>
+												<xs:element name="Annotation" type="Annotation" minOccurs="0" maxOccurs="unbounded"/>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="AgentQuantity" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="AgentQuantityType">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="AgentQuantityTypeCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="QuantityDetail" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element name="Proximity" minOccurs="0">
+																<xs:complexType>
+																	<xs:simpleContent>
+																		<xs:extension base="ProximityCode">
+																			<xs:attributeGroup ref="dataRevisionAttributes"/>
+																		</xs:extension>
+																	</xs:simpleContent>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="Value">
+																<xs:complexType>
+																	<xs:simpleContent>
+																		<xs:extension base="xs:int">
+																			<xs:attributeGroup ref="dataRevisionAttributes"/>
+																		</xs:extension>
+																	</xs:simpleContent>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="QuantityUnit">
+																<xs:complexType>
+																	<xs:simpleContent>
+																		<xs:extension base="QuantityUnitCode">
+																			<xs:attributeGroup ref="dataRevisionAttributes"/>
+																		</xs:extension>
+																	</xs:simpleContent>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="ReferenceUnit" minOccurs="0">
+																<xs:complexType>
+																	<xs:simpleContent>
+																		<xs:extension base="ReferenceUnitCode">
+																			<xs:attributeGroup ref="dataRevisionAttributes"/>
+																		</xs:extension>
+																	</xs:simpleContent>
+																</xs:complexType>
+															</xs:element>
+														</xs:sequence>
+														<xs:attributeGroup ref="dataRevisionAttributes"/>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="AgentRelatedAgent" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="AgentAgentRelator">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="AgentAgentRelatorCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="RelatedAgent" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="AgentRelatedResource" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="AgentResourceRelator">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="AgentResourceRelatorCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="RelatedResource" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="AgentRelatedTimePoint" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="AgentTimePointRelator">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="AgentTimePointRelatorCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="RelatedTimePoint" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="AgentRelatedPlace" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="AgentPlaceRelator">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="AgentPlaceRelatorCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="RelatedPlace" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+								<xs:attributeGroup ref="dataRevisionAttributes"/>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="ResourceDefinition" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="ResourceLabel">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="xs:string">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="ResourceType" minOccurs="0">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="ResourceTypeCode">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="Authority" minOccurs="0">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="xs:string">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="ResourceIdentifier" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="ResourceIDType">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="ResourceIDTypeCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="IDTypeName" minOccurs="0">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="IDValue">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="Description" minOccurs="0">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="xs:string">
+													<xs:attributeGroup ref="dataFormatAttributes"/>
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="Annotation" type="Annotation" minOccurs="0" maxOccurs="unbounded"/>
+									<xs:element name="LicenseTextLink" type="LicenseTextLink" minOccurs="0" maxOccurs="unbounded"/>
+									<xs:element name="LicenseDocumentReference" type="LicenseDocumentReference" minOccurs="0" maxOccurs="unbounded"/>
+									<xs:element name="OtherDocumentReference" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="ReferenceRelator" minOccurs="0">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="ReferenceRelatorCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="DocumentLabel">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="SectionDesignation" minOccurs="0">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="SectionIdentifier" type="SectionIdentifier" minOccurs="0"/>
+												<xs:element name="Annotation" type="Annotation" minOccurs="0" maxOccurs="unbounded"/>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="ResourceQuantity" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="ResourceQuantityType">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="ResourceQuantityTypeCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="QuantityDetail" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element name="Proximity" minOccurs="0">
+																<xs:complexType>
+																	<xs:simpleContent>
+																		<xs:extension base="ProximityCode">
+																			<xs:attributeGroup ref="dataRevisionAttributes"/>
+																		</xs:extension>
+																	</xs:simpleContent>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="Value">
+																<xs:complexType>
+																	<xs:simpleContent>
+																		<xs:extension base="xs:int">
+																			<xs:attributeGroup ref="dataRevisionAttributes"/>
+																		</xs:extension>
+																	</xs:simpleContent>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="QuantityUnit">
+																<xs:complexType>
+																	<xs:simpleContent>
+																		<xs:extension base="QuantityUnitCode">
+																			<xs:attributeGroup ref="dataRevisionAttributes"/>
+																		</xs:extension>
+																	</xs:simpleContent>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="ReferenceUnit" minOccurs="0">
+																<xs:complexType>
+																	<xs:simpleContent>
+																		<xs:extension base="ReferenceUnitCode">
+																			<xs:attributeGroup ref="dataRevisionAttributes"/>
+																		</xs:extension>
+																	</xs:simpleContent>
+																</xs:complexType>
+															</xs:element>
+														</xs:sequence>
+														<xs:attributeGroup ref="dataRevisionAttributes"/>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="ResourceRelatedAgent" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="ResourceAgentRelator">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="ResourceAgentRelatorCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="RelatedAgent" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="ResourceRelatedResource" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="ResourceResourceRelator">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="ResourceResourceRelatorCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="RelatedResource" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="ResourceRelatedTimePoint" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="ResourceTimePointRelator">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="ResourceTimePointRelatorCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="RelatedTimePoint" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="ResourceRelatedPlace" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="ResourcePlaceRelator">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="ResourcePlaceRelatorCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="RelatedPlace" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+								<xs:attributeGroup ref="dataRevisionAttributes"/>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="TimePointDefinition" minOccurs="0" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="TimePointLabel">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="xs:string">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="TimePointType" minOccurs="0">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="TimePointTypeCode">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="Authority" minOccurs="0">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="xs:string">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="TimePointIdentifier" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="TimePointIDType">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="TimePointIDTypeCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="IDValue">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="Description" minOccurs="0">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="xs:string">
+													<xs:attributeGroup ref="dataFormatAttributes"/>
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="Annotation" type="Annotation" minOccurs="0" maxOccurs="unbounded"/>
+									<xs:element name="LicenseTextLink" type="LicenseTextLink" minOccurs="0" maxOccurs="unbounded"/>
+									<xs:element name="LicenseDocumentReference" type="LicenseDocumentReference" minOccurs="0" maxOccurs="unbounded"/>
+									<xs:element name="OtherDocumentReference" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="ReferenceRelator" minOccurs="0">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="ReferenceRelatorCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="DocumentLabel">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="SectionDesignation" minOccurs="0">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="SectionIdentifier" type="SectionIdentifier" minOccurs="0"/>
+												<xs:element name="Annotation" type="Annotation" minOccurs="0" maxOccurs="unbounded"/>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="TimePointQuantity" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="TimePointQuantityType">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="TimePointQuantityTypeCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="QuantityDetail" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element name="Proximity" minOccurs="0">
+																<xs:complexType>
+																	<xs:simpleContent>
+																		<xs:extension base="ProximityCode">
+																			<xs:attributeGroup ref="dataRevisionAttributes"/>
+																		</xs:extension>
+																	</xs:simpleContent>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="Value">
+																<xs:complexType>
+																	<xs:simpleContent>
+																		<xs:extension base="xs:int">
+																			<xs:attributeGroup ref="dataRevisionAttributes"/>
+																		</xs:extension>
+																	</xs:simpleContent>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="QuantityUnit">
+																<xs:complexType>
+																	<xs:simpleContent>
+																		<xs:extension base="QuantityUnitCode">
+																			<xs:attributeGroup ref="dataRevisionAttributes"/>
+																		</xs:extension>
+																	</xs:simpleContent>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="ReferenceUnit" minOccurs="0">
+																<xs:complexType>
+																	<xs:simpleContent>
+																		<xs:extension base="ReferenceUnitCode">
+																			<xs:attributeGroup ref="dataRevisionAttributes"/>
+																		</xs:extension>
+																	</xs:simpleContent>
+																</xs:complexType>
+															</xs:element>
+														</xs:sequence>
+														<xs:attributeGroup ref="dataRevisionAttributes"/>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="TimePointRelatedAgent" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="TimePointAgentRelator">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="TimePointAgentRelatorCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="RelatedAgent" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="TimePointRelatedResource" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="TimePointResourceRelator">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="TimePointResourceRelatorCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="RelatedResource" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="TimePointRelatedTimePoint" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="TimePointTimePointRelator">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="TimePointTimePointRelatorCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="RelatedTimePoint" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="TimePointRelatedPlace" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="TimePointPlaceRelator">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="TimePointPlaceRelatorCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="RelatedPlace" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+								<xs:attributeGroup ref="dataRevisionAttributes"/>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="PlaceDefinition" minOccurs="0" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="PlaceLabel">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="xs:string">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="PlaceType" minOccurs="0">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="PlaceTypeCode">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="Authority" minOccurs="0">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="xs:string">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="PlaceIdentifier" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="PlaceIDType">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="PlaceIDTypeCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="IDTypeName" minOccurs="0">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="IDValue">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="PlaceName" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="PlaceNameType" minOccurs="0">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="PlaceNameTypeCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:choice>
+													<xs:element name="Name">
+														<xs:complexType>
+															<xs:simpleContent>
+																<xs:extension base="xs:string">
+																	<xs:attributeGroup ref="dataRevisionAttributes"/>
+																</xs:extension>
+															</xs:simpleContent>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="PlaceNamePart" maxOccurs="unbounded">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="PlaceNamePartType">
+																	<xs:complexType>
+																		<xs:simpleContent>
+																			<xs:extension base="PlaceNamePartTypeCode">
+																				<xs:attributeGroup ref="dataRevisionAttributes"/>
+																			</xs:extension>
+																		</xs:simpleContent>
+																	</xs:complexType>
+																</xs:element>
+																<xs:element name="NamePart">
+																	<xs:complexType>
+																		<xs:simpleContent>
+																			<xs:extension base="xs:string">
+																				<xs:attributeGroup ref="dataRevisionAttributes"/>
+																			</xs:extension>
+																		</xs:simpleContent>
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attributeGroup ref="dataRevisionAttributes"/>
+														</xs:complexType>
+													</xs:element>
+												</xs:choice>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="Description" minOccurs="0">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="xs:string">
+													<xs:attributeGroup ref="dataFormatAttributes"/>
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="Annotation" type="Annotation" minOccurs="0"/>
+									<xs:element name="LicenseTextLink" type="LicenseTextLink" minOccurs="0" maxOccurs="unbounded"/>
+									<xs:element name="LicenseDocumentReference" type="LicenseDocumentReference" minOccurs="0" maxOccurs="unbounded"/>
+									<xs:element name="OtherDocumentReference" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="ReferenceRelator" minOccurs="0">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="ReferenceRelatorCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="DocumentLabel">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="SectionDesignation" minOccurs="0">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="SectionIdentifier" type="SectionIdentifier" minOccurs="0"/>
+												<xs:element name="Annotation" type="Annotation" minOccurs="0" maxOccurs="unbounded"/>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="PlaceQuantity" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="PlaceQuantityType">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="PlaceQuantityTypeCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="QuantityDetail" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element name="Proximity" minOccurs="0">
+																<xs:complexType>
+																	<xs:simpleContent>
+																		<xs:extension base="ProximityCode">
+																			<xs:attributeGroup ref="dataRevisionAttributes"/>
+																		</xs:extension>
+																	</xs:simpleContent>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="Value">
+																<xs:complexType>
+																	<xs:simpleContent>
+																		<xs:extension base="xs:int">
+																			<xs:attributeGroup ref="dataRevisionAttributes"/>
+																		</xs:extension>
+																	</xs:simpleContent>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="QuantityUnit">
+																<xs:complexType>
+																	<xs:simpleContent>
+																		<xs:extension base="QuantityUnitCode">
+																			<xs:attributeGroup ref="dataRevisionAttributes"/>
+																		</xs:extension>
+																	</xs:simpleContent>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="ReferenceUnit" minOccurs="0">
+																<xs:complexType>
+																	<xs:simpleContent>
+																		<xs:extension base="ReferenceUnitCode">
+																			<xs:attributeGroup ref="dataRevisionAttributes"/>
+																		</xs:extension>
+																	</xs:simpleContent>
+																</xs:complexType>
+															</xs:element>
+														</xs:sequence>
+														<xs:attributeGroup ref="dataRevisionAttributes"/>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="PlaceRelatedAgent" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="PlaceAgentRelator">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="PlaceAgentRelatorCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="RelatedAgent" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="PlaceRelatedResource" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="PlaceResourceRelator">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="PlaceResourceRelatorCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="RelatedResource" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="PlaceRelatedTimePoint" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="PlaceTimePointRelator">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="PlaceTimePointRelatorCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="RelatedTimePoint" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="PlaceRelatedPlace" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="PlacePlaceRelator">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="PlacePlaceRelatorCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="RelatedPlace" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+								<xs:attributeGroup ref="dataRevisionAttributes"/>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="DocumentDefinition" minOccurs="0" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="DocumentLabel">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="xs:string">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="DocumentType">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="DocumentTypeCode">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="Authority" minOccurs="0">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="xs:string">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="DocumentIdentifier" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="DocumentIDType">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="DocumentIDTypeCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="IDTypeName" minOccurs="0">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="IDValue">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="Description" minOccurs="0">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="xs:string">
+													<xs:attributeGroup ref="dataFormatAttributes"/>
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="Annotation" type="Annotation" minOccurs="0" maxOccurs="unbounded"/>
+									<xs:element name="DocumentRelatedAgent" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="DocumentAgentRelator">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="DocumentAgentRelatorCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="RelatedAgent" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="DocumentRelatedResource" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="DocumentResourceRelator">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="DocumentResourceRelatorCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="RelatedResource" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="DocumentRelatedTimePoint" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="DocumentTimePointRelator">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="DocumentTimePointRelatorCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="RelatedTimePoint" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="DocumentRelatedPlace" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="DocumentPlaceRelator">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="DocumentPlaceRelatorCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="RelatedPlace" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+								<xs:attributeGroup ref="dataRevisionAttributes"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attributeGroup ref="dataRevisionAttributes"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="LicenseGrant" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="LicenseGrantType" minOccurs="0" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="LicenseGrantTypeCode">
+										<xs:attributeGroup ref="dataRevisionAttributes"/>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="Authority" minOccurs="0">
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="xs:string">
+										<xs:attributeGroup ref="dataRevisionAttributes"/>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="Annotation" type="Annotation" minOccurs="0" maxOccurs="unbounded"/>
+						<xs:element name="LicenseTextLink" type="LicenseTextLink" minOccurs="0" maxOccurs="unbounded"/>
+						<xs:element name="LicenseDocumentReference" type="LicenseDocumentReference" minOccurs="0" maxOccurs="unbounded"/>
+						<xs:element name="OtherDocumentReference" minOccurs="0" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="ReferenceRelator" minOccurs="0">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="ReferenceRelatorCode">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="DocumentLabel">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="xs:string">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="SectionDesignation" minOccurs="0">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="xs:string">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="SectionIdentifier" type="SectionIdentifier" minOccurs="0"/>
+									<xs:element name="Annotation" type="Annotation" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+								<xs:attributeGroup ref="dataRevisionAttributes"/>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="LicenseGrantPurpose" minOccurs="0" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="LicenseGrantPurposeCode">
+										<xs:attributeGroup ref="dataRevisionAttributes"/>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="LicenseGrantCondition" minOccurs="0" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="LicenseGrantConditionCode">
+										<xs:attributeGroup ref="dataRevisionAttributes"/>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="LicenseGrantRelatedAgent" minOccurs="0" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="LicenseGrantAgentRelator">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="LicenseGrantAgentRelatorCode">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="RelatedAgent" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="xs:string">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+								<xs:attributeGroup ref="dataRevisionAttributes"/>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="LicenseGrantRelatedResource" minOccurs="0" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="LicenseGrantResourceRelator">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="LicenseGrantResourceRelatorCode">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="RelatedResource" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="xs:string">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+								<xs:attributeGroup ref="dataRevisionAttributes"/>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="LicenseGrantRelatedTimePoint" minOccurs="0" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="LicenseGrantTimePointRelator">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="LicenseGrantTimePointRelatorCode">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="RelatedTimePoint" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="xs:string">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+								<xs:attributeGroup ref="dataRevisionAttributes"/>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="LicenseGrantRelatedPlace" minOccurs="0" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="LicenseGrantPlaceRelator">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="LicenseGrantPlaceRelatorCode">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="RelatedPlace" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="xs:string">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+								<xs:attributeGroup ref="dataRevisionAttributes"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attributeGroup ref="dataRevisionAttributes"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="UsageTerms">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Usage" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="UsageType">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="UsageTypeCode">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="UsageStatus">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="UsageStatusCode">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="Authority" minOccurs="0">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="xs:string">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="Annotation" type="Annotation" minOccurs="0" maxOccurs="unbounded"/>
+									<xs:element name="LicenseTextLink" type="LicenseTextLink" minOccurs="0" maxOccurs="unbounded"/>
+									<xs:element name="LicenseDocumentReference" type="LicenseDocumentReference" minOccurs="0" maxOccurs="unbounded"/>
+									<xs:element name="OtherDocumentReference" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="ReferenceRelator" minOccurs="0">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="ReferenceRelatorCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="DocumentLabel">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="SectionDesignation" minOccurs="0">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="SectionIdentifier" type="SectionIdentifier" minOccurs="0"/>
+												<xs:element name="Annotation" type="Annotation" minOccurs="0" maxOccurs="unbounded"/>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="User" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="xs:string">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="UsedResource" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="xs:string">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="UsagePurpose" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="UsagePurposeCode">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="UsageMethod" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="UsageMethodCode">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="UsageCondition" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="UsageConditionCode">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="UsageException" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="UsageExceptionType">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="UsageExceptionTypeCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="LicenseTextLink" type="LicenseTextLink" minOccurs="0" maxOccurs="unbounded"/>
+												<xs:element name="LicenseDocumentReference" type="LicenseDocumentReference" minOccurs="0" maxOccurs="unbounded"/>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="UsageQuantity" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="UsageQuantityType">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="UsageQuantityTypeCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="QuantityDetail" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element name="Proximity" minOccurs="0">
+																<xs:complexType>
+																	<xs:simpleContent>
+																		<xs:extension base="ProximityCode">
+																			<xs:attributeGroup ref="dataRevisionAttributes"/>
+																		</xs:extension>
+																	</xs:simpleContent>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="Value">
+																<xs:complexType>
+																	<xs:simpleContent>
+																		<xs:extension base="xs:int">
+																			<xs:attributeGroup ref="dataRevisionAttributes"/>
+																		</xs:extension>
+																	</xs:simpleContent>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="QuantityUnit">
+																<xs:complexType>
+																	<xs:simpleContent>
+																		<xs:extension base="QuantityUnitCode">
+																			<xs:attributeGroup ref="dataRevisionAttributes"/>
+																		</xs:extension>
+																	</xs:simpleContent>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="ReferenceUnit" minOccurs="0">
+																<xs:complexType>
+																	<xs:simpleContent>
+																		<xs:extension base="ReferenceUnitCode">
+																			<xs:attributeGroup ref="dataRevisionAttributes"/>
+																		</xs:extension>
+																	</xs:simpleContent>
+																</xs:complexType>
+															</xs:element>
+														</xs:sequence>
+														<xs:attributeGroup ref="dataRevisionAttributes"/>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="UsageRelatedAgent" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="UsageAgentRelator">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="UsageAgentRelatorCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="RelatedAgent" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="UsageRelatedResource" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="UsageResourceRelator">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="UsageResourceRelatorCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="RelatedResource" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="UsageRelatedTimePoint" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="UsageTimePointRelator">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="UsageTimePointRelatorCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="RelatedTimePoint" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="UsageRelatedPlace" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="UsagePlaceRelator">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="UsagePlaceRelatorCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="RelatedPlace" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+								<xs:attributeGroup ref="dataRevisionAttributes"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attributeGroup ref="dataRevisionAttributes"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="SupplyTerms" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="SupplyTerm" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="SupplyTermType">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="SupplyTermTypeCode">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="TermStatus" type="TermStatusCode" minOccurs="0"/>
+									<xs:element name="Authority" minOccurs="0">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="xs:string">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="Annotation" type="Annotation" minOccurs="0" maxOccurs="unbounded"/>
+									<xs:element name="LicenseTextLink" type="LicenseTextLink" minOccurs="0" maxOccurs="unbounded"/>
+									<xs:element name="LicenseDocumentReference" type="LicenseDocumentReference" minOccurs="0" maxOccurs="unbounded"/>
+									<xs:element name="OtherDocumentReference" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="ReferenceRelator" minOccurs="0">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="ReferenceRelatorCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="DocumentLabel">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="SectionDesignation" minOccurs="0">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="SectionIdentifier" type="SectionIdentifier" minOccurs="0"/>
+												<xs:element name="Annotation" type="Annotation" minOccurs="0" maxOccurs="unbounded"/>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="SupplyTermQuantity" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="SupplyTermQuantityType">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="SupplyTermQuantityTypeCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="QuantityDetail" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element name="Proximity" minOccurs="0">
+																<xs:complexType>
+																	<xs:simpleContent>
+																		<xs:extension base="ProximityCode">
+																			<xs:attributeGroup ref="dataRevisionAttributes"/>
+																		</xs:extension>
+																	</xs:simpleContent>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="Value">
+																<xs:complexType>
+																	<xs:simpleContent>
+																		<xs:extension base="xs:int">
+																			<xs:attributeGroup ref="dataRevisionAttributes"/>
+																		</xs:extension>
+																	</xs:simpleContent>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="QuantityUnit">
+																<xs:complexType>
+																	<xs:simpleContent>
+																		<xs:extension base="QuantityUnitCode">
+																			<xs:attributeGroup ref="dataRevisionAttributes"/>
+																		</xs:extension>
+																	</xs:simpleContent>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="ReferenceUnit" minOccurs="0">
+																<xs:complexType>
+																	<xs:simpleContent>
+																		<xs:extension base="ReferenceUnitCode">
+																			<xs:attributeGroup ref="dataRevisionAttributes"/>
+																		</xs:extension>
+																	</xs:simpleContent>
+																</xs:complexType>
+															</xs:element>
+														</xs:sequence>
+														<xs:attributeGroup ref="dataRevisionAttributes"/>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="SupplyTermRelatedAgent" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="SupplyTermAgentRelator">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="SupplyTermAgentRelatorCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="RelatedAgent" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="SupplyTermRelatedResource" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="SupplyTermResourceRelator">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="SupplyTermResourceRelatorCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="RelatedResource" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="SupplyTermRelatedTimePoint" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="SupplyTermTimePointRelator">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="SupplyTermTimePointRelatorCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="RelatedTimePoint" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="SupplyTermRelatedPlace" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="SupplyTermPlaceRelator">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="SupplyTermPlaceRelatorCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="RelatedPlace" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+								<xs:attributeGroup ref="dataRevisionAttributes"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attributeGroup ref="dataRevisionAttributes"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ContinuingAccessTerms" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ContinuingAccessTerm" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="ContinuingAccessTermType">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="ContinuingAccessTermTypeCode">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="TermStatus" type="TermStatusCode" minOccurs="0"/>
+									<xs:element name="Authority" minOccurs="0">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="xs:string">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="Annotation" type="Annotation" minOccurs="0" maxOccurs="unbounded"/>
+									<xs:element name="LicenseTextLink" type="LicenseTextLink" minOccurs="0" maxOccurs="unbounded"/>
+									<xs:element name="LicenseDocumentReference" type="LicenseDocumentReference" minOccurs="0" maxOccurs="unbounded"/>
+									<xs:element name="OtherDocumentReference" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="ReferenceRelator" minOccurs="0">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="ReferenceRelatorCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="DocumentLabel">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="SectionDesignation" minOccurs="0">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="SectionIdentifier" type="SectionIdentifier" minOccurs="0"/>
+												<xs:element name="Annotation" type="Annotation" minOccurs="0" maxOccurs="unbounded"/>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="ContinuingAccessTermQuantity" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="ContinuingAccessTermQuantityType">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="ContinuingAccessTermQuantityTypeCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="QuantityDetail" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element name="Proximity" minOccurs="0">
+																<xs:complexType>
+																	<xs:simpleContent>
+																		<xs:extension base="ProximityCode">
+																			<xs:attributeGroup ref="dataRevisionAttributes"/>
+																		</xs:extension>
+																	</xs:simpleContent>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="Value">
+																<xs:complexType>
+																	<xs:simpleContent>
+																		<xs:extension base="xs:int">
+																			<xs:attributeGroup ref="dataRevisionAttributes"/>
+																		</xs:extension>
+																	</xs:simpleContent>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="QuantityUnit">
+																<xs:complexType>
+																	<xs:simpleContent>
+																		<xs:extension base="QuantityUnitCode">
+																			<xs:attributeGroup ref="dataRevisionAttributes"/>
+																		</xs:extension>
+																	</xs:simpleContent>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="ReferenceUnit" minOccurs="0">
+																<xs:complexType>
+																	<xs:simpleContent>
+																		<xs:extension base="ReferenceUnitCode">
+																			<xs:attributeGroup ref="dataRevisionAttributes"/>
+																		</xs:extension>
+																	</xs:simpleContent>
+																</xs:complexType>
+															</xs:element>
+														</xs:sequence>
+														<xs:attributeGroup ref="dataRevisionAttributes"/>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="ContinuingAccessTermRelatedAgent" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="ContinuingAccessTermAgentRelator">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="ContinuingAccessTermAgentRelatorCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="RelatedAgent" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="ContinuingAccessTermRelatedResource" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="ContinuingAccessTermResourceRelator">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="ContinuingAccessTermResourceRelatorCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="RelatedResource" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="ContinuingAccessTermRelatedTimePoint" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="ContinuingAccessTermTimePointRelator">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="ContinuingAccessTermTimePointRelatorCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="RelatedTimePoint" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="ContinuingAccessTermRelatedPlace" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="ContinuingAccessTermPlaceRelator">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="ContinuingAccessTermPlaceRelatorCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="RelatedPlace" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+								<xs:attributeGroup ref="dataRevisionAttributes"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attributeGroup ref="dataRevisionAttributes"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PaymentTerms" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="CurrencyCode" minOccurs="0">
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="CurrencyCode">
+										<xs:attributeGroup ref="dataRevisionAttributes"/>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="PaymentTerm" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="PaymentTermType">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="PaymentTermTypeCode">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="TermStatus" type="TermStatusCode" minOccurs="0"/>
+									<xs:element name="Authority" minOccurs="0">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="xs:string">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="Annotation" type="Annotation" minOccurs="0" maxOccurs="unbounded"/>
+									<xs:element name="LicenseTextLink" type="LicenseTextLink" minOccurs="0" maxOccurs="unbounded"/>
+									<xs:element name="LicenseDocumentReference" type="LicenseDocumentReference" minOccurs="0" maxOccurs="unbounded"/>
+									<xs:element name="OtherDocumentReference" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="ReferenceRelator" minOccurs="0">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="ReferenceRelatorCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="DocumentLabel">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="SectionDesignation" minOccurs="0">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="SectionIdentifier" type="SectionIdentifier" minOccurs="0"/>
+												<xs:element name="Annotation" type="Annotation" minOccurs="0" maxOccurs="unbounded"/>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="PaymentTermQuantity" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="PaymentTermQuantityType">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="PaymentTermQuantityTypeCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="QuantityDetail" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element name="Proximity" minOccurs="0">
+																<xs:complexType>
+																	<xs:simpleContent>
+																		<xs:extension base="ProximityCode">
+																			<xs:attributeGroup ref="dataRevisionAttributes"/>
+																		</xs:extension>
+																	</xs:simpleContent>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="Value">
+																<xs:complexType>
+																	<xs:simpleContent>
+																		<xs:extension base="xs:int">
+																			<xs:attributeGroup ref="dataRevisionAttributes"/>
+																		</xs:extension>
+																	</xs:simpleContent>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="QuantityUnit">
+																<xs:complexType>
+																	<xs:simpleContent>
+																		<xs:extension base="QuantityUnitCode">
+																			<xs:attributeGroup ref="dataRevisionAttributes"/>
+																		</xs:extension>
+																	</xs:simpleContent>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="ReferenceUnit" minOccurs="0">
+																<xs:complexType>
+																	<xs:simpleContent>
+																		<xs:extension base="ReferenceUnitCode">
+																			<xs:attributeGroup ref="dataRevisionAttributes"/>
+																		</xs:extension>
+																	</xs:simpleContent>
+																</xs:complexType>
+															</xs:element>
+														</xs:sequence>
+														<xs:attributeGroup ref="dataRevisionAttributes"/>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="PaymentTermRelatedAgent" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="PaymentTermAgentRelator">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="PaymentTermAgentRelatorCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="RelatedAgent" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="PaymentTermRelatedResource" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="PaymentTermResourceRelator">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="PaymentTermResourceRelatorCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="RelatedResource" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="PaymentTermRelatedTimePoint" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="PaymentTermTimePointRelator">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="PaymentTermTimePointRelatorCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="RelatedTimePoint" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="PaymentTermRelatedPlace" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="PaymentTermPlaceRelator">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="PaymentTermPlaceRelatorCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="RelatedPlace" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+								<xs:attributeGroup ref="dataRevisionAttributes"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attributeGroup ref="dataRevisionAttributes"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="GeneralTerms" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="GeneralTerm" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="GeneralTermType">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="GeneralTermTypeCode">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="TermStatus" type="TermStatusCode" minOccurs="0"/>
+									<xs:element name="Authority" minOccurs="0">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="xs:string">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="Annotation" type="Annotation" minOccurs="0" maxOccurs="unbounded"/>
+									<xs:element name="LicenseTextLink" type="LicenseTextLink" minOccurs="0" maxOccurs="unbounded"/>
+									<xs:element name="LicenseDocumentReference" type="LicenseDocumentReference" minOccurs="0" maxOccurs="unbounded"/>
+									<xs:element name="OtherDocumentReference" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="ReferenceRelator" minOccurs="0">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="ReferenceRelatorCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="DocumentLabel">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="SectionDesignation" minOccurs="0">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="SectionIdentifier" type="SectionIdentifier" minOccurs="0"/>
+												<xs:element name="Annotation" type="Annotation" minOccurs="0" maxOccurs="unbounded"/>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="GeneralTermQuantity" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="GeneralTermQuantityType">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="GeneralTermQuantityTypeCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="QuantityDetail" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element name="Proximity" minOccurs="0">
+																<xs:complexType>
+																	<xs:simpleContent>
+																		<xs:extension base="ProximityCode">
+																			<xs:attributeGroup ref="dataRevisionAttributes"/>
+																		</xs:extension>
+																	</xs:simpleContent>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="Value">
+																<xs:complexType>
+																	<xs:simpleContent>
+																		<xs:extension base="xs:int">
+																			<xs:attributeGroup ref="dataRevisionAttributes"/>
+																		</xs:extension>
+																	</xs:simpleContent>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="QuantityUnit">
+																<xs:complexType>
+																	<xs:simpleContent>
+																		<xs:extension base="QuantityUnitCode">
+																			<xs:attributeGroup ref="dataRevisionAttributes"/>
+																		</xs:extension>
+																	</xs:simpleContent>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="ReferenceUnit" minOccurs="0">
+																<xs:complexType>
+																	<xs:simpleContent>
+																		<xs:extension base="ReferenceUnitCode">
+																			<xs:attributeGroup ref="dataRevisionAttributes"/>
+																		</xs:extension>
+																	</xs:simpleContent>
+																</xs:complexType>
+															</xs:element>
+														</xs:sequence>
+														<xs:attributeGroup ref="dataRevisionAttributes"/>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="GeneralTermRelatedAgent" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="GeneralTermAgentRelator">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="GeneralTermAgentRelatorCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="RelatedAgent" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="GeneralTermRelatedResource" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="GeneralTermResourceRelator">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="GeneralTermResourceRelatorCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="RelatedResource" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="GeneralTermRelatedTimePoint" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="GeneralTermTimePointRelator">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="GeneralTermTimePointRelatorCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="RelatedTimePoint" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="GeneralTermRelatedPlace" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="GeneralTermPlaceRelator">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="GeneralTermPlaceRelatorCode">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="RelatedPlace" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:simpleContent>
+															<xs:extension base="xs:string">
+																<xs:attributeGroup ref="dataRevisionAttributes"/>
+															</xs:extension>
+														</xs:simpleContent>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="dataRevisionAttributes"/>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+								<xs:attributeGroup ref="dataRevisionAttributes"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attributeGroup ref="dataRevisionAttributes"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="LicenseDocumentText" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="DocumentLabel">
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="xs:string">
+										<xs:attributeGroup ref="dataRevisionAttributes"/>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="TextElement" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="SortNumber">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="xs:string">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="DisplayNumber" minOccurs="0">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="xs:string">
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="TextPreceding" minOccurs="0">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="xs:string">
+													<xs:attributeGroup ref="dataFormatAttributes"/>
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="Text">
+										<xs:complexType>
+											<xs:simpleContent>
+												<xs:extension base="xs:string">
+													<xs:attributeGroup ref="dataFormatAttributes"/>
+													<xs:attributeGroup ref="dataRevisionAttributes"/>
+												</xs:extension>
+											</xs:simpleContent>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+								<xs:attribute name="id" type="xs:ID" use="required"/>
+								<xs:attributeGroup ref="dataRevisionAttributes"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attributeGroup ref="dataRevisionAttributes"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="Annotation">
+		<xs:sequence>
+			<xs:element name="AnnotationType" minOccurs="0">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="AnnotationTypeCode">
+							<xs:attributeGroup ref="dataRevisionAttributes"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Authority" minOccurs="0">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attributeGroup ref="dataRevisionAttributes"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AnnotationText">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attributeGroup ref="dataFormatAttributes"/>
+							<xs:attributeGroup ref="dataRevisionAttributes"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attributeGroup ref="dataRevisionAttributes"/>
+	</xs:complexType>
+	<xs:complexType name="LicenseDescription">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attributeGroup ref="dataFormatAttributes"/>
+				<xs:attributeGroup ref="dataRevisionAttributes"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="LicenseDocumentReference">
+		<xs:sequence>
+			<xs:element name="DocumentLabel">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attributeGroup ref="dataRevisionAttributes"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="SectionDesignation" minOccurs="0">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attributeGroup ref="dataRevisionAttributes"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="SectionIdentifier" type="SectionIdentifier" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="dataRevisionAttributes"/>
+	</xs:complexType>
+	<xs:complexType name="LicenseTextLink">
+		<xs:attribute name="href" type="xs:IDREF" use="required"/>
+		<xs:attributeGroup ref="dataRevisionAttributes"/>
+	</xs:complexType>
+	<xs:complexType name="PartyName">
+		<xs:simpleContent>
+			<xs:extension base="PartyNameString">
+				<xs:attributeGroup ref="dataRevisionAttributes"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="SectionIdentifier">
+		<xs:sequence>
+			<xs:element name="SectionIDType">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="SectionIDTypeCode">
+							<xs:attributeGroup ref="dataRevisionAttributes"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="IDValue">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attributeGroup ref="dataRevisionAttributes"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attributeGroup ref="dataRevisionAttributes"/>
+	</xs:complexType>
+	<xs:simpleType name="DateOrDateTime">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="2\d\d\d(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-8])(T([01][0-9]|2[0-3])[0-5][0-9][0-5][0-9](Z|[+\-](0[0-9]|1[0-2])(00|15|30|45))?)?"/>
+			<xs:pattern value="200[048]0229(T([01][0-9]|2[0-3])[0-5][0-9][0-5][0-9](Z|[+\-](0[0-9]|1[0-2])(00|15|30|45))?)?"/>
+			<xs:pattern value="2[1-9]0[48]0229(T([01][0-9]|2[0-3])[0-5][0-9][0-5][0-9](Z|[+\-](0[0-9]|1[0-2])(00|15|30|45))?)?"/>
+			<xs:pattern value="2\d([2468][048]|[13579][26])0229(T([01][0-9]|2[0-3])[0-5][0-9][0-5][0-9](Z|[+\-](0[0-9]|1[0-2])(00|15|30|45))?)?"/>
+			<xs:pattern value="2\d\d\d(0[13-9]|1[0-2])(29|30)(T([01][0-9]|2[0-3])[0-5][0-9][0-5][0-9](Z|[+\-](0[0-9]|1[0-2])(00|15|30|45))?)?"/>
+			<xs:pattern value="2\d\d\d(0[13578]|1[02])31(T([01][0-9]|2[0-3])[0-5][0-9][0-5][0-9](Z|[+\-](0[0-9]|1[0-2])(00|15|30|45))?)?"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PartyNameString">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:simpleType name="VersionList">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="1.0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:attributeGroup name="dataFormatAttributes">
+		<xs:attribute name="language" type="LanguageCode" use="optional"/>
+	</xs:attributeGroup>
+	<xs:attributeGroup name="dataRevisionAttributes">
+		<xs:attribute name="datestamp" type="DateOrDateTime" use="optional"/>
+		<xs:attribute name="sourcetype" type="SourceTypeCode" use="optional" default="00"/>
+		<xs:attribute name="sourcename" type="xs:string" use="optional"/>
+	</xs:attributeGroup>
+</xs:schema>

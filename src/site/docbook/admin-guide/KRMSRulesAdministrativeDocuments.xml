@@ -1,0 +1,680 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0"
+    xml:lang="en-US">
+<title>KRMS Administrative Documents</title>
+<para role="Body Text"><emphasis role="bold"><inlinemediaobject>
+                <alt>Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/Admin.png"/>
+                </imageobject>
+            </inlinemediaobject><inlinemediaobject>
+                <alt>KRMS Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-62.png"/>
+                </imageobject>
+            </inlinemediaobject> &gt; <inlinemediaobject>
+                <alt>KRMS Admin Links</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-61.png"/>
+                </imageobject>
+            </inlinemediaobject></emphasis></para>
+<para role="Body Text">The KRMS submenu allows you to perform a variety of functional and technical
+activities that affect the entire system.</para>
+<para> </para>
+<section>
+<title><anchor xml:id="_agenda"/>Agenda Lookup</title>
+<para role="Body Text"><inlinemediaobject>
+                <alt>Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/Admin.png"/>
+                </imageobject>
+            </inlinemediaobject><inlinemediaobject>
+                <alt>KRMS Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-62.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; </emphasis><inlinemediaobject>
+                <alt>Agenda Lookup</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-63.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Agenda Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-64.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Agenda Editor</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-65.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+<para>Rules in KRMS are placed into ordered sets called Agendas. The order of the Rules in an Agenda
+determines the sequencing: which rule gets evaluated first, second and so on. The Agenda also
+enables you to include conditional branching logic between Rules. In turn, Agendas are created in
+Contexts, which may represent any categories that are relevant within your institution. For example,
+they could correspond to document types or business processes or any other categories, such as
+licensing. Each Context contains its own agendas, and each Agenda contains its own rules. Rules
+aren't shared across agendas (though you can copy/paste, they become unique Rule instances), and
+Agendas aren't shared across Contexts. There is no Context hierarchy, that is, Agendas and Rules
+cannot be inherited across contexts within any sort of hierarchy. </para>
+<tip>
+<para>Copy rules to save time and typing.</para>
+</tip>
+<section>
+<title>Document Layout</title>
+<para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Agenda Editor Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-66.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+<para role="Body Text">The Agenda Editor includes two unique tabs—<emphasis role="bold"
+>Agenda</emphasis> and <emphasis role="bold">Rules</emphasis>.</para>
+<section>
+<title>Agenda Tab</title>
+<para>The <emphasis role="bold">Agenda</emphasis> tab contains information in which to both identify
+the Agenda itself and where the Agenda will be applied.</para>
+<para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Agenda Editor Document: Agenda Tab</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/admin-67.png" width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+<para role="TableHeading"><emphasis role="bold">Agenda tab definition</emphasis></para>
+<informaltable frame="top">
+<tgroup cols="2">
+<colspec colname="col1" colnum="1"/>
+<colspec colname="col2" colnum="2"/>
+<tbody>
+<row>
+<entry colname="col1" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells">Title </para>
+</entry>
+<entry colname="col2" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells">Description</para>
+</entry>
+</row>
+<row>
+<entry colname="col1" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells">Namespace</para>
+</entry>
+<entry colname="col2" colsep="1" rowsep="1" valign="top">
+<para>Required. The Namespace to which this Agenda will belong.</para>
+</entry>
+</row>
+<row>
+<entry colname="col1" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells">Name</para>
+</entry>
+<entry colname="col2" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells">Required. The name of the Agenda. This is a unique identifier and must be
+unique to the namespace selected.</para>
+</entry>
+</row>
+<row>
+<entry colname="col1" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells">Context</para>
+</entry>
+<entry colname="col2" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells"> Required. A collection of agendas, rules, terms, term specifications.
+Enter a Context or search for it from the lookup <inlinemediaobject>
+<imageobject>
+<imagedata fileref="../images/Lookup.png"/>
+</imageobject>
+</inlinemediaobject>.</para>
+</entry>
+</row>
+<row>
+<entry colname="col1" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells">Type</para>
+</entry>
+<entry colname="col2" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells">Select the type of Agenda from the drop down list to assign the Agenda to
+more specific attributes.</para>
+</entry>
+</row>
+<row>
+<entry colname="col1" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells">Active</para>
+</entry>
+<entry colname="col2" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells">Indicates whether this Agenda is active or inactive. Remove the check mark
+to deactivate. </para>
+</entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+</section>
+<section>
+<title>Rules tab</title>
+<para>From the <emphasis role="bold">Rules</emphasis> tab, users can add multiple rules to an
+agenda, move rules around in the workflow, and can cut, paste and delete.</para>
+<para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Agenda Editor Document: Rules Tab</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/admin-68.png" width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+<para>Click <emphasis role="bold">add rule</emphasis> to open the Rule editor and add a rule.  If a
+rule is already listed, select the rule and click <emphasis role="bold">edit rule</emphasis>.  The
+Rule Editor will open.  The Rule Editor includes two unique tabs—<emphasis role="bold"
+>Rule</emphasis> which also contains the <emphasis role="bold">Propositions</emphasis> subtab and
+<emphasis role="bold">Action</emphasis>.</para>
+<para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Agenda Editor Document: Creating a Rule with the Rule Editor</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/admin-69.png" width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+<section>
+<title>Rule</title>
+<para>Fill in the descriptive information for the rule in the <emphasis role="bold">Rule</emphasis>
+tab</para>
+<para role="TableHeading"><emphasis role="bold">Rule tab definition</emphasis></para>
+<informaltable frame="top">
+<tgroup cols="2">
+<colspec colname="col1" colnum="1"/>
+<colspec colname="col2" colnum="2"/>
+<tbody>
+<row>
+<entry colname="col1" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells">Title </para>
+</entry>
+<entry colname="col2" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells">Description</para>
+</entry>
+</row>
+<row>
+<entry colname="col1" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells">Copy from Existing Rule</para>
+</entry>
+<entry colname="col2" colsep="1" rowsep="1" valign="top">
+<para>If a similar rule already exists, you may enter the name or search for the rule from the
+lookup <inlinemediaobject>
+<imageobject>
+<imagedata fileref="../images/Lookup.png"/>
+</imageobject>
+</inlinemediaobject></para>
+</entry>
+</row>
+<row>
+<entry colname="col1" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells">Namespace</para>
+</entry>
+<entry colname="col2" colsep="1" rowsep="1" valign="top">
+<para>Display only. The Namespace to which this Rule will belong.</para>
+</entry>
+</row>
+<row>
+<entry colname="col1" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells">Type</para>
+</entry>
+<entry colname="col2" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells">Select the type of rule from the drop down list to assign the rule to more
+specific attributes.</para>
+</entry>
+</row>
+<row>
+<entry colname="col1" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells">Name</para>
+</entry>
+<entry colname="col2" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells">Required. The name of the Rule. This is a unique identifier and must be
+unique to the namespace selected.</para>
+</entry>
+</row>
+<row>
+<entry colname="col1" colsep="1" rowsep="1" valign="top">Description</entry>
+<entry colname="col2" colsep="1" rowsep="1" valign="top">Enter a description for the
+rule.  To expand the description field, click the expand icon <inlinemediaobject>
+<imageobject>
+<imagedata fileref="../images/expandIcon.png"/>
+</imageobject>
+</inlinemediaobject>. </entry>
+</row>
+<row>
+<entry colname="col1" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells">Active</para>
+</entry>
+<entry colname="col2" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells">Indicates whether this rule is active or inactive. Remove the check mark to
+deactivate. </para>
+</entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+<section>
+<title>Add Propositions</title>
+<para>Add a simple proposition by clicking <inlinemediaobject>
+                                <alt>Add</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/admin-70.png"/>
+                                </imageobject>
+                            </inlinemediaobject> under the <emphasis role="bold"
+                                >Proposition</emphasis> tab (click <emphasis role="bold">add
+                                parent</emphasis> to add compound propositions). Propositions are
+                            functions made up of true and false conditions. Actions can be set to
+                            occur when proposition requirements are met. </para>
+<para>Once <emphasis role="bold">add</emphasis> is clicked, OLE brings up a new set of
+fields.</para>
+<para/>
+<para>
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Agenda Editor Document: Propositions Tab of the Rule
+                                        Editor</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/admin-71.png" width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+<para>Give the proposition a <emphasis role="bold">Description</emphasis>.</para>
+<para>Select a <emphasis role="bold">Category</emphasis>, <emphasis role="bold">Term</emphasis>, and
+<emphasis role="bold">Comparison</emphasis> from the drop down lists.  Categories help to narrow down
+the terms.  Terms define a piece of business data that can be used in the construction of
+proposition (i.e. student GPA, account number, salary, etc.).  Enter the <emphasis role="bold"
+>Value</emphasis> to set the term (i.e. a student GPA of 4.0, "4.0" is the value) </para>
+</section>
+</section>
+<section>
+<title>Add Action</title>
+<para>In the <emphasis role="bold">Action</emphasis> tab, users can define the action that will be
+fired when the <emphasis role="bold">Proposition</emphasis> is evaluated.</para>
+<para>Select the <emphasis role="bold">Type</emphasis> of action from the drop down menu.  Depending
+on your selection, additional fields will become available.</para>
+<para>No matter what Type is selected, enter a <emphasis role="bold">Name</emphasis>.</para>
+<para>This is an example of the type <emphasis role="bold">Route to PeopleFlow</emphasis>, which
+includes additional required fields:</para>
+<para>
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Agenda Editor Document: Action Tab of the Rule Editor</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/admin-72.png"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+<para>Click <inlinemediaobject>
+                            <alt>Add Rule</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/admin-73.png"/>
+                            </imageobject>
+                        </inlinemediaobject> to add this rule to the agenda.</para>
+<para>Continue to add as many rules as necessary for the agenda. Once complete click <inlinemediaobject>
+                            <alt>Submit</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/admin-74.png"/>
+                            </imageobject>
+                        </inlinemediaobject></para>
+</section>
+</section>
+</section>
+</section>
+    <section>
+        <title><anchor xml:id="_attribute"/>Attribute Lookup</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/Admin.png"/>
+                </imageobject>
+            </inlinemediaobject><inlinemediaobject>
+                <alt>KRMS Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-62.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; </emphasis><inlinemediaobject>
+                <alt>Attribute Lookup</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-84.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Attribute Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-85.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The Attribute lookup allows users to search for attributes used
+            within KRMS rules.  These are maintained by a system administrator.</para>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Attribute Lookup with Search Results</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-86.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <para>As a function of OLE, you may search for attributes. Execute a blank search to
+                review all of them.</para>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_category"/>Category Lookup</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/Admin.png"/>
+                </imageobject>
+            </inlinemediaobject><inlinemediaobject>
+                <alt>KRMS Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-62.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; </emphasis><inlinemediaobject>
+                <alt>Category Lookup</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-87.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Category Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-88.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para>Categories are related to the Proposition within a KRMS Rule, they distinguish terms
+            and term specifications. To specify new Terms, you will probably want to first create
+            term categories. These are maintained by a system administrator.</para>
+        <para> The following diagram outlines the hierarchy of entities in KRMS (note that some
+            entities are omitted) </para>
+        <para/>
+        <para role="Body Text">
+            <inlinemediaobject>
+                <alt>KRMS Heirarchy</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-80.png"/>
+                </imageobject>
+            </inlinemediaobject>
+        </para>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Category Lookup with Search Results</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-89.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+        </section>
+    </section>
+<section>
+<title><anchor xml:id="_context"/>Context Lookup</title>
+<para role="Body Text"><inlinemediaobject>
+                <alt>Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/Admin.png"/>
+                </imageobject>
+            </inlinemediaobject><inlinemediaobject>
+                <alt>KRMS Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-62.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; </emphasis><inlinemediaobject>
+                <alt>Context Lookup</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-75.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Context Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-76.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Context Maintenance</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-77.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+<para role="Body Text"> Contexts are a collection of agendas, rules, terms, term specifications.
+In OLE a context of "License" has been established for easy identification of the items related to
+the licensing business rules. </para>
+<para> Each Context contains its own agendas, and each Agenda contains its own rules. Rules aren't
+shared across agendas (though you can copy/paste, they become unique Rule instances), and Agendas
+aren't shared across Contexts. There is no Context hierarchy, that is, Agendas and Rules can't be
+inherited across contexts within any sort of hierarchy. </para>
+<section>
+<title>Document Layout</title>
+<para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Context Maintenance Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-78.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+<para role="Body Text">The Context Maintenance document includes the <emphasis role="bold"
+>Context</emphasis> tab. The system automatically enters data into both the <emphasis role="bold"
+>Old</emphasis> and <emphasis role="bold">New</emphasis> sections. Selected data fields are
+available for editing.</para>
+<para role="TableHeading"><emphasis role="bold">Context tab definition</emphasis></para>
+<informaltable frame="top">
+<tgroup cols="2">
+<colspec colname="col1" colnum="1"/>
+<colspec colname="col2" colnum="2"/>
+<tbody>
+<row>
+<entry colname="col1" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells">Title </para>
+</entry>
+<entry colname="col2" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells">Description </para>
+</entry>
+</row>
+<row>
+<entry colname="col1" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells">Name </para>
+</entry>
+<entry colname="col2" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells">The name of the Context. This is a unique identifier and must be unique to
+the namespace selected.</para>
+</entry>
+</row>
+<row>
+<entry colname="col1" colsep="1" rowsep="1" valign="top">Namespace</entry>
+<entry colname="col2" colsep="1" rowsep="1" valign="top">The Namespace to which this
+Context will belong.  Select the namespace from the drop down list.</entry>
+</row>
+<row>
+<entry colname="col1" colsep="1" rowsep="1" valign="top">Type</entry>
+<entry colname="col2" colsep="1" rowsep="1" valign="top">Select a type from the
+drop down list to assign the context to more specific attributes.</entry>
+</row>
+<row>
+<entry colname="col1" colsep="1" rowsep="1" valign="top">Description</entry>
+<entry colname="col2" colsep="1" rowsep="1" valign="top">Enter a description of the
+context.</entry>
+</row>
+<row>
+<entry colname="col1" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells">Active Indicator</para>
+</entry>
+<entry colname="col2" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells">Indicates whether this context is active or inactive. Remove the check mark
+to deactivate the code.</para>
+</entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+</section>
+</section>
+    <section>
+        <title><anchor xml:id="_KRMSBuilder"/>KRMS Builder</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/Admin.png"/>
+                </imageobject>
+            </inlinemediaobject><inlinemediaobject>
+                <alt>KRMS Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-62.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; </emphasis><inlinemediaobject>
+                <alt>KRMS Builder</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-81.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>KRMS Builder</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-82.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> </emphasis></para>
+        <para> Kuali's Rule Management System (KRMS) supports the creation, maintenance, storage and
+            retrieval of business rules and agendas (ordered sets of business rules) within business
+            contexts (e.g., for a particular department or for a particular university-wide
+            process). KRMS enables you to define a set of rules within a particular business unit or
+            for a particular set of applications. These business rules define logical conditions and
+            the set of actions that result when those conditions are met. KRMS enables you to call
+            and use this logic from any application, without having to re-write and manage all the
+            rules' maintenance logic within the application. </para>
+        <para>From the KRMS builder, users with the correct permisssions may upload xml files into
+            OLE.</para>
+        <para/>
+        <para role="Body Text">
+            <screenshot>
+                <mediaobject>
+                    <alt>KRMS Builder Interface</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-83.png"/>
+                    </imageobject>
+                </mediaobject>
+            </screenshot>
+        </para>
+        <para/>
+    </section>
+    <section>
+        <title><anchor xml:id="_term"/>Term Lookup</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/Admin.png"/>
+                </imageobject>
+            </inlinemediaobject><inlinemediaobject>
+                <alt>KRMS Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-62.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; </emphasis><inlinemediaobject>
+                <alt>Term Lookup</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-90.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Term Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-95.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Term</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-96.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para>Terms are related to the Proposition within a KRMS Rule. These are maintained by a
+            system administrator.</para>
+        <note>
+            <para>See the diagram under <link linkend="_category">Category</link> for a visual
+                representation of the relation between terms, term specifications, and
+                categories.</para>
+        </note>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Term Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-97.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_termSpecification"/>Term Specification Lookup</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/Admin.png"/>
+                </imageobject>
+            </inlinemediaobject><inlinemediaobject>
+                <alt>KRMS Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-62.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; </emphasis><inlinemediaobject>
+                <alt>Term Specification Lookup</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-93.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Term Specification Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-100.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Term Specification</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-101.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para>Term Specifications are also  related to the Proposition within a KRMS Rule. You will
+            need to create a term specification before creating a term.  These are maintained by a
+            system administrator.</para>
+        <note>
+            <para>See the diagram under <link linkend="_category">Category</link> for a visual
+                representation of the releation between terms, term specifications, and
+                categories.</para>
+        </note>
+        <para/>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Term Specification Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-102.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <para>As a function of OLE, you may search for categories. Execute a blank search to
+                review all of them.</para>
+        </section>
+    </section>
+</chapter>

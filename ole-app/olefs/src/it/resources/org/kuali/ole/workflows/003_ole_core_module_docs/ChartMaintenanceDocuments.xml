@@ -1,0 +1,604 @@
+<data xmlns="ns:workflow" xsi:schemaLocation="ns:workflow resource:WorkflowData" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>OLE_GORV</name>
+      <parent>OLEChartComplexMaintenanceDocument</parent>
+      <label>
+        Organization Reversion Global
+      </label>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Forganizationreversionglobal.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
+    <documentType>
+      <name>OLE_GSOB</name>
+      <parent>OLEChartComplexMaintenanceDocument</parent>
+      <label>
+        Sub-Object Code Global
+      </label>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fsubobjectcodeglobal.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Account"/>
+          <role name="Account" nextNode="OrganizationHierarchy"/>
+          <role name="OrganizationHierarchy" nextNode="Chart"/>
+          <role name="Chart"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="Account">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+        <role name="OrganizationHierarchy">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+        <role name="Chart">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>OLE_GDLG</name>
+      <parent>OLEChartComplexMaintenanceDocument</parent>
+      <label>
+        Account Delegate Global
+      </label>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Faccountdelegateglobal.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="OrganizationHierarchy"/>
+          <role name="OrganizationHierarchy" nextNode="Chart"/>
+          <role name="Chart" nextNode="Account"/>
+          <role name="Account"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="OrganizationHierarchy">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+        <role name="Chart">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+        <role name="Account">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>OLE_OR</name>
+      <parent>OLEChartComplexMaintenanceDocument</parent>
+      <label>
+        Organization Review
+      </label>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
+    <documentType>
+      <name>OLE_ADEL</name>
+      <parent>OLEChartComplexMaintenanceDocument</parent>
+      <label>
+        Account Delegate
+      </label>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Faccountdelegate.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Account"/>
+          <role name="Account" nextNode="OrganizationHierarchy"/>
+          <role name="OrganizationHierarchy"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="Account">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+        </role>
+        <role name="OrganizationHierarchy">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>OLE_GDLM</name>
+      <parent>OLEChartComplexMaintenanceDocument</parent>
+      <label>
+        Account Delegate Model
+      </label>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Faccountdelegatemodel.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="OrganizationHierarchy"/>
+          <role name="OrganizationHierarchy" nextNode="Chart"/>
+          <role name="Chart"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="OrganizationHierarchy">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+        </role>
+        <role name="Chart">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>OLE_GACC</name>
+      <parent>OLEChartComplexMaintenanceDocument</parent>
+      <label>
+        Account Global
+      </label>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Faccountglobal.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="OrganizationHierarchy"/>
+          <role name="OrganizationHierarchy" nextNode="Chart"/>
+          <role name="Chart"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="OrganizationHierarchy">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+        </role>
+        <role name="Chart">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>OLE_GOBJ</name>
+      <parent>OLEChartComplexMaintenanceDocument</parent>
+      <label>
+        Object Code Global
+      </label>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fobjectcodeglobal.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Chart"/>
+          <role name="Chart"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="Chart">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>OLE_OBJT</name>
+      <parent>OLEChartComplexMaintenanceDocument</parent>
+      <label>
+        Object Code
+      </label>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fobjectcode.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="OrganizationHierarchy"/>
+          <role name="OrganizationHierarchy" nextNode="Chart"/>
+          <role name="Chart"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="OrganizationHierarchy">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+        </role>
+        <role name="Chart">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>OLE_ORGN</name>
+      <parent>OLEChartComplexMaintenanceDocument</parent>
+      <label>
+        Organization
+      </label>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Forganization.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="OrganizationHierarchy"/>
+          <role name="OrganizationHierarchy" nextNode="Chart"/>
+          <role name="Chart"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="OrganizationHierarchy">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+        </role>
+        <role name="Chart">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>OLE_PROJ</name>
+      <parent>OLEChartComplexMaintenanceDocument</parent>
+      <label>
+        Project Code
+      </label>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fprojectcode.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="OrganizationHierarchy"/>
+          <role name="OrganizationHierarchy"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="OrganizationHierarchy">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>OLE_SACC</name>
+      <parent>OLEChartComplexMaintenanceDocument</parent>
+      <label>
+        Sub-Account
+      </label>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fsubaccount.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Account"/>
+          <role name="Account" nextNode="OrganizationHierarchy"/>
+          <role name="OrganizationHierarchy"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="Account">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+        </role>
+        <role name="OrganizationHierarchy">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>OLE_SOBJ</name>
+      <parent>OLEChartComplexMaintenanceDocument</parent>
+      <label>
+        Sub-Object Code
+      </label>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fsubobjectcode.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Account"/>
+          <role name="Account" nextNode="OrganizationHierarchy"/>
+          <role name="OrganizationHierarchy"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="Account">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+        </role>
+        <role name="OrganizationHierarchy">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>OLE_ACCT</name>
+      <parent>OLEChartComplexMaintenanceDocument</parent>
+      <label>
+        Account
+      </label>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Faccount.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="Account"/>
+          <role name="Account" nextNode="OrganizationHierarchy"/>
+          <role name="OrganizationHierarchy" nextNode="SubFund"/>
+          <role name="SubFund" nextNode="Award"/>
+          <role name="Award" nextNode="Chart"/>
+          <role name="Chart" nextNode="HasDepositAccount"/>
+          <split name="HasDepositAccount">
+          	<branch name="True">
+          		<role name="DepositAccount" nextNode="JoinHasDepositAccount"/>
+          	</branch>
+          	<branch name="False">
+          		<role name="NoOpHasDepositAccount" nextNode="JoinHasDepositAccount"/>
+          	</branch>
+          	<join name="JoinHasDepositAccount"/>
+          </split>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="Account">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+        <role name="OrganizationHierarchy">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+        <role name="SubFund">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+        <role name="Award">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+        <role name="Chart">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+        <split name="HasDepositAccount">
+          <type>
+            org.kuali.ole.sys.document.workflow.SimpleBooleanSplitNode
+          </type>
+        </split>
+        <simple name="NoOpHasDepositAccount">
+          <type>
+            org.kuali.rice.kew.engine.node.NoOpNode
+          </type>
+        </simple>
+        <join name="JoinHasDepositAccount"/>
+        <role name="DepositAccount">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>OLE_ORR</name>
+      <parent>OLE_OR</parent>
+      <label>
+        Organization Review Role
+      </label>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Forganizationreview.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="OrganizationHierarchy"/>
+          <role name="OrganizationHierarchy"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="OrganizationHierarchy">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>OLE_ORG</name>
+      <parent>OLE_OR</parent>
+      <label>
+        Organization Review Group
+      </label>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="OrganizationHierarchy"/>
+          <role name="OrganizationHierarchy"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="OrganizationHierarchy">
+          <qualifierResolverClass>
+            org.kuali.ole.coa.document.workflow.OrganizationGroupTypeQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+      </routeNodes>
+    </documentType>
+  </documentTypes>
+</data>

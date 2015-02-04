@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="InvoiceItemUseTax" parent="InvoiceItemUseTax-parentBean"/>
+
+	<bean id="InvoiceItemUseTax-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.ole.module.purap.businessobject.InvoiceItemUseTax"/>
+		<!-- <property name="inquiryDefinition">
+			<ref bean="InvoiceItemUseTax-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="InvoiceItemUseTax-lookupDefinition" />
+		</property>-->
+		<property name="titleAttribute" value="InvoiceItemUseTaxCode"/>
+		<property name="objectLabel" value="Delivery Required Date Reason"/>
+		<property name="attributes">
+			<list>
+				<ref bean="InvoiceItemUseTax-invoiceItemUseTaxId"/>
+				<ref bean="InvoiceItemUseTax-itemIdentifier"/>
+				<ref bean="InvoiceItemUseTax-rateCode"/>
+				<ref bean="InvoiceItemUseTax-taxAmount"/>
+				<ref bean="InvoiceItemUseTax-chartOfAccountsCode"/>
+				<ref bean="InvoiceItemUseTax-accountNumber"/>
+				<ref bean="InvoiceItemUseTax-financialObjectCode"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="InvoiceItemUseTax-invoiceItemUseTaxId" parent="InvoiceItemUseTax-invoiceItemUseTaxId-parentBean"/>
+
+	<bean id="InvoiceItemUseTax-invoiceItemUseTaxId-parentBean" abstract="true" parent="PurchaseOrderItemUseTax-purchaseOrderItemUseTaxId"/>
+
+	<bean id="InvoiceItemUseTax-itemIdentifier" parent="InvoiceItemUseTax-itemIdentifier-parentBean"/>
+
+	<bean id="InvoiceItemUseTax-itemIdentifier-parentBean" parent="PurchaseOrderItem-itemIdentifier" abstract="true" />
+
+	<bean id="InvoiceItemUseTax-rateCode" parent="InvoiceItemUseTax-rateCode-parentBean"/>
+
+	<bean id="InvoiceItemUseTax-rateCode-parentBean" abstract="true" parent="PurchaseOrderItemUseTax-rateCode"/>
+
+	<bean id="InvoiceItemUseTax-taxAmount" parent="InvoiceItemUseTax-taxAmount-parentBean"/>
+
+	<bean id="InvoiceItemUseTax-taxAmount-parentBean" abstract="true" parent="PurchaseOrderItemUseTax-taxAmount"/>
+
+	<bean id="InvoiceItemUseTax-chartOfAccountsCode" parent="InvoiceItemUseTax-chartOfAccountsCode-parentBean"/>
+
+	<bean id="InvoiceItemUseTax-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode"/>
+
+
+	<bean id="InvoiceItemUseTax-accountNumber" parent="InvoiceItemUseTax-accountNumber-parentBean"/>
+
+	<bean id="InvoiceItemUseTax-accountNumber-parentBean" abstract="true" parent="Account-accountNumber"/>
+
+
+	<bean id="InvoiceItemUseTax-financialObjectCode" parent="InvoiceItemUseTax-financialObjectCode-parentBean"/>
+
+	<bean id="InvoiceItemUseTax-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode"/>
+
+</beans>

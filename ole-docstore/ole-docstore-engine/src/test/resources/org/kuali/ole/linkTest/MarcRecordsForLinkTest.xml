@@ -1,0 +1,450 @@
+<!--
+   - Copyright 2011 The Kuali Foundation.
+   - 
+   - Licensed under the Educational Community License, Version 2.0 (the "License");
+   - you may not use this file except in compliance with the License.
+   - You may obtain a copy of the License at
+   - 
+   - http://www.opensource.org/licenses/ecl2.php
+   - 
+   - Unless required by applicable law or agreed to in writing, software
+   - distributed under the License is distributed on an "AS IS" BASIS,
+   - WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   - See the License for the specific language governing permissions and
+   - limitations under the License.
+ -->
+<records>
+    <record>
+        <leader>01297cam?a2200301Ia 45?0</leader>
+        <controlfield tag="001">a5556513</controlfield>
+        <controlfield tag="003">InU</controlfield>
+        <controlfield tag="005">20030418112155.0</controlfield>
+        <controlfield tag="008">940914s1994 inu 000 0 eng d</controlfield>
+        <datafield tag="040" ind1=" " ind2=" ">
+            <subfield code="a">XXN</subfield>
+            <subfield code="c">XXN</subfield>
+            <subfield code="d">IUL</subfield>
+        </datafield>
+        <datafield tag="090" ind1=" " ind2=" ">
+            <subfield code="a">LC4704</subfield>
+            <subfield code="b">.E23 1994</subfield>
+        </datafield>
+        <datafield tag="092" ind1=" " ind2=" ">
+            <subfield code="a">38 .E34</subfield>
+        </datafield>
+        <datafield tag="049" ind1=" " ind2=" ">
+            <subfield code="a">IULA</subfield>
+        </datafield>
+        <datafield tag="100" ind1="1" ind2=" ">
+            <subfield code="a">Ebeling, David G.</subfield>
+            <subfield code="q">(David George),</subfield>
+            <subfield code="d">1940-</subfield>
+        </datafield>
+        <datafield tag="245" ind1="1" ind2="0">
+            <subfield code="a">Adapting curriculum and instruction in inclusive classrooms :</subfield>
+            <subfield code="b">staff development kit /</subfield>
+            <subfield code="c">David G. Ebeling, Cathy Deschenes, Jeffrey Sprague.</subfield>
+        </datafield>
+        <datafield tag="260" ind1=" " ind2=" ">
+            <subfield code="a">Bloomington, Ind. :</subfield>
+            <subfield code="b">Center for School and Community Integration, Institute for the Study of Developmental
+                Disabilities,
+            </subfield>
+            <subfield code="c">c1994.</subfield>
+        </datafield>
+        <datafield tag="300" ind1=" " ind2=" ">
+            <subfield code="a">32 leaves ;</subfield>
+            <subfield code="c">28 cm.</subfield>
+        </datafield>
+        <datafield tag="500" ind1=" " ind2=" ">
+            <subfield code="a">"This reference manual was produced with support from grant #HO86U00026 United States
+                Department of Education."
+            </subfield>
+        </datafield>
+        <datafield tag="650" ind1=" " ind2="0">
+            <subfield code="a">Learning disabled children</subfield>
+            <subfield code="x">Education.</subfield>
+        </datafield>
+        <datafield tag="710" ind1="2" ind2=" ">
+            <subfield code="a">Indiana University, Bloomington.</subfield>
+            <subfield code="b">Center for School and Community Integration.</subfield>
+        </datafield>
+        <datafield tag="710" ind1="2" ind2=" ">
+            <subfield code="a">Indiana University, Bloomington.</subfield>
+            <subfield code="b">Institute for the Study of Developmental Disabilities.</subfield>
+        </datafield>
+        <datafield tag="700" ind1="1" ind2=" ">
+            <subfield code="a">Deschenes, Cathy.</subfield>
+        </datafield>
+        <datafield tag="700" ind1="1" ind2=" ">
+            <subfield code="a">Sprague, Jeffrey.</subfield>
+        </datafield>
+        <datafield tag="949" ind1=" " ind2=" ">
+            <subfield code="h">iidcref</subfield>
+        </datafield>
+        <datafield tag="998" ind1=" " ind2=" ">
+            <subfield code="a">rcp3593</subfield>
+        </datafield>
+        <datafield tag="994" ind1=" " ind2=" ">
+            <subfield code="a">02</subfield>
+            <subfield code="b">IUL</subfield>
+        </datafield>
+        <datafield tag="596" ind1=" " ind2=" ">
+            <subfield code="a">50</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">38 .E34</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">30000085671695</subfield>
+            <subfield code="l">_IIDCREF</subfield>
+            <subfield code="m">B-CEDIR</subfield>
+            <subfield code="p">$13.50</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">NONCIRC</subfield>
+            <subfield code="u">7/10/2003</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>01248cam?a22003134a 45?0</leader>
+        <controlfield tag="001">a5556513</controlfield>
+        <controlfield tag="003">InU</controlfield>
+        <controlfield tag="005">20030418112219.0</controlfield>
+        <controlfield tag="008">010109s2001 vau b 001 0 eng</controlfield>
+        <datafield tag="010" ind1=" " ind2=" ">
+            <subfield code="a">2001000176</subfield>
+        </datafield>
+        <datafield tag="040" ind1=" " ind2=" ">
+            <subfield code="a">DLC</subfield>
+            <subfield code="c">DLC</subfield>
+            <subfield code="d">IUL</subfield>
+        </datafield>
+        <datafield tag="020" ind1=" " ind2=" ">
+            <subfield code="a">0871205084 (alk. paper)</subfield>
+        </datafield>
+        <datafield tag="042" ind1=" " ind2=" ">
+            <subfield code="a">pcc</subfield>
+        </datafield>
+        <datafield tag="043" ind1=" " ind2=" ">
+            <subfield code="a">n-us---</subfield>
+        </datafield>
+        <datafield tag="050" ind1="0" ind2="0">
+            <subfield code="a">LB1027.42</subfield>
+            <subfield code="b">.E54 2001</subfield>
+        </datafield>
+        <datafield tag="082" ind1="0" ind2="0">
+            <subfield code="a">378/.0071</subfield>
+            <subfield code="2">21</subfield>
+        </datafield>
+        <datafield tag="092" ind1=" " ind2=" ">
+            <subfield code="a">38 .E54</subfield>
+        </datafield>
+        <datafield tag="049" ind1=" " ind2=" ">
+            <subfield code="a">IULA</subfield>
+        </datafield>
+        <datafield tag="245" ind1="0" ind2="0">
+            <subfield code="a">Energizing teacher education and professional development with problem-based learning /
+            </subfield>
+            <subfield code="c">edited by Barbara B. Levin.</subfield>
+        </datafield>
+        <datafield tag="260" ind1=" " ind2=" ">
+            <subfield code="a">Alexandria, Va. :</subfield>
+            <subfield code="b">Association for Supervision and Curriculum Development,</subfield>
+            <subfield code="c">c2001.</subfield>
+        </datafield>
+        <datafield tag="300" ind1=" " ind2=" ">
+            <subfield code="a">140 p. ;</subfield>
+            <subfield code="c">23 cm.</subfield>
+        </datafield>
+        <datafield tag="504" ind1=" " ind2=" ">
+            <subfield code="a">Includes bibliographical references and index.</subfield>
+        </datafield>
+        <datafield tag="500" ind1=" " ind2=" ">
+            <subfield code="a">"ASCD product no. 101002"--T.p. verso.</subfield>
+        </datafield>
+        <datafield tag="650" ind1=" " ind2="0">
+            <subfield code="a">Problem-based learning</subfield>
+            <subfield code="z">United States</subfield>
+            <subfield code="v">Case studies.</subfield>
+        </datafield>
+        <datafield tag="650" ind1=" " ind2="0">
+            <subfield code="a">Teachers</subfield>
+            <subfield code="x">Training of</subfield>
+            <subfield code="z">United States</subfield>
+            <subfield code="v">Case studies.</subfield>
+        </datafield>
+        <datafield tag="700" ind1="1" ind2=" ">
+            <subfield code="a">Levin, Barbara B.</subfield>
+        </datafield>
+        <datafield tag="596" ind1=" " ind2=" ">
+            <subfield code="a">42 50</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">38 .E54</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">30000085671729</subfield>
+            <subfield code="l">_IIDCCELR</subfield>
+            <subfield code="m">B-CEDIR</subfield>
+            <subfield code="p">$23.95</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">NONCIRC</subfield>
+            <subfield code="u">7/10/2003</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">LB1027.42 .E54 2001</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">30000066744131</subfield>
+            <subfield code="d">6/12/2006</subfield>
+            <subfield code="e">2/14/2006</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">I-UNIVLIB</subfield>
+            <subfield code="n">3</subfield>
+            <subfield code="p">$20.36</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">NORMAL</subfield>
+            <subfield code="u">3/9/2004</subfield>
+            <subfield code="o">.STAFF. CAT;03-09-2004;UL004</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>01165cam?a2200313Ia 45?0</leader>
+        <controlfield tag="001">a5556514</controlfield>
+        <controlfield tag="003">InU</controlfield>
+        <controlfield tag="005">20030418112238.0</controlfield>
+        <controlfield tag="008">980929s1996 caua b 001 0 eng d</controlfield>
+        <datafield tag="040" ind1=" " ind2=" ">
+            <subfield code="a">IHI</subfield>
+            <subfield code="c">IHI</subfield>
+            <subfield code="d">IUL</subfield>
+        </datafield>
+        <datafield tag="092" ind1=" " ind2=" ">
+            <subfield code="a">38 .F32</subfield>
+        </datafield>
+        <datafield tag="049" ind1=" " ind2=" ">
+            <subfield code="a">IULA</subfield>
+        </datafield>
+        <datafield tag="245" ind1="0" ind2="0">
+            <subfield code="a">Facilitating learning communities :</subfield>
+            <subfield code="b">facilitator's guide /</subfield>
+            <subfield code="c">California Staff Development Council ; developed by Mary Dietz, Nanette Green, and Judy
+                Piper.
+            </subfield>
+        </datafield>
+        <datafield tag="260" ind1=" " ind2=" ">
+            <subfield code="a">[California] :</subfield>
+            <subfield code="b">Delta Sierra Professional Development Consortium and the California Staff Development
+                Council,
+            </subfield>
+            <subfield code="c">c1996.</subfield>
+        </datafield>
+        <datafield tag="300" ind1=" " ind2=" ">
+            <subfield code="a">1 v. (various pagings) :</subfield>
+            <subfield code="b">ill. ;</subfield>
+            <subfield code="c">30 cm.</subfield>
+        </datafield>
+        <datafield tag="504" ind1=" " ind2=" ">
+            <subfield code="a">Includes bibliographical references and index.</subfield>
+        </datafield>
+        <datafield tag="650" ind1=" " ind2="0">
+            <subfield code="a">Group facilitation.</subfield>
+        </datafield>
+        <datafield tag="650" ind1=" " ind2="0">
+            <subfield code="a">Teaching.</subfield>
+        </datafield>
+        <datafield tag="650" ind1=" " ind2="0">
+            <subfield code="a">Teachers</subfield>
+            <subfield code="x">In-service training.</subfield>
+        </datafield>
+        <datafield tag="700" ind1="1" ind2=" ">
+            <subfield code="a">Dietz, Mary.</subfield>
+        </datafield>
+        <datafield tag="700" ind1="1" ind2=" ">
+            <subfield code="a">Green, Nanette.</subfield>
+        </datafield>
+        <datafield tag="700" ind1="1" ind2=" ">
+            <subfield code="a">Piper, Judy.</subfield>
+        </datafield>
+        <datafield tag="710" ind1="2" ind2=" ">
+            <subfield code="a">California Staff Development Council.</subfield>
+        </datafield>
+        <datafield tag="710" ind1="2" ind2=" ">
+            <subfield code="a">Delta Sierra Professional Development Consortium.</subfield>
+        </datafield>
+        <datafield tag="949" ind1=" " ind2=" ">
+            <subfield code="h">iidccelr</subfield>
+        </datafield>
+        <datafield tag="998" ind1=" " ind2=" ">
+            <subfield code="a">rcp3593</subfield>
+        </datafield>
+        <datafield tag="994" ind1=" " ind2=" ">
+            <subfield code="a">02</subfield>
+            <subfield code="b">IUL</subfield>
+        </datafield>
+        <datafield tag="596" ind1=" " ind2=" ">
+            <subfield code="a">50</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">38 .F32</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">30000085671737</subfield>
+            <subfield code="l">_IIDCCELR</subfield>
+            <subfield code="m">B-CEDIR</subfield>
+            <subfield code="p">$150.00</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">NONCIRC</subfield>
+            <subfield code="u">7/10/2003</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>01731cam?a22004214a 45?0</leader>
+        <controlfield tag="001">a5556514</controlfield>
+        <controlfield tag="003">InU</controlfield>
+        <controlfield tag="005">20030418112302.0</controlfield>
+        <controlfield tag="008">990921s1999 dcu b 000 0 eng</controlfield>
+        <datafield tag="010" ind1=" " ind2=" ">
+            <subfield code="a">99067386</subfield>
+        </datafield>
+        <datafield tag="040" ind1=" " ind2=" ">
+            <subfield code="a">DLC</subfield>
+            <subfield code="c">DLC</subfield>
+            <subfield code="d">LVB</subfield>
+            <subfield code="d">IUL</subfield>
+        </datafield>
+        <datafield tag="020" ind1=" " ind2=" ">
+            <subfield code="a">0935989935</subfield>
+        </datafield>
+        <datafield tag="042" ind1=" " ind2=" ">
+            <subfield code="a">pcc</subfield>
+        </datafield>
+        <datafield tag="043" ind1=" " ind2=" ">
+            <subfield code="a">n-us---</subfield>
+        </datafield>
+        <datafield tag="050" ind1="0" ind2="0">
+            <subfield code="a">LB1775.6</subfield>
+            <subfield code="b">.F44 1999</subfield>
+        </datafield>
+        <datafield tag="092" ind1=" " ind2=" ">
+            <subfield code="a">38 .F44</subfield>
+        </datafield>
+        <datafield tag="049" ind1=" " ind2=" ">
+            <subfield code="a">IULA</subfield>
+        </datafield>
+        <datafield tag="100" ind1="1" ind2=" ">
+            <subfield code="a">Feeney, Stephanie.</subfield>
+        </datafield>
+        <datafield tag="245" ind1="1" ind2="0">
+            <subfield code="a">Ethics and the early childhood educator :</subfield>
+            <subfield code="b">using the NAEYC code /</subfield>
+            <subfield code="c">Stephanie Feeney and Nancy K. Freeman.</subfield>
+        </datafield>
+        <datafield tag="260" ind1=" " ind2=" ">
+            <subfield code="a">Washington, D.C. :</subfield>
+            <subfield code="b">National Association for the Education of Young Children,</subfield>
+            <subfield code="c">c1999.</subfield>
+        </datafield>
+        <datafield tag="300" ind1=" " ind2=" ">
+            <subfield code="a">xvi, 105 p. ;</subfield>
+            <subfield code="c">26 cm.</subfield>
+        </datafield>
+        <datafield tag="490" ind1="1" ind2=" ">
+            <subfield code="a">NAEYC ;</subfield>
+            <subfield code="v">#110</subfield>
+        </datafield>
+        <datafield tag="504" ind1=" " ind2=" ">
+            <subfield code="a">Includes bibliographical references (p. 100-105).</subfield>
+        </datafield>
+        <datafield tag="650" ind1=" " ind2="0">
+            <subfield code="a">Early childhood teachers</subfield>
+            <subfield code="x">Professional ethics</subfield>
+            <subfield code="z">United States.</subfield>
+        </datafield>
+        <datafield tag="650" ind1=" " ind2="0">
+            <subfield code="a">Teacher-student relationships</subfield>
+            <subfield code="z">United States.</subfield>
+        </datafield>
+        <datafield tag="650" ind1=" " ind2="0">
+            <subfield code="a">Early childhood education</subfield>
+            <subfield code="x">Moral and ethical aspects</subfield>
+            <subfield code="z">United States.</subfield>
+        </datafield>
+        <datafield tag="650" ind1=" " ind2="6">
+            <subfield code="a">??ducateurs de jeunes enfants</subfield>
+            <subfield code="x">D??ontologie.</subfield>
+        </datafield>
+        <datafield tag="650" ind1=" " ind2="6">
+            <subfield code="a">??ducation de la premi??re enfance</subfield>
+            <subfield code="z">??tats-Unis.</subfield>
+        </datafield>
+        <datafield tag="700" ind1="1" ind2=" ">
+            <subfield code="a">Freeman, Nancy K.</subfield>
+        </datafield>
+        <datafield tag="710" ind1="2" ind2=" ">
+            <subfield code="a">National Association for the Education of Young Children.</subfield>
+        </datafield>
+        <datafield tag="830" ind1=" " ind2="0">
+            <subfield code="a">NAEYC (Series) ;</subfield>
+            <subfield code="v">#110.</subfield>
+        </datafield>
+        <datafield tag="949" ind1=" " ind2=" ">
+            <subfield code="h">iidcecc</subfield>
+        </datafield>
+        <datafield tag="998" ind1=" " ind2=" ">
+            <subfield code="a">rcp3593</subfield>
+        </datafield>
+        <datafield tag="994" ind1=" " ind2=" ">
+            <subfield code="a">02</subfield>
+            <subfield code="b">IUL</subfield>
+        </datafield>
+        <datafield tag="596" ind1=" " ind2=" ">
+            <subfield code="a">9 46 50</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">38 .F44</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">30000085671745</subfield>
+            <subfield code="l">_IIDCECCR</subfield>
+            <subfield code="m">B-CEDIR</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">NONCIRC</subfield>
+            <subfield code="u">7/10/2003</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">LB1775.6 .F44 1999</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">30000096128891</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">SBEND</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">NORMAL</subfield>
+            <subfield code="u">1/6/2006</subfield>
+            <subfield code="o">.STAFF. CAT;01-06-2006;SB992</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">LB1775.6 .F44 1999</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">30000127981383</subfield>
+            <subfield code="d">4/23/2010</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">B-EDUC</subfield>
+            <subfield code="q">1</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">NORMAL</subfield>
+            <subfield code="u">4/20/2010</subfield>
+            <subfield code="o">.STAFF. CAT;04-20-2010;FC005</subfield>
+            <subfield code="o">.STAFF. Gift</subfield>
+        </datafield>
+    </record>
+</records>

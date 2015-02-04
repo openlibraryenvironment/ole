@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="OlePlatformAdminUrlType" parent="OlePlatformAdminUrlType-parentBean"/>
+    <bean id="OlePlatformAdminUrlType-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.select.bo.OLEPlatformAdminUrlType"/>
+        <property name="titleAttribute" value="platformAdminUrlTypeName"/>
+        <property name="objectLabel" value="Platform Admin URL Type"/>
+        <property name="attributes">
+            <list>
+                <ref bean="OlePlatformAdminUrlType-platformAdminUrlTypeId"/>
+                <ref bean="OlePlatformAdminUrlType-platformAdminUrlTypeName"/>
+                <ref bean="OlePlatformAdminUrlType-platformAdminUrlTypeDesc"/>
+                <ref bean="OlePlatformAdminUrlType-active"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+    <bean id="OlePlatformAdminUrlType-platformAdminUrlTypeId"
+          parent="OlePlatformAdminUrlType-platformAdminUrlTypeId-parentBean"/>
+    <bean id="OlePlatformAdminUrlType-platformAdminUrlTypeId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="platformAdminUrlTypeId"/>
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
+    <bean id="OlePlatformAdminUrlType-platformAdminUrlTypeName"
+          parent="OlePlatformAdminUrlType-platformAdminUrlTypeName-parentBean"/>
+    <bean id="OlePlatformAdminUrlType-platformAdminUrlTypeName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Name"/>
+        <property name="maxLength" value="50"/>
+        <property name="name" value="platformAdminUrlTypeName"/>
+        <property name="label" value="Name"/>
+        <property name="description" value="Name"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OlePlatformAdminUrlType-platformAdminUrlTypeDesc"
+          parent="OlePlatformAdminUrlType-platformAdminUrlTypeDesc-parentBean"/>
+    <bean id="OlePlatformAdminUrlType-platformAdminUrlTypeDesc-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Description"/>
+        <property name="maxLength" value="100"/>
+        <property name="name" value="platformAdminUrlTypeDesc"/>
+        <property name="label" value="Description"/>
+        <property name="description" value="Description"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OlePlatformAdminUrlType-active" parent="OlePlatformAdminUrlType-active-parentBean"/>
+    <bean id="OlePlatformAdminUrlType-active-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="active"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="active"/>
+        <property name="maxLength" value="1"/>
+        <property name="summary" value="Active Indicator"/>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+        <property name="label" value="Active Indicator"/>
+        <property name="description"
+                  value="This attribute is used to describe whether the associated object is active or inactive."/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-CheckboxControl"/>
+        </property>
+    </bean>
+
+    <!-- Inquiry View -->
+
+    <bean id="OlePlatformAdminUrlType-InquiryView" parent="Uif-OLEInquiryView">
+        <property name="headerText" value="Platform Admin URL Type Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OLEPlatformAdminUrlType"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-VerticalBoxSection">
+                    <property name="header.headerText" value="Platform Admin URL Type"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-GridGroup">
+                                <property name="items">
+                                    <list>
+                                        <bean id="inquiry_platformAdminUrlTypeId" parent="Uif-InputField"
+                                              p:propertyName="platformAdminUrlTypeId"/>
+                                        <bean id="inquiry_platformAdminUrlTypeName" parent="Uif-InputField"
+                                              p:propertyName="platformAdminUrlTypeName"/>
+                                        <bean id="inquiry_platformAdminUrlTypeDesc" parent="Uif-InputField"
+                                              p:propertyName="platformAdminUrlTypeDesc"/>
+                                        <bean id="inquiry_active" parent="Uif-InputField" p:propertyName="active"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Lookup View -->
+
+    <bean id="OlePlatformAdminUrlType-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="Platform Admin URL Type Lookup"/>
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="${ole.externalizable.help.url}"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OLEPlatformAdminUrlType"/>
+        <property name="criteriaFields">
+            <list>
+                <bean id="platformAdminUrlTypeName" parent="Uif-LookupCriteriaInputField"
+                      p:propertyName="platformAdminUrlTypeName" p:enableAutoDirectInquiry="false"/>
+                <bean id="platformAdminUrlTypeDesc" parent="Uif-LookupCriteriaInputField"
+                      p:propertyName="platformAdminUrlTypeDesc"/>
+                <bean id="active" parent="Uif-LookupCriteriaInputField" p:propertyName="active"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean id="searchResult_platformAdminUrlTypeName" parent="Uif-DataField"
+                      p:propertyName="platformAdminUrlTypeName"/>
+                <bean id="searchResult_platformAdminUrlTypeDesc" parent="Uif-DataField"
+                      p:propertyName="platformAdminUrlTypeDesc"/>
+                <bean id="searchResult_active" parent="Uif-DataField" p:propertyName="active"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<dublin_core schema="dc">
+  <dcvalue element="contributor" qualifier="author">Pearson, Marlys</dcvalue>
+  <dcvalue element="contributor" qualifier="author">Leone, Mark</dcvalue>
+  <dcvalue element="contributor" qualifier="author">Crosby, Constance</dcvalue>
+  <dcvalue element="date" qualifier="accessioned">2010-12-03T17:06:31Z</dcvalue>
+  <dcvalue element="date" qualifier="available">2010-12-03T17:06:31Z</dcvalue>
+  <dcvalue element="date" qualifier="issued">1991</dcvalue>
+  <dcvalue element="identifier" qualifier="uri">http://hdl.handle.net/1903/11001</dcvalue>
+  <dcvalue element="description" qualifier="abstract">The Victualling Warehouse Site, located at 77 Main Street in Annapolis, Maryland, was excavated by Archaeology in Annapolis during the summers of 1982 and 1983 and the fall of 1984. Funding was provided by Historic Annapolis, Incorporated (now Historic Annapolis Foundation), the University of Maryland, the Maryland Committee for the Humanities, and the Maryland Commission on the Capital City. This site has been used for commercial and residential purposes since the 1740's. During the Revolution the warehouses were used as a victualling office to supply American troops.  A fire in 1970 destroyed these buildings and the present structure, also used as a store, was built about twenty years later. Over the three years of excavation, a total of 36 5 foot by 5 foot units were excavated revealing several features, including the foundations of one of the eighteenth century warehouses.</dcvalue>
+  <dcvalue element="description" qualifier="provenance">Submitted by Joan Kaminer (jgibson@umd.edu) on 2010-12-02T18:31:51Z
+No. of bitstreams: 3
+AP14 1991 Vol 1 .pdf: 11557549 bytes, checksum: b6518d934ae95646de8bcb18992a0ff0 (MD5)
+AP14 1991 Vol 2 .pdf: 11481177 bytes, checksum: 08ea6f4e1ce931b8aead5a0a0e0fde34 (MD5)
+AP14 artifact catalog 1992.xls: 821248 bytes, checksum: 24b057e906e4446aaa8d0da86f1477e0 (MD5)</dcvalue>
+  <dcvalue element="description" qualifier="provenance">Approved for entry into archive by Manager for faculty self-deposit collections(drum-help@umd.edu) on 2010-12-03T17:06:30Z (GMT) No. of bitstreams: 3
+AP14 1991 Vol 1 .pdf: 11557549 bytes, checksum: b6518d934ae95646de8bcb18992a0ff0 (MD5)
+AP14 1991 Vol 2 .pdf: 11481177 bytes, checksum: 08ea6f4e1ce931b8aead5a0a0e0fde34 (MD5)
+AP14 artifact catalog 1992.xls: 821248 bytes, checksum: 24b057e906e4446aaa8d0da86f1477e0 (MD5)</dcvalue>
+  <dcvalue element="description" qualifier="provenance">Made available in DSpace on 2010-12-03T17:06:31Z (GMT). No. of bitstreams: 3
+AP14 1991 Vol 1 .pdf: 11557549 bytes, checksum: b6518d934ae95646de8bcb18992a0ff0 (MD5)
+AP14 1991 Vol 2 .pdf: 11481177 bytes, checksum: 08ea6f4e1ce931b8aead5a0a0e0fde34 (MD5)
+AP14 artifact catalog 1992.xls: 821248 bytes, checksum: 24b057e906e4446aaa8d0da86f1477e0 (MD5)
+  Previous issue date: 1991</dcvalue>
+  <dcvalue element="subject" qualifier="none">Archaeology</dcvalue>
+  <dcvalue element="subject" qualifier="none">Annapolis, Maryland</dcvalue>
+  <dcvalue element="subject" qualifier="none">Victualling Warehouse</dcvalue>
+  <dcvalue element="subject" qualifier="none">18AP14</dcvalue>
+  <dcvalue element="subject" qualifier="none">Main Street</dcvalue>
+  <dcvalue element="subject" qualifier="none">artifact catalog</dcvalue>
+  <dcvalue element="title" qualifier="none">Archaeological Excavations at 18AP14: The Victualling Warehouse Site, 77 Main Street, Annapolis, Maryland, 1982 - 1984</dcvalue>
+  <dcvalue element="relation" qualifier="isAvailableAt">University of Maryland (College Park, Md)</dcvalue>
+  <dcvalue element="relation" qualifier="isAvailableAt">Digital Repository at the University of Maryland</dcvalue>
+</dublin_core>

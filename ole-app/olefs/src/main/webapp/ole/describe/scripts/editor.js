@@ -1,0 +1,1432 @@
+jq(document).ready(function () {
+    jq("#EditorExistingRecordTreeNavigation").html(jq("#EditorHdnTreeData_control").val());
+    jq('#WorkBibDataFieldSection table tr td').eq(0).css('width', '75%');
+    jq('#DublinElementSection table tr td').eq(0).css('width', '80%');
+    //jq('#callNumberHoldingsBrowseLinkHidden').hide();
+
+    if (jq('#hiddenBibId_control').val() == "" || jq('#hiddenBibId_control').val() == null) {
+        jq("#bibLevelActionSection").hide();
+    }
+    jq("#oleEInstanceDonorCode_add_control").live("change", function () {
+        if (parseInt(jq("#oleEInstanceDonorCode_add_control").val().trim().length) > 1) {
+            jq("#oleEInstanceDonorPublicDisplay_add_control").attr("readonly", "true");
+            jq("#oleEInstanceDonorNote_add_control").attr("readonly", "true");
+        }
+        else {
+            jq("#oleEInstanceDonorPublicDisplay_add_control").removeAttr("readonly");
+            jq("#oleEInstanceDonorNote_add_control").removeAttr("readonly");
+        }
+    });
+    jq("#oleEInstanceDonorCode_add_control").keypress(function () {
+        if (parseInt(jq("#oleEInstanceDonorCode_add_control").val().trim().length) > 1) {
+            jq("#oleEInstanceDonorPublicDisplay_add_control").attr("readonly", "true");
+            jq("#oleEInstanceDonorNote_add_control").attr("readonly", "true");
+        }
+        else {
+            jq("#oleEInstanceDonorPublicDisplay_add_control").removeAttr("readonly");
+            jq("#oleEInstanceDonorNote_add_control").removeAttr("readonly");
+        }
+    });
+
+    window.focus = function(a){
+
+        try{
+            a=document.getElementById(a);
+            if(null!=a&&jQuery(a).is(":text,textarea,:password")&&a.value&&0!=a.value.length)if(a.createTextRange)
+            {
+                var g=a.createTextRange();g.moveStart("character",a.value.length);g.collapse();g.select()
+            }else
+            {
+                if(a.selectionStart||void 0!=a.selectionStart&&"0"==a.selectionStart)
+                    g=a.value.length,
+                    a.selectionStart=g,
+                    a.selectionEnd=g,
+                    a.focus()
+            }else
+                null!=a&&a.focus()
+        }
+        catch(err) {
+           /* alert("error");*/
+        }
+    }
+
+    function disableEnterKey(evt) {
+        var browser = navigator.userAgent;
+        if(browser.indexOf("MSIE8.0")!=-1){
+
+            if (evt.keyCode != null) {
+
+                return false;
+            }
+        } else{
+            if (evt.keyCode==13) {
+
+                return false;
+            }
+        }
+    }
+    jq("input.uif-textControl").live("keypress", function(e){
+
+        if(e.keyCode==13){
+            return false;
+        }
+    })
+    jq("input#OleMissingItem-missingPieceEffectiveDate_control").live('keydown',function(event) {
+        if ( event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 27 || event.keyCode == 13 ||
+            (event.keyCode == 65 && event.ctrlKey === true) ||
+            (event.keyCode >= 35 && event.keyCode <= 39)) {
+            return;
+        }
+        else {
+            if (event.shiftKey || (event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105 )) {
+                event.preventDefault();
+            }
+        }
+    });
+    //document.onkeypress = disableEnterKey;
+});
+
+function wrapEnterText(){
+    if ("bibliographic" == (jq("#hdnDocType_control").val())) {
+        jq(".uif-textAreaControl").attr("style","width: 650px;font-size: 13px;height: 18px;");
+
+        for(var i=0;i<jq("textarea").length;i++) {
+            var numRows = jq("#dataField_value_id_line"+i+"_control").val().length/80;
+            jq("#dataField_value_id_line"+i+"_control").height((parseInt(numRows)+parseInt(1))*18);
+
+        }
+        jq(".uif-textAreaControl").keypress(function (e) {
+
+            for(var i=0;i<jq("textarea").length;i++) {
+                var numRows = jq("#dataField_value_id_line"+i+"_control").val().length/80;
+                jq("#dataField_value_id_line"+i+"_control").height((parseInt(numRows)+parseInt(1))*18);
+            }
+            var currentContentLength = jq("#"+this.id).val().length;
+            var height = jq("#"+this.id).height();
+            var cols = jq("#"+this.id).attr("cols");
+            //alert(currentContentLength+"  "+cols);
+            if (currentContentLength % cols == 0) {
+                // alert("adding ---> " +currentContentLength +"  "+cols);
+                var sum =  parseInt(80)+parseInt(jq("#"+this.id).attr("cols"));
+                if(currentContentLength!=0){
+                    jq("#"+this.id).height(height + 18);
+                }
+                jq("#"+this.id).attr("cols", sum);
+
+            }
+            if(currentContentLength % (cols -80) == 0 ){
+                // alert("deleting --> "+currentContentLength +"  "+cols +"  "+height);
+                var diff =  parseInt(jq("#"+this.id).attr("cols")) - parseInt(80);
+                if(currentContentLength != 0) {
+                    jq("#"+this.id).height(height - 18);
+                }
+                jq("#"+this.id).attr("cols", diff);
+            }
+        });
+    }
+
+}
+
+
+
+
+function edit() {
+    jq('#hdnEditable_control').val("true");
+    jq('#hdnFromSearch_control').val(true);
+    submitForm('load', null, null, null, null);
+}
+
+function addInstance() {
+    jq('#hdnDocCat_control').val("work");
+    jq('#hdnDocType_control').val("holdings");
+    jq('#hdnDocFormat_control').val("oleml");
+    jq('#hiddenDocId_control').val("");
+    /*submitForm('load', null, null, true, function(){
+     jq("#holdingsItemTree_tree").jstree("create",(jq("#holdingsItemTree_tree").jstree("create",-1,false,"Holdings",false,true)),false,"Item",false,true);
+     });*/
+    submitForm('load', null, null, null, null);
+}
+function addEInstance() {
+    jq('#hdnDocCat_control').val("work");
+    jq('#hdnDocType_control').val("eHoldings");
+    jq('#hdnDocFormat_control').val("oleml");
+    jq('#hiddenDocId_control').val("");
+    /*submitForm('load', null, null, true, function(){
+     jq("#holdingsItemTree_tree").jstree("create",(jq("#holdingsItemTree_tree").jstree("create",-1,false,"Holdings",false,true)),false,"Item",false,true);
+     });*/
+    submitForm('load', null, null, null, function () {
+        jq('#Editor_Footer').hide();
+    });
+}
+
+function deleteBib() {
+    jq('#hdnDocCat_control').val("work");
+    jq('#hdnDocType_control').val("bibliographic");
+    jq('#hdnDocFormat_control').val("marc");
+    jq('#hiddenDocId_control').val(jq("#hiddenBibId_control").val());
+    submitForm('deleteVerify', null, null, null, null);
+}
+
+function methodToCall(methodToCall) {
+
+    jq("#hiddenBibFlag_control").val(false);
+    jq("#hiddenHoldingFlag_control").val(false);
+    jq("#hiddenItemFlag_control").val(false);
+    jq("#hiddenEHoldingsFlag_control").val(false);
+    localStorage.onchangeRecordEvent = false;
+    submitForm(methodToCall, null, null, null, null);
+}
+
+var newInstances = 0;
+var id;
+var canAdd;
+var canDelete;
+var canDeleteEInstance;
+
+jq(document).ready(function () {
+//    jq('#rightClick').click(function(e){
+//        //alert("left click");
+//        jq('#hdnLoadInstance').focus().click();
+//    });
+
+    jq(function () {
+        jq("#holdingsItemTree_tree").removeClass();
+        jq("#holdingsItemTree_tree").jstree({
+
+            "themes": {
+                "theme": "krms",
+                "icons": false,
+                "dots": true
+            },
+            "core": {
+                //"html_titles" : true
+            },
+            "cookies": {
+                //"save_selected": true
+            },
+            "plugins": [ "themes", "html_data", "ui", "crrm", "contextmenu", "cookies"],
+            "contextmenu": {
+                "show_at_node": true,
+                "items": function (node) {
+                    if (checkHoldingsOrItemNode(node) == "HOLDINGS") {
+
+                        canAdd = jq("#canAdd_control").val();
+                        canDelete = jq("#canDelete_control").val();
+
+                        if (canAdd == 'true' && canDelete == 'true') {
+
+                            return {
+                                "Delete": {
+                                    "label": "   Delete Holdings",
+                                    "icon": "../krad/images/cancel.png",
+                                    "separator_after": true,
+                                    "action": function (obj) {
+
+                                        jq("#holdingsItemTree_tree").jstree("deselect_node", jQuery("#holdingsItemTree_tree").jstree("get_selected"));
+                                        jq('#hdnDocCat_control').val("work");
+                                        jq('#hdnDocType_control').val("holdings");
+                                        jq('#hdnDocFormat_control').val("oleml");
+                                        jq('#hiddenDocId_control').val(node.attr("class").split(' ')[0]);
+
+                                        submitForm('deleteVerify', null, null, true, function () {
+                                            jq("#Editor_Footer").hide();
+                                            jq("#holdingsItemTree_tree").jstree('select_node', obj);
+                                        });
+                                    }
+                                },
+                                "Create": {
+                                    "label": "   Add Item",
+                                    "icon": "../krms/images/add.png",
+                                    "action": function (obj) {
+
+                                        jq("#holdingsItemTree_tree").jstree("deselect_node", jQuery("#holdingsItemTree_tree").jstree("get_selected"));
+                                        jq('#hdnDocCat_control').val("work");
+                                        jq('#hdnDocType_control').val("item");
+                                        jq("#holdingsItemTree_tree").jstree('select_node', null);
+                                        jq('#hdnDocFormat_control').val("oleml");
+                                        if (node.attr("class").split(' ').length > 2) {
+                                            jq('#hiddenHoldingsId_control').val(node.attr("class").split(' ')[0]);
+                                        }
+                                        else {
+                                            jq('#hiddenHoldingsId_control').val("");
+                                        }
+                                        jq('#hiddenDocId_control').val("");
+
+                                        submitForm('load', null, null, null, function () {
+                                            //jq("#holdingsItemTree_tree").jstree('select_node', jq("#holdingsItemTree_tree").jstree("create", obj, false, "Item", false, true));
+                                        });
+                                    }
+                                }
+                            };
+                        }
+
+                        if (canAdd == 'true') {
+
+                            return {
+                                "Create": {
+                                    "label": "   Add Item",
+                                    "icon": "../krms/images/add.png",
+                                    "action": function (obj) {
+
+                                        jq("#holdingsItemTree_tree").jstree("deselect_node", jQuery("#holdingsItemTree_tree").jstree("get_selected"));
+                                        jq('#hdnDocCat_control').val("work");
+                                        jq('#hdnDocType_control').val("item");
+                                        jq("#holdingsItemTree_tree").jstree('select_node', null);
+                                        jq('#hdnDocFormat_control').val("oleml");
+                                        jq('#hiddenHoldingsId_control').val(node.attr("class").split(' ')[0]);
+                                        jq('#hiddenDocId_control').val("");
+
+                                        submitForm('load', null, null, null, function () {
+                                            //jq("#holdingsItemTree_tree").jstree('select_node', jq("#holdingsItemTree_tree").jstree("create", obj, false, "Item", false, true));
+                                        });
+                                    }
+                                }
+                            };
+                        }
+                        if (canDelete == 'true') {
+
+                            return {
+                                "Delete": {
+                                    "label": "   Delete Holdings",
+                                    "icon": "../krad/images/cancel.png",
+                                    "separator_after": true,
+                                    "action": function (obj) {
+
+                                        jq("#holdingsItemTree_tree").jstree("deselect_node", jQuery("#holdingsItemTree_tree").jstree("get_selected"));
+                                        jq('#hdnDocCat_control').val("work");
+                                        jq('#hdnDocType_control').val("holdings");
+                                        jq('#hdnDocFormat_control').val("oleml");
+                                        jq('#hiddenDocId_control').val(node.attr("class").split(' ')[0]);
+
+                                        submitForm('deleteVerify', null, null, true, function () {
+                                            jq("#Editor_Footer").hide();
+                                            jq("#holdingsItemTree_tree").jstree('select_node', obj);
+                                        });
+                                    }
+                                }
+                            };
+                        }
+
+                    }
+                    if (checkHoldingsOrItemNode(node) == "ITEM") {
+
+                        canDelete = jq("#canDelete_control").val();
+
+
+                        if (canDelete == 'true') {
+                            return {
+                                "Delete": {
+                                    "label": "   Delete Item",
+                                    "icon": "../krad/images/cancel.png",
+                                    "action": function (obj) {
+                                        jq("#holdingsItemTree_tree").jstree("deselect_node", jQuery("#holdingsItemTree_tree").jstree("get_selected"));
+                                        jq('#hdnDocCat_control').val("work");
+                                        jq('#hdnDocType_control').val("item");
+                                        jq('#hdnDocFormat_control').val("oleml");
+                                        jq('#hiddenDocId_control').val(node.attr("class").split(' ')[0]);
+
+                                        submitForm('deleteVerify', null, null, true, function () {
+                                            jq("#Editor_Footer").hide();
+                                            jq("#holdingsItemTree_tree").jstree('select_node', obj);
+                                        });
+
+                                    }
+                                }
+                            };
+                        }
+
+
+                    }
+                    if (checkHoldingsOrItemNode(node) == "eHoldings") {
+
+                        canDeleteEInstance = jq("#canDeleteEInstance_control").val();
+
+
+                        if (canDeleteEInstance == 'true') {
+                            return {
+                                "Delete": {
+                                    "label": "   Delete eInstance",
+                                    "icon": "../krad/images/cancel.png",
+                                    "action": function (obj) {
+                                        jq("#holdingsItemTree_tree").jstree("deselect_node", jQuery("#holdingsItemTree_tree").jstree("get_selected"));
+                                        jq('#hdnDocCat_control').val("work");
+                                        jq('#hdnDocType_control').val("eHoldings");
+                                        jq('#hdnDocFormat_control').val("oleml");
+                                        jq('#hiddenDocId_control').val(node.attr("class").split(' ')[0]);
+                                        submitForm('delete', null, null, true);
+                                        /*submitForm('delete', null, null, true, function () {
+                                            jq('#showEditorFooter').val(true);
+                                            jq('#hdnDocCat_control').val("work");
+                                            jq('#hdnDocType_control').val("bibliographic");
+                                            var isDublinRecord = jq('#hiddenFromDublin_control').val();
+                                            if(isDublinRecord == "true") {
+                                                jq('#hdnDocFormat_control').val("dublinunq");
+                                            }   else {
+                                                jq('#hdnDocFormat_control').val("marc");
+                                            }
+                                            jq('#hiddenDocId_control').val(jq("#hiddenBibId_control").val());
+                                            submitForm("load", null, null, null);
+                                        });*/
+                                    }
+                                }
+                            };
+                        }
+
+                    }
+
+                }
+            }
+        }).delegate("a", "click", function (e) {
+                if (jq(this).attr('class').split(' ')[0] == 'boundWithbibs') {
+                    window.open(jq(this).attr("href"));
+                } else if (jq(this).attr('class').split(' ')[0] == 'analytics') {
+                    window.open(jq(this).attr("href"));
+                }
+                else {
+                    var selectedNode = jq.jstree._focused().get_selected();
+                    if (checkHoldingsOrItemNode(selectedNode) == "HOLDINGS") {
+
+                        var id = selectedNode.attr("class").split(' ')[0];
+                        if (id.indexOf('w') == 0) {
+                           viewHoldingsEdit(id,jq('#hiddenBibId_control').val(),id,jq('#hdnEditable_control').val());
+                            //submitForm('load', null, null, null, null);
+                        }
+                    }
+                    if (checkHoldingsOrItemNode(selectedNode) == "ITEM") {
+
+
+                        if (selectedNode.attr("class").split(' ').length > 2) {
+                            jq('#hiddenDocId_control').val(selectedNode.attr("class").split(' ')[0]);
+                            jq('#hiddenHoldingsId_control').val((selectedNode.parent()).parent().attr("class").split(' ')[0]);
+                            if (jq("#Control_Field_008_control").val() != null && jq("#Control_Field_008_control").val() != "") {
+                                viewItemEdit(jq('#hiddenDocId_control').val(),jq('#hiddenBibId_control').val(),jq('#hiddenHoldingsId_control').val(),jq('#hdnEditable_control').val());
+                                //submitForm('load', null, null, null, null);
+                            } else if (jq('#OleHoldingLocation_h0').val() == 'item') {
+                                viewItemEdit(jq('#hiddenDocId_control').val(),jq('#hiddenBibId_control').val(),jq('#hiddenHoldingsId_control').val(),jq('#hdnEditable_control').val());
+                                //submitForm('load', null, null, null, null);
+                            } else if(jq("#hdnEditable_control").val()== "false") {
+                                viewItemEdit(jq('#hiddenDocId_control').val(),jq('#hiddenBibId_control').val(),jq('#hiddenHoldingsId_control').val(),jq('#hdnEditable_control').val());
+                                //submitForm('load', null, null, null, null);
+                            }
+                            else {
+                                if(localStorage.onchangeRecordEvent == "true" && localStorage.closeWindowEvent == "true" && jq("#hiddenItemFlag_control").val() == "true"){
+                                    localStorage.onchangeRecordEvent = false;
+                                    localStorage.closeWindowEvent= false;
+                                    jq("#hiddenItemFlag_control").val(false);
+                                }
+                                jq('#hiddenButtonItem').focus().click();
+                            }
+
+                        }
+                        else {
+                            submitForm('load', null, null, true, function () {
+                                jq('#hiddenDocId_control').val("");
+                                jq('#hiddenHoldingsId_control').val((selectedNode.parent()).parent().attr("class").split(' ')[0]);
+
+                            });
+                        }
+                    }
+                    if (checkHoldingsOrItemNode(selectedNode) == "eHoldings") {
+
+                        var id = selectedNode.attr("class").split(' ')[0];
+                        viewEHoldingsEdit(id,jq('#hiddenBibId_control').val(),id,jq('#hdnEditable_control').val());
+                        //submitForm('load', null, null, null, function () {
+                        //jq("#Editor_Footer").hide();
+                        // });
+                    }
+                    var current =jq('#hiddenDocId_control').val();
+                    jq('#holdingsItemTree_tree').jstree('deselect_all');
+                    jq('#holdingsItemTree_tree').jstree('select_node', '.'+current);
+                }
+            });
+    });
+
+
+    function checkHoldingsOrItemNode(node) {
+        if (node.parent().get(0).tagName == 'UL') {
+            if ((node.parent()).parent().get(0).tagName == 'DIV') {
+                if (node.attr("class").split(' ')[1] == 'eHoldings') {
+                    return "eHoldings";
+                }
+                return "HOLDINGS";
+            }
+            else {
+                return "ITEM";
+            }
+        }
+    }
+
+});
+
+
+function browse(docType) {
+    var url = getApplicationPath() + "callnumberBrowseController?viewId=CallNumberBrowseView&methodToCall=browse&docType=" + docType + "&closeBtnShowFlag=true";
+
+    if ("item" == (docType)) {
+        var location = jq('#OleItemLocationLevelName_control').val();
+        var itemClassificationScheme = jq('#OleItemShelvingScheme_control').val();
+        if (itemClassificationScheme == ' ') {
+            itemClassificationScheme = "' '";
+        }
+        url = url + "&classificationScheme=" + itemClassificationScheme + "&location=" + location + "&callNumberBrowseText=" + jq('#OleItemCallNumber_control').val();
+        jq('#OleItemCallNumber_control').attr('autocomplete', 'off');
+    }
+    else {
+        var location = jq('#OleHoldingLocation_control').val();
+        var holdingsClassificationScheme = jq('#OleHoldingShelvingScheme_control').val();
+        if (holdingsClassificationScheme == ' ') {
+            holdingsClassificationScheme = "' '";
+        }
+        url = url + "&classificationScheme=" + holdingsClassificationScheme + "&location=" + location + "&callNumberBrowseText=" + jq('#OleHoldingCallNumber_control').val();
+    }
+    window.open(url);
+}
+
+function itemClickableLink(){
+    var link ;
+    link = jq('#oleItemAccessInformationURI_control').val();
+    if(link == null || link ==""){
+    }else{
+        if(validateUrl(link)==true){
+            window.open(link);
+        }
+    }
+}
+
+function holdingsClickableLink(id) {
+    var field ="OleAccessInformationField_line";
+    var control = "_control";
+    var field = '#'.concat(field).concat(id).concat(control);
+    var link = jq(field).val();
+    if(link == null || link ==""){
+    }else{
+        if(validateUrl(link)==true){
+            window.open(link);
+        }
+    }
+}
+
+function getApplicationPath() {
+    var loc = window.location;
+    var loc1 = loc.toString();
+    return loc1.substring(0, loc1.lastIndexOf('/') + 1);
+}
+
+function commonWidthForField() {
+    jq('#WorkBibDataFieldSection table tr td').eq(0).css('width', '85%');
+    jq('#DublinElementSection table tr td').eq(0).css('width', '80%');
+    wrapEnterText();
+}
+function createSerialReceiving() {
+    window.open("serialReceiving?viewId=OLESerialReceivingView&methodToCall=docHandler&command=initiate&bibId=" + jq("#hiddenBibId_control").val() + "&instanceId=" + jq("#hiddenHoldingsId_control").val());
+}
+
+function showSerialReceiving(){
+    window.open("serialReceiving?viewId=OLESerialReceivingView&methodToCall=docHandler&docId=" + jq("#serialReceivingDocId_control").val() + "&command=displayDocSearchView&bibId="+jq("#hiddenBibId_control").val() + "&instanceId=" +jq("#hiddenHoldingsId_control").val());
+}
+
+function getViewId() {
+    var pathname = window.location.href;
+    if (!(pathname.indexOf("viewId")!=-1)) {
+        var pathname = document.location;
+    }
+
+    var parameters = pathname.split("&")
+
+    if (parameters[0].indexOf("viewId")!=-1) {
+        var id = parameters[0].split("=")
+        var val = id[1];
+        return val;
+
+    }
+}
+jq(document).ready(function () {
+    jq("#oleItemStatus_control").change(function () {
+        if (jq('#oleItemStatus_control').val() != "") {
+            jq('#LocalItem_h0').val("true")
+        }
+    });
+});
+
+function printSlip(){
+    window.open("editorcontroller?viewId=WorkInstanceEditorView&methodToCall=printCallSlip&formKey="+jq("#editorFormKey_control").val());
+}
+
+
+function bibClickableLink_edit(id) {
+    var field ="dataField_value_id_line";
+    var control = "_control";
+    var field = '#'.concat(field).concat(id).concat(control);
+    var link = jq(field).val();
+    var outputValue=makeUrlClickable(link);
+    var htmlText="<div id=\"hiddenDialog\" title=\"Test Link Dialog\"> <span>"+outputValue+"</span> </div>";
+    jq(field).prepend(jq(htmlText));
+    jq(function() {
+        jq( "#hiddenDialog" ).dialog();
+    });
+}
+
+function bibClickableLink_view(id) {
+    var field ="dataField_value_id_readOnly_line";
+    var control = "_control";
+    var field = '#'.concat(field).concat(id).concat(control);
+    var link = jq(field).text();
+    var outputValue=makeUrlClickable(link);
+    var htmlText="<div id=\"hiddenDialog\" title=\"Test Link Dialog\"> <span>"+outputValue+"</span> </div>";
+    jq(field).prepend(jq(htmlText));
+    jq(function() {
+        jq( "#hiddenDialog" ).dialog();
+    });
+}
+
+function validateUrl(url){
+    var protocolArray = new Array();
+    protocolArray[0] = "http://";
+    protocolArray[1] = "https://";
+    protocolArray[2] = "ftp://";
+    protocolArray[3] = "mailto:";
+    var urlFound=false;
+    for(var arrCount=0;arrCount<protocolArray.length;arrCount++){
+        if(url.indexOf(protocolArray[arrCount]) == 0){
+            urlFound=true;
+            break;
+        }
+    }
+    return urlFound;
+}
+
+function makeUrlClickable(content){
+    content = content.replace('&nbsp;', ' ');
+    var resultValue="";
+    var clickableUrl="";
+    var count=0;
+    var length=content.length;
+    var protocolArray = new Array();
+    protocolArray[0] = "http://";
+    protocolArray[1] = "https://";
+    protocolArray[2] = "ftp://";
+    protocolArray[3] = "mailto:";
+    while(count<length){
+        var textToScan=content.substring(count);
+        var urlFound=false;
+        var spaceIndex=-1;
+        var url="";
+        for(var arrCount=0;arrCount<protocolArray.length;arrCount++){
+            if(textToScan.indexOf(protocolArray[arrCount]) == 0){
+                urlFound=true;
+                spaceIndex = textToScan.indexOf(' ');
+                if(spaceIndex>0){
+                    url=textToScan.substring(0,spaceIndex)
+                }else{
+                    url=textToScan.substring(0);
+                }
+                break;
+            }
+        }
+        if(urlFound==true){
+            clickableUrl="<a  href='" + url + "' target='_blank'>" + url + "</a>";
+            count=count+url.length;
+            resultValue=resultValue+clickableUrl;
+        }else{
+            resultValue=resultValue+content.charAt(count);
+            count=count+1;
+        }
+    }
+    return resultValue;
+
+}
+jq(window).load(function () {
+//    localStorage.closeWindowEvent= false;
+
+    jq("#OleEinstance-purchaseOrderId_control").html(jq("#OleEinstance-purchaseOrderId_control").text());
+    jq("#holdingsItemTree_tree a").each( function(){
+        var id = jq(this).attr("class");
+        if(id.indexOf("who")!=-1){
+            if(id.indexOf("eHoldings")!=-1) {
+                jq(this).attr("title","eHoldings");
+            }
+            else {
+                jq(this).attr("title","holdings");
+            }
+        }
+        if(id.indexOf("wio")!=-1){
+            jq(this).attr("title","item");
+        }
+             var current =jq('#hiddenDocId_control').val();
+             jq('#holdingsItemTree_tree').jstree('deselect_all');
+             if(current !=""){
+                 jq('#holdingsItemTree_tree').jstree('select_node', '.'+current);
+             }
+
+    });
+
+    if(jq("#hiddenGlobalEditFlag_control").val() == "true") {
+        //alert(jq('#hdnDocType_control').val());
+        if(jq('#hdnDocType_control').val() == "holdings") {
+
+            if(jq("#hiddenHoldingsLocationEditFlag_control").val() == "false"){
+                jq("#OleHoldingLocation_control").attr("disabled",true);
+            }
+            if(jq("#hiddenHoldingsCallNumberEditFlag_control").val() == "false"){
+                jq("#OleHoldingCallNumber_control").attr("disabled",true);
+                jq("#callNumberHoldingsBrowseLink").attr("disabled",true);
+            }
+            if(jq("#hiddenHoldingsShelvingOrderEditFlag_control").val() == "false"){
+                jq("#OleHoldingShelvingOrder_control").attr("disabled",true);
+            }
+            if(jq("#hiddenHoldingsCallNumberTypeEditFlag_control").val() == "false"){
+                jq("#OleHoldingShelvingScheme_control").attr("disabled",true);
+            }
+            if(jq("#hiddenHoldingsCallNumberPrefixEditFlag_control").val() == "false"){
+                jq("#OleHoldingCallNumberPrefix_control").attr("disabled",true);
+            }
+            if(jq("#hiddenHoldingsCopyNumberEditFlag_control").val() == "false"){
+                jq("#OleHoldingCopyNumber_control").attr("disabled",true);
+            }
+            if(jq("#hiddenHoldingsExtentOwnerShipEditFlag_control").val() == "false"){
+                jq("#extentTextualHoldingsType_line0_control").attr("disabled",true);
+                jq("#extentTextualHoldings_line0_control").attr("disabled",true);
+                jq("#extentSubHoldingNoteTypeField_line0_line0_control").attr("disabled",true);
+                jq("#extentSubHoldingNoteDescField_line0_line0_control").attr("disabled",true);
+                jq("#oleEowHoldingNotes_addTagButton_line0_line0").attr("disabled",true);
+                jq("#oleEowHoldingNotes_removeTagButton_line0_line0").attr("disabled",true);
+                jq("#extentOfOwnership_addTagButton_line0").attr("disabled",true);
+                jq("#extentOfOwnership_removeTagButton_line0").attr("disabled",true);
+            }
+            if(jq("#hiddenHoldingsExtendedInfoEditFlag_control").val() == "false"){
+                jq("#OleReceiptStatusField_control").attr("disabled",true);
+                jq("#OleAccessInformationField_line0_control").attr("disabled",true);
+                jq("#oleAccessInformation_addTagButton_line0").attr("disabled",true);
+                jq("#oleAccessInformation_removeTagButton_line0").attr("disabled",true);
+                jq("#holdingsClickableLink_line0").remove();
+
+            }
+            if(jq("#hiddenHoldingsNoteEditFlag_control").val() == "false"){
+                jq("#OleHoldingNoteTypeField_line0_control").attr("disabled",true);
+                jq("#OleHoldingNoteDescField_line0_control").attr("disabled",true);
+                jq("#OleHoldingNotes_addTagButton_line0").attr("disabled",true);
+                jq("#OleHoldingNotes_removeTagButton_line0").attr("disabled",true);
+            }
+
+            if(jq("#hiddenHoldingsReceiptStatusEditFlag_control").val() == "false"){
+                jq("#OleReceiptStatusField_control").attr("disabled",true);
+            }
+
+            if(jq("#hiddenGlobalAccessInformationEditFlag_control").val() == "false"){
+                jq("#OleAccessInformationField_line0_control").attr("disabled",true);
+                jq("#oleAccessInformation_addTagButton_line0").attr("disabled",true);
+                jq("#oleAccessInformation_removeTagButton_line0").attr("disabled",true);
+                jq("#holdingsClickableLink_line0").remove();
+            }
+
+        }
+        else if(jq('#hdnDocType_control').val() == "item") {
+
+            if(jq("#hiddenItemLocationEditFlag_control").val() == "false"){
+                jq("#OleItemLocationLevelName_control").attr("disabled",true);
+            }
+
+            if(jq("#hiddenItemCallNumberPrefixEditFlag_control").val() == "false"){
+                jq("#OleItemCallNumberPrefix_control").attr("disabled",true);
+            }
+
+            if(jq("#hiddenItemCallNumberEditFlag_control").val() == "false"){
+                jq("#OleItemCallNumber_control").attr("disabled",true);
+                jq("#callNumberItemBrowseLink").attr("disabled",true);
+            }
+
+            if(jq("#hiddenItemShelvingOrderEditFlag_control").val() == "false"){
+                jq("#OleItemShelvingOrder_control").attr("disabled",true);
+            }
+
+            if(jq("#hiddenItemCallNumberTypeEditFlag_control").val() == "false"){
+                jq("#OleItemShelvingScheme_control").attr("disabled",true);
+            }
+
+
+
+
+            if(jq("#hiddenItemEnumerationEditFlag_control").val() == "false"){
+                jq("#oleItemEnumeration_control").attr("disabled",true);
+            }
+
+            if(jq("#hiddenItemBarcodeEditFlag_control").val() == "false"){
+                jq("#oleItemAccessInformationBarcode_control").attr("disabled",true);
+            }
+
+            if(jq("#hiddenItemChronologyEditFlag_control").val() == "false"){
+                jq("#oleItemChronology_control").attr("disabled",true);
+            }
+
+            if(jq("#hiddenItemBarcodeARSLEditFlag_control").val() == "false"){
+                jq("#oleItemBarcodeARSL_control").attr("disabled",true);
+            }
+
+            if(jq("#hiddenItemCopyNumberEditFlag_control").val() == "false"){
+                jq("#oleItemCopyNumber_control").attr("disabled",true);
+            }
+
+
+            if(jq("#hiddenItemFormerIdentifiersEditFlag_control").val() == "false"){
+                jq("#oleItemFormerIdentifier_control").attr("disabled",true);
+            }
+
+            if(jq("#hiddenItemAccessInfoEditFlag_control").val() == "false"){
+                jq("#oleItemAccessInformationURI_control").attr("disabled",true);
+                jq("#itemClickableLink").remove();
+            }
+
+            if(jq("#hiddenItemStatisticalSearchingCodesEditFlag_control").val() == "false"){
+                jq("#oleItemStatisticalSearchingCodes_control").attr("disabled",true);
+            }
+
+            if(jq("#hiddenItemTypeEditFlag_control").val() == "false"){
+                jq("#oleItemItemType_control").attr("disabled",true);
+            }
+
+            if(jq("#hiddenItemTempItemTypeEditFlag_control").val() == "false"){
+                jq("#oleItemTemporaryItemType_control").attr("disabled",true);
+            }
+
+            if(jq("#hiddenItemNumberOfPiecesEditFlag_control").val() == "false"){
+                jq("#oleItemNumberOfPieces_control").attr("disabled",true);
+            }
+
+            if(jq("#hiddenItemAcqInfoEditFlag_control").val() == "false"){
+                jq("#OleAcquisitionInformation").remove();
+            }
+
+
+            if(jq("#hiddenItemPOLineItemIDEditFlag_control").val() == "false"){
+                jq("#oleItemPoID_control").attr("disabled",true);
+            }
+
+            if(jq("#hiddenItemVendorLineItemIDEditFlag_control").val() == "false"){
+                jq("#oleItemVendorLineItemID_control").attr("disabled",true);
+            }
+
+            if(jq("#hiddenItemFundEditFlag_control").val() == "false"){
+                jq("#oleItemFund_control").attr("disabled",true);
+            }
+
+            if(jq("#hiddenItemPriceEditFlag_control").val() == "false"){
+                jq("#oleItemPrice_control").attr("disabled",true);
+            }
+
+
+            if(jq("#hiddenItemDonorCodeEditFlag_control").val() == "false"){
+                jq("#oleItemDonorCode_add_control").attr("disabled",true);
+                jq("#item_donor-add_add").attr("disabled",true);
+            }
+
+            if(jq("#hiddenItemDonorPublicDisplayEditFlag_control").val() == "false"){
+                jq("#oleItemDonorPublicDisplay_add_control").attr("disabled",true);
+            }
+
+            if(jq("#hiddenItemDonorNoteEditFlag_control").val() == "false"){
+                jq("#oleItemDonorNote_add_control").attr("disabled",true);
+            }
+
+
+            if(jq("#hiddenItemStatusEditFlag_control").val() == "false"){
+                jq("#oleItemStatus_control").attr("disabled",true);
+            }
+
+            if(jq("#hiddenItemStatusDateEditFlag_control").val() == "false"){
+                jq("#oleItemStatusEffectiveDate_control").attr("disabled",true);
+            }
+
+            if(jq("#hiddenItemCheckinNoteEditFlag_control").val() == "false"){
+                jq("#oleItemCheckinNote_control").attr("disabled",true);
+            }
+
+            if(jq("#hiddenItemFastAddEditFlag_control").val() == "false"){
+                jq("#oleItemFastAdd_control").attr("disabled",true);
+            }
+/*
+            if(jq("#hiddenItemDueDatetimeEditFlag_control").val() == "false"){
+                jq("#oleDueDatetime_control").attr("disabled",true);
+                // jq(".ui-datepicker-trigger").remove();
+            }*/
+
+            if(jq("#hiddenItemCurrentBorrowerEditFlag_control").val() == "false"){
+                jq("#oleCurrentBorrower_control").attr("disabled",true);
+            }
+
+            if(jq("#hiddenItemProxyBorrowerEditFlag_control").val() == "false"){
+                jq("#oleProxyBorrower_control").attr("disabled",true);
+            }
+
+
+
+            if(jq("#hiddenItemClaimsReturnEditFlag_control").val() == "false"){
+                jq("#oleClaimsReturnFlag_control").attr("disabled",true);
+            }
+
+            if(jq("#hiddenItemClaimsReturnedCreateDateEditFlag_control").val() == "false"){
+                jq("#oleClaimsReturnCreateDate_control").attr("disabled",true);
+            }
+
+            if(jq("#hiddenItemClaimsReturnedNoteEditFlag_control").val() == "false"){
+                jq("#oleClaimsReturnNote_control").attr("disabled",true);
+            }
+
+            if(jq("#hiddenItemDamagedStatusEditFlag_control").val() == "false"){
+                jq("#oleItemDamagedSection_control").attr("disabled",true);
+            }
+
+            if(jq("#hiddenItemDamagedItemNoteEditFlag_control").val() == "false"){
+                jq("#OleItemDamaged-Note-Horizontal-Section_control").attr("disabled",true);
+            }
+
+            if(jq("#hiddenItemMissingPieceEditFlag_control").val() == "false"){
+                jq("#OleMissingItem-missingPieceFlag_control").attr("disabled",true);
+            }
+
+            if(jq("#hiddenItemNoOfmissingpiecescountEditFlag_control").val() == "false"){
+                jq("#OleMissingItem-missingPiecesCount_control").attr("disabled",true);
+            }
+
+            if(jq("#hiddenItemMissingPiecesEffectiveDateEditFlag_control").val() == "false"){
+                jq("#OleMissingItem-missingPieceEffectiveDate_control").attr("disabled",true);
+            }
+
+            if(jq("#hiddenItemMissingPieceNoteEditFlag_control").val() == "false"){
+                jq("#OleMissingItem-Note-Section_control").attr("disabled",true);
+            }
+
+
+
+            if(jq("#hiddenItemExtndInfoEditFlag_control").val() == "false"){
+                jq("#OleItemNoteTypeField_line0_control").attr("disabled",true);
+                jq("#OleItemNoteDescField_line0_control").attr("disabled",true);
+                jq("#OleItemNote_addTagButton_line0").attr("disabled",true);
+                jq("#OleItemNote_removeTagButton_line0").attr("disabled",true);
+
+
+            }
+
+            if(jq("#hiddenItemExtndInfoEditFlag_control").val() == "false"){
+                jq("#OleItemExtendedInformation").attr("disabled",true);
+            }
+
+        }
+        else if(jq('#hdnDocType_control').val() == "eHoldings") {
+
+            if(jq("#hiddenEHoldingsAccessStatusEditFlag_control").val() == "false"){
+                jq("#OleEinstance-accessStatus_control").attr("disabled",true);
+            }
+
+            if(jq("#hiddenEHoldingsPlatformEditFlag_control").val() == "false"){
+                jq("#OleEinstance-platformName_control").attr("disabled",true);
+            }
+
+            if(jq("#hiddenEHoldingsStatusDateEditFlag_control").val() == "false"){
+                jq("#OleEinstance-statusDate_control").attr("disabled",true);
+            }
+
+            if(jq("#hiddenEHoldingsPublisherEditFlag_control").val() == "false"){
+                jq("#OleEinstance-publisher_control").attr("disabled",true);
+            }
+
+            if(jq("#hiddenEHoldingsStaffOnlyEditFlag_control").val() == "false"){
+                // jq("#OleEinstance-staffOnlyFlagForHoldings_control").attr("disabled",true);
+            }
+
+            if(jq("#hiddenEHoldingsImprintEditFlag_control").val() == "false"){
+                jq("#OleEinstance-imprint_control").attr("disabled",true);
+            }
+
+
+            if(jq("#hiddenEHoldingsStatisticalCodeEditFlag_control").val() == "false"){
+                jq("#OleEinstance-statisticalSearchingCodeValue_control").attr("disabled",true);
+            }
+
+            if(jq("#hiddenEHoldingsISSNEditFlag_control").val() == "false"){
+                jq("#OleEinstance-ISSN_control").attr("disabled",true);
+            }
+
+            if(jq("#hiddenEHoldingsLocationEditFlag_control").val() == "false"){
+                jq("#OleEHoldingLocation_control").attr("disabled",true);
+            }
+
+            if(jq("#hiddenEHoldingsCallNumberPrefixEditFlag_control").val() == "false"){
+                jq("#OleEHoldingCallNumberPrefix_control").attr("disabled",true);
+            }
+
+            if(jq("#hiddenEHoldingsCallNumberEditFlag_control").val() == "false"){
+                jq("#OleEHoldingCallNumber_control").attr("disabled",true);
+                jq("#OleEHoldingCallNumberHoldingsBrowseLink").attr("disabled",true);
+            }
+
+            if(jq("#hiddenEHoldingsShelvingOrderEditFlag_control").val() == "false"){
+                jq("#OleEHoldingShelvingOrder_control").attr("disabled",true);
+            }
+
+
+
+            if(jq("#hiddenEHoldingsCallNumberTypeEditFlag_control").val() == "false"){
+                jq("#OleEHoldingShelvingScheme_control").attr("disabled",true);
+            }
+            if(jq("#hiddenEHoldingsCoverageExtentOfOwnerShipEditFlag_control").val() == "false"){
+                jq("#coverageStartDate_line0_control").attr("disabled",true);
+                jq("#coverageStartVolume_line0_control").attr("disabled",true);
+                jq("#coverageStartIssue_line0_control").attr("disabled",true);
+                jq("#coverageEndDate_line0_control").attr("disabled",true);
+                jq("#coverageEndVolume_line0_control").attr("disabled",true);
+                jq("#coverageEndIssue_line0_control").attr("disabled",true);
+                jq("#OleExtentOfOwnershipDetails-CoverageSection_addTagButton_id_line0").attr("disabled",true);
+                jq("#OleExtentOfOwnershipDetails-CoverageSection_removeTagButton_id_line0").attr("disabled",true);
+            }
+            if(jq("#hiddenEHoldingsPerpetualAccessEditFlag_control").val() == "false"){
+                jq("#perpetualStartDate_line0_control").attr("disabled",true);
+                jq("#perpetualAccessStartVolume_line0_control").attr("disabled",true);
+                jq("#perpetualAccessStartIssue_line0_control").attr("disabled",true);
+                jq("#perpetualAccessEndDate_line0_control").attr("disabled",true);
+                jq("#perpetualAccessEndVolume_line0_control").attr("disabled",true);
+                jq("#perpetualAccessEndIssue_line0_control").attr("disabled",true);
+                jq("#OleExtentOfOwnershipDetails-PerpetualAccessSection_addTagButton_id_line0").attr("disabled",true);
+                jq("#OleExtentOfOwnershipDetails-PerpetualAccessSection_removeTagButton_id_line0").attr("disabled",true);
+            }
+            // TODO have to do  Acquisition Information
+            if(jq("#hiddenEHoldingsSubscriptionEditFlag_control").val() == "false"){
+                jq("#OleEinstance-subscriptionStatus_control").attr("disabled",true);
+            }
+            /*if(jq("#hiddenEHoldingsAccessInformationEditFlag_control").val() == "false"){
+             jq("#OleEHoldingsAccessInfoSection").remove();
+             }*/
+
+            if(jq("#hiddenEHoldingsLinkEditFlag_control").val() == "false"){
+                jq("#OleEinstance-linkURL_control").attr("disabled",true);
+            }
+            if(jq("#hiddenEHoldingsSimultaneousEditFlag_control").val() == "false"){
+                jq("#OleEinstance-numberOfSimultaneousUser_control").attr("disabled",true);
+            }
+            if(jq("#hiddenEHoldingsPersistentLinkEditFlag_control").val() == "false"){
+                jq("#OleEinstance-localPersistentLink_control").attr("disabled",true);
+            }
+            if(jq("#hiddenEHoldingsAccessLocationEditFlag_control").val() == "false"){
+                jq("#OleEinstance-accessLocation_control").attr("disabled",true);
+            }
+            if(jq("#hiddenEHoldingsLinkTextEditFlag_control").val() == "false"){
+                jq("#OleEinstance-linkText_control").attr("disabled",true);
+            }
+            if(jq("#hiddenEHoldingsAdminUserNameEditFlag_control").val() == "false"){
+                jq("#OleEinstance-adminUserName_control").attr("disabled",true);
+            }
+            if(jq("#hiddenEHoldingsAccessUserNameEditFlag_control").val() == "false"){
+                jq("#OleEinstance-accessUsername_control").attr("disabled",true);
+            }
+            if(jq("#hiddenEHoldingsAdminPasswordEditFlag_control").val() == "false"){
+                jq("#OleEinstance-adminPassword_control").attr("disabled",true);
+            }
+            if(jq("#hiddenEHoldingsAccessPasswordEditFlag_control").val() == "false"){
+                jq("#OleEinstance-accessPassword_control").attr("disabled",true);
+            }
+            if(jq("#hiddenEHoldingsAdminUrlEditFlag_control").val() == "false"){
+                jq("#OleEinstance-adminUrl_control").attr("disabled",true);
+            }
+            if(jq("#hiddenEHoldingsAuthenticationEditFlag_control").val() == "false"){
+                jq("#OleEinstance-authenticationType_control").attr("disabled",true);
+            }
+            if(jq("#hiddenEHoldingsProxiedEditFlag_control").val() == "false"){
+                jq("#OleEinstance-proxiedResource_control").attr("disabled",true);
+            }
+            if(jq("#hiddenEHoldingsIllEditFlag_control").val() == "false"){
+                jq("#OleEinstance-interLibraryLoanAllowed_control").attr("disabled",true);
+            }
+
+
+            if(jq("#hiddenEHoldingsRelationShipsEditFlag_control").val() == "false"){
+                jq("#OleEHoldingsRelatedERS").remove();
+            }
+            /*
+             if(jq("#hiddenEHoldingsAcquisitionInformationEditFlag_control").val() == "false"){
+             jq("#OleEHoldingsAcquisitionSection").remove();
+             }
+
+
+             if(jq("#hiddenEHoldingsAccessInformationEditFlag_control").val() == "false"){
+             jq("#OleEHoldingsAccessInfoSection").remove();
+             }*/
+
+            if(jq("#hiddenEHoldingsLicenseDetailsEditFlag_control").val() == "false"){
+                jq("#OleEHoldingsLicenseSection").remove();
+            }
+
+            if(jq("#hiddenEHoldingsEHoldingsNoteEditFlag_control").val() == "false"){
+                jq("#OleEHoldingNoteTypeField_line0_control").attr("disabled",true);
+                jq("#OleEHoldingNoteDescField_line0_control").attr("disabled",true);
+                jq("#OleEInstanceHoldingNotes-addTagButton_id_line0").attr("disabled",true);
+                jq("#OleEInstanceHoldingNotes_removeTagButton_id_line0").attr("disabled",true);
+            }
+
+
+            if(jq("#hiddenEHoldingsDonorCodeEditFlag_control").val() == "false"){
+                jq("#oleEInstanceDonorCode_add_control").attr("disabled",true);
+            }
+
+            if(jq("#hiddenEHoldingsDonorPublicDisplayEditFlag_control").val() == "false"){
+                jq("#oleEInstanceDonorPublicDisplay_add_control").attr("disabled",true);
+            }
+
+            if(jq("#hiddenEHoldingsDonorNoteEditFlag_control").val() == "false"){
+                jq("#oleEInstanceDonorNote_add_control").attr("disabled",true);
+            }
+            // TODO holdings_donor-add for add button
+
+
+        }
+
+
+    }
+
+    wrapEnterText();
+    wrapEnterTextForEInstanceLink();
+});
+
+function viewHoldingsEdit(docId,bibId,instanceId,editable){
+    window.open(jq('#channelUrl_control').val() + "editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=holdings&docFormat=oleml&docId="+docId+"&bibId="+bibId+"&instanceId="+instanceId+"&editable="+editable+"&fromSearch=true");
+    return false;
+}
+
+function viewItemEdit(docId,bibId,instanceId,editable){
+    window.open(jq('#channelUrl_control').val() + "editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=item&docFormat=oleml&docId="+docId+"&bibId="+bibId+"&instanceId="+instanceId+"&editable="+editable+"&fromSearch=true");
+    return false;
+
+}
+
+function viewEHoldingsEdit(docId,bibId,holdingsId,editable){
+    window.open(jq('#channelUrl_control').val() + "editorcontroller?viewId=EditorView&methodToCall=load&docCategory=work&docType=eHoldings&docFormat=oleml&docId="+docId+"&editable="+editable+"&fromSearch=true&bibId="+bibId+"&holdingsId="+holdingsId);
+    return false;
+
+}
+
+function closeEditorWindow(){
+
+    //alert(localStorage.onchangeRecordEvent);
+
+    if(localStorage.onchangeRecordEvent=="true") {
+        loadingPage();
+    }
+    else {
+        localStorage.onchangeRecordEvent="false";
+        window.close();
+        methodToCall('returnToHub');
+
+        /*var url = document.URL;
+         alert(url);*/
+    }
+}
+
+function unloadPage(){
+    var name =  jQuery.uaMatch(navigator.userAgent).browser;
+    if(localStorage.closeWindowEvent== "true" && (jq("#hiddenBibFlag_control").val()== "true" || jq("#hiddenHoldingFlag_control").val() =="true" ||
+        jq("#hiddenItemFlag_control").val()=="true" || jq("#hiddenEHoldingsFlag_control").val()=="true")) {
+        //alert("true closew window event");
+        if( (jq("#hiddenBibFlag_control").val()== "true" || jq("#hiddenHoldingFlag_control").val() =="true" ||
+            jq("#hiddenItemFlag_control").val()=="true" || jq("#hiddenEHoldingsFlag_control").val()=="true")) {
+            if("chrome"==name) {
+                return 'This page is asking you to confirm that you want to leave - data you have entered may not be saved';
+            }else{
+                return "This page is asking you to confirm that you want to leave - data you have entered may not be saved";
+                /* var confirm1 = confirm('Data you have entered may not be saved.If you want to Save and Close . Press OK ');
+                 if(confirm1){
+                 jq("#updatedDate_h0").val(true);
+                 if(jq("#hiddenBibFlag_control").val()=="true") {
+                 jq('#hiddenDocId_control').val(jq('#hiddenBibId_control').val());
+                 jq('#hdnDocCat_control').val("work");
+                 jq('#hdnDocType_control').val("bibliographic");
+                 jq('#hdnDocFormat_control').val("marc");
+                 jq("#hiddenBibFlag_control").val(false);
+                 }
+                 else if(jq("#hiddenHoldingFlag_control").val()=="true" || jq("#hiddenEHoldingsFlag_control").val()=="true"){
+                 //alert("holdings");
+                 jq('#hiddenDocId_control').val(jq('#hiddenHoldingsId_control').val());
+                 jq('#hdnDocCat_control').val("work");
+                 jq('#hdnDocType_control').val("holdings");
+                 jq('#hdnDocFormat_control').val("oleml");
+                 jq("#hiddenHoldingFlag_control").val(false);
+                 jq("#hiddenEHoldingsFlag_control").val(false);
+                 }
+                 else if(jq("#hiddenItemFlag_control").val()=="true"){
+                 jq('#hdnDocCat_control').val("work");
+                 jq('#hdnDocType_control').val("item");
+                 jq('#hdnDocFormat_control').val("oleml");
+                 jq("#hiddenItemFlag_control").val(false);
+                 }
+                 submitForm('save', null, null, true, function () {
+                 jq("#updatedDate_h0").val(false);
+                 localStorage.onchangeRecordEvent = true;
+                 localStorage.closeWindowEvent = false;
+                 window.close();
+                 });
+                 window.onbeforeunload = null;
+                 }*/
+            }
+
+        }
+        window.onbeforeunload = null;
+    }
+
+}
+
+window.onbeforeunload = unloadPage;
+
+jq("#submitEditor").live("click",function(){
+    // alert(localStorage.closeWindowEvent);
+    localStorage.closeWindowEvent = "false";
+})
+
+
+
+jq(window).load(function () {
+    var divLength= jq("#WorkBibDataFieldSection_disclosureContent tbody div").length;
+    for(var count=0;count<divLength;count++){
+        var value=  jq("#WorkBibDataFieldSection_disclosureContent tbody div#dataField_value_id_readOnly_line"+count+" span#dataField_value_id_readOnly_line"+count+"_control").text();
+        var returnValue=makeUrlClickable(value);
+        jq("#WorkBibDataFieldSection_disclosureContent tbody div#dataField_value_id_readOnly_line"+count+" span#dataField_value_id_readOnly_line"+count+"_control").html(returnValue);
+    }
+});
+
+function donorCodeDisable(){
+    // jq("#oleEInstanceDonorCode_add_control").live("change", function () {
+    if (parseInt(jq("#oleEInstanceDonorCode_add_control").val().trim().length) > 1) {
+        jq("#oleEInstanceDonorPublicDisplay_add_control").attr("readonly", "true");
+        jq("#oleEInstanceDonorNote_add_control").attr("readonly", "true");
+    }
+    else {
+        jq("#oleEInstanceDonorPublicDisplay_add_control").removeAttr("readonly");
+        jq("#oleEInstanceDonorNote_add_control").removeAttr("readonly");
+    }
+    // });
+    //jq("#oleEInstanceDonorCode_add_control").keypress(function () {
+    if (parseInt(jq("#oleEInstanceDonorCode_add_control").val().trim().length) > 1) {
+        jq("#oleEInstanceDonorPublicDisplay_add_control").attr("readonly", "true");
+        jq("#oleEInstanceDonorNote_add_control").attr("readonly", "true");
+    }
+    else {
+        jq("#oleEInstanceDonorPublicDisplay_add_control").removeAttr("readonly");
+        jq("#oleEInstanceDonorNote_add_control").removeAttr("readonly");
+    }
+    //});
+
+}
+
+function getCoverageStartDate(index) {
+    if(jq('#'+'coverageStartDateString_line'+index+'_control').val()!=""){
+        jq('#'+'coverageStartDateFormat_line'+index+'_control').prop("readonly", true).next("img").hide();
+    } else if(jq('#'+'coverageStartDateString_line'+index+'_control').val()==""){
+        jq('#'+'coverageStartDateFormat_line'+index+'_control').prop("readonly", false).next("img").show();
+    }
+
+    if(jq('#'+'coverageStartDateFormat_line'+index+'_control').val()!=""){
+        jq('#'+'coverageStartDateString_line'+index+'_control').attr("readonly", true);
+    } else if(jq('#'+'coverageStartDateFormat_line'+index+'_control').val()==""){
+        jq('#'+'coverageStartDateString_line'+index+'_control').attr("readonly", false);
+    }
+}
+
+function getCoverageEndDate(index) {
+    if(jq('#'+'coverageEndDateString_line'+index+'_control').val()!=""){
+        jq('#'+'coverageEndDateFormat_line'+index+'_control').prop("readonly", true).next("img").hide();
+    } else if(jq('#'+'coverageEndDateString_line'+index+'_control').val()==""){
+        jq('#'+'coverageEndDateFormat_line'+index+'_control').prop("readonly", false).next("img").show();
+    }
+
+    if(jq('#'+'coverageEndDateFormat_line'+index+'_control').val()!=""){
+        jq('#'+'coverageEndDateString_line'+index+'_control').attr("readonly", true);
+    } else if(jq('#'+'coverageEndDateFormat_line'+index+'_control').val()==""){
+        jq('#'+'coverageEndDateString_line'+index+'_control').attr("readonly", false);
+    }
+}
+
+function getPerpetualAccessStartDate(index) {
+    if(jq('#'+'perpetualAccessStartDateString_line'+index+'_control').val()!=""){
+        jq('#'+'perpetualAccessStartDateFormat_line'+index+'_control').prop("readonly", true).next("img").hide();
+    } else if(jq('#'+'perpetualAccessStartDateString_line'+index+'_control').val()==""){
+        jq('#'+'perpetualAccessStartDateFormat_line'+index+'_control').prop("readonly", false).next("img").show();
+    }
+
+    if(jq('#'+'perpetualAccessStartDateFormat_line'+index+'_control').val()!=""){
+        jq('#'+'perpetualAccessStartDateString_line'+index+'_control').attr("readonly", true);
+    } else if(jq('#'+'perpetualAccessStartDateFormat_line'+index+'_control').val()==""){
+        jq('#'+'perpetualAccessStartDateString_line'+index+'_control').attr("readonly", false);
+    }
+}
+
+function getPerpetualAccessEndDate(index) {
+    if(jq('#'+'perpetualAccessEndDateString_line'+index+'_control').val()!=""){
+        jq('#'+'perpetualAccessEndDateFormat_line'+index+'_control').prop("readonly", true).next("img").hide();
+    } else if(jq('#'+'perpetualAccessEndDateString_line'+index+'_control').val()==""){
+        jq('#'+'perpetualAccessEndDateFormat_line'+index+'_control').prop("readonly", false).next("img").show();
+    }
+
+    if(jq('#'+'perpetualAccessEndDateFormat_line'+index+'_control').val()!=""){
+        jq('#'+'perpetualAccessEndDateString_line'+index+'_control').attr("readonly", true);
+    } else if(jq('#'+'perpetualAccessEndDateFormat_line'+index+'_control').val()==""){
+        jq('#'+'perpetualAccessEndDateString_line'+index+'_control').attr("readonly", false);
+    }
+}
+
+
+function wrapEnterTextForEInstanceLink() {
+    /*if ("eHoldings" == (jq("#hdnDocType_control").val())) {
+     jq(".uif-textAreaControl").attr("style", "width: 220px;font-size: 13px;height: 18px;");
+     var name = jQuery.uaMatch(navigator.userAgent).browser;
+     var numRows = jq("#OleEinstance_localPersistentLink_id_control").val().length / 20;
+     jq("#OleEinstance_localPersistentLink_id_control").height((parseInt(numRows) + parseInt(1)) * 18);
+
+     jq("textarea").each( function(){
+     var id = jq(this).attr("id");
+     var urlNumRows = jq(this).val().length / 20;
+     if(id.contains("OleEinstance-linkURL_line")) {
+     jq(this).height((parseInt(urlNumRows)) * 18);
+     }
+     if(id.contains("OleEinstance-linkText_line")) {
+     jq(this).height((parseInt(urlNumRows)) * 18);
+     }
+     if(id.contains("OleEinstance-localPersistent")) {
+     jq(this).height((parseInt(urlNumRows)) * 18);
+     }
+     });
+
+     jq(".uif-textAreaControl").keypress(function (e) {
+     var currentContentLength = jq("#" + this.id).val().length;
+     var height = jq("#" + this.id).height();
+     var cols = jq("#" + this.id).attr("cols");
+     var flag = "false";
+     if (currentContentLength % cols == 0) {
+     var sum = parseInt(20) + parseInt(jq("#" + this.id).attr("cols"));
+     if (currentContentLength != 0) {
+     jq("#" + this.id).height(height + 18);
+     }
+     jq("#" + this.id).attr("cols", sum);
+     }
+
+     if (currentContentLength % cols == 20) {
+     var sum = parseInt(20) + parseInt(jq("#" + this.id).attr("cols"));
+     if (currentContentLength != 0) {
+     jq("#" + this.id).height(height + 18);
+     }
+     jq("#" + this.id).attr("cols", sum);
+     cols = jq("#" + this.id).attr("cols");
+     }
+     if (cols - currentContentLength > 40) {
+     var diff = parseInt(jq("#" + this.id).attr("cols")) - parseInt(20);
+
+     if (currentContentLength < 20) {
+     diff = 20;
+     jq("#" + this.id).height(18);
+     } else {
+     if (currentContentLength != 0) {
+     height = jq("#" + this.id).height();
+     jq("#" + this.id).height(height - 18);
+     }
+     }
+     }
+     jq("#" + this.id).attr("cols", diff);
+
+     });
+     }*/
+
+}
+function coverageDateStart(id){
+    var JSONObject = JSON.stringify(id.extraData);//.split("actionParameters[selectedLineIndex]");
+    var obj = jQuery.parseJSON(JSONObject);
+    for (key in obj) {
+        if (key == "actionParameters[selectedLineIndex]")
+            id = parseInt(obj[key]) + 1;
+    }
+    var objId = id.split("_");
+    var index = objId[1].substring(4, 5);
+    getCoverageStartDate(index);
+    getCoverageEndDate(index);
+
+    jq('#hiddenCoverageDateStartField_control').val("true");
+    if(jq('#hiddenCoverageDateStartField_control').val() == "false" && jq('#'+'coverageStartDateFormat_line'+index+'_control').val()==""
+        &&jq('#'+'coverageStartDateString_line'+index+'_control').val()==""
+        &&jq('#'+'coverageStartVolume_line'+index+'_control').val()==""
+        &&jq('#'+'coverageStartIssue_line'+index+'_control').val()==""){
+        jq('#hiddenCoverageDateStartField_control').val("false");
+    }
+}
+
+function coverageDateEnd(id){
+    var JSONObject = JSON.stringify(id.extraData);//.split("actionParameters[selectedLineIndex]");
+    var obj = jQuery.parseJSON(JSONObject);
+    for (key in obj) {
+        if (key == "actionParameters[selectedLineIndex]")
+            id = parseInt(obj[key]) + 1;
+    }
+    var objId = id.split("_");
+    var index = objId[1].substring(4, 5);
+    getCoverageStartDate(index);
+    getCoverageEndDate(index);
+    jq('#hiddenCoverageDateEndField_control').val("true");
+    if(jq('#hiddenCoverageDateEndField_control').val() == "false" && jq('#'+'coverageEndDateString_line'+index+'_control').val()==""
+        &&jq('#'+'coverageEndDateFormat_line'+index+'_control').val()==""
+        &&jq('#'+'coverageEndVolume_line'+index+'_control').val()==""
+        &&jq('#'+'coverageEndIssue_line'+index+'_control').val()==""){
+        jq('#hiddenCoverageDateEndField_control').val("false");
+    }
+}
+
+function perpetualDateStart(id) {
+    var JSONObject = JSON.stringify(id.extraData);//.split("actionParameters[selectedLineIndex]");
+    var obj = jQuery.parseJSON(JSONObject);
+    for (key in obj) {
+        if (key == "actionParameters[selectedLineIndex]")
+            id = parseInt(obj[key]) + 1;
+    }
+    var objId = id.split("_");
+    var index = objId[1].substring(4, 5);
+    getPerpetualAccessStartDate(index);
+    getPerpetualAccessEndDate(index);
+    jq('#hiddenPerpetualDateStartField_control').val("true");
+    if(jq('#hiddenPerpetualDateStartField_control').val() == "false" && jq('#'+'perpetualAccessStartDateFormat_line'+index+'_control').val()==""
+        &&jq('#'+'perpetualAccessStartDateString_line'+index+'_control').val()==""
+        &&jq('#'+'perpetualAccessStartVolume_line'+index+'_control').val()==""
+        &&jq('#'+'perpetualAccessStartIssue_line'+index+'_control').val()==""){
+        jq('#hiddenPerpetualDateStartField_control').val("false");
+    }
+}
+
+function perpetualDateEnd(id) {
+    var JSONObject = JSON.stringify(id.extraData);//.split("actionParameters[selectedLineIndex]");
+    var obj = jQuery.parseJSON(JSONObject);
+    for (key in obj) {
+        if (key == "actionParameters[selectedLineIndex]")
+            id = parseInt(obj[key]) + 1;
+    }
+    var objId = id.split("_");
+    var index = objId[1].substring(4, 5);
+    getPerpetualAccessStartDate(index);
+    getPerpetualAccessEndDate(index);
+    jq('#hiddenPerpetualDateEndField_control').val("true");
+    if(jq('#hiddenPerpetualDateEndField_control').val() == "false" && jq('#'+'perpetualAccessEndDateString_line'+index+'_control').val()==""
+        &&jq('#'+'perpetualAccessEndDateFormat_line'+index+'_control').val()==""
+        &&jq('#'+'perpetualAccessEndVolume_line'+index+'_control').val()==""
+        &&jq('#'+'perpetualAccessEndIssue_line'+index+'_control').val()==""){
+        jq('#hiddenPerpetualDateEndField_control').val("false");
+    }
+}
+
+function noOfUser(id){
+    jq('#hiddenNoOfUser_control').val("true");
+    if(jq('#hiddenNoOfUser_control').val() == "false" && jq('#OleEinstance-numberOfSimultaneousUser_control').val() == ""){
+        jq('#hiddenNoOfUser_control').val("false");
+    }
+}
+
+function authenticationType(id){
+    jq('#hiddenAuthenticationType_control').val("true");
+}
+
+function accessLocation(id){
+    jq('#hiddenAccessLocation_control').val("true");
+}
+
+function statisticalCode(id){
+    jq('#hiddenStatisticalCode_control').val("true");
+}

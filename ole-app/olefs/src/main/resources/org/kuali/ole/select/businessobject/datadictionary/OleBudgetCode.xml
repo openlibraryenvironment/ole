@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <bean id="BudgetCode" parent="BudgetCode-parentBean"/>
+    <bean id="BudgetCode-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.select.bo.OleBudgetCode"/>
+        <property name="titleAttribute" value="chartCode"/>
+        <property name="objectLabel" value="Budget Code"/>
+        <property name="attributes">
+            <list>
+                <ref bean="BudgetCode-budgetCodeId"/>
+                <ref bean="BudgetCode-inputValue"/>
+                <ref bean="BudgetCode-chartCode"/>
+                <ref bean="BudgetCode-fundCode"/>
+                <ref bean="BudgetCode-objectCode"/>
+                <ref bean="BudgetCode-active"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="BudgetCode-budgetCodeId" parent="BudgetCode-budgetCodeId-parentBean"/>
+    <bean id="BudgetCode-budgetCodeId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="budgetCodeId"/>
+        <property name="label" value="Budget Code Id"/>
+        <property name="shortLabel" value="Budget Code Id"/>
+        <property name="description" value="Budget Code Id"/>
+        <property name="maxLength" value="40"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+    <bean id="BudgetCode-inputValue" parent="BudgetCode-inputValue-parentBean"/>
+    <bean id="BudgetCode-inputValue-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="inputValue"/>
+        <property name="label" value="Input Value"/>
+        <property name="shortLabel" value="Input Value"/>
+        <property name="description" value="Input Value"/>
+        <property name="maxLength" value="40"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl"/>
+        </property>
+    </bean>
+    <bean id="BudgetCode-chartCode" parent="BudgetCode-chartCode-parentBean"/>
+    <bean id="BudgetCode-chartCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="chartCode"/>
+        <property name="label" value="Chart Code"/>
+        <property name="shortLabel" value="Chart Code"/>
+        <property name="description" value="Chart Code"/>
+        <property name="maxLength" value="100"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+    <bean id="BudgetCode-fundCode" parent="BudgetCode-fundCode-parentBean"/>
+    <bean id="BudgetCode-fundCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="fundCode"/>
+        <property name="label" value="Fund Code"/>
+        <property name="shortLabel" value="Fund Code"/>
+        <property name="description" value="Fund Code"/>
+        <property name="maxLength" value="100"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+    <bean id="BudgetCode-objectCode" parent="BudgetCode-objectCode-parentBean"/>
+    <bean id="BudgetCode-objectCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="objectCode"/>
+        <property name="label" value="Object Code"/>
+        <property name="shortLabel" value="Object Code"/>
+        <property name="description" value="Object Code"/>
+        <property name="maxLength" value="100"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+    <bean id="BudgetCode-active" parent="BudgetCode-active-parentBean"/>
+
+    <bean id="BudgetCode-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+        <property name="name" value="active"/>
+    </bean>
+    <bean id="BudgetCode-InquiryView" parent="Uif-OLEInquiryView">
+        <property name="headerText" value="BudgetCode Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OleBudgetCode"/>
+        <property name="singlePageView" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-VerticalBoxSection">
+                    <property name="header.headerText" value="BudgetCode"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2">
+                                <property name="items">
+                                    <list>
+                                        <bean id="inquiry_inputValue" parent="Uif-InputField" p:propertyName="inputValue"/>
+                                        <bean id="inquiry_chartCode" parent="Uif-InputField" p:propertyName="chartCode"/>
+                                        <bean id="inquiry_fundCode" parent="Uif-InputField" p:propertyName="fundCode"/>
+                                        <bean id="inquiry_objectCode" parent="Uif-InputField" p:propertyName="objectCode"/>
+                                        <bean id="inquiry_active" parent="Uif-InputField" p:propertyName="active"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                    <property name="headerText" value="Code"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="BudgetCode-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="BudgetCode"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OleBudgetCode"/>
+        <property name="criteriaFields">
+            <list>
+                <bean id="criteria_inputValue" parent="Uif-LookupCriteriaInputField" p:propertyName="inputValue"/>
+                <bean id="criteria_chartCode" parent="Uif-LookupCriteriaInputField" p:propertyName="chartCode"/>
+                <bean id="criteria_fundCode" parent="Uif-LookupCriteriaInputField" p:propertyName="fundCode"/>
+                <bean id="criteria_objectCode" parent="Uif-LookupCriteriaInputField" p:propertyName="objectCode"/>
+                <bean id="criteria_active" parent="Uif-LookupCriteriaInputField" p:propertyName="active"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean id="searchResult_inputValue" parent="Uif-DataField" p:propertyName="inputValue"/>
+                <bean id="searchResult_chartCode" parent="Uif-DataField" p:propertyName="chartCode"/>
+                <bean id="searchResult_fundCode" parent="Uif-DataField" p:propertyName="fundCode"/>
+                <bean id="searchResult_objectCode" parent="Uif-DataField" p:propertyName="objectCode"/>
+                <bean id="searchResult_active" parent="Uif-DataField" p:propertyName="active"/>
+            </list>
+        </property>
+    </bean>
+</beans>

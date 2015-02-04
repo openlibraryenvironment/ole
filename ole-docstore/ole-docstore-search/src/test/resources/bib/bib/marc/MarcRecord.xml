@@ -1,0 +1,82 @@
+<collection>
+	<record>
+		<leader/>
+		<controlfield tag="001"/>
+		<datafield tag="100">
+			<subfield code="a">Test-Author</subfield>
+		</datafield>
+		<datafield tag="245">
+			<subfield code="a">Test-Title</subfield>
+		</datafield>
+		<datafield tag="260">
+			<subfield code="b">McHill</subfield>
+		</datafield>
+		<datafield tag="020">
+			<subfield code="a">9876550256</subfield>
+		</datafield>
+	</record>
+    <record>
+		<leader/>
+		<controlfield tag="001"/>
+		<datafield tag="100">
+			<subfield code="a">Test-Author</subfield>
+		</datafield>
+		<datafield tag="245">
+			<subfield code="a">HTC Global Services</subfield>
+		</datafield>
+		<datafield tag="260">
+			<subfield code="b">McHill</subfield>
+		</datafield>
+		<datafield tag="020">
+			<subfield code="a">9876550256</subfield>
+		</datafield>
+	</record>
+    <record>
+		<leader/>
+		<controlfield tag="001"/>
+		<datafield tag="100">
+			<subfield code="a">The Neighbour</subfield>
+		</datafield>
+		<datafield tag="245">
+			<subfield code="a">HTC Global Services</subfield>
+		</datafield>
+		<datafield tag="260">
+			<subfield code="b">McHill</subfield>
+		</datafield>
+		<datafield tag="020">
+			<subfield code="a">9876550256</subfield>
+		</datafield>
+	</record>
+    <record>
+		<leader/>
+		<controlfield tag="001"/>
+		<datafield tag="100">
+			<subfield code="a">The Neighbour</subfield>
+		</datafield>
+		<datafield tag="245">
+			<subfield code="a">HTC Global Services</subfield>
+		</datafield>
+		<datafield tag="260">
+			<subfield code="b">McHill</subfield>
+		</datafield>
+		<datafield tag="020">
+			<subfield code="a">9876550256</subfield>
+		</datafield>
+	</record>
+    <record>
+		<leader/>
+		<controlfield tag="001"/>
+		<datafield tag="100">
+			<subfield code="a">The Neighbour</subfield>
+		</datafield>
+		<datafield tag="245">
+			<subfield code="a">HTC Global Services</subfield>
+		</datafield>
+		<datafield tag="260">
+			<subfield code="b">McHill</subfield>
+		</datafield>
+		<datafield tag="020">
+			<subfield code="a">9876550256</subfield>
+		</datafield>
+	</record>
+</collection>

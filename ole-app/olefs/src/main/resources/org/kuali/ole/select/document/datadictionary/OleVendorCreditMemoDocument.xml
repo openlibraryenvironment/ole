@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   - Copyright 2011 The Kuali Foundation.
+   - 
+   - Licensed under the Educational Community License, Version 2.0 (the "License");
+   - you may not use this file except in compliance with the License.
+   - You may obtain a copy of the License at
+   - 
+   - http://www.opensource.org/licenses/ecl2.php
+   - 
+   - Unless required by applicable law or agreed to in writing, software
+   - distributed under the License is distributed on an "AS IS" BASIS,
+   - WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   - See the License for the specific language governing permissions and
+   - limitations under the License.
+ -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+	<!-- Copyright 2006-2009 The Kuali Foundation Licensed under the Educational 
+		Community License, Version 2.0 (the "License"); you may not use this file 
+		except in compliance with the License. You may obtain a copy of the License 
+		at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+		law or agreed to in writing, software distributed under the License is distributed 
+		on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+		express or implied. See the License for the specific language governing permissions 
+		and limitations under the License. -->
+
+	<bean id="VendorCreditMemoDocument" parent="OleVendorCreditMemoDocument-parentBean" />
+
+	<alias name="VendorCreditMemoDocument" alias="OleVendorCreditMemoDocument"/>
+
+	<bean id="OleVendorCreditMemoDocument-parentBean" abstract="true" parent="VendorCreditMemoDocument-parentBean">
+		<property name="documentClass" value="org.kuali.ole.select.document.OleVendorCreditMemoDocument" />
+		<property name="baseDocumentClass" value="org.kuali.ole.module.purap.document.VendorCreditMemoDocument" />
+		<property name="attributes">
+      		<list merge="true">
+        		<ref bean="VendorCreditMemoDocument-purchaseOrderTypeId"/>
+        		<ref bean="VendorCreditMemoDocument-isProrateQty"/>
+        		<ref bean="VendorCreditMemoDocument-isProrateDollar"/>
+        		<ref bean="VendorCreditMemoDocument-isProrateManual"/>
+                <ref bean="VendorCreditMemoDocument-isNoProrate"/>
+                <ref bean="VendorCreditMemoDocument-vendorAliasName"/>
+        	</list>
+        </property> 
+        <property name="validationMap" ref="OleVendorCreditMemoDocument-validations"/>       
+	</bean>
+	 <bean id="VendorCreditMemoDocument-purchaseOrderTypeId" parent="VendorCreditMemoDocument-purchaseOrderTypeId-parentBean"/>
+  <bean id="VendorCreditMemoDocument-purchaseOrderTypeId-parentBean" abstract="true" parent="PurchaseOrderType-purchaseOrderTypeId">
+  	<property name="name" value="purchaseOrderTypeId"/>
+    <property name="label" value="Order Type"/>
+    <property name="shortLabel" value="Order Type Code"/>
+     
+   <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.ole.module.purap.businessobject.options.PurchaseOrderTypeValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+  </bean> 
+  
+  <bean id="VendorCreditMemoDocument-isProrateQty" parent="VendorCreditMemoDocument-isProrateQty-parentBean"/>
+  	<bean id="VendorCreditMemoDocument-isProrateQty-parentBean" abstract="true" parent="AttributeDefinition">
+     <property name="name" value="prorateQty"/>
+    <property name="label" value="Prorate(Qty)"/>
+	<property name="shortLabel" value="Prorate(Qty)"/>
+	<property name="maxLength" value="10"/>
+	<property name="control">
+    	<bean parent="CheckboxControlDefinition"/>
+    </property>
+  </bean>
+	
+	<bean id="VendorCreditMemoDocument-isProrateDollar" parent="VendorCreditMemoDocument-isProrateDollar-parentBean"/>
+  <bean id="VendorCreditMemoDocument-isProrateDollar-parentBean" abstract="true" parent="AttributeDefinition">
+     <property name="name" value="prorateDollar"/>
+    <property name="label" value="Prorate($)"/>
+	<property name="shortLabel" value="Prorate->"/>
+	<property name="maxLength" value="10"/>
+	<property name="control">
+    	<bean parent="CheckboxControlDefinition"/>
+    </property>
+  </bean>
+	
+	<bean id="VendorCreditMemoDocument-isProrateManual" parent="VendorCreditMemoDocument-isProrateManual-parentBean"/>
+  <bean id="VendorCreditMemoDocument-isProrateManual-parentBean" abstract="true" parent="AttributeDefinition">
+     <property name="name" value="prorateManual"/>
+    <property name="label" value="Manual Prorate"/>
+	<property name="shortLabel" value="Manual Prorate"/>
+	<property name="maxLength" value="10"/>
+	<property name="control">
+    	<bean parent="CheckboxControlDefinition"/>
+    </property>
+  </bean>
+
+  <bean id="VendorCreditMemoDocument-isNoProrate" parent="VendorCreditMemoDocument-isNoProrate-parentBean"/>
+  <bean id="VendorCreditMemoDocument-isNoProrate-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="noProrate"/>
+        <property name="label" value="No Proration"/>
+        <property name="shortLabel" value="No Proration"/>
+        <property name="maxLength" value="10"/>
+        <property name="control">
+            <bean parent="CheckboxControlDefinition"/>
+        </property>
+  </bean>
+
+    <bean id="VendorCreditMemoDocument-vendorAliasName" parent="VendorCreditMemoDocument-vendorAliasName-parentBean"/>
+    <bean id="VendorCreditMemoDocument-vendorAliasName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="vendorAliasName"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Vendor Alias Name"/>
+        <property name="maxLength" value="20"/>
+        <property name="validationPattern">
+            <ref bean="AnyCharacterWithWhitespaceValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="22"/>
+        </property>
+    </bean>
+
+  
+  <bean id="VendorCreditMemoDocument-accountingLineView-parent" parent="AccountingLineView" abstract="true">
+		<property name="elements">
+			<list>
+				<bean parent="AccountingLineView-lines">
+					<property name="lines">
+						<list>
+							<ref bean="creditMemoAccountingInformation"/>
+						</list>
+					</property>
+				</bean>
+				<bean parent="AccountingLineView-field" p:name="amount" p:required="true"/>
+				<bean parent="AccountingLineView-field" p:name="accountLinePercent" p:required="true" p:useShortLabel="true"/>				
+				<bean parent="AccountingLineView-actions"/>
+			</list>
+		</property>
+    </bean>
+	
+	<bean id="OleVendorCreditMemoDocument-validations" parent="VendorCreditMemoDocument-validations">
+	  <property name="sourceMap">
+	  <map key-type="java.lang.Class">	  			
+			<entry>
+				<key><value>org.kuali.ole.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
+				<value>OleVendorCreditMemo-routeDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.ole.sys.document.validation.event.AttributedApproveDocumentEvent</value></key>
+				<value>OleVendorCreditMemo-approveDocumentValidation</value>
+			</entry>							
+			<entry>
+				<key><value>org.kuali.ole.module.purap.document.validation.event.AttributedCalculateAccountsPayableEvent</value></key>
+				<value>OleVendorCreditMemo-calculateAccountsPayableValidation</value>				
+			</entry>					
+			<entry>
+				<key><value>org.kuali.ole.sys.document.validation.event.AttributedBlanketApproveDocumentEvent</value></key>
+				<value>VendorCreditMemo-blanketApproveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.ole.sys.document.validation.event.AddAccountingLineEvent</value></key>
+				<value>VendorCreditMemo-addAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.ole.sys.document.validation.event.UpdateAccountingLineEvent</value></key>
+				<value>VendorCreditMemo-updateAccountingLineValidation</value>
+			</entry>	
+			<entry>
+				<key><value>org.kuali.ole.sys.document.validation.event.ReviewAccountingLineEvent</value></key>
+				<value>VendorCreditMemo-reviewAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.ole.module.purap.document.validation.event.AttributedContinuePurapEvent</value></key>
+				<value>VendorCreditMemo-continuePurapValidation</value>				
+			</entry>				
+			<entry>
+				<key><value>org.kuali.ole.module.purap.document.validation.event.AttributedPreCalculateAccountsPayableEvent</value></key>
+				<value>VendorCreditMemo-preCalculateAccountsPayableValidation</value>				
+			</entry>			
+			<entry>
+				<key><value>org.kuali.ole.module.purap.document.validation.event.AttributedCancelAccountsPayableEvent</value></key>
+				<value>VendorCreditMemo-cancelAccountsPayableValidation</value>				
+			</entry>
+			<entry>
+				<key><value>org.kuali.ole.module.purap.document.validation.event.AttributedAddPurchasingAccountsPayableItemEvent</value></key>
+				<value>VendorCreditMemo-addPurchasingAccountsPayableItemValidation</value>				
+			</entry>
+			<entry>
+				<key><value>org.kuali.ole.module.purap.document.validation.event.AttributedImportPurchasingAccountsPayableItemEvent</value></key>
+				<value>VendorCreditMemo-importPurchasingAccountsPayableItemValidation</value>				
+			</entry>			
+		</map>
+		</property>
+		</bean>
+</beans>

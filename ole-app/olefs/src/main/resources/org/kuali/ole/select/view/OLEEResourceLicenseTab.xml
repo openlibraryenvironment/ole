@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="OLEEResourceRecordView-E-ResourceLicenseTab" parent="E-Res-Uif-DocumentPage">
+        <property name="headerText" value="Licenses"/>
+        <property name="items">
+            <list>
+                <ref bean="OLEEResourceLicense-create"/>
+                <bean parent="OLEEResourceRecordView-Overview"/>
+                <ref bean="OLEEResourceLicenses"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="OLEEResourceLicense-create" parent="OLEEResourceLicense-create-parent"/>
+    <bean id="OLEEResourceLicense-create-parent" parent="Uif-Disclosure-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="ERSLicense-Create" parent="Uif-PrimaryActionButton" p:style="float:left;margin-left:20em" p:methodToCall="performCreateLicenseRequest" p:actionLabel="Start New License" p:render="@{!(document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.final)}" p:ajaxSubmit="true" p:successCallback="saveERSDocument()"/>
+                <bean id="ERSLicense-Save" parent="Uif-PrimaryActionButton" p:style="float:left;margin-left:0em" p:ajaxSubmit="false" p:methodToCall="save" p:actionLabel="save" p:performClientSideValidation="true" p:hidden="true"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="OLEEResourceLicenses" parent="OLEEResourceLicenses-parent"/>
+    <bean id="OLEEResourceLicenses-parent" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="1" p:render="@{document.oleERSLicenseRequests ne null and document.oleERSLicenseRequests.size() > 0}">
+        <property name="headerText" value="Licenses" />
+        <property name="collectionObjectClass" value="org.kuali.ole.select.document.OLEEResourceLicense" />
+        <property name="propertyName" value="oleERSLicenseRequests" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="items">
+            <list>
+                <!--<bean id="DocumentId" parent="Uif-LinkField" p:style="font-weight:bold;" p:href="oleLicenseRequest?methodToCall=docHandler&amp;docId=@{#line.documentRouteHeaderValue.documentId}&amp;command=displayDocSearchView" p:linkText="@{#line.documentRouteHeaderValue.documentId}" p:target="_blank" p:label="Document Id"/>-->
+                <bean id="DocumentId" parent="Uif-DataField" p:propertyName="documentRouteHeaderValue.documentId"
+                      p:label="Document Id"/>
+                <bean id="licensor" parent="Uif-DataField" p:propertyName="licensor"
+                      p:label="Licensor"/>
+                <bean id="licenseRequestStatusCode" parent="Uif-DataField" p:propertyName="documentRouteHeaderValue.appDocStatus"
+                      p:label="License Request Status"/>
+                <bean id="licenseLastModifiedDate" parent="Uif-DataField" p:propertyName="documentRouteHeaderValue.appDocStatusDate"
+                      p:label="License Request Last Modified Date"/>
+                <bean id="licenseTitle" parent="Uif-LinkField" p:style="font-weight:bold;" p:href="oleLicenseRequest?methodToCall=docHandler&amp;docId=@{#line.documentRouteHeaderValue.documentId}&amp;command=displayDocSearchView" p:linkText="@{#line.documentDescription}" p:target="_blank" p:label="License Title"/>
+               <!-- <bean id="licenseTitle" parent="Uif-DataField" p:propertyName="documentRouteHeaderValue.docTitle"
+                      p:label="License Title"/>-->
+                <bean id="attachmentLink" parent="Uif-LinkField" p:style="font-weight:bold;" p:link.href="@{#line.getUrl()}" p:link.linkText="@{#line.getAttachmentDisplay()}" p:target="_blank" p:label="Attachments" p:render="@{#line.getAttachmentDisplay() ne 'No Attachments'}"/>
+
+                <bean id="Noattachment" parent="Uif-DataField" p:propertyName="attachmentString" p:label="Attachments" p:render="@{#line.getAttachmentDisplay() eq 'No Attachments'}"/>
+
+                <bean id="licenseStartDate" parent="Uif-DataField" p:propertyName="licenseStartDate"
+                      p:label="License Start Date"/>
+                <bean id="licenseEndDate" parent="Uif-DataField" p:propertyName="documentRouteHeaderValue.finalizedDate"
+                      p:label="License End Date"/>
+            </list>
+        </property>
+        <property name="addLineActions">
+            <list></list>
+        </property>
+        <property name="lineActions">
+            <list></list>
+        </property>
+
+    </bean>
+
+</beans>

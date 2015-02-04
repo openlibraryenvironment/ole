@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <!--
+
+        Copyright 2005-2012 The Kuali Foundation
+
+        Licensed under the Educational Community License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at
+
+        http://www.opensource.org/licenses/ecl2.php
+
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+
+    -->
+    <bean id="OleDiscoveryExportProfile" parent="OleDiscoveryExportProfile-parentBean"/>
+
+    <bean id="OleDiscoveryExportProfile-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.describe.bo.OleDiscoveryExportProfile"/>
+        <property name="titleAttribute" value="exportId"/>
+        <property name="objectLabel" value="Discovery Export Profile"/>
+        <property name="attributes">
+            <list>
+                <ref bean="OleDiscoveryExportProfile-exportId"/>
+                <ref bean="OleDiscoveryExportProfile-exportProfileCode"/>
+                <ref bean="OleDiscoveryExportProfile-exportProfileName"/>
+                <ref bean="OleDiscoveryExportProfile-exportFormat"/>
+                <ref bean="OleDiscoveryExportProfile-exportType"/>
+                <ref bean="OleDiscoveryExportProfile-exportTo"/>
+                <ref bean="OleDiscoveryExportProfile-noOfExportThreads"/>
+                <ref bean="OleDiscoveryExportProfile-dataField" />
+                <ref bean="OleDiscoveryExportProfile-noOfRecords"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <!-- Attribute Definitions -->
+
+
+    <bean id="OleDiscoveryExportProfile-exportId" parent="OleDiscoveryExportProfile-exportId-parentBean"/>
+
+    <bean id="OleDiscoveryExportProfile-exportId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Export Id"/>
+        <property name="maxLength" value="10"/>
+        <property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+        <property name="name" value="exportId"/>
+        <property name="label" value="Export Id"/>
+        <property name="description" value="Export Id"/>
+    </bean>
+
+
+    <bean id="OleDiscoveryExportProfile-exportProfileCode" parent="OleDiscoveryExportProfile-exportProfileCode-parentBean"/>
+
+    <bean id="OleDiscoveryExportProfile-exportProfileCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Export Profile Code"/>
+        <property name="required" value="true"/>
+        <property name="maxLength" value="30"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="15"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="15"/>
+        </property>
+        <property name="name" value="exportProfileCode"/>
+        <property name="label" value="Export Profile Code"/>
+        <property name="description" value="Export Profile Code"/>
+
+    </bean>
+
+    <bean id="OleDiscoveryExportProfile-exportProfileName" parent="OleDiscoveryExportProfile-exportProfileName-parentBean"/>
+
+    <bean id="OleDiscoveryExportProfile-exportProfileName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Export Profile Name"/>
+        <property name="required" value="true"/>
+        <property name="maxLength" value="30"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="15"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="15"/>
+        </property>
+        <property name="name" value="exportProfileName"/>
+        <property name="label" value="Export Profile Name"/>
+        <property name="description" value="Export Profile Name"/>
+
+    </bean>
+
+
+    <bean id="OleDiscoveryExportProfile-exportFormat" parent="OleDiscoveryExportProfile-exportFormat-parentBean"/>
+
+    <bean id="OleDiscoveryExportProfile-exportFormat-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="100"/>
+        <property name="shortLabel" value="Export Format"/>
+        <property name="name" value="exportFormat"/>
+        <property name="description" value="Export Format"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Export Format"/>
+    </bean>
+
+    <bean id="OleDiscoveryExportProfile-exportType" parent="OleDiscoveryExportProfile-exportType-parentBean"/>
+
+    <bean id="OleDiscoveryExportProfile-exportType-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="100"/>
+        <property name="shortLabel" value="Export Type"/>
+        <property name="name" value="exportType"/>
+        <property name="description" value="Export Type"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Export Type"/>
+    </bean>
+
+    <bean id="OleDiscoveryExportProfile-exportTo" parent="OleDiscoveryExportProfile-exportTo-parentBean"/>
+
+    <bean id="OleDiscoveryExportProfile-exportTo-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Export To"/>
+        <property name="required" value="true"/>
+        <property name="maxLength" value="500"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="15"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="15"/>
+        </property>
+        <property name="name" value="exportTo"/>
+        <property name="label" value="Export To"/>
+        <property name="description" value="Export To"/>
+
+    </bean>
+
+    <bean id="OleDiscoveryExportProfile-noOfExportThreads" parent="OleDiscoveryExportProfile-noOfExportThreads-parentBean"/>
+
+    <bean id="OleDiscoveryExportProfile-noOfExportThreads-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="100"/>
+        <property name="shortLabel" value="noOfExportThreads"/>
+        <property name="description" value="No of Export Threads"/>
+        <property name="required" value="true"/>
+        <property name="name" value="noOfExportThreads"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="5"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="5" />
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="No of Export Threads"/>
+    </bean>
+
+
+    <bean id="OleDiscoveryExportProfile-dataField" parent="OleDiscoveryExportProfile-dataField-parentBean"/>
+
+    <bean id="OleDiscoveryExportProfile-dataField-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="30"/>
+        <property name="shortLabel" value="dataField"/>
+        <property name="description" value="Data Field"/>
+        <property name="required" value="true"/>
+        <property name="name" value="dataField"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="5"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="5" />
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Data Field"/>
+    </bean>
+
+
+    <bean id="OleDiscoveryExportProfile-noOfRecords" parent="OleDiscoveryExportProfile-noOfRecords-parentBean"/>
+
+    <bean id="OleDiscoveryExportProfile-noOfRecords-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="100"/>
+        <property name="shortLabel" value="noOfRecords"/>
+        <property name="description" value="No of Records"/>
+        <property name="required" value="true"/>
+        <property name="name" value="noOfRecords"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="5"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="5" />
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="No of Records"/>
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+
+    <bean id="OleDiscoveryExportProfile-InquiryView" parent="Uif-OLEInquiryView">
+        <property name="title" value="Discovery Export Profile Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.describe.bo.OleDiscoveryExportProfile"/>
+        <property name="singlePageView" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-VerticalBoxSection">
+                    <property name="header.headerText" value="Discovery Export Profile" />
+                    <property name="items">
+                        <list>
+                        <bean parent="Uif-GridGroup">
+                            <property name="items">
+                                <list>
+                                    <bean id="inquiry_exportId" parent="Uif-InputField" p:propertyName="exportId"/>
+                                    <bean id="inquiry_exportProfileCode" parent="Uif-InputField" p:propertyName="exportProfileCode"/>
+                                    <bean id="inquiry_exportProfileName" parent="Uif-InputField" p:propertyName="exportProfileName"/>
+                                    <bean id="inquiry_exportFormat" parent="Uif-InputField" p:propertyName="exportFormat"/>
+                                    <bean id="inquiry_exportType" parent="Uif-InputField" p:propertyName="exportType"/>
+                                    <bean id="inquiry_exportTo" parent="Uif-InputField" p:propertyName="exportTo"/>
+                                    <bean id="inquiry_noOfExportThreads" parent="Uif-InputField" p:propertyName="noOfExportThreads"/>
+                                    <bean id="inquiry_noOfRecords" parent="Uif-InputField" p:propertyName="noOfRecords"/>
+                                </list>
+                            </property>
+                        </bean>
+                        <ref bean="OleDiscoveryExportProfile-inquiry-OleDiscoveryExportMappingFields" />
+                        </list>
+                    </property>
+                    <property name="title" value="Discovery Export Profile Inquiry"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+
+
+
+    <bean id="OleDiscoveryExportProfile-inquiry-OleDiscoveryExportMappingFields" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="3" p:disclosure.defaultOpen="true">
+        <!--p:fieldBindingObjectPath="document.newMaintainableObject.dataObject"-->
+        <property name="title" value="Discovery Export Mapping Fields" />
+        <property name="collectionObjectClass" value="org.kuali.ole.describe.bo.OleDiscoveryExportMappingFields" />
+        <property name="propertyName" value="oleDiscoveryExportMappingFields" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="marcField" p:label="Marc Field" />
+                <bean parent="Uif-InputField" p:propertyName="itemField" p:label="Item Field" />
+                <bean parent="Uif-InputField" p:propertyName="description" p:label="Description" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+
+    <bean id="OleDiscoveryExportProfile-LookupView" parent="Uif-OLELookupView">
+        <property name="title" value="Discovery Export Profile Lookup" />
+        <property name="dataObjectClassName" value="org.kuali.ole.describe.bo.OleDiscoveryExportProfile" />
+        <property name="criteriaFields">
+            <list>
+                <bean id="exportProfileCode"  parent="Uif-LookupCriteriaInputField" p:propertyName="exportProfileCode" />
+                <bean id="exportProfileName"  parent="Uif-LookupCriteriaInputField" p:propertyName="exportProfileName" />
+                <bean id="exportFormat"  parent="Uif-LookupCriteriaInputField" p:propertyName="exportFormat" >
+                <property name="optionsFinder">
+                    <bean class="org.kuali.ole.describe.keyvalue.OleDiscoveryExportFormatValueFinder" />
+                </property>
+                <property name="control">
+                        <bean parent="Uif-DropdownControl" />
+                </property>
+                </bean>
+                <bean id="exportType"  parent="Uif-LookupCriteriaInputField" p:propertyName="exportType" >
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.describe.keyvalue.OleDiscoveryExportTypeValueFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" />
+                    </property>
+                </bean>
+                <bean id="exportTo"  parent="Uif-LookupCriteriaInputField" p:propertyName="exportTo" />
+                <bean id="noOfExportThreads"  parent="Uif-LookupCriteriaInputField" p:propertyName="noOfExportThreads" />
+                <bean id="noOfRecords"  parent="Uif-LookupCriteriaInputField" p:propertyName="noOfRecords" />
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean id="searchResult_exportId" parent="Uif-DataField" p:propertyName="exportId" />
+                <bean id="searchResult_exportProfileCode" parent="Uif-DataField" p:propertyName="exportProfileCode" />
+                <bean id="searchResult_exportProfileName" parent="Uif-DataField" p:propertyName="exportProfileName" />
+                <bean id="searchResult_exportFormat" parent="Uif-DataField" p:propertyName="exportFormat" />
+                <bean id="searchResult_exportType" parent="Uif-DataField" p:propertyName="exportType" />
+                <bean id="searchResult_exportTo" parent="Uif-DataField" p:propertyName="exportTo" />
+                <bean id="searchResult_noOfExportThreads" parent="Uif-DataField" p:propertyName="noOfExportThreads" />
+                <bean id="searchResult_noOfRecords" parent="Uif-DataField" p:propertyName="noOfRecords" />
+            </list>
+        </property>
+    </bean>
+</beans>

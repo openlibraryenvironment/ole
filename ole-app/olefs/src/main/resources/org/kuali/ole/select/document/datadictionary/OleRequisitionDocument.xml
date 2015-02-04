@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   - Copyright 2011 The Kuali Foundation.
+   - 
+   - Licensed under the Educational Community License, Version 2.0 (the "License");
+   - you may not use this file except in compliance with the License.
+   - You may obtain a copy of the License at
+   - 
+   - http://www.opensource.org/licenses/ecl2.php
+   - 
+   - Unless required by applicable law or agreed to in writing, software
+   - distributed under the License is distributed on an "AS IS" BASIS,
+   - WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   - See the License for the specific language governing permissions and
+   - limitations under the License.
+ -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+	<!-- Copyright 2006-2009 The Kuali Foundation Licensed under the Educational 
+		Community License, Version 2.0 (the "License"); you may not use this file 
+		except in compliance with the License. You may obtain a copy of the License 
+		at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+		law or agreed to in writing, software distributed under the License is distributed 
+		on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+		express or implied. See the License for the specific language governing permissions 
+		and limitations under the License. -->
+
+	<bean id="RequisitionDocument" parent="OleRequisitionDocument-parentBean" />
+
+	<alias name="RequisitionDocument" alias="OleRequisitionDocument"/>
+
+	<bean id="OleRequisitionDocument-parentBean" abstract="true" parent="RequisitionDocument-parentBean">
+		<property name="documentClass"
+			value="org.kuali.ole.select.document.OleRequisitionDocument" />
+		<property name="baseDocumentClass"
+			value="org.kuali.ole.module.purap.document.RequisitionDocument" />
+		<property name="businessRulesClass" value="org.kuali.ole.select.document.validation.impl.OleValidationRuleBase"/> 
+		<property name="promptBeforeValidationClass" value="org.kuali.ole.select.document.validation.impl.OleRequisitionDocumentPreRules"/>
+		<property name="attributes">
+			<list merge="true">
+                <ref bean="RequisitionDocument-vendorAliasName"/>
+			</list>
+		</property>
+		<property name="validationMap" ref="OleRequisitionDocument-validations"/>
+	</bean>
+	
+	<bean id="RequisitionDocument-requestorPersonPhoneNumber" parent="RequisitionDocument-requestorPersonPhoneNumber-parentBean"/>
+
+    <bean id="RequisitionDocument-requestorPersonPhoneNumber-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="requestorPersonPhoneNumber"/>
+        <property name="label" value="Requestor Phone"/>
+        <property name="shortLabel" value="Phone Number"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <!--<property name="required" value="true"/>-->
+    </bean>
+	
+	<bean id="RequisitionDocument-accountingLineView" parent="RequisitionDocument-accountingLineView-parent"/>
+
+	<bean id="RequisitionDocument-accountingLineView-parent" parent="AccountingLineView" abstract="true">
+		<property name="elements">
+			<list>
+				<bean parent="AccountingLineView-lines">
+					<property name="lines">
+						<list>
+							<ref bean="requisitionAccountingInformation"/>
+						</list>
+					</property>
+				</bean>
+				<bean parent="AccountingLineView-field" p:name="amount" p:required="true" />
+				<bean parent="AccountingLineView-field" p:name="accountLinePercent" p:required="true" p:useShortLabel="true"/>
+				<bean parent="AccountingLineView-actions"/>
+			</list>
+		</property>		
+	</bean>
+	  <bean id="OleRequisitionDocument-validations" parent="RequisitionDocument-validations">
+	  <property name="sourceMap">
+	  <map merge="true" key-type="java.lang.Class">
+	  			<entry>
+				<key><value>org.kuali.ole.module.purap.document.validation.event.AttributedAddPurchasingAccountsPayableItemEvent</value></key>
+				<value>OleRequisition-addPurchasingAccountsPayableItemValidation</value>				
+			</entry>
+		</map>
+		</property>
+		</bean>
+		
+		<bean id="RoutingType-RequisitionDocument-Budget" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+    		    <ref bean="RoutingAttribute-chartOfAccountsCode" />
+    	      </list>
+    	</property>
+    	
+    	
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<ref bean="DocumentValuePathGroup-RequisitionDocument-Budget-accountingLines" />
+    		</list>
+    	</property>
+    </bean>
+        
+    <bean id="DocumentValuePathGroup-RequisitionDocument-Budget-accountingLines"  class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
+    	<property name="documentCollectionPath">
+			<bean class="org.kuali.rice.krad.datadictionary.DocumentCollectionPath">
+				<property name="collectionPath" value="accountsForRouting" />
+   		        <property name="documentValues">
+	   		        <list>
+	   			        <value>chartOfAccountsCode</value>
+	   			    </list>
+   		        </property>
+    		</bean>
+    	</property>
+    </bean>
+
+    <bean id="RequisitionDocument-vendorAliasName" parent="RequisitionDocument-vendorAliasName-parentBean"/>
+    <bean id="RequisitionDocument-vendorAliasName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="vendorAliasName"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Vendor Alias Name"/>
+        <property name="maxLength" value="20"/>
+        <property name="validationPattern">
+            <ref bean="AnyCharacterWithWhitespaceValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="22"/>
+        </property>
+    </bean>
+
+</beans>

@@ -1,0 +1,142 @@
+<i:instanceCollection xmlns:m="http://www.loc.gov/MARC21/slim"
+                      xmlns:i="OLE-Instance-Schema-v8.1.xsd">
+   <i:instance>
+      <i:instanceIdentifier>3</i:instanceIdentifier>
+      <i:resourceIdentifier/>
+      <i:formerResourceIdentifiers source="ICU">(ICU)3</i:formerResourceIdentifiers>
+      <i:holdings>
+         <i:holdingsIdentifier/>
+         <i:recordType>y</i:recordType>
+         <i:encodingLevel>u</i:encodingLevel>
+         <i:receiptStatus>2</i:receiptStatus>
+         <i:acquisitionMethod>u</i:acquisitionMethod>
+         <!--expectedAcquisition is placeholder, would come from III--><i:expectedAcquisitionEndDate>    </i:expectedAcquisitionEndDate>
+         <i:generalRetentionPolicy>0</i:generalRetentionPolicy>
+         <!--The data under specificRententionPolicy are questionable in our export--><i:specificRetentionPolicy>
+            <i:policyType> </i:policyType>
+            <i:numberOfUnits> </i:numberOfUnits>
+            <!--Bogus: real data not populated in 008/15 in this export--><i:unitType>m</i:unitType>
+         </i:specificRetentionPolicy>
+         <!--Value fudging: MFHD export gives illegal values, we set them to 0--><i:completeness>0</i:completeness>
+         <i:copiesReported>001</i:copiesReported>
+         <i:separateOrCompositeReport>0</i:separateOrCompositeReport>
+         <i:extentOfOwnership>
+            <i:typeOfOwnership>Textual Holdings - Basic Bibliographic Unit</i:typeOfOwnership>
+            <i:fieldEncodingLevel>4</i:fieldEncodingLevel>
+            <i:typeOfNotation>0</i:typeOfNotation>
+            <i:textualHoldings>v.1-44(1968-2011)</i:textualHoldings>
+         </i:extentOfOwnership>
+         <i:extentOfOwnership>
+            <i:typeOfOwnership>Textual Holdings - Indexes</i:typeOfOwnership>
+            <i:fieldEncodingLevel>4</i:fieldEncodingLevel>
+            <i:typeOfNotation>0</i:typeOfNotation>
+            <i:textualHoldings>v.1-8(1968-1975)</i:textualHoldings>
+            <i:publicNote>bound with v.8(1975)</i:publicNote>
+         </i:extentOfOwnership>
+         <i:extentOfOwnership>
+            <i:typeOfOwnership>Textual Holdings - Indexes</i:typeOfOwnership>
+            <i:fieldEncodingLevel>4</i:fieldEncodingLevel>
+            <i:typeOfNotation>0</i:typeOfNotation>
+            <i:textualHoldings>v.1-10(1968-1977)</i:textualHoldings>
+            <i:publicNote>bound with v.10(1977)</i:publicNote>
+         </i:extentOfOwnership>
+         <i:extentOfOwnership>
+            <i:typeOfOwnership>Textual Holdings - Indexes</i:typeOfOwnership>
+            <i:fieldEncodingLevel>4</i:fieldEncodingLevel>
+            <i:typeOfNotation>0</i:typeOfNotation>
+            <i:textualHoldings>v.11-20(1978-1987)</i:textualHoldings>
+            <i:publicNote>bound with v.20(1987)</i:publicNote>
+         </i:extentOfOwnership>
+         <i:extentOfOwnership>
+            <i:typeOfOwnership>Textual Holdings - Indexes</i:typeOfOwnership>
+            <i:fieldEncodingLevel>4</i:fieldEncodingLevel>
+            <i:typeOfNotation>0</i:typeOfNotation>
+            <i:textualHoldings>v.21-23(1988-1990)</i:textualHoldings>
+            <i:publicNote>bound with v.23(1990)</i:publicNote>
+         </i:extentOfOwnership>
+         <i:extentOfOwnership>
+            <i:typeOfOwnership>Textual Holdings - Indexes</i:typeOfOwnership>
+            <i:fieldEncodingLevel>4</i:fieldEncodingLevel>
+            <i:typeOfNotation>0</i:typeOfNotation>
+            <i:textualHoldings>v.21-25(1988-1992)</i:textualHoldings>
+            <i:publicNote>bound with v.25(1992)</i:publicNote>
+         </i:extentOfOwnership>
+         <i:extentOfOwnership>
+            <i:typeOfOwnership>Textual Holdings - Indexes</i:typeOfOwnership>
+            <i:fieldEncodingLevel>4</i:fieldEncodingLevel>
+            <i:typeOfNotation>0</i:typeOfNotation>
+            <i:textualHoldings>v.21-30(1988-1997)</i:textualHoldings>
+            <i:publicNote>bound with v.30(1997)</i:publicNote>
+         </i:extentOfOwnership>
+         <i:extension>
+            <suppressFromPublic>false</suppressFromPublic>
+            <harvestable>true</harvestable>
+            <fastAddFlag>false</fastAddFlag>
+            <status>n</status>
+            <!--Dummy data: lastUpdated not present in our export--><lastUpdated>2012-02-22T10:48:26.779-06:00</lastUpdated>
+            <dateEntered>1995-10-16</dateEntered>
+         </i:extension>
+      </i:holdings>
+      <i:item>
+         <i:itemIdentifier/>
+         <i:accessInformation>
+            <i:barcode>TODO</i:barcode>
+         </i:accessInformation>
+         <i:itemType/>
+         <i:copyNumber>1</i:copyNumber>
+         <i:copyNumberLabel>c.</i:copyNumberLabel>
+         <i:location>
+            <i:locationName>
+               <i:value>ASR</i:value>
+               <i:typeOrSource>
+                  <i:text>TODO</i:text>
+               </i:typeOrSource>
+            </i:locationName>
+            <i:levelName>
+               <i:value>location</i:value>
+               <i:typeOrSource>
+                  <i:text>TODO</i:text>
+               </i:typeOrSource>
+            </i:levelName>
+            <i:locationName>
+               <i:value>JRLASR</i:value>
+               <i:typeOrSource>
+                  <i:text>TODO</i:text>
+               </i:typeOrSource>
+            </i:locationName>
+            <i:levelName>
+               <i:value>collection</i:value>
+               <i:typeOrSource>
+                  <i:text>TODO</i:text>
+               </i:typeOrSource>
+            </i:levelName>
+            <i:locationName>
+               <i:value>ICU</i:value>
+               <i:typeOrSource>
+                  <i:text>TODO</i:text>
+               </i:typeOrSource>
+            </i:locationName>
+            <i:levelName>
+               <i:value>institution</i:value>
+               <i:typeOrSource>
+                  <i:text>TODO</i:text>
+               </i:typeOrSource>
+            </i:levelName>
+            <i:shelvingScheme> </i:shelvingScheme>
+            <i:shelvingOrder> </i:shelvingOrder>
+            <i:classificationPart>BF199.A1J7</i:classificationPart>
+            <i:classificationSort/>
+            <i:classificationView/>
+            <i:copyNumber>1</i:copyNumber>
+            <i:nonPublicNote>Single title order: 68136620
+COR:19950201 Trns from Faxon with 1/95.mab
+WNT:1 copy of vol.1, no.1 and cont.
+</i:nonPublicNote>
+         </i:location>
+         <i:extension><!--Bogus dates generated at run-time, not supplied by our current MFHD export--><dateEntered>2012-02-22-06:00</dateEntered>
+            <lastUpdated>2012-02-22-06:00</lastUpdated>
+            <itemStatus/>
+         </i:extension>
+      </i:item>
+   </i:instance>
+</i:instanceCollection>

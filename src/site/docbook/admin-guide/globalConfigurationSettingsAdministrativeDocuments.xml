@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0"
+    xml:lang="en-US">
+    <title>Global Configuration Settings Administration Documents</title>
+    <para role="Body Text"/>
+    <para role="Body Text"><inlinemediaobject>
+        <imageobject>
+            <imagedata fileref="../images/Admin.png"/>
+        </imageobject>
+    </inlinemediaobject>
+        <emphasis role="bold">&gt; <inlinemediaobject>
+            <imageobject>
+                <imagedata fileref="../images/DescribeNoTitlePage-251.png"/>
+            </imageobject>
+        </inlinemediaobject></emphasis></para>
+</chapter>

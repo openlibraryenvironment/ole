@@ -1,0 +1,58 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_KRCR_NMSPC_T">
+        <loadData tableName="KRCR_NMSPC_T" file="ole-bootstrap/attributes/krcr_nmspc_t.csv"/>
+        <rollback>
+            <delete tableName="KRCR_NMSPC_T">
+                <where>APPL_ID = 'OLE'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_KRCR_PARM_DTL_TYP_T">
+        <loadData tableName="KRCR_CMPNT_T" file="ole-bootstrap/attributes/krcr_cmpnt_t.csv"/>
+        <rollback>
+            <delete tableName="KRCR_CMPNT_T">
+                <where>NMSPC_CD LIKE 'OLE%'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_KRCR_PARM_T_oracle" dbms="oracle">
+        <loadData tableName="KRCR_PARM_T" file="ole-bootstrap/attributes/krcr_parm_t.csv"/>
+        <rollback>
+            <delete tableName="KRCR_PARM_T">
+                <where>APPL_ID = 'OLE'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_KRCR_PARM_T_mysql" dbms="mysql">
+        <sql>
+            SET sql_mode='NO_BACKSLASH_ESCAPES'
+        </sql>
+        <loadData tableName="KRCR_PARM_T" file="ole-bootstrap/attributes/krcr_parm_t.csv"/>
+        <rollback>
+            <delete tableName="KRCR_PARM_T">
+                <where>APPL_NMSPC_CD = 'OLE'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <!--&lt;!&ndash;<changeSet context="bootstrap" author="ole" id="OLE_LOAD_KRLC_COUNTY_T">&ndash;&gt;-->
+    <!--&lt;!&ndash;<loadData tableName="KRLC_CNTY_T" file="bootstrap/krlc_cnty_t.csv" />&ndash;&gt;-->
+    <!--&lt;!&ndash;<rollback>&ndash;&gt;-->
+    <!--&lt;!&ndash;<delete tableName="KRLC_CNTY_T" />&ndash;&gt;-->
+    <!--&lt;!&ndash;</rollback>&ndash;&gt;-->
+    <!--&lt;!&ndash;</changeSet>&ndash;&gt;-->
+
+    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_KRLC_POSTAL_CODE_T">
+        <loadData tableName="KRLC_PSTL_CD_T" file="ole-bootstrap/krlc_pstl_cd_t.csv"/>
+        <rollback>
+            <delete tableName="KRLC_PSTL_CD_T"/>-->
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

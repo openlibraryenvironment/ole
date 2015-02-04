@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <bean id="AlertDocumentTypeMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+        <property name="workflowPropertyGroups">
+            <list>
+                <bean parent="WorkflowPropertyGroup">
+                    <property name="workflowProperties">
+                        <list>
+                            <bean parent="WorkflowProperty" p:path="oldMaintainableObject.businessObject"/>
+                            <bean parent="WorkflowProperty" p:path="newMaintainableObject.businessObject"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="AlertDocumentType-MaintenanceView" parent="Uif-OLEMaintenanceView">
+        <property name="dataObjectClassName" value="org.kuali.ole.alert.bo.AlertDocumentType"/>
+        <property name="headerText" value="Alert Document Type"/>
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="${ole.externalizable.help.url}/reference/webhelp/AG/content/ch19s01.html"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>ole/alert/scripts/alertDocumentType.js</value>
+
+            </list>
+        </property>
+        <property name="items">
+            <list merge="true">
+                <bean parent="Uif-MaintenanceGridSection">
+                    <property name="headerText" value="Add/Edit Alert Document Type"/>
+                    <property name="items">
+                        <list>
+                            <bean id="create_alertDocumentTypeName" parent="Uif-InputField" p:propertyName="alertDocumentTypeName" p:enableAutoDirectInquiry="false"/>
+                            <bean id="create_alertDocumentTypeDescription" parent="Uif-InputField" p:propertyName="alertDocumentTypeDescription"/>
+                            <bean id="create_alertDocumentClass" parent="Uif-InputField" p:propertyName="alertDocumentClass" p:readOnly="true"/>
+                            <bean id="create_alertReminderIntervals" parent="Uif-InputField" p:propertyName="alertReminderInterval"/>
+                            <bean id="create_activeIndicator" parent="Uif-InputField" p:propertyName="activeIndicator" p:defaultValue="true"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="AlertDocumentTypeMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
+        <property name="dataObjectClass" value="org.kuali.ole.alert.bo.AlertDocumentType"/>
+        <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+        <property name="documentTypeName" value="ALRT_DOC_TYP"/>
+        <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+        <property name="businessRulesClass" value="org.kuali.ole.alert.rule.AlertDocumentTypeRule"/>
+        <property name="lockingKeys">
+            <list>
+                <value>alertDocumentId</value>
+            </list>
+        </property>
+    </bean>
+</beans>

@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="RenewalItemView" parent="RenewalItemView-parentBean" />
+    <bean id="RenewalItemView-parentBean" parent="Uif-OLEFormView">
+        <property name="items">
+            <list>
+                <bean id="RenewalItemViewPage" parent="Uif-Page" >
+                    <property name="items">
+                        <list>
+                            <ref bean="MyAccountTabSection" />
+                            <ref bean="ShowReturnMyAccount"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="footer">
+            <ref bean="ClearFooterView-buttons" />
+        </property>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>ole/myaccount/renewal/renewal.js</value>
+            </list>
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>ole/ingest/css/staffUpload.css</value>
+            </list>
+        </property>
+        <property name="formClass" value="org.kuali.ole.deliver.form.OleMyAccountForm"/>
+    </bean>
+
+    <bean id="MyAccountTabSection" parent="Uif-TabSection" p:style="width:1200px" p:cssClasses="renewalClass">
+        <property name="items">
+            <list>
+                <ref bean="OlePatronView" />
+                <ref bean="RenewalViewPage" />
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="RenewalViewPage" parent="Uif-Page"  >
+        <property name="header.headerText" value="Renewal"/>
+        <property name="items">
+            <list>
+                <ref bean="RenewalDetailedSection" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="RenewalDetailedSection" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <ref bean="RenewalButtoms-HorizontalBoxSection" />
+                <ref bean="RenewalInformationSection"/>
+                <ref bean="RenewalPatronBarcodeSearch-HorizontalBoxSection"/>
+                <ref bean="RenewalPatronItemView-buttons" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ShowReturnMyAccount" parent="Uif-InputField" p:propertyName="showReturnMyAccount">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
+    <bean id="RenewalInformationSection" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="RenewalMessageFieldSection" parent="Uif-MessageField" p:messageText="@{information}" p:cssClasses="messageClass"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="RenewalPatronBarcodeSearch-HorizontalBoxSection" parent="RenewalPatronBarcodeSearch-HorizontalBoxSection-parentBean" />
+    <bean id="RenewalPatronBarcodeSearch-HorizontalBoxSection-parentBean" parent="Uif-VerticalBoxGroup" p:disclosure.render="false">
+        <property name="items">
+            <list>
+                <!--<ref bean="RenewalPatronDetailList-HorizontalBoxSection"/>-->
+
+                <ref bean="RenewalPatron-item-VerticalBoxSection" />
+                <ref bean="RenewalPatron-ExistingLoanItemListSection-HorizontalBoxSection" />
+
+            </list>
+        </property>
+    </bean>
+
+<!--    <bean id="RenewalPatronDetailList-HorizontalBoxSection" parent="RenewalPatronDetailList-HorizontalBoxSection-parent"/>
+    <bean id="RenewalPatronDetailList-HorizontalBoxSection-parent" parent="Uif-Disclosure-HorizontalBoxSection" p:render="@{patronBarcode ne null and patronBarcode ne ''}" >
+        <property name="headerText" value="Patron Details"/>
+
+        <property name="items">
+            <list>
+                <bean id="PatronName" parent="Uif-LinkField" p:target="_blank" p:style="font-weight:bold;text-align:left;" p:width="40%" p:fieldLabel.renderColon="false" p:href="inquiry?olePatronId=@{patronId}&amp;methodToCall=start&amp;dataObjectClassName=org.kuali.ole.deliver.bo.OlePatronDocument&amp;dialogMode=true&amp;showHome=false&amp;showHistory=false" p:linkText="@{patronName}" p:label="Name" p:labelPlacement="TOP" />
+                <bean id="PatronType" parent="Uif-DataField" p:propertyName="borrowerType" p:width="20%" p:label="Type" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                <bean id="PatronPreferredAddress" parent="Uif-DataField" p:propertyName="preferredAddress" p:width="80%" p:label="Preferred Address" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                <bean id="PatronPhone" parent="Uif-DataField" p:propertyName="phoneNumber" p:width="20%" p:label="Phone" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                <bean id="PatronEmail" parent="Uif-DataField" p:propertyName="email" p:width="40%" p:label="Email" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+            </list>
+        </property>
+    </bean>-->
+
+
+
+   <bean id="RenewalPatron-item-VerticalBoxSection" parent="RenewalPatron-item-VerticalBoxSection-parentBean" />
+    <bean id="RenewalPatron-item-VerticalBoxSection-parentBean" parent="Uif-HorizontalBoxSection" p:disclosure.render="false">
+        <property name="items">
+            <list>
+                <ref bean="RenewalPatron-item" />
+                <ref bean="RenewalSecondarySearchItem" />
+            </list>
+        </property>
+    </bean>
+
+   <bean id="RenewalPatron-item" parent="RenewalPatron-item-parentBean" />
+    <bean id="RenewalPatron-item-parentBean" parent="Uif-InputField" p:propertyName="item" p:label="Item" p:style="float:left;margin-left:1em" p:labelRendered="@{patronName eq null or patronName eq '' or existingLoanList eq null or 0 > existingLoanList.size()}">
+        <property name="control">
+            <bean id="Textcontrol" parent="Uif-TextControl" p:render="@{patronName ne null and patronName ne '' and existingLoanList ne null and existingLoanList.size() > 0}"/>
+        </property>
+
+    </bean>
+
+    <bean id="RenewalPatron-information-HorizontalBoxSection" parent="RenewalPatron-information-HorizontalBoxSection-parentBean" />
+    <bean id="RenewalPatron-information-HorizontalBoxSection-parentBean" parent="Uif-HorizontalBoxSection" p:disclosure.render="false">
+        <property name="items">
+            <list>
+                <ref bean="RenewalPatron-barcode" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="RenewalPatron-ExistingLoanItemListSection-HorizontalBoxSection" parent="RenewalPatron-ExistingLoanItemListSection-HorizontalBoxSection-parentBean" />
+    <bean id="RenewalPatron-ExistingLoanItemListSection-HorizontalBoxSection-parentBean" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="7" p:render="@{patronName ne null and patronName ne '' and existingLoanList ne null and existingLoanList.size() > 0}" p:style="width:1000px">
+        <property name="headerText" value="Items Currently Checked Out" />
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleRenewalLoanDocument"/>
+        <property name="propertyName" value="existingLoanList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <!--<property name="addLineLabel" value="false"/>-->
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.richTable.disableTableSort" value="true" />
+        <property name="items">
+            <list>
+
+                <bean id="checkIdRenewal" parent="Uif-InputField" p:propertyName="itemCheckFlag" p:label="Select All" p:width="3%" p:defaultValue="false">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" p:cssClasses="loanedItemCBClass"/>
+                    </property>
+                </bean>
+
+                <bean id="barcodeRenewal" parent="Uif-LinkField" p:label="Barcode" p:width="10%" p:linkText="@{#line.itemBarcode}" p:target="_blank">
+
+                </bean>
+                <bean id="titleRenewal" parent="Uif-DataField" p:label="Title" p:width="22%" p:propertyName="title">
+
+                </bean>
+                <bean id="authorRenewal" parent="Uif-DataField" p:label="Author" p:width="18%" p:propertyName="author">
+
+                </bean>
+                <bean id="itemLocationRenewal" parent="Uif-DataField" p:label="Location" p:width="30%" p:propertyName="location">
+
+                </bean>
+                <bean id="itemCallNumberRenewal" parent="Uif-DataField" p:label="Call Number" p:width="10%" p:propertyName="callNumber">
+
+                </bean>
+                <!--<bean id="loanDueDateRenewal" parent="Uif-DataField" p:label="Due Date" p:width="10%" p:propertyName="dueDate">
+
+                </bean>-->
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+
+    <bean id="RenewalPatron-barcode" parent="RenewalPatron-barcode-parentBean" />
+    <bean id="RenewalPatron-barcode-parentBean" parent="Uif-InputField" p:maxLength="24" p:propertyName="patronBarcode" p:label="Patron" p:render="@{barcode eq null}" >
+        <property name="control">
+            <bean parent="Uif-TextControl"/>
+        </property>
+    </bean>
+
+    <bean id="RenewalSecondarySearchPatron" parent="RenewalSecondarySearchPatron-parentBean" />
+    <bean id="RenewalSecondarySearchPatron-parentBean" parent="Uif-SecondaryActionButton-Small" p:methodToCall="searchPatron" p:actionLabel="Search" p:hidden="true" p:focusOnIdAfterSubmit="FIRST"/>
+
+    <bean id="RenewalPatron-borrowerType" parent="RenewalPatron-borrowerType-parentBean" />
+    <bean id="RenewalPatron-borrowerType-parentBean" parent="Uif-DataField" p:propertyName="borrowerType" p:cssClasses="loanFont" p:style="float:left;margin-left:5em" />
+
+    <bean id="RenewalSecondarySearchItem" parent="RenewalSecondarySearchItem-parentBean" />
+    <bean id="RenewalSecondarySearchItem-parentBean" parent="Uif-SecondaryActionButton-Small" p:methodToCall="renewalItem" p:actionLabel="add" p:hidden="true" p:ajaxSubmit="true"  p:successCallback="renewTab()"/>
+
+    <bean id="MyAccountSecondarySearchPatron" parent="MyAccountSecondarySearchPatron-parentBean" />
+    <bean id="MyAccountSecondarySearchPatron-parentBean" parent="Uif-SecondaryActionButton-Small" p:methodToCall="myAccountPatronSearch" p:actionLabel="search" p:hidden="true" />
+
+    <bean id="RenewalPatronItemView-buttons" parent="RenewalPatronItemView-buttons-parentBean" />
+    <bean id="RenewalPatronItemView-buttons-parentBean" parent="Uif-FooterBase">
+        <property name="items">
+            <list>
+                <bean id="renewaldoneButton" parent="Uif-SecondaryActionButton" p:methodToCall="saveAndClear" p:actionLabel="Close" p:style="float:left;margin-left:5em" p:render="@{patronName ne null and patronName ne ''}"/>
+                <bean id="renewalrenewalButton" parent="Uif-SecondaryActionButton" p:methodToCall="renewalItems" p:actionLabel="Renew" p:style="float:left;margin-left:5em" p:render="@{patronName ne null and patronName ne '' and existingLoanList ne null and existingLoanList.size() > 0}" p:ajaxSubmit="true"  p:successCallback="renewTab()"/>
+                <ref bean="RenewalSecondarySearchPatron" />
+                <ref bean="MyAccountSecondarySearchPatron" />
+                <ref bean="RenewalSecondarySearchItem" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="RenewalButtoms-HorizontalBoxSection" parent="RenewalButtoms-HorizontalBoxSection-parentBean" />
+    <bean id="RenewalButtoms-HorizontalBoxSection-parentBean" parent="Uif-HorizontalBoxSection" p:disclosure.render="false">
+        <property name="items">
+            <list>
+                <bean id="headrDoneButton" parent="Uif-SecondaryActionButton" p:methodToCall="saveAndClear" p:actionLabel="Close" p:style="float:left;margin-left:5em" p:render="@{patronName ne null and patronName ne ''}"/>
+                <bean id="headrRenewalButton" parent="Uif-SecondaryActionButton" p:methodToCall="renewalItems" p:actionLabel="Renew" p:style="float:left;margin-left:5em" p:render="@{patronName ne null and patronName ne '' and existingLoanList ne null and existingLoanList.size() > 0}" p:ajaxSubmit="true"  p:successCallback="renewTab()"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="RenewalClearFooterView-buttons" parent="RenewalClearFooterView-buttons-parentBean"/>
+    <bean id="RenewalClearFooterView-buttons-parentBean" parent="Uif-HorizontalBoxSection" p:disclosure.render="false">
+        <property name="items">
+            <list>
+            </list>
+        </property>
+    </bean>
+
+</beans>

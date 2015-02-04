@@ -1,0 +1,491 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="DocumentConfig" parent="DocumentConfig-parentBean"/>
+    <bean id="DocumentConfig-parentBean" parent="Uif-OLEFormView">
+        <property name="headerText" value="Search Framework Configuration"/>
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="${ole.externalizable.help.url}/reference/webhelp/ADMIN/content/ch04s06.html"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <!-- Marc View -->
+                <bean id="DocumentConfigPage" parent="Uif-Page">
+                    <property name="items">
+                        <list>
+                            <ref bean="DocTypeConfig"/>
+                            <ref bean="DocFormatConfig"/>
+                            <ref bean="DocFieldConfig"/>
+                            <ref bean="SearchResultPageConfig"/>
+                            <ref bean="FacetPageConfig"/>
+                            <ref bean="hdn_refresh_buttonDocConfig"/>
+                            <ref bean="hdn_refresh_buttonDocFormat"/>
+                            <ref bean="hdn_refresh_buttonDocField"/>
+                            <ref bean="hdn_refresh_buttonDocFieldDocType"/>
+                            <ref bean="hdn_refresh_buttonDocDocTypeMessage"/>
+
+
+                        </list>
+                    </property>
+                </bean>
+
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>ole/describe/scripts/documentconfig.js</value>
+            </list>
+        </property>
+        <property name="footer">
+            <ref bean="DataConfig_Footer"/>
+        </property>
+        <property name="formClass" value="org.kuali.ole.describe.form.DocumentConfigForm"/>
+    </bean>
+
+    <bean id="DocTypeConfig" parent="OLEDocTypeConfig-parentBean"/>
+    <bean id="OLEDocTypeConfig-parentBean" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="headerText" value="Doc Types"/>
+        <property name="items">
+            <list>
+                <ref bean="DocTypeConfig-docType-Section"/>
+                <ref bean="DocTypeButtons-docType-Section"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="DocTypeButtons-docType-Section" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="DocTypeButtons-saveDocTypeConfig" parent="Uif-SecondaryActionButton"
+                      p:methodToCall="saveDocType" p:performClientSideValidation="true"
+                      p:actionLabel="Save"
+                      p:style="float:left;margin-left:10em" p:refreshId="DocTypeConfig" p:ajaxSubmit="true"
+                      p:successCallback="refreshDocFieldSection();"/>
+
+                <bean id="DocTypeButtons-Reset-Button" parent="Uif-SecondaryActionButton"
+                      p:methodToCall="resetDocTypes" p:actionLabel="Reset" p:refreshId="DocTypeConfig-docType-Section"/>
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="SearchResultPageConfig" parent="OLESearchResultPageConfig-parentBean"/>
+    <bean id="OLESearchResultPageConfig-parentBean" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="headerText" value="Search Result Page Size"/>
+        <property name="items">
+            <list>
+                <ref bean="OLESearchResultPageConfigSearch-search-parentBean"/>
+                <!--<ref bean="SearchResultPageSave-save-Section"/>-->
+                <ref bean="SearchResultPageButtons-SearchResult-Section"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="SearchResultPageButtons-SearchResult-Section" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="saveSearchResultPage" parent="Uif-SecondaryActionButton" p:methodToCall="saveSearchResultPage"
+                      p:actionLabel="Save"   p:ajaxSubmit="true"
+                      p:style="float:left;margin-left:10em"
+                      p:refreshId="OLESearchResultPageConfigSearch-search-parentBean"/>
+                <bean id="SearchResultPageButtons-Reset-Button" parent="Uif-SecondaryActionButton"
+                      p:methodToCall="resetSearchResultPage" p:actionLabel="Reset"
+                      p:refreshId="OLESearchResultPageConfigSearch-search-parentBean"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="DocFormatConfig" parent="OLEDocFormatConfig-parentBean"/>
+    <bean id="OLEDocFormatConfig-parentBean" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="headerText" value="Doc Formats"/>
+        <property name="items">
+            <list>
+                <ref bean="DocFormatConfig-docFormat-Section"/>
+                <ref bean="DocFormatButtons-docFormat-Section"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="DocFormatButtons-docFormat-Section" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="DocFormatButtons-saveDocFormatConfig" parent="Uif-SecondaryActionButton"
+                      p:methodToCall="saveDocFormat"
+                      p:actionLabel="Save"
+                      p:style="float:left;margin-left:10em" p:refreshId="DocFormatConfig"/>
+                <bean id="DocFormatButtons-Reset-Button" parent="Uif-SecondaryActionButton"
+                      p:methodToCall="resetDocFormats" p:actionLabel="Reset"
+                      p:refreshId="DocFormatConfig-docFormat-Section"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="FacetPageConfig" parent="OLEFacetPageConfig-parentBean"/>
+    <bean id="OLEFacetPageConfig-parentBean" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="headerText" value="Facet Page Sizes"/>
+        <property name="items">
+            <list>
+                <ref bean="OLEFacetPageConfigSearch-search-parentBean"/>
+                <ref bean="FacetPageButton-FacetPage-Section"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="FacetPageButton-FacetPage-Section" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="savFacetPage" parent="Uif-SecondaryActionButton" p:methodToCall="saveFacetPage"
+                      p:actionLabel="Save"
+                      p:style="float:left;margin-left:10em" p:refreshId="OLEFacetPageConfigSearch-search-parentBean"/>
+                <bean id="FacetPageButton-Reset-Button" parent="Uif-SecondaryActionButton"
+                      p:methodToCall="resetFacetPage" p:actionLabel="Reset"
+                      p:refreshId="OLEFacetPageConfigSearch-search-parentBean"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="DocTypeConfig-docType-Section" parent="Uif-TableCollectionSection"
+          p:layoutManager.numberOfColumns="1" p:style="float:bottom;margin-bottom:0em;width:500px">
+        <property name="headerText" value=""/>
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.docstore.common.document.config.DocTypeConfig"/>
+        <property name="propertyName" value="docTypeConfigList"/>
+        <property name="layoutManager.generateAutoSequence" value="false"/>
+        <!--<property name="renderAddLine" value="false"/>-->
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.richTable.disableTableSort" value="true"/>
+        <property name="layoutManager.actionColumnPlacement" value="RIGHT"/>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="false">
+                <entry key="bPaginate" value="false"/>
+                <entry key="bInfo" value="false"/>
+                <entry key="bFilter" value="false"/>
+                <entry key="bLengthChange" value="false"/>
+            </map>
+        </property>
+        <!--<property name="layoutManager.generateAutoSequence" value="true"/>-->
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:label="Name (Unique)" p:propertyName="name"
+                      p:required="true"/>
+                <bean parent="Uif-InputField" p:label="Label" p:propertyName="label"
+                      p:required="true"/>
+                <bean parent="Uif-InputField" p:label="Description" p:propertyName="description"
+                      p:required="false"/>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="UifCompView-DeleteAction" parent="Uif-SecondaryActionButton-Small" p:methodToCall="deleteLine"
+                      p:actionEvent="delete" p:componentSecurity.performLineActionAuthz="true"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="DocFormatConfig-docFormat-Section" parent="OLEDocFormatConfig-docFormat-parentBean"/>
+    <bean id="OLEDocFormatConfig-docFormat-parentBean" parent="Uif-VerticalBoxSection">
+        <property name="headerText" value=""/>
+        <property name="items">
+            <list>
+                <ref bean="DocFormat-docType-Section"/>
+                <ref bean="DocFormat-searchParams-Section"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="DocFieldConfig" parent="OLEDocFieldConfig-parentBean"/>
+    <bean id="OLEDocFieldConfig-parentBean" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="headerText" value="Doc Fields"/>
+        <property name="items">
+            <list>
+                <ref bean="DocFormatConfigDocType"/>
+                <ref bean="DocField-searchParams-Section"/>
+                <ref bean="DocFieldButtons-docField-Section"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="DocFieldButtons-docField-Section" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="DocFieldButtons-saveDocFieldConfig" parent="Uif-SecondaryActionButton"
+                      p:methodToCall="saveDocField"
+                      p:actionLabel="Save"
+                      p:style="float:left;margin-left:10em" p:successCallback=" retrieveComponent('DocField-searchParams-Section','saveDocField', null,null);" p:refreshId="DocField-searchParams-Section"/>
+                <bean id="DocFieldButtons-Reset-Button" parent="Uif-SecondaryActionButton"
+                      p:methodToCall="resetDocFields" p:actionLabel="Reset"
+                      p:refreshId="DocField-searchParams-Section"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLESearchResultPageConfigSearch-search-parentBean" parent="Uif-TableCollectionSection"
+          p:layoutManager.numberOfColumns="1" p:style="float:bottom;margin-bottom:0em;width:500px">
+        <property name="headerText" value=""/>
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.docstore.common.document.config.SearchResultPage"/>
+        <property name="propertyName" value="searchResultPageList"/>
+        <property name="layoutManager.generateAutoSequence" value="false"/>
+        <!--<property name="renderAddLine" value="false"/>-->
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.richTable.disableTableSort" value="false"/>
+        <property name="layoutManager.actionColumnPlacement" value="RIGHT"/>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="false">
+                <entry key="bPaginate" value="false"/>
+                <entry key="bInfo" value="false"/>
+                <entry key="bFilter" value="false"/>
+                <entry key="bLengthChange" value="false"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:label="Size" p:propertyName="size"
+                      p:required="false"/>
+            </list>
+        </property>
+
+        <property name="lineActions">
+            <list>
+                <bean id="UifCompView-DeleteAction" parent="Uif-SecondaryActionButton-Small" p:methodToCall="deleteLine"
+                      p:actionEvent="delete" p:componentSecurity.performLineActionAuthz="true"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="DocFormat-docType-Section" parent="Uif-InputField" p:propertyName="docFormatDocType"
+          p:label="Document Type"
+          p:optionsFinderClass="org.kuali.ole.describe.keyvalue.DocTypeKeyValueFinder" p:defaultValue="all">
+        <property name="control">
+            <bean parent="Uif-DropdownControl"/>
+        </property>
+    </bean>
+
+    <bean id="DocFormat-searchParams-Section" parent="Uif-TableCollectionSection"
+          p:layoutManager.numberOfColumns="1" p:style="float:bottom;margin-bottom:0em;width:500px">
+        <property name="headerText" value=""/>
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.docstore.common.document.config.DocFormatConfig"/>
+        <property name="propertyName" value="docFormatConfigList"/>
+        <property name="layoutManager.generateAutoSequence" value="false"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.richTable.disableTableSort" value="true"/>
+        <property name="layoutManager.actionColumnPlacement" value="RIGHT"/>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="false">
+                <entry key="bPaginate" value="false"/>
+                <entry key="bInfo" value="false"/>
+                <entry key="bFilter" value="false"/>
+                <entry key="bLengthChange" value="false"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:label="Name (Unique)" p:propertyName="name"
+                      p:required="true"/>
+                <bean parent="Uif-InputField" p:label="Label" p:propertyName="label" p:required="true"/>
+                <bean parent="Uif-InputField" p:label="Description" p:propertyName="description"
+                      p:required="false"/>
+            </list>
+        </property>
+
+        <property name="lineActions">
+            <list>
+                <bean id="UifCompView-DeleteAction" parent="Uif-SecondaryActionButton-Small" p:methodToCall="deleteLine"
+                      p:actionEvent="delete" p:componentSecurity.performLineActionAuthz="true"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="DocField-searchParams-Section" parent="Uif-TableCollectionSection"
+          p:layoutManager.numberOfColumns="4">
+        <property name="collectionObjectClass" value="org.kuali.ole.docstore.common.document.config.DocFieldConfig"/>
+        <property name="propertyName" value="docFieldConfigList"/>
+        <property name="layoutManager.generateAutoSequence" value="false"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.richTable.disableTableSort" value="false"/>
+        <property name="layoutManager.actionColumnPlacement" value="RIGHT"/>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="false">
+                <entry key="bPaginate" value="false"/>
+                <entry key="bInfo" value="false"/>
+                <entry key="bFilter" value="false"/>
+                <entry key="bLengthChange" value="false"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:label="Name" p:propertyName="name" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="20"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:label="Label" p:propertyName="label"
+                      p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="20"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:label="Description" p:propertyName="description"
+                      p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="20"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:label="Path Include" p:propertyName="includePath" p:required="false"
+                      p:render="@{docFieldDocType eq 'bibliographic'}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="20" p:textExpand="true"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:label="Path Exclude" p:propertyName="excludePath" p:required="false"
+                      p:render="@{docFieldDocType eq 'bibliographic'}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="20" p:textExpand="true"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="searchable" p:label="Is Search">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-InputField" p:propertyName="displayable" p:label="Is Display">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-InputField" p:propertyName="globallyEditable" p:label="Global Edit">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-InputField" p:propertyName="exportable" p:label="Is Export">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-InputField" p:propertyName="facet" p:label="Is Facet"
+                      p:render="@{docFieldDocType eq 'bibliographic'}">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+
+        <property name="lineActions">
+            <list>
+                <bean id="UifCompView-DeleteAction" parent="Uif-SecondaryActionButton-Small" p:methodToCall="deleteLine"
+                      p:actionEvent="delete" p:componentSecurity.performLineActionAuthz="true"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEFacetPageConfigSearch-search-parentBean" parent="Uif-HorizontalBoxSection"
+          p:layoutManager.style="border:0px;">
+        <property name="items">
+            <list>
+                <bean id="FacetPage_Items" parent="Uif-Disclosure-VerticalBoxSection"
+                      p:style="width:300px">
+                    <property name="headerText" value=""/>
+                    <property name="items">
+                        <list>
+                            <bean id="Facet_Page_Size_Short" parent="Uif-InputField"
+                                  p:label="Facet Page Size Short" p:propertyName="searchFacetPage.shotSize">
+                            </bean>
+                            <bean id="Facet_Page_Size_Long" parent="Uif-InputField"
+                                  p:label="Facet Page Size Long" p:propertyName="searchFacetPage.longSize">
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="DataConfig_Footer" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <!--<bean id="submitDataconfig" parent="Uif-SecondaryActionButton" p:ajaxSubmit="false" p:methodToCall="save"-->
+                <!--p:actionLabel="Submit" p:style="float:left;margin-left:30em" p:performClientSideValidation="true"/>-->
+                <!--  bean id="closeEditorReload" parent="Uif-SecondaryActionButton" p:methodToCall="reload"
+                      p:actionLabel="Reload" p:style="float:left;margin-left:30em"/-->
+
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="hdn_refresh_buttonDocConfig" parent="Uif-SecondaryActionButton-Small" p:methodToCall="refresh"
+          p:hidden="true" p:refreshId="DocFormat-searchParams-Section"/>
+    <bean id="hdn_refresh_buttonDocFormat" parent="Uif-SecondaryActionButton-Small" p:methodToCall="refreshforDocFormat"
+          p:hidden="true" p:refreshId="DocFieldDocFormat-docType-Section"/>
+    <bean id="hdn_refresh_buttonDocField" parent="Uif-SecondaryActionButton-Small" p:methodToCall="refreshforDocField"
+          p:hidden="true" p:refreshId="DocField-searchParams-Section"/>
+    <bean id="hdn_refresh_buttonDocFieldDocType" parent="Uif-SecondaryActionButton-Small" p:hidden="true"
+          p:refreshId="DocFormatConfigDocType"/>
+    <bean id="hdn_refresh_buttonDocDocTypeMessage" parent="Uif-SecondaryActionButton-Small" p:hidden="true"
+          p:refreshId="DocFormat-docType-Section"/>
+
+
+    <bean id="DocFormatConfigDocType" parent="OLEDocFormatConfigDocType-parentBean"/>
+    <bean id="OLEDocFormatConfigDocType-parentBean" parent="Uif-HorizontalBoxSection">
+        <property name="headerText" value=""/>
+        <property name="items">
+            <list>
+                <ref bean="DocFieldDocType-docType-Section"/>
+                <ref bean="DocFieldDocFormat-docType-Section"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="DocFieldDocType-docType-Section" parent="Uif-InputField" p:propertyName="docFieldDocType"
+          p:label="Document Type"
+          p:optionsFinderClass="org.kuali.ole.describe.keyvalue.DocTypeKeyValueFinder">
+        <property name="control">
+            <bean parent="Uif-DropdownControl"/>
+        </property>
+    </bean>
+
+    <bean id="DocFieldDocFormat-docType-Section" parent="Uif-InputField" p:propertyName="docFormat"
+          p:label="Document Format"
+          p:optionsFinderClass="org.kuali.ole.describe.keyvalue.DocFormatKeyValueFinder" p:defaultValue="all">
+        <property name="control">
+            <bean parent="Uif-DropdownControl"/>
+        </property>
+    </bean>
+
+
+</beans>

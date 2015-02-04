@@ -1,0 +1,74 @@
+<!--
+   - Copyright 2011 The Kuali Foundation.
+   - 
+   - Licensed under the Educational Community License, Version 2.0 (the "License");
+   - you may not use this file except in compliance with the License.
+   - You may obtain a copy of the License at
+   - 
+   - http://www.opensource.org/licenses/ecl2.php
+   - 
+   - Unless required by applicable law or agreed to in writing, software
+   - distributed under the License is distributed on an "AS IS" BASIS,
+   - WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   - See the License for the specific language governing permissions and
+   - limitations under the License.
+ -->
+<response>
+    <user>ole-khuntley</user>
+    <operation>batchIngest</operation>
+    <status>success|failure</status>
+    <statusMessage>Documents ingested successfully. | One or more documents could not be ingested.</statusMessage>
+    <message></message>
+    <documents>
+        <document id="1" category="work" type="bibliographic" format="marc">
+            <status>success | failure</status>
+            <statusMessage>Document ingested. | Document could not be ingested. Reason:...</statusMessage>
+            <uuid>uuid-1</uuid>
+            <content></content>
+            <linkedDocuments>
+                <linkedDocument id="3" category="work" type="instance" format="oleml">
+                    <uuid>instance uuid-3</uuid>
+                    <content></content>
+                    <linkedDocuments>
+                        <linkedDocument id="3.1" category="work" type="holdings" format="oleml">
+                            <uuid>instance Holding uuid-3.1</uuid>
+                            <content></content>
+                        </linkedDocument>
+                        <linkedDocument id="3.1.1" category="work" type="item" format="oleml">
+                            <uuid>instance Holding uuid-3.1</uuid>
+                            <content></content>
+                        </linkedDocument>
+                    </linkedDocuments>
+                </linkedDocument>
+            </linkedDocuments>
+        </document>
+        <document id="2" category="work" type="bibliographic" format="marc">
+            <uuid>uuid-2</uuid>
+            <content></content>
+            <documentName>LicenseDoc2.doc</documentName>
+            <documentTitle>Readable Document Title</documentTitle>
+            <documentMimeType>application/msword</documentMimeType>
+
+            <linkedDocuments>
+                <linkedDocument id="4" category="work" type="instance" format="oleml">
+                    <uuid>instance uuid-3</uuid>
+                    <content></content>
+                    <linkedDocuments>
+                        <linkedDocument id="4.1" category="work" type="holdings" format="oleml">
+                            <uuid>instance Holding uuid-4.1</uuid>
+                            <content></content>
+                        </linkedDocument>
+                        <linkedDocument id="4.1.1" category="work" type="item" format="oleml">
+                            <uuid>instance Item uuid-4.1</uuid>
+                            <content></content>
+                        </linkedDocument>
+                        <linkedDocument id="4.1.2" category="work" type="item" format="oleml">
+                            <uuid>instance Item uuid-4.1</uuid>
+                            <content></content>
+                        </linkedDocument>
+                    </linkedDocuments>
+                </linkedDocument>
+            </linkedDocuments>
+        </document>
+    </documents>
+</response>

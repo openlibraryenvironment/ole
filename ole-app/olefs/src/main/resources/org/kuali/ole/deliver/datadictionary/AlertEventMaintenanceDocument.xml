@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <bean id="AlertEventType-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+        <property name="workflowPropertyGroups">
+            <list>
+                <bean parent="WorkflowPropertyGroup">
+                    <property name="workflowProperties">
+                        <list>
+                            <bean id="oldMaintainableObject" parent="WorkflowProperty" p:path="oldMaintainableObject.businessObject"/>
+                            <bean id="newMaintainableObject" parent="WorkflowProperty" p:path="newMaintainableObject.businessObject"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="AlertEventType-MaintenanceView" parent="Uif-OLEMaintenanceView">
+        <property name="dataObjectClassName" value="org.kuali.ole.alert.bo.AlertEvent"/>
+        <property name="headerText" value="Alert Event"/>
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="${ole.externalizable.help.url}/reference/webhelp/CIRC/content/ch04s12.html"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>ole/alert/scripts/alertEventDocument.js</value>
+            </list>
+        </property>
+        <property name="items">
+            <list merge="true">
+                <bean parent="Uif-MaintenanceGridSection">
+                    <property name="headerText" value="Add/Edit Alert Event "/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:propertyName="alertEventName" />
+                            <bean parent="Uif-InputField" p:propertyName="alertDocumentTypeName" p:required="true">
+                            <property name="quickfinder">
+                                <bean parent="Uif-QuickFinder"
+                                      p:dataObjectClassName="org.kuali.ole.alert.bo.AlertDocumentType"
+                                      p:fieldConversions="alertDocumentId:alertDocumentTypeId,alertDocumentTypeName:alertDocumentTypeName,alertDocumentClass:alertDocumentClassName"
+                                      p:lookupParameters="alertDocumentTypeName:alertDocumentTypeName"/>
+                            </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true"/>
+                        </list>
+                    </property>
+                </bean>
+                <ref bean ="AlertEventType-EventFieldMappingSection" />
+            </list>
+        </property>
+    </bean>
+    <bean id="AlertEventType-documentEntry" parent="uifMaintenanceDocumentEntry">
+        <property name="dataObjectClass" value="org.kuali.ole.alert.bo.AlertEvent"/>
+        <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+        <property name="documentTypeName" value="OLE_ALERT_EVENT"/>
+        <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+        <property name="businessRulesClass" value="org.kuali.ole.alert.rule.AlertEventRule"/>
+        <property name="lockingKeys">
+            <list>
+                <value>alertEventId</value>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="AlertEventType-EventFieldMappingSection" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="4" p:disclosure.defaultOpen="true" p:render="@{document.newMaintainableObject.dataObject.alertDocumentTypeName ne null}">
+        <!--p:fieldBindingObjectPath="document.newMaintainableObject.dataObject"-->
+        <property name="headerText" value="Event Field" />
+
+        <property name="collectionObjectClass" value="org.kuali.ole.alert.bo.AlertEventField" />
+        <property name="propertyName" value="alertEventFieldList" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean id="alert_field_name" parent="Uif-InputField" p:propertyName="alertFieldName" p:label="Alert Field Name">
+                <property name="optionsFinder">
+                    <bean class="org.kuali.ole.alert.keyValue.AlertFieldNameValueFinder"/>
+                </property>
+                <property name="control">
+                    <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                </property>
+                </bean>
+                <bean id= "alert_field_type" parent="Uif-InputField" p:propertyName="alertFieldType" p:label="Alert Field Type">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.alert.keyValue.AlertFieldValueFinder"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-InputField" p:propertyName="alertCriteria" p:label="Alert Criteria">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="" p:value=""/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="equalTo" p:value="Equal To"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="greaterThan" p:value="Greater Than"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="lessThan" p:value="Less Than"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="greaterThanOrEqualTo" p:value="Greater Than Or Equal To"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="lessThanOrEqualTo" p:value="Less Than Or Equal To"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="notEqualTo" p:value="Not Equal To"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="alertFieldValue" p:label="Alert Field Value"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

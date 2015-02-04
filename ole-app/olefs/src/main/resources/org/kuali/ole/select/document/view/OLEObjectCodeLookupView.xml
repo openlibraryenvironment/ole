@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <!--
+
+        Copyright 2005-2012 The Kuali Foundation
+
+        Licensed under the Educational Community License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at
+
+        http://www.opensource.org/licenses/ecl2.php
+
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+    -->
+
+
+    <bean id="OLEObject-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="Object Code Lookup" />
+        <property name="dataObjectClassName" value="org.kuali.ole.coa.businessobject.ObjectCode" />
+        <property name="criteriaFields">
+            <list>
+                <bean id="universityFiscalYear"  p:required="true" parent="Uif-LookupCriteriaInputField" p:propertyName="universityFiscalYear" p:defaultValueFinderClass="org.kuali.ole.sys.businessobject.defaultvalue.FiscalYearFinder"/>
+                <bean id="chartOfAccountsCode" parent="Uif-LookupCriteriaInputField" p:propertyName="chartOfAccountsCode" />
+                <bean id="financialObjectCode"  parent="Uif-LookupCriteriaInputField" p:propertyName="financialObjectCode" />
+                <bean id="financialObjectCodeName"  parent="Uif-LookupCriteriaInputField" p:propertyName="financialObjectCodeName" />
+                <bean id="financialObjectCodeShortName"  parent="Uif-LookupCriteriaInputField" p:propertyName="financialObjectCodeShortName" />
+                <bean id="financialObjectLevelCode"  parent="Uif-LookupCriteriaInputField" p:propertyName="financialObjectLevelCode" />
+                <bean id="financialObjectTypeCode"  parent="Uif-LookupCriteriaInputField" p:propertyName="financialObjectTypeCode" />
+                <bean id="financialObjectSubTypeCode"  parent="Uif-LookupCriteriaInputField" p:propertyName="financialObjectSubTypeCode" />
+                <!--<bean id="object_active"  parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y" />-->
+
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean id="searchResult_fiscalYear" parent="Uif-DataField" p:propertyName="universityFiscalYear" />
+                <bean id="searchResult_chartcode" parent="Uif-DataField" p:propertyName="chartOfAccountsCode" />
+                <bean id="searchResult_financialObjectCode" parent="Uif-DataField" p:propertyName="financialObjectCode" />
+                <bean id="searchResult_financialObjectCodeName" parent="Uif-DataField" p:propertyName="financialObjectCodeName" />
+                <bean id="searchResult_financialObjectLevelCode" parent="Uif-DataField" p:propertyName="financialObjectLevelCode" />
+                <bean id="searchResult_financialObjectTypeCode" parent="Uif-DataField" p:propertyName="financialObjectTypeCode" />
+                <!--<bean id="searchResult_object_active" parent="Uif-DataField" p:propertyName="active" />-->
+            </list>
+        </property>
+    </bean>
+</beans>
+

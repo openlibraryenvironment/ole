@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="OlePatronEntityViewBo" parent="OlePatronEntityViewBo-parentBean"/>
+
+    <bean id="OlePatronEntityViewBo-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.deliver.bo.OLEPatronEntityViewBo"/>
+        <property name="titleAttribute" value="patronId"/>
+        <property name="objectLabel" value="Patron"/>
+        <property name="inquiryDefinition">
+            <ref bean="OLERequestorPatronDocument-inquiryDefinition"/>
+        </property>
+        <property name="lookupDefinition">
+            <ref bean="OLERequestorPatronDocument-lookupDefinition"/>
+        </property>
+        <property name="attributes">
+            <list>
+                <ref bean="OlePatronEntityViewBo-patronId"/>
+                <ref bean="OlePatronEntityViewBo-patronBarcode"/>
+                <ref bean="OlePatronEntityViewBo-patronType"/>
+                <ref bean="OlePatronEntityViewBo-expirationDate"/>
+                <ref bean="OlePatronEntityViewBo-firstName"/>
+                <ref bean="OlePatronEntityViewBo-middleName"/>
+                <ref bean="OlePatronEntityViewBo-lastName"/>
+                <ref bean="OlePatronEntityViewBo-suffix"/>
+                <ref bean="OlePatronEntityViewBo-prefix"/>
+                <ref bean="OlePatronEntityViewBo-name"/>
+                <ref bean="OlePatronEntityViewBo-email"/>
+                <ref bean="OlePatronEntityViewBo-phone"/>
+                <ref bean="OlePatronEntityViewBo-requestorPatronId"/>
+                <ref bean="OlePatronEntityViewBo-active"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+
+    <bean id="OlePatronEntityViewBo-patronId" parent="OlePatronEntityViewBo-patronId-parentBean"/>
+    <bean id="OlePatronEntityViewBo-patronId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Patron Id"/>
+        <property name="maxLength" value="10"/>
+        <property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="name" value="patronId"/>
+        <property name="label" value="Patron Id"/>
+        <property name="description" value="Patron Id"/>
+    </bean>
+
+    <bean id="OlePatronEntityViewBo-patronBarcode" parent="OlePatronEntityViewBo-patronBarcode-parentBean"/>
+    <bean id="OlePatronEntityViewBo-patronBarcode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Patron Barcode"/>
+        <property name="maxLength" value="10"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="name" value="patronBarcode"/>
+        <property name="label" value="Patron Barcode"/>
+        <property name="description" value="Patron Barcode"/>
+    </bean>
+
+    <bean id="OlePatronEntityViewBo-patronType" parent="OlePatronEntityViewBo-patronType-parentBean"/>
+
+    <bean id="OlePatronEntityViewBo-patronType-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Patron Type"/>
+        <property name="maxLength" value="100"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="patronType"/>
+        <property name="label" value="Patron Type"/>
+        <property name="description" value="Patron Type"/>
+
+    </bean>
+
+    <bean id="OlePatronEntityViewBo-patronTypeId" parent="OlePatronEntityViewBo-patronTypeId-parentBean"/>
+
+    <bean id="OlePatronEntityViewBo-patronTypeId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Patron Type"/>
+        <property name="maxLength" value="100"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="patronTypeId"/>
+        <property name="label" value="Patron Type"/>
+        <property name="description" value="Patron Type"/>
+
+    </bean>
+
+    <bean id="OlePatronEntityViewBo-expirationDate" parent="OlePatronEntityViewBo-expirationDate-parentBean"/>
+
+    <bean id="OlePatronEntityViewBo-expirationDate-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Expiration Date"/>
+        <property name="maxLength" value="100"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="expirationDate"/>
+        <property name="label" value="Expiration Date"/>
+        <property name="description" value="Expiration Date"/>
+
+    </bean>
+
+    <bean id="OlePatronEntityViewBo-firstName" parent="OlePatronEntityViewBo-firstName-parentBean"/>
+
+    <bean id="OlePatronEntityViewBo-firstName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="First Name"/>
+        <property name="maxLength" value="100"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="firstName"/>
+        <property name="label" value="First Name"/>
+        <property name="description" value="First Name"/>
+
+    </bean>
+
+    <bean id="OlePatronEntityViewBo-middleName" parent="OlePatronEntityViewBo-middleName-parentBean"/>
+
+    <bean id="OlePatronEntityViewBo-middleName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Middle Name"/>
+        <property name="maxLength" value="100"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="middleName"/>
+        <property name="label" value="Middle Name"/>
+        <property name="description" value="Middle Name"/>
+
+    </bean>
+
+    <bean id="OlePatronEntityViewBo-lastName" parent="OlePatronEntityViewBo-lastName-parentBean"/>
+
+    <bean id="OlePatronEntityViewBo-lastName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Last Name"/>
+        <property name="maxLength" value="100"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="lastName"/>
+        <property name="label" value="Last Name"/>
+        <property name="description" value="Last Name"/>
+
+    </bean>
+
+    <bean id="OlePatronEntityViewBo-suffix" parent="OlePatronEntityViewBo-suffix-parentBean"/>
+
+    <bean id="OlePatronEntityViewBo-suffix-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Patron Suffix"/>
+        <property name="maxLength" value="100"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="suffix"/>
+        <property name="label" value="Patron Suffix"/>
+        <property name="description" value="Patron Suffix"/>
+
+    </bean>
+
+    <bean id="OlePatronEntityViewBo-prefix" parent="OlePatronEntityViewBo-prefix-parentBean"/>
+
+    <bean id="OlePatronEntityViewBo-prefix-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Patron Prefix"/>
+        <property name="maxLength" value="100"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="prefix"/>
+        <property name="label" value="Patron Prefix"/>
+        <property name="description" value="Patron Prefix"/>
+
+    </bean>
+
+    <bean id="OlePatronEntityViewBo-requestorPatronId" parent="OlePatronEntityViewBo-requestorPatronId-parentBean"/>
+
+    <bean id="OlePatronEntityViewBo-requestorPatronId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Patron Id"/>
+        <property name="maxLength" value="100"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="requestorPatronId"/>
+        <property name="label" value="Patron Id"/>
+        <property name="description" value="Patron Id"/>
+
+    </bean>
+
+    <bean id="OlePatronEntityViewBo-name" parent="OlePatronEntityViewBo-name-parentBean"/>
+
+    <bean id="OlePatronEntityViewBo-name-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Patron Name"/>
+        <property name="maxLength" value="100"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="name"/>
+        <property name="label" value="Patron Name"/>
+        <property name="description" value="Patron Name"/>
+
+    </bean>
+
+    <bean id="OlePatronEntityViewBo-email" parent="OlePatronEntityViewBo-email-parentBean"/>
+
+    <bean id="OlePatronEntityViewBo-email-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Email Address"/>
+        <property name="maxLength" value="100"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="emailAddress"/>
+        <property name="label" value="Email Address"/>
+        <property name="description" value="Email Address"/>
+
+    </bean>
+
+    <bean id="OlePatronEntityViewBo-phone" parent="OlePatronEntityViewBo-phone-parentBean"/>
+
+    <bean id="OlePatronEntityViewBo-phone-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Phone Number"/>
+        <property name="maxLength" value="100"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="phoneNumber"/>
+        <property name="label" value="Phone Number"/>
+        <property name="description" value="Phone Number"/>
+
+    </bean>
+
+    <bean id="OlePatronEntityViewBo-active" parent="OlePatronEntityViewBo-active-parentBean"/>
+
+    <bean id="OlePatronEntityViewBo-active-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="active"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="active"/>
+        <property name="maxLength" value="1"/>
+        <property name="validCharactersConstraint">
+            <bean  parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="control">
+            <bean parent="CheckboxControlDefinition"/>
+        </property>
+        <property name="controlField">
+            <bean  parent="Uif-CheckboxControl"/>
+        </property>
+        <property name="summary" value="Active Indicator"/>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+        <property name="label" value="Active Indicator"/>
+        <property name="description" value="This attribute is used to describe whether the associated object is active or inactive."/>
+    </bean>
+
+
+
+    <bean id="OlePatronEntityViewBo-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="Patron Lookup" />
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/CIRC/content/ch03s02.html"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="dataObjectClassName" value="org.kuali.ole.deliver.bo.OLEPatronEntityViewBo" />
+        <property name="authorizerClass" value="org.kuali.ole.deliver.lookup.OlePatronLookupViewAuthorizer"/>
+        <property name="viewHelperServiceClass" value="org.kuali.ole.deliver.lookup.OlePatronEnitityLookupableImpl"/>
+        <property name="criteriaFields">
+            <list>
+                <bean id="OlePatronEntityViewBo_criteriaField_barcode" parent="Uif-LookupCriteriaInputField" p:propertyName="patronBarcode"/>
+                <bean id="OlePatronEntityViewBo_criteriaField_firstName" parent="Uif-LookupCriteriaInputField" p:propertyName="firstName" />
+                <bean id="OlePatronEntityViewBo_criteriaField_middleName" parent="Uif-LookupCriteriaInputField" p:propertyName="middleName" />
+                <bean id="OlePatronEntityViewBo_criteriaField_lastName" parent="Uif-LookupCriteriaInputField" p:propertyName="lastName" />
+                <bean id="OlePatronEntityViewBo_criteriaField_borrowerType" parent="Uif-LookupCriteriaInputField" p:propertyName="patronTypeId" p:label="Patron Type" p:enableAutoDirectInquiry="false">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.OleBorrowerKeyValue" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                    <property name="quickfinder">
+                        <null></null>
+                    </property>
+                </bean>
+                <bean id="OlePatronEntityViewBo_criteriaField_emailAddress" parent="Uif-LookupCriteriaInputField" p:propertyName="emailAddress" />
+                <bean id="OlePatronEntityViewBo_criteriaField_phoneNumber" parent="Uif-LookupCriteriaInputField" p:propertyName="phoneNumber" p:label="Phone Number" />
+                <bean id="OlePatronEntityViewBo_criteriaField_olePatronId" parent="Uif-LookupCriteriaInputField" p:propertyName="patronId" p:label="Patron Id" p:enableAutoDirectInquiry="false"/>
+                <bean id="OlePatronEntityViewBo_criteriaField_activeIndicator" parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <!--<bean id="OlePatronEntityViewBo_searchResult_olePatronId" parent="Uif-LinkField" p:href="inquiry?olePatronId=@{#line.olePatronId}&amp;methodToCall=start&amp;dataObjectClassName=org.kuali.ole.deliver.bo.OlePatronDocument&amp;dialogMode=true&amp;showHome=false&amp;showHistory=true" p:target="_blank" p:linkText="@{#line.olePatronId}" p:label="Patron Id"/>-->
+                <bean id="OlePatronEntityViewBo_searchResult_olePatronId" parent="Uif-DataField" p:propertyName="patronId" p:label="Patron Id" />
+                <bean id="OlePatronEntityViewBo_searchResult_namePrefix" parent="Uif-DataField" p:propertyName="prefix" p:width="1%" p:label="Name Prefix"/>
+                <bean id="OlePatronEntityViewBo_searchResult_firstName" parent="Uif-DataField" p:propertyName="firstName" p:label="First Name"/>
+                <bean id="OlePatronEntityViewBo_searchResult_middleName" parent="Uif-DataField" p:propertyName="middleName" p:label="Middle Name"/>
+                <bean id="OlePatronEntityViewBo_searchResult_lastName" parent="Uif-DataField" p:propertyName="lastName" p:label="Last Name"/>
+                <bean id="OlePatronEntityViewBo_searchResult_nameSuffix" parent="Uif-DataField" p:propertyName="suffix" p:width="1%" p:label="Name Suffix"/>
+                <bean id="OlePatronEntityViewBo_searchResult_barcode" parent="Uif-DataField" p:propertyName="patronBarcode" />
+                <bean id="OlePatronEntityViewBo_searchResult_expirationDate" parent="Uif-DataField" p:propertyName="expirationDate" />
+                <bean id="OlePatronEntityViewBo_searchResult_borrowerTypeName" parent="Uif-DataField" p:propertyName="patronType" p:label="Patron Type"/>
+               <!-- <bean id="OlePatronEntityViewBo_searchResult_viewPatronBillLink" parent="Uif-LinkField" p:style="font-weight:bold;" p:link.href="@{#line.viewBillUrl}"  p:link.linkText="@{#line.patronBillFileName}"  p:target="_blank"  p:label="View Bill"/>
+                <bean id="OlePatronEntityViewBo_searchResult_createPatronBillLink" parent="Uif-LinkField" p:style="font-weight:bold;" p:link.href="@{#line.createBillUrl}"  p:link.linkText="Create Bill"  p:target="_blank"  p:label="Create Bill"/>-->
+            </list>
+        </property>
+    </bean>
+
+
+
+</beans>

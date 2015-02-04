@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="WorkInstanceEditorView" parent="WorkInstanceEditorView-parentBean"/>
+
+    <bean id="WorkInstanceEditorView-parentBean" parent="Uif-OLEFormView">
+        <property name="headerText" value="Work Instance Editor"/>
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/CG/content/ch01s04.html#_Instance_Editor_1"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="WorkHoldingsViewPage" parent="Uif-Page">
+                    <property name="headerText" value="@{headerText}"/>
+                    <property name="help">
+                        <bean parent="Uif-Help">
+                            <property name="externalHelpUrl"
+                                      value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/CG/content/ch01s03.html#_Holdings"/>
+                            <property name="tooltipHelpContent" value="[Help] help"/>
+                        </bean>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <ref bean="WorkInstanceMessageSection"/>
+                            <bean parent="Uif-SecondaryActionButton" p:actionLabel="Edit" p:actionScript="edit()" p:render="@{canAdd and editable eq 'false'}" />
+                            <ref bean="WorkHoldingsView"/>
+                            <ref bean="WorkButtonSection"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean id="WorkItemViewPage" parent="Uif-Page">
+                    <property name="headerText" value="@{headerText}"/>
+                    <property name="help">
+                        <bean parent="Uif-Help">
+                            <property name="externalHelpUrl"
+                                      value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/CG/content/ch01s03.html#_Item"/>
+                            <property name="tooltipHelpContent" value="[Help] help"/>
+                        </bean>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <ref bean="WorkItemMessageSection"/>
+                            <bean id="ItemUpperButtons" parent="Uif-HorizontalFieldGroup" p:render="@{globalEditFlag eq 'false'}">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Edit" p:actionScript="edit()" p:render="@{canAdd and editable eq 'false'}" />
+                                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Print Call Slip" p:actionScript="printSlip()" />
+                                    </list>
+                                </property>
+                            </bean>
+                            <ref bean="WorkItemView"/>
+                            <ref bean="WorkOleItemButtonSection"/>
+                            <ref bean="editorFormKey"/>
+                        </list>
+                    </property>
+                </bean>
+
+            </list>
+        </property>
+        <property name="formClass" value="org.kuali.ole.describe.form.EditorForm"/>
+    </bean>
+
+    <bean id="WorkInstanceMessageSection" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="workInstanceMessage" parent="Uif-Message" p:messageText="@{documentForm.message}"
+                      p:cssClasses="messageClass"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="WorkItemMessageSection" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="workItemMessage" parent="Uif-Message" p:messageText="@{documentForm.message}"
+                      p:cssClasses="messageClass"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Right pane ::: START-->
+    <bean id="WorkHoldingsView" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <ref bean="WorkOleHoldingsDetails"/>
+                <!--<ref bean = "WorkButtonSection"/>-->
+                <!--<bean id="OleReceiptStatusField_test" parent="Uif-InputField" p:propertyName="uuid"  p:label="Receipt Status" p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl"/>
+                    </property>
+                </bean>-->
+            </list>
+        </property>
+    </bean>
+    <bean id="WorkItemView" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <ref bean="WorkOleItemDetails"/>
+                <!--<bean id="itemIdentifier_ID_test" parent="Uif-InputField" p:propertyName="uuid"
+                      p:label="Item Id" p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="28" p:maxLength="100" p:disabled="true"/>
+                    </property>
+                </bean>-->
+            </list>
+        </property>
+    </bean>
+    <!-- Right pane ::: END-->
+
+
+    <bean id="WorkButtonSection" parent="Uif-HorizontalFieldGroup" p:render="@{showEditorFooter eq false}">
+        <property name="items">
+            <list>
+                <bean id="InstanceSave" parent="Uif-SecondaryActionButton" p:methodToCall="save" p:actionLabel="Save"
+                      p:style="float:left;margin-left:30em"   p:render="@{needToCreateInstance eq false}"/>
+                <bean id="continueInstanceProcess" parent="Uif-SecondaryActionButton" p:methodToCall="EditNewInstance" p:actionLabel="Continue Process"
+                      p:style="float:left;margin-left:30em" p:performClientSideValidation="false"  p:render="@{needToCreateInstance eq true}"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="WorkOleItemButtonSection" parent="Uif-HorizontalFieldGroup" p:render="@{showEditorFooter eq false}">
+        <property name="items">
+            <list>
+                <bean id="InstanceItemSave" parent="Uif-SecondaryActionButton" p:methodToCall="save" p:actionLabel="Save"
+                      p:style="float:left;margin-left:30em"   p:render="@{needToCreateInstance eq true}"/>
+                <bean id="continueInstanceItemProcess" parent="Uif-SecondaryActionButton" p:methodToCall="EditNewInstance" p:actionLabel="Continue Process"
+                      p:style="float:left;margin-left:30em" p:performClientSideValidation="false"  p:render="@{needToCreateInstance eq false}"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="editorFormKey" parent="Uif-InputField" p:propertyName="formKey">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+</beans>

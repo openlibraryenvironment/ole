@@ -1,0 +1,612 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"
+    version="5.0" xml:lang="en-US">
+    <title><anchor xml:id="_Location_Maintenance_Documents"/>Services and Functions Administrative
+        Documents</title>
+    <para role="Body Text"/>
+    <para role="Body Text"><inlinemediaobject>
+            <alt>Admin</alt>
+            <imageobject>
+                <imagedata fileref="../images/Admin.png"/>
+            </imageobject>
+        </inlinemediaobject>
+        <emphasis role="bold">&gt;<inlinemediaobject>
+                <alt>Services &amp; Functions</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-112.png"/>
+                </imageobject>
+            </inlinemediaobject> &gt; <inlinemediaobject>
+                <alt>Services &amp; Functions Links</alt>
+                <imageobject>
+                    <imagedata fileref="../images/admin-113.png"/>
+                </imageobject>
+            </inlinemediaobject></emphasis></para>
+    <para role="Normal"/>
+    <section>
+        <title><anchor xml:id="_DiscoveryService"/>Discovery Service</title>
+        <para role="Body Text"><emphasis role="bold"><inlinemediaobject>
+                    <alt>Admin</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/Admin.png"/>
+                    </imageobject>
+                </inlinemediaobject>
+                <emphasis role="bold">&gt;<inlinemediaobject>
+                        <alt>Services &amp; Functions</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-112.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis>&gt;<inlinemediaobject>
+                    <alt>Discovery Service</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-116.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The Discovery Service allows users to search the DocStore database
+            and test the RESTful API and SOLR Indexing.<note>
+                <para>In order to index and reindex bibliographic, holdings, e-holdings, and item
+                    records in Solr, go to <link
+                        xlink:href="http://demo.docstore.ole.kuali.org/admin.jsp"
+                        >http://demo.docstore.ole.kuali.org/admin.jsp</link> (or <link
+                        xlink:href="http://tst.docstore.ole.kuali.org/admin.jsp"
+                        >http://tst.docstore.ole.kuali.org/admin.jsp</link> if you are in the tst
+                    environment).</para>
+                <para>Click the <emphasis role="bold">Start</emphasis> button. </para>
+                <para>Click <emphasis role="bold">Show Status</emphasis> button to see the status. </para>
+                <para>Indexing is complete when you see the "Index End Time"</para>
+            </note></para>
+        <para/>
+        <para role="Normal">
+            <screenshot>
+                <mediaobject>
+                    <alt>Discovery Service Display</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-117.png"/>
+                    </imageobject>
+                </mediaobject>
+            </screenshot>
+        </para>
+        <para role="Normal">The Grey tabs are explained here:</para>
+        <itemizedlist>
+            <listitem>
+                <para><emphasis role="bold">Summary</emphasis> tab: Shows the summary of record
+                    count for each category, type and format</para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">Test RESTful API</emphasis> tab: Allows users to test
+                    the Get and Delete methods of the REST web services.</para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">Sample SOLR queries</emphasis> tab: Displays some sample
+                    queries' data for SOLR.</para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">Admin Pages</emphasis> tab: Contains administrative
+                    links for SOLR.</para>
+            </listitem>
+        </itemizedlist>
+        <para>Click the <emphasis role="bold">OLE</emphasis> tab to return to OLE's main
+            portal.</para>
+        <para role="Normal">
+            <screenshot>
+                <mediaobject>
+                    <alt>Document Store Tabs: Click OLE to return to the regular OLE Interface</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DescribeNoTitlePage-30a.png"/>
+                    </imageobject>
+                </mediaobject>
+            </screenshot>
+        </para>
+        <section>
+            <title><anchor xml:id="_DocStoreSearch"/>Document Store Search</title>
+            <section>
+                <title>Performing a Document Store Search</title>
+                <para role="Normal">From the <emphasis role="bold">Search</emphasis> tab,
+                    bibliographic data in the DocStore can be searched in a variety of ways. Select
+                    options from the drop down menus and enter information to refine the
+                    search.</para>
+                <para role="Normal"/>
+                <para role="Normal">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>DocStore Search Screen</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DescribeNoTitlePage-12.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="TableHeading"><emphasis role="bold">Advance Search Field
+                        Definitions</emphasis></para>
+                <informaltable frame="top">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Document Category </para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">General category of documents being
+                                        searched.  </para>
+                                    <note>
+                                        <para role="Table Cells"> Work is the only valid category in
+                                            1.5</para>
+                                    </note>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Document Type</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Type of documents associated with a
+                                        category.</para>
+                                    <para role="Table Cells">For the category <emphasis role="bold"
+                                            >Work</emphasis>, these include bibliographic, licenses,
+                                        Instances, items, etc.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Document Format</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Limits searches to a specific data
+                                        format (i.e., MARC, Dublin Core). Defaults to <emphasis
+                                            role="bold">ALL</emphasis>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Sort By</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Sorts the records by title, author,
+                                        publication date, and relevance</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+                <para role="Normal"/>
+                <para role="Normal">Five search lines are provided in the Document Store Discovery
+                    Layer.  Standard Boolean operators (AND, OR, NOT) can be chosen to combine the
+                    search terms.  Truncation is not automatic in OLE 1.0; the truncation symbol is
+                    an asterisk.  An asterisk can also be used as a wildcard character within a
+                    word. </para>
+                <note>
+                    <para role="Normal"><emphasis> Known bug:</emphasis> Special characters such as
+                        ‘&amp;’ and ‘:’ are not recognized when searching.</para>
+                </note>
+                <para role="Normal"/>
+                <para role="Normal">A default sort for the result set can be specified from either
+                    the search or the results screen. After all search and sort parameters are
+                    entered, click <inlinemediaobject>
+                        <alt>Search</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DescribeNoTitlePage-15.png"/>
+                        </imageobject>
+                    </inlinemediaobject>.</para>
+                <para role="Normal">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>DocStore Sample Search Results</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DescribeNoTitlePage-16.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="Normal"/>
+                <para role="Normal">A short selection of fields from the bibliographic data is
+                    displayed for each title.</para>
+                <para role="Normal">To refine your search, you can use the <emphasis role="bold"
+                        >facets</emphasis> on the left-hand side of the results screen:</para>
+                <para role="Normal"/>
+                <para role="Normal">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>DocStore Sample Facet Menu</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DescribeNoTitlePage-17.png"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="Normal"/>
+                <para role="Normal">Clicking on these returns a smaller, more limited search result
+                    set.  Clicking on more than one facet reduces the result set even further.  The
+                    facets being used for limiting results are shown at the top of the results
+                    index:</para>
+                <para role="Normal"/>
+                <para role="Normal">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>DocStore Sample Facets at the top of the Search Results
+                                Screen</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DescribeNoTitlePage-18.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="Normal">To remove a limit, click on the red <emphasis role="bold"
+                        >[x]</emphasis> next to it.</para>
+                <para role="Normal">The search results are then re-displayed with that limit
+                    removed.</para>
+                <para role="Normal"/>
+                <para role="Normal">If you need to see more titles on a screen, each entry can be
+                    collapsed to show only its titles.  All entries can be collapsed at once by
+                    using the <emphasis role="bold">Collapse All</emphasis> link in the upper
+                    right:</para>
+                <para role="Normal"/>
+                <para role="Normal">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>DocStore Sample Search Results Collapsed</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DescribeNoTitlePage-19.jpg"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="Normal"/>
+                <para role="Normal">To view more results you may slide or click on the search bar,
+                    type in a page number, or hover your mouse near the left of the <emphasis
+                        role="bold">Selected page </emphasis>field to use the up/down arrows. You
+                    will then need to click <emphasis role="bold">Go to page</emphasis>.</para>
+                <para role="Normal"/>
+                <para role="Normal">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>DocStore Navigation Features</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DescribeNoTitlePage-20.jpg"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="Normal"/>
+                <para role="Normal">OLE is designed to search data in a variety of formats.  OLE
+                    contains bibliographic data in MARC and Dublin Core formats, both stored in XML.
+                     The record format is shown at the bottom of the bibliographic
+                    information.</para>
+                <para role="Normal">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>DocStore Sample Record</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DescribeNoTitlePage-20a.png"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="Normal">Just below the bibliographic details for each title are links to
+                    the XML versions.  Click <inlinemediaobject>
+                        <alt>View</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DescribeNoTitlePage-20b.png"/>
+                        </imageobject>
+                    </inlinemediaobject> to open an XML version of the record in a new window or
+                    browser tab:</para>
+                <para role="Normal"/>
+                <para role="Normal">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Sample XML Bibliographic Record</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DescribeNoTitlePage-21.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="Normal"/>
+                <para role="Normal">Click <inlinemediaobject>
+                        <alt>Edit</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DescribeNoTitlePage-20c.png"/>
+                        </imageobject>
+                    </inlinemediaobject> to open the Bibliographic Editor.</para>
+                <note>
+                    <para role="Normal"> For more information about the bibliographic editor, see
+                        the <link xlink:href="../../../webhelp/CG/content/ch01s02.html">Editors</link> section of
+                        the <link xlink:href="../../../webhelp/CG/content/pr01.html"><emphasis role="italic">Guide to the
+                                Describe and Manage Module</emphasis></link>.</para>
+                </note>
+                <note>
+                    <para role="Normal"> Note: The View and Edit buttons will most likely change in
+                        future releases.</para>
+                </note>
+                <para role="Normal"/>
+                <para role="Normal">At any time, you may choose to revise your search or start a new
+                    search. These options are located at the top left side of the results
+                    screen.</para>
+                <para role="Normal"/>
+                <para role="Normal">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Revise Search/New Search Buttons above Facets Menu</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DescribeNoTitlePage-24.png"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="Normal"/>
+                <para>Click the <emphasis role="bold">OLE</emphasis> tab to return to OLE's main
+                    portal.</para>
+                <para role="Normal">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>DocStore Tabs</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DescribeNoTitlePage-30a.png"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+            </section>
+            <section>
+                <title>OLE Instance Searching</title>
+                <para role="Normal">Some bibliographic search results may include link(s) to one to
+                    many Instance (with Holding) and Item records, for those created during
+                    acquisitions or as part of OLE sample data:</para>
+                <para role="Normal"/>
+                <para role="Normal">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>DocStore Sample Records with Instance and Item Records</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DescribeNoTitlePage-26.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="Normal"/>
+                <para role="Normal">You may select the <emphasis role="bold">call number</emphasis>
+                    link to see the Instance metadata, or link from it to further Holding or Item(s)
+                    data. There is limited data in the Item records that have been added to the
+                    Document Store. To return to the Bibliographic description, click the <emphasis
+                        role="bold">Title</emphasis> link.</para>
+                <para role="Normal"/>
+                <para role="Normal">To return to your search results, use your browser's
+                    navigation.</para>
+                <para role="Normal"/>
+                <para role="Normal">At present, users only have the <emphasis role="bold">Search
+                        Field</emphasis> option "source" available when searching Instance
+                    documents, but can further search Holdings data like below:</para>
+                <para role="Normal"/>
+                <para role="Normal">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>DocStore Search Screen with Document Type Instance Holding
+                                Selected</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DescribeNoTitlePage-29.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="Normal"> </para>
+                <para role="Normal">Or further, test searching on Item data. </para>
+                <para role="Normal"/>
+                <para role="Normal">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>DocStore Search Screen with Document Type Instance Item
+                                Selected</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DescribeNoTitlePage-30.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="Normal"/>
+                <para role="Normal">Facets for Holdings and Item data (such as location, call number
+                    sorting, etc.) will be designed and released in the future.</para>
+                <para role="Normal"/>
+                <para role="Normal"><emphasis role="bold">Notes and Tips on Bib, Instance and Item
+                        searching</emphasis></para>
+                <itemizedlist mark="disc" spacing="normal">
+                    <listitem>
+                        <para role="List Paragraph">Breadcrumbs are planned for a later release, for
+                            now you can navigate through the DocStore but will want to make note of
+                            where you have been if you want to return to the same record.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="List Paragraph">If you use multiple words in your search, only
+                            one gets highlighted in the search results, and it’s the first word that
+                            appears in the document (not the first word in your list of search
+                            terms).</para>
+                    </listitem>
+                    <listitem>
+                        <para role="List Paragraph">If you search for a word in plural form, OLE
+                            will show results for the singular form as well.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Click the <emphasis role="bold">OLE</emphasis> tab to return to OLE's
+                            main portal.</para>
+                        <para role="Normal">
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>DocStore tabs: Click OLE to return to the Regular OLE
+                                        Interface</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DescribeNoTitlePage-30a.png"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                    </listitem>
+                </itemizedlist>
+                <para role="List Paragraph"/>
+                <para role="Normal">Click <inlinemediaobject>
+                        <alt>View</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DescribeNoTitlePage-31.png"/>
+                        </imageobject>
+                    </inlinemediaobject> to see Instance, Holdings or Items in their raw XML form.
+                    OLE will generate new Instance/Holding/Item documents during the Import or Load
+                    process or during Requisition-to-Purchase Order creation. You may also create
+                    and edit Instances through the Instance Editor.</para>
+                <note>
+                    <para role="Normal"> For more information about the Instance editor, see the
+                        <link xlink:href="../../../webhelp/CG/content/ch01s03.html">Instance
+                            Editor</link> section of the <link xlink:href="../../../webhelp/CG/content/pr01.html"
+                                ><emphasis role="italic">Guide to the Describe and Manage
+                                Module</emphasis></link>.</para>
+                </note>
+                <para role="Normal"/>
+            </section>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_DocStoreService"/>DocStore Service</title>
+        <para role="Body Text"><emphasis role="bold"><inlinemediaobject>
+                    <alt>Admin</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/Admin.png"/>
+                    </imageobject>
+                </inlinemediaobject>
+                <emphasis role="bold">&gt;<inlinemediaobject>
+                        <alt>Services &amp; Functions</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/admin-112.png"/>
+                        </imageobject>
+                    </inlinemediaobject></emphasis>&gt;<inlinemediaobject>
+                    <alt>Docstore Service</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-114.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para>The functionality of Docstore is mostly used by other processes like OLE.  However,
+            for demonstration and testing docstore, this screen is provided with different functions
+            of docstore and information about docstore.</para>
+        <itemizedlist>
+            <listitem>
+                <para><emphasis role="bold">Ingest</emphasis>: Allows storing of documents in the
+                    document store. The input should be a Request XML with a standard schema and
+                    returns the Response XML with a list of ingested UUIDs.</para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">Check-in</emphasis>:  Check-in functionality allows to
+                    modify the content and metadata (additional attributes) of a document identified
+                    by its UUID (Universally Unique Identifier).</para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">Check-out</emphasis>:  This operation retrieves the
+                    content of a document given its UUID.</para>
+            </listitem>
+            <listitem>
+                <para><emphasis role="bold">Batch Delete</emphasis>:  Delete records from
+                    DocumentStore based on UUIDs.</para>
+            </listitem>
+        </itemizedlist>
+    </section>
+    <section>
+        <title><anchor xml:id="_Patron_Merge"/>Patron Merge</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/Admin.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt;<inlinemediaobject>
+                    <alt>Services &amp; Functions</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-112.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt;<inlinemediaobject>
+                    <alt>Patron Merge</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-161.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Patron Merge</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-162.png"/>
+                    </imageobject>
+                </inlinemediaobject>
+            </emphasis></para>
+        <para>Patron Merge is used to merge two or more patron records online. Patron Merge allows a
+            duly-authorized operator to display all records to be merged. Any records of any kind
+            linked to a duplicate record(s) will be relinked to the survivor record.</para>
+        <section>
+            <title role="Heading 4circ">Process Overview</title>
+            <para role="Body Text">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Patron Merge Interface</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-163.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <orderedlist numeration="arabic" spacing="normal">
+                <listitem>
+                    <para role="List Paragraph">From the <emphasis role="bold">Patron
+                            Merge</emphasis> screen, search for the patron by <emphasis role="bold"
+                            >first name</emphasis>, <emphasis role="bold">last name</emphasis>
+                        and/or <emphasis role="bold">patron type</emphasis></para>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">Click <inlinemediaobject>
+                            <alt>Search</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DeliverNoTitlePage-164.png"/>
+                            </imageobject>
+                        </inlinemediaobject></para>
+                    <para role="Normal">A list of persons will appear below the search.</para>
+                    <para role="Normal"/>
+                    <para role="Normal">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Patron Merge with Sample Patrons Displayed</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DeliverNoTitlePage-165.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para role="Normal"/>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">Select the <emphasis role="bold"
+                        >Survivor</emphasis>, the record that will remain.</para>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">Select the <emphasis role="bold">Duplicate
+                            Patron(s)</emphasis> that will be added to the survivor record.</para>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">Click <inlinemediaobject>
+                            <alt>Merge</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DeliverNoTitlePage-166.png"/>
+                            </imageobject>
+                        </inlinemediaobject>.</para>
+                </listitem>
+            </orderedlist>
+        </section>
+    </section>
+</chapter>

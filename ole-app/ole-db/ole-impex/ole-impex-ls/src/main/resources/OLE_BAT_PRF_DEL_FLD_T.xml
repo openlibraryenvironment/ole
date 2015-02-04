@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <OLE_BAT_PRF_DEL_FLD_T  BAT_PRF_DEL_ID="1" BAT_PRCS_PRF_ID="10"
+                            BAT_PRF_DEL_TAG="200" BAT_PRF_DEL_IND1="" BAT_PRF_DEL_IND2="" BAT_PRF_DEL_SUBFLD=""
+                            BAT_PRF_DEL_SUB_CNTN=""   OBJ_ID="1" VER_NBR="2"/>
+    <OLE_BAT_PRF_DEL_FLD_T  BAT_PRF_DEL_ID="2" BAT_PRCS_PRF_ID="11"
+                            BAT_PRF_DEL_TAG="250" BAT_PRF_DEL_IND1="" BAT_PRF_DEL_IND2="" BAT_PRF_DEL_SUBFLD="a"
+                            BAT_PRF_DEL_SUB_CNTN=""   OBJ_ID="1" VER_NBR="2"/>
+    <OLE_BAT_PRF_DEL_FLD_T  BAT_PRF_DEL_ID="3" BAT_PRCS_PRF_ID="12"
+                            BAT_PRF_DEL_TAG="230" BAT_PRF_DEL_IND1="2" BAT_PRF_DEL_IND2="1" BAT_PRF_DEL_SUBFLD="a"
+                            BAT_PRF_DEL_SUB_CNTN=""   OBJ_ID="1" VER_NBR="1"/>
+    <OLE_BAT_PRF_DEL_FLD_T  BAT_PRF_DEL_ID="4" BAT_PRCS_PRF_ID="12"
+                            BAT_PRF_DEL_TAG="500" BAT_PRF_DEL_IND1="2" BAT_PRF_DEL_IND2="1" BAT_PRF_DEL_SUBFLD="b"
+                            BAT_PRF_DEL_SUB_CNTN=""   OBJ_ID="1" VER_NBR="1"/>
+    <OLE_BAT_PRF_DEL_FLD_T  BAT_PRF_DEL_ID="5" BAT_PRCS_PRF_ID="12"
+                            BAT_PRF_DEL_TAG="245" BAT_PRF_DEL_IND1="" BAT_PRF_DEL_IND2="" BAT_PRF_DEL_SUBFLD="a"
+                            BAT_PRF_DEL_SUB_CNTN=""   OBJ_ID="1" VER_NBR="1"/>
+    <OLE_BAT_PRF_DEL_FLD_T  BAT_PRF_DEL_ID="6" BAT_PRCS_PRF_ID="13"
+                            BAT_PRF_DEL_TAG="400" BAT_PRF_DEL_IND1="" BAT_PRF_DEL_IND2="" BAT_PRF_DEL_SUBFLD="a"
+                            BAT_PRF_DEL_SUB_CNTN=""   OBJ_ID="1" VER_NBR="1"/>
+    <OLE_BAT_PRF_DEL_FLD_T  BAT_PRF_DEL_ID="7" BAT_PRCS_PRF_ID="14"
+                            BAT_PRF_DEL_TAG="500" BAT_PRF_DEL_IND1="" BAT_PRF_DEL_IND2="" BAT_PRF_DEL_SUBFLD="a"
+                            BAT_PRF_DEL_SUB_CNTN=""   OBJ_ID="2" VER_NBR="1"/>
+    <OLE_BAT_PRF_DEL_FLD_T  BAT_PRF_DEL_ID="8" BAT_PRCS_PRF_ID="15"
+                            BAT_PRF_DEL_TAG="550" BAT_PRF_DEL_IND1="" BAT_PRF_DEL_IND2="" BAT_PRF_DEL_SUBFLD="a"
+                            BAT_PRF_DEL_SUB_CNTN=""   OBJ_ID="1" VER_NBR="1"/>
+    <OLE_BAT_PRF_DEL_FLD_T  BAT_PRF_DEL_ID="9" BAT_PRCS_PRF_ID="16"
+                            BAT_PRF_DEL_TAG="460" BAT_PRF_DEL_IND1="" BAT_PRF_DEL_IND2="" BAT_PRF_DEL_SUBFLD="a"
+                            BAT_PRF_DEL_SUB_CNTN=""   OBJ_ID="1" VER_NBR="1"/>
+    <OLE_BAT_PRF_DEL_FLD_T  BAT_PRF_DEL_ID="10" BAT_PRCS_PRF_ID="17"
+                            BAT_PRF_DEL_TAG="470" BAT_PRF_DEL_IND1="" BAT_PRF_DEL_IND2="" BAT_PRF_DEL_SUBFLD="a"
+                            BAT_PRF_DEL_SUB_CNTN=""   OBJ_ID="1" VER_NBR="1"/>
+    <OLE_BAT_PRF_DEL_FLD_T  BAT_PRF_DEL_ID="11" BAT_PRCS_PRF_ID="18"
+                            BAT_PRF_DEL_TAG="570" BAT_PRF_DEL_IND1="" BAT_PRF_DEL_IND2="" BAT_PRF_DEL_SUBFLD="a"
+                            BAT_PRF_DEL_SUB_CNTN=""   OBJ_ID="1" VER_NBR="1"/>
+</dataset>
+

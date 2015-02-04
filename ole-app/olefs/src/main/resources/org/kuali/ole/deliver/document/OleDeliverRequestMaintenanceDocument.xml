@@ -1,0 +1,901 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+
+    <bean id="OleRequestMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+        <property name="workflowPropertyGroups">
+            <list>
+                <bean parent="WorkflowPropertyGroup">
+                    <property name="workflowProperties">
+                        <list>
+                            <bean parent="WorkflowProperty" p:path="oldMaintainableObject.businessObject"/>
+                            <bean parent="WorkflowProperty" p:path="newMaintainableObject.businessObject"/>
+                        </list>
+                    </property>
+                </bean>
+
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="OleRequestMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
+        <property name="dataObjectClass" value="org.kuali.ole.deliver.bo.OleDeliverRequestBo"/>
+        <property name="documentTypeName" value="OLE_DLVR_REQS"/>
+        <property name="maintainableClass" value="org.kuali.ole.deliver.maintenance.OleDeliverRequestMaintenanceImpl"/>
+        <property name="documentAuthorizerClass"
+                  value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+        <property name="businessRulesClass" value="org.kuali.ole.deliver.rule.OleDeliverRequestDocumentRule"/>
+        <property name="lockingKeys">
+            <list>
+                <value>requestId</value>
+            </list>
+        </property>
+        <property name="allowsRecordDeletion" value="true"/>
+    </bean>
+
+    <bean id="errorMessage" parent="Uif-VerticalBoxSection"
+          p:render="@{document.newMaintainableObject.dataObject.message ne null and (document.newMaintainableObject.dataObject.message ne null and document.newMaintainableObject.dataObject.message ne '')}"
+          p:style="font-weight:normal;" p:cssClasses="messageClass">
+        <property name="header.headerText" value="KRMS Error Message"/>
+        <property name="items">
+            <list>
+                <bean id="messageFields" parent="Uif-MessageField"
+                      p:messageText="@{document.newMaintainableObject.dataObject.message}" p:cssClasses="messageClass"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OleRequestDocument-MaintenanceView" parent="Uif-OLEMaintenanceView">
+        <property name="dataObjectClassName" value="org.kuali.ole.deliver.bo.OleDeliverRequestBo"/>
+        <property name="headerText" value="Request"/>
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/CIRC/content/ch02s02.html"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>ole/deliver/request/scripts/request.js</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <ref bean="errorMessage"/>
+                <bean parent="Uif-DocumentOverviewSection" p:order="10" p:render="false"/>
+                <bean parent="Uif-DocumentAdHocRecipientsSection" p:disclosure.defaultOpen="false" p:order="40"
+                      p:render="false"/>
+                <bean parent="Uif-DocumentNotesSection" p:disclosure.defaultOpen="false" p:order="30" p:render="false"/>
+                <!--<ref bean="OleRequestDocument-MaintenanceView-selectRequest"/>-->
+                <ref bean="OleRequestDocument-MaintenanceView-selectRequestBorrower"/>
+                <!--<ref bean="OleRequestDocument-MaintenanceView-selectRequestProxy"/>-->
+                <!--<ref bean="OleRequestDocument-MaintenanceView-selectRequestOperator"/>-->
+                <!--<ref bean="OleRequestDocument-MaintenanceView-recallRequest"/>
+                <ref bean="OleRequestDocument-MaintenanceView-onHoldRequest"/>
+                <ref bean="OleRequestDocument-MaintenanceView-pageRequest" />
+                <ref bean="OleRequestDocument-MaintenanceView-copyRequest"/>
+                <ref bean="OleRequestDocument-MaintenanceView-inTransitRequest" /> -->
+                <ref bean="OleRequestDocument-MaintenanceView-modifiedDetails"/>
+                <bean parent="Uif-DocumentAdHocRecipientsSection" p:disclosure.defaultOpen="false" p:order="40" p:render="@{document.newMaintainableObject.dataObject.requestTypeId eq '5' or document.newMaintainableObject.dataObject.requestTypeId eq '6' or document.newMaintainableObject.dataObject.requestTypeId eq '7' or document.newMaintainableObject.dataObject.requestTypeId eq '8' }"/>
+                <bean parent="Uif-DocumentRouteLogSection" p:disclosure.defaultOpen="false" p:order="50"
+                      p:render="@{document.newMaintainableObject.dataObject.requestTypeId eq '5' or document.newMaintainableObject.dataObject.requestTypeId eq '6' or document.newMaintainableObject.dataObject.requestTypeId eq '7' or document.newMaintainableObject.dataObject.requestTypeId eq '8' }"/>
+                <ref bean="hiddenButtonForCreatePdf"/>
+            </list>
+        </property>
+        <property name="page.footer">
+            <bean parent="Uif-DocumentPageFooter">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="performRouteReport"
+                              p:actionLabel="route report"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_PERFORM_ROUTE_REPORT]}"/>
+                        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="sendAdHocRequests"
+                              p:actionLabel="send adhoc"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SEND_ADHOC_REQUESTS]}"/>
+                        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="true" p:methodToCall="route"
+                              p:actionLabel="submit" p:performClientSideValidation="true"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and maintenanceAction ne 'Cancel'}"
+                              p:successCallback="printResponseString()"/>
+                        <bean parent="Uif-SaveAction" p:ajaxSubmit="false"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE] and maintenanceAction ne 'Cancel'}"/>
+                        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="reload"
+                              p:actionLabel="reload"
+                              p:render="false"/>
+                        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="blanketApprove"
+                              p:actionLabel="blanket approve" p:performClientSideValidation="true"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE]}"/>
+                        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="approve"
+                              p:actionLabel="approve" p:performClientSideValidation="true"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]}"/>
+                        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="disapprove"
+                              p:actionLabel="disapprove"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_DISAPPROVE]}"/>
+                        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="fyi"
+                              p:actionLabel="fyi"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_FYI]}"/>
+                        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="acknowledge"
+                              p:actionLabel="acknowledge"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ACKNOWLEDGE]}"/>
+                        <bean parent="Uif-BackAction" p:ajaxSubmit="false"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE] and maintenanceAction ne 'Cancel'}"/>
+                        <bean parent="Uif-CancelAction" p:ajaxSubmit="false"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL] and maintenanceAction ne 'Cancel'} "/>
+                        <bean parent="Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="copy" p:actionLabel="copy"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_COPY] and maintenanceAction ne 'Cancel'}"/>
+                        <bean parent="Uif-PrimaryActionButton" p:methodToCall="cancelDocument" p:actionLabel="Cancel"
+                              p:render="@{maintenanceAction eq 'Cancel'}"/>
+
+                    </list>
+                </property>
+            </bean>
+        </property>
+
+    </bean>
+    <bean id="OleRequestDocument-MaintenanceView-modifiedDetails" parent="Uif-MaintenanceGridSection"
+          p:render="@{maintenanceAction eq 'Edit'}">
+        <property name="headerText" value="Modified Details"/>
+        <property name="items">
+            <list>
+                <bean id="modifiedDate-MaintenanceView" parent="Uif-InputField" p:propertyName="modifiedDate"
+                      p:readOnly="true">
+                    <property name="control">
+                        <bean parent="Uif-DateControl" p:size="10"/>
+                    </property>
+                </bean>
+
+                <bean id="modifiedId-MaintenanceView" parent="Uif-InputField" p:propertyName="operatorModifiedId"
+                      p:label="Modifying Operator " p:required="true" p:enableAutoQuickfinder="true" p:readOnly="true">
+
+                </bean>
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OleRequestDocument-MaintenanceView-selectRequest" parent="Uif-MaintenanceGridSection"
+          p:render="@{document.newMaintainableObject.dataObject.requestTypeId eq null and document.newMaintainableObject.dataObject.itemId eq null and document.newMaintainableObject.dataObject.borrowerBarcode eq null and  document.newMaintainableObject.dataObject.borrowerName eq null}">
+        <property name="headerText" value="Select Request"/>
+        <property name="items">
+            <list>
+                <bean id="selectRequest-MaintenanceView-requestCreators" parent="Uif-InputField"
+                      p:propertyName="requestCreator" p:label="User Type" p:onChangeScript="refreshPageUser();"
+                      p:readOnly="@{maintenanceAction ne 'New'}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.bo.OleDeliverRequestCreatorKeyValue"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                </bean>
+
+                <bean id="selectRequest-MaintenanceView-requestTypeId" parent="Uif-InputField"
+                      p:propertyName="requestTypeCode" p:label="Request Type" p:required="true"
+                      p:onChangeScript="refreshPageUser();">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.OLERequestTypeFinder"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+
+
+                </bean>
+
+                <bean id="selectRequest-MaintenanceViews-borrowerBarcodes" parent="Uif-InputField"
+                      p:propertyName="borrowerBarcode" p:label="Patron Barcode" p:required="true"
+                      p:enableAutoDirectInquiry="false" p:readOnly="@{maintenanceAction ne 'New'}">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder"
+                              p:dataObjectClassName="org.kuali.ole.deliver.bo.OLEPatronEntityViewBo"
+                              p:fieldConversions="patronId:borrowerId,patronBarcode:borrowerBarcode,firstName:borrowerName"
+                              p:lookupParameters="borrowerId:patronId,borrowerBarcode:patronBarcode"/>
+                    </property>
+
+                </bean>
+                <!--<bean id="selectRequest-MaintenanceViews-borrowerBarcodes" parent="Uif-InputField" p:propertyName="borrowerBarcode" p:label="Patron Barcode" p:readOnly="@{document.newMaintainableObject.dataObject.borrowerId ne null and (document.newMaintainableObject.dataObject.borrowerId ne null and document.newMaintainableObject.dataObject.borrowerId ne '')}"/>-->
+
+                <bean id="selectRequest-MaintenanceViews-borrowerNames" parent="Uif-InputField"
+                      p:propertyName="borrowerName" p:label="Patron Name"
+                      p:readOnly="@{document.newMaintainableObject.dataObject.borrowerBarcode ne null and (document.newMaintainableObject.dataObject.borrowerBarcode ne null and document.newMaintainableObject.dataObject.borrowerBarcode ne '')}"/>
+
+                <bean id="hiddenSelectRequestButton" parent="Uif-SecondaryActionButton" p:methodToCall="refreshPageView"
+                      p:hidden="true"/>
+
+                <bean id="searchButtonSelectRequest" parent="Uif-PrimaryActionButton" p:methodToCall="searchPatron"
+                      p:actionLabel="Search" p:hidden="true"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="OleRequestDocument-MaintenanceView-selectRequestProxy" parent="Uif-MaintenanceGridSection"
+          p:render="@{document.newMaintainableObject.dataObject.requestCreator eq 'Proxy Patron' or (document.newMaintainableObject.dataObject.proxyBorrowerBarcode ne null and document.newMaintainableObject.dataObject.requestCreator eq 'Proxy Patron') or (document.newMaintainableObject.dataObject.proxyBorrowerBarcode ne null and (maintenanceAction eq 'Edit' or maintenanceAction eq 'Copy')) }">
+        <property name="headerText" value="Select Request"/>
+        <property name="items">
+            <list>
+
+                <!--<bean id="selectRequestProxy-MaintenanceView-requestCreators" parent="Uif-InputField" p:propertyName="requestCreator" p:label="User Type" p:onChangeScript="refreshPageUser();" p:readOnly="@{maintenanceAction ne 'New'}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.bo.OleDeliverRequestCreatorKeyValue" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                </bean>-->
+
+                <!--<bean id="selectRequest-MaintenanceView-requestTypeIds" parent="Uif-InputField" p:propertyName="requestTypeCode" p:label="Request Type" p:required="true"  p:readOnly="@{maintenanceAction ne 'New'}" p:onChangeScript="refreshPageUser();">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.OLERequestTypeFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                </bean>-->
+                <!--<bean id="selectRequest-MaintenanceView-borrowerBarcodes" parent="Uif-InputField" p:propertyName="borrowerBarcode" p:label="Patron Barcode" p:required="true" p:enableAutoDirectInquiry="false" p:readOnly="@{maintenanceAction ne 'New'}"  >
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.deliver.bo.OlePatronDocument"
+                              p:fieldConversions="olePatronId:borrowerId,barcode:borrowerBarcode,patronName:borrowerName" p:lookupParameters="borrowerId:olePatronId,borrowerBarcode:barcode"/>
+                    </property>
+                </bean>-->
+                <!--<bean id="selectRequest-MaintenanceView-borrowerBarcodes" parent="Uif-InputField" p:propertyName="borrowerBarcode" p:label="Patron Barcode" p:readOnly="@{document.newMaintainableObject.dataObject.borrowerId ne null and (document.newMaintainableObject.dataObject.borrowerId ne null and document.newMaintainableObject.dataObject.borrowerId ne '')}"/>-->
+
+                <!--<bean id="selectRequest-MaintenanceView-borrowerNames" parent="Uif-InputField" p:propertyName="borrowerName" p:label="Patron Name" p:readOnly="@{document.newMaintainableObject.dataObject.borrowerBarcode ne null and (document.newMaintainableObject.dataObject.borrowerBarcode ne null and document.newMaintainableObject.dataObject.borrowerBarcode ne '')}"/>-->
+
+                <!--<bean id="selectReque-proxyBorrowerBarcodes" parent="Uif-InputField" p:propertyName="proxyBorrowerBarcode" p:label="Proxy Patron Barcode" p:required="true" p:enableAutoDirectInquiry="false" p:render="true" p:readOnly="@{maintenanceAction ne 'New'}">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.deliver.bo.OlePatronDocument"
+                              p:fieldConversions="olePatronId:proxyBorrowerId,barcode:proxyBorrowerBarcode,patronName:proxyBorrowerName" p:lookupParameters="proxyBorrowerId:olePatronId,proxyBorrowerBarcode:barcode"/>
+                    </property>
+                </bean>-->
+                <!--<bean id="selectReque-proxyBorrowerBarcodes" parent="Uif-InputField" p:propertyName="proxyBorrowerBarcode" p:label="Proxy Patron Barcode" p:readOnly="@{document.newMaintainableObject.dataObject.proxyBorrowerId ne null and (document.newMaintainableObject.dataObject.proxyBorrowerId ne null and document.newMaintainableObject.dataObject.proxyBorrowerId ne '')}"/>-->
+
+                <!-- <bean id="selectReque-proxyBorrowerNames" parent="Uif-InputField" p:propertyName="proxyBorrowerName" p:label="Proxy Patron Name" p:readOnly="@{document.newMaintainableObject.dataObject.proxyBorrowerBarcode ne null and (document.newMaintainableObject.dataObject.proxyBorrowerBarcode ne null and document.newMaintainableObject.dataObject.proxyBorrowerBarcode ne '')}"/>
+                 <bean id ="hiddenSelectRequestProxyButton" parent="Uif-SecondaryActionButton" p:methodToCall="refreshPageView" p:hidden="true" />
+                 <bean id="searchButtonSelectRequests" parent="Uif-PrimaryActionButton" p:methodToCall="searchPatron" p:actionLabel="Search" p:hidden="true"/>-->
+            </list>
+        </property>
+    </bean>
+
+
+    <!--<bean id="OleRequestDocument-MaintenanceView-selectRequestBorrower" parent="Uif-MaintenanceGridSection"  p:render="@{document.newMaintainableObject.dataObject.requestCreator eq 'Patron' or (document.newMaintainableObject.dataObject.borrowerBarcode ne null and  document.newMaintainableObject.dataObject.requestCreator eq 'Patron') or (document.newMaintainableObject.dataObject.borrowerBarcode ne null and (maintenanceAction eq 'Edit' or maintenanceAction eq 'Copy')) }">-->
+    <bean id="OleRequestDocument-MaintenanceView-selectRequestBorrower" parent="Uif-MaintenanceGridSection"
+          p:render="@{(document.newMaintainableObject.dataObject.requestCreator eq 'Patron' or document.newMaintainableObject.dataObject.requestCreator eq 'Proxy Patron' or document.newMaintainableObject.dataObject.requestCreator eq 'Operator') or (document.newMaintainableObject.dataObject.borrowerBarcode ne null and  (document.newMaintainableObject.dataObject.requestCreator eq 'Patron' or document.newMaintainableObject.dataObject.requestCreator eq 'Proxy Patron' or document.newMaintainableObject.dataObject.requestCreator eq 'Operator')) or (document.newMaintainableObject.dataObject.borrowerBarcode ne null and (document.newMaintainableObject.dataObject.requestCreator eq 'Patron' or document.newMaintainableObject.dataObject.requestCreator eq 'Proxy Patron' or document.newMaintainableObject.dataObject.requestCreator eq 'Operator') and (maintenanceAction eq 'Edit' or maintenanceAction eq 'Copy')) }">
+        <property name="headerText" value="Request Details"/>
+        <property name="items">
+            <list>
+                <bean id="selectRequestOperator-MaintenanceView-requestCreators" parent="Uif-InputField"
+                      p:propertyName="requestCreator" p:label="User Type" p:onChangeScript="refreshPageUser();"
+                      p:readOnly="@{maintenanceAction ne 'New'}"
+                      p:render="@{document.newMaintainableObject.dataObject.requestCreator eq 'Operator'}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.bo.OleDeliverRequestCreatorKeyValue"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                </bean>
+
+                <bean id="selectRequestProxy-MaintenanceView-requestCreators" parent="Uif-InputField"
+                      p:propertyName="requestCreator" p:label="User Type" p:onChangeScript="refreshPageUser();"
+                      p:readOnly="@{maintenanceAction ne 'New'}"
+                      p:render="@{document.newMaintainableObject.dataObject.requestCreator eq 'Proxy Patron'}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.bo.OleDeliverRequestCreatorKeyValue"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                </bean>
+
+
+                <bean id="selectRequestBorrower-MaintenanceView-requestCreators" parent="Uif-InputField"
+                      p:propertyName="requestCreator" p:label="User Type" p:onChangeScript="refreshPageUser();"
+                      p:readOnly="@{maintenanceAction ne 'New'}"
+                      p:render="@{document.newMaintainableObject.dataObject.requestCreator eq 'Patron'}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.bo.OleDeliverRequestCreatorKeyValue"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                </bean>
+
+                <bean id="selectRequestOperator-MaintenanceView-requestTypeIds" parent="Uif-InputField"
+                      p:propertyName="requestTypeCode" p:label="Request Type" p:required="true"
+                      p:readOnly="@{maintenanceAction eq 'Edit' }" p:onChangeScript="refreshPageUser();"
+                      p:render="@{document.newMaintainableObject.dataObject.requestCreator eq 'Operator'}">
+
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.OLERequestTypeFinder"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                </bean>
+
+                <bean id="selectRequest-MaintenanceView-requestTypeIds" parent="Uif-InputField"
+                      p:propertyName="requestTypeCode" p:label="Request Type" p:required="true"
+                      p:readOnly="@{maintenanceAction ne 'New'}" p:onChangeScript="refreshPageUser();"
+                      p:render="@{document.newMaintainableObject.dataObject.requestCreator eq 'Proxy Patron'}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.OLERequestTypeFinder"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                </bean>
+
+                <bean id="selectRequestBorrower-MaintenanceView-requestTypeIds" parent="Uif-InputField"
+                      p:propertyName="requestTypeCode" p:label="Request Type" p:required="true"
+                      p:readOnly="@{maintenanceAction ne 'New' }" p:onChangeScript="refreshPageUser();"
+                      p:render="@{document.newMaintainableObject.dataObject.requestCreator eq 'Patron'}">
+
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.OLERequestTypeFinder"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                </bean>
+
+                <bean id="selectRequestOperator-operatorCreateIds" parent="Uif-InputField"
+                      p:propertyName="operatorCreateId" p:label="Operator Id" p:required="true"
+                      p:enableAutoDirectInquiry="false" p:readOnly="@{maintenanceAction eq 'Edit'}"
+                      p:render="@{document.newMaintainableObject.dataObject.requestCreator eq 'Operator'}">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder"
+                              p:dataObjectClassName="org.kuali.rice.kim.impl.identity.PersonImpl"
+                              p:fieldConversions="principalId:operatorCreateId,principalName:operatorCreateName"
+                              p:lookupParameters="roleName:lookupRoleName,roleNamespaceCode:lookupRoleNamespaceCode"/>
+                    </property>
+                </bean>
+
+                <bean id="selectRequestOperator-operatorCreateNames" parent="Uif-InputField"
+                      p:propertyName="operatorCreateName" p:label="Operator Name"
+                      p:readOnly="@{document.newMaintainableObject.dataObject.operatorCreateId ne null and (document.newMaintainableObject.dataObject.operatorCreateId ne null and document.newMaintainableObject.dataObject.operatorCreateId ne '')}"
+                      p:render="@{document.newMaintainableObject.dataObject.requestCreator eq 'Operator'}">
+                </bean>
+
+                <bean id="selectRequestOperator-MaintenanceView-borrowerBarcodes" parent="Uif-InputField"
+                      p:propertyName="borrowerBarcode" p:label="Patron Barcode" p:required="true"
+                      p:enableAutoDirectInquiry="false" p:readOnly="@{maintenanceAction eq 'Edit'}"
+                      p:render="@{document.newMaintainableObject.dataObject.requestCreator eq 'Operator'}">
+
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder"
+                              p:dataObjectClassName="org.kuali.ole.deliver.bo.OLEPatronEntityViewBo"
+                              p:fieldConversions="patronId:borrowerId,patronBarcode:borrowerBarcode,firstName:borrowerName"
+                              p:lookupParameters="borrowerId:patronId,borrowerBarcode:patronBarcode"/>
+                    </property>
+                </bean>
+
+                <bean id="selectRequest-MaintenanceView-borrowerBarcodes" parent="Uif-InputField"
+                      p:propertyName="borrowerBarcode" p:label="Patron Barcode" p:required="true"
+                      p:enableAutoDirectInquiry="false" p:readOnly="@{maintenanceAction ne 'New'}"
+                      p:render="@{document.newMaintainableObject.dataObject.requestCreator eq 'Proxy Patron'}">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder"
+                              p:dataObjectClassName="org.kuali.ole.deliver.bo.OLEPatronEntityViewBo"
+                              p:fieldConversions="patronId:borrowerId,patronBarcode:borrowerBarcode,firstName:borrowerName"
+                              p:lookupParameters="borrowerId:patronId,borrowerBarcode:patronBarcode"/>
+                    </property>
+                </bean>
+
+                <bean id="selectRequestBorrower-MaintenanceView-borrowerBarcodes" parent="Uif-InputField"
+                      p:propertyName="borrowerBarcode" p:label="Patron Barcode" p:required="true"
+                      p:enableAutoDirectInquiry="false" p:readOnly="@{maintenanceAction ne 'New'}"
+                      p:render="@{document.newMaintainableObject.dataObject.requestCreator eq 'Patron'}">
+
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder"
+                              p:dataObjectClassName="org.kuali.ole.deliver.bo.OLEPatronEntityViewBo"
+                              p:fieldConversions="patronId:borrowerId,patronBarcode:borrowerBarcode,firstName:borrowerName"
+                              p:lookupParameters="borrowerId:patronId,borrowerBarcode:patronBarcode"/>
+                    </property>
+                </bean>
+
+                <bean id="selectRequestOperator-MaintenanceView-borrowerNames" parent="Uif-InputField"
+                      p:propertyName="borrowerName" p:label="Patron Name"
+                      p:render="@{document.newMaintainableObject.dataObject.requestCreator eq 'Proxy Patron' }"/>
+
+                <bean id="selectRequestBorrower-MaintenanceView-borrowerNames" parent="Uif-InputField"
+                      p:propertyName="borrowerName" p:label="Patron Name"
+                      p:render="@{document.newMaintainableObject.dataObject.requestCreator eq 'Patron'}"/>
+
+                <bean id="selectRequest-MaintenanceView-borrowerNames" parent="Uif-InputField"
+                      p:propertyName="borrowerName" p:label="Patron Name"
+                      p:render="@{document.newMaintainableObject.dataObject.requestCreator eq 'Operator' }"/>
+
+
+                <bean id="selectReque-proxyBorrowerBarcodes" parent="Uif-InputField"
+                      p:propertyName="proxyBorrowerBarcode" p:label="Proxy Patron Barcode" p:required="true"
+                      p:enableAutoDirectInquiry="false" p:readOnly="@{maintenanceAction ne 'New'}"
+                      p:render="@{document.newMaintainableObject.dataObject.requestCreator eq 'Proxy Patron' }">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder"
+                              p:dataObjectClassName="org.kuali.ole.deliver.bo.OLEPatronEntityViewBo"
+                              p:fieldConversions="patronId:borrowerId,patronBarcode:borrowerBarcode,firstName:borrowerName"
+                              p:lookupParameters="borrowerId:patronId,borrowerBarcode:patronBarcode"/>
+                    </property>
+                </bean>
+                <bean id="selectReque-proxyBorrowerNames" parent="Uif-InputField" p:propertyName="proxyBorrowerName"
+                      p:label="Proxy Patron Name"
+                      p:render="@{document.newMaintainableObject.dataObject.requestCreator eq 'Proxy Patron' }"/>
+
+
+                <bean id="RecallRequest-itemId" parent="Uif-InputField" p:propertyName="itemId" p:required="true"
+                      p:render="@{document.newMaintainableObject.dataObject.requestTypeId eq '1' or document.oldMaintainableObject.dataObject.requestTypeId eq '1' or document.newMaintainableObject.dataObject.requestTypeId eq '2' or document.oldMaintainableObject.dataObject.requestTypeId eq '2'}">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.deliver.bo.OleItemSearch"
+                              p:fieldConversions="itemBarCode:itemId,author:author,title:title,callNumber:callNumber,copyNumber:copyNumber,shelvingLocation:shelvingLocation,itemStatus:itemStatus,itemUUID:itemUuid"
+                              p:lookupParameters="itemId:itemBarCode,title:title"/>
+                    </property>
+                </bean>
+                <bean id="OnholdRequest-itemId" parent="Uif-InputField" p:propertyName="itemId" p:required="true"
+                      p:render="@{document.newMaintainableObject.dataObject.requestTypeId eq '3' or document.oldMaintainableObject.dataObject.requestTypeId eq '3' or document.newMaintainableObject.dataObject.requestTypeId eq '4' or document.oldMaintainableObject.dataObject.requestTypeId eq '4' or document.newMaintainableObject.dataObject.requestTypeId eq '9' or document.oldMaintainableObject.dataObject.requestTypeId eq '9'}">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.deliver.bo.OleItemSearch"
+                              p:fieldConversions="itemBarCode:itemId,author:author,title:title,callNumber:callNumber,copyNumber:copyNumber,shelvingLocation:shelvingLocation,itemStatus:itemStatus,itemUUID:itemUuid"
+                              p:lookupParameters="itemId:itemBarCode,title:title"/>
+                    </property>
+                </bean>
+                <bean id="TransitRequest-itemId" parent="Uif-InputField" p:propertyName="itemId" p:required="true"
+                      p:render="@{document.newMaintainableObject.dataObject.requestTypeId eq '8' or document.oldMaintainableObject.dataObject.requestTypeId eq '8'}">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.deliver.bo.OleItemSearch"
+                              p:fieldConversions="itemBarCode:itemId,author:author,title:title,callNumber:callNumber,copyNumber:copyNumber,shelvingLocation:shelvingLocation,itemStatus:itemStatus,itemUUID:itemUuid"
+                              p:lookupParameters="itemId:itemBarCode,title:title"/>
+                    </property>
+                </bean>
+                <bean id="CopyRequest-itemId" parent="Uif-InputField" p:propertyName="itemId" p:required="true"
+                      p:render="@{document.newMaintainableObject.dataObject.requestTypeId eq '7' or document.oldMaintainableObject.dataObject.requestTypeId eq '7'}">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.deliver.bo.OleItemSearch"
+                              p:fieldConversions="itemBarCode:itemId,author:author,title:title,callNumber:callNumber,copyNumber:copyNumber,shelvingLocation:shelvingLocation,itemStatus:itemStatus,itemUUID:itemUuid"
+                              p:lookupParameters="itemId:itemBarCode,title:title"/>
+                    </property>
+                </bean>
+                <bean id="PageRequest-itemId" parent="Uif-InputField" p:propertyName="itemId" p:required="true"
+                      p:render="@{document.newMaintainableObject.dataObject.requestTypeId eq '5' or document.oldMaintainableObject.dataObject.requestTypeId eq '5' or document.newMaintainableObject.dataObject.requestTypeId eq '6' or document.oldMaintainableObject.dataObject.requestTypeId eq '6'}">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.deliver.bo.OleItemSearch"
+                              p:fieldConversions="itemBarCode:itemId,author:author,title:title,callNumber:callNumber,copyNumber:copyNumber,shelvingLocation:shelvingLocation,itemStatus:itemStatus,itemUUID:itemUuid"
+                              p:lookupParameters="itemId:itemBarCode,title:title"/>
+                    </property>
+                </bean>
+
+                <bean id="recallRequest-itemTitle" parent="Uif-InputField" p:propertyName="title"
+                      p:readOnly="@{document.newMaintainableObject.dataObject.itemId ne null and (document.newMaintainableObject.dataObject.itemId ne null and document.newMaintainableObject.dataObject.itemId ne '')}"
+                      p:render="@{document.newMaintainableObject.dataObject.requestTypeId eq '1' or document.oldMaintainableObject.dataObject.requestTypeId eq '1' or document.newMaintainableObject.dataObject.requestTypeId eq '2' or document.oldMaintainableObject.dataObject.requestTypeId eq '2' or document.newMaintainableObject.dataObject.requestTypeId eq '3' or document.oldMaintainableObject.dataObject.requestTypeId eq '3' or document.newMaintainableObject.dataObject.requestTypeId eq '4' or document.oldMaintainableObject.dataObject.requestTypeId eq '4' or document.newMaintainableObject.dataObject.requestTypeId eq '5' or document.oldMaintainableObject.dataObject.requestTypeId eq '5' or document.newMaintainableObject.dataObject.requestTypeId eq '6' or document.oldMaintainableObject.dataObject.requestTypeId eq '6' or document.newMaintainableObject.dataObject.requestTypeId eq '7' or document.oldMaintainableObject.dataObject.requestTypeId eq '7' or document.newMaintainableObject.dataObject.requestTypeId eq '8' or document.oldMaintainableObject.dataObject.requestTypeId eq '8' or document.newMaintainableObject.dataObject.requestTypeId eq '9' or document.oldMaintainableObject.dataObject.requestTypeId eq '9'}"/>
+                <bean id="recallRequest-author" parent="Uif-InputField" p:propertyName="author"
+                      p:readOnly="@{document.newMaintainableObject.dataObject.itemId ne null and (document.newMaintainableObject.dataObject.itemId ne null and document.newMaintainableObject.dataObject.itemId ne '')}"
+                      p:render="@{document.newMaintainableObject.dataObject.requestTypeId eq '1' or document.oldMaintainableObject.dataObject.requestTypeId eq '1' or document.newMaintainableObject.dataObject.requestTypeId eq '2' or document.oldMaintainableObject.dataObject.requestTypeId eq '2' or document.newMaintainableObject.dataObject.requestTypeId eq '3' or document.oldMaintainableObject.dataObject.requestTypeId eq '3' or document.newMaintainableObject.dataObject.requestTypeId eq '4' or document.oldMaintainableObject.dataObject.requestTypeId eq '4' or document.newMaintainableObject.dataObject.requestTypeId eq '5' or document.oldMaintainableObject.dataObject.requestTypeId eq '5' or document.newMaintainableObject.dataObject.requestTypeId eq '6' or document.oldMaintainableObject.dataObject.requestTypeId eq '6' or document.newMaintainableObject.dataObject.requestTypeId eq '7' or document.oldMaintainableObject.dataObject.requestTypeId eq '7' or document.newMaintainableObject.dataObject.requestTypeId eq '8' or document.oldMaintainableObject.dataObject.requestTypeId eq '8' or document.newMaintainableObject.dataObject.requestTypeId eq '9' or document.oldMaintainableObject.dataObject.requestTypeId eq '9'}"/>
+                <bean id="recallRequest-shelvingLocation" parent="Uif-InputField" p:propertyName="shelvingLocation"
+                      p:readOnly="@{document.newMaintainableObject.dataObject.itemId ne null and (document.newMaintainableObject.dataObject.itemId ne null and document.newMaintainableObject.dataObject.itemId ne '')}"
+                      p:render="@{document.newMaintainableObject.dataObject.requestTypeId eq '1' or document.oldMaintainableObject.dataObject.requestTypeId eq '1' or document.newMaintainableObject.dataObject.requestTypeId eq '2' or document.oldMaintainableObject.dataObject.requestTypeId eq '2' or document.newMaintainableObject.dataObject.requestTypeId eq '3' or document.oldMaintainableObject.dataObject.requestTypeId eq '3' or document.newMaintainableObject.dataObject.requestTypeId eq '4' or document.oldMaintainableObject.dataObject.requestTypeId eq '4' or document.newMaintainableObject.dataObject.requestTypeId eq '5' or document.oldMaintainableObject.dataObject.requestTypeId eq '5' or document.newMaintainableObject.dataObject.requestTypeId eq '6' or document.oldMaintainableObject.dataObject.requestTypeId eq '6' or document.newMaintainableObject.dataObject.requestTypeId eq '7' or document.oldMaintainableObject.dataObject.requestTypeId eq '7' or document.newMaintainableObject.dataObject.requestTypeId eq '8' or document.oldMaintainableObject.dataObject.requestTypeId eq '8' or document.newMaintainableObject.dataObject.requestTypeId eq '9' or document.oldMaintainableObject.dataObject.requestTypeId eq '9'}"/>
+                <bean id="recallRequest-callNumber" parent="Uif-InputField" p:propertyName="callNumber"
+                      p:readOnly="@{document.newMaintainableObject.dataObject.itemId ne null and (document.newMaintainableObject.dataObject.itemId ne null and document.newMaintainableObject.dataObject.itemId ne '')}"
+                      p:render="@{document.newMaintainableObject.dataObject.requestTypeId eq '1' or document.oldMaintainableObject.dataObject.requestTypeId eq '1' or document.newMaintainableObject.dataObject.requestTypeId eq '2' or document.oldMaintainableObject.dataObject.requestTypeId eq '2' or document.newMaintainableObject.dataObject.requestTypeId eq '3' or document.oldMaintainableObject.dataObject.requestTypeId eq '3' or document.newMaintainableObject.dataObject.requestTypeId eq '4' or document.oldMaintainableObject.dataObject.requestTypeId eq '4' or document.newMaintainableObject.dataObject.requestTypeId eq '5' or document.oldMaintainableObject.dataObject.requestTypeId eq '5' or document.newMaintainableObject.dataObject.requestTypeId eq '6' or document.oldMaintainableObject.dataObject.requestTypeId eq '6' or document.newMaintainableObject.dataObject.requestTypeId eq '7' or document.oldMaintainableObject.dataObject.requestTypeId eq '7' or document.newMaintainableObject.dataObject.requestTypeId eq '8' or document.oldMaintainableObject.dataObject.requestTypeId eq '8' or document.newMaintainableObject.dataObject.requestTypeId eq '9' or document.oldMaintainableObject.dataObject.requestTypeId eq '9'}"/>
+                <bean id="recallRequest-copyNumber" parent="Uif-InputField" p:propertyName="copyNumber"
+                      p:readOnly="@{document.newMaintainableObject.dataObject.itemId ne null and (document.newMaintainableObject.dataObject.itemId ne null and document.newMaintainableObject.dataObject.itemId ne '')}"
+                      p:render="@{document.newMaintainableObject.dataObject.requestTypeId eq '1' or document.oldMaintainableObject.dataObject.requestTypeId eq '1' or document.newMaintainableObject.dataObject.requestTypeId eq '2' or document.oldMaintainableObject.dataObject.requestTypeId eq '2' or document.newMaintainableObject.dataObject.requestTypeId eq '3' or document.oldMaintainableObject.dataObject.requestTypeId eq '3' or document.newMaintainableObject.dataObject.requestTypeId eq '4' or document.oldMaintainableObject.dataObject.requestTypeId eq '4' or document.newMaintainableObject.dataObject.requestTypeId eq '5' or document.oldMaintainableObject.dataObject.requestTypeId eq '5' or document.newMaintainableObject.dataObject.requestTypeId eq '6' or document.oldMaintainableObject.dataObject.requestTypeId eq '6' or document.newMaintainableObject.dataObject.requestTypeId eq '7' or document.oldMaintainableObject.dataObject.requestTypeId eq '7' or document.newMaintainableObject.dataObject.requestTypeId eq '8' or document.oldMaintainableObject.dataObject.requestTypeId eq '8' or document.newMaintainableObject.dataObject.requestTypeId eq '9' or document.oldMaintainableObject.dataObject.requestTypeId eq '9'}"/>
+                <bean id="recallRequest-MaintenanceView-borrowerQueuePosition" parent="Uif-InputField"
+                      p:propertyName="borrowerQueuePosition"
+                      p:readOnly="@{document.newMaintainableObject.dataObject.itemId ne null and (document.newMaintainableObject.dataObject.itemId ne null and document.newMaintainableObject.dataObject.itemId ne '')}"
+                      p:render="@{document.newMaintainableObject.dataObject.requestTypeId eq '1' or document.oldMaintainableObject.dataObject.requestTypeId eq '1' or document.newMaintainableObject.dataObject.requestTypeId eq '2' or document.oldMaintainableObject.dataObject.requestTypeId eq '2' or document.newMaintainableObject.dataObject.requestTypeId eq '3' or document.oldMaintainableObject.dataObject.requestTypeId eq '3' or document.newMaintainableObject.dataObject.requestTypeId eq '4' or document.oldMaintainableObject.dataObject.requestTypeId eq '4' or document.newMaintainableObject.dataObject.requestTypeId eq '5' or document.oldMaintainableObject.dataObject.requestTypeId eq '5' or document.newMaintainableObject.dataObject.requestTypeId eq '6' or document.oldMaintainableObject.dataObject.requestTypeId eq '6' or document.newMaintainableObject.dataObject.requestTypeId eq '7' or document.oldMaintainableObject.dataObject.requestTypeId eq '7' or document.newMaintainableObject.dataObject.requestTypeId eq '8' or document.oldMaintainableObject.dataObject.requestTypeId eq '8' or document.newMaintainableObject.dataObject.requestTypeId eq '9' or document.oldMaintainableObject.dataObject.requestTypeId eq '9'}"/>
+                <bean id="recallRequest-MaintenanceView-pickupLocation" parent="Uif-InputField"
+                      p:propertyName="pickUpLocationId" p:label="Pickup Location"
+                      p:readOnly="@{maintenanceAction eq 'Cancel'}"
+                      p:render="@{document.newMaintainableObject.dataObject.requestTypeId eq '1' or document.oldMaintainableObject.dataObject.requestTypeId eq '1' or document.newMaintainableObject.dataObject.requestTypeId eq '2' or document.oldMaintainableObject.dataObject.requestTypeId eq '2' or document.newMaintainableObject.dataObject.requestTypeId eq '3' or document.oldMaintainableObject.dataObject.requestTypeId eq '3' or document.newMaintainableObject.dataObject.requestTypeId eq '4' or document.oldMaintainableObject.dataObject.requestTypeId eq '4' or document.newMaintainableObject.dataObject.requestTypeId eq '5' or document.oldMaintainableObject.dataObject.requestTypeId eq '5' or document.newMaintainableObject.dataObject.requestTypeId eq '6' or document.oldMaintainableObject.dataObject.requestTypeId eq '6' or document.newMaintainableObject.dataObject.requestTypeId eq '9' or document.oldMaintainableObject.dataObject.requestTypeId eq '9'}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.CirculationDeskKeyValueFinder"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                    <property name="quickfinder">
+                        <null></null>
+                    </property>
+                </bean>
+                <bean id="recallRequest-recallNoticeSentDate" parent="Uif-InputField"
+                      p:propertyName="recallNoticeSentDate" p:readOnly="true"
+                      p:render="@{document.newMaintainableObject.dataObject.requestTypeId eq '1' or document.oldMaintainableObject.dataObject.requestTypeId eq '1' or document.newMaintainableObject.dataObject.requestTypeId eq '2' or document.oldMaintainableObject.dataObject.requestTypeId eq '2'}"> <!-- or document.newMaintainableObject.dataObject.requestTypeId eq '2' or document.oldMaintainableObject.dataObject.requestTypeId eq '2') and (document.oldMaintainableObject.dataObject.requestTypeCode eq 'Recall/Hold Request' or document.oldMaintainableObject.dataObject.requestTypeCode eq 'Recall/Delivery Request')-->
+                    <property name="control">
+                        <bean parent="Uif-DateControl" p:size="10"/>
+                    </property>
+                </bean>
+                <bean id="recallRequest-MaintenanceView-createDate" parent="Uif-InputField" p:propertyName="createDate"
+                      p:readOnly="@{document.newMaintainableObject.dataObject.itemId ne null and (document.newMaintainableObject.dataObject.itemId ne null and document.newMaintainableObject.dataObject.itemId ne '')}"
+                      p:render="@{document.newMaintainableObject.dataObject.requestTypeId eq '1' or document.oldMaintainableObject.dataObject.requestTypeId eq '1' or document.newMaintainableObject.dataObject.requestTypeId eq '2' or document.oldMaintainableObject.dataObject.requestTypeId eq '2' or document.newMaintainableObject.dataObject.requestTypeId eq '3' or document.oldMaintainableObject.dataObject.requestTypeId eq '3' or document.newMaintainableObject.dataObject.requestTypeId eq '4' or document.oldMaintainableObject.dataObject.requestTypeId eq '4' or document.newMaintainableObject.dataObject.requestTypeId eq '5' or document.oldMaintainableObject.dataObject.requestTypeId eq '5' or document.newMaintainableObject.dataObject.requestTypeId eq '6' or document.oldMaintainableObject.dataObject.requestTypeId eq '6' or document.newMaintainableObject.dataObject.requestTypeId eq '7' or document.oldMaintainableObject.dataObject.requestTypeId eq '7' or document.newMaintainableObject.dataObject.requestTypeId eq '8' or document.oldMaintainableObject.dataObject.requestTypeId eq '8' or document.newMaintainableObject.dataObject.requestTypeId eq '9' or document.oldMaintainableObject.dataObject.requestTypeId eq '9'}">
+                    <property name="control">
+                        <bean parent="Uif-DateControl" p:size="10"/>
+                    </property>
+                </bean>
+                <bean id="recallRequest-MaintenanceView-expirationDate" parent="Uif-InputField"
+                      p:propertyName="requestExpiryDate"
+                      p:readOnly="@{maintenanceAction ne 'Edit' and document.newMaintainableObject.dataObject.itemId ne null and (document.newMaintainableObject.dataObject.itemId ne null and document.newMaintainableObject.dataObject.itemId ne '')}"
+                      p:render="@{document.newMaintainableObject.dataObject.requestTypeId eq '1' or document.oldMaintainableObject.dataObject.requestTypeId eq '1' or document.newMaintainableObject.dataObject.requestTypeId eq '2' or document.oldMaintainableObject.dataObject.requestTypeId eq '2' or document.newMaintainableObject.dataObject.requestTypeId eq '3' or document.oldMaintainableObject.dataObject.requestTypeId eq '3' or document.newMaintainableObject.dataObject.requestTypeId eq '4' or document.oldMaintainableObject.dataObject.requestTypeId eq '4' or document.newMaintainableObject.dataObject.requestTypeId eq '5' or document.oldMaintainableObject.dataObject.requestTypeId eq '5' or document.newMaintainableObject.dataObject.requestTypeId eq '6' or document.oldMaintainableObject.dataObject.requestTypeId eq '6' or document.newMaintainableObject.dataObject.requestTypeId eq '7' or document.oldMaintainableObject.dataObject.requestTypeId eq '7' or document.newMaintainableObject.dataObject.requestTypeId eq '8' or document.oldMaintainableObject.dataObject.requestTypeId eq '8' or document.newMaintainableObject.dataObject.requestTypeId eq '9' or document.oldMaintainableObject.dataObject.requestTypeId eq '9'}">
+                    <property name="control">
+                        <bean parent="Uif-DateControl" p:size="10"/>
+                    </property>
+                </bean>
+
+
+                <bean id="onHoldRequest-onHoldNoticeSentDate" parent="Uif-InputField"
+                      p:propertyName="onHoldNoticeSentDate" p:readOnly="true"
+                      p:render="@{document.newMaintainableObject.dataObject.requestTypeId eq '3' or document.oldMaintainableObject.dataObject.requestTypeId eq '3' or document.newMaintainableObject.dataObject.requestTypeId eq '4' or document.oldMaintainableObject.dataObject.requestTypeId eq '4'}">
+                    <property name="control">
+                        <bean parent="Uif-DateControl" p:size="10"/>
+                    </property>
+                </bean>
+
+                <bean id="copyRequest-copyFormat" parent="Uif-InputField" p:propertyName="copyFormat"  p:render="@{document.newMaintainableObject.dataObject.requestTypeId eq '7' or document.oldMaintainableObject.dataObject.requestTypeId eq '7'}">
+                <property name="optionsFinder">
+                    <bean class="org.kuali.ole.deliver.keyvalue.CopyFormatKeyValueFinder"/>
+                </property>
+                <property name="control">
+                    <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                </property>
+                </bean>
+
+                <bean id="copyRequest-contentDescription" parent="Uif-InputField" p:required="true"
+                      p:propertyName="contentDescription"
+                      p:render="@{document.oldMaintainableObject.dataObject.requestTypeCode eq 'Copy Request' or document.newMaintainableObject.dataObject.requestTypeId eq '7' or document.oldMaintainableObject.dataObject.requestTypeId eq '7'}"/>
+
+                <bean id="inTransitReques-circulationLocationId" parent="Uif-InputField"
+                      p:propertyName="circulationLocationId" p:label="Circulation Location"
+                      p:readOnly="@{maintenanceAction eq 'Cancel'}" p:required="true"
+                      p:render="@{document.newMaintainableObject.dataObject.requestTypeId eq '8' or document.oldMaintainableObject.dataObject.requestTypeId eq '8'}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.CirculationDeskKeyValueFinder"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                    <property name="quickfinder">
+                        <null></null>
+                    </property>
+                </bean>
+
+                <bean id="inTransitRequest-checkInNote" parent="Uif-InputField" p:propertyName="inTransitCheckInNote"
+                      p:label="Check-In Note"
+                      p:render="@{document.newMaintainableObject.dataObject.requestTypeId eq '8' or document.oldMaintainableObject.dataObject.requestTypeId eq '8'}">
+                    <property name="control">
+                        <bean parent="Uif-TextAreaControl"/>
+                    </property>
+                </bean>
+                <bean id="hiddenSelectRequestProxyButton" parent="Uif-SecondaryActionButton"
+                      p:methodToCall="refreshPageView" p:hidden="true"
+                      p:render="@{document.newMaintainableObject.dataObject.requestCreator eq 'Proxy Patron'}"/>
+                <bean id="searchButtonSelectRequests" parent="Uif-PrimaryActionButton" p:methodToCall="searchPatron"
+                      p:actionLabel="Search" p:hidden="true"
+                      p:render="@{document.newMaintainableObject.dataObject.requestCreator eq 'Proxy Patron'}"/>
+                <bean id="searchButtonForTransitRequest" parent="Uif-PrimaryActionButton" p:methodToCall="searchItem"
+                      p:actionLabel="Search" p:hidden="true"
+                      p:render="@{document.newMaintainableObject.dataObject.requestTypeId eq '8' or document.oldMaintainableObject.dataObject.requestTypeId eq '8' and document.newMaintainableObject.dataObject.requestCreator eq 'Patron'}"/>
+                <bean id="searchButtonForCopyRequest" parent="Uif-PrimaryActionButton" p:methodToCall="searchItem"
+                      p:actionLabel="Search" p:hidden="true"
+                      p:render="@{document.newMaintainableObject.dataObject.requestTypeId eq '7' or document.oldMaintainableObject.dataObject.requestTypeId eq '7' and document.newMaintainableObject.dataObject.requestCreator eq 'Patron'}"/>
+                <bean id="searchButtonForPageRequest" parent="Uif-PrimaryActionButton" p:methodToCall="searchItem"
+                      p:actionLabel="Search" p:hidden="true"
+                      p:render="@{document.newMaintainableObject.dataObject.requestTypeId eq '5' or document.oldMaintainableObject.dataObject.requestTypeId eq '5' or document.newMaintainableObject.dataObject.requestTypeId eq '6' or document.oldMaintainableObject.dataObject.requestTypeId eq '6' and document.newMaintainableObject.dataObject.requestCreator eq 'Patron'}"/>
+                <bean id="searchButtonForOnholdRequest" parent="Uif-PrimaryActionButton" p:methodToCall="searchItem"
+                      p:actionLabel="Search" p:hidden="true"
+                      p:render="@{document.newMaintainableObject.dataObject.requestTypeId eq '3' or document.oldMaintainableObject.dataObject.requestTypeId eq '3' or document.newMaintainableObject.dataObject.requestTypeId eq '4' or document.oldMaintainableObject.dataObject.requestTypeId eq '4' or document.newMaintainableObject.dataObject.requestTypeId eq '9' or document.oldMaintainableObject.dataObject.requestTypeId eq '9' and document.newMaintainableObject.dataObject.requestCreator eq 'Patron'}"/>
+                <bean id="searchButtonForRecallRequest" parent="Uif-PrimaryActionButton" p:methodToCall="searchItem"
+                      p:actionLabel="Search" p:hidden="true"
+                      p:render="@{document.newMaintainableObject.dataObject.requestTypeId eq '1' or document.oldMaintainableObject.dataObject.requestTypeId eq '1' or document.newMaintainableObject.dataObject.requestTypeId eq '2' or document.oldMaintainableObject.dataObject.requestTypeId eq '2' and document.newMaintainableObject.dataObject.requestCreator eq 'Patron'}"/>
+                <bean id="hiddenSelectRequestBorrowerButton" parent="Uif-SecondaryActionButton"
+                      p:methodToCall="refreshPageView" p:hidden="true"
+                      p:render="@{document.newMaintainableObject.dataObject.requestCreator eq 'Patron'}"/>
+                <bean id="searchButtonSelectRequestBorrower" parent="Uif-PrimaryActionButton"
+                      p:methodToCall="searchPatron" p:actionLabel="Search" p:hidden="true"
+                      p:render="@{document.newMaintainableObject.dataObject.requestCreator eq 'Patron'}"/>
+                <bean id="hiddenSelectRequestOperatorButton" parent="Uif-SecondaryActionButton"
+                      p:methodToCall="refreshPageView" p:hidden="true"
+                      p:render="@{document.newMaintainableObject.dataObject.requestCreator eq 'Operator'}"/>
+                <bean id="searchButtonSelectRequestOperator" parent="Uif-PrimaryActionButton"
+                      p:methodToCall="searchPatron" p:actionLabel="Search" p:hidden="true"
+                      p:render="@{document.newMaintainableObject.dataObject.requestCreator eq 'Operator'}"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OleRequestDocument-MaintenanceView-selectRequestOperator" parent="Uif-MaintenanceGridSection"
+          p:render="@{document.newMaintainableObject.dataObject.requestCreator eq 'Operator' or (document.newMaintainableObject.dataObject.operatorCreateId ne null and document.newMaintainableObject.dataObject.requestCreator eq 'Operator') or (document.newMaintainableObject.dataObject.operatorCreateId eq 'Operator' and (maintenanceAction eq 'Edit' or maintenanceAction eq 'Copy')) }">
+        <property name="headerText" value="Select Request"/>
+        <property name="items">
+            <list>
+                <!--<bean id="selectRequestOperator-MaintenanceView-requestCreators" parent="Uif-InputField" p:propertyName="requestCreator" p:label="User Type"  p:onChangeScript="refreshPageUser();" p:readOnly="@{maintenanceAction ne 'New'}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.bo.OleDeliverRequestCreatorKeyValue" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                </bean>-->
+
+                <!--<bean id="selectRequestOperator-MaintenanceView-requestTypeIds" parent="Uif-InputField" p:propertyName="requestTypeCode" p:label="Request Type" p:required="true" p:readOnly="@{maintenanceAction eq 'Edit' }" p:onChangeScript="refreshPageUser();">
+
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.OLERequestTypeFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                </bean>-->
+                <!--<bean id="selectRequestOperator-operatorCreateIds" parent="Uif-InputField" p:propertyName="operatorCreateId" p:label="Operator Id" p:required="true" p:enableAutoDirectInquiry="false" p:readOnly="@{maintenanceAction eq 'Edit'}">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.rice.kim.impl.identity.PersonImpl"
+                              p:fieldConversions="principalId:operatorCreateId,principalName:operatorCreateName" p:lookupParameters="roleName:lookupRoleName,roleNamespaceCode:lookupRoleNamespaceCode"/>
+                    </property>
+                </bean>-->
+                <!--<bean id="selectRequestOperator-operatorCreateNames" parent="Uif-InputField" p:propertyName="operatorCreateName" p:label="Operator Name"   p:readOnly="@{document.newMaintainableObject.dataObject.operatorCreateId ne null and (document.newMaintainableObject.dataObject.operatorCreateId ne null and document.newMaintainableObject.dataObject.operatorCreateId ne '')}">
+                </bean>-->
+                <!--<bean id="selectRequestOperator-MaintenanceView-borrowerBarcodes" parent="Uif-InputField" p:propertyName="borrowerBarcode" p:label="Patron Barcode" p:required="true"  p:enableAutoDirectInquiry="false" p:readOnly="@{maintenanceAction eq 'Edit'}" >
+
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.deliver.bo.OlePatronDocument"
+                              p:fieldConversions="olePatronId:borrowerId,barcode:borrowerBarcode,patronName:borrowerName" p:lookupParameters="borrowerId:olePatronId,borrowerBarcode:barcode"/>
+                    </property>
+                </bean>-->
+                <!--<bean id="selectRequestOperator-MaintenanceView-borrowerBarcodes" parent="Uif-InputField" p:propertyName="borrowerBarcode" p:label="Patron Barcode" p:readOnly="@{document.newMaintainableObject.dataObject.borrowerId ne null and (document.newMaintainableObject.dataObject.borrowerId ne null and document.newMaintainableObject.dataObject.borrowerId ne '')}"/>-->
+
+                <!--<bean id="selectRequestOperator-MaintenanceView-borrowerNames" parent="Uif-InputField" p:propertyName="borrowerName" p:label="Patron Name" p:readOnly="@{document.newMaintainableObject.dataObject.borrowerBarcode ne null and (document.newMaintainableObject.dataObject.borrowerBarcode ne null and document.newMaintainableObject.dataObject.borrowerBarcode ne '')}"/>-->
+
+                <!--<bean id ="hiddenSelectRequestOperatorButton" parent="Uif-SecondaryActionButton" p:methodToCall="refreshPageView" p:hidden="true" />
+                <bean id="searchButtonSelectRequestOperator" parent="Uif-PrimaryActionButton" p:methodToCall="searchPatron" p:actionLabel="Search" p:hidden="true"/>-->
+
+            </list>
+        </property>
+
+    </bean>
+
+    <bean id="OleRequestDocument-MaintenanceView-recallRequest" parent="Uif-MaintenanceGridSection"
+          p:render="@{document.newMaintainableObject.dataObject.requestTypeId eq '1' or document.oldMaintainableObject.dataObject.requestTypeId eq '1' or document.newMaintainableObject.dataObject.requestTypeId eq '2' or document.oldMaintainableObject.dataObject.requestTypeId eq '2'}">
+        <property name="headerText" value="Recall Request"/>
+        <property name="items">
+            <list>
+                <!--<bean id="RecallRequest-itemId" parent="Uif-InputField" p:propertyName="itemId" p:required="true" >
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.deliver.bo.OleItemSearch"
+                              p:fieldConversions="itemBarCode:itemId,author:author,title:title,callNumber:callNumber,copyNumber:copyNumber,shelvingLocation:shelvingLocation,itemStatus:itemStatus,itemUUID:itemUuid" p:lookupParameters="itemId:itemBarCode,title:title"/>
+                    </property>
+                </bean>
+                <bean id="recallRequest-itemTitle" parent="Uif-InputField" p:propertyName="title"  p:readOnly="@{document.newMaintainableObject.dataObject.itemId ne null and (document.newMaintainableObject.dataObject.itemId ne null and document.newMaintainableObject.dataObject.itemId ne '')}"/>
+
+                <bean id="recallRequest-author" parent="Uif-InputField" p:propertyName="author" p:readOnly="@{document.newMaintainableObject.dataObject.itemId ne null and (document.newMaintainableObject.dataObject.itemId ne null and document.newMaintainableObject.dataObject.itemId ne '')}"/>
+                <bean id="recallRequest-shelvingLocation" parent="Uif-InputField" p:propertyName="shelvingLocation" p:readOnly="@{document.newMaintainableObject.dataObject.itemId ne null and (document.newMaintainableObject.dataObject.itemId ne null and document.newMaintainableObject.dataObject.itemId ne '')}"/>
+                <bean id="recallRequest-callNumber" parent="Uif-InputField" p:propertyName="callNumber" p:readOnly="@{document.newMaintainableObject.dataObject.itemId ne null and (document.newMaintainableObject.dataObject.itemId ne null and document.newMaintainableObject.dataObject.itemId ne '')}"/>
+                <bean id="recallRequest-copyNumber" parent="Uif-InputField" p:propertyName="copyNumber" p:readOnly="@{document.newMaintainableObject.dataObject.itemId ne null and (document.newMaintainableObject.dataObject.itemId ne null and document.newMaintainableObject.dataObject.itemId ne '')}"/>
+                <bean id="recallRequest-MaintenanceView-borrowerQueuePosition" parent="Uif-InputField" p:propertyName="borrowerQueuePosition" p:readOnly="true"/>
+                <bean id="recallRequest-MaintenanceView-pickupLocation" parent="Uif-InputField" p:propertyName="pickUpLocationId" p:label="Pickup Location"  p:readOnly="@{maintenanceAction eq 'Cancel'}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.CirculationDeskKeyValueFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                    <property name="quickfinder">
+                        <null></null>
+                    </property>
+                </bean>
+                <bean id="recallRequest-recallNoticeSentDate" parent="Uif-InputField" p:propertyName="recallNoticeSentDate" p:readOnly="true">
+                    <property name="control">
+                        <bean parent="Uif-DateControl" p:size="10"/>
+                    </property>
+                </bean>
+                <bean id="recallRequest-MaintenanceView-createDate" parent="Uif-InputField" p:propertyName="createDate" p:readOnly="true">
+                    <property name="control">
+                        <bean parent="Uif-DateControl" p:size="10"/>
+                    </property>
+                </bean>
+                <bean id="recallRequest-MaintenanceView-expirationDate" parent="Uif-InputField" p:propertyName="requestExpiryDate" p:readOnly="@{maintenanceAction ne 'Edit'}">
+                    <property name="control">
+                        <bean parent="Uif-DateControl" p:size="10"/>
+                    </property>
+                </bean>
+                <bean id="searchButtonForRecallRequest" parent="Uif-PrimaryActionButton" p:methodToCall="searchItem" p:actionLabel="Search" p:hidden="true"/>-->
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="OleRequestDocument-MaintenanceView-onHoldRequest" parent="Uif-MaintenanceGridSection"
+          p:render="@{document.newMaintainableObject.dataObject.requestTypeId eq '3' or document.oldMaintainableObject.dataObject.requestTypeId eq '3' or document.newMaintainableObject.dataObject.requestTypeId eq '4' or document.oldMaintainableObject.dataObject.requestTypeId eq '4'}">
+        <property name="headerText" value="On Hold Request"/>
+        <property name="items">
+            <list>
+                <!--<bean id="OnholdRequest-itemId" parent="Uif-InputField" p:propertyName="itemId" p:required="true" >
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.deliver.bo.OleItemSearch"
+                              p:fieldConversions="itemBarCode:itemId,author:author,title:title,callNumber:callNumber,copyNumber:copyNumber,shelvingLocation:shelvingLocation,itemStatus:itemStatus,itemUUID:itemUuid" p:lookupParameters="itemId:itemBarCode,title:title"/>
+                    </property>
+                </bean>
+                <bean id="onHoldRequest-itemTitle" parent="Uif-InputField" p:propertyName="title" p:readOnly="@{document.newMaintainableObject.dataObject.itemId ne null and (document.newMaintainableObject.dataObject.itemId ne null and document.newMaintainableObject.dataObject.itemId ne '')}" />
+                <bean id="onHoldRequest-author" parent="Uif-InputField" p:propertyName="author" p:readOnly="@{document.newMaintainableObject.dataObject.itemId ne null and (document.newMaintainableObject.dataObject.itemId ne null and document.newMaintainableObject.dataObject.itemId ne '')}"/>
+                <bean id="onHoldRequest-shelvingLocation" parent="Uif-InputField" p:propertyName="shelvingLocation" p:readOnly="@{document.newMaintainableObject.dataObject.itemId ne null and (document.newMaintainableObject.dataObject.itemId ne null and document.newMaintainableObject.dataObject.itemId ne '')}"/>
+                <bean id="onHoldRequest-callNumber" parent="Uif-InputField" p:propertyName="callNumber" p:readOnly="@{document.newMaintainableObject.dataObject.itemId ne null and (document.newMaintainableObject.dataObject.itemId ne null and document.newMaintainableObject.dataObject.itemId ne '')}"/>
+                <bean id="onHoldRequest-copyNumber" parent="Uif-InputField" p:propertyName="copyNumber" p:readOnly="@{document.newMaintainableObject.dataObject.itemId ne null and (document.newMaintainableObject.dataObject.itemId ne null and document.newMaintainableObject.dataObject.itemId ne '')}"/>
+
+                <bean id="onHoldRequest-borrowerQueuePosition" parent="Uif-InputField" p:propertyName="borrowerQueuePosition"  p:readOnly="true"/>
+                <bean id="onHoldRequest-pickupLocation" parent="Uif-InputField" p:propertyName="pickUpLocationId" p:label="Pickup Location"   p:render="true" p:readOnly="@{maintenanceAction eq 'Cancel'}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.CirculationDeskKeyValueFinder" />
+
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                </bean>
+                <bean id="onHoldRequest-onHoldNoticeSentDate" parent="Uif-InputField" p:propertyName="onHoldNoticeSentDate" p:readOnly="true">
+                    <property name="control">
+                        <bean parent="Uif-DateControl" p:size="10"/>
+                    </property>
+                </bean>
+                <bean id="onHoldRequest-createDate" parent="Uif-InputField" p:propertyName="createDate" p:readOnly="true">
+                    <property name="control">
+                        <bean parent="Uif-DateControl" p:size="10"/>
+                    </property>
+                </bean>
+                <bean id="onHoldRequest-expirationDate" parent="Uif-InputField" p:propertyName="requestExpiryDate" p:readOnly="@{maintenanceAction ne 'Edit'}">
+                    <property name="control">
+                        <bean parent="Uif-DateControl" p:size="10"/>
+                    </property>
+                </bean>
+                <bean id="searchButtonForOnholdRequest" parent="Uif-PrimaryActionButton" p:methodToCall="searchItem" p:actionLabel="Search" p:hidden="true"/>-->
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="OleRequestDocument-MaintenanceView-pageRequest" parent="Uif-MaintenanceGridSection"
+          p:render="@{document.newMaintainableObject.dataObject.requestTypeId eq '5' or document.oldMaintainableObject.dataObject.requestTypeId eq '5' or document.newMaintainableObject.dataObject.requestTypeId eq '6' or document.oldMaintainableObject.dataObject.requestTypeId eq '6'}">
+        <property name="headerText" value="Page Request"/>
+        <property name="items">
+            <list>
+                <!-- <bean id="PageRequest-itemId" parent="Uif-InputField" p:propertyName="itemId" p:required="true" >
+                     <property name="quickfinder">
+                         <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.deliver.bo.OleItemSearch"
+                               p:fieldConversions="itemBarCode:itemId,author:author,title:title,callNumber:callNumber,copyNumber:copyNumber,shelvingLocation:shelvingLocation,itemStatus:itemStatus,itemUUID:itemUuid" p:lookupParameters="itemId:itemBarCode,title:title"/>
+                     </property>
+                 </bean>
+                 <bean id="pageRequest-itemTitle" parent="Uif-InputField" p:propertyName="title" p:readOnly="@{document.newMaintainableObject.dataObject.itemId ne null and (document.newMaintainableObject.dataObject.itemId ne null and document.newMaintainableObject.dataObject.itemId ne '')}" />
+
+                 <bean id="pageRequest-author" parent="Uif-InputField" p:propertyName="author" p:readOnly="@{document.newMaintainableObject.dataObject.itemId ne null and (document.newMaintainableObject.dataObject.itemId ne null and document.newMaintainableObject.dataObject.itemId ne '')}"/>
+                 <bean id="pageRequest-shelvingLocation" parent="Uif-InputField" p:propertyName="shelvingLocation" p:readOnly="@{document.newMaintainableObject.dataObject.itemId ne null and (document.newMaintainableObject.dataObject.itemId ne null and document.newMaintainableObject.dataObject.itemId ne '')}"/>
+                 <bean id="pageRequest-callNumber" parent="Uif-InputField" p:propertyName="callNumber" p:readOnly="@{document.newMaintainableObject.dataObject.itemId ne null and (document.newMaintainableObject.dataObject.itemId ne null and document.newMaintainableObject.dataObject.itemId ne '')}"/>
+                 <bean id="pageRequest-copyNumber" parent="Uif-InputField" p:propertyName="copyNumber" p:readOnly="@{document.newMaintainableObject.dataObject.itemId ne null and (document.newMaintainableObject.dataObject.itemId ne null and document.newMaintainableObject.dataObject.itemId ne '')}"/>
+
+                 <bean id="pageRequest-borrowerQueuePosition" parent="Uif-InputField" p:propertyName="borrowerQueuePosition" p:readOnly="true"/>
+                 <bean id="pageRequest-pickupLocation" parent="Uif-InputField" p:label="Pickup Location" p:propertyName="pickUpLocationId"  p:readOnly="@{maintenanceAction eq 'Cancel'}">
+                     <property name="optionsFinder">
+                         <bean class="org.kuali.ole.deliver.keyvalue.CirculationDeskKeyValueFinder" />
+                     </property>
+                     <property name="control">
+                         <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                     </property>
+                     <property name="quickfinder">
+                         <null></null>
+                     </property>
+                 </bean>
+                 <bean id="pageRequest-createDate" parent="Uif-InputField" p:propertyName="createDate" p:readOnly="true">
+                     <property name="control">
+                         <bean parent="Uif-DateControl" p:size="10"/>
+                     </property>
+                 </bean>
+                 <bean id="pageRequest-expirationDate" parent="Uif-InputField" p:propertyName="requestExpiryDate" p:readOnly="@{maintenanceAction ne 'Edit'}">
+                     <property name="control">
+                         <bean parent="Uif-DateControl" p:size="10"/>
+                     </property>
+                 </bean>
+                 <bean id="searchButtonForPageRequest" parent="Uif-PrimaryActionButton" p:methodToCall="searchItem" p:actionLabel="Search" p:hidden="true"/>-->
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="OleRequestDocument-MaintenanceView-copyRequest" parent="Uif-MaintenanceGridSection"
+          p:render="@{document.newMaintainableObject.dataObject.requestTypeId eq '7' or document.oldMaintainableObject.dataObject.requestTypeId eq '7'}">
+        <property name="headerText" value="Copy Request"/>
+        <property name="items">
+            <list>
+                <!--<bean id="CopyRequest-itemId" parent="Uif-InputField" p:propertyName="itemId" p:required="true">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.deliver.bo.OleItemSearch"
+                              p:fieldConversions="itemBarCode:itemId,author:author,title:title,callNumber:callNumber,copyNumber:copyNumber,shelvingLocation:shelvingLocation,itemStatus:itemStatus,itemUUID:itemUuid" p:lookupParameters="itemId:itemBarCode,title:title"/>
+                    </property>
+                </bean>
+
+
+                <bean id="copyRequest-itemTitle" parent="Uif-InputField" p:propertyName="title" p:readOnly="@{document.newMaintainableObject.dataObject.itemId ne null and (document.newMaintainableObject.dataObject.itemId ne null and document.newMaintainableObject.dataObject.itemId ne '')}" />
+                <bean id="copyRequest-author" parent="Uif-InputField" p:propertyName="author" p:readOnly="@{document.newMaintainableObject.dataObject.itemId ne null and (document.newMaintainableObject.dataObject.itemId ne null and document.newMaintainableObject.dataObject.itemId ne '')}"/>
+                <bean id="copyRequest-shelvingLocation" parent="Uif-InputField" p:propertyName="shelvingLocation" p:readOnly="@{document.newMaintainableObject.dataObject.itemId ne null and (document.newMaintainableObject.dataObject.itemId ne null and document.newMaintainableObject.dataObject.itemId ne '')}"/>
+                <bean id="copyRequest-callNumber" parent="Uif-InputField" p:propertyName="callNumber" p:readOnly="@{document.newMaintainableObject.dataObject.itemId ne null and (document.newMaintainableObject.dataObject.itemId ne null and document.newMaintainableObject.dataObject.itemId ne '')}"/>
+                <bean id="copyRequest-copyNumber" parent="Uif-InputField" p:propertyName="copyNumber" p:readOnly="@{document.newMaintainableObject.dataObject.itemId ne null and (document.newMaintainableObject.dataObject.itemId ne null and document.newMaintainableObject.dataObject.itemId ne '')}"/>
+                <bean id="copyRequest-copyFormat" parent="Uif-InputField" p:propertyName="copyFormat"  />
+                <bean id="copyRequest-contentDescription" parent="Uif-InputField" p:propertyName="contentDescription" />
+                <bean id="copyRequest-borrowerQueuePosition" parent="Uif-InputField" p:propertyName="borrowerQueuePosition" p:readOnly="true"/>
+                <bean id="copyRequest-loc_pickupLocation" parent="Uif-InputField" p:propertyName="pickUpLocationId" p:label="Pickup Location"   p:readOnly="@{maintenanceAction eq 'Cancel'}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.CirculationDeskKeyValueFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                    <property name="quickfinder">
+                        <null></null>
+                    </property>
+                </bean>
+
+                <bean id="copyRequest-createDate" parent="Uif-InputField" p:propertyName="createDate" p:readOnly="true">
+                    <property name="control">
+                        <bean parent="Uif-DateControl" p:size="10"/>
+                    </property>
+                </bean>
+                <bean id="copyRequest-expirationDate" parent="Uif-InputField" p:propertyName="requestExpiryDate" p:readOnly="@{maintenanceAction ne 'Edit'}">
+                    <property name="control">
+                        <bean parent="Uif-DateControl" p:size="10"/>
+                    </property>
+                </bean>
+
+                <bean id="searchButtonForCopyRequest" parent="Uif-PrimaryActionButton" p:methodToCall="searchItem" p:actionLabel="Search" p:hidden="true"/>-->
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="OleRequestDocument-MaintenanceView-inTransitRequest" parent="Uif-MaintenanceGridSection"
+          p:render="@{document.newMaintainableObject.dataObject.requestTypeId eq '8' or document.oldMaintainableObject.dataObject.requestTypeId eq '8'}">
+        <property name="headerText" value="In-Transit Request"/>
+        <property name="items">
+            <list>
+                <!--<bean id="TransitRequest-itemId" parent="Uif-InputField" p:propertyName="itemId" p:required="true" >
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.deliver.bo.OleItemSearch"
+                              p:fieldConversions="itemBarCode:itemId,author:author,title:title,callNumber:callNumber,copyNumber:copyNumber,shelvingLocation:shelvingLocation,itemStatus:itemStatus,itemUUID:itemUuid" p:lookupParameters="itemId:itemBarCode,title:title"/>
+                    </property>
+                </bean>
+                <bean id="inTransitRequest-itemTitle" parent="Uif-InputField" p:propertyName="title" p:readOnly="@{document.newMaintainableObject.dataObject.itemId ne null and (document.newMaintainableObject.dataObject.itemId ne null and document.newMaintainableObject.dataObject.itemId ne '')}" />
+                <bean id="inTransitRequest-author" parent="Uif-InputField" p:propertyName="author" p:readOnly="@{document.newMaintainableObject.dataObject.itemId ne null and (document.newMaintainableObject.dataObject.itemId ne null and document.newMaintainableObject.dataObject.itemId ne '')}"/>
+                <bean id="inTransitRequest-shelvingLocation" parent="Uif-InputField" p:propertyName="shelvingLocation" p:readOnly="@{document.newMaintainableObject.dataObject.itemId ne null and (document.newMaintainableObject.dataObject.itemId ne null and document.newMaintainableObject.dataObject.itemId ne '')}"/>
+                <bean id="inTransitRequest-callNumber" parent="Uif-InputField" p:propertyName="callNumber" p:readOnly="@{document.newMaintainableObject.dataObject.itemId ne null and (document.newMaintainableObject.dataObject.itemId ne null and document.newMaintainableObject.dataObject.itemId ne '')}"/>
+                <bean id="inTransitRequest-copyNumber" parent="Uif-InputField" p:propertyName="copyNumber" p:readOnly="@{document.newMaintainableObject.dataObject.itemId ne null and (document.newMaintainableObject.dataObject.itemId ne null and document.newMaintainableObject.dataObject.itemId ne '')}"/>
+                <bean id="inTransitRequest-copyFormat" parent="Uif-InputField" p:propertyName="copyFormat"  />
+                <bean id="inTransitRequest-contentDescription" parent="Uif-InputField" p:propertyName="contentDescription" />
+                <bean id="inTransitRequest-borrowerQueuePosition" parent="Uif-InputField" p:propertyName="borrowerQueuePosition" p:readOnly="true"/>
+                <bean id="inTransitReques-circulationLocationId" parent="Uif-InputField" p:propertyName="circulationLocationId" p:label="Circulation Location" p:readOnly="@{maintenanceAction eq 'Cancel'}" p:required="true">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.CirculationDeskKeyValueFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                    <property name="quickfinder">
+                        <null></null>
+                    </property>
+                </bean>
+                <bean id="inTransitRequest-createDate" parent="Uif-InputField" p:propertyName="createDate" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-DateControl" p:size="10"/>
+                    </property>
+                </bean>
+                <bean id="inTransitRequest-expiryDate" parent="Uif-InputField" p:propertyName="requestExpiryDate" p:readOnly="@{maintenanceAction ne 'Edit'}">
+                    <property name="control">
+                        <bean parent="Uif-DateControl" p:size="10"/>
+                    </property>
+                </bean>
+                <bean id="inTransitRequest-checkInNote" parent="Uif-InputField" p:propertyName="inTransitCheckInNote" p:label="Check-In Note">
+                    <property name="control">
+                        <bean parent="Uif-TextAreaControl"/>
+                    </property>
+                </bean>
+                <bean id="searchButtonForTransitRequest" parent="Uif-PrimaryActionButton" p:methodToCall="searchItem" p:actionLabel="Search" p:hidden="true"/>-->
+            </list>
+        </property>
+    </bean>
+
+    <bean id="hiddenButtonForCreatePdf" parent="Uif-SecondaryActionButton" p:methodToCall="printPdf" p:hidden="true"/>
+
+</beans>

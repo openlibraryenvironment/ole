@@ -1,0 +1,106 @@
+<!--
+ Copyright 2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="ACHPayee" parent="ACHPayee-parentBean" />
+
+  <bean id="ACHPayee-parentBean" abstract="true" parent="DisbursementPayee">
+    <property name="businessObjectClass" value="org.kuali.ole.pdp.businessobject.ACHPayee" />
+    <property name="lookupDefinition" >
+      <ref bean="ACHPayee-lookupDefinition" />
+    </property>
+    <property name="attributes" >
+      <list>  
+        <ref bean="DisbursementPayee-payeeIdNumber" />
+        <ref bean="ACHPayee-payeeTypeCode" />
+        <ref bean="DisbursementPayee-payeeTypeDescription" />
+        <ref bean="DisbursementPayee-payeeName" />
+        <ref bean="DisbursementPayee-paymentReasonCode" />        
+        <ref bean="DisbursementPayee-taxNumber" />
+        <ref bean="DisbursementPayee-vendorName" />
+        <ref bean="DisbursementPayee-employeeId" />
+        <ref bean="DisbursementPayee-vendorNumber" />
+        <ref bean="DisbursementPayee-firstName" />   
+        <ref bean="DisbursementPayee-lastName" /> 
+        <ref bean="DisbursementPayee-address" />
+        <ref bean="DisbursementPayee-active" />    
+        <ref bean="ACHPayee-entityId" />    
+      </list>
+    </property>          
+  </bean>
+  
+  <bean id="ACHPayee-payeeTypeCode" parent="ACHPayee-payeeTypeCode-parentBean" />
+  <bean id="ACHPayee-payeeTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="payeeTypeCode" />
+    <property name="label" value="Payee Type Code" />
+    <property name="shortLabel" value="Payee Type Code" />
+    <property name="maxLength" value="3" />
+    <property name="required" value="true" />
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.ole.pdp.businessobject.options.PayeeAchIdTypeValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+  </bean>  
+  
+  <bean id="ACHPayee-entityId" parent="ACHPayee-entityId-parentBean" />
+  <bean id="ACHPayee-entityId-parentBean" parent="PersonImpl-entityId" abstract="true"/>
+  
+  <bean id="ACHPayee-lookupDefinition" parent="ACHPayee-lookupDefinition-parentBean" />
+  <bean id="ACHPayee-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Payee Lookup" />
+    <property name="lookupableID" value="achPayeeLookupable" />
+    <property name="defaultSort" >
+      <bean parent="SortDefinition">
+        <property name="attributeNames" >
+          <list>
+            <value>payeeTypeDescription</value>
+            <value>payeeName</value>
+          </list>     
+        </property> 
+      </bean>
+    </property>
+    <property name="lookupFields" >
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="payeeTypeCode"/>
+        <bean parent="FieldDefinition" p:attributeName="taxNumber" />
+        <bean parent="FieldDefinition" p:attributeName="firstName" />
+        <bean parent="FieldDefinition" p:attributeName="lastName" />          
+        <bean parent="FieldDefinition" p:attributeName="vendorNumber" />
+        <bean parent="FieldDefinition" p:attributeName="vendorName" />
+        <bean parent="FieldDefinition" p:attributeName="employeeId" />
+        <bean parent="FieldDefinition" p:attributeName="entityId" />        
+        <bean parent="FieldDefinition" p:attributeName="active"/>  
+      </list>
+    </property>
+    
+    <property name="resultFields" >
+      <list>
+      	<bean parent="FieldDefinition" p:attributeName="payeeName" />
+      	<bean parent="FieldDefinition" p:attributeName="payeeTypeDescription" />
+        <bean parent="FieldDefinition" p:attributeName="address" />
+        <bean parent="FieldDefinition" p:attributeName="payeeIdNumber" />
+        <bean parent="FieldDefinition" p:attributeName="active" />
+        <bean parent="FieldDefinition" p:attributeName="taxNumber" />             
+      </list>
+    </property>
+  </bean>
+  
+</beans>  

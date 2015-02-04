@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   - Copyright 2011 The Kuali Foundation.
+   - 
+   - Licensed under the Educational Community License, Version 2.0 (the "License");
+   - you may not use this file except in compliance with the License.
+   - You may obtain a copy of the License at
+   - 
+   - http://www.opensource.org/licenses/ecl2.php
+   - 
+   - Unless required by applicable law or agreed to in writing, software
+   - distributed under the License is distributed on an "AS IS" BASIS,
+   - WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   - See the License for the specific language governing permissions and
+   - limitations under the License.
+ -->
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified"
+           targetNamespace="http://www.loc.gov/MARC21/slim" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="collection" type="slim:collectionType" xmlns:slim="http://www.loc.gov/MARC21/slim"/>
+    <xs:complexType name="collectionType">
+        <xs:sequence>
+            <xs:element type="slim:recordType" name="record" xmlns:slim="http://www.loc.gov/MARC21/slim"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="datafieldType">
+        <xs:sequence>
+            <xs:element type="slim:subfieldType" name="subfield" maxOccurs="unbounded" minOccurs="0"
+                        xmlns:slim="http://www.loc.gov/MARC21/slim"/>
+        </xs:sequence>
+        <xs:attribute type="xs:string" name="tag" use="optional"/>
+        <xs:attribute type="xs:string" name="ind1" use="optional"/>
+        <xs:attribute type="xs:string" name="ind2" use="optional"/>
+    </xs:complexType>
+    <xs:complexType name="controlfieldType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute type="xs:string" name="tag" use="optional"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    <xs:complexType name="recordType">
+        <xs:sequence>
+            <xs:element type="xs:string" name="leader"/>
+            <xs:element type="slim:controlfieldType" name="controlfield" maxOccurs="unbounded" minOccurs="0"
+                        xmlns:slim="http://www.loc.gov/MARC21/slim"/>
+            <xs:element type="slim:datafieldType" name="datafield" maxOccurs="unbounded" minOccurs="0"
+                        xmlns:slim="http://www.loc.gov/MARC21/slim"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="subfieldType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute type="xs:string" name="code" use="optional"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+</xs:schema>

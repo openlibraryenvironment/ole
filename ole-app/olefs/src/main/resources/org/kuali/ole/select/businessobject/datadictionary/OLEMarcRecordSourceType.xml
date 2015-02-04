@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="OLEMarcRecordSourceType" parent="OLEMarcRecordSourceType-parentBean"/>
+    <bean id="OLEMarcRecordSourceType-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.select.bo.OLEMarcRecordSourceType"/>
+        <property name="titleAttribute" value="marcRecordSourceTypeName"/>
+        <property name="objectLabel" value="MARC Record Source Type"/>
+        <property name="attributes">
+            <list>
+                <ref bean="OLEMarcRecordSourceType-marcRecordSourceTypeId"/>
+                <ref bean="OLEMarcRecordSourceType-marcRecordSourceTypeName"/>
+                <ref bean="OLEMarcRecordSourceType-marcRecordSourceTypeDesc"/>
+                <ref bean="OLEMarcRecordSourceType-active"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+    <bean id="OLEMarcRecordSourceType-marcRecordSourceTypeId" parent="OLEMarcRecordSourceType-marcRecordSourceTypeId-parentBean"/>
+    <bean id="OLEMarcRecordSourceType-marcRecordSourceTypeId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="marcRecordSourceTypeId"/>
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
+    <bean id="OLEMarcRecordSourceType-marcRecordSourceTypeName" parent="OLEMarcRecordSourceType-marcRecordSourceTypeName-parentBean"/>
+    <bean id="OLEMarcRecordSourceType-marcRecordSourceTypeName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Name"/>
+        <property name="maxLength" value="40"/>
+        <property name="name" value="marcRecordSourceTypeName"/>
+        <property name="label" value="Name"/>
+        <property name="description" value="Name"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLEMarcRecordSourceType-marcRecordSourceTypeDesc" parent="OLEMarcRecordSourceType-marcRecordSourceTypeDesc-parentBean"/>
+    <bean id="OLEMarcRecordSourceType-marcRecordSourceTypeDesc-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Description"/>
+        <property name="maxLength" value="100"/>
+        <property name="name" value="marcRecordSourceTypeDesc"/>
+        <property name="label" value="Description"/>
+        <property name="description" value="Description"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLEMarcRecordSourceType-active" parent="OLEMarcRecordSourceType-active-parentBean"/>
+    <bean id="OLEMarcRecordSourceType-active-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="active"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="active"/>
+        <property name="maxLength" value="1"/>
+        <property name="summary" value="Active Indicator"/>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+        <property name="label" value="Active Indicator"/>
+        <property name="description"
+                  value="This attribute is used to describe whether the associated object is active or inactive."/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-CheckboxControl"/>
+        </property>
+    </bean>
+
+    <!-- Inquiry View -->
+
+    <bean id="OLEMarcRecordSourceType-InquiryView" parent="Uif-OLEInquiryView">
+        <property name="headerText" value="MARC Record Source Type Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OLEMarcRecordSourceType"/>
+
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-VerticalBoxSection">
+                    <property name="header.headerText" value="MARC Record Source Type"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-GridGroup">
+                                <property name="items">
+                                    <list>
+                                        <bean id="inquiry_marcRecordSourceTypeId" parent="Uif-InputField"
+                                              p:propertyName="marcRecordSourceTypeId"/>
+                                        <bean id="inquiry_marcRecordSourceTypeName" parent="Uif-InputField"
+                                              p:propertyName="marcRecordSourceTypeName"/>
+                                        <bean id="inquiry_marcRecordSourceTypeDesc" parent="Uif-InputField"
+                                              p:propertyName="marcRecordSourceTypeDesc"/>
+                                        <bean id="inquiry_active" parent="Uif-InputField" p:propertyName="active"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Lookup View -->
+
+    <bean id="OLEMarcRecordSourceType-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="MARC Record Source Type Lookup"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OLEMarcRecordSourceType"/>
+        <property name="criteriaFields">
+            <list>
+                <bean id="marcRecordSourceTypeName" parent="Uif-LookupCriteriaInputField"
+                      p:propertyName="marcRecordSourceTypeName" p:enableAutoDirectInquiry="false"/>
+                <bean id="marcRecordSourceTypeDesc" parent="Uif-LookupCriteriaInputField"
+                      p:propertyName="marcRecordSourceTypeDesc"/>
+                <bean id="active" parent="Uif-LookupCriteriaInputField" p:propertyName="active"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean id="searchResult_marcRecordSourceTypeName" parent="Uif-DataField"
+                      p:propertyName="marcRecordSourceTypeName"/>
+                <bean id="searchResult_marcRecordSourceTypeDesc" parent="Uif-DataField"
+                      p:propertyName="marcRecordSourceTypeDesc"/>
+                <bean id="searchResult_active" parent="Uif-DataField" p:propertyName="active"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

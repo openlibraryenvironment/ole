@@ -1,0 +1,593 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="WorkOleHoldingsDetails" parent="Uif-VerticalBoxGroup" p:layoutManager.style="border:1px solid;"
+          p:readOnly="@{editable eq 'false'}">
+        <property name="headerText" value="OLE Holdings"/>
+        <property name="items">
+            <list>
+                <ref bean="StatusUpdatedFieldSectionHolding"/>
+                <ref bean="LocalIdentifierHolding"/>
+                <ref bean="OleLocationInformationSection"/>
+                <ref bean="OleCallNumberInformation"/>
+                <ref bean="OleExtentOfOwnershipSection"/>
+                <ref bean="OleExtendedInformation"/>
+                <ref bean="OleHoldingNotes"/>
+                <ref bean="OLESerialReceivingTab"/>
+                <ref bean="OLESerialReceivingButtonLinkForCreate"/>
+
+                <ref bean="hiddenHoldingsLocationEditFlag"/>
+                <ref bean="hiddenHoldingsCallNumberEditFlag"/>
+                <ref bean="hiddenHoldingsShelvingOrderEditFlag"/>
+                <ref bean="hiddenHoldingsCallNumberTypeEditFlag"/>
+                <ref bean="hiddenHoldingsCallNumberPrefixEditFlag"/>
+                <ref bean="hiddenHoldingsCopyNumberEditFlag"/>
+                <ref bean="hiddenHoldingsExtentOwnerShipEditFlag"/>
+                <ref bean="hiddenHoldingsExtendedInfoEditFlag"/>
+                <ref bean="hiddenHoldingsNoteEditFlag"/>
+                <ref bean="hiddenGlobalEditFlag"/>
+                <ref bean="hiddenHoldingsReceiptStatusEditFlag"/>
+                <ref bean="hiddenGlobalAccessInformationEditFlag"/>
+
+                <ref bean="hdnDocCategory"/>
+                <ref bean="hdnDocType"/>
+                <ref bean="hdnDocFormat"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="hdnDocCategory" parent="Uif-InputField"  p:hidden="true" p:propertyName="docCategory"/>
+    <bean id="hdnDocType" parent="Uif-InputField"  p:hidden="true" p:propertyName="docType"/>
+    <bean id="hdnDocFormat" parent="Uif-InputField"  p:hidden="true" p:propertyName="docFormat"/>
+
+    <bean id="hiddenHoldingsLocationEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditHoldingsFieldsFlagBO.locationEditFlag"/>
+    <bean id="hiddenHoldingsCallNumberEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditHoldingsFieldsFlagBO.callNumberEditFlag"/>
+    <bean id="hiddenHoldingsShelvingOrderEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditHoldingsFieldsFlagBO.shelvingOrderEditFlag"/>
+    <bean id="hiddenHoldingsCallNumberTypeEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditHoldingsFieldsFlagBO.callNumberTypeEditFlag"/>
+    <bean id="hiddenHoldingsCallNumberPrefixEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditHoldingsFieldsFlagBO.callNumberPrefixEditFlag"/>
+    <bean id="hiddenHoldingsCopyNumberEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditHoldingsFieldsFlagBO.copyNumberEditFlag"/>
+    <bean id="hiddenHoldingsExtentOwnerShipEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditHoldingsFieldsFlagBO.extentOwnerShipEditFlag"/>
+    <bean id="hiddenHoldingsExtendedInfoEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditHoldingsFieldsFlagBO.extendedInfoEditFlag"/>
+    <bean id="hiddenHoldingsNoteEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditHoldingsFieldsFlagBO.holdingsNoteEditFlag"/>
+    <bean id="hiddenHoldingsReceiptStatusEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditHoldingsFieldsFlagBO.receiptStatusEditFlag"/>
+    <bean id="hiddenGlobalAccessInformationEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditHoldingsFieldsFlagBO.accessInformationEditFlag"/>
+
+    <bean id="hiddenGlobalEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditFlag"/>
+
+    <bean id="StatusUpdatedFieldSectionHolding" parent="Uif-HorizontalFieldGroup" p:render="@{globalEditFlag eq 'false'}">
+        <property name="items">
+            <list>
+                <ref bean="CreatedFieldSecHolding"/>
+                <ref bean="UpdatedFieldSecHolding"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CreatedFieldSecHolding" parent="Uif-HorizontalFieldGroup" p:render="@{globalEditFlag eq 'false'}">
+        <property name="items">
+            <list>
+                <bean id="createdByHolding" parent="Uif-DataField" p:readOnly="true" p:propertyName="holdingCreatedBy"
+                      p:label="Created By "/>
+                <bean id="createdDateHolding" parent="Uif-DataField" p:readOnly="true"
+                      p:propertyName="holdingCreatedDate"
+                      p:label="On"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="UpdatedFieldSecHolding" parent="Uif-HorizontalFieldGroup" p:render="@{globalEditFlag eq 'false'}">
+        <property name="items">
+            <list>
+                <bean id="updatedByHolding" parent="Uif-DataField" p:readOnly="true" p:propertyName="holdingUpdatedBy"
+                      p:label="Updated By "/>
+                <bean id="updatedDateHolding" parent="Uif-DataField" p:readOnly="true"
+                      p:propertyName="holdingUpdatedDate"
+                      p:label="On"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="LocalIdentifierHolding" parent="Uif-HorizontalFieldGroup">
+        <property name="items">
+            <list>
+                <bean id="oleItemStaffOnly" parent="Uif-InputField" p:propertyName="staffOnlyFlagForHoldings"
+                      p:label="Staff Only"
+                      p:required="false" p:render="@{globalEditFlag eq 'false'}">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+                <bean id="oleItemStaffOnlyForGlobalEdit" parent="Uif-InputField" p:propertyName="staffOnlyFlagInGlobalEdit"
+                      p:label="Staff Only"
+                      p:required="false"  p:render="@{globalEditFlag eq 'true'}">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-20-select"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.describe.keyvalue.OLEStaffFieldKeyValueFinder"/>
+                    </property>
+                </bean>
+                <bean id="LocalIdHolding" parent="Uif-InputField" p:propertyName="holdingLocalIdentifier"
+                      p:label="Local Identifier"
+                      p:required="false" p:readOnly="true" p:render="@{globalEditFlag eq 'false'}"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="OleLocationInformationSection" parent="Uif-Disclosure-VerticalBoxSection"
+          p:componentSecurity.editAuthz="true">
+        <property name="headerText" value="Location Information"/>
+        <property name="items">
+            <list>
+
+                <bean id="OleHoldingLocation" parent="Uif-InputField"
+                      p:propertyName="documentForm.selectedHolding.location.locationLevel.name"
+                      p:label="Location"
+                      p:instructionalText="Type * for all locations, other letters for matching locations"
+                      p:additionalHiddenPropertyNames="holdingItem">
+                    <property name="suggest">
+                        <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
+                            <property name="suggestQuery">
+                                <bean parent="Uif-AttributeQueryConfig"
+                                      p:queryMethodToCall="retrieveLocationDetailsForSuggest"
+                                      p:queryMethodInvokerConfig.targetClass="org.kuali.ole.describe.keyvalue.LocationValuesBuilder"/>
+                            </property>
+                            <property name="templateOptions">
+                                <map merge="true">
+                                    <entry key="minLength" value="1"/>
+                                </map>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+
+                <!--
+                                            <bean id="OleHoldingLocationField" parent="Uif-InputField" p:propertyName="locationValue"
+                                                  p:label="All Locations (For reference)">
+                                                <property name="control">
+                                                    <bean parent="Uif-DropdownControl"/>
+                                                </property>
+                                                <property name="optionsFinder">
+                                                    <bean class="org.kuali.ole.describe.keyvalue.LocationValuesBuilder"/>
+                                                </property>
+                                            </bean>
+                -->
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OleLocationField" parent="Uif-InputField" p:propertyName="locationValue"
+          p:label="All Locations (For reference)">
+        <property name="control">
+            <bean parent="Uif-DropdownControl"/>
+        </property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.ole.describe.keyvalue.LocationValuesBuilder"/>
+        </property>
+    </bean>
+
+    <bean id="OleCallNumberInformation" parent="Uif-Disclosure-GridSubSection" p:layoutManager.numberOfColumns="5"
+          p:componentSecurity.editAuthz="true">
+        <!--p:fieldBindingObjectPath="documentForm.selectedHolding.callNumber">-->
+        <property name="headerText" value="Call Number Information"/>
+        <property name="items">
+            <list>
+                <bean id="OleHoldingCallNumberPrefix" parent="Uif-InputField"
+                      p:propertyName="documentForm.selectedHolding.callNumber.prefix"
+                      p:label="Prefix" p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="5" p:maxLength=""/>
+                    </property>
+                </bean>
+                <!-- <bean id="OleHoldingCallNumberType" parent="Uif-InputField" p:propertyName="type"
+                      p:label="Type" p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="5" p:maxLength=""/>
+                    </property>
+                </bean>-->
+                <bean id="OleHoldingCallNumber" parent="Uif-InputField"
+                      p:propertyName="documentForm.selectedHolding.callNumber.number"
+                      p:label="Call Number" p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="30" p:maxLength=""/>
+                    </property>
+                </bean>
+                <!--<bean id="callNumberBrowseLink" parent="Uif-Link"-->
+                <!--p:style="font-weight:bold;border:0px;text-decoration:underline;"-->
+                <!--p:href="callnumberBrowseController?viewId=CallNumberBrowseView&amp;methodToCall=start"-->
+                <!--p:linkText="Browse"-->
+                <!--p:target="_blank"/>-->
+                <bean id="callNumberHoldingsBrowseLink" parent="Uif-SecondaryActionButton-Small"
+                      p:style="float:left;margin-left:0em" p:actionScript="browse('holdings');"
+                      p:actionLabel="Browse" p:render="@{editable eq 'true'}"/>
+                <bean id="OleHoldingShelvingOrder" parent="Uif-InputField"
+                      p:propertyName="documentForm.selectedHolding.callNumber.shelvingOrder.fullValue"
+                      p:label="Shelving Order" p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="30" p:maxLength="100"/>
+                    </property>
+                </bean>
+                <bean id="OleHoldingShelvingScheme" parent="Uif-InputField"
+                      p:propertyName="documentForm.selectedHolding.callNumber.shelvingScheme.codeValue"
+                      p:label="Call Number Type" p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="dropdown"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.describe.keyvalue.ShelvingScheme"/>
+                    </property>
+                </bean>
+                <bean id="callNumberHoldingsBrowseLinkHidden" parent="Uif-SecondaryActionButton-Small" p:hidden="true"/>
+                <bean id="OleHoldingCopyNumber" parent="Uif-InputField"
+                      p:propertyName="documentForm.selectedHolding.copyNumber"
+                      p:label="Copy Number" p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="20" p:maxLength=""/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OleExtentOfOwnershipSection" parent="Uif-Disclosure-VerticalBoxSection" p:componentSecurity.editAuthz="true">
+        <property name="headerText" value="Extent Of Ownership"/>
+        <property name="items">
+            <list>
+                <ref bean="ExtentOfOwnershipRepeatableSections"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ExtentOfOwnershipRepeatableSections" parent="Uif-TableCollectionSection"
+          p:fieldBindingObjectPath="documentForm.selectedHolding" p:layoutManager.numberOfColumns="1">
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.docstore.common.document.content.instance.ExtentOfOwnership"/>
+        <property name="propertyName" value="documentForm.selectedHolding.extentOfOwnership"/>
+        <property name="bindingInfo.bindToForm" value="true"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <!--<property name="addLineLabel" value=""/>-->
+        <property name="items">
+            <list>
+                <bean id="HoldingsExtendedInformationNotesGroup" parent="Uif-VerticalFieldGroup"
+                      p:style="width:100%;border-top:1px solid;">
+                    <property name="items">
+                        <list>
+                            <bean id="extentTextualHoldingsType" parent="Uif-InputField" p:propertyName="type"
+                                  p:label="Type"
+                                  p:required="false" p:defaultValue="Basic Bibliographic Unit">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl"/>
+                                </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.describe.keyvalue.TypeOfOwnership"/>
+                                </property>
+                            </bean>
+                            <bean id="extentTextualHoldings" parent="Uif-InputField" p:propertyName="textualHoldings"
+                                  p:label="Extent of Ownership"
+                                  p:required="false" p:style="width:99%;border-top:1px solid;">
+                                <property name="control">
+                                    <bean parent="Uif-TextAreaControl" p:cols="80"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="subCollections">
+            <list>
+                <ref bean="holdingNotesSections"/>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="extentOfOwnership_addTagButton" parent="Uif-SecondaryActionButton-Small"
+                      p:methodToCall="addExtentOfOwnership" p:successCallback="holdingsAddOrRemove()" p:actionLabel="Add"/>
+                <bean id="extentOfOwnership_removeTagButton" parent="Uif-SecondaryActionButton-Small"
+                      p:methodToCall="removeExtentOfOwnership" p:successCallback="holdingsAddOrRemove()" p:actionLabel="Remove"/>
+            </list>
+        </property>
+        <property name="layoutManager.actionFieldPrototype.group.layoutManager">
+            <bean parent="Uif-HorizontalBoxLayout"/>
+        </property>
+        <property name="layoutManager.actionFieldPrototype.label" value=""/>
+    </bean>
+
+    <bean id="holdingNotesSections" parent="Uif-TableSubCollection-WithinSection" p:layoutManager.numberOfColumns="1">
+        <property name="collectionObjectClass" value="org.kuali.ole.docstore.common.document.content.instance.Note"/>
+        <property name="propertyName" value="note"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <!--<property name="addLineLabel" value=""/>-->
+        <property name="items">
+            <list>
+                <bean id="ExtendedSubInformationNotesGroup" parent="Uif-HorizontalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean id="extentSubHoldingNoteTypeField" parent="Uif-InputField" p:propertyName="type"
+                                  p:label="Type">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="public" p:value="Public"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="nonPublic" p:value="Non-Public"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                            <bean id="extentSubHoldingNoteDescField" parent="Uif-InputField" p:propertyName="value"
+                                  p:label="Note">
+                                <property name="control">
+                                    <bean parent="Uif-TextAreaControl" p:rows="2" p:cols="30"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="oleEowHoldingNotes_addTagButton" parent="Uif-SecondaryActionButton-Small"
+                      p:methodToCall="addEOWHoldingNotes" p:successCallback="holdingsAddOrRemove()" p:actionLabel="Add"/>
+                <bean id="oleEowHoldingNotes_removeTagButton" parent="Uif-SecondaryActionButton-Small"
+                      p:methodToCall="removeEOWHoldingNotes" p:successCallback="holdingsAddOrRemove()" p:actionLabel="Remove"/>
+            </list>
+        </property>
+        <property name="layoutManager.actionFieldPrototype.group.layoutManager">
+            <bean parent="Uif-HorizontalBoxLayout"/>
+        </property>
+        <property name="layoutManager.actionFieldPrototype.label" value=""/>
+    </bean>
+
+    <bean id="OleExtendedInformation" parent="Uif-Disclosure-VerticalBoxSection"
+          p:fieldBindingObjectPath="documentForm.selectedHolding">
+        <property name="headerText" value="Extended Information"/>
+        <property name="items">
+            <list>
+
+                <bean id="OleReceiptStatusField" parent="Uif-InputField" p:propertyName="receiptStatus"
+                      p:label="Receipt Status" p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.describe.keyvalue.ReceiptStatus"/>
+                    </property>
+                </bean>
+
+                <ref bean="OleAccessInformation"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OleAccessInformation" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="1"
+          p:fieldBindingObjectPath="documentForm.selectedHolding">
+        <property name="collectionObjectClass" value="org.kuali.ole.docstore.common.document.content.instance.Uri"/>
+        <property name="propertyName" value="uri"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <!--<property name="addLineLabel" value=""/>-->
+        <property name="items">
+            <list>
+                <bean id="OleAccessInformationGroup" parent="Uif-HorizontalFieldGroup" p:style="width:70%" p:render="@{editable eq 'true'}">
+                    <property name="items">
+                        <list>
+                            <bean id="OleAccessInformationField" parent="Uif-InputField" p:propertyName="value"
+                                  p:label="Access Information" p:labelPlacement="LEFT">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="35" p:maxLength="9950"/>
+                                </property>
+                            </bean>
+                            <bean id="holdingsClickableLink" parent="Uif-ActionLink" p:actionScript="holdingsClickableLink('@{#index}');" p:actionLabel="Test Link"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean id="OleAccessInformationGroup_readOnly" parent="Uif-HorizontalFieldGroup" p:style="width:70%"  p:label="Access Information" p:render="@{editable eq 'false'}">
+                    <property name="items">
+                        <list>
+                            <bean id="OleAccessInformationField_readOnly" parent="Uif-LinkField"  p:width="10%" p:href="@{#line.value}" p:linkText="@{#line.value}" p:target="_blank" p:render="@{editable eq 'false'}"/>
+                        </list>
+                    </property>
+                </bean>
+             </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="oleAccessInformation_addTagButton" parent="Uif-SecondaryActionButton-Small"
+                      p:methodToCall="addAccessInformation" p:successCallback="holdingsAddOrRemove()" p:actionLabel="Add"/>
+                <bean id="oleAccessInformation_removeTagButton" parent="Uif-SecondaryActionButton-Small"
+                      p:methodToCall="removeAccessInformation" p:successCallback="holdingsAddOrRemove()" p:actionLabel="Remove"/>
+            </list>
+        </property>
+        <property name="layoutManager.actionFieldPrototype.group.layoutManager">
+            <bean parent="Uif-HorizontalBoxLayout"/>
+        </property>
+        <property name="layoutManager.actionFieldPrototype.label" value=""/>
+    </bean>
+
+    <bean id="OleHoldingNotes" parent="Uif-Disclosure-VerticalBoxSection"
+          p:fieldBindingObjectPath="documentForm.selectedHolding">
+        <property name="headerText" value="Holding Notes"/>
+        <property name="items">
+            <list>
+                <ref bean="OleHoldingNotesRepeatableSection"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLESerialReceivingTab" parent="Uif-Disclosure-VerticalBoxSection" p:componentSecurity.viewAuthz="true"
+          p:render="@{globalEditFlag eq 'false' and serialFlag eq true}" p:readOnly="true">
+        <property name="headerText" value="Receipts from Serials Receiving"/>
+        <property name="items">
+            <list>
+                <bean id="OleUnboundLocation" parent="Uif-InputField" p:propertyName="unboundLocation"
+                      p:label="Unbound location" p:readOnly="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl"/>
+                    </property>
+                </bean>
+                <ref bean="OleMainReceiptHistory"/>
+                <ref bean="OleSupplementReceiptHistory"/>
+                <ref bean="OleIndexReceiptHistory"/>
+                <bean id="OLESerialReceivingButtonLinkForShow" parent="Uif-SecondaryActionButton-Small"
+                      p:methodToCall="createSerialReceiving" p:actionLabel="Show Serials Receiving Record"
+                      p:ajaxSubmit="true" p:render="@{serialReceivingDocId ne null and serialReceivingDocId ne ''}"
+                      p:successCallback="showSerialReceiving()"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="OleMainReceiptHistory" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="8"
+          p:render="@{mainSerialReceivingHistoryList ne null and mainSerialReceivingHistoryList.size()>0}">
+        <property name="headerText" value="Main Receipt History"/>
+        <property name="collectionObjectClass" value="org.kuali.ole.select.bo.OLESerialReceivingHistory"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="propertyName" value="mainSerialReceivingHistoryList"/>
+        <property name="items">
+            <list>
+                <bean id="mainPublicDisplay" parent="Uif-InputField" p:propertyName="publicDisplay"
+                      p:label="Public Display">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+                <ref bean="enumerationCaption"/>
+                <ref bean="chronologyCaption"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OleSupplementReceiptHistory" parent="Uif-TableCollectionSection"
+          p:layoutManager.numberOfColumns="8"
+          p:render="@{supplementSerialReceivingHistoryList ne null and supplementSerialReceivingHistoryList.size()>0}">
+        <property name="headerText" value="Supplementary Receipt History"/>
+        <property name="collectionObjectClass" value="org.kuali.ole.select.bo.OLESerialReceivingHistory"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="propertyName" value="supplementSerialReceivingHistoryList"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="items">
+            <list>
+                <bean id="supplementPublicDisplay" parent="Uif-InputField" p:propertyName="publicDisplay" p:label="Public Display">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+                <ref bean="enumerationCaption"/>
+                <ref bean="chronologyCaption"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OleIndexReceiptHistory" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="8"
+          p:render="@{indexSerialReceivingHistoryList ne null and indexSerialReceivingHistoryList.size()>0}">
+        <property name="headerText" value="Index Receipt History"/>
+        <property name="collectionObjectClass" value="org.kuali.ole.select.bo.OLESerialReceivingHistory"/>
+        <property name="propertyName" value="indexSerialReceivingHistoryList"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean id="indexPublicDisplay" parent="Uif-InputField" p:propertyName="publicDisplay"
+                      p:label="Public Display">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+                <ref bean="enumerationCaption"/>
+                <ref bean="chronologyCaption"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="enumerationCaption" parent="Uif-InputField" p:propertyName="enumerationCaption" p:label="Enumeration"></bean>
+    <bean id="chronologyCaption" parent="Uif-InputField" p:propertyName="chronologyCaption" p:label="Chronology"></bean>
+    <bean id="OLESerialReceivingButtonLinkForCreate" parent="Uif-SecondaryActionButton-Small"
+          p:methodToCall="createSerialReceiving" p:actionLabel="Create Serials Receiving Record"
+          p:ajaxSubmit="true" p:render="@{serialFlag eq false}" p:successCallback="createSerialReceiving()"/>
+    <bean id="OleHoldingNotesRepeatableSection" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="1">
+        <property name="collectionObjectClass" value="org.kuali.ole.docstore.common.document.content.instance.Note"/>
+        <property name="propertyName" value="note"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <!--<property name="addLineLabel" value=""/>-->
+        <property name="items">
+            <list>
+                <bean id="OleHoldingNotesRepeatableGroup" parent="Uif-HorizontalFieldGroup" p:style="width:70%">
+                    <property name="items">
+                        <list>
+                            <bean id="OleHoldingNoteTypeField" parent="Uif-InputField" p:propertyName="type"
+                                  p:label="Type" p:labelPlacement="LEFT">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="public" p:value="Public"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="nonPublic" p:value="Non-Public"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                            <bean id="OleHoldingNoteDescField" parent="Uif-InputField" p:propertyName="value"
+                                  p:label="Note">
+                                <property name="control">
+                                    <bean parent="Uif-TextAreaControl" p:rows="2" p:cols="30" p:style="width: 357px; height: 105px"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="OleHoldingNotes_addTagButton" parent="Uif-SecondaryActionButton-Small"
+                      p:methodToCall="addHoldingNotes" p:successCallback="holdingsAddOrRemove()" p:actionLabel="Add"/>
+                <bean id="OleHoldingNotes_removeTagButton" parent="Uif-SecondaryActionButton-Small"
+                      p:methodToCall="removeHoldingNotes" p:successCallback="holdingsAddOrRemove()" p:actionLabel="Remove"/>
+            </list>
+        </property>
+        <property name="layoutManager.actionFieldPrototype.group.layoutManager">
+            <bean parent="Uif-HorizontalBoxLayout" p:style="width:150%"/>
+        </property>
+        <property name="layoutManager.actionFieldPrototype.label" value=""/>
+    </bean>
+
+
+</beans>

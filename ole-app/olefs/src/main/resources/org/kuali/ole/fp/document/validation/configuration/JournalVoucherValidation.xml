@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2005-2008 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        
+    <bean id="journalVoucherDocumentFieldConversion" parent="validationFieldConversion">
+		<property name="sourceEventProperty" value="document" />
+		<property name="targetValidationProperty" value="journalVoucherForValidation" />
+	</bean>
+        
+	<bean id="JournalVoucher-routeDocumentValidation" parent="JournalVoucher-routeDocumentValidation-parent" scope="prototype" />
+	
+	<bean id="JournalVoucher-routeDocumentValidation-parent" parent="CompositeValidation" abstract="true" scope="prototype">
+		<property name="validations">
+			<list>
+				<bean parent="AccountingDocument-oneSidedRequiredAccountingLinesCountValidation" scope="prototype">
+					<property name="requiredMinimumCount" value="1" />
+					<property name="parameterProperties">
+						<list>
+							<bean parent="accountingDocumentFieldConversion" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="JournalVoucher-saveDocumentValidation" parent="JournalVoucher-saveDocumentValidation-parent" scope="prototype" />	
+	<bean id="JournalVoucher-saveDocumentValidation-parent" parent="CompositeValidation" abstract="true" scope="prototype">
+		<property name="validations">
+			<list>
+				<bean parent="AccountingDocument-SaveDocument-DefaultValidation" scope="prototype" />
+				<bean parent="JournalVoucher-balanceTypeValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="journalVoucherDocumentFieldConversion" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="JournalVoucher-accountingPeriodValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="journalVoucherDocumentFieldConversion" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="JournalVoucher-reversalDateValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="journalVoucherDocumentFieldConversion" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="JournalVoucher-approveDocumentValidation" parent="JournalVoucher-approveDocumentValidation-parent" scope="prototype" />	
+	<bean id="JournalVoucher-approveDocumentValidation-parent" parent="CompositeValidation" abstract="true" scope="prototype">
+		<property name="validations">
+			<list>
+				<bean parent="AccountingDocument-ApproveDocument-DefaultValidation" scope="prototype" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="JournalVoucher-blanketApproveDocumentValidation" parent="JournalVoucher-blanketApproveDocumentValidation-parent" scope="prototype" />	
+	<bean id="JournalVoucher-blanketApproveDocumentValidation-parent" parent="CompositeValidation" abstract="true" scope="prototype">
+		<property name="validations">
+			<list>
+				<bean parent="AccountingDocument-BlanketApproveDocument-DefaultValidation" scope="prototype" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="JournalVoucher-accountingLineValuesAllowedValidation" parent="AccountingDocument-defaultAccountingLineValuesAllowedValidation" scope="prototype">
+		<property name="objectCodeAllowedValidation"><null /></property>
+		<property name="objectTypeAllowedValidation">
+			<bean parent="JournalVoucher-accountingLineObjectTypeValueAllowedValidation" scope="prototype" />
+		</property>
+	</bean>
+	
+	<bean id="JournalVoucher-addAccountingLine-failFastValidation" abstract="true" parent="CompositeValidation" scope="prototype"> <!-- here to get the quit on fail issues correct -->
+		<property name="validations">
+			<list>
+				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+					<property name="parameterProperties">
+						<bean parent="accountingLineToBusinessObjectFieldConversion" />
+					</property>
+				</bean>
+				<bean parent="JournalVoucher-accountingLineAmountValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="journalVoucherDocumentFieldConversion" />
+							<bean parent="accountingLineFieldConversion" />
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>
+				<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="accountingLineFieldConversion" />
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>
+				<bean parent="JournalVoucher-accountingLineObjectTypeCodeValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="accountingLineFieldConversion" />
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>
+				<bean parent="JournalVoucher-accountingLineValuesAllowedValidation" scope="prototype">
+					<property name="accountingDocumentParameterPropertyName" value="document" />
+					<property name="accountingLineParameterPropertyName" value="accountingLine" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="JournalVoucher-addAccountingLineValidation" parent="JournalVoucher-addAccountingLineValidation-parent" scope="prototype" />
+	
+	<bean id="JournalVoucher-addAccountingLineValidation-parent" parent="CompositeValidation" abstract="true" scope="prototype">
+		<property name="validations">
+			<list>
+				<bean parent="JournalVoucher-addAccountingLine-failFastValidation" scope="prototype" />
+				<bean parent="AccountingDocument-accountingLineAccessibleValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="accountingDocumentFieldConversion" />
+							<bean parent="accountingLineFieldConversion" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="JournalVoucher-balanceTypeValidation" scope="prototype" p:quitOnFail="true">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="journalVoucherDocumentFieldConversion" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="JournalVoucher-accountingLineEncumbranceReferenceValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+              <bean parent="journalVoucherDocumentFieldConversion" />
+							<bean parent="accountingLineFieldConversion" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="JournalVoucher-deleteAccountingLineValidation" parent="JournalVoucher-deleteAccountingLineValidation-parent" scope="prototype" />
+	
+	<bean id="JournalVoucher-deleteAccountingLineValidation-parent" parent="CompositeValidation" abstract="true" scope="prototype">
+		<property name="validations">
+			<list>
+				<bean parent="AccountingDocument-DeleteAccountingLine-DefaultValidation" scope="prototype" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="JournalVoucher-updateAccountingLine-failFastValidation" abstract="true" parent="CompositeValidation" scope="prototype"> <!-- here to get the quit on fail issues correct -->
+		<property name="validations">
+			<list>
+				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+					<property name="parameterProperties">
+						<bean parent="updatedAccountingLineToBusinessObjectFieldConversion" />
+					</property>
+				</bean>
+				<bean parent="JournalVoucher-accountingLineAmountValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="journalVoucherDocumentFieldConversion" />
+							<bean parent="updatedAccountingLineFieldConversion" />
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>
+				<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="updatedAccountingLineFieldConversion" />
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>
+				<bean parent="JournalVoucher-accountingLineObjectTypeCodeValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="updatedAccountingLineFieldConversion" />
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>
+				<bean parent="JournalVoucher-accountingLineValuesAllowedValidation" scope="prototype">
+					<property name="accountingDocumentParameterPropertyName" value="document" />
+					<property name="accountingLineParameterPropertyName" value="updatedAccountingLine" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="JournalVoucher-updateAccountingLineValidation" parent="JournalVoucher-updateAccountingLineValidation-parent" scope="prototype" />
+	
+	<bean id="JournalVoucher-updateAccountingLineValidation-parent" parent="CompositeValidation" abstract="true" scope="prototype">
+		<property name="validations">
+			<list>
+				<bean parent="JournalVoucher-updateAccountingLine-failFastValidation" scope="prototype" />
+				<bean parent="AccountingDocument-accountingLineAccessibleValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="accountingDocumentFieldConversion" />
+							<bean parent="updatedAccountingLineFieldConversion" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="JournalVoucher-balanceTypeValidation" scope="prototype" p:quitOnFail="true">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="journalVoucherDocumentFieldConversion" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="JournalVoucher-accountingLineEncumbranceReferenceValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+              <bean parent="journalVoucherDocumentFieldConversion" />
+							<bean parent="updatedAccountingLineFieldConversion" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="JournalVoucher-reviewAccountingLine-failFastValidation" abstract="true" parent="CompositeValidation" scope="prototype"> <!-- here to get the quit on fail issues correct -->
+		<property name="validations">
+			<list>
+				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+					<property name="parameterProperties">
+						<bean parent="accountingLineToBusinessObjectFieldConversion" />
+					</property>
+				</bean>
+				<bean parent="JournalVoucher-accountingLineAmountValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="journalVoucherDocumentFieldConversion" />
+							<bean parent="accountingLineFieldConversion" />
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>
+				<bean parent="AccountingDocument-accountingLineDataDictionaryValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="accountingLineFieldConversion" />
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>
+				<bean parent="JournalVoucher-accountingLineObjectTypeCodeValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="accountingLineFieldConversion" />
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>
+				<bean parent="JournalVoucher-accountingLineValuesAllowedValidation" scope="prototype">
+					<property name="accountingDocumentParameterPropertyName" value="document" />
+					<property name="accountingLineParameterPropertyName" value="accountingLine" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="JournalVoucher-reviewAccountingLineValidation" parent="JournalVoucher-reviewAccountingLineValidation-parent" scope="prototype" />
+	
+	<bean id="JournalVoucher-reviewAccountingLineValidation-parent" parent="CompositeValidation" abstract="true" scope="prototype">
+		<property name="validations">
+			<list>
+				<bean parent="JournalVoucher-reviewAccountingLine-failFastValidation" scope="prototype" />
+				<bean parent="JournalVoucher-balanceTypeValidation" scope="prototype" p:quitOnFail="true">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="journalVoucherDocumentFieldConversion" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="JournalVoucher-accountingLineEncumbranceReferenceValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+              <bean parent="journalVoucherDocumentFieldConversion" />
+							<bean parent="accountingLineFieldConversion" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+        
+</beans>

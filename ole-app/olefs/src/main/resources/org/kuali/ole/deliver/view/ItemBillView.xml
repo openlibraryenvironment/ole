@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="ItemBillView" parent="ItemBillView-parentBean" />
+    <bean id="ItemBillView-parentBean" parent="Uif-OLEFormView">
+        <property name="headerText" value="View Item Bill"/>
+        <property name="items">
+            <list>
+                <bean id="ItemViewPage" parent="Uif-Page" >
+                    <property name="items">
+                        <list>
+                            <ref bean="Item-barcode" />
+                            <ref bean="itemDetailList"/>
+                            <ref bean="ItemBillSection" />
+                            <ref bean="SecondarySearchItems"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="footer">
+            <ref bean="ClearFooterView-buttons" />
+        </property>
+        <property name="formClass" value="org.kuali.ole.deliver.form.ItemBillForm"/>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>ole/deliver/billPayment/script/BillPayment.js</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Item-barcode" parent="Item-barcode-parentBean" />
+    <bean  id="Item-barcode-parentBean"  parent="Uif-InputField" p:propertyName="itemBarcode" p:label="Item Barcode" >
+        <property name="control">
+            <bean parent="Uif-TextControl"/>
+        </property>
+        <property name="quickfinder">
+            <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.deliver.bo.OleItemSearch"
+                  p:fieldConversions="itemBarCode:itemBarcode"/>
+        </property>
+    </bean>
+    <bean id="SecondarySearchItems" parent="SecondarySearchItems-parentBean" />
+    <bean id="SecondarySearchItems-parentBean" parent="Uif-SecondaryActionButton-Small" p:methodToCall="submit" p:actionLabel="Submit" p:hidden="true" p:focusOnIdAfterSubmit="FIRST"/>
+
+    <bean id="ItemBillFooter" parent="Uif-FooterBase">
+        <property name="items">
+            <list>
+                <bean parent="Uif-SecondaryActionButton" p:methodToCall="submit" p:actionLabel="Submit" p:style="float:left;margin-left:2em"/>
+                <bean parent="Uif-SecondaryActionButton" p:methodToCall="clear" p:actionLabel="Clear" p:style="float:left;margin-left:2em"/>
+                <bean parent="Uif-SecondaryActionButton" p:methodToCall="close" p:actionLabel="Close" p:style="float:left;margin-left:2em"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="itemDetailList" parent="itemDetailList-parent" p:render="@{feeTypes.size() > 0}"/>
+    <bean id="itemDetailList-parent" parent="Uif-HorizontalBoxSection" >
+       <!-- <property name="headerText" value="Item Bill"/>-->
+
+        <property name="items">
+            <list>
+                <bean id="item_Title" parent="Uif-DataField" p:label="Item Title" p:propertyName="feeType.itemTitle" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                <bean id="item_Author" parent="Uif-DataField" p:label="Item Author" p:propertyName="feeType.itemAuthor" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                <bean id="item_CallNumber" parent="Uif-DataField" p:label="Item Call Number" p:propertyName="feeType.itemCallNumber" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                <bean id="item_CopyNumber" parent="Uif-DataField" p:label="Item Copy Number" p:propertyName="feeType.itemCopyNumber" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                <bean id="item_Enumeration" parent="Uif-DataField" p:label="Item Enumeration" p:propertyName="feeType.itemEnumeration" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                <bean id="item_ChronologyOwnLocation" parent="Uif-DataField" p:label="Item Chronology Own Location" p:propertyName="feeType.itemChronologyOwnLocation" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ItemBillSection" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="11" p:style="width:1000px" p:render="@{feeTypes.size() > 0}">
+        <!--<property name="headerText" value="Item Bill in Detail" />-->
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.FeeType"/>
+        <property name="propertyName" value="feeTypes"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.expandDetailsActionPrototype">
+            <bean parent="Uif-ExpandDetailsImageAction" p:width="10px"/>
+        </property>
+        <property name="layoutManager.applyDefaultCellWidths" value="false"/>
+        <property name="layoutManager.richTable">
+            <bean parent="Uif-PagedRichTable">
+                <property name="templateOptions">
+                    <map merge="true">
+                        <entry key="aoColumnDefs"
+                               value="[{'sWidth' : '20px', 'aTargets' : [0]},{'aTargets':[2], 'bSortable':false}]"/>
+                    </map>
+                </property>
+            </bean>
+        </property>
+        <property name="layoutManager.rowDetailsGroup">
+            <bean parent="Uif-VerticalBoxGroup">
+                <property name="items">
+                    <list>
+                        <bean id="item_LevelTransaction" parent="LineItemTransactionDetails" p:propertyName="itemLevelBillPaymentList"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.disableTableSort" value="true" />
+        <property name="items">
+            <list>
+                <bean id="item_Barcode" parent="Uif-DataField" p:label="Item Barcode" p:propertyName="itemBarcode"/>
+                <bean id="bill_Number" parent="Uif-DataField" p:label="Bill No" p:propertyName="billNumber"/>
+                <bean id="bill_Date" parent="Uif-DataField" p:label="Bill Date" p:propertyName="billDate"/>
+                <bean id="item_feeTypeName" parent="Uif-DataField" p:label="Fee Type" p:propertyName="feeTypeName"/>
+                <bean id="item_feeAmount" parent="Uif-DataField" p:label="Fee Amount" p:propertyName="feeAmount"/>
+                <bean id="item_paymentStatus" parent="Uif-DataField" p:label="Payment Status" p:propertyName="olePaymentStatus.paymentStatusName"/>
+                <bean id="item_balFeeAmount" parent="Uif-DataField" p:label="OutStanding Amount" p:propertyName="balFeeAmount"/>
+                <bean id="item_patron_barcode" parent="Uif-LinkField" p:target="_blank" p:style="font-weight:bold;text-align:left;" p:href="inquiry?olePatronId=@{#line.patronBillPayment.patronId}&amp;methodToCall=start&amp;dataObjectClassName=org.kuali.ole.deliver.bo.OlePatronDocument&amp;dialogMode=true&amp;showHome=false&amp;showHistory=false" p:linkText="@{#line.patronBillPayment.olePatron.barcode}" p:label="Patron Barcode"  />
+                <bean id="item_patron_name" parent="Uif-DataField" p:label="Patron Name" p:propertyName="patronBillPayment.patronName"/>
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+</beans>

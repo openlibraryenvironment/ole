@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <!--
+
+        Copyright 2005-2012 The Kuali Foundation
+
+        Licensed under the Educational CommunNity License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at
+
+        http://www.opensource.org/licenses/ecl2.php
+
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+    -->
+
+    <bean id="OleInvoiceSubType-LookupView" parent="OleInvoiceSubType-LookupView-parentBean"/>
+
+    <bean id="OleInvoiceSubType-LookupView-parentBean" abstract="true" parent="Uif-OLELookupView">
+        <property name="headerText" value="OleInvoiceSubType" />
+        <property name="dataObjectClassName" value="org.kuali.ole.select.businessobject.OleInvoiceSubType" />
+        <!--<property name="viewHelperServiceClass" value="org.kuali.ole.select.lookup.OleInvoiceSubTypeLookupableImpl"/>-->
+        <property name="criteriaFields">
+            <list>
+                <bean id="invoiceSubTypeId" parent="Uif-LookupCriteriaInputField" p:propertyName="invoiceSubTypeId"/>
+                <bean id="invoiceSubType" parent="Uif-LookupCriteriaInputField" p:propertyName="invoiceSubType"/>
+                <!--<bean id="invoiceSubTypeDescription" parent="Uif-LookupCriteriaInputField" p:propertyName="invoiceSubTypeDescription"/>
+                <bean id="active" parent="Uif-LookupCriteriaInputField" p:propertyName="active"/>-->
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean id="OleInvoiceSubType_searchResult_invoiceSubTypeId" parent="Uif-DataField" p:propertyName="invoiceSubTypeId"/>
+                <bean id="OleInvoiceSubType_searchResult_invoiceSubType" parent="Uif-DataField" p:propertyName="invoiceSubType"/>
+              <!--  <bean id="OleInvoiceSubType_searchResult_invoiceSubTypeDescription" parent="Uif-DataField" p:propertyName="invoiceSubTypeDescription"/>-->
+                <!--<bean id="searchResult_active" parent="Uif-DataField" p:propertyName="active"/>-->
+            </list>
+        </property>
+    </bean>
+</beans>
+
+

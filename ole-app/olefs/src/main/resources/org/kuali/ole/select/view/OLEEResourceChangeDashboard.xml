@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="EResourceChangesDashBoardView" parent="EResourceChangesDashBoardView-parentBean" />
+    <bean id="EResourceChangesDashBoardView-parentBean" parent="Uif-OLEFormView">
+        <property name="headerText" value="E-Resource Changes DashBoard"/>
+        <property name="items">
+            <list>
+                <bean id="EResourceChangesDashBoardViewPage" parent="Uif-Page" >
+                    <property name="items">
+                        <list>
+                            <ref bean="EResourceChangesDashBoard-SelectionSection"/>
+                            <bean id="EResourceChangesDashBoard-Reset" parent="Uif-SecondaryActionButton-Small" p:methodToCall="clear" p:actionLabel="Clear" />
+                            <ref bean="EResourceChangesDashBoard-TabSection"/>
+                            <ref bean="EResourceChangesDashBoard-ButtonSection"/>
+                            <ref bean="hiddenSelectedTab"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>ole/eresource/scripts/changedashboard.js</value>
+            </list>
+        </property>
+        <property name="formClass" value="org.kuali.ole.select.form.OLEEResourceChangeDashboardForm"/>
+    </bean>
+
+    <bean id="EResourceChangesDashBoard-TabSection" parent="Uif-TabSection" >
+        <property name="items">
+            <list>
+                <ref bean="EResourceChangesDashBoard-ToDoTab"/>
+                <ref bean="EResourceChangesDashBoard-ChangeLogTab"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="EResourceChangesDashBoard-ToDoTab" parent="Uif-TableCollectionSection">
+        <property name="headerText" value="To-Do" />
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.select.gokb.OleGokbReview" />
+        <property name="propertyName" value="oleGokbReviews" />
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.generateAutoSequence" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.applyDefaultCellWidths" value="false"/>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="bFilter" value="false"/>
+                <entry key="aoColumns"
+                value="[ {'bSortable':true, 'sWidth':'1%'},
+                {'bSortable':true, 'sWidth':'30%'},
+                {'bSortable':true, 'sWidth':'30%'},
+                {'bSortable':true, 'sWidth':'10%'},
+                {'bSortable':true, 'sWidth':'60%'},
+                {'bSortable':true, 'sWidth':'10%'}]"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:label="Date" p:propertyName="reviewDate"/>
+                <bean parent="Uif-DataField" p:label="Name" p:propertyName="oleERSIdentifier"/>
+                <!--<bean parent="Uif-DataField" p:label="Title" p:propertyName="title"/>-->
+                <bean parent="Uif-DataField" p:label="Type" p:propertyName="type"/>
+                <bean parent="Uif-DataField" p:label="Details" p:propertyName="details"/>
+                <bean parent="Uif-InputField" p:label="Approve?" p:propertyName="approve" p:defaultValue="false" p:width="50px">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:label="Clear?" p:propertyName="clear" p:defaultValue="false" p:width="50px">
+
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+    <bean id="EResourceChangesDashBoard-ChangeLogTab" parent="Uif-TableCollectionSection">
+        <property name="headerText" value="Change Log" />
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.select.gokb.OleGokbChangeLog" />
+        <property name="propertyName" value="oleGokbChangeLogs" />
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.generateAutoSequence" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.applyDefaultCellWidths" value="false"/>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="bFilter" value="false"/>
+                <entry key="aoColumns"
+                value="[ {'bSortable':true, 'sWidth':'1%'},
+                {'bSortable':true, 'sWidth':'10%'},
+                {'bSortable':true, 'sWidth':'30%'},
+                {'bSortable':true, 'sWidth':'10%'},
+                {'bSortable':true, 'sWidth':'60%'},
+                {'bSortable':true, 'sWidth':'10%'}]"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:label="Date" p:propertyName="changeLogDate"/>
+                <bean parent="Uif-DataField" p:label="EResource" p:propertyName="oleERSIdentifier"/>
+                <bean parent="Uif-DataField" p:label="Title" p:propertyName="type"/>
+                <bean parent="Uif-DataField" p:label="Type" p:propertyName="details"/>
+                <bean parent="Uif-DataField" p:label="Origin" p:propertyName="origin"/>
+                <bean parent="Uif-DataField" p:label="Details" p:propertyName="details"/>
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+    <bean id="EResourceChangesDashBoard-SelectionSection" parent="Uif-HorizontalBoxSection">
+        <property name="headerText" value=""/>
+        <property name="items">
+            <list>
+                <bean id="EResourceChangesDashBoard-date" parent="Base-Uif-InputField"
+                      p:propertyName="selectedDate" p:label="Date" p:onChangeScript="submitForm('filterResults', null, null, null);">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="dropdown"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.select.keyvalue.OLEDateKeyValueFinder"/>
+                    </property>
+                </bean>
+                <bean id="EResourceChangesDashBoard-eresource" parent="Base-Uif-InputField"
+                      p:propertyName="selectedEresource" p:label="Eresource"
+                      p:onChangeScript="submitForm('filterResults', null, null, null);">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="dropdown"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.select.keyvalue.OLEEResourceKeyValueFinder"/>
+                    </property>
+                </bean>
+                <!--<bean id="EResourceChangesDashBoard-title" parent="Base-Uif-InputField"
+                      p:propertyName="selectedTitle" p:label="Title"
+                      p:onChangeScript="submitForm('filterResults', null, null, null);">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="dropdown"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.select.keyvalue.OLETitleKeyValueFinder"/>
+                    </property>
+                </bean>-->
+                <bean id="EResourceChangesDashBoard-type" parent="Base-Uif-InputField"
+                      p:propertyName="selectedType" p:label="Type" p:onChangeScript="submitForm('filterResults', null, null, null);">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="dropdown"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.select.keyvalue.OLETypeKeyValueFinder"/>
+                    </property>
+                </bean>
+                <bean id="EResourceChangesDashBoard-details" parent="Base-Uif-InputField"
+                      p:propertyName="selectedDetails" p:label="Details"
+                      p:onChangeScript="submitForm('filterResults', null, null, null);"  p:render="@{selectedTab eq 'To-Do'}">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="dropdown"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.select.keyvalue.OLEDetailsKeyValueFinder"/>
+                    </property>
+                </bean>
+                <!--<bean id="EResourceChangesDashBoard-origin" parent="Base-Uif-InputField"
+                      p:propertyName="selectedOrigin" p:label="Origin"
+                      p:onChangeScript="submitForm('filterResults', null, null, null);" p:render="@{selectedTab eq 'Change-Log'}">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="dropdown"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.select.keyvalue.OLEOriginKeyValueFinder"/>
+                    </property>
+                </bean>-->
+            </list>
+        </property>
+    </bean>
+
+    <bean id="EResourceChangesDashBoard-ButtonSection" parent="Uif-HorizontalBoxSection">
+        <property name="headerText" value=""/>
+        <property name="items">
+            <list>
+                <bean id="EResourceChangesDashBoard-ArciveDate" parent="Uif-InputField" p:propertyName="archivedDate">
+                    <property name="control">
+                        <bean parent="Uif-DateControl" p:size="10" />
+                    </property>
+                </bean>
+                <bean id="EResourceChangesDashBoard-Archive" parent="Uif-SecondaryActionButton-Small"
+                      p:methodToCall="archive" p:actionLabel="Archive" p:render="@{selectedTab eq 'Change-Log'}" p:successCallback="submitForm('start', null, null, null);"/>
+                <bean id="EResourceChangesDashBoard-Submit" parent="Uif-SecondaryActionButton-Small"
+                      p:methodToCall="submit" p:actionLabel="Submit"  p:render="@{selectedTab eq 'To-Do'}" p:successCallback="submitForm('start', null, null, null);"/>
+                <bean id="EResourceChangesDashBoard-Cancel" parent="Uif-SecondaryActionButton-Small"
+                      p:methodToCall="cancel" p:actionLabel="Cancel" p:render="@{selectedTab eq 'To-Do'}"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="hiddenSelectedTab" parent="Uif-InputField" p:propertyName="selectedTab" p:hidden="true">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
+</beans>

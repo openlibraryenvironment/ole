@@ -1,0 +1,119 @@
+/*
+ * Copyright 2006 The Kuali Foundation
+ * 
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.opensource.org/licenses/ecl2.php
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.kuali.ole.gl.businessobject.lookup;
+
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import org.kuali.ole.gl.Constant;
+import org.kuali.ole.gl.GeneralLedgerConstants;
+import org.kuali.ole.gl.businessobject.AccountBalance;
+import org.kuali.ole.gl.businessobject.TransientBalanceInquiryAttributes;
+import org.kuali.ole.gl.businessobject.inquiry.AccountBalanceByObjectInquirableImpl;
+import org.kuali.ole.gl.businessobject.inquiry.AccountBalanceInquirableImpl;
+import org.kuali.ole.gl.service.AccountBalanceService;
+import org.kuali.ole.sys.OLEConstants;
+import org.kuali.ole.sys.OLEPropertyConstants;
+import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.kns.lookup.KualiLookupableImpl;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.lookup.CollectionIncomplete;
+
+/**
+ * An extension of KualiLookupableImpl to support the account balance by object inquiry screen
+ */
+public class AccountBalanceByObjectLookupableImpl extends KualiLookupableImpl {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountBalanceByObjectLookupableImpl.class);
+
+    private AccountBalanceService accountBalanceService;
+
+    public void setAccountBalanceService(AccountBalanceService abs) {
+        accountBalanceService = abs;
+    }
+
+    /**
+     * Returns the inquiry url for a result field.
+     * 
+     * @param bo the business object instance to build the urls for
+     * @param propertyName the property which links to an inquirable
+     * @return String url to inquiry
+     */
+    public HtmlData getInquiryUrl(PersistableBusinessObject bo, String propertyName) {
+        if (GeneralLedgerConstants.DummyBusinessObject.LINK_BUTTON_OPTION.equals(propertyName)) {
+            return (new AccountBalanceByObjectInquirableImpl()).getInquiryUrl(bo, propertyName);
+        }
+        return (new AccountBalanceInquirableImpl()).getInquiryUrl(bo, propertyName);
+    }
+
+    /**
+     * Uses Lookup Service to provide a basic search.
+     * 
+     * @param fieldValues - Map containing prop name keys and search values
+     * @return List found business objects
+     */
+    public List getSearchResults(Map fieldValues) {
+        LOG.debug("getSearchResults() started");
+
+        setBackLocation((String) fieldValues.get(OLEConstants.BACK_LOCATION));
+        setDocFormKey((String) fieldValues.get(OLEConstants.DOC_FORM_KEY));
+
+        BusinessObjectFieldConverter.escapeSingleQuote(fieldValues);
+
+        String costShareOption = (String) fieldValues.get(GeneralLedgerConstants.DummyBusinessObject.COST_SHARE_OPTION);
+        String pendingEntryOption = (String) fieldValues.get(GeneralLedgerConstants.DummyBusinessObject.PENDING_ENTRY_OPTION);
+        String consolidationOption = (String) fieldValues.get(GeneralLedgerConstants.DummyBusinessObject.CONSOLIDATION_OPTION);
+        boolean isCostShareExcluded = Constant.COST_SHARE_EXCLUDE.equals(costShareOption);
+        int pendingEntryCode = AccountBalanceService.PENDING_NONE;
+        if (GeneralLedgerConstants.PendingEntryOptions.APPROVED.equals(pendingEntryOption)) {
+            pendingEntryCode = AccountBalanceService.PENDING_APPROVED;
+        }
+        else if (GeneralLedgerConstants.PendingEntryOptions.ALL.equals(pendingEntryOption)) {
+            pendingEntryCode = AccountBalanceService.PENDING_ALL;
+        }
+        boolean isConsolidated = Constant.CONSOLIDATION.equals(consolidationOption);
+
+        String chartOfAccountsCode = (String) fieldValues.get(OLEPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        String accountNumber = (String) fieldValues.get(OLEPropertyConstants.ACCOUNT_NUMBER);
+        String subAccountNumber = (String) fieldValues.get(OLEPropertyConstants.SUB_ACCOUNT_NUMBER);
+        String financialObjectLevelCode = (String) fieldValues.get(GeneralLedgerConstants.BalanceInquiryDrillDowns.OBJECT_LEVEL_CODE);
+        String financialReportingSortCode = (String) fieldValues.get(GeneralLedgerConstants.BalanceInquiryDrillDowns.REPORTING_SORT_CODE);
+
+        // Dashes means no sub account number
+        if (OLEConstants.getDashSubAccountNumber().equals(subAccountNumber)) {
+            subAccountNumber = "";
+        }
+
+        String ufy = (String) fieldValues.get(OLEPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+
+        // TODO Deal with invalid numbers
+        Integer universityFiscalYear = new Integer(Integer.parseInt(ufy));
+
+        List results = accountBalanceService.findAccountBalanceByObject(universityFiscalYear, chartOfAccountsCode, accountNumber, subAccountNumber, financialObjectLevelCode, financialReportingSortCode, isCostShareExcluded, isConsolidated, pendingEntryCode);
+
+        // Put the search related stuff in the objects
+        for (Iterator iter = results.iterator(); iter.hasNext();) {
+            AccountBalance ab = (AccountBalance) iter.next();
+
+            TransientBalanceInquiryAttributes dbo = ab.getDummyBusinessObject();
+            dbo.setConsolidationOption(consolidationOption);
+            dbo.setCostShareOption(costShareOption);
+            dbo.setPendingEntryOption(pendingEntryOption);
+            dbo.setLinkButtonOption(Constant.LOOKUP_BUTTON_VALUE);
+        }
+        return new CollectionIncomplete(results, new Long(results.size()));
+    }
+}

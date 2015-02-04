@@ -1,0 +1,18 @@
+<exportProfile>
+    <exportFormat>MARC XML</exportFormat>
+    <exportType>Batch Job</exportType>
+    <exportTo>/likewise-open/HTCINDIA/syedk/downloaded</exportTo>
+    <noOfExportThreads>5</noOfExportThreads>
+    <noOfRecords>5</noOfRecords>
+    <dataField>999</dataField>
+    <exportMappingFields>
+        <exportMappingField>
+            <marcField>t</marcField>
+            <itemField>itemType</itemField>
+        </exportMappingField>
+        <exportMappingField>
+            <marcField>a</marcField>
+            <itemField>Call number</itemField>
+        </exportMappingField>
+    </exportMappingFields>
+</exportProfile>

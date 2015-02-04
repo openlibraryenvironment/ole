@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <bean id="PatronBillMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+        <property name="workflowPropertyGroups">
+            <list>
+                <bean parent="WorkflowPropertyGroup">
+                    <property name="workflowProperties">
+                        <list>
+                            <bean parent="WorkflowProperty" p:path="oldMaintainableObject.businessObject"/>
+                            <bean parent="WorkflowProperty" p:path="newMaintainableObject.businessObject"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="PatronBillMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
+        <property name="dataObjectClass" value="org.kuali.ole.deliver.bo.PatronBillPayment"/>
+        <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+        <property name="documentTypeName" value="PatronBillMaintenanceDocument"/>
+        <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+        <property name="allowsRecordDeletion" value="true"/>
+        <property name="lockingKeys">
+            <list>
+                <value>billNumber</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="PatronBillMaintenanceDocument-MaintenanceView" parent="Uif-OleMaintenanceView">
+        <property name="dataObjectClassName" value="org.kuali.ole.deliver.bo.PatronBillPayment"/>
+        <property name="headerText" value="Patron Bill"/>
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/CIRC/content/ch03s03.html"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <!--<bean parent="Uif-DocumentOverviewSection" p:order="10"/>-->
+                <ref bean="PatronBillMaintenanceDocument-PatronSection"/>
+                <ref bean="PatronBillMaintenanceDocument-BillSection"/>
+                <ref bean="PatronBillMaintenanceDocument-FeeSection" />
+                <ref bean="PatronBillMaintenanceDocument-TotalAmount"/>
+                <ref bean="footer"/>
+                <bean parent="Uif-FooterBase" p:render="@{maintenanceAction eq 'Delete'}">
+                    <property name="items">
+                        <list>
+                            <bean id="deleteButton" parent="Uif-PrimaryActionButton" p:methodToCall= "deleteDocument" p:actionLabel="Delete"/>
+                            <bean id="cancelButton" parent="Uif-SecondaryActionButton" p:methodToCall="cancel" p:actionLabel="Cancel"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <!-- <property name="page.footer">
+             <bean parent="Uif-OleDocumentPageFooter" p:render="@{maintenanceAction ne 'Delete'}">
+                 <property name="items">
+                     <list>
+                         <bean parent="Uif-PrimaryActionButton" p:methodToCall="route" p:actionLabel="submit" p:performClientSideValidation="true"
+                               p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
+                         <bean parent="Uif-PrimaryActionButton" p:methodToCall="save" p:actionLabel="save" p:performClientSideValidation="true"
+                               p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}"/>
+                         <bean parent="Uif-PrimaryActionButton" p:methodToCall="blanketApprove" p:actionLabel="blanket approve" p:performClientSideValidation="true"
+                               p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE]}"/>
+                         <bean parent="Uif-SecondaryActionButton" p:methodToCall="close" p:actionLabel="close"
+                               p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}"/>
+                         <bean parent="Uif-PrimaryActionButton" p:methodToCall="cancel" p:actionLabel="cancel"
+                               p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+                     </list>
+                 </property>
+             </bean>
+         </property> -->
+        <property name="additionalScriptFiles">
+            <list>
+                <value>ole/deliver/billPayment/script/BillPayment.js</value>
+            </list>
+        </property>
+        <property name="page">
+            <bean parent="Uif-DocumentDescriptionSection-MaintenancePage"/>
+        </property>
+    </bean>
+    <bean id="Uif-DocumentDescriptionSection-MaintenancePage" abstract="true"
+          parent="Uif-DocumentDescriptionSection-MaintenancePage-parentBean"/>
+    <bean id="Uif-DocumentDescriptionSection-MaintenancePage-parentBean"
+          parent="Uif-DocumentDescriptionSection-DocumentPage">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-maintenancePage</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Uif-DocumentDescriptionSection-DocumentPage" parent="Uif-Disclosure-Page">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-documentPage</value>
+            </list>
+        </property>
+        <property name="defaultItemPosition" value="11"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-DocumentOverviewSection" p:order="10"/>
+                <bean parent="Uif-DocumentNotesSection" p:disclosure.defaultOpen="false" p:order="30"/>
+                <bean parent="Uif-DocumentAdHocRecipientsSection" p:disclosure.defaultOpen="false" p:order="40"/>
+                <bean parent="Uif-DocumentRouteLogSection" p:disclosure.defaultOpen="false" p:order="50"/>
+            </list>
+        </property>
+        <property name="footer">
+            <bean parent="Uif-OleDocumentPageFooter"/>
+        </property>
+    </bean>
+    <bean id="PatronBillMaintenanceDocument-PatronSection" parent="Uif-VerticalBoxSection" >
+        <property name="headerText" value="Patron Section" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="6">
+                    <property name="items">
+                        <list>
+                            <!-- <bean id="bill_firstName" parent="Uif-InputField" p:propertyName="olePatron.entity.names[0].firstName" p:label="First Name" p:readOnly="true">-->
+                            <bean id="bill_firstName" parent="Uif-InputField" p:propertyName="olePatron.entity.names[0].firstName" p:label="First Name" p:readOnly="true">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="40" p:maxLength="30" />
+                                </property>
+                            </bean>
+                            <!-- <bean id="bill_lastName" parent="Uif-InputField" p:propertyName="olePatron.entity.names[0].lastName" p:label="Last Name" p:readOnly="true">-->
+                            <bean id="bill_lastName" parent="Uif-InputField" p:propertyName="olePatron.entity.names[0].lastName" p:label="Last Name" p:readOnly="true">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="40" p:maxLength="30" />
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="PatronBillMaintenanceDocument-BillSection" parent="Uif-VerticalBoxSection" >
+        <property name="headerText" value="Patron Bill Section" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="6">
+                    <property name="items">
+                        <list>
+                            <bean  id="bill_billDate" parent="Uif-InputField" p:propertyName="billDate" p:label="Date" p:required="true" >
+                                <property name="control">
+                                    <bean parent="Uif-DateControl" p:size="20"/>
+                                </property>
+                            </bean>
+                            <bean  id="bill_note" parent="Uif-InputField" p:propertyName="note" p:label="Text Note">
+                                <property name="control">
+                                    <bean parent="Uif-TextAreaControl" p:maxLength="500"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PatronBillMaintenanceDocument-FeeSection" parent="Uif-VerticalBoxSection" >
+        <property name="headerText" value="FeeType Section" />
+        <property name="items">
+            <list>
+                <ref bean="errorSection" />
+                <ref bean="PatronBillMaintenanceDocument-FeeTypeSection" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="errorSection" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="messageField_error" parent="Uif-MessageField" p:messageText="@{document.newMaintainableObject.dataObject.errorMessage}" p:render="@{document.newMaintainableObject.dataObject.errorMessage ne null}">
+                    <property name="cssClasses">
+                        <list>
+                            <value>uif-validationMessages</value>
+                            <value>uif-pageValidationMessages-error</value>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PatronBillMaintenanceDocument-FeeTypeSection" parent="Uif-MaintenanceTableSubCollection-withinSection" p:layoutManager.numberOfColumns="6">
+        <property name="headerText" value="FeeType Section"/>
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.FeeType" />
+        <property name="propertyName" value="feeType" />
+        <!--<property name="layoutManager.expandDetailsActionPrototype">
+            <bean parent="Uif-ExpandDetailsImageAction" p:width="10px"/>
+        </property>-->
+        <property name="layoutManager.applyDefaultCellWidths" value="false"/>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="bFilter" value="false"/>
+            </map>
+        </property>
+        <property name="layoutManager.rowDetailsGroup">
+            <bean parent="Uif-VerticalBoxGroup">
+                <property name="items">
+                    <list>
+                        <ref bean="detailed_Item_View-BillSection"/>
+                        <ref bean="detailed_Note_View-BillSection"/>
+                        <bean id="itemLevelTransaction" parent="PatronBill-LineItemTransactionDetails" p:propertyName="itemLevelBillPaymentList"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="items">
+            <list>
+
+                <bean  id="fee_feeType" parent="Uif-InputField" p:propertyName="feeType" p:label="Fee Type" p:readOnly="@{!#isAddLine}" p:required="true" p:enableAutoQuickfinder="false">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.FeeTypeKeyValues" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-20-select"/>
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="true" />
+                    </property>
+                </bean>
+                <bean  id="feeAmt"  parent="Uif-InputField" p:propertyName="feeAmount" p:label="Fee Amount" p:readOnly="@{!#isAddLine}" p:required="true" p:defaultValue="0.00" >
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10"/>
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="true"/>
+                    </property>
+                </bean>
+                <bean  id="fee_itemBarcode"  parent="Uif-InputField" p:propertyName="itemBarcode" p:label="Item Barcode" p:readOnly="@{!#isAddLine}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10"/>
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="true" />
+                    </property>
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.deliver.bo.OleItemSearch"
+                              p:fieldConversions="itemBarCode:itemBarcode,itemType:itemType,title:itemTitle,itemUUID:itemUuid,callNumber:itemCallNumber" p:lookupParameters="itemBarcode:itemBarCode"/>
+                    </property>
+
+                </bean>
+               <!-- <bean  id="fee_itemTitle"  parent="Uif-InputField" p:propertyName="itemTitle" p:label="Item Title" p:readOnly="@{!#isAddLine}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10"/>
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="true" />
+                    </property>
+                </bean>
+                <bean  id="fee_itemType"  parent="Uif-InputField" p:propertyName="itemType" p:label="Item Type" p:readOnly="@{!#isAddLine}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10"/>
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="true" />
+                    </property>
+                </bean>-->
+                <bean  id="bill_paymentStatus" parent="Uif-InputField" p:propertyName="paymentStatus" p:label="Payment Status" p:required="true" p:enableAutoQuickfinder="false" p:readOnly="@{maintenanceAction eq 'New' and !#isAddLine}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.deliver.keyvalue.OlePaymentStatusKeyValues" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:disabled="@{maintenanceAction eq 'New' and #isAddLine}" p:cssClasses="fixed-size-20-select" />
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="true" />
+                    </property>
+                </bean>
+                <bean  id="fee_generalNote"  parent="Uif-InputField" p:propertyName="generalNote" p:label="Note" p:readOnly="@{!#isAddLine}">
+                    <property name="control">
+                        <bean parent="Uif-TextAreaControl" p:maxLength="500"/>
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="true" />
+                    </property>
+                </bean>
+
+            </list>
+        </property>
+        <property name="addLineActions">
+            <list>
+                <bean id="addFee" parent="Uif-PrimaryActionButton-Small" p:actionLabel="Add" p:title="Add a Fee Type"  p:actionScript="addFee();"/>
+                <bean id="addFeeHiddenValue" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addFeeType" p:actionLabel="Add" p:title="Add a Fee Type" p:ajaxSubmit="true"  p:successCallback="calculateTotal()" p:hidden="true"/>
+                <bean id="addFeeHidden" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addFeeType" p:actionLabel="Add" p:title="Add a Fee Type" p:ajaxSubmit="true"   p:hidden="true"/>
+
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="deleteFee" parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteFromTotalAmount" p:actionLabel="Delete" p:title="Delete a Fee Type" p:ajaxSubmit="true"  p:successCallback="calculateTotal()"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PatronBill-LineItemTransactionDetails" parent="Uif-Disclosure-TableSubCollection-WithinSection" p:layoutManager.numberOfColumns="7">
+        <property name="headerText" value="Transaction Details" />
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleItemLevelBillPayment"/>
+        <property name="propertyName" value="itemLevelBillPaymentList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.disableTableSort" value="true" />
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="readOnly" value="true"/>
+        <property name="items">
+            <list>
+                <bean id="PatronBill-trnsId" parent="Uif-DataField" p:propertyName="paymentId" p:label="Transaction Id"/>
+                <bean id="PatronBill-tranDate" parent="Uif-DataField" p:propertyName="paymentDate" p:label="Transaction Date"/>
+                <bean id="PatronBill-tranCreatedBy" parent="Uif-DataField" p:propertyName="createdUser" p:label="Operator Id"/>
+                <bean id="PatronBill-trnAmt" parent="Uif-DataField" p:propertyName="amount" p:label="Amount paid by user"/>
+                <bean id="PatronBill-tranNumber" parent="Uif-DataField" p:propertyName="transactionNumber" p:label="Transaction Number"/>
+                <bean id="PatronBill-trnsNote" parent="Uif-DataField" p:propertyName="transactionNote" p:label="Transaction Note"/>
+                <bean id="PatronBill-paymentMode" parent="Uif-DataField" p:propertyName="paymentMode" p:label="Payment Mode"/>
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+    <bean id="PatronBillMaintenanceDocument-TotalAmount" parent="Uif-VerticalBoxSection" >
+        <property name="headerText" value="Total Amount" />
+        <property name="items">
+            <list>
+
+                <bean id="totAmt" parent="Uif-InputField" p:propertyName="totalAmount" p:label="Total Amount" p:readOnly="true" >
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" p:maxLength="10"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="footer" parent="Uif-FooterBase">
+        <property name="items">
+            <list merge="false">
+                <bean id="calculate" parent="Uif-PrimaryActionButton" p:methodToCall= "calculateTotal" p:actionLabel="Calculate Total" p:ajaxSubmit="true" p:hidden="true" />
+            </list>
+        </property>
+    </bean>
+</beans>

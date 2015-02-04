@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <!--
+
+        Copyright 2005-2012 The Kuali Foundation
+
+        Licensed under the Educational Community License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at
+
+        http://www.opensource.org/licenses/ecl2.php
+
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+    -->
+
+
+    <bean id="OLEAccount-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="Account Lookup" />
+        <property name="dataObjectClassName" value="org.kuali.ole.coa.businessobject.Account" />
+
+        <property name="viewHelperServiceClass" value="org.kuali.ole.select.lookup.OLEAccountLookupableImpl"/>
+        <property name="criteriaFields">
+            <list>
+                <bean id="chart"  parent="Uif-LookupCriteriaInputField" p:propertyName="chartOfAccountsCode" />
+                <bean id="accountNumber" parent="Uif-LookupCriteriaInputField" p:propertyName="accountNumber" />
+                <bean id="accountName"  parent="Uif-LookupCriteriaInputField" p:propertyName="accountName" />
+                <bean id="organizationCode"  parent="Uif-LookupCriteriaInputField" p:propertyName="organizationCode" />
+                <bean id="accountTypeCode"  parent="Uif-LookupCriteriaInputField" p:propertyName="accountTypeCode" />
+                <bean id="subFundGroupCode"  parent="Uif-LookupCriteriaInputField" p:propertyName="subFundGroupCode" />
+                <bean id="vendorHeaderGeneratedIdentifier"  parent="Uif-LookupCriteriaInputField" p:propertyName="vendorHeaderGeneratedIdentifier" />
+                <bean id="vendorDetailAssignedIdentifier"  parent="Uif-LookupCriteriaInputField" p:propertyName="vendorDetailAssignedIdentifier" />
+                <bean id="vendorName"  parent="Uif-LookupCriteriaInputField" p:propertyName="vendorName" />
+                <bean id="principalName"  parent="Uif-LookupCriteriaInputField" p:propertyName="accountFiscalOfficerUser.principalName" />
+                <bean id="universityAccountNumber"  parent="Uif-LookupCriteriaInputField" p:propertyName="universityAccountNumber" />
+                <bean id="stewardshipTypeCode"  parent="Uif-LookupCriteriaInputField" p:propertyName="oleStewardshipRequirements.stewardshipTypeCode" />
+                <bean id="legacyFundCode"  parent="Uif-LookupCriteriaInputField" p:propertyName="oleLegacyFundCodes.legacyFundCode" />
+                <bean id="closed"  parent="Uif-LookupCriteriaInputField" p:propertyName="closed"  p:defaultValue="N"/>
+                <bean id="restricted"  parent="Uif-LookupCriteriaInputField" p:propertyName="restricted" p:defaultValue="N"/>
+                <bean id="vendorDepositAccount"  parent="Uif-LookupCriteriaInputField" p:propertyName="vendorDepositAccount" p:defaultValue="true"/>
+            </list>
+        </property>
+
+        <property name="resultFields">
+            <list>
+                <bean id="searchResult-charts" parent="Uif-DataField" p:propertyName="chartOfAccountsCode" />
+                <bean id="searchResult-accountNumber" parent="Uif-DataField" p:propertyName="accountNumber" />
+                <bean id="searchResult-accountName" parent="Uif-DataField" p:propertyName="accountName" />
+                <bean id="searchResult-orgCode" parent="Uif-DataField" p:propertyName="organizationCode" />
+                <bean id="searchResult-accTypeCode" parent="Uif-DataField" p:propertyName="accountTypeCode" />
+                <bean id="searchResult-subFundGroupCode" parent="Uif-DataField" p:propertyName="subFundGroupCode" />
+                <bean id="searchResult-name" parent="Uif-DataField" p:propertyName="accountFiscalOfficerUser.name" />
+                <bean id="searchResult-vendorName" parent="Uif-DataField" p:propertyName="vendorName" />
+                <bean id="searchResult-closed" parent="Uif-DataField" p:propertyName="closed" />
+                <bean id="searchResult-managerName" parent="Uif-DataField" p:propertyName="accountManagerUser.name" />
+                <bean id="searchResult-createDate" parent="Uif-DataField" p:propertyName="accountCreateDate" />
+                <bean id="searchResult-expiryDate" parent="Uif-DataField" p:propertyName="accountExpirationDate" />
+                <bean id="searchResult-legacyFundCodeAsString" parent="Uif-DataField" p:propertyName="legacyFundCodeAsString" />
+                <bean id="searchResult-universityAccountNumber" parent="Uif-DataField" p:propertyName="universityAccountNumber" />
+                <bean id="searchResult-status" parent="Uif-DataField" p:propertyName="accountRestrictedStatus.accountRestrictedStatusName" />
+            </list>
+        </property>
+    </bean>
+</beans>
+
+

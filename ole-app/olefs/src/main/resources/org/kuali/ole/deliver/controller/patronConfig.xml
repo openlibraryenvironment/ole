@@ -1,0 +1,24 @@
+<patronConfig>
+    <documents>
+        <document>
+            <documentName>loanDocument</documentName>
+            <attribute>patronId</attribute>
+        </document>
+        <document>
+            <documentName>borrowerType</documentName>
+            <attribute>patronId</attribute>
+        </document>
+        <document>
+            <documentName>temporaryCirculationHistoryRecord</documentName>
+            <attribute>olePatronId</attribute>
+        </document>
+        <document>
+            <documentName>requestRecord</documentName>
+            <attribute>borrowerId</attribute>
+        </document>
+        <document>
+            <documentName>patronBillPayment</documentName>
+            <attribute>patronId</attribute>
+        </document>
+    </documents>
+</patronConfig>

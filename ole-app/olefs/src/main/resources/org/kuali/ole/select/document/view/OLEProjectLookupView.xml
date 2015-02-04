@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <!--
+
+        Copyright 2005-2012 The Kuali Foundation
+
+        Licensed under the Educational Community License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at
+
+        http://www.opensource.org/licenses/ecl2.php
+
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+    -->
+
+
+
+    <bean id="OLEProject-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="Project Code Lookup" />
+        <property name="dataObjectClassName" value="org.kuali.ole.coa.businessobject.ProjectCode" />
+         <!--<property name="viewHelperServiceClass" value="org.kuali.ole.coa.businessobject.lookup.OLEProjectLookupableImpl"/>-->
+        <property name="criteriaFields">
+            <list>
+                <bean id="code" parent="Uif-LookupCriteriaInputField" p:propertyName="code" />
+                <bean id="name" parent="Uif-LookupCriteriaInputField" p:propertyName="name" />
+                <bean id="chartOfAccountsCode" parent="Uif-LookupCriteriaInputField" p:propertyName="chartOfAccountsCode" />
+                <bean id="organizationCode" parent="Uif-LookupCriteriaInputField" p:propertyName="organizationCode" />
+                <bean id="principalName" parent="Uif-LookupCriteriaInputField" p:propertyName="projectManagerUniversal.principalName" />
+                <!--<bean id="project-active"  parent="Uif-LookupCriteriaInputField" p:propertyName="active" />-->
+            </list>
+        </property>
+
+        <property name="resultFields">
+            <list>
+                <bean id="searchResult_code" parent="Uif-DataField" p:propertyName="code" />
+                <bean id="searchResult_name" parent="Uif-DataField" p:propertyName="name" />
+                <bean id="searchResult_chartOfAccountsCode" parent="Uif-DataField" p:propertyName="chartOfAccountsCode" />
+                <bean id="searchResult_organizationCode" parent="Uif-DataField" p:propertyName="organizationCode" />
+                <!--<bean id="searchResult_active" parent="Uif-DataField" p:propertyName="active" />-->
+                <bean id="searchResult_principalName" parent="Uif-DataField" p:propertyName="projectManagerUniversal.principalName" />
+            </list>
+        </property>
+    </bean>
+</beans>
+
+
+

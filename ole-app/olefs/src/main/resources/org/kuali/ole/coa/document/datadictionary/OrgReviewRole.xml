@@ -1,0 +1,499 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+	<!--
+		Copyright 2009 The Kuali Foundation Licensed under the Educational
+		Community License, Version 2.0 (the "License"); you may not use this
+		file except in compliance with the License. You may obtain a copy of
+		the License at http://www.opensource.org/licenses/ecl2.php Unless
+		required by applicable law or agreed to in writing, software
+		distributed under the License is distributed on an "AS IS" BASIS,
+		WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+		implied. See the License for the specific language governing
+		permissions and limitations under the License.
+	-->
+	<bean id="OrgReviewRole" parent="OrgReviewRole-parentBean" />
+
+  <bean id="OrgReviewRole-parentBean" abstract="true" parent="BusinessObjectEntry" 
+  			p:businessObjectClass="org.kuali.ole.coa.identity.OrgReviewRole" 
+  			p:titleAttribute="orgReviewRoleInquiryTitle" 
+  			p:objectLabel="Organization Review" 
+  			p:lookupDefinition-ref="OrgReviewRole-lookupDefinition" 
+  			p:inquiryDefinition-ref="OrgReviewRole-inquiryDefinition">
+	<property name="primaryKeys">
+	  <list>
+	    <value>orgReviewRoleMemberId</value>
+	    <value>delegate</value>
+	  </list>
+	</property> 
+    <property name="attributes">
+      <list>
+        <ref bean="OrgReviewRole-financialSystemDocumentTypeCode"/>
+        <ref bean="OrgReviewRole-roleId"/>
+        <ref bean="OrgReviewRole-roleName"/>
+        <ref bean="OrgReviewRole-namespaceCode"/>
+        <ref bean="OrgReviewRole-reviewRolesIndicator"/>
+        <ref bean="OrgReviewRole-orgReviewRoleMemberId"/>
+        <ref bean="OrgReviewRole-roleMemberId"/>
+        <ref bean="OrgReviewRole-delegationMemberId"/>
+        <ref bean="OrgReviewRole-principalMemberPrincipalId"/>        
+        <ref bean="OrgReviewRole-principalMemberPrincipalName"/>
+        <ref bean="OrgReviewRole-principalMemberName"/>
+        <ref bean="OrgReviewRole-roleMemberRoleId"/>
+        <ref bean="OrgReviewRole-roleMemberRoleNamespaceCode"/>
+        <ref bean="OrgReviewRole-roleMemberRoleName"/>
+        <ref bean="OrgReviewRole-groupMemberGroupId"/>
+        <ref bean="OrgReviewRole-groupMemberGroupNamespaceCode"/>
+        <ref bean="OrgReviewRole-groupMemberGroupName"/>
+        <ref bean="OrgReviewRole-memberNamespaceCode"/>
+        <ref bean="OrgReviewRole-memberName"/>
+        <ref bean="OrgReviewRole-delegate"/>
+        <ref bean="OrgReviewRole-delegationTypeCode"/>
+        <ref bean="OrgReviewRole-delegationTypeCodeDescription"/>
+        <ref bean="OrgReviewRole-memberTypeCode"/>
+        <ref bean="OrgReviewRole-memberTypeCodeDescription"/>
+        <ref bean="OrgReviewRole-actionTypeCode"/>
+        <ref bean="OrgReviewRole-actionTypeCodeDescription"/>
+        <ref bean="OrgReviewRole-priorityNumber"/>
+        <ref bean="OrgReviewRole-priorityNumberToDisplay"/>
+        <ref bean="OrgReviewRole-actionPolicyCode"/>
+        <ref bean="OrgReviewRole-forceAction"/>
+        <ref bean="OrgReviewRole-chartOfAccountsCode"/>
+        <ref bean="OrgReviewRole-organizationCode"/>
+        <ref bean="OrgReviewRole-fromAmount"/>
+        <ref bean="OrgReviewRole-toAmount"/>
+        <ref bean="OrgReviewRole-overrideCode"/>
+        <ref bean="OrgReviewRole-activeFromDate"/>
+        <ref bean="OrgReviewRole-activeToDate"/>
+        <ref bean="OrgReviewRole-active"/>
+        <ref bean="OrgReviewRole-orgReviewRoleInquiryTitle"/>
+      </list>
+    </property>
+    <property name="accessRestrictedAttributes">
+       <list>
+           <bean parent="ChartRestriction"><property name="attribute" ref="OrgReviewRole-chartOfAccountsCode"/></bean>
+           <bean parent="ChartHierarchyRestriction"><property name="attribute" ref="OrgReviewRole-chartOfAccountsCode"/></bean>
+           <bean parent="OrganizationRestriction"><property name="attribute" ref="OrgReviewRole-organizationCode"/></bean>
+           <bean parent="OrganizationHierarchyRestriction"><property name="attribute" ref="OrgReviewRole-organizationCode"/></bean>
+       </list>
+    </property>
+    <property name="relationships">
+      <list>
+        <bean parent="RelationshipDefinition">
+   			<property name="objectAttributeName" value="chart"/>
+	        <property name="primitiveAttributes">
+	        	<list>
+	            	<bean parent="PrimitiveAttributeDefinition" p:sourceName="chartOfAccountsCode" p:targetName="chartOfAccountsCode"/>
+	            </list>
+	        </property>
+   		</bean>
+        <bean parent="RelationshipDefinition">
+   			<property name="objectAttributeName" value="organization"/>
+	        <property name="primitiveAttributes">
+	        	<list>
+	            	<bean parent="PrimitiveAttributeDefinition" p:sourceName="chartOfAccountsCode" p:targetName="chartOfAccountsCode"/>
+	            	<bean parent="PrimitiveAttributeDefinition" p:sourceName="organizationCode" p:targetName="organizationCode"/>
+	            </list>
+	        </property>
+   		</bean>
+        <bean parent="RelationshipDefinition">
+   			<property name="objectAttributeName" value="financialSystemDocumentType"/>
+	        <property name="primitiveAttributes">
+	        	<list>
+	            	<bean parent="PrimitiveAttributeDefinition" p:sourceName="financialSystemDocumentTypeCode" p:targetName="name"/>
+	            </list>
+	        </property>
+   		</bean>
+        <bean parent="RelationshipDefinition">
+   			<property name="objectAttributeName" value="role"/>
+	        <property name="primitiveAttributes">
+	        	<list>
+	            	<bean parent="PrimitiveAttributeDefinition" p:sourceName="roleMemberRoleId" p:targetName="id"/>
+	            </list>
+	        </property>
+	        <property name="supportAttributes">
+	        	<list>
+    	        	<bean parent="SupportAttributeDefinition" p:sourceName="roleMemberRoleNamespaceCode" p:targetName="namespaceCode"/>
+	            	<bean parent="SupportAttributeDefinition" p:sourceName="roleMemberRoleName" p:targetName="name" p:identifier="true" />
+            	</list>
+	        </property>
+   		</bean>
+        <bean parent="RelationshipDefinition">
+   			<property name="objectAttributeName" value="group"/>
+	        <property name="primitiveAttributes">
+	        	<list>
+	            	<bean parent="PrimitiveAttributeDefinition" p:sourceName="groupMemberGroupId" p:targetName="id"/>
+	            </list>
+	        </property>
+	        <property name="supportAttributes">
+	        	<list>
+	            	<bean parent="SupportAttributeDefinition" p:sourceName="groupMemberGroupNamespaceCode" p:targetName="namespaceCode"/>
+	            	<bean parent="SupportAttributeDefinition" p:sourceName="groupMemberGroupName" p:targetName="name" p:identifier="true" />
+            	</list>
+	        </property>
+   		</bean>
+        <bean parent="RelationshipDefinition">
+   			<property name="objectAttributeName" value="person"/>
+	        <property name="primitiveAttributes">
+	        	<list>
+	            	<bean parent="PrimitiveAttributeDefinition" p:sourceName="principalMemberPrincipalId" p:targetName="principalId"/>
+	            </list>
+	        </property>
+	        <property name="supportAttributes">
+	        	<list>
+	            	<bean parent="SupportAttributeDefinition" p:identifier="true" p:sourceName="principalMemberPrincipalName" p:targetName="principalName"/>
+	            	<bean parent="SupportAttributeDefinition" p:sourceName="principalMemberName" p:targetName="name"/>
+            	</list>
+	        </property>
+   		</bean>
+   	  </list>
+    </property>    
+  </bean>
+
+	<bean id="OrgReviewRole-financialSystemDocumentTypeCode" parent="OrgReviewRole-financialSystemDocumentTypeCode-parentBean" />
+	<bean id="OrgReviewRole-financialSystemDocumentTypeCode-parentBean" abstract="true" parent="GenericAttributes-financialSystemDocumentTypeCode">
+		<property name="required" value="true" />
+		<property name="control">
+			<bean parent="LookupReadonlyControlDefinition" p:size="20" />
+		</property>
+	</bean>
+
+	<bean id="OrgReviewRole-reviewRolesIndicator" parent="OrgReviewRole-reviewRolesIndicator-parentBean" />
+	<bean id="OrgReviewRole-reviewRolesIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="reviewRolesIndicator" />
+		<property name="label" value="Review Types" />
+		<property name="shortLabel" value="Review Types" />
+		<property name="required" value="true" />
+		<property name="control">
+			<bean parent="RadioControlDefinition"
+				p:valuesFinderClass="org.kuali.ole.coa.businessobject.options.OrgReviewRolesValuesFinder"
+				p:includeKeyInLabel="true" />
+		</property>
+	</bean>
+
+	<bean id="OrgReviewRole-orgReviewRoleMemberId" parent="OrgReviewRole-orgReviewRoleMemberId-parentBean" />
+	<bean id="OrgReviewRole-orgReviewRoleMemberId-parentBean" parent="DocRoleMember-roleMemberId"
+		abstract="true" p:name="orgReviewRoleMemberId" />
+
+	<bean id="OrgReviewRole-delegationMemberId" parent="OrgReviewRole-delegationMemberId-parentBean" />
+	<bean id="OrgReviewRole-delegationMemberId-parentBean" parent="AttributeDefinition"
+		abstract="true" p:name="delegationMemberId" p:label="Delegation Member Identifier"
+		p:shortLabel="Delegation Member Identifier" p:maxLength="40"
+		p:required="false">
+		<property name="control">
+			<ref bean="HiddenControl" />
+		</property>
+	</bean>
+
+	<bean id="OrgReviewRole-roleMemberId" parent="OrgReviewRole-roleMemberId-parentBean" />
+	<bean id="OrgReviewRole-roleMemberId-parentBean" parent="AttributeDefinition"
+		abstract="true" p:name="roleMemberId" p:label="Role Member Identifier"
+		p:shortLabel="Role Member Identifier" p:maxLength="40" p:required="false">
+		<property name="control">
+			<ref bean="HiddenControl" />
+		</property>
+	</bean>
+
+	<bean id="OrgReviewRole-chartOfAccountsCode" parent="OrgReviewRole-chartOfAccountsCode-parentBean" />
+	<bean id="OrgReviewRole-chartOfAccountsCode-parentBean" parent="OleKimAttributes-chartOfAccountsCode"
+		abstract="true" p:name="chartOfAccountsCode" />
+
+	<bean id="OrgReviewRole-organizationCode" parent="OrgReviewRole-organizationCode-parentBean" />
+	<bean id="OrgReviewRole-organizationCode-parentBean" parent="OleKimAttributes-organizationCode"
+		abstract="true" p:name="organizationCode" />
+
+	<bean id="OrgReviewRole-fromAmount" parent="OrgReviewRole-fromAmount-parentBean" />
+	<bean id="OrgReviewRole-fromAmount-parentBean" parent="OleKimAttributes-fromAmount"
+		abstract="true" p:name="fromAmount">
+		<property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter" />
+		<property name="exclusiveMin" value="-0.001" />
+	</bean>
+
+	<bean id="OrgReviewRole-toAmount" parent="OrgReviewRole-toAmount-parentBean" />
+	<bean id="OrgReviewRole-toAmount-parentBean" parent="OleKimAttributes-toAmount"
+		abstract="true" p:name="toAmount">
+		<property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter" />
+		<property name="exclusiveMin" value="-0.001" />
+	</bean>
+	<bean id="OrgReviewRole-overrideCode" parent="OrgReviewRole-overrideCode-parentBean" />
+	<bean id="OrgReviewRole-overrideCode-parentBean" parent="OleKimAttributes-accountingLineOverrideCode"
+		abstract="true" p:name="overrideCode" />
+
+	<bean id="OrgReviewRole-principalMemberPrincipalId" parent="OrgReviewRole-principalMemberPrincipalId-parentBean" />
+	<bean id="OrgReviewRole-principalMemberPrincipalId-parentBean"
+		parent="PersonImpl-principalId" abstract="true" p:name="principalMemberPrincipalId">
+		<property name="control">
+			<ref bean="HiddenControl" />
+		</property>
+	</bean>
+
+	<bean id="OrgReviewRole-principalMemberPrincipalName" parent="OrgReviewRole-principalMemberPrincipalName-parentBean" />
+	<bean id="OrgReviewRole-principalMemberPrincipalName-parentBean"
+		parent="PersonImpl-principalName" abstract="true"
+		p:name="principalMemberPrincipalName">
+		<property name="control">
+			<bean parent="KualiUserControlDefinition"
+				p:personNameAttributeName="principalMemberName"
+				p:universalIdAttributeName="principalMemberPrincipalId"
+				p:userIdAttributeName="principalMemberPrincipalName" />
+		</property>
+	</bean>
+
+	<bean id="OrgReviewRole-principalMemberName" parent="OrgReviewRole-principalMemberName-parentBean" />
+	<bean id="OrgReviewRole-principalMemberName-parentBean" parent="PersonImpl-name"
+		abstract="true" p:name="principalMemberName" />
+
+
+	<bean id="OrgReviewRole-roleId" parent="OrgReviewRole-roleId-parentBean" />
+	<bean id="OrgReviewRole-roleId-parentBean" parent="RoleBo-id"
+		abstract="true" p:name="roleId" />
+
+	<bean id="OrgReviewRole-namespaceCode" parent="OrgReviewRole-namespaceCode-parentBean" />
+	<bean id="OrgReviewRole-namespaceCode-parentBean" parent="RoleBo-namespaceCode"
+		abstract="true" p:name="namespaceCode" p:label="Role Namespace Code" />
+
+	<bean id="OrgReviewRole-roleName" parent="OrgReviewRole-roleName-parentBean" />
+	<bean id="OrgReviewRole-roleName-parentBean" parent="RoleBo-name"
+		abstract="true" p:name="roleName" />
+
+	<bean id="OrgReviewRole-roleMemberRoleId" parent="OrgReviewRole-roleMemberRoleId-parentBean" />
+	<bean id="OrgReviewRole-roleMemberRoleId-parentBean" parent="RoleBo-id"
+		abstract="true" p:name="roleMemberRoleId">
+		<property name="control">
+			<ref bean="HiddenControl" />
+		</property>
+	</bean>
+
+	<bean id="OrgReviewRole-roleMemberRoleNamespaceCode" parent="OrgReviewRole-roleMemberRoleNamespaceCode-parentBean" />
+	<bean id="OrgReviewRole-roleMemberRoleNamespaceCode-parentBean"
+		parent="RoleBo-namespaceCode" abstract="true" p:name="roleMemberRoleNamespaceCode" />
+
+	<bean id="OrgReviewRole-roleMemberRoleName" parent="OrgReviewRole-roleMemberRoleName-parentBean" />
+	<bean id="OrgReviewRole-roleMemberRoleName-parentBean" parent="RoleBo-name"
+		abstract="true" p:name="roleMemberRoleName" />
+
+	<bean id="OrgReviewRole-groupMemberGroupId" parent="OrgReviewRole-groupMemberGroupId-parentBean" />
+	<bean id="OrgReviewRole-groupMemberGroupId-parentBean" parent="Group-id"
+		abstract="true" p:name="groupMemberGroupId">
+		<property name="control">
+			<ref bean="HiddenControl" />
+		</property>
+	</bean>
+
+	<bean id="OrgReviewRole-groupMemberGroupNamespaceCode" parent="OrgReviewRole-groupMemberGroupNamespaceCode-parentBean" />
+	<bean id="OrgReviewRole-groupMemberGroupNamespaceCode-parentBean"
+		parent="Group-namespaceCode" abstract="true"
+		p:name="groupMemberGroupNamespaceCode" />
+
+	<bean id="OrgReviewRole-groupMemberGroupName" parent="OrgReviewRole-groupMemberGroupName-parentBean" />
+	<bean id="OrgReviewRole-groupMemberGroupName-parentBean" parent="Group-name"
+		abstract="true" p:name="groupMemberGroupName" />
+
+	<bean id="OrgReviewRole-memberNamespaceCode" parent="OrgReviewRole-memberNamespaceCode-parentBean" />
+	<bean id="OrgReviewRole-memberNamespaceCode-parentBean" parent="DocRoleMember-memberNamespaceCode"
+		abstract="true" p:name="memberNamespaceCode" />
+
+	<bean id="OrgReviewRole-delegate" parent="OrgReviewRole-delegate-parentBean" />
+	<bean id="OrgReviewRole-delegate-parentBean" parent="AttributeReferenceDummy-genericBoolean"
+		abstract="true" p:name="delegate" p:label="Delegate" />
+
+	<bean id="OrgReviewRole-delegationTypeCode" parent="OrgReviewRole-delegationTypeCode-parentBean" />
+	<bean id="OrgReviewRole-delegationTypeCode-parentBean" parent="DelegateBo-delegationTypeCode"
+		abstract="true" p:name="delegationTypeCode" />
+
+	<bean id="OrgReviewRole-delegationTypeCodeDescription" parent="OrgReviewRole-delegationTypeCodeDescription-parentBean"/>
+	<bean id="OrgReviewRole-delegationTypeCodeDescription-parentBean" abstract="true" parent="OrgReviewRole-delegationTypeCode"
+		p:name="delegationTypeCodeDescription" />
+
+	<bean id="OrgReviewRole-memberName" parent="OrgReviewRole-memberName-parentBean" />
+	<bean id="OrgReviewRole-memberName-parentBean" abstract="true"
+		parent="DocRoleMember-memberName" p:name="memberName" p:label="Member Name"
+		p:shortLabel="Member Name" />
+
+	<bean id="OrgReviewRole-memberTypeCode" parent="OrgReviewRole-memberTypeCode-parentBean" />
+	<bean id="OrgReviewRole-memberTypeCode-parentBean" parent="DocRoleMember-memberTypeCode"
+		abstract="true" p:name="memberTypeCode" />
+
+	<bean id="OrgReviewRole-memberTypeCodeDescription" parent="OrgReviewRole-memberTypeCodeDescription-parentBean" />
+	<bean id="OrgReviewRole-memberTypeCodeDescription-parentBean"
+		parent="OrgReviewRole-memberTypeCode" abstract="true"
+		p:name="memberTypeCodeDescription" />
+
+	<bean id="OrgReviewRole-actionTypeCode" parent="OrgReviewRole-actionTypeCode-parentBean" />
+	<bean id="OrgReviewRole-actionTypeCode-parentBean" parent="DocRoleResponsibilityAction-actionTypeCode"
+		abstract="true" p:name="actionTypeCode" />
+
+	<bean id="OrgReviewRole-actionTypeCodeDescription" parent="OrgReviewRole-actionTypeCodeDescription-parentBean" />
+	<bean id="OrgReviewRole-actionTypeCodeDescription-parentBean"
+		parent="OrgReviewRole-actionTypeCode" abstract="true"
+		p:name="actionTypeCodeDescription" />
+
+	<bean id="OrgReviewRole-actionPolicyCode" parent="OrgReviewRole-actionPolicyCode-parentBean" />
+	<bean id="OrgReviewRole-actionPolicyCode-parentBean" parent="DocRoleResponsibilityAction-actionPolicyCode"
+		abstract="true" p:name="actionPolicyCode" />
+
+	<bean id="OrgReviewRole-forceAction" parent="OrgReviewRole-forceAction-parentBean" />
+	<bean id="OrgReviewRole-forceAction-parentBean" parent="DocRoleResponsibilityAction-forceAction"
+		abstract="true" p:name="forceAction" />
+
+	<bean id="OrgReviewRole-priorityNumber" parent="OrgReviewRole-priorityNumber-parentBean" />
+	<bean id="OrgReviewRole-priorityNumber-parentBean" parent="DocRoleResponsibilityAction-priorityNumber"
+		abstract="true" p:name="priorityNumber" />
+
+	<bean id="OrgReviewRole-priorityNumberToDisplay" parent="OrgReviewRole-priorityNumberToDisplay-parentBean"/>
+	<bean id="OrgReviewRole-priorityNumberToDisplay-parentBean" abstract="true" parent="OrgReviewRole-priorityNumber-parentBean"
+		p:name="priorityNumberToDisplay" />
+
+	<bean id="OrgReviewRole-activeFromDate" parent="OrgReviewRole-activeFromDate-parentBean" />
+	<bean id="OrgReviewRole-activeFromDate-parentBean" abstract="true"
+		parent="DocRoleMember-activeFromDate" p:name="activeFromDate">
+	    <property name="control" ref="DateControl" />
+	    <property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter"/>
+	</bean>
+
+	<bean id="OrgReviewRole-activeToDate" parent="OrgReviewRole-activeToDate-parentBean" />
+	<bean id="OrgReviewRole-activeToDate-parentBean" abstract="true"
+		parent="DocRoleMember-activeToDate" p:name="activeToDate">
+	    <property name="control" ref="DateControl" />
+	    <property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter"/>
+	</bean>
+
+	<bean id="OrgReviewRole-active" parent="OrgReviewRole-active-parentBean" />
+	<bean id="OrgReviewRole-active-parentBean" abstract="true"
+		parent="GenericAttributes-activeIndicator" p:name="active" />
+
+	<bean id="OrgReviewRole-orgReviewRoleInquiryTitle" parent="OrgReviewRole-orgReviewRoleInquiryTitle-parentBean" />
+	<bean id="OrgReviewRole-orgReviewRoleInquiryTitle-parentBean"
+		abstract="true" parent="AttributeDefinition">
+		<property name="name" value="orgReviewRoleInquiryTitle" />
+		<property name="label" value="Inquiry" />
+		<property name="shortLabel" value="Inquiry" />
+		<property name="maxLength" value="255" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="5" />
+		</property>
+	</bean>
+
+  <bean id="OrgReviewRole-lookupDefinition" parent="OrgReviewRole-lookupDefinition-parentBean"/>
+  <bean id="OrgReviewRole-lookupDefinition-parentBean" abstract="true" parent="OrgReviewRole-lookupDefinition-base-parentBean" />
+  <bean id="OrgReviewRole-lookupDefinition-base-parentBean" abstract="true" parent="LookupDefinition" 
+  		p:title="Organization Review Lookup">
+    <property name="lookupableID" value="orgReviewRoleLookupable"/>
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+        <property name="attributeNames">
+          <list>
+            <value>chartOfAccountsCode</value>
+            <value>organizationCode</value>
+            <value>financialSystemDocumentTypeCode</value>
+          </list>
+        </property>
+        <property name="sortAscending" value="true"/>
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+          <bean parent="FieldDefinition" p:attributeName="financialSystemDocumentTypeCode"/>
+          <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode" p:forceLookup="true"/>
+          <bean parent="FieldDefinition" p:attributeName="organizationCode" p:forceLookup="true"/>
+          <bean parent="FieldDefinition" p:attributeName="principalMemberPrincipalId"/>
+       	  <bean parent="FieldDefinition" p:attributeName="principalMemberPrincipalName"/>
+  	      <bean parent="FieldDefinition" p:attributeName="principalMemberName" p:hidden="true"/>
+          <bean parent="FieldDefinition" p:attributeName="roleMemberRoleId"/>
+          <bean parent="FieldDefinition" p:attributeName="roleMemberRoleNamespaceCode"/>
+       	  <bean parent="FieldDefinition" p:attributeName="roleMemberRoleName" p:forceLookup="true"/>
+          <bean parent="FieldDefinition" p:attributeName="groupMemberGroupId"/>
+          <bean parent="FieldDefinition" p:attributeName="groupMemberGroupNamespaceCode"/>
+       	  <bean parent="FieldDefinition" p:attributeName="groupMemberGroupName" p:forceLookup="true"/>
+          <bean parent="FieldDefinition" p:attributeName="delegate"/>
+          <bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+          <bean parent="FieldDefinition" p:attributeName="orgReviewRoleInquiryTitle"/>
+          <bean parent="FieldDefinition" p:attributeName="namespaceCode"/>
+          <bean parent="FieldDefinition" p:attributeName="roleName"/>
+          <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+          <bean parent="FieldDefinition" p:attributeName="organizationCode"/>
+          <bean parent="FieldDefinition" p:attributeName="financialSystemDocumentTypeCode"/>
+          <bean parent="FieldDefinition" p:attributeName="memberTypeCodeDescription"/>
+       	  <bean parent="FieldDefinition" p:attributeName="memberNamespaceCode"/>
+       	  <bean parent="FieldDefinition" p:attributeName="memberName"/>
+       	  <bean parent="FieldDefinition" p:attributeName="actionTypeCodeDescription"/>
+          <bean parent="FieldDefinition" p:attributeName="priorityNumberToDisplay"/>
+       	  <bean parent="FieldDefinition" p:attributeName="fromAmount"/>
+          <bean parent="FieldDefinition" p:attributeName="toAmount"/>
+          <bean parent="FieldDefinition" p:attributeName="overrideCode"/>
+          <bean parent="FieldDefinition" p:attributeName="delegationTypeCodeDescription"/>
+          <bean parent="FieldDefinition" p:attributeName="activeFromDate"/>
+          <bean parent="FieldDefinition" p:attributeName="activeToDate"/>
+          <bean parent="FieldDefinition" p:attributeName="active" />
+      </list>
+    </property>
+  </bean>
+
+	<bean id="OrgReviewRole-inquiryDefinition" parent="OrgReviewRole-inquiryDefinition-parentBean" />
+
+	<bean id="OrgReviewRole-inquiryDefinition-parentBean" abstract="true"
+		parent="InquiryDefinition">
+		<property name="title" value="Organization Review Inquiry" />
+		<property name="inquirableClass"
+			value="org.kuali.ole.coa.identity.OrgReviewRoleInquirableImpl" />
+		<property name="inquirySections">
+			<list>
+				<ref
+					bean="OrgReviewRole-inquirySectionDefinition-organizationReviewDetails" />
+				<ref bean="OrgReviewRole-inquirySectionDefinition-assigneeDelegation" />
+			</list>
+		</property>
+	</bean>
+	<bean
+		id="OrgReviewRole-inquirySectionDefinition-organizationReviewDetails"
+		parent="OrgReviewRole-inquirySectionDefinition-organizationReviewDetails-parentBean" />
+	<bean
+		id="OrgReviewRole-inquirySectionDefinition-organizationReviewDetails-parentBean"
+		parent="InquirySectionDefinition" abstract="true"
+		p:title="Organization Review Details">
+		<property name="inquiryFields">
+			<list>
+				<dd:field attributeName="chartOfAccountsCode" />
+				<dd:field attributeName="organizationCode" />
+				<dd:field attributeName="financialSystemDocumentTypeCode" />
+				<dd:field attributeName="reviewRolesIndicator" />
+			</list>
+		</property>
+	</bean>
+	<bean id="OrgReviewRole-inquirySectionDefinition-assigneeDelegation"
+		parent="OrgReviewRole-inquirySectionDefinition-assigneeDelegation-parentBean" />
+	<bean
+		id="OrgReviewRole-inquirySectionDefinition-assigneeDelegation-parentBean"
+		parent="InquirySectionDefinition" abstract="true" p:title="Assignee / Delegation">
+		<property name="inquiryFields">
+			<list>
+				<dd:field attributeName="fromAmount" />
+				<dd:field attributeName="toAmount" />
+				<dd:field attributeName="overrideCode" />
+				<dd:field attributeName="delegationTypeCode" />
+				<dd:field attributeName="roleMemberId" />
+				<dd:field attributeName="delegationMemberId" />
+				<dd:field attributeName="principalMemberPrincipalName" />
+				<dd:field attributeName="principalMemberName" />
+				<dd:field attributeName="roleMemberRoleNamespaceCode" />
+				<dd:field attributeName="roleMemberRoleName" />
+				<dd:field attributeName="groupMemberGroupNamespaceCode" />
+				<dd:field attributeName="groupMemberGroupName" />
+				<dd:field attributeName="actionTypeCode" />
+				<dd:field attributeName="priorityNumber" />
+				<dd:field attributeName="actionPolicyCode" />
+				<dd:field attributeName="forceAction" />
+				<dd:field attributeName="activeFromDate" />
+				<dd:field attributeName="activeToDate" />
+			</list>
+		</property>
+	</bean>
+
+</beans>
+

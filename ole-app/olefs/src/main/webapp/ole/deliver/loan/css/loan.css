@@ -1,0 +1,548 @@
+.messageClass{
+    color: red;
+    font-size: 16px;
+}
+
+.return-messageClass{
+    color: #000000;
+    font-size: 15px;
+
+}
+
+.return-message-date{
+    color: #000000;
+    font-size: 15px;
+    position:absolute;
+    left:300px;
+    top:100px;
+    width:250px;
+}
+
+#Patron-name{
+    font-size: 22px;
+}
+
+.fixed-size-20-Check {
+    width:20px;
+}
+
+
+h4 {
+    font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+    font-size: 14pt;
+    color: #FF0000;
+    text-decoration:blink;
+    padding-top: 6px;
+    padding-bottom: 0px;
+}
+
+#mask {
+    display: none;
+    background: #000;
+    position: fixed; left: 0; top: 0;
+    z-index: 10;
+    width: 100%; height: 100%;
+    opacity: 0.8;
+    z-index: 999;
+}
+
+div#AlterDueDateSection-HorizontalBoxSection {
+    display:none;
+    background: #DDDDDD;
+    padding: 10px;
+    border: 2px solid #ddd;
+    float: left;
+    width: auto;
+    height: auto;
+    position: fixed;
+    top: 50%; left: 50%;
+    z-index: 99999;
+    box-shadow: 0px 0px 20px #999;
+    -moz-box-shadow: 0px 0px 20px #999;
+    -webkit-box-shadow: 0px 0px 20px #999;
+    border-radius:3px 3px 3px 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+
+div#FastAddItem-HorizontalBoxSection {
+    display:none;
+    background: #DDDDDD;
+    padding: 10px;
+    border: 2px solid #ddd;
+    float: left;
+    width: auto;
+    height: auto;
+    position: fixed;
+    top: 50%; left: 50%;
+    z-index: 99999;
+    box-shadow: 0px 0px 20px #999;
+    -moz-box-shadow: 0px 0px 20px #999;
+    -webkit-box-shadow: 0px 0px 20px #999;
+    border-radius:3px 3px 3px 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+
+}
+
+
+div#RenewalDueDateSection-HorizontalBoxSection {
+    display:none;
+    background: #DDDDDD;
+    padding: 10px;
+    border: 2px solid #ddd;
+    float: left;
+    width: auto;
+    height: auto;
+    position: fixed;
+    top: 25%; left: 50%;
+    z-index: 99999;
+    box-shadow: 0px 0px 20px #999;
+    -moz-box-shadow: 0px 0px 20px #999;
+    -webkit-box-shadow: 0px 0px 20px #999;
+    border-radius:3px 3px 3px 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+
+
+div#RealPatronSection-HorizontalBoxSection {
+    display:none;
+    background: #DDDDDD;
+    padding: 10px;
+    border: 2px solid #ddd;
+    float: left;
+    width: auto;
+    height: auto;
+    position: fixed;
+    top: 50%; left: 50%;
+    z-index: 99999;
+    box-shadow: 0px 0px 20px #999;
+    -moz-box-shadow: 0px 0px 20px #999;
+    -webkit-box-shadow: 0px 0px 20px #999;
+    border-radius:3px 3px 3px 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+
+div#PatronBillSection-HorizontalBoxSection {
+    display: none;
+    position: absolute;
+    top: 40%;
+    left: 30%;
+    width: auto;
+    height: auto;
+    margin: -100px 0 0 -250px;
+    background: rgb(233, 233, 233);
+    border: 1px solid rgb(128, 128, 128);
+}
+
+div#AlertBoxSectionForBill-HorizontalBoxSection{
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 89%;
+    width: auto;
+    height: auto;
+    margin: -100px 0 0 -250px;
+    background: rgba(255, 0, 0, 0.4);
+    border: 1px solid rgb(128, 128, 128);
+}
+div#AlertBoxSectionForDate-HorizontalBoxSection{
+    display: none;
+    position: absolute;
+    top: 44%;
+    left: 89%;
+    width: auto;
+    height: auto;
+    margin: -100px 0 0 -250px;
+    background: rgba(255, 0, 0, 0.4);
+    border: 1px solid rgb(128, 128, 128);
+}
+
+div.blockOverlay{
+    display:none !important;
+}
+
+div.blockUI{
+    display:none !important;
+}
+
+div.blockPage{
+    display:none !important;
+}
+div#MessagePopupSection{
+    display:none;
+    background: #DDDDDD;
+    padding: 10px;
+    border: 2px solid #ddd;
+    float: left;
+    width: auto;
+    height: auto;
+    position: fixed;
+    top: 50%; left: 50%;
+    z-index: 99999;
+    box-shadow: 0px 0px 20px #999;
+    -moz-box-shadow: 0px 0px 20px #999;
+    -webkit-box-shadow: 0px 0px 20px #999;
+    border-radius:3px 3px 3px 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+div#PatronUserNote-HorizontalBoxSection{
+    display:none;
+    background: #DDDDDD;
+    padding: 10px;
+    border: 2px solid #ddd;
+    float: left;
+    width: auto;
+    height: auto;
+    position: fixed;
+    top: 50%; left: 50%;
+    z-index: 99999;
+    box-shadow: 0px 0px 20px #999;
+    -moz-box-shadow: 0px 0px 20px #999;
+    -webkit-box-shadow: 0px 0px 20px #999;
+    border-radius:3px 3px 3px 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+div#MessagePopupSectionForReturn{
+    display:none;
+    background: #DDDDDD;
+    padding: 10px;
+    border: 2px solid #ddd;
+    float: left;
+    width: auto;
+    height: auto;
+    position: fixed;
+    top: 50%; left: 50%;
+    z-index: 99999;
+    box-shadow: 0px 0px 20px #999;
+    -moz-box-shadow: 0px 0px 20px #999;
+    -webkit-box-shadow: 0px 0px 20px #999;
+    border-radius:3px 3px 3px 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+div#OverRideLogInSectionLink{
+    display:none;
+    background: #DDDDDD;
+    padding: 10px;
+    border: 2px solid #ddd;
+    float: left;
+    width: auto;
+    height: auto;
+    position: fixed;
+    top: 50%; left: 50%;
+    z-index: 99999;
+    box-shadow: 0px 0px 20px #999;
+    -moz-box-shadow: 0px 0px 20px #999;
+    -webkit-box-shadow: 0px 0px 20px #999;
+    border-radius:3px 3px 3px 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+div#ItemMismatchedLoan{
+    display:none;
+    background: #DDDDDD;
+    padding: 10px;
+    border: 2px solid #ddd;
+    float: left;
+    width: auto;
+    height: auto;
+    position: fixed;
+    top: 50%; left: 50%;
+    z-index: 99999;
+    box-shadow: 0px 0px 20px #999;
+    -moz-box-shadow: 0px 0px 20px #999;
+    -webkit-box-shadow: 0px 0px 20px #999;
+    border-radius:3px 3px 3px 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+div#ClaimsReturn-HorizontalBoxSection{
+    display:none;
+    background: #DDDDDD;
+    padding: 10px;
+    border: 2px solid #ddd;
+    float: left;
+    width: auto;
+    height: auto;
+    position: fixed;
+    top: 50%; left: 50%;
+    z-index: 99999;
+    box-shadow: 0px 0px 20px #999;
+    -moz-box-shadow: 0px 0px 20px #999;
+    -webkit-box-shadow: 0px 0px 20px #999;
+    border-radius:3px 3px 3px 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+div#PatronUserNote-HorizontalBoxSection{
+    display:none;
+    background: #DDDDDD;
+    padding: 10px;
+    border: 2px solid #ddd;
+    float: left;
+    width: auto;
+    height: auto;
+    position: fixed;
+    top: 50%; left: 50%;
+    z-index: 99999;
+    box-shadow: 0px 0px 20px #999;
+    -moz-box-shadow: 0px 0px 20px #999;
+    -webkit-box-shadow: 0px 0px 20px #999;
+    border-radius:3px 3px 3px 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+div#ConfirmCirculationLocationChange{
+    display:none;
+    background: #DDDDDD;
+    padding: 10px;
+    border: 2px solid #ddd;
+    float: left;
+    width: auto;
+    height: auto;
+    position: fixed;
+    top: 50%; left: 50%;
+    z-index: 99999;
+    box-shadow: 0px 0px 20px #999;
+    -moz-box-shadow: 0px 0px 20px #999;
+    -webkit-box-shadow: 0px 0px 20px #999;
+    border-radius:3px 3px 3px 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+div#ConfirmReturnCirculationLocationChange{
+    display:none;
+    background: #DDDDDD;
+    padding: 10px;
+    border: 2px solid #ddd;
+    float: left;
+    width: auto;
+    height: auto;
+    position: fixed;
+    top: 50%; left: 50%;
+    z-index: 99999;
+    box-shadow: 0px 0px 20px #999;
+    -moz-box-shadow: 0px 0px 20px #999;
+    -webkit-box-shadow: 0px 0px 20px #999;
+    border-radius:3px 3px 3px 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+
+span.uif-breadcrumbs, .backdoor, .test {
+    display:none !important;
+}
+
+div#MessagePopupSectionForLoan{
+    display:none;
+    background: #DDDDDD;
+    padding: 10px;
+    border: 2px solid #ddd;
+    float: left;
+    width: auto;
+    height: auto;
+    position: fixed;
+    top: 50%; left: 50%;
+    z-index: 99999;
+    box-shadow: 0px 0px 20px #999;
+    -moz-box-shadow: 0px 0px 20px #999;
+    -webkit-box-shadow: 0px 0px 20px #999;
+    border-radius:3px 3px 3px 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+div#MessagePopupSectionForBackGroundReturn{
+    display:none;
+    background: #DDDDDD;
+    padding: 10px;
+    border: 2px solid #ddd;
+    float: left;
+    width: auto;
+    height: auto;
+    position: fixed;
+    top: 50%; left: 50%;
+    z-index: 99999;
+    box-shadow: 0px 0px 20px #999;
+    -moz-box-shadow: 0px 0px 20px #999;
+    -webkit-box-shadow: 0px 0px 20px #999;
+    border-radius:3px 3px 3px 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+
+div#OLEReturnView-DamagedItem-MessageBox{
+    display:none;
+    background: #DDDDDD;
+    padding: 10px;
+    border: 2px solid #ddd;
+    float: left;
+    width: auto;
+    height: auto;
+    position: fixed;
+    top: 50%; left: 50%;
+    z-index: 99999;
+    box-shadow: 0px 0px 20px #999;
+    -moz-box-shadow: 0px 0px 20px #999;
+    -webkit-box-shadow: 0px 0px 20px #999;
+    border-radius:3px 3px 3px 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+
+div#ReturnView-Error-Message{
+    color: red;
+    font-size:15px;
+
+
+}
+div#LoanView-Error-Message{
+    color: red;
+    font-size:15px;
+
+
+}
+
+div#MissingPiece-HorizontalBoxSection {
+    display:none;
+    background: #DDDDDD;
+    padding: 10px;
+    border: 2px solid #ddd;
+    float: left;
+    width: auto;
+    height: auto;
+    position: fixed;
+    top: 50%; left: 50%;
+    z-index: 99999;
+    box-shadow: 0px 0px 20px #999;
+    -moz-box-shadow: 0px 0px 20px #999;
+    -webkit-box-shadow: 0px 0px 20px #999;
+    border-radius:3px 3px 3px 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+
+div#DamagedItem-HorizontalBoxSection {
+    display:none;
+    background: #DDDDDD;
+    padding: 10px;
+    border: 2px solid #ddd;
+    float: left;
+    width: auto;
+    height: auto;
+    position: fixed;
+    top: 50%; left: 50%;
+    z-index: 99999;
+    box-shadow: 0px 0px 20px #999;
+    -moz-box-shadow: 0px 0px 20px #999;
+    -webkit-box-shadow: 0px 0px 20px #999;
+    border-radius:3px 3px 3px 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+
+div#OLELoanView-RecordNote-MessageBox {
+    display:none;
+    background: #DDDDDD;
+    padding: 10px;
+    border: 2px solid #ddd;
+    float: left;
+    width: auto;
+    height: auto;
+    position: fixed;
+    top: 50%; left: 50%;
+    z-index: 99999;
+    box-shadow: 0px 0px 20px #999;
+    -moz-box-shadow: 0px 0px 20px #999;
+    -webkit-box-shadow: 0px 0px 20px #999;
+    border-radius:3px 3px 3px 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+
+div#OLELoanView-RecordNote-MissingPiece-MessageBox {
+    display:none;
+    background: #DDDDDD;
+    padding: 10px;
+    border: 2px solid #ddd;
+    float: left;
+    width: auto;
+    height: auto;
+    position: fixed;
+    top: 50%; left: 50%;
+    z-index: 99999;
+    box-shadow: 0px 0px 20px #999;
+    -moz-box-shadow: 0px 0px 20px #999;
+    -webkit-box-shadow: 0px 0px 20px #999;
+    border-radius:3px 3px 3px 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+
+div#OLELoanView-RecordNote-Damaged-MessageBox {
+    display:none;
+    background: #DDDDDD;
+    padding: 10px;
+    border: 2px solid #ddd;
+    float: left;
+    width: auto;
+    height: auto;
+    position: fixed;
+    top: 50%; left: 50%;
+    z-index: 99999;
+    box-shadow: 0px 0px 20px #999;
+    -moz-box-shadow: 0px 0px 20px #999;
+    -webkit-box-shadow: 0px 0px 20px #999;
+    border-radius:3px 3px 3px 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+
+div#AlertBoxSectionForTime-HorizontalBoxSection{
+    display: none;
+    position: absolute;
+    top: 44%;
+    left: 89%;
+    width: auto;
+    height: auto;
+    margin: -100px 0 0 -250px;
+    background: rgba(255, 0, 0, 0.4);
+    border: 1px solid rgb(128, 128, 128);
+
+}
+div#AlertBoxSectionForInvalidTime-HorizontalBoxSection{
+    display: none;
+    position: absolute;
+    top: 40%;
+    left: 20%;
+    width: auto;
+    height: auto;
+    margin: -100px 0 0 -250px;
+    color: red;
+    font-size: 15px;
+
+}
+div#DueDateInformationSection{
+    display:none;
+    background: #DDDDDD;
+    padding: 10px;
+    border: 2px solid #ddd;
+    float: left;
+    width: auto;
+    height: auto;
+    position: fixed;
+    top: 30%; left: 50%;
+    z-index: 99999;
+    box-shadow: 0px 0px 20px #999;
+    -moz-box-shadow: 0px 0px 20px #999;
+    -webkit-box-shadow: 0px 0px 20px #999;
+    border-radius:3px 3px 3px 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+
+}
+

@@ -1,0 +1,378 @@
+<data xmlns="ns:workflow" xsi:schemaLocation="ns:workflow resource:WorkflowData" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>OLE_PMAT</name>
+      <parent>OLEVendorSimpleMaintenanceDocument</parent>
+      <label>
+        Address Type
+      </label>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Faddresstype.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
+    <documentType>
+      <name>OLE_PMCP</name>
+      <parent>OLEVendorSimpleMaintenanceDocument</parent>
+      <label>
+        Campus Parameter
+      </label>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fcampusparameter.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
+    <documentType>
+      <name>OLE_PMCC</name>
+      <parent>OLEVendorSimpleMaintenanceDocument</parent>
+      <label>
+        Commodity Code
+      </label>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fcommoditycode.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="CommodityCodeApprover"/>
+          <role name="CommodityCodeApprover"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="CommodityCodeApprover">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>OLE_PMCT</name>
+      <parent>OLEVendorSimpleMaintenanceDocument</parent>
+      <label>
+        Contact Type
+      </label>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fcontacttype.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="ContactTypeApprover"/>
+          <role name="ContactTypeApprover"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="ContactTypeApprover">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>OLE_PMCO</name>
+      <parent>OLEVendorSimpleMaintenanceDocument</parent>
+      <label>
+        Contract Manager
+      </label>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fcontractmanager.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
+    <documentType>
+      <name>OLE_PMOC</name>
+      <parent>OLEVendorSimpleMaintenanceDocument</parent>
+      <label>
+        Ownership Type Category
+      </label>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fownershiptypecategory.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
+    <documentType>
+      <name>OLE_PMOT</name>
+      <parent>OLEVendorSimpleMaintenanceDocument</parent>
+      <label>
+        Ownership Type
+      </label>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fownershiptype.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
+    <documentType>
+      <name>OLE_PMPA</name>
+      <parent>OLEVendorSimpleMaintenanceDocument</parent>
+      <label>
+        Payment Terms Type
+      </label>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fpaymenttermstype.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
+    <documentType>
+      <name>OLE_PMPT</name>
+      <parent>OLEVendorSimpleMaintenanceDocument</parent>
+      <label>
+        Phone Type
+      </label>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fphonetype.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
+    <documentType>
+      <name>OLE_PMCS</name>
+      <parent>OLEVendorSimpleMaintenanceDocument</parent>
+      <label>
+        Cost Source
+      </label>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fcostsource.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="CostSourceApprover"/>
+          <role name="CostSourceApprover"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="CostSourceApprover">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>OLE_PMSP</name>
+      <parent>OLEVendorSimpleMaintenanceDocument</parent>
+      <label>
+        Shipping Payment Terms
+      </label>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fshippingpaymentterms.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
+    <documentType>
+      <name>OLE_PMSS</name>
+      <parent>OLEVendorSimpleMaintenanceDocument</parent>
+      <label>
+        Shipping Special Conditions
+      </label>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fshippingspecialconditions.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
+    <documentType>
+      <name>OLE_PMST</name>
+      <parent>OLEVendorSimpleMaintenanceDocument</parent>
+      <label>
+        Shipping Title
+      </label>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fshippingtitle.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
+    <documentType>
+      <name>OLE_PMSD</name>
+      <parent>OLEVendorSimpleMaintenanceDocument</parent>
+      <label>
+        Supplier Diversity
+      </label>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fsupplierdiversity.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
+    <documentType>
+      <name>OLE_PMIR</name>
+      <parent>OLEVendorSimpleMaintenanceDocument</parent>
+      <label>
+        Vendor Inactive Reason
+      </label>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fvendorinactivereason.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
+    <documentType>
+      <name>OLE_PMVT</name>
+      <parent>OLEVendorSimpleMaintenanceDocument</parent>
+      <label>
+        Vendor Type
+      </label>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fvendortype.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
+
+    <documentType>
+      <name>OLE_PMCUT</name>
+      <parent>OLEVendorSimpleMaintenanceDocument</parent>
+      <label>
+        Currency Type
+      </label>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fcurrencytype.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
+    
+    <documentType>
+      <name>OLE_PMVTF</name>
+      <parent>OLEVendorSimpleMaintenanceDocument</parent>
+      <label>
+       Vendor Transmission Format
+      </label>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fvendortransmissionformat.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
+    <documentType>
+      <name>OLE_PMIPS</name>
+      <parent>OLEVendorSimpleMaintenanceDocument</parent>
+      <label>
+       Item Price Source
+      </label>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fvendortransmissionformat.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="ItemPriceSourceApprover"/>
+          <role name="ItemPriceSourceApprover"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="ItemPriceSourceApprover">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+          <activationType>
+            P
+          </activationType>
+        </role>
+      </routeNodes>
+    </documentType>
+   </documentTypes>
+</data>

@@ -1,0 +1,596 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"
+    version="5.0" xml:lang="en-US">
+    <title>Maintenance E-Doc Fundamentals</title>
+    <para role="Body Text">Many OLE electronic documents (eDocs) contain data fields that must be
+        filled in from a controlled list, either by choosing from a drop-down menu, or by doing a
+        lookup search to find valid values. The choices for these fields are defined in another type
+        of OLE eDoc, called a maintenance document. </para>
+    <para>In OLE, maintenance documents are located on the <emphasis role="bold"
+            >Maintenance</emphasis> menu tab.</para>
+    <note>
+        <para> For information about the structure of OLE, see <link linkend="_navigatingThroughOLE"
+                >Navigating through OLE</link>
+        </para>
+    </note>
+    <para> All of the maintenance eDocs are viewed and maintained in a similar fashion. Selecting
+        the desired table from the <emphasis role="bold">Maintenance</emphasis> menu tab takes you
+        to the lookup screen. From that screen you may create a new maintenance eDoc by clicking the
+            <emphasis role="bold">create new</emphasis> link or search the table to view, edit, or
+        copy a table value. OLE maintenance eDocs have varied permissions and access. Most users can
+        perform lookups and selections, or view some of the data, but not all users can edit or
+        create new maintenance tables. </para>
+    <section>
+        <title>Common Tabs</title>
+        <para role="Normal"> The typical maintenance e-doc contains the <emphasis role="bold"
+                >Document Overview</emphasis>, <emphasis role="bold">Notes and
+                Attachments</emphasis>, <emphasis role="bold">Ad Hoc Recipients</emphasis>,
+                <emphasis role="bold">Route Log</emphasis> tabs, and an additional tab called
+                <emphasis role="bold">Edit xxx</emphasis> tab, or <emphasis role="bold">Add/Edit
+                xxx</emphasis>, where xxx is the name of the table. For example, the Account Type
+            document has the <emphasis role="bold">Edit Account Type</emphasis> tab below the
+                <emphasis role="bold">Document Overview</emphasis> tab. </para>
+        <section>
+            <title>Edit Tab</title>
+            <para> Each document has its own unique tab named <emphasis role="bold">Edit
+                    xxx</emphasis>, where xxx is the name of the table values that you want to
+                maintain. The layout and data fields within the <emphasis role="bold"
+                    >Edit</emphasis> tab vary depending on the document type and whether you are
+                creating, editing or copying the document. </para>
+            <para> The <emphasis role="bold">Edit</emphasis> tab has one section when you are
+                creating a new value. As shown below, the tab has two sections: <emphasis
+                    role="bold">Old</emphasis> and <emphasis role="bold">New</emphasis>. This occurs
+                when you are editing the existing code. </para>
+            <para/>
+            <para>
+                <screenshot>
+                    <mediaobject>
+                        <alt>OLE Maintenance Document: Edit Tab Example with Old and New
+                            Sections</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/basic-58.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <para> This display allows the document to serve as an audit trail for the maintenance
+                table update history. In the <emphasis role="bold">New</emphasis> section, only
+                non-identifying fields are editable. </para>
+            <note>
+                <para>
+                    <emphasis role="bold">Non-Editable Documents:</emphasis> There are some
+                    view-only documents which are not editable because all fields in the table are
+                    key identifying fields. Some tables in this category include the Barcode Status
+                    and Patron Note Type. When you search for a document, you are not able to see
+                    the edit link in the lookup screen. These tables must be updated directly in the
+                    database by the technical staff. </para>
+            </note>
+        </section>
+        <section>
+            <title>Other Common Tabs</title>
+            <para role="Normal"> Maintenance e-docs contain additional tabs that are also common to
+                other e-docs. They are: </para>
+            <itemizedlist>
+                <listitem>
+                    <para>Document Overview Tab </para>
+                </listitem>
+                <listitem>
+                    <para> Notes and Attachments Tab </para>
+                </listitem>
+                <listitem>
+                    <para>Ad Hoc Recipients Tab</para>
+                </listitem>
+            </itemizedlist>
+            <note>
+                <para> For information about the these tabs, see <link linkend="_standardTabs"
+                        >Standard Tabs</link> and <link linkend="_routeLog">Route Log</link>.
+                </para>
+            </note>
+        </section>
+    </section>
+    <section>
+        <title>Common Business Rules</title>
+        <itemizedlist>
+            <listitem>
+                <para>All users can look up the table values.</para>
+            </listitem>
+            <listitem>
+                <para>Only the members of the higher level roles (OLE-SYS Manager, OLE-SELECT
+                    Financial-AQ4, AQ5, KR-PTRN Patron Manager, KR-LIC OLE_LicenseConfiguration are
+                    some examples) can initiate a document to create or modify the table
+                    values.</para>
+            </listitem>
+            <listitem>
+                <para>These documents do not route for approval.</para>
+            </listitem>
+        </itemizedlist>
+    </section>
+    <section>
+        <title><anchor xml:id="_performingCommonMaintenance"/>Performing Common Maintenance E-Doc
+            Operations</title>
+        <para> All of the maintenance documents are viewed and maintained in a similar fashion.
+            Selecting the desired table from the maintenance menu takes you to the lookup screen.
+            From that screen you may create a new document by clicking the <emphasis role="bold"
+                >create new</emphasis> link or search the table to view, edit, or copy a table
+            value. These common operations are explained below, using the Address Type document as
+            an example. </para>
+        <section>
+            <title>Searching for a Document</title>
+            <para> (Alternatively, a user will make selections from the Lookup icons <inlinemediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/Lookup.png"/>
+                    </imageobject>
+                </inlinemediaobject> inside transactional documents - the values of these Selection
+                or Controlled Value lists are maintained via the maintenance docs in the Maintenance
+                menu. For more information, tips, and suggestions see <link linkend="_searchingOLE"
+                    >Searching OLE</link>.) </para>
+            <orderedlist>
+                <listitem>
+                    <para> Select the desired maintenance e-doc from the <emphasis role="bold"
+                            >Maintenance</emphasis> menu. </para>
+                </listitem>
+                <listitem>
+                    <para> When the lookup screen appears, enter appropriate search criteria or
+                        leave blank to retrieve all. Click <inlinemediaobject>
+                            <alt>Search</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-100.png"
+                                />
+                            </imageobject>
+                        </inlinemediaobject></para>
+                </listitem>
+                <listitem>
+                    <para> Click the <emphasis role="bold">code</emphasis> link for the value you
+                        want to view. </para>
+                    <para/>
+                    <para>
+                        <screenshot>
+                            <mediaobject>
+                                <alt>OLE Maintenance Document Sample Lookup Screen with Results:
+                                    Click the Code link to view the attribute</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/basic-addressTypeLookup.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para/>
+                    <para>
+                        <screenshot>
+                            <mediaobject>
+                                <alt>OLE Maintenance Document Sample Inquiry Screen: Displayed after
+                                    the Code Link is clicked</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/basic-addressTypeLookup2.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>Click the <inlinemediaobject>
+                            <alt>Create New</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-281.png"
+                                />
+                            </imageobject>
+                        </inlinemediaobject> button from the lookup screen to create a new entry to
+                        the table. </para>
+                    <para/>
+                    <para>
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Create New button is available under the login button on the
+                                    Lookup Screen</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/basic-59.png"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                </listitem>
+            </orderedlist>
+        </section>
+        <section>
+            <title>Initiating a Maintenance Document</title>
+            <orderedlist>
+                <listitem>
+                    <para> Select the desired maintenance e-doc from the <emphasis role="bold"
+                            >Maintenance</emphasis> menu. </para>
+                </listitem>
+                <listitem>
+                    <para>Click the <inlinemediaobject>
+                            <alt>Create New</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-281.png"
+                                />
+                            </imageobject>
+                        </inlinemediaobject> button located in the upper right corner or search for
+                        a document and click the <emphasis role="bold">create new</emphasis> button
+                        from the view window. </para>
+                    <para> The document appears with a new Document ID. </para>
+                </listitem>
+                <listitem>
+                    <para> Complete the common Document tabs – <emphasis role="bold">Document
+                            Overview</emphasis> tab, <emphasis role="bold">Notes and
+                            Attachments</emphasis> tab, or <emphasis role="bold">Ad Hoc
+                            Recipients</emphasis> tab as needed. </para>
+                    <note>
+                        <para> For information about the common financial transaction tabs such as
+                                <emphasis role="bold">Document Overview</emphasis>, <emphasis
+                                role="bold">Notes and Attachments</emphasis>, and <emphasis
+                                role="bold">Ad Hoc Recipients, Route Log</emphasis> tabs, see <link
+                                linkend="_standardTabs">Standard Tabs</link>. </para>
+                    </note>
+                </listitem>
+                <listitem>
+                    <para> Complete the <emphasis role="bold">New</emphasis> section in the
+                            <emphasis role="bold">Edit</emphasis> tab. </para>
+                    <para/>
+                    <para>
+                        <screenshot>
+                            <mediaobject>
+                                <alt>OLE Maintenance Document: Edit Address Type Tab</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/basic-addressTypeEditTab.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para/>
+                    <note>
+                        <para> For requirements for the <emphasis role="bold">Edit</emphasis> tab or
+                            the <emphasis role="bold">Add/Edit</emphasis> tab, see the help
+                            documentation for the appropriate document type in the guides listed in
+                            the <link xlink:href="../../../html/Index.html">OLE Document
+                            Portal</link></para>
+                    </note>
+                </listitem>
+                <listitem>
+                    <para>Click <inlinemediaobject>
+                            <alt>Submit</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-82.png"
+                                />
+                            </imageobject>
+                        </inlinemediaobject>.</para>
+                </listitem>
+                <listitem>
+                    <para> Review the <emphasis role="bold">Route Log</emphasis> tab. </para>
+                    <note>
+                        <para> For more information, see <link linkend="_routeLog">Route Log</link>.
+                        </para>
+                    </note>
+                </listitem>
+            </orderedlist>
+        </section>
+        <section>
+            <title>Copying a Maintenance Document </title>
+            <para> (Initiating a Document Based on Another)</para>
+            <orderedlist>
+                <listitem>
+                    <para> Select the desired maintenance e-doc from the <emphasis role="bold"
+                            >Maintenance</emphasis> menu. </para>
+                </listitem>
+                <listitem>
+                    <para> When the lookup screen appears, enter appropriate search criteria or
+                        leave blank to retrieve all. Click <inlinemediaobject>
+                            <alt>Search</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DeliverNoTitlePage-157.png"/>
+                            </imageobject>
+                        </inlinemediaobject>.</para>
+                    <note>
+                        <para> For more information about lookup, see <link linkend="_fieldLookup"
+                                >Field Lookup</link>. </para>
+                    </note>
+                </listitem>
+                <listitem>
+                    <para> Click the <emphasis role="bold">copy</emphasis> link in the Actions
+                        column corresponding to the table value you want to copy from. </para>
+                    <para/>
+                    <para>
+                        <screenshot>
+                            <mediaobject>
+                                <alt>OLE Maintenance Document Search Results: Click Copy in the
+                                    Actions Column to Copy a Document</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/basic-addressTypeCopy.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>Complete the standard tabs – <emphasis role="bold">Document
+                            Overview</emphasis> tab, <emphasis role="bold">Notes and
+                            Attachments</emphasis> tab, or <emphasis role="bold">Ad Hoc
+                            Recipients</emphasis> tab as needed.</para>
+                    <note>
+                        <para> For information about the standard financial transaction tabs such as
+                                <emphasis role="bold">Document Overview</emphasis>, <emphasis
+                                role="bold">Notes and Attachments</emphasis>, and <emphasis
+                                role="bold">Ad Hoc Recipients, Route Log</emphasis> tabs, see <link
+                                linkend="_standardTabs">Standard Tabs</link>. </para>
+                    </note>
+                </listitem>
+                <listitem>
+                    <para> Complete the <emphasis role="bold">New Copy</emphasis> section in the
+                            <emphasis role="bold">Edit</emphasis> tab. </para>
+                    <para/>
+                    <para>
+                        <screenshot>
+                            <mediaobject>
+                                <alt>OLE Maintenance Document: Edit Tab with New Copy Section</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/basic-addressTypeCopy2.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para/>
+                    <note>
+                        <para> For requirements for the <emphasis role="bold">Edit</emphasis> tab or
+                            the <emphasis role="bold">Add/Edit</emphasis> tab, see the help
+                            documentation for the appropriate document type in the guides listed in
+                            the <link xlink:href="../../../html/Index.html">OLE Document Portal</link>.
+                            Maintenance documents are explained in their corresponding module
+                            guide.</para>
+                    </note>
+                </listitem>
+                <listitem>
+                    <para>Click <inlinemediaobject>
+                            <alt>Submit</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-82.png"
+                                />
+                            </imageobject>
+                        </inlinemediaobject>.</para>
+                </listitem>
+                <listitem>
+                    <para> Review the <emphasis role="bold">Route Log</emphasis> tab. </para>
+                    <note>
+                        <para> For more information, see <link linkend="_routeLog">Route Log</link>.
+                        </para>
+                    </note>
+                </listitem>
+            </orderedlist>
+        </section>
+        <section>
+            <title>Editing a Maintenance Document </title>
+            <orderedlist>
+                <listitem>
+                    <para> Select the desired maintenance e-doc from the <emphasis role="bold"
+                            >Maintenance</emphasis> menu. </para>
+                </listitem>
+                <listitem>
+                    <para> When the lookup screen appears, enter appropriate search criteria or
+                        leave blank to retrieve all. Click <inlinemediaobject>
+                            <alt>Search</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DeliverNoTitlePage-157.png"/>
+                            </imageobject>
+                        </inlinemediaobject>.</para>
+                    <note>
+                        <para> For more information about lookup, see <link linkend="_fieldLookup"
+                                >Field Lookup</link>. </para>
+                    </note>
+                </listitem>
+                <listitem>
+                    <para> Click the <emphasis role="bold">edit</emphasis> link in the Actions
+                        column corresponding to the table value you want to copy from. </para>
+                    <para/>
+                    <para>
+                        <screenshot>
+                            <mediaobject>
+                                <alt>OLE Maintenance Document Search Results: Click Edit in the
+                                    Actions Column to Edit a Document</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/basic-addressTypeEdit.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para/>
+                    <para> The document appears with a new Document ID. </para>
+                </listitem>
+                <listitem>
+                    <para>Complete the standard tabs – <emphasis role="bold">Document
+                            Overview</emphasis> tab, <emphasis role="bold">Notes and
+                            Attachments</emphasis> tab, or <emphasis role="bold">Ad Hoc
+                            Recipients</emphasis> tab as needed.</para>
+                    <note>
+                        <para> For information about the standard financial transaction tabs such as
+                                <emphasis role="bold">Document Overview</emphasis>, <emphasis
+                                role="bold">Notes and Attachments</emphasis>, and <emphasis
+                                role="bold">Ad Hoc Recipients, Route Log</emphasis> tabs, see <link
+                                linkend="_standardTabs">Standard Tabs</link>. </para>
+                    </note>
+                </listitem>
+                <listitem>
+                    <para> Complete the <emphasis role="bold">New</emphasis> section in the
+                            <emphasis role="bold">Edit</emphasis> tab. </para>
+                    <para/>
+                    <para>
+                        <screenshot>
+                            <mediaobject>
+                                <alt>OLE Maintenance Document: Edit Tab with Old and New
+                                    Sections</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/basic-addressTypeEdit2.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para/>
+                    <note>
+                        <para> For requirements for the <emphasis role="bold">Edit</emphasis> tab or
+                            the <emphasis role="bold">Add/Edit</emphasis> tab, see the help
+                            documentation for the appropriate document type in the guides listed in
+                            the <link xlink:href="../../../html/Index.html">OLE Document
+                            Portal</link></para>
+                    </note>
+                </listitem>
+                <listitem>
+                    <para>Click <inlinemediaobject>
+                            <alt>Submit</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-82.png"
+                                />
+                            </imageobject>
+                        </inlinemediaobject>.</para>
+                </listitem>
+                <listitem>
+                    <para> Review the <emphasis role="bold">Route Log</emphasis> tab. </para>
+                    <note>
+                        <para> For more information, see <link linkend="_routeLog">Route Log</link>.
+                        </para>
+                    </note>
+                </listitem>
+            </orderedlist>
+            <note>
+                <para>
+                    <emphasis role="bold">You are allowed to edit non-identifying fields
+                        only.</emphasis> In edit mode, note that certain fields are not editable.
+                    You are only allowed to change the non-identifying fields associated with OLE
+                    code you are trying to edit. When the active/inactive flags are available for
+                    the reference table, you can first make the existing code inactive and then
+                    create a new code to change the identifying fields. If the active/inactive flags
+                    are not available, the changes must be made by the technical staff. </para>
+            </note>
+        </section>
+    </section>
+    <section>
+        <title>Fiscal Year Maker</title>
+        <note>
+            <para> Fiscal Year Rollover continues to be reviewed or modified from inherited KFS
+                functionality. ALL could change in future releases. </para>
+        </note>
+        <para> This batch job (OLE-SYS fiscalYearMakerJob) copies table values that are specific to
+            a fiscal year into another fiscal year. Generally this job is used to copy values in
+            maintenance tables from the current fiscal year into the next fiscal year to prepare
+            those tables for future use. Some modules, such as Budget Construction, may require that
+            these tables be updated with next fiscal year's values well before the end of the
+            current fiscal year. Two parameters are used to control the Fiscal Year Maker process: </para>
+        <itemizedlist>
+            <listitem>
+                <para>OLE-SYS SOURCE_FISCAL_YEAR controls the fiscal year for which the Fiscal Year
+                    Maker batch process will copy certain maintenance table data to the next
+                    sequential year.</para>
+            </listitem>
+            <listitem>
+                <para>OLE-SYS OVERRIDE_TARGET_YEAR_DATA_IND has a 'Y' or 'N' indicator that controls
+                    the mode in which the Fiscal Year Maker's batch process runs.</para>
+            </listitem>
+            <listitem>
+                <para>'N' copies values to the new fiscal year without overwriting any values that
+                    already exist in the new year.</para>
+            </listitem>
+            <listitem>
+                <para>'Y' copies values to the new fiscal year and overwrites any values that
+                    already exist in the new year.</para>
+            </listitem>
+        </itemizedlist>
+        <para> Fiscal Year Maker impacts the following maintenance tables. </para>
+        <itemizedlist>
+            <listitem>
+                <para>Chart of Accounts tables: Accounting Period Object Code Offset Definition
+                    Organization Reversion Organization Reversion Detail Sub-Object Code</para>
+            </listitem>
+            <listitem>
+                <para>Financial tables: Fiscal Year Function Control</para>
+            </listitem>
+            <listitem>
+                <para>General Ledger tables: University Date</para>
+            </listitem>
+            <listitem>
+                <para>System tables: System Options</para>
+            </listitem>
+        </itemizedlist>
+    </section>
+    <section>
+        <title><anchor xml:id="_extendedAttributes"/>Extended Attributes</title>
+        <para> OLE allows you to add attributes to your maintenance tables in the event your
+            institution requires additional attributes for reporting purposes. These attributes are
+            called extended attributes. </para>
+        <para> Extended attributes can either be free text fields or have an associated reference
+            table to supply valid values. The data dictionary can be configured by your technical
+            staff in the following manner: </para>
+        <itemizedlist>
+            <listitem>
+                <para>An extended attribute displays on the associated e-doc</para>
+            </listitem>
+            <listitem>
+                <para>An extended attribute can be made required or optional</para>
+            </listitem>
+            <listitem>
+                <para>An extended attribute can be available as search criteria and/or in the search
+                    results in a lookup.</para>
+            </listitem>
+        </itemizedlist>
+        <section>
+            <title>General Guidelines</title>
+            <para>
+                <emphasis role="bold">How to add extended attributes to OLE:</emphasis> The steps in
+                creating extended attributes involve your technical staff for the most part.
+                Additional technical documentation is available. For example, a community college is
+                required to track multiple additional attributes on the Account Table to meet the
+                reporting requirements of community colleges. Each of these fields has a list of
+                valid values that must be maintained in the system. One extension table with the
+                multiple fields is added to the Account Table. These multiple new fields appear on
+                the Account document. A new reference table for each new field is created to
+                maintain the list of valid values for the new fields. Each of the reference tables
+                appears as a new document on the <emphasis role="bold">Maintenance</emphasis> menu
+                tab of OLE. </para>
+            <para/>
+            <para><inlinemediaobject>
+                    <alt>Table Example for Adding Extended Attributes</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/basic-60.png"/>
+                    </imageobject>
+                </inlinemediaobject></para>
+            <para/>
+            <para><emphasis role="bold">Dos</emphasis></para>
+            <itemizedlist>
+                <listitem>
+                    <para>Business rules can be applied to extended attributes the same as they
+                        could be applied to any other attribute delivered with OLE.</para>
+                </listitem>
+                <listitem>
+                    <para>Modification to include security and encryption can be applied to extended
+                        attributes as well just as the other existing OLE attributes.</para>
+                </listitem>
+                <listitem>
+                    <para>The data definition language, including referential integrity for
+                        extension tables are the responsibility of the implementing
+                        institution.</para>
+                </listitem>
+            </itemizedlist>
+            <para><emphasis role="bold">Don'ts</emphasis></para>
+            <itemizedlist>
+                <listitem>
+                    <para>Extended attributes are not intended to add additional fields to the
+                        accounting string and should not be added to tables such as GL Balance or GL
+                        Entry tables.</para>
+                </listitem>
+                <listitem>
+                    <para>Extended attributes should not be added to the workflow tables.</para>
+                </listitem>
+            </itemizedlist>
+        </section>
+    </section>
+</chapter>

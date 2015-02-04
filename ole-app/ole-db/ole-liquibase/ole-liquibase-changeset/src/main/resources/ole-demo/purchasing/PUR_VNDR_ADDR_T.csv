@@ -1,0 +1,94 @@
+VNDR_ADDR_GNRTD_ID,OBJ_ID,VER_NBR,VNDR_HDR_GNRTD_ID,VNDR_DTL_ASND_ID,VNDR_ADDR_TYP_CD,VNDR_LN1_ADDR,VNDR_LN2_ADDR,VNDR_CTY_NM,VNDR_ST_CD,VNDR_ZIP_CD,VNDR_CNTRY_CD,VNDR_ATTN_NM,VNDR_ADDR_INTL_PROV_NM,VNDR_ADDR_EMAIL_ADDR,VNDR_B2B_URL_ADDR,VNDR_FAX_NBR,VNDR_DFLT_ADDR_IND,DOBJ_MAINT_CD_ACTV_IND,VNDR_ACCOUNT_NBR,VNDR_FIN_COA_CD,OLE_VNDR_ADDR_NT
+1000,"6D8A4A59-628F-2905-FB86-9E2F81EE6C33",5,1000,0,"PO","123456 BROAD ST",null,"TRUMANSBURG","NY","14886","US","JACQUI SMITH",null,null,null,null,"Y","Y",null,null,null
+1001,"F04FA746-DC68-762A-AD63-1AA987A25410",2,1001,0,"PO","341 PINE TREE RD",null,"ITHACA","NY","14850","US",null,null,null,null,null,"Y","Y",null,null,null
+1002,"ECC2391A-5176-CB9E-69DC-0313623D49FC",3,1002,0,"PO","3894 SOUTH STREET","P.O. BOX 3455","SPRINGFIELD","IL","33555","US",null,null,null,null,null,"Y","Y",null,null,null
+1003,"0908FCB4-75CD-D32A-516B-ACAAA0D1B745",1,1003,0,"RM","ONE HAPPY PL",null,"BLOOMINGTON","IN","47404","US",null,null,null,null,null,"Y","Y",null,null,null
+1004,"BEE0531F-0783-065F-FA87-E4E85B3A9646",2,1004,0,"PO","4455 SUMMER STREET",null,"CAPITAL CITY","AK","99443","US",null,null,null,null,null,"Y","Y",null,null,null
+1005,"4FDC78B2-8637-7418-D168-1EF04DC1E677",2,1005,0,"PO","8877 FIFTH STREET","APARTMENT D","LAKEVIEW","HI","99778","US",null,null,null,null,null,"Y","Y",null,null,null
+1006,"1092D725-C189-4C81-97D0-AAA3A6D53303",1,1006,0,"RM","1212 4TH ST",null,"BLOOMINGTON","IN","47404","US",null,null,null,null,null,"N","Y",null,null,null
+1007,"8AE678EB-9FC2-3F09-13A9-F5A0365FC003",1,1006,0,"RM","1214 8TH ST",null,"BLOOMINGTON","IN","47404","US",null,null,null,null,null,"Y","Y",null,null,null
+1008,"10EDBBA1-44E1-4D57-5FBD-CB9E48D42F83",1,1002,1,"PO","8822 MAPLE DRIVE",null,"SPECIAL CITY","VT","33444","US",null,null,null,null,null,"Y","Y",null,null,null
+1009,"E3BF7DF9-F13F-F44F-0543-02052A3D55FF",1,1006,1,"RM","7000 CATFISH PL",null,"BLOOMINGTON","IN","47408","US",null,null,null,null,null,"Y","Y",null,null,null
+1010,"41B5D081-1753-797B-C824-6EA7E2ED010D",2,1007,0,"PO","DOWNING STREET",null,"LONDON",null,null,"UK",null,null,null,null,null,"Y","Y",null,null,null
+1011,"4EC632C7-85BF-183E-7456-B8BFD9720905",1,1008,0,"RM","550 S HAMPTON DR",null,"BLOOMINGTON","IN","47410","US",null,null,null,null,null,"Y","Y",null,null,null
+1012,"0CA5F0F5-EE60-65FE-05F7-80D91E461D2E",1,1008,0,"RM","1000 SOUTH SHORE CT",null,"BLOOMINGTON","IN","47407","US",null,null,null,null,null,"N","Y",null,null,null
+1013,"5C3DEE98-3092-938A-BD43-B574DB6E8B69",3,1009,0,"PO","A/15-17, D.K. Avenue",null,"New Delhi",null,"110059","IN",null,null,null,null,null,"Y","Y",null,null,null
+1014,"25FDA3D9-F497-C663-9A8B-536D59D0E6A2",2,1010,0,"PO","3388 SOUTH STREET",null,"WASHINGTON","KY","44999","US",null,null,null,null,null,"Y","Y",null,null,null
+1015,"301D5AC0-3CA9-BFC7-74A4-01F568095407",1,1010,1,"PO","8844 ADDRESS",null,"A CITY","WI","33448","US",null,null,null,null,null,"Y","Y",null,null,null
+1016,"0518C7E1-9B0A-C02B-E653-C4E83FF21CDA",1,1010,2,"PO","9988 8TH STREET",null,"A PLACE IN THE SUN","CA","99888","US",null,null,null,null,null,"Y","Y",null,null,null
+1017,"241A5C27-104D-E6DA-A9E8-70B17D62ED03",2,1011,0,"PO","8876 S. STREET",null,"A CITY","OH","99877","US",null,null,null,null,null,"Y","Y",null,null,null
+1018,"464D261D-9215-2806-686D-9CE565C2214D",2,1011,0,"RM","9766 RUSSIA STREET",null,"MOSCOW","--",null,"RS",null,null,null,null,null,"Y","Y",null,null,null
+1019,"3E61BA2B-D03B-1A04-1249-5753E063D952",1,1012,0,"RM","400 LAST STAND AVE",null,"BLOOMINGTON","IN","47410","US",null,null,null,null,null,"Y","Y",null,null,null
+1020,"A18749ED-1E5F-8BB7-2460-F6E01EAC40A6",1,1013,0,"RM","3030 W 10TH ST",null,"BLOOMINGTON","IN","47408","US",null,null,null,null,null,"Y","Y",null,null,null
+1021,"78944849-2954-0C47-9BB9-293BFE9D51B7",2,1014,0,"PO","8899 AWAHL STREET",null,"IDAHO CITY","ID","33999","US",null,null,null,null,null,"Y","Y",null,null,null
+1022,"6483769E-F2BD-44F0-5AC6-F29635159668",2,1014,0,"QT","8800 BROOK STREET",null,"WYOMING CITY","WY","33888","US",null,null,null,null,null,"Y","Y",null,null,null
+1023,"D113C19F-3F39-CF49-B9E7-918A61183CC4",2,1014,1,"PO","9988 WEST STREET",null,"BLOOMINGTON","IL","44349","US",null,null,null,null,null,"Y","Y",null,null,null
+1024,"5F4779CF-A736-D5DD-96A9-08EB07428901",2,1014,2,"PO","3388 WEST STREET",null,"PLACER","UT","22888","US",null,null,null,null,null,"Y","Y",null,null,null
+1025,"21C6A7D5-1F1E-2E04-3F0E-757B97DDA48E",2,1014,2,"RM","8899 BLUES STREET",null,"SUMNER PLACE","GA","99998","US",null,null,null,null,null,"Y","Y",null,null,null
+1026,"8EA5A13F-8395-9006-9A7A-5F8798B74636",2,1015,0,"PO","1250 STATE ROAD N",null,"BLOOMINGTON","IN","47415","US",null,null,null,null,null,"Y","Y",null,null,null
+1027,"F3C65064-2E60-8320-99E4-F03268062475",1,1014,3,"PO","9988 SOUTH STREET","PO BOX 34","PLEASANTVILLE","NC","33888","US",null,null,null,null,null,"Y","Y",null,null,null
+1028,"61DFA319-1BBE-8F8C-4874-2CEDB81BB2AD",3,1016,0,"PO","16 AUBURN ST",null,"AUBURN","MA","01501","US",null,null,null,"WWW.PI-USA.US",null,"Y","Y",null,null,null
+1029,"C138877D-54DD-6B44-0B56-0C9EF0B237DF",2,1017,0,"PO","PO 311",null,"PORTERSVILLE",null,"K1A-OG9","CA",null,"OTTOWA",null,null,null,"Y","Y",null,null,null
+1030,"43C376BC-DE06-C162-0E90-F07D18DDBF47",2,1017,0,"RM","123 PORTERS LANE",null,"OTTOWA",null,"K1A-OG9","CA",null,null,null,null,null,"Y","Y",null,null,null
+1031,"4556CD66-2E51-AC2F-3530-8941CD68F26C",2,1018,0,"PO","CASKEY'S GARAGE","10000 DRYDEN RD","FREEVILLE","NY","13068","US",null,null,null,null,null,"Y","Y",null,null,null
+1032,"E3EBEE50-754E-12DC-C041-7C5302B93351",2,1018,0,"RM","PO BOX 4598",null,"FREEVILLE","NY","13068","US",null,null,null,null,null,"Y","Y",null,null,null
+1033,"F3B52F47-B16B-283C-5267-247DDF7B5A22",2,1018,1,"RM","12345 WEST MAIN",null,"AUGUSTO","NY","14877","US",null,null,null,null,null,"Y","Y",null,null,null
+1034,"1DB0D80B-647B-F81D-AB6A-6D2707F0E1F9",2,1018,1,"PO","12345 WEST MAIN",null,"AUGUSTO","NY","14877","US",null,null,null,null,null,"Y","Y",null,null,null
+1035,"388E5BB2-A266-3C16-267E-1D691C53346D",2,1019,0,"PO","WEST POST STATION",null,"LANSDALE","PA","19446","US",null,null,null,null,null,"Y","Y",null,null,null
+1036,"294DB0ED-9E64-DD24-463E-EB4D02774D0D",2,1020,0,"RM","PO BOX 642079",null,"PITTSBURGH","PA","15264-2079","US",null,null,null,null,null,"Y","Y",null,null,null
+1037,"DBB19857-37CC-385A-5325-1F90E31074E7",2,1020,0,"PO","1600 LEXINGTON AVE DOOR 34",null,"ROCHESTER","NY","14650-0000","US",null,null,null,null,null,"Y","Y",null,null,null
+1038,"B019ED4A-A7F7-21B8-311B-6D14BBAA0E76",2,1021,0,"PO","999 WASHBURN ST",null,"DOVER","DE","03820","US",null,null,null,null,null,"Y","Y",null,null,null
+1039,"C25C6064-5EAA-28DE-3110-A383044C754D",1,1020,1,"PO","PO ADDRESS",null,"ROCHESTER","NY","14616","US",null,null,null,null,null,"Y","Y",null,null,null
+1040,"1CCF838E-7818-D524-5895-4C38E55C3B46",1,1020,2,"PO","4520 MAIN ST",null,"KANSAS CITY","MO","64111","US",null,null,null,null,null,"Y","Y",null,null,null
+1041,"EA30E70C-3BC5-71BB-F02F-218C27F02816",2,1001,1,"PO","LARGE ANIMAL FACILITY",null,"ITHACA","NY","14850","US",null,null,null,null,null,"Y","Y",null,null,null
+1042,"23771E73-9D07-7544-F2C3-DFC9A1EE59CE",2,1001,2,"PO","JOHNSON ART MUSEUM",null,"ITHACA","NY","14853","US",null,null,null,null,null,"Y","Y",null,null,null
+1043,"FDC74281-F1C7-D291-4C7A-DCC195AFF3F6",1,1018,2,"PO","EAST GENEO LANE",null,"ITHACA","NY","14850","US",null,null,null,null,null,"Y","Y",null,null,null
+2003,"4DD60BDC-3CB9-F2ED-4150-5CD9E65CB0B1",7,2003,0,"PO","889 HAMMER RD.",null,"CLEVELAND","OH","41555-5688","US","BOB",null,null,"BOBTHEBUILDER.COM",null,"Y","Y",null,null,null
+2004,"CCFF5133-452A-9016-4246-4843E405EBE2",7,2003,0,"RT","789 TRACK PKWY",null,"AKRON","OH","41522-5688","US","ROB",null,null,"BOBTHEBUILDER.COM",null,"N","Y",null,null,null
+2008,"DA73C9AC-3DB8-B0FF-B367-0255B0455248",3,2005,0,"PO","PO BOX 121212",null,"BRAZIL","IN","47834","US","MS. SMITH",null,null,"WWW.ACCOUNTING.COM",null,"Y","Y",null,null,null
+2009,"BE64B0CE-FD18-0876-F92F-CD2F1B2A31EA",3,2005,0,"PO","5959 STATE STREET",null,"BRAZIL","IN","47834","US","MR. SMITH",null,null,"WWW.ACCOUNTCONSULT.COM",null,"N","Y",null,null,null
+2010,"4AA98E1B-8B54-8C5E-FE20-7B1F8C3EC8EA",3,2005,0,"PO","1212 FAIR ST",null,"LENNOX","SD","57037","US","THE SMITHS",null,null,"WWW.ACCOUNTING2.COM",null,"N","Y",null,null,null
+2017,"6ACFCCF0-5160-CB3E-96ED-2E35F7205CA9",6,2013,0,"PO","PO BOX 1309",null,"BATTLE CREEK","MI","49016-1309","US","MR. NAMJOO",null,null,"HTTP://WWW.MSN.COM",null,"Y","Y",null,null,null
+2018,"D148D9B4-3520-7E08-D14B-86E2956CC18D",6,2013,0,"PO","PO BOX 71835","SUITE 3","CHICAGO","IL","60694-1835","US","SALES DEPT",null,null,null,null,"N","Y",null,null,null
+2019,"53FB6E3F-22FE-E9DC-A1D1-F96C38B137F1",6,2013,0,"PO","6040 S MARTIN LUTHER KING BLVD",null,"LANSING","MI","48911-4604","US",null,null,null,null,null,"N","Y",null,null,null
+2028,"B80B6DAB-1AC4-37C0-2B4B-3D83D0E2F4B6",1,1010,3,"PO","33 N. STREET",null,"JAMES STONE","GA","33444","US",null,null,null,null,null,"Y","Y",null,null,null
+2041,"0FAF51D2-0AE5-3DB3-BB24-516E19E57CBE",2,2021,0,"PO","PO BOX 879","SUITE 2","FLAGSTAFF","AZ","86004","US","JOE",null,null,"COFFEECUP.COM",null,"Y","Y",null,null,null
+2042,"D4A9B19D-B6BD-72E7-8BA3-A82C7DACA233",2,2021,0,"PO","12566 YEAGER STREET","SUITE 6","ATLANTA","GA","30303","US","JOE'S ASSISTANT",null,null,"WWW.COFFECUP.COM",null,"N","Y",null,null,null
+2044,"EC2AF394-25B2-2638-87F8-038B21F4DAE8",3,2023,0,"PO","5617 ENTERPRISE",null,"LANSING","MI","48910","US","MR. GRAINGER",null,"MR.BOSS@GRAINGER.COM","WWW.GRAINGER.COM",null,"Y","Y",null,null,null
+2045,"7325511C-E9AA-7935-4D84-FFD9419E4CB9",3,2023,0,"PO","DEPT 407-819456443",null,"PALATINE","IL","60038-0001","US",null,null,null,null,null,"N","Y",null,null,null
+2046,"B5325AB8-C65E-1143-622E-F95A861B46BA",3,2023,0,"PO","PO BOX 12588",null,"CLEVELAND","OH","14215-2588","US",null,null,"PO@WW.COM",null,null,"N","Y",null,null,null
+2048,"8EA6B276-2E78-B824-0A5E-2C145E8FAF8F",7,2025,0,"PO","23 PARKSIDE",null,"GENEVE",null,null,"SZ",null,null,null,null,null,"Y","Y",null,null,null
+2049,"53A5B360-1149-D545-B858-A8C3345E7B62",7,2025,0,"PO","BARCLAYS BANK",null,"GENEVE",null,null,"SZ",null,null,null,null,null,"N","Y",null,null,null
+2050,"BB42B382-DE65-05F5-69A3-B65B068F50D2",5,2025,0,"PO","123 THIRD ST",null,"GENEVE",null,null,"SZ",null,null,null,null,null,"N","Y",null,null,null
+3006,"845A9800-AA14-3B2D-F2A9-075E88F0D43D",3,3005,0,"PO","123 GOLDEN AVENUE",null,"GOLDEN","CO","12345","US","GENIE MANCINI",null,null,null,null,"Y","Y",null,null,null
+4005,"38F77E86-3B7E-073A-9FAD-B90F965BB5B3",1,4005,0,"PO","111 Test Ave.",null,"MyTown","AK","11111","US",null,null,null,null,null,"Y","Y",null,null,null
+4006,"610E625E-6577-BA26-0D3B-1FD583DFFD99",1,4006,0,"PO","111 One Dell Way",null,"DellTown","DE","55555","US",null,null,null,null,null,"Y","Y",null,null,null
+4007,"E290EC8F-1134-60EA-D238-81225DB3DE41",1,4007,0,"PO","111 Test Ave.",null,"MyTown","CO","56565","US",null,null,null,null,null,"Y","Y",null,null,null
+4008,"A4E52329-1E5E-0243-8071-29401FE53000",1,4008,0,"PO","111 Test Ave.",null,"MyTown","DE","78787","US",null,null,null,null,null,"Y","Y",null,null,null
+4009,"5375DA72-D07F-C73F-6EF2-C812051DC490",2,4009,0,"PO","111 Test Ave.",null,"MyTown","KS","98989","US",null,null,null,null,null,"Y","Y",null,null,null
+4010,"79F1942A-3FB0-FC8D-3C05-FBD6F621A300",1,4010,0,"PO","111 Test Ave.",null,"MyTown","ME","13131","US",null,null,null,null,null,"Y","Y",null,null,null
+4011,"76D0C7E3-8C1B-48C4-4A16-30E608B2750D",1,4011,0,"PO","111 Test Ave.",null,"MyTown","KS","99999","US",null,null,null,null,null,"Y","Y",null,null,null
+4012,"CE6F93B4-162F-177B-F193-080696463C08",1,4012,0,"PO","111 Test Ave.",null,"MyTown","SC","21323","US",null,null,null,null,null,"Y","Y",null,null,null
+4105,"830E6114761FC23CE0404F8189D82CFD",1,4105,0,"RM","12 Rue de Rivoli",null,"Paris",null,"75044","FR",null,null,null,null,null,"Y","Y",null,null,null
+4106,"830E61147620C23CE0404F8189D82CFD",1,4105,0,"RM","123 E Main St",null,"Ithaca","NY","14850","US",null,null,null,null,null,"N","Y",null,null,null
+4107,"830E61147621C23CE0404F8189D82CFD",1,4106,0,"RM","341 Pine Tree Rd",null,"Ithaca","NY","14850","US",null,null,null,null,null,"Y","Y",null,null,null
+4108,"830E61147622C23CE0404F8189D82CFD",2,4107,0,"RM","123 E Queen St",null,"Ithaca","NY","14850","US",null,null,null,null,null,"Y","Y",null,null,null
+4109,"830E61147614C23CE0404F8189D82CFD",1,4108,0,"PO","85 North South St",null,"Lansdale","PA","19446","US",null,null,null,null,null,"Y","Y",null,null,null
+4110,"830E61147615C23CE0404F8189D82CFD",1,4108,0,"RM","87 North South St",null,"Lansdale","PA","19446","US",null,null,null,null,null,"Y","Y",null,null,null
+4111,"830E6114761AC23CE0404F8189D82CFD",1,4109,0,"RM","987 West East St",null,"Lansdale","PA","19446","US",null,null,null,null,null,"Y","Y",null,null,null
+4112,"830E61147623C23CE0404F8189D82CFD",2,4110,0,"PO","4415 East State St",null,"Ithaca","NY","14850","US",null,null,null,null,null,"Y","Y",null,null,null
+4113,"830E61147618C23CE0404F8189D82CFD",2,4111,0,"PO","12 Snowly Lane",null,"Ithaca","NY","14850","US",null,null,null,null,null,"Y","Y",null,null,null
+4114,"830E61147619C23CE0404F8189D82CFD",2,4111,0,"RM","12 Snowy Lane",null,"Ithaca","NY","14850","US",null,null,null,null,null,"Y","Y",null,null,null
+4115,"830E6114761BC23CE0404F8189D82CFD",2,4112,0,"PO","2050 University Ave",null,"E Palo Alto","CA","94303","US",null,null,null,null,null,"Y","Y",null,null,null
+4116,"830E6114761CC23CE0404F8189D82CFD",3,4113,0,"PO","787 Airport Rd",null,"Ithaca","NY","14850","US",null,null,null,null,null,"Y","Y",null,null,null
+4117,"830E6114761DC23CE0404F8189D82CFD",2,4114,0,"PO","73526 Elm Tree Road",null,"Ithaca","NY","14850","US",null,null,null,null,null,"Y","Y",null,null,null
+4118,"830E6114761EC23CE0404F8189D82CFD",1,4115,0,"RM","654 Accordian St",null,"North Wales","PA","19440","US",null,null,null,null,null,"Y","Y",null,null,null
+4119,"830E61147616C23CE0404F8189D82CFD",1,4116,0,"RM","123 E Queen St",null,"Trumansburg","NY","14886","US",null,null,null,null,null,"Y","Y",null,null,null
+4120,"830E61147617C23CE0404F8189D82CFD",1,4117,0,"PO","707 School of Economics Building","Institute for Advanced Res - 777 Guoding Rd","Shanghai",null,"200433","CH","Shanghai University of Finance & Economics",null,null,null,null,"Y","Y",null,null,null
+4121,"830E61147624C23CE0404F8189D82CFD",1,4118,0,"PO","2922 River Road",null,"Ithaca","NY","14850","US",null,null,null,null,null,"Y","Y",null,null,null
+4122,"830E61147625C23CE0404F8189D82CFD",1,4119,0,"PO","191 Lake St",null,"Ithaca","NY","14850","US",null,null,null,null,null,"Y","Y",null,null,null
+12106,"9E139A07A8DE5632E040DC0A70FD77CB",1,12106,0,"PO","999 Maple Street",null,"Contoocook","NH","03229","US",null,null,null,null,null,"Y","Y",null,null,null
+12107,"8981F5A1-EE6E-9455-001E-CC8CF8625793",1,12106,0,"PO","999 MAPLE STREET",null,"CONTOOCOOK","NH","03229","US",null,null,null,null,null,"N","Y",null,null,null
+12108,"C46CC769-9FE0-B3F1-AA9E-370AA0D9D751",1,12106,0,"RT","999 MAPLE STREET",null,"CONTOOCOOK","NH","03229","US",null,null,null,null,null,"N","Y",null,null,null
+12109,"C16605A1-DAB1-FE3D-2778-D31F117F2C19",1,12106,0,"RM","P.O. BOX 277991",null,"Atlanta","GA","30384-7991","US",null,null,null,null,null,"Y","Y",null,null,null
+12110,"6856FE32-8EED-29BD-6DBF-E4CE048EEFED",1,12111,0,"PO","TAUNUSSTRASSE 5",null,"WIESBADEN",null,null,"DE","Justin Clark",null,null,"HTTP://WWW.HARRASSOWITZ.DE",null,"Y","Y",null,null,null

@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="SerialsReceivingRecordSearchView" parent="SerialsReceivingRecordSearchView-parentBean" />
+    <bean id="SerialsReceivingRecordSearchView-parentBean" parent="Uif-OLEFormView">
+        <property name="headerText" value="Serials Receiving Record Search"/>
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="${ole.externalizable.help.url}/reference/webhelp/AG/content/ch05s06.html"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="SerialsReceivingRecordSearchViewPage" parent="Uif-Page" >
+                    <property name="items">
+                        <list>
+                            <ref bean="SerialsReceivingRecordSearchPanel"/>
+                            <ref bean="SerialsReceivingRecordSearchResultsPanel"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="footer">
+            <ref bean="ClearFooterView-buttons" />
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>ole/receive/css/serialSearch.css</value>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>ole/receive/scripts/serialSearch.js</value>
+            </list>
+        </property>
+        <property name="formClass" value="org.kuali.ole.describe.form.SerialsReceivingRecordForm"/>
+    </bean>
+
+    <bean id="SerialsReceivingRecordSearchPanel" parent="SerialsReceivingRecordSearchPanel-parentBean"/>
+
+    <bean id="SerialsReceivingRecordSearchPanel-parentBean" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="headerText" value="Search Conditions:"/>
+        <property name="items">
+            <list>
+                <ref bean="SerialsReceivingRecordSearchPanel-searchParams-Section"/>
+                <ref bean="SerialsReceivingRecordSearchPanel-Buttons"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="SerialsReceivingRecordSearchPanel-searchParams-Section" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="1" p:style="width:1000px">
+        <property name="headerText" value=""/>
+        <property name="collectionObjectClass" value="org.kuali.ole.docstore.discovery.model.SearchCondition"/>
+        <property name="propertyName" value="searchParams.searchFieldsList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="items">
+            <list>
+                <bean id="items" parent="Uif-HorizontalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean id="docField_id" parent="Uif-InputField" p:propertyName="docField" p:label="Search By"
+                                  p:optionsFinderClass="org.kuali.ole.describe.keyvalue.SerialsReceivingRecordSearchByKeyValueFinder">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl"/>
+                                </property>
+                            </bean>
+
+                            <bean id="operator_id" parent="Uif-InputField" p:propertyName="searchScope" p:label="Search Type">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="AND" p:value="All of these"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="OR" p:value="Any of these"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="phrase" p:value="As a phrase"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+
+                            <bean id="searchText_id" parent="Uif-InputField" p:label="Search For" p:propertyName="searchText" p:required="false">
+                            </bean>
+
+
+                            <bean id="searchScope_id" parent="Uif-InputField" p:propertyName="operator" p:label="Operator">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="AND" p:value="AND"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="OR" p:value="OR"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="NOT" p:value="NOT"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+        <property name="layoutManager.actionFieldPrototype.group.layoutManager">
+            <bean parent="Uif-HorizontalBoxLayout"/>
+        </property>
+        <property name="layoutManager.actionFieldPrototype.label" value=""/>
+    </bean>
+
+    <bean id="SerialsReceivingRecordSearchPanel-Buttons"  parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="search_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:25em" p:methodToCall="search" p:actionLabel="Search" p:successCallback="pageEntriesDisplay()" p:onClickScript="setSearchType()"/>
+                <bean id="clear_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em" p:methodToCall="clearSearch" p:actionLabel="Clear" p:successCallback="refreshPage()"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="SerialsReceivingRecordSearchResultsPanel" parent="SerialsReceivingRecordSearchResultsPanel-ParentBean"/>
+
+    <bean id="SerialsReceivingRecordSearchResultsPanel-ParentBean" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="headerText" value="Search Results:"/>
+        <property name="items">
+            <list>
+                <ref bean="SerialReceivingRecordSearchResult"/>
+                <ref bean="SerialsReceivingMessageSection"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="SerialReceivingRecordSearchResult" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="3"  p:render="@{oleSerialReceivingRecordList ne null}" p:style="border:1px solid;">
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.pojo.OLESerialReceivingRecord" />
+        <property name="propertyName" value="oleSerialReceivingRecordList" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.generateAutoSequence" value="false" />
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:label="Title" p:propertyName="title"  p:style="color:@{#line.staffOnlyFlag}; font-style:@{#line.staffOnlyFlagStyle}; word-break: break-all;word-wrap: break-word" />
+                <bean parent="Uif-DataField" p:label="Bound Location" p:propertyName="boundLocation"/>
+                <bean parent="Uif-DataField" p:label="ISSN" p:propertyName="issn"/>
+                <bean parent="Uif-DataField" p:label="Call Number" p:propertyName="callNumber"/>
+                <bean parent="Uif-DataField" p:label="Status" p:propertyName="subscriptionStatus"/>
+                <bean parent="Uif-DataField" p:label="Serials Receipt Work Unit" p:propertyName="checkInWorkUnit"/>
+                <bean parent="Uif-DataField" p:label="Unbound Location" p:propertyName="unboundLocation"/>
+                <bean parent="Uif-LinkField" p:label="Action" p:href="@{#line.href}" p:linkText="@{#line.action}" />
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="false">
+                <!-- infinite scrolling settings from http://datatables.net/examples/basic_init/scroll_y_infinite.html -->
+                <entry key="aaSorting" value="[[0,'asc'],[1,'asc']]"/>
+                <entry key="iDisplayLength" value="@{searchLimit}"/>
+                <entry key="bLengthChange" value="false"/>
+                <entry key="bFilter" value="false"/>
+                <!-- end of infinite scrolling settings -->
+            </map>
+        </property>
+    </bean>
+
+
+    <bean id="ClearFooterView-buttons" parent="ClearFooterView-buttons-parentBean"/>
+    <bean id="ClearFooterView-buttons-parentBean" parent="Uif-HorizontalBoxSection" p:disclosure.render="false">
+        <property name="items">
+            <list>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="SerialsReceivingMessageSection" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="SerialsReceivingMessageFieldSection" parent="Uif-Message" p:messageText="@{errorAuthorisedUserMessage}" p:render="@{oleSerialReceivingRecordList eq null}" />
+                <bean id="hdndata_i" parent="Uif-InputField" p:hidden="true" p:propertyName="pageResultDisplay"/>
+                <bean id="searchNextFlagdd" parent="Uif-InputField"  p:hidden="true" p:propertyName="nextFlag"/>
+                <bean id="searchPreviousFlagdd" parent="Uif-InputField"  p:hidden="true" p:propertyName="previousFlag"/>
+                <bean id="hidden_NextFlag_buttondd" parent="Uif-SecondaryActionButton-Small"  p:methodToCall="nextSearch" p:hidden="true" p:successCallback="pageEntriesDisplay()" />
+                <bean id="hidden_PreviousFlag_buttondd" parent="Uif-SecondaryActionButton-Small"  p:methodToCall="previousSearch" p:hidden="true" p:successCallback="pageEntriesDisplay()" />
+                <bean id="pgn_flag" parent="Uif-InputField"  p:hidden="true" p:propertyName="paginationFlag"/>
+                <bean id="src_flag" parent="Uif-InputField"  p:hidden="true" p:propertyName="searchFlag"/>
+                <bean id="ascendingSort_button" parent="Uif-SecondaryActionButton-Small"  p:methodToCall="ascendingSort" p:hidden="true" p:successCallback="pageEntriesDisplay()" />
+                <bean id="descendingSort_button" parent="Uif-SecondaryActionButton-Small"  p:methodToCall="descendingSort" p:hidden="true" p:successCallback="pageEntriesDisplay()" />
+            </list>
+
+        </property>
+    </bean>
+
+
+</beans>

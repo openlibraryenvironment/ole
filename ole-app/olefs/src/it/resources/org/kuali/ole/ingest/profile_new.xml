@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<agendas>
+    <agenda>
+        <name>YBP</name>
+        <profileAttributes>
+            <attribute name="orderPerFile">SINGLE-ORDER</attribute>
+            <attribute name="vendorProfileCode">YBP</attribute>
+            <attribute name="contractMgr">John Doe</attribute>
+            <attribute name="assignToUser">Jane Doe</attribute>
+            <attribute name="chartCode">UA</attribute>
+            <attribute name="itemChartCode">BL</attribute>
+            <attribute name="orgCode">VPIT</attribute>
+            <attribute name="receivingRequired">false</attribute>
+            <attribute name="itemStatus">a values goes here</attribute>
+            <attribute name="locationStatus">Permanent</attribute>
+            <attribute name="useTaxInd">true</attribute>
+            <attribute name="orderType">firm_fixed_ybp</attribute>
+            <attribute name="payReqPositiveApprovalReq">true</attribute>
+            <attribute name="deliveryCampus">BL</attribute>
+            <attribute name="building">BL209</attribute>
+            <attribute name="publicView">false</attribute>
+            <attribute name="internalPurchasingLimit">null</attribute>
+            <attribute name="costSource">EST</attribute>
+            <attribute name="recordType">x</attribute>
+            <attribute name="encodingLevel">1</attribute>
+            <attribute name="receiptStatus">3</attribute>
+            <attribute name="acquisitionMethod">3</attribute>
+            <attribute name="generalRetentionPolicy">u</attribute>
+            <attribute name="specificRetentionPolicy-PolicyType"></attribute>
+            <attribute name="fundingSource">INST</attribute>
+            <attribute name="purchaseorderconfirmationindicator">true</attribute>
+            <attribute name="requisitionSource">AUTO</attribute>
+            <attribute name="vendorchoice">vendorchoice</attribute>
+            <attribute name="itemType">ITEM</attribute>
+            <attribute name="routeRequester">false</attribute>
+            <attribute name="publicView">true</attribute>
+            <attribute name="percent">100</attribute>
+            <attribute name="poTransmissionMethod">NOPR</attribute>
+            <attribute name="internalPurchasingLimit">2</attribute>
+            <attribute name="defaultLocation">ARCH/PSAP</attribute>
+        </profileAttributes>
+        <rules>
+            <rule>
+                <name>ISBN Validation</name>
+                <oleProposition>
+                    <type>simple</type>
+                    <simpleProposition>
+                        <function>isbnFunction</function>
+                        <term>
+                            <type>java.lang.String</type>
+                            <value>incomingField-020a</value>
+                        </term>
+                        <term>
+                            <type>java.lang.String</type>
+                            <value>existingField-020a</value>
+                        </term>
+                    </simpleProposition>
+                </oleProposition>
+                <falseActions>
+                    <action>
+                        <name>createBibAction</name>
+                    </action>
+                </falseActions>
+                <trueActions>
+                    <action>
+                        <name>updateItem</name>
+                    </action>
+                </trueActions>
+            </rule>
+        </rules>
+    </agenda>
+</agendas>

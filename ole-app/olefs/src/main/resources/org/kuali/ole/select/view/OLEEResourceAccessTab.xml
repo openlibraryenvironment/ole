@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="OLEEResourceRecordView-E-ResourceAccessTab" parent="E-Res-Uif-DocumentPage">
+        <property name="headerText" value="Access"/>
+        <property name="items">
+            <list>
+                <ref bean="OLEEResourceRecordView-Overview"/>
+                <bean id="ERSAccess-Save" parent="Uif-PrimaryActionButton" p:style="float:left;margin-left:0em" p:ajaxSubmit="false" p:methodToCall="save" p:actionLabel="save" p:performClientSideValidation="true" p:hidden="true"/>
+                <ref bean="OLEEResourceAccessTab-AccessActivation"/>
+                <ref bean="OLEEResourceAccessTab-Access"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceAccessTab-AccessActivation" parent="Uif-Disclosure-GridSection"
+          p:layoutManager.numberOfColumns="8"
+          p:render="@{!(document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.final or document.oleAccessActivationDocumentNumber ne null)}">
+        <property name="headerText" value="Access Workflow"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="dateAccessConfirmed"/>
+                <bean parent="Uif-InputField" p:propertyName="accessDescription" p:label="Access Description"/>
+                <bean parent="Uif-InputField" p:propertyName="workflowConfigurationId" p:label="WorkFlow"
+                      p:enableAutoQuickfinder="false">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.select.keyvalue.OLEEResourceWorkflowConfigKeyValue"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-PrimaryActionButton" p:methodToCall="startAccessWorkflow"
+                      p:actionLabel="start Access workflow"
+                      p:performClientSideValidation="true" p:ajaxSubmit="true" p:successCallback="saveERSAccessDocument()"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceAccessTab-Access" parent="Uif-Disclosure-HorizontalBoxSection" p:render="@{document.oleAccessActivationDocumentNumber ne null}">
+        <property name="headerText" value="Access Workflow"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-LinkField" p:target="_blank" p:linkText="@{document.oleAccessActivationDocumentNumber}" p:href="oleEEResourceAccessMaintenance?methodToCall=docHandler&amp;docId=@{document.oleAccessActivationDocumentNumber}&amp;command=displayDocSearchView" p:label="Access Document Number"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>

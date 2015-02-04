@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <bean id="AccessActivationWorkFlow" parent="AccessActivationWorkFlow-parentbean"/>
+
+    <bean id="AccessActivationWorkFlow-parentbean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.ole.select.bo.OLEAccessActivationWorkFlow"/>
+    <!--<property name="titleAttribute" value="orderNo"/>-->
+    <property name="objectLabel" value="Access Activation Work Flow"/>
+    <property name="attributes">
+            <list>
+                <ref bean="AccessActivationWorkFlow-orderNo"/>
+                <ref bean="AccessActivationWorkFlow-status"/>
+                <ref bean="AccessActivationWorkFlow-roleName"/>
+                <ref bean="AccessActivationWorkFlow-roleId"/>
+                <ref bean="AccessActivationWorkFlow-accessActivationName"/>
+               <!-- <ref bean="AccessActivationWorkFlow-active"/>-->
+            </list>
+    </property>
+
+    </bean>
+
+   <!-- Attribute Definitions-->
+
+    <bean id="AccessActivationWorkFlow-orderNo" parent="AccessActivationWorkFlow-orderNo-parentBean"/>
+
+    <bean id="AccessActivationWorkFlow-orderNo-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="orderNo"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Order No"/>
+        <property name="shortLabel" value="orderNo"/>
+        <property name="maxLength" value="8"/>
+        <property name="required" value="false"/>
+        <property name="validationPattern">
+            <ref bean="NumericValidation" />
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="AccessActivationWorkFlow-roleId" parent="AccessActivationWorkFlow-roleId-parentBean"/>
+
+    <bean id="AccessActivationWorkFlow-roleId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="roleId"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Role Id"/>
+        <property name="shortLabel" value="roleId"/>
+        <property name="maxLength" value="10"/>
+        <property name="required" value="false"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+
+    <bean id="AccessActivationWorkFlow-status" parent="AccessActivationWorkFlow-status-parentBean"/>
+
+    <bean id="AccessActivationWorkFlow-status-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Status"/>
+        <property name="maxLength" value="50"/>
+        <property name="name" value="status"/>
+        <property name="label" value="Status"/>
+        <property name="description" value="Status"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="AccessActivationWorkFlow-roleName" parent="AccessActivationWorkFlow-roleName-parentBean"/>
+
+    <bean id="AccessActivationWorkFlow-roleName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Role Name"/>
+        <property name="maxLength" value="100"/>
+        <property name="name" value="roleName"/>
+        <property name="label" value="Role Name"/>
+        <property name="description" value="Role Name"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <!--<property name="quickfinder">
+            <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.rice.kim.impl.role.RoleBo"
+                  p:fieldConversions="name:role" p:lookupParameters="role:name"/>
+        </property>-->
+    </bean>
+
+<!--    <bean id="AccessActivationWorkFlow-active" parent="AccessActivationWorkFlow-active-parentBean"/>
+
+    <bean id="AccessActivationWorkFlow-active-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="active"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="active"/>
+        <property name="maxLength" value="1"/>
+        <property name="summary" value="Active Indicator"/>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+        <property name="label" value="Active Indicator"/>
+        <property name="description" value="This attribute is used to describe whether the associated object is active or inactive."/>
+        <property name="validCharactersConstraint">
+            <bean  parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean  parent="Uif-CheckboxControl"/>
+        </property>
+
+    </bean>-->
+
+    <bean id="AccessActivationWorkFlow-accessActivationName" parent="AccessActivationWorkFlow-accessActivationName-parentBean"/>
+    <bean id="AccessActivationWorkFlow-accessActivationName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="accessActivationName"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="accessActivationName"/>
+        <property name="maxLength" value="1"/>
+        <property name="summary" value="Access Activation Name"/>
+
+        <property name="label" value="Access Activation Name"/>
+
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+
+    <bean id="AccessActivationWorkFlow-InquiryView" parent="Uif-OLEInquiryView">
+        <property name="headerText" value="Access Activation Work Flow"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OLEAccessActivationWorkFlow" />
+
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-VerticalBoxSection">
+                    <property name="header.headerText" value="Access Activation WorkFlow" />
+                    <property name="items">
+                        <list>
+
+                           <bean parent="Uif-GridGroup">
+                                <property name="items">
+                                    <list>
+                                        <bean id="inquiry_orderNo" parent="Uif-InputField" p:propertyName="orderNo" />
+                                        <bean id="inquiry_status" parent="Uif-InputField" p:propertyName="status" />
+                                        <bean id="inquiry_roleId" parent="Uif-InputField" p:propertyName="roleId"/>
+                                        <bean id="inquiry_accessActivationName" parent="Uif-InputField" p:propertyName="accessActivationName"/>
+                                        <!--<bean id="inquiry_active" parent="Uif-InputField" p:propertyName="active" />-->
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+
+
+    <bean id="AccessActivationWorkFlow-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="Access Activation Work Flow Lookup" />
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/BASICS/content/ch02s04.html#_lookupHelp"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OLEAccessActivationWorkFlow" />
+        <property name="criteriaFields">
+            <list>
+                <bean id="orderNo" parent="Uif-LookupCriteriaInputField" p:propertyName="orderNo" />
+                <bean id="status" parent="Uif-LookupCriteriaInputField" p:propertyName="status" />
+                <bean id="roleId" parent="Uif-LookupCriteriaInputField" p:propertyName="roleId" />
+                <bean id="accessActivationName" parent="Uif-LookupCriteriaInputField" p:propertyName="accessActivationName" />
+                <!--<bean id="active" parent="Uif-LookupCriteriaInputField" p:propertyName="active" />-->
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean id="searchResult_orderNo" parent="Uif-DataField" p:propertyName="orderNo" />
+                <bean id="searchResult_status" parent="Uif-DataField" p:propertyName="status" />
+                <bean id="searchResult_roleId" parent="Uif-DataField" p:propertyName="roleId" />
+                <bean id="searchResult_accessActivationName" parent="Uif-DataField" p:propertyName="accessActivationName" />
+               <!-- <bean id="searchResult-active" parent="Uif-DataField" p:propertyName="active" />-->
+            </list>
+        </property>
+    </bean>
+
+
+</beans>

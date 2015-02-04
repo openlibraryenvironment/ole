@@ -1,0 +1,1561 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="PatronItemView" parent="PatronItemView-parentBean" />
+    <bean id="PatronItemView-parentBean" parent="Uif-OLEFormView">
+        <property name="headerText" value="Loan" />
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/CIRC/content/ch02s01.html"/>
+                <property name="tooltipHelpContent" value="[Help] Loan help"/>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="PatronItemViewPage" parent="Uif-Page" >
+                    <property name="items">
+                        <list>
+                            <ref bean="ReturnLinkView-buttons"/>
+                            <ref bean="LoanCirculationDesk"/>
+                            <ref bean="LoanDetailedSection" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="footer">
+            <ref bean="ClearFooterView-buttons" />
+        </property>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>ole/deliver/loan/script/loan.js</value>
+            </list>
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>ole/deliver/loan/css/loan.css</value>
+            </list>
+        </property>
+        <property name="formClass" value="org.kuali.ole.deliver.form.OleLoanForm"/>
+    </bean>
+
+    <bean id="ReturnLinkView-buttons" parent="Uif-PrimaryActionButton" p:methodToCall="gotoReturn" p:actionLabel="Return" p:style="float:left;margin-left:5em" p:render="@{loanLoginUserInfo eq null OR loanLoginUserInfo eq ''}"/> <!--p:actionEvent="gotoReturn" p:componentSecurity.performActionAuthz="true"-->
+
+    <bean id="LoanDetailedSection" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <ref bean="CheckoutButtoms-HorizontalBoxSection" />
+                <ref bean="LoanInformationSection"/>
+                <ref bean="PatronBarcodeSearch-HorizontalBoxSection"/>
+                <ref bean="PatronItemView-buttons" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="LoanInformationSection" parent="Uif-VerticalBoxSubSection">
+        <property name="items">
+            <list>
+                <bean id="LoanMessageFieldSection" parent="Uif-MessageField" p:messageText="@{information}" p:cssClasses="messageClass"/>
+                <bean id="messageFieldSection" parent="Uif-MessageField" p:messageText="@{successInfo}" p:cssClasses="messageClass"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="DueDateInformationSection" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField" p:messageText="@{successMessage}" />
+                <bean id="dueDateOkBtn" parent="Uif-SecondaryActionButton-Small" p:actionLabel="Ok"  p:actionScript="closeDueDateInfo();"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PopDateTimeInfoInformationSection" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="popDateTimeInfo" parent="Uif-MessageField" p:messageText="@{popDateTimeInfo}" p:cssClasses="messageClass"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="LoginUserInformationSection" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="loginUserInfo" parent="Uif-MessageField" p:messageText="@{loanLoginUserInfo}" p:cssClasses="messageClass"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PatronBarcodeSearch-HorizontalBoxSection" parent="PatronBarcodeSearch-HorizontalBoxSection-parentBean" />
+    <bean id="PatronBarcodeSearch-HorizontalBoxSection-parentBean" parent="Uif-VerticalBoxGroup" class="org.kuali.ole.deliver.OleGroup" p:disclosure.render="false">
+        <property name="items">
+            <list>
+                <ref bean="MessagePopupSectionForBackGroundReturn"/>
+                <ref bean="LoginUserInformationSection"/>
+                <ref bean="PopDateTimeInfoInformationSection"/>
+                <ref bean="PatronDetailList-HorizontalBoxSection"/>
+                <ref bean="Patron-information-HorizontalBoxSection" />
+                <ref bean="Patron-item-VerticalBoxSection" />
+                <ref bean="FastAddItemSectionLink"/>
+                <ref bean="FastAddItemBarcode"/>
+                <ref bean="ShowExistingLoanList"/>
+                <ref bean="HideExistingLoanList"/>
+                <ref bean="OverRideLogInSectionLink"/>
+                <ref bean="Patron-LoanItemListSection-HorizontalBoxSection" />
+                <ref bean="Patron-ExistingLoanItemListSection-HorizontalBoxSection" />
+                <ref bean="AlterDueDateSection-HorizontalBoxSection" />
+                <ref bean="RenewalDueDateSection-HorizontalBoxSection" />
+                <ref bean="ClaimsReturn-HorizontalBoxSection"/>
+                <ref bean="MissingPiece-HorizontalBoxSection"/>
+                <ref bean="DamagedItem-HorizontalBoxSection"/>
+                <ref bean="PatronUserNote-HorizontalBoxSection"/>
+                <ref bean="RealPatronSection-HorizontalBoxSection"/>
+                <ref bean="ConfirmCirculationLocationChange"/>
+                <!--<ref bean="showDate"/>-->
+                <!--<ref bean="mapDate"/>-->
+                <ref bean="MessagePopupSection"/>
+                <!--<ref bean="showMessage"/>-->
+                <!--<ref bean="showBlockLoan"/>-->
+                <!--<ref bean="showAlterDueDateDialog"/>-->
+                <!--<ref bean="showClaimsReturnDialog"/>-->
+                <!--<ref bean="removeClaimsReturnFlag"/>-->
+                <!--<ref bean="fastAddItemIndicatorDialog"/>-->
+                <!--<ref bean="showOverRideLogin"/>-->
+                <!--<ref bean="newPrincipalId"/>-->
+                <!--<ref bean="oldPrincipalId"/>-->
+               <!-- <ref bean="showRenewalMessage"/>-->
+                <!--<ref bean="showOverrideRenewalItemMessage"/>-->
+                <!--<ref bean="showPatronUserNoteDialog"/>-->
+                <!--<ref bean="maxSessionTime"/>-->
+                <!--<ref bean="showRealPatronDialog"/>-->
+                <!--<ref bean="showChangeLocationDialog"/>-->
+                <ref bean="ChangeLocationButton"/>
+                <ref bean="SessionReset"/>
+                <ref bean="hiddenLoanField"/>
+                <!--<ref bean="showRenewDueDateDialog"/>-->
+                <!--<ref bean="hdnBackGroundCheckIn" />-->
+                <!--<ref bean="hdnItemFocus" />-->
+                <!--<ref bean="missingPieceDialog" />-->
+                <!--<ref bean="damagedItemDialog" />-->
+                <!--<ref bean="hdnPatronFocus"/>-->
+                <!--<ref bean="fastAddItemUrlFlag"/>-->
+               <!-- <ref bean="LoanLoginMessage"/>-->
+                <!--<ref bean="returnViewUrlFlag"/>-->
+          <!--      <ref bean="showReturn"/>-->
+                <!--<ref bean="loanaudioOption"/>-->
+     <!--           <ref bean="mapFormKey"/>-->
+                <ref bean="loanLoginBtn"/>
+                <!--<ref bean="loanLoginName"/>-->
+                <!--<ref bean="validLogin"/>-->
+<!--                <ref bean="showMessageForReturn"/>
+                <ref bean="showContinue"/>
+                <ref bean="mapCheckInNoteExists"/>
+                <ref bean="showContinueForCopy"/>
+                <ref bean="showCheckOut"/>
+                <ref bean="mapDamagedCheckIn"/>-->
+                <ref bean="loanLogOutBtn"/>
+                <!--<ref bean="loginUser"/>-->
+                <!--<ref bean="OLELoanView-RecordNote-MissingPiece-status-flag"/>-->
+                <!--<ref bean="OLELoanView-RecordNote-Damaged-status-flag"/>-->
+                <!--<ref bean="OLELoanView-RecordNote-status-missingPiece-flag"/>-->
+                <!--<ref bean="OLELoanView-RecordNote-status-damaged-flag"/>-->
+                <ref bean="OLELoanView-RecordNote-Damaged-MessageBox"/>
+                <ref bean="OLELoanView-RecordNote-MissingPiece-MessageBox"/>
+                <ref bean="MessagePopupSectionForLoan"/>
+                <ref bean="DueDateInformationSection"/>
+                <ref bean="hiddenReturnField"/>
+                <!--<ref bean="dueDateInfoMsg"/>-->
+            </list>
+        </property>
+    </bean>
+
+    <bean id="hiddenLoanField" parent="Loan-Uif-InputField" p:propertyName="dueDateSlip" p:additionalHiddenPropertyNames="loanLoginMessage,audioEnable,renewalFlag,overrideRenewItemFlag,newPrincipalId,oldPrincipalId,overrideFlag,patronNoteFlag,maxSessionTime,success,renewDueDateFlag,fastAddItemIndicator,fastAddUrl,returnViewUrl,alterDueDateFlag,blockLoan,dueDateEmpty,dueDateMap,backGroundCheckIn,missingPieceDialog,damagedItemDialog,itemFocus,patronFocus,realPatronFlag,changeLocationFlag,claimsReturnFlag,removeClaimsReturnFlag,loanLoginName,validLogin,loginUser,displayMissingPieceNotePopup,displayDamagedRecordNotePopup,skipMissingPieceRecordPopup,skipDamagedRecordPopup,successMessage">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
+    <bean id="MessagePopupSectionForBackGroundReturn" parent="Uif-VerticalBoxSubSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean id="LoanView-Error-Message" parent="Uif-MessageField" p:messageText="@{errorMessage}" p:render="@{!checkInNoteExists and !copyRequest and !claimsReturned and numberOfPieces and returnMessage ne null and returnMessage ne ''and missingPieceValidationSuccess}"/>
+                            <bean id="check-in_msg_loan" parent="Uif-MessageField" p:messageText="@{returnMessage}" />
+                            <bean id="check-in_info_loan" parent="Uif-MessageField" p:messageText="@{information}" p:cssClasses="messageClass" />
+                            <bean id="matchCheck_loan"  parent="Loan-Uif-InputField" p:propertyName="matchCheck" p:label="Verification"  p:render="@{!copyRequest and !claimsReturned and numberOfPieces and returnMessage ne null and returnMessage ne '' and backGroundCheckIn}">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" >
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="true" p:value="Matched"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="false" p:value="Mismatched"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                            <bean id="LoanView-missingPieceCount" parent="Loan-Uif-InputField" p:propertyName="missingPieceCount" p:label="Missing Pieces" p:render="@{!checkInNoteExists and !copyRequest and !claimsReturned and numberOfPieces and returnMessage ne null and returnMessage ne '' }">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" />
+                                </property>
+                            </bean>
+                            <bean id="descText_loan" parent="Loan-Uif-InputField" p:propertyName="missingPieceNote" p:label="Mismatched Check-in Note"  p:render="@{!copyRequest and !claimsReturned and numberOfPieces and returnMessage ne null and returnMessage ne '' and backGroundCheckIn }">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" />
+                                </property>
+                            </bean>
+                            <bean id="copyCheck_loan"  parent="Loan-Uif-InputField" p:propertyName="copyCheck" p:onClickScript="displayCopyMessage()" p:label=""  p:render="@{copyRequest and !checkInNoteExists and !claimsReturned and !numberOfPieces and returnMessage ne null and returnMessage ne '' and backGroundCheckIn}">
+                                <property name="control">
+                                    <bean parent="Uif-HorizontalRadioControl" >
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="true" p:value="Yes"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="false" p:value="No"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                            <bean id="OLELoanView-MissingPiece-RecordNote" parent="Loan-Uif-InputField" p:propertyName="recordCheckoutMissingPieceNote"
+                                  p:label="Record a note or not" p:render="@{!copyRequest and !claimsReturned and numberOfPieces and returnMessage ne null and returnMessage ne '' and backGroundCheckIn}">
+                                <property name="control">
+                                    <bean parent="Uif-HorizontalRadioControl">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="yes" p:value="Yes"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="no" p:value="No"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                            <ref bean="ReturnButton-HorizontalBoxSection_loan"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ReturnButton-HorizontalBoxSection_loan" parent="ReturnButton-HorizontalBoxSection_loan-parentBean" />
+    <bean id="ReturnButton-HorizontalBoxSection_loan-parentBean" parent="Uif-HorizontalBoxSection" p:disclosure.render="false">
+        <property name="items">
+            <list>
+
+                <bean id="continueBtn_loan" parent="Uif-SecondaryActionButton-Small"   p:methodToCall="continueCheckIn" p:actionLabel="Continue" p:render="@{(copyRequest or claimsReturned or numberOfPieces) and returnMessage ne null and returnMessage ne '' and backGroundCheckIn }" p:ajaxSubmit="true"  p:successCallback="closeMessageBoxForBackGroundReturn();"/>
+
+                <bean id="returnBtn_loan" parent="Uif-SecondaryActionButton-Small" p:methodToCall="returnItem" p:actionLabel="Return" p:render="@{!copyRequest and !claimsReturned and !numberOfPieces and returnMessage ne null and returnMessage ne '' and backGroundCheckIn  }" p:successCallback="closeMessageBoxForBackGroundReturn();" />
+
+                <bean id="noReturnBtn_loan" parent="Uif-SecondaryActionButton-Small" p:methodToCall="noReturnItem" p:actionLabel="Do not Return" p:render="@{!copyRequest and !claimsReturned and !numberOfPieces and returnMessage ne null and returnMessage ne '' and backGroundCheckIn }" p:successCallback="closeMessageBoxForBackGroundReturn();" />
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="LoanCirculationDesk" parent="Loan-Uif-InputField" p:propertyName="circulationDesk" p:style="float:right;margin-top:0%;margin-right:13%"
+          p:label="Circulation Desk" p:required="false" p:render="@{loanLoginUserInfo eq null OR loanLoginUserInfo eq ''}">
+        <property name="control">
+            <bean parent="Uif-DropdownControl"/>
+        </property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.ole.deliver.keyvalue.CirculationDeskChangeKeyValue"/>
+        </property>
+    </bean>
+
+    <bean id="ChangeLocationButton" parent="Uif-SecondaryActionButton-Small" p:methodToCall="changeCirculationDeskLocation" p:hidden="true" p:ajaxSubmit="true"  p:successCallback="changeLocation()" />
+    <bean id="SessionReset" parent="Uif-SecondaryActionButton-Small" p:methodToCall="saveAndClear" p:hidden="true" p:ajaxSubmit="true"  p:successCallback="sessionFadeOut()" />
+
+   <!-- <bean id="LoanLoginMessage" parent="Uif-InputField" p:propertyName="loanLoginMessage" >
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+
+    <bean id="ConfirmCirculationLocationChange" parent="ConfirmCirculationLocationChange-parent"/>
+    <bean id="ConfirmCirculationLocationChange-parent" parent="Uif-VerticalBoxSection" p:render="@{changeLocationFlag}">
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <ref bean="ConfirmCirculationLocation-Change"/>
+                            <ref bean="CirculationLocationButton"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!--<bean id="loanaudioOption" parent="Uif-InputField" p:propertyName="audioEnable">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+
+    <bean id="ConfirmCirculationLocation-Change"  parent="ConfirmCirculationLocation-Change-parent"/>
+    <bean id="ConfirmCirculationLocation-Change-parent" parent="Uif-HorizontalBoxSubSection">
+        <property name="items">
+            <list>
+                <bean id="confirmCirculationLocationMessage" parent="Uif-DataField" p:style="font-weight:bold;" p:propertyName="confirmMessage">
+                </bean>
+            </list>
+        </property>
+
+    </bean>
+
+    <bean id="CirculationLocationButton" parent="CirculationLocationButton-parent"/>
+    <bean id="CirculationLocationButton-parent" parent="Uif-HorizontalBoxSubSection">
+        <property name="items">
+            <list>
+                <bean id="ChangeCirculationLocationBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="clearUI" p:actionLabel="Yes" p:ajaxSubmit="true"  p:successCallback="closeCirculationLocationDialog()" />
+                <bean id="CirculationLocationCloseBtn" parent="Uif-SecondaryActionButton-Small"  p:methodToCall="resetLocation" p:actionLabel="No" p:ajaxSubmit="true"  p:successCallback="closeCirculationLocationDialog()" />
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PatronUserNote-HorizontalBoxSection" parent="PatronUserNote-HorizontalBoxSection-parent"/>
+    <bean id="PatronUserNote-HorizontalBoxSection-parent" parent="Uif-VerticalBoxSection" p:render="@{patronNoteFlag}">
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <ref bean="PatronUserNoteDisplay"/>
+                            <ref bean="PatronUserNoteButton"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PatronUserNoteDisplay" parent="PatronUserNoteDisplay-HorizontalBoxSection-parent"/>
+    <bean id="PatronUserNoteDisplay-HorizontalBoxSection-parent" parent="Uif-HorizontalBoxSubSection">
+        <property name="items">
+            <list>
+                <bean id="patronUserNote" parent="Uif-DataField" p:style="font-weight:bold;" p:propertyName="patronUserNote">
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PatronUserNoteButton" parent="PatronUserNoteButton-HorizontalBoxSection-parent"/>
+    <bean id="PatronUserNoteButton-HorizontalBoxSection-parent" parent="Uif-HorizontalBoxSubSection">
+        <property name="items">
+            <list>
+                <bean id="PatronDeleteBtn" parent="Uif-SecondaryActionButton-Small" p:actionScript="setPatronUserNoteDelete();" p:actionLabel="Delete"/>
+
+                <bean id="hdnPatronDeleteBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="deletePatronUserNote" p:actionLabel="user Note Delete" p:hidden="true" />
+
+                <bean id="PatronNoteCloseBtn" parent="Uif-SecondaryActionButton-Small" p:actionScript="closePatronUserNoteDialog();" p:actionLabel="Close" />
+            </list>
+        </property>
+    </bean>
+
+
+
+    <bean id="PatronDetailList-HorizontalBoxSection" parent="PatronDetailList-HorizontalBoxSection-parent"/>
+    <bean id="PatronDetailList-HorizontalBoxSection-parent" parent="Uif-Disclosure-HorizontalBoxSection" p:render="@{(information eq null or information eq '') and patronBarcode ne null and patronBarcode ne ''and (loanLoginUserInfo eq null OR loanLoginUserInfo eq '')}" >
+        <property name="headerText" value="Patron Details"/>
+
+        <property name="items">
+            <list>
+                <bean id="patronName" parent="Uif-LinkField" p:target="_blank" p:style="font-weight:bold;text-align:left;" p:fieldLabel.renderColon="false" p:href="@{patronNameURL}" p:linkText="@{patronName}" p:label="Name" p:labelPlacement="TOP" />
+                <bean id="patronType" parent="Uif-DataField" p:propertyName="borrowerType" p:label="Type" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                <bean id="patronPreferredAddress" parent="Uif-DataField" p:propertyName="preferredAddress" p:label="Preferred Address" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                <bean id="patronPhone" parent="Uif-DataField" p:propertyName="phoneNumber" p:label="Phone" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                <bean id="patronEmail" parent="Uif-DataField" p:propertyName="email" p:label="Email" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                <bean id="realPatronName" parent="Uif-DataField" p:style="background:#FFCC99" p:render="@{realPatronName ne null and realPatronName ne ''}" p:propertyName="realPatronName" p:label="Proxy Patron Name" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                <bean id="realPatronBarcode" parent="Uif-DataField" p:style="background:#FFCC99" p:render="@{realPatronBarcode ne null and realPatronBarcode ne ''}" p:propertyName="realPatronBarcode" p:label="Real Patron Barcode" p:labelPlacement="TOP" p:fieldLabel.renderColon="false"/>
+                <bean id="loanPatronImage" parent="Uif-ImageField" p:altText=""
+                      p:captionHeaderText="" p:cutlineText="" p:source="patronMaintenance?methodToCall=getImageForLoan&amp;olePatronId=@{patronId}"  p:rowSpan="2"  p:label="Photograph" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" />
+            </list>
+        </property>
+    </bean>
+
+
+
+
+    <bean id="OverRideLogInSectionLink" parent="Uif-OverRideLogInSectionLink-parent"/>
+    <bean id="Uif-OverRideLogInSectionLink-parent" parent="Uif-VerticalBoxSection" p:render="@{overrideFlag}">
+        <property name="headerText" value="Override Log-in"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <ref bean="overrideUser"/>
+                            <ref bean="overrideBuutons"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="overrideUser" parent="overrideUser-parent"/>
+    <bean id="overrideUser-parent" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField" p:messageText="@{overrideLoginMessage}" />
+                <bean id="newPrincipalId" parent="Loan-Uif-InputField" p:label="User" p:propertyName="newPrincipalId">
+                    <property name="control">
+                        <bean parent="Uif-TextControl"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="overrideBuutons" parent="overrideBuutons-parent"/>
+    <bean id="overrideBuutons-parent" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="logInUser" parent="Uif-SecondaryActionButton-Small" p:actionLabel="login" p:actionScript="setUser();"/>
+                <bean id="hdlogInUser" parent="Uif-SecondaryActionButton-Small" p:methodToCall="@{overideMethodCall}" p:hidden="true" p:ajaxSubmit="true" p:successCallback="closeMessageBoxForReturn();setCheckinItemFocus();"/>
+                <bean id="closeBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="noOverRide" p:actionLabel="Close" p:ajaxSubmit="true" p:successCallback="closeOverrideDialog();setCheckinItemFocus()"/>
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="FastAddItemSectionLink" parent="Uif-SecondaryActionButton-Small" p:methodToCall="openFastAdd" p:actionEvent="openFastAdd" p:actionLabel="Fast-Add item"  p:render="@{patronName ne null and patronName ne ''}" p:ajaxSubmit="true"  p:successCallback="openFastAdd()" p:componentSecurity.performActionAuthz="true"/>
+
+    <bean id="FastAddItemBarcode" parent="Uif-SecondaryActionButton-Small" p:methodToCall="setItemBarcode" p:actionLabel="Refresh Item Barcode"  p:ajaxSubmit="true" p:hidden="true" p:refreshPropertyName="item" p:successCallback="focusItem()"/>
+
+
+   <!-- <bean id="showRenewalMessage" parent="Uif-InputField" p:propertyName="renewalFlag" >
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+
+    <!--<bean id="showOverrideRenewalItemMessage" parent="Uif-InputField" p:propertyName="overrideRenewItemFlag" >
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+
+   <!-- <bean id="newPrincipalId" parent="Uif-InputField" p:propertyName="newPrincipalId">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+
+    <!--<bean id="oldPrincipalId" parent="Uif-InputField" p:propertyName="oldPrincipalId" >
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+
+    <!--<bean id="showOverRideLogin" parent="Uif-InputField" p:propertyName="overrideFlag">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+
+    <!--<bean id="showPatronUserNoteDialog" parent="Uif-InputField" p:propertyName="patronNoteFlag">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+
+    <!--<bean id="maxSessionTime" parent="Uif-InputField" p:propertyName="maxSessionTime">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+
+
+
+    <bean id="ClaimsReturn-HorizontalBoxSection" parent="ClaimsReturn-HorizontalBoxSection-parentBean" />
+    <bean id="ClaimsReturn-HorizontalBoxSection-parentBean" parent="Uif-VerticalBoxSection" p:render="@{claimsReturnFlag}">
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <ref bean="ClaimsReturnNote" />
+                            <ref bean="ClaimsReturnButton" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ClaimsReturnNote" parent="ClaimsReturnNote-parentBean" />
+    <bean id="ClaimsReturnNote-parentBean" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="claimsNote" parent="Loan-Uif-InputField" p:label="Note" p:required="true" p:propertyName="claimsReturnNote">
+                    <property name="control">
+                        <bean parent="Uif-TextAreaControl" p:rows="5" p:cols="70" p:maxLength="400" />
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ClaimsReturnButton" parent="ClaimsReturnButton-parentBean" />
+    <bean id="ClaimsReturnButton-parentBean" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="ClaimsRetrunBtn" parent="Uif-SecondaryActionButton-Small" p:actionScript="setClaimsReturnList();" p:actionLabel="save"/>
+
+                <bean id="hdnClaimsReturnBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="applyClaimsReturn" p:actionLabel="checkClaimsReturn" p:hidden="true" p:ajaxSubmit="true"  p:successCallback="focusItem()"/>
+
+                <bean id="ClaimsReturnCloseBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="deactivateAllDialogs" p:successCallback="closeClaimsReturnDialog();" p:actionLabel="Close" />
+
+                <bean id="RemoveClaimsReturn" parent="Uif-SecondaryActionButton-Small" p:actionScript="removeClaimsReturnList();" p:actionLabel="Remove Claims Return" p:render="@{itemClaimsReturnFlag}"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="MissingPiece-HorizontalBoxSection" parent="MissingPiece-HorizontalBoxSection-parentBean" />
+    <bean id="MissingPiece-HorizontalBoxSection-parentBean" parent="Uif-VerticalBoxSection" p:render="@{missingPieceDialog}">
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <ref bean="MissingPieceSection" />
+                            <ref bean="MissingPieceButton" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="MissingPieceSection" parent="MissingPieceSection-parentBean" />
+    <bean id="MissingPieceSection-parentBean" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="MissingPiece-Error-Message" parent="Uif-MessageField" p:messageText="@{dialogErrorMessage}" p:cssClasses="messageClass" p:render="@{dialogErrorMessage ne null and dialogErrorMessage ne ''}"/>
+                <ref bean="MissingPiece-info-Section"/>
+                <ref bean="MissingPieceNote"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="MissingPiece-info-Section" parent="MissingPiece-info-Section-parentBean" />
+    <bean id="MissingPiece-info-Section-parentBean" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="MissingPiece-flag-Section" parent="Loan-Uif-InputField" p:label=""  p:propertyName="dialogFlag" p:hidden="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="6" />
+                    </property>
+                </bean>
+                <bean id="MissingPiece-dialogMissingPieceCount-Section" parent="Loan-Uif-InputField" p:label="Missing Piece Count"  p:propertyName="dialogMissingPieceCount" p:readOnly="@{dialogMissingPieceCountReadOnly}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="6"/>
+                    </property>
+                </bean>
+                <bean id="MissingPiece-dialogItemNoOfPieces-Section" parent="Loan-Uif-InputField" p:label="No of pieces"  p:propertyName="dialogItemNoOfPieces" p:readOnly="@{dialogItemNoOfPiecesReadOnly}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="6" />
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="MissingPieceNote" parent="MissingPieceNote-parentBean" />
+    <bean id="MissingPieceNote-parentBean" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="MissingPieceNote-Section" parent="Loan-Uif-InputField" p:label="Note" p:required="true" p:propertyName="dialogText">
+                    <property name="control">
+                        <bean parent="Uif-TextAreaControl" p:rows="5" p:cols="70" p:maxLength="400" />
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="MissingPieceButton" parent="MissingPieceButton-parentBean" />
+    <bean id="MissingPieceButton-parentBean" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="missingPieceBtn" parent="Uif-SecondaryActionButton-Small"  p:methodToCall="updateMissingPieceItem" p:actionLabel="save" p:ajaxSubmit="true"  p:successCallback="showMissingPieceDialog();focusItem();" p:performClientSideValidation="true"/>
+
+                <bean id="MissingPieceCloseBtn" parent="Uif-SecondaryActionButton-Small" p:ajaxSubmit="true" p:methodToCall="deactivateAllDialogs" p:successCallback="deactivateAllDialogs();" p:actionLabel="Close" />
+
+                <bean id="removeMissingPieceBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="removeMissingPieceFromItem"  p:actionLabel="Remove Missing piece flag" p:successCallback="deactivateAllDialogs();focusItem()" p:render="@{removeMissingPieceButton}"/>
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="DamagedItem-HorizontalBoxSection" parent="DamagedItem-HorizontalBoxSection-parentBean" />
+    <bean id="DamagedItem-HorizontalBoxSection-parentBean" parent="Uif-VerticalBoxSection" p:render="@{damagedItemDialog}">
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <ref bean="DamagedItemNote" />
+                            <ref bean="DamagedItemButton" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="DamagedItemNote" parent="DamagedItemNote-parentBean" />
+    <bean id="DamagedItemNote-parentBean" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="DamagedItemNote-Section" parent="Loan-Uif-InputField" p:label="Note" p:required="true" p:propertyName="dialogText">
+                    <property name="control">
+                        <bean parent="Uif-TextAreaControl" p:rows="5" p:cols="70" p:maxLength="400" />
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="DamagedItemButton" parent="DamagedItemButton-parentBean" />
+    <bean id="DamagedItemButton-parentBean" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="damagedItemBtn" parent="Uif-SecondaryActionButton-Small" p:actionLabel="save" p:methodToCall="updateDamagedItem" p:ajaxSubmit="true"  p:successCallback="deactivateAllDialogs();focusItem()" p:performClientSideValidation="true"/>
+
+                <bean id="damagedItemBtnCloseBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="deactivateAllDialogs" p:successCallback="deactivateAllDialogs();"  p:ajaxSubmit="true" p:actionLabel="Close" />
+
+                <bean id="removeDamagedItemBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="removeDamagedFlagFromItem"  p:actionLabel="Remove damaged flag" p:successCallback="deactivateAllDialogs();focusItem()" p:render="@{removeItemDamagedButton}" />
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="RealPatronSection-HorizontalBoxSection" parent="RealPatronSection-HorizontalBoxSection-parentBean" />
+    <bean id="RealPatronSection-HorizontalBoxSection-parentBean" parent="Uif-VerticalBoxSection" p:render="@{realPatronFlag}" >
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean id="headerMsgId" parent="Uif-DataField" p:label="The current patron is a proxy borrower. Please select the correct one for this transaction and click OK." p:fieldLabel.renderColon="false" p:propertyName="proxyPatronName">
+                            </bean>
+                            <ref bean="ProxyPatronSelfCheckOut-HorizontalBoxSection"/>
+                            <ref bean="RealPatronCollection-HorizontalBoxSection"/>
+                            <ref bean="RealPatronButton-HorizontalBoxSection"/>
+
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="ProxyPatronSelfCheckOut-HorizontalBoxSection" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="6" p:style="width:700px">
+
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OlePatronDocument"/>
+        <property name="propertyName" value="currentPatronList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.richTable.disableTableSort" value="true" />
+        <!--<property name="collectionLookup.render" value="false"/>-->
+        <property name="items">
+            <list>
+                <bean id="selfCheckOutPatron" parent="Loan-Uif-InputField" p:label="Current Patron" p:propertyName="selfCheckOut">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" p:cssClasses="patronCheckBoxClass" p:onClickScript="getCurrentProxyName()"/>
+                    </property>
+                </bean>
+                <bean id="selfPatronId" parent="Uif-DataField" p:label="Current Patron Id"  p:propertyName="olePatronId">
+
+                </bean>
+                <bean id="selfPatronFirstName" parent="Uif-DataField" p:label="First Name" p:propertyName="entity.names[0].firstName">
+
+                </bean>
+                <bean id="selfPatronLastName" parent="Uif-DataField" p:label="Last Name"  p:propertyName="entity.names[0].lastName">
+
+                </bean>
+                <bean id="selfPatronBarcode" parent="Uif-DataField" p:label="Barcode" p:propertyName="barcode">
+
+                </bean>
+                <bean id="selfPatronType" parent="Uif-DataField" p:label="Current Patron Type" p:propertyName="oleBorrowerType.borrowerTypeName">
+
+                </bean>
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+    <bean id="RealPatronCollection-HorizontalBoxSection" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="6" p:style="width:700px">
+
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OlePatronDocument"/>
+        <property name="propertyName" value="realPatronList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.richTable.disableTableSort" value="true" />
+        <!--<property name="collectionLookup.render" value="false"/>-->
+        <property name="items">
+            <list>
+                <bean id="selectRealPatron" parent="Loan-Uif-InputField" p:label="Choose Proxied Patron" p:propertyName="realPatronCheck">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" p:cssClasses="patronCheckBoxClass" p:onClickScript="getProxyName('@{#line.entity.names[0].firstName}','@{#line.entity.names[0].lastName}')"/>
+                    </property>
+                </bean>
+                <bean id="realPatronId" parent="Uif-DataField" p:label="Proxied Patron Id"  p:propertyName="olePatronId">
+
+                </bean>
+                <bean id="realPatronFirstName" parent="Uif-DataField" p:label="First Name" p:propertyName="entity.names[0].firstName">
+
+                </bean>
+                <bean id="realPatronLastName" parent="Uif-DataField" p:label="Last Name"  p:propertyName="entity.names[0].lastName">
+
+                </bean>
+                <bean id="realPatronBarCode" parent="Uif-DataField" p:label="Barcode" p:propertyName="barcode">
+
+                </bean>
+                <bean id="realPatronType" parent="Uif-DataField" p:label="Proxied Patron Type" p:propertyName="oleBorrowerType.borrowerTypeName">
+
+                </bean>
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+
+    <bean id="RealPatronButton-HorizontalBoxSection" parent="RealPatronButton-HorizontalBoxSection-parentBean" />
+    <bean id="RealPatronButton-HorizontalBoxSection-parentBean" parent="Uif-HorizontalBoxSection" p:disclosure.render="false">
+        <property name="items">
+            <list>
+                <bean id="realPatronUpdateBtn" parent="Uif-SecondaryActionButton-Small" p:actionScript="validateRealPatron();" p:actionLabel="OK"  />
+                <bean id="realPatronBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="searchPatron" p:style="float:left;margin-left:20em" p:actionLabel="OK" p:ajaxSubmit="true" p:hidden="true" p:successCallback="closeRealPatronUpdate();validPatronItem()"/>
+                <bean id="realPatronCloseBtn" parent="Uif-SecondaryActionButton-Small" p:actionScript="closeRealPatronDialog();" p:actionLabel="Cancel"  />
+                <bean id="hdnRealPatronCloseBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="clearPatron" p:style="float:left;margin-left:2em" p:actionLabel="Cancel" p:hidden="true" p:ajaxSubmit="true"  p:successCallback="focusPatron()" />
+
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="RenewalDueDateSection-HorizontalBoxSection" parent="RenewalDueDateSection-HorizontalBoxSection-parentBean" />
+    <bean id="RenewalDueDateSection-HorizontalBoxSection-parentBean" parent="Uif-VerticalBoxSection" p:render="@{renewDueDateFlag}">
+        <property name="headerText" value="Renew"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <ref bean="selectAllButtonRenewLoan-HorizontalBoxSection"/>
+                            <ref bean="RenewalDueDateCollection-HorizontalBoxSection"/>
+                            <ref bean="RenewalLoanDueDateButton-HorizontalBoxSection"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="RenewalDueDateCollection-HorizontalBoxSection" parent="RenewalDueDateCollection-HorizontalBoxSection-parentBean" />
+    <bean id="RenewalDueDateCollection-HorizontalBoxSection-parentBean" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="12" p:style="width:1000px">
+        <property name="headerText" value="Renew Items" />
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleLoanDocument"/>
+        <property name="propertyName" value="renewDueDateList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.richTable.disableTableSort" value="true" />
+        <property name="footer">
+            <bean id="renewFooters" parent="Uif-LookupResultsFooter">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Select All" p:actionScript="selectAllRenewItem();"/>
+                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Deselect All" p:actionScript="deSelectAllRenewItem();"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="checkIdRenew" parent="Loan-Uif-InputField" p:propertyName="renewCheckNo" p:label="Select" p:width="3%" p:defaultValue="false">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" p:cssClasses="renewItemCBClass" p:disabled="@{#line.renewPermissionForRequestedItem}"/>
+                    </property>
+                </bean>
+
+                <bean id="renewBarcodeRenewal" parent="Uif-LinkField" p:label="Barcode" p:width="10%" p:linkText="@{#line.itemId}" p:target="_blank" p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=item&amp;editable=false&amp;docFormat=oleml&amp;docId=@{#line.itemUuid}&amp;instanceId=@{#line.instanceUuid}&amp;bibId=@{#line.bibUuid}" />
+
+                <bean id="renewtitleRenewal" parent="Uif-DataField" p:label="Title" p:width="22%" p:propertyName="title"/>
+
+                <bean id="renewauthorRenewal" parent="Uif-DataField" p:label="Author" p:width="11%" p:propertyName="author"/>
+
+                <bean id="renewitemLocationRenewal" parent="Uif-DataField" p:label="Location" p:width="14%" p:propertyName="location"/>
+
+                <bean id="renewitemCallNumberRenewal" parent="Uif-DataField" p:label="Call Number" p:width="10%" p:propertyName="itemCallNumber"/>
+
+                <bean id="renewItemCopyNumber" parent="Uif-DataField" p:label="Copy Number" p:width="10%" p:propertyName="itemCopyNumber"/>
+
+                <bean id="renewItemEnumeration" parent="Uif-DataField" p:label="Enumeration" p:width="10%" p:propertyName="enumeration"/>
+
+                <bean id="renewItemChronology" parent="Uif-DataField" p:label="Chronology" p:width="10%" p:propertyName="chronology"/>
+
+                <bean id="renewloanDueDateRenewal" parent="Uif-DataField" p:label="Due Date" p:width="10%" p:propertyName="loanDueDate"/>
+
+                <bean id="renewItemSatus" parent="Uif-DataField" p:label="Item Status" p:width="10%" p:propertyName="itemStatus"/>
+
+                <bean id="renewNoofRenew" parent="Uif-DataField" p:label="No Of Renew" p:width="5%" p:propertyName="numberOfRenewals"/>
+
+                <bean id="renewloanDueDateRenewal" parent="Uif-DataField" p:label="Message(s)" p:width="25%" p:propertyName="errorMessage"/>
+
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+
+    <bean id="RenewalLoanDueDateButton-HorizontalBoxSection" parent="RenewalLoanDueDateButton-HorizontalBoxSection-parentBean" />
+    <bean id="RenewalLoanDueDateButton-HorizontalBoxSection-parentBean" parent="Uif-HorizontalBoxSubSection" p:disclosure.render="false">
+        <property name="items">
+            <list>
+                <bean id="renewLoanDueDateBtn" parent="Uif-SecondaryActionButton-Small" p:actionScript="setRenewalDueDateLoanList();" p:actionLabel="Renew" p:style="float:left;margin-left:20em" p:render="@{!overrideRenewItemFlag}" />
+
+                <bean id="hdnrenewLoanDueDateBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="overrideRenewItems" p:actionLabel="Renew" p:hidden="true" p:render="@{!overrideRenewItemFlag}" p:ajaxSubmit="true" p:successCallback="focusItem()"/>
+
+                <bean id="renewLoanCloseBtn" parent="Uif-SecondaryActionButton-Small" p:actionScript="closeRenewalDueDateDialog();" p:actionLabel="Do not Renew" p:style="float:left;margin-left:2em"  p:render="@{!overrideRenewItemFlag}"/>
+
+                <bean id="hdnrenewLoanCloseBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="doNotRenewalItem" p:actionLabel="Do not Renew" p:hidden="true" p:render="@{!overrideRenewItemFlag}" p:ajaxSubmit="true" p:successCallback="focusItem()"/>
+
+                <bean id="renewCloseBtn" parent="Uif-SecondaryActionButton-Small" p:actionScript="closeRenewOverrideDialog();" p:actionLabel="Close" p:style="float:left;margin-left:20em"  p:render="@{overrideRenewItemFlag}"/>
+
+                <bean id="hdnrenewCloseBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="doNotRenewalItem" p:actionLabel="Close" p:hidden="true" p:render="@{overrideRenewItemFlag}" p:ajaxSubmit="true" p:successCallback="focusItem()"/>
+
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="AlterDueDateSection-HorizontalBoxSection" parent="AlterDueDateSection-HorizontalBoxSection-parentBean" />
+    <bean id="AlterDueDateSection-HorizontalBoxSection-parentBean" parent="Uif-VerticalBoxSection" p:render="@{alterDueDateFlag}">
+        <property name="headerText" value="Alter Due Date"/>
+        <property name="cssClasses" value="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix ui-dialog-title "/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean id="AlterDueDateInformationSection" parent="Uif-MessageField" p:messageText="@{alterDueDateTimeInfo}" p:cssClasses="messageClass"/>
+                            <ref bean="AlterDueDateCollection-HorizontalBoxSection"/>
+                            <ref bean="AlterLoanDueDateButton-HorizontalBoxSection"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="AlterDueDateCollection-HorizontalBoxSection" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="5" p:style="width:1000px">
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleLoanDocument"/>
+        <property name="propertyName" value="alterDueDateList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.richTable.disableTableSort" value="true" />
+        <property name="items">
+            <list>
+
+                <bean id="alterBarcode" parent="Uif-LinkField" p:label="Barcode" p:linkText="@{#line.itemId}" p:target="_blank" p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=item&amp;editable=false&amp;docFormat=oleml&amp;docId=@{#line.itemUuid}&amp;instanceId=@{#line.instanceUuid}&amp;bibId=@{#line.bibUuid}" >
+
+                </bean>
+                <bean id="alterTitle" parent="Uif-DataField" p:label="Title" p:propertyName="title">
+
+                </bean>
+                <bean id="alterItemLocation" parent="Uif-DataField" p:label="Location" p:propertyName="location">
+
+                </bean>
+                <bean id="alterItemCallNumber" parent="Uif-DataField" p:label="Call Number" p:propertyName="itemCallNumber">
+
+                </bean>
+                <bean id="alterLoanDueDate" parent="Loan-Uif-InputField" p:propertyName="loanDueDateToAlter" p:label="Due Date">
+                    <property name="control">
+                        <bean parent="Uif-DateControl" p:size="10"/>
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="BasicDatePatternConstraint"/>
+                    </property>
+                </bean>
+                <bean id="alterLoanDueDateTime" parent="Loan-Uif-InputField" p:propertyName="loanDueDateTimeToAlter" p:label="Time">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="6" p:watermarkText="hh:mm"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+
+    <bean id="AlterLoanDueDateButton-HorizontalBoxSection" parent="AlterLoanDueDateButton-HorizontalBoxSection-parentBean" />
+    <bean id="AlterLoanDueDateButton-HorizontalBoxSection-parentBean" parent="Uif-HorizontalBoxSubSection" p:disclosure.render="false">
+        <property name="items">
+            <list>
+
+                <bean id="alterLoanDueDateBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="updateDueDate" p:actionLabel="Update"  p:ajaxSubmit="true"  p:successCallback="closeAlterDueDateDialog()"/>
+
+                <bean id="alterLoanCloseBtn" parent="Uif-SecondaryActionButton-Small" p:actionScript="closeAlterDueDateDialog();" p:style="float:left;margin-left:2em" p:actionLabel="Close"  />
+
+                <bean id="hdnAlterLoanCloseBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="closeAlterDueDate" p:actionLabel="Close" p:hidden="true" p:ajaxSubmit="true"  p:successCallback="focusItem();" />
+
+            </list>
+        </property>
+    </bean>
+
+    <!--<bean id="showMessage" parent="Uif-InputField" p:propertyName="success">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+
+    <!--<bean id="showRenewDueDateDialog" parent="Uif-InputField" p:propertyName="renewDueDateFlag">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+
+    <!--<bean id="fastAddItemIndicatorDialog" parent="Uif-InputField" p:propertyName="fastAddItemIndicator">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+
+    <!--<bean id="fastAddItemUrlFlag" parent="Uif-InputField" p:propertyName="fastAddUrl">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+    <!--<bean id="returnViewUrlFlag" parent="Uif-InputField" p:propertyName="returnViewUrl">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+
+    <!--<bean id="showAlterDueDateDialog" parent="Uif-InputField" p:propertyName="alterDueDateFlag">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+
+    <!--<bean id="showBlockLoan" parent="Uif-InputField" p:propertyName="blockLoan">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+
+
+    <bean id="mapAlterDueDate" parent="Loan-Uif-InputField" p:propertyName="mapAlterDueDateList" >
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
+    <!--<bean id="showDate" parent="Uif-InputField" p:propertyName="dueDateEmpty" >
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+
+    <!--<bean id="mapDate" parent="Uif-InputField" p:propertyName="dueDateMap" >
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+
+    <!--<bean id="hdnBackGroundCheckIn" parent="Uif-InputField" p:propertyName="backGroundCheckIn">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+
+    <!--<bean id="missingPieceDialog" parent="Uif-InputField" p:propertyName="missingPieceDialog">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+
+    <!--<bean id="damagedItemDialog" parent="Uif-InputField" p:propertyName="damagedItemDialog">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+
+    <!--<bean id="hdnItemFocus" parent="Uif-InputField" p:propertyName="itemFocus">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+    <!--<bean id="hdnPatronFocus" parent="Uif-InputField" p:propertyName="patronFocus">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+
+    <!--<bean id="showRealPatronDialog" parent="Uif-InputField" p:propertyName="realPatronFlag">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+
+    <!--<bean id="showChangeLocationDialog" parent="Uif-InputField" p:propertyName="changeLocationFlag">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+
+
+
+    <!--<bean id="showClaimsReturnDialog" parent="Uif-InputField" p:propertyName="claimsReturnFlag">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+
+    <!--<bean id="removeClaimsReturnFlag" parent="Uif-InputField" p:propertyName="removeClaimsReturnFlag">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+
+    <bean id="MessagePopupSection" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean id="message_return" parent="Uif-MessageField" p:messageText="@{message}" />
+                            <ref bean="loanClaimsOption"/>
+                            <ref bean="PopUpDateTime-HorizontalBoxSection"/>
+                            <ref bean="LoanButton-HorizontalBoxSection"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="loanClaimsOption" parent="Loan-Uif-InputField" p:propertyName="recordNote"
+          p:label="Record a note or not"
+          p:render="@{claimsFlag}">
+        <property name="control">
+            <bean parent="Uif-HorizontalRadioControl">
+                <property name="options">
+                    <list>
+                        <bean parent="Uif-KeyLabelPair" p:key="yes" p:value="Yes"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="no" p:value="No"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="PopUpDateTime-HorizontalBoxSection" parent="PopUpDateTime-HorizontalBoxSection-parentBean" />
+    <bean id="PopUpDateTime-HorizontalBoxSection-parentBean" parent="Uif-HorizontalBoxSubSection" p:disclosure.render="false">
+        <property name="items">
+            <list>
+                <bean id="popUpDate" parent="Loan-Uif-InputField" p:propertyName="popDateMap" p:label="Select due date" p:render="@{nonCirculatingFlag}">
+                    <property name="control">
+                        <bean parent="Uif-DateControl" p:size="10" />
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="BasicDatePatternConstraint"/>
+                    </property>
+                </bean>
+                <bean id="popUpTime" parent="Loan-Uif-InputField" p:propertyName="popDateTime" p:label="Time" p:render="@{nonCirculatingFlag}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="6" p:watermarkText="hh:mm"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="LoanButton-HorizontalBoxSection" parent="LoanButton-HorizontalBoxSection-parentBean" />
+    <bean id="LoanButton-HorizontalBoxSection-parentBean" parent="Uif-HorizontalBoxSubSection" p:disclosure.render="false">
+        <property name="items">
+            <list>
+                <bean id="loanBtn" parent="Uif-SecondaryActionButton-Small" p:actionScript="setDueDate();" p:actionLabel="Loan" p:render="@{!overrideRenewItemFlag and !renewalFlag and message ne null and message ne '' and !blockUser and !claimsFlag}"/>
+
+                <bean id="hdnLoanBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="loan" p:actionLabel="Loan" p:hidden="true" p:ajaxSubmit="true"  p:successCallback="focusItem();validationsForPop();" />
+
+                <bean id="noLoanBtn" parent="Uif-SecondaryActionButton-Small" p:actionScript="doNotLoan();" p:actionLabel="Do not Loan" p:render="@{!overrideRenewItemFlag and !renewalFlag and message ne null and message ne '' and !claimsFlag}" />
+
+                <bean id="hdnNoLoanBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="noLoan" p:actionLabel="Do not Loan" p:hidden="true" p:ajaxSubmit="true"  p:successCallback="focusPatron();focusItem()" />
+
+                <bean id="loanContinueBtn" parent="Uif-SecondaryActionButton-Small" p:actionScript="continueBtn();" p:actionLabel="Continue" p:render="@{claimsFlag}"/>
+
+                <bean id="hdnLoanContinueBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="proceedLoan" p:actionLabel="Continue" p:hidden="true" p:ajaxSubmit="true" p:successCallback="validationsForPop()"/>
+
+                <bean id="loanCancelBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="noLoan" p:actionLabel="Cancel" p:successCallback="focusPatron();focusItem();closeMessageBox()" p:render="@{claimsFlag}"/>
+
+                <bean id="proceedRenewBtn" parent="Uif-SecondaryActionButton-Small" p:actionScript="proceed();" p:actionLabel="Proceed" p:render="@{!overrideRenewItemFlag and renewalFlag and message ne null and message ne ''}"/>
+
+                <bean id="hdnProceedRenewBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="renewalItem" p:actionLabel="Proceed" p:hidden="true" p:ajaxSubmit="true"  p:successCallback="validationsForPop()"/>
+
+                <bean id="noProceedRenewBtn" parent="Uif-SecondaryActionButton-Small" p:actionScript="doNotProceed();" p:actionLabel="Do not Proceed" p:render="@{!overrideRenewItemFlag and renewalFlag and message ne null and message ne ''}" />
+
+                <bean id="hdnNoProceedRenewBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="doNotRenewalItem" p:actionLabel="Do not Proceed"  p:hidden="true" p:ajaxSubmit="true" p:successCallback="focusItem()" />
+
+                <bean id="patronNameLk" parent="Uif-LinkField" p:target="_blank" p:render = "@{addressVerified}" p:href="patronMaintenance?olePatronId=@{patronId}&amp;methodToCall=maintenanceEdit&amp;dataObjectClassName=org.kuali.ole.deliver.bo.OlePatronDocument&amp;viewTypeName=MAINTENANCE&amp;dialogMode=true&amp;showHome=false&amp;showHistory=false" p:linkText="Edit Patron" >
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>uif-smallActionButton</value>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean id="renewalBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="renewalItem" p:actionLabel="Renew" p:render="@{overrideRenewItemFlag and !renewalFlag and message ne null and message ne '' and renewPermission}" p:ajaxSubmit="true"  p:successCallback="closeMessageBox()" />
+
+                <bean id="noRenewalBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="doNotRenewalItem" p:actionLabel="Do not Renew" p:render="@{overrideRenewItemFlag and !renewalFlag and message ne null and message ne ''}" p:ajaxSubmit="true"  p:successCallback="closeMessageBox()" />
+
+                <bean id="closeRenewalBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="doNotRenewalItem" p:actionLabel="Close" p:render="@{overrideRenewItemFlag and renewalFlag and message ne null and message ne ''}" p:ajaxSubmit="true"  p:successCallback="closeMessageBox()" />
+                <bean id="view_patron_bill" parent="Uif-LinkField" p:target="_blank"  p:href="patronbill?viewId=BillView&amp;methodToCall=start&amp;patronId=@{patronId}" p:linkText="View Bill" p:render = "@{patronbill}">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>uif-smallActionButton</value>
+                        </list>
+                    </property>
+                </bean>
+
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="Patron-item-VerticalBoxSection" parent="Patron-item-VerticalBoxSection-parentBean" />
+    <bean id="Patron-item-VerticalBoxSection-parentBean" parent="Uif-HorizontalBoxSection" p:disclosure.render="false">
+        <property name="items">
+            <list>
+                <ref bean="Patron-item" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Patron-item" parent="Patron-item-parentBean" />
+    <bean id="Patron-item-parentBean" parent="Uif-InputField" p:propertyName="item" p:label="Item" p:style="float:left;margin-left:1em" p:render="@{patronName ne null and patronName ne ''}" p:labelRendered="@{patronName eq null or patronName eq ''}">
+
+        <property name="quickfinder">
+            <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.deliver.bo.OleItemSearch">
+                <property name="fieldConversions">
+                    <map>
+                        <entry key="itemBarCode" value="item"/>
+                        <entry key="itemUUID" value="itemUuid"/>
+                        <entry key="instanceUUID" value="instanceUuid"/>
+                    </map>
+                </property>
+            </bean>
+        </property>
+
+    </bean>
+
+    <bean id="Patron-information-HorizontalBoxSection" parent="Patron-information-HorizontalBoxSection-parentBean" />
+    <bean id="Patron-information-HorizontalBoxSection-parentBean" parent="Uif-HorizontalBoxSection" p:disclosure.render="false">
+        <property name="items">
+            <list>
+                <ref bean="Patron-barcode" />
+            </list>
+        </property>
+    </bean>
+    <bean id="ShowExistingLoanList" parent="Uif-SecondaryActionButton-Small" p:methodToCall="showExistingLoan" p:actionLabel="Show All Items Currently Checked Out"  p:render="@{patronName ne null and patronName ne '' and !showExistingLoan}" />
+
+    <bean id="HideExistingLoanList" parent="Uif-SecondaryActionButton-Small" p:methodToCall="hideExistingLoan" p:actionLabel="Hide All Items Currently Checked Out"  p:render="@{patronName ne null and patronName ne '' and showExistingLoan}" />
+
+    <bean id="Patron-ExistingLoanItemListSection-HorizontalBoxSection" parent="Patron-ExistingLoanItemListSection-HorizontalBoxSection-parentBean" p:style="width:1300px"/>
+    <bean id="Patron-ExistingLoanItemListSection-HorizontalBoxSection-parentBean" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="17" p:render="@{patronName ne null and patronName ne '' and existingLoanList ne null and existingLoanList.size() > 0 and showExistingLoan}" p:style="width:1000px" p:componentSecurity.viewAuthz="true">
+        <property name="headerText" value="All Items Currently Checked Out" />
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleLoanDocument"/>
+        <property name="propertyName" value="existingLoanList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <!--<property name="addLineLabel" value="false"/>-->
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.richTable.disableTableSort" value="false" />
+        <property name="footer">
+            <bean id="existingFooters" parent="Uif-LookupResultsFooter">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Select All" p:actionScript="selectAllExistingLoanedItem();"/>
+                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Deselect All" p:actionScript="deSelectAllExistingLoanedItem();"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="checkIdRenewal" parent="Loan-Uif-InputField" p:propertyName="checkNo" p:label="Select" p:width="3%" p:defaultValue="false">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" p:cssClasses="loanedItemCBClass"/>
+                    </property>
+                </bean>
+
+                <bean id="BarcodeRenewal" parent="Uif-LinkField" p:label="Barcode" p:width="10%" p:linkText="@{#line.itemId}" p:target="_blank" p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=item&amp;editable=false&amp;docFormat=oleml&amp;docId=@{#line.itemUuid}&amp;instanceId=@{#line.instanceUuid}&amp;bibId=@{#line.bibUuid}" >
+
+                </bean>
+                <bean id="titleRenewal" parent="Uif-DataField" p:label="Title" p:width="25%" p:propertyName="title">
+
+                </bean>
+                <bean id="authorRenewal" parent="Uif-DataField" p:label="Author" p:width="12%" p:propertyName="author">
+
+                </bean>
+                <bean id="itemLocationRenewal" parent="Uif-DataField" p:label="Location" p:width="25%" p:propertyName="location">
+
+                </bean>
+                <bean id="itemCallNumberRenewal" parent="Uif-DataField" p:label="Call Number" p:width="10%" p:propertyName="itemCallNumber">
+
+                </bean>
+                <bean id="loanedItemCopyNumber" parent="Uif-DataField" p:label="Copy Number" p:width="10%" p:propertyName="itemCopyNumber">
+
+                </bean>
+                <bean id="loanedItemEnumeration" parent="Uif-DataField" p:label="Enumeration" p:width="10%" p:propertyName="enumeration">
+
+                </bean>
+                <bean id="loanedItemChronology" parent="Uif-DataField" p:label="Chronology" p:width="10%" p:propertyName="chronology">
+
+                </bean>
+                <bean id="loanView_existing_realPatronName" parent="Uif-DataField" p:label="Proxy Brrower" p:width="10%" p:propertyName="realPatronName"/>
+                <bean id="previousNoOfrenew" parent="Uif-DataField" p:label="No Of Renew" p:width="5%" p:propertyName="numberOfRenewals"/>
+
+                <bean id="checkoutItemStatus" parent="Uif-DataField" p:label="Item Status" p:width="10%" p:propertyName="itemStatus"/>
+
+                <bean id="loanDueDateRenewal" parent="Uif-DataField" p:label="Due Date" p:width="10%" p:propertyName="loanDueDate" p:render="@{#line.loanDueDate ne null}">
+
+                </bean>
+
+                <bean id="inDefiniteDueDateRenewal" parent="Uif-DataField" p:label="Due Date" p:width="10%"  p:propertyName="dueDateType" p:render="@{#line.loanDueDate eq null}">
+
+                </bean>
+                <bean id="claimsReturnNoteRenewal" parent="Uif-DataField" p:label="Claims Return Note" p:width="10%"  p:propertyName="claimsReturnNote">
+
+                </bean>
+                <bean id="claimsReturnDateRenewal" parent="Uif-DataField" p:label="Claims Return Date" p:width="10%"  p:propertyName="claimsReturnedDate">
+
+                </bean>
+                <bean id="loanView_existing_MissingNote" parent="Uif-DataField" p:label="Missing Piece Note" p:width="10%"  p:propertyName="missingPieceNote">
+
+                </bean>
+                <bean id="loanView_existing_DamagedNote" parent="Uif-DataField" p:label="Item Damaged Note" p:width="10%"  p:propertyName="itemDamagedNote">
+
+                </bean>
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+
+    <bean id="Patron-LoanItemListSection-HorizontalBoxSection" parent="Patron-LoanItemListSection-HorizontalBoxSection-parentBean" p:style="width:1300px"/>
+    <bean id="Patron-LoanItemListSection-HorizontalBoxSection-parentBean" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="17" p:style="width:1000px" p:render="@{patronName ne null and patronName ne '' and loanList ne null and loanList.size() > 0}" p:componentSecurity.viewAuthz="true">
+        <property name="headerText" value="Items Checked Out This Session" />
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OleLoanDocument"/>
+        <property name="propertyName" value="loanList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.richTable.disableTableSort" value="true" />
+        <property name="footer">
+            <bean id="footers" parent="Uif-LookupResultsFooter">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Select All" p:actionScript="selectAllLoanedItem();"/>
+                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Deselect All" p:actionScript="deSelectAllLoanedItem();"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="checkId" parent="Loan-Uif-InputField" p:propertyName="checkNo" p:label="Select" p:width="3%" p:defaultValue="false">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" p:cssClasses="loaningItemCBClass"/>
+                    </property>
+                </bean>
+                <bean id="Barcode" parent="Uif-LinkField" p:label="Barcode" p:width="10%" p:linkText="@{#line.itemId}" p:target="_blank" p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=item&amp;editable=false&amp;docFormat=oleml&amp;docId=@{#line.itemUuid}&amp;instanceId=@{#line.instanceUuid}&amp;bibId=@{#line.bibUuid}" >
+
+                </bean>
+                <bean id="title" parent="Uif-DataField" p:label="Title" p:width="25%" p:propertyName="title">
+
+                </bean>
+                <bean id="author" parent="Uif-DataField" p:label="Author" p:width="12%" p:propertyName="author">
+
+                </bean>
+                <bean id="itemLocation" parent="Uif-DataField" p:label="Location" p:width="25%" p:propertyName="location">
+
+                </bean>
+                <bean id="itemCallNumber" parent="Uif-DataField" p:label="Call Number" p:width="10%" p:propertyName="itemCallNumber">
+
+                </bean>
+                <bean id="loanItemCopyNumber" parent="Uif-DataField" p:label="Copy Number" p:width="10%" p:propertyName="itemCopyNumber">
+
+                </bean>
+
+                <bean id="loanItemEnumeration" parent="Uif-DataField" p:label="Enumeration" p:width="10%" p:propertyName="enumeration">
+
+                </bean>
+                <bean id="loanItemChronology" parent="Uif-DataField" p:label="Chronology" p:width="10%" p:propertyName="chronology">
+
+                </bean>
+
+
+                <bean id="loanView_realPatronName" parent="Uif-DataField" p:label="Proxy Brrower" p:width="10%" p:propertyName="realPatronName">
+
+                </bean>
+
+                <bean id="currentNoOfrenew" parent="Uif-DataField" p:label="No Of Renew" p:width="5%" p:propertyName="numberOfRenewals"/>
+
+                <bean id="currentCheckoutItemStatus" parent="Uif-DataField" p:label="Item Status" p:width="10%" p:propertyName="itemStatus"/>
+
+                <bean id="loanDueDate" parent="Uif-DataField" p:label="Due Date" p:width="10%" p:propertyName="loanDueDate" p:render="@{#line.loanDueDate ne null}">
+
+                </bean>
+
+                <bean id="inDefiniteDueDate" parent="Uif-DataField" p:label="Due Date" p:width="10%"  p:propertyName="dueDateType" p:render="@{#line.loanDueDate eq null}">
+
+
+                </bean>
+                <bean id="claimsReturnNote" parent="Uif-DataField" p:label="Claims Return Note" p:width="10%"  p:propertyName="claimsReturnNote">
+
+                </bean>
+                <bean id="claimsReturnDate" parent="Uif-DataField" p:label="Claims Return Date" p:width="10%"  p:propertyName="claimsReturnedDate">
+
+                </bean>
+                <bean id="loanView_MissingNote" parent="Uif-DataField" p:label="Missing Piece Note" p:width="10%"  p:propertyName="missingPieceNote">
+
+                </bean>
+                <bean id="loanView_DamagedNote" parent="Uif-DataField" p:label="Item Damaged Note" p:width="10%"  p:propertyName="itemDamagedNote">
+
+                </bean>
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+
+    <bean id="Patron-barcode" parent="Patron-barcode-parentBean" />
+
+    <bean id="Patron-barcode-parentBean" parent="Uif-InputField" p:maxLength="24" p:propertyName="patronBarcode"  p:label="Patron" p:render="@{loanLoginUserInfo eq null OR loanLoginUserInfo eq ''}">
+        <property name="quickfinder">
+            <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.deliver.bo.OLEPatronEntityViewBo">
+                <property name="fieldConversions">
+                    <map>
+                        <entry key="patronBarcode" value="patronBarcode"/>
+                        <entry key="firstName" value="patronFirstName"/>
+                    </map>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="SecondarySearchPatron" parent="SecondarySearchPatron-parentBean" />
+    <bean id="SecondarySearchPatron-parentBean" parent="Uif-SecondaryActionButton-Small" p:methodToCall="searchPatron" p:actionLabel="Search" p:hidden="true" p:focusOnIdAfterSubmit="FIRST"  p:ajaxSubmit="true"  p:successCallback="validationsForPop()"/>
+
+    <bean id="Patron-borrowerType" parent="Patron-borrowerType-parentBean" />
+    <bean id="Patron-borrowerType-parentBean" parent="Uif-DataField" p:propertyName="borrowerType" p:cssClasses="loanFont" p:style="float:left;margin-left:5em" />
+
+    <bean id="SecondarySearchItem" parent="SecondarySearchItem-parentBean" />
+    <bean id="SecondarySearchItem-parentBean" parent="Uif-SecondaryActionButton-Small" p:methodToCall="addItem" p:actionLabel="add" p:hidden="true" p:ajaxSubmit="true"  p:successCallback="validPatronItem()"/>
+
+
+    <bean id="PatronItemView-buttons" parent="PatronItemView-buttons-parentBean" />
+    <bean id="PatronItemView-buttons-parentBean" parent="Uif-FooterBase">
+        <property name="items">
+            <list>
+                <bean id="doneButton" parent="Uif-SecondaryActionButton" p:methodToCall="saveAndClear" p:actionLabel="Close" p:style="float:left;margin-left:5em" p:render="@{patronName ne null and patronName ne ''}" p:ajaxSubmit="true"  p:successCallback="focusPatron();refreshUserLogin();printBill()"/>
+                <bean id="clearPatronButton" parent="Uif-SecondaryActionButton" p:methodToCall="clearPatron" p:actionLabel="Clear Patron" p:style="float:left;margin-left:5em" p:render="@{patronName ne null and patronName ne ''}" p:ajaxSubmit="true"  p:successCallback="focusPatron();printBill()"/>
+                <bean id="editDueDateButton" parent="Uif-SecondaryActionButton" p:methodToCall="editDueDate" p:actionLabel="Alter Due Date" p:style="float:left;margin-left:5em" p:render="@{patronName ne null and patronName ne '' and loanList ne null and loanList.size() > 0 or existingLoanList ne null and existingLoanList.size() > 0}" p:ajaxSubmit="true"  p:successCallback="alterDueDate();validPatronItem()" p:actionEvent="editDueDate" p:componentSecurity.performActionAuthz="true"/>
+                <bean id="claimsButton" parent="Uif-SecondaryActionButton" p:methodToCall="claimsReturn" p:actionLabel="Claims Return" p:style="float:left;margin-left:5em" p:render="@{patronName ne null and patronName ne '' and loanList ne null and loanList.size() > 0 or existingLoanList ne null and existingLoanList.size() > 0}"  p:ajaxSubmit="true"  p:successCallback="claimsReturn();validPatronItem()"/>
+                <bean id="PatronItemView-MissingPiece-Button" parent="Uif-SecondaryActionButton" p:methodToCall="showMissingPieceDialogBox" p:actionLabel="Missing Piece" p:style="float:left;margin-left:5em" p:render="@{patronName ne null and patronName ne '' and loanList ne null and loanList.size() > 0 or existingLoanList ne null and existingLoanList.size() > 0}"  p:ajaxSubmit="true"  p:successCallback="showMissingPieceDialog();validPatronItem()"/>
+                <bean id="PatronItemView-DamagedItem-Button" parent="Uif-SecondaryActionButton" p:methodToCall="showDamagedDialogBox" p:actionLabel="Damaged" p:style="float:left;margin-left:5em" p:render="@{patronName ne null and patronName ne '' and loanList ne null and loanList.size() > 0 or existingLoanList ne null and existingLoanList.size() > 0}"  p:ajaxSubmit="true"  p:successCallback="showDamagedItemDialog();validPatronItem()"/>
+                <bean id="renewalButton" parent="Uif-SecondaryActionButton" p:methodToCall="renewalItems" p:actionLabel="Renew" p:style="float:left;margin-left:5em" p:render="@{patronName ne null and patronName ne '' and loanList ne null and loanList.size() > 0 or existingLoanList ne null and existingLoanList.size() > 0}" p:ajaxSubmit="true"  p:successCallback="validateRenew();validPatronItem()"/>
+                <ref bean="SecondarySearchPatron" />
+                <ref bean="SecondarySearchItem" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CheckoutButtoms-HorizontalBoxSection" parent="CheckoutButtoms-HorizontalBoxSection-parentBean" />
+    <bean id="CheckoutButtoms-HorizontalBoxSection-parentBean" parent="Uif-HorizontalBoxSubSection" p:disclosure.render="false">
+        <property name="items">
+            <list>
+                <bean id="headerDoneButton" parent="Uif-SecondaryActionButton" p:methodToCall="saveAndClear" p:actionLabel="Close" p:style="float:left;margin-left:5em" p:render="@{patronName ne null and patronName ne ''}" p:ajaxSubmit="true"  p:successCallback="focusPatron();refreshUserLogin();printBill()"/>
+                <bean id="headerClearPatronButton" parent="Uif-SecondaryActionButton" p:methodToCall="clearPatron" p:actionLabel="Clear Patron" p:style="float:left;margin-left:5em" p:render="@{patronName ne null and patronName ne ''}" p:ajaxSubmit="true"  p:successCallback="focusPatron();printBill()"/>
+                <bean id="headerEditDueDateButton" parent="Uif-SecondaryActionButton" p:methodToCall="editDueDate" p:actionLabel="Alter Due Date" p:style="float:left;margin-left:5em" p:render="@{patronName ne null and patronName ne '' and loanList ne null and loanList.size() > 0 or existingLoanList ne null and existingLoanList.size() > 0}" p:ajaxSubmit="true"  p:successCallback="alterDueDate();validPatronItem()" p:actionEvent="editDueDate" p:componentSecurity.performActionAuthz="true"/>
+                <bean id="headerClaimsButton" parent="Uif-SecondaryActionButton" p:methodToCall="claimsReturn" p:actionLabel="Claims Return" p:style="float:left;margin-left:5em" p:render="@{patronName ne null and patronName ne '' and loanList ne null and loanList.size() > 0 or existingLoanList ne null and existingLoanList.size() > 0}" p:ajaxSubmit="true"  p:successCallback="claimsReturn();validPatronItem()"/>
+                <bean id="header-MissingPiece-Button" parent="Uif-SecondaryActionButton" p:methodToCall="showMissingPieceDialogBox" p:actionLabel="Missing Piece" p:style="float:left;margin-left:5em" p:render="@{patronName ne null and patronName ne '' and loanList ne null and loanList.size() > 0 or existingLoanList ne null and existingLoanList.size() > 0}" p:ajaxSubmit="true"  p:successCallback="showMissingPieceDialog();validPatronItem()"/>
+                <bean id="header-DamagedItem-Button" parent="Uif-SecondaryActionButton" p:methodToCall="showDamagedDialogBox" p:actionLabel="Damaged" p:style="float:left;margin-left:5em" p:render="@{patronName ne null and patronName ne '' and loanList ne null and loanList.size() > 0 or existingLoanList ne null and existingLoanList.size() > 0}" p:ajaxSubmit="true"  p:successCallback="showDamagedItemDialog();validPatronItem()"/>
+                <bean id="headerRenewalButton" parent="Uif-SecondaryActionButton" p:methodToCall="renewalItems" p:actionLabel="Renew" p:style="float:left;margin-left:5em" p:render="@{patronName ne null and patronName ne '' and loanList ne null and loanList.size() > 0 or existingLoanList ne null and existingLoanList.size() > 0}" p:ajaxSubmit="true"  p:successCallback="validateRenew();validPatronItem()"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ClearFooterView-buttons" parent="ClearFooterView-buttons-parentBean"/>
+    <bean id="ClearFooterView-buttons-parentBean" parent="Uif-HorizontalBoxSection" p:disclosure.render="false">
+        <property name="items">
+            <list>
+            </list>
+        </property>
+    </bean>
+    <bean id="selectAllButtonExistingLoan-HorizontalBoxSection" parent="selectAllButtonExistingLoan-HorizontalBoxSection-parentBean" />
+    <bean id="selectAllButtonExistingLoan-HorizontalBoxSection-parentBean" parent="Uif-HorizontalBoxSection" p:disclosure.render="false" p:render="@{existingLoanList ne null and existingLoanList.size() > 0}">
+        <property name="items">
+            <list>
+                <bean id="existingSelect" parent="Uif-SecondaryActionButton" p:actionLabel="Select All" p:actionScript="selectAllExistingLoanedItem();"  />
+                <bean id="existingdeselect" parent="Uif-SecondaryActionButton" p:actionLabel="Deselect All" p:actionScript="deSelectAllExistingLoanedItem();" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="selectAllButtonCurrentLoan-HorizontalBoxSection" parent="selectAllButtonCurrentLoan-HorizontalBoxSection-parentBean" />
+    <bean id="selectAllButtonCurrentLoan-HorizontalBoxSection-parentBean" parent="Uif-HorizontalBoxSection" p:disclosure.render="false" p:render="@{loanList ne null and loanList.size() > 0}">
+        <property name="items">
+            <list>
+                <bean id="currentSelect" parent="Uif-SecondaryActionButton" p:actionLabel="Select All" p:actionScript="selectAllLoanedItem();"  />
+                <bean id="currentdeselect" parent="Uif-SecondaryActionButton" p:actionLabel="Deselect All" p:actionScript="deSelectAllLoanedItem();" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="selectAllButtonRenewLoan-HorizontalBoxSection" parent="selectAllButtonRenewLoan-HorizontalBoxSection-parentBean" />
+    <bean id="selectAllButtonRenewLoan-HorizontalBoxSection-parentBean" parent="Uif-HorizontalBoxSubSection" p:disclosure.render="false" p:render="@{renewDueDateList ne null and renewDueDateList.size() > 0}">
+        <property name="items">
+            <list>
+                <bean id="currentSelect" parent="Uif-SecondaryActionButton" p:actionLabel="Select All" p:actionScript="selectAllRenewItem();"  />
+                <bean id="currentdeselect" parent="Uif-SecondaryActionButton" p:actionLabel="Deselect All" p:actionScript="deSelectAllRenewItem();" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="loanLoginBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="loanLogin" p:hidden="true" p:ajaxSubmit="true"  p:successCallback="refreshLoanScreen()" />
+
+    <!--<bean id="loanLoginName" parent="Uif-InputField" p:propertyName="loanLoginName">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+    <!--<bean id="validLogin" parent="Uif-InputField" p:propertyName="validLogin">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+
+    <bean id="loanLogOutBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="loanLogout" p:hidden="true" p:ajaxSubmit="true"  p:successCallback="refreshScreen()" />
+
+    <!--<bean id="loginUser" parent="Uif-InputField" p:propertyName="loginUser">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+
+    <bean id="OLELoanView-RecordNote-MissingPiece-MessageBox" parent="Uif-VerticalBoxSection" p:render="@{displayMissingPieceNotePopup}">
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField" p:messageText="Missing Piece Found"/>
+                <bean id="OLELoanView-RecordNote-MissingPiece-MessageBoxOption" parent="Loan-Uif-InputField" p:propertyName="checkoutMissingPieceRecordFlag"
+                      p:label="Record a note or not">
+                    <property name="control">
+                        <bean parent="Uif-HorizontalRadioControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="yes" p:value="Yes"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="no" p:value="No"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="OLELoanView-RecordNote-Damaged-MessageBox-Button" parent="Uif-SecondaryActionButton-Small" p:methodToCall="flaggedNoteSave" p:actionLabel="Continue"  p:ajaxSubmit="true"  p:successCallback="closeDamagedItemBox();displayMissingDamagedBox();" />
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="OLELoanView-RecordNote-Damaged-MessageBox" parent="Uif-VerticalBoxSection" p:render="@{displayDamagedRecordNotePopup}">
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField" p:messageText="Item is Damaged"/>
+                <bean id="OLELoanView-RecordNote-Damaged-MessageBoxOption" parent="Loan-Uif-InputField" p:propertyName="checkoutDamagedRecordFlag"
+                      p:label="Record a note or not">
+                    <property name="control">
+                        <bean parent="Uif-HorizontalRadioControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="yes" p:value="Yes"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="no" p:value="No"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="OLELoanView-RecordNote-Damaged-MessageBox-Button" parent="Uif-SecondaryActionButton-Small" p:methodToCall="flaggedNoteSave" p:actionLabel="Continue" p:ajaxSubmit="true"  p:successCallback="closeMissingPieceBox();displayMissingDamagedBox();" />
+            </list>
+        </property>
+    </bean>
+
+    <!--<bean id="OLELoanView-RecordNote-MissingPiece-status-flag" parent="Uif-InputField" p:propertyName="displayMissingPieceNotePopup">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+    <!--<bean id="OLELoanView-RecordNote-Damaged-status-flag" parent="Uif-InputField" p:propertyName="displayDamagedRecordNotePopup">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+
+    <!--<bean id="OLELoanView-RecordNote-status-missingPiece-flag" parent="Uif-InputField" p:propertyName="skipMissingPieceRecordPopup">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+
+    <!--<bean id="OLELoanView-RecordNote-status-damaged-flag" parent="Uif-InputField" p:propertyName="skipDamagedRecordPopup">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+
+    <!--<bean id="dueDateInfoMsg" parent="Uif-InputField" p:propertyName="successMessage">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+
+    <bean id="Loan-Uif-InputField" parent="Uif-InputField">
+        <property name="quickfinder">
+            <null/>
+        </property>
+    </bean>
+
+</beans>

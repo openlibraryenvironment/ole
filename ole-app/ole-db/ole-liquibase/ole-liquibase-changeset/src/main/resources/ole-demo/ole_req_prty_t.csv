@@ -1,0 +1,9 @@
+REQ_PRTY_ID,OBJ_ID,VER_NBR,REQ_PRTY_NM,REQ_PRTY_DESC,ROW_ACT_IND
+1,OLEERS106,1,1,Least Priority,Y
+2,OLEERS107,1,2,second level Priority,Y
+3,OLEERS108,1,3,third level Priority,Y
+4,OLEERS109,1,4,fourth level Priority,Y
+5,OLEERS110,1,5,fifth level Priority,Y
+6,OLEERS111,1,Low,low Priority,Y
+7,OLEERS112,1,Medium priority,medium Priority,Y
+8,OLEERS113,1,Top priority,Top Priority,Y

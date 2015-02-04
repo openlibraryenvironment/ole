@@ -1,0 +1,4 @@
+E_RES_PLTFRM_EVNT_TYPE_ID,NAME,DESCRIPTION,ROW_ACT_IND,OBJ_ID,VER_NBR
+"1","Vendor Correspondence","Vendor Correspondence","Y","EVNTTYP2","1"
+"2","Troubleshooting","Troubleshooting","Y","EVNTTYP1","1"
+"3","Marc record load","Marc record load","Y","EVNTTYP3","1"

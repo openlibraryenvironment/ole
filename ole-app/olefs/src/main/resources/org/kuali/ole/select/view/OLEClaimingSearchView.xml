@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="OLEClaimingSearchView" parent="OLEClaimingSearchView-parentBean" />
+    <bean id="OLEClaimingSearchView-parentBean" parent="Uif-OLEFormView">
+        <property name="headerText" value="Claim Response Information"/>
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="${ole.externalizable.help.url}/reference/webhelp/AG/content/ch05s04.html"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="OLEClaimingSearchViewPage" parent="Uif-Page" >
+                    <property name="items">
+                        <list>
+                            <bean id="ClaimSuccessMsg" parent="Uif-MessageField" p:messageText="@{successMsg}" p:cssClasses="messageClass"/>
+                            <ref bean="OLEClaimingSearchPanel"/>
+                            <ref bean="OLEClaimingSearchResultsPanel"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="formClass" value="org.kuali.ole.select.form.OLEClaimingSearchForm"/>
+        <property name="additionalCssFiles">
+            <list>
+                <value>ole/select/css/claim.css</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEClaimingSearchPanel" parent="OLEClaimingSearchPanel-parentBean"/>
+
+    <bean id="OLEClaimingSearchPanel-parentBean" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="headerText" value="Search Conditions:"/>
+        <property name="items">
+            <list>
+                <ref bean="OLEClaimingSearchPanel-searchParams-Section"/>
+                <ref bean="OLEClaimingSearchPanel-Buttons"/>
+                <ref bean="OLEClaimingSearchPanel-MessageSection"/>
+
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="OLEClaimingSearchPanel-searchParams-Section" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2">
+                    <property name="items">
+                        <list>
+                            <bean id="claim-vendorName" parent="Uif-InputField" p:propertyName="vendorName" p:label="Vendor Name">
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.select.businessobject.options.OLEClaimVendorTypeFinder" />
+                                </property>
+
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" />
+                                </property>
+                            </bean>
+
+                            <bean id="claim-title" parent="Uif-InputField" p:propertyName="title" p:label="Title" />
+                            <bean id="claim-claimDate" parent="Uif-InputField" p:propertyName="claimDate" p:label="Claim Date">
+                                <property name="control">
+                                    <bean parent="Uif-DateControl" p:size="10"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEClaimingSearchPanel-Buttons"  parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+
+                <bean id="claim-search_button" parent="Uif-SecondaryActionButton" p:style="float:left;margin-left:55em" p:methodToCall="search" p:actionLabel="Search" />
+                <bean id="claim-clear_button" parent="Uif-SecondaryActionButton" p:style="float:left;margin-left:0em" p:methodToCall="clearSearch" p:actionLabel="Clear"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEClaimingSearchResultsPanel" parent="OLEClaimingSearchResultsPanel-ParentBean"/>
+
+    <bean id="OLEClaimingSearchResultsPanel-ParentBean" parent="Uif-Disclosure-VerticalBoxSection" p:render="@{oleClaimingSearchRecordList ne null and oleClaimingSearchRecordList.size()>0}">
+        <property name="headerText" value="Search Results:"/>
+        <property name="items">
+            <list>
+                <ref bean="OLEClaimingSearchResult"/>
+                <ref bean="Claim-FooterView-buttons"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEClaimingSearchResult" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="3"  p:style="border:1px solid;" >
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.select.bo.OLEPOClaimHistory" />
+        <property name="propertyName" value="oleClaimingSearchRecordList" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.generateAutoSequence" value="false" />
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:label="Vendor Name" p:propertyName="vendorName"/>
+                <bean parent="Uif-DataField" p:label="Title" p:propertyName="title" />
+                <bean parent="Uif-DataField" p:label="Claim Date" p:propertyName="claimDate"/>
+                <bean parent="Uif-DataField" p:label="Claim Count" p:propertyName="claimCount"/>
+                <bean parent="Uif-DataField" p:label="Claim #" p:propertyName="id"/>
+                <bean parent="Uif-InputField" p:label="Claim Response Information" p:propertyName="claimResponseInformation"/>
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="false">
+                <!-- infinite scrolling settings from http://datatables.net/examples/basic_init/scroll_y_infinite.html -->
+                <entry key="bLengthChange" value="false"/>
+                <entry key="bFilter" value="false"/>
+                <!-- end of infinite scrolling settings -->
+            </map>
+        </property>
+    </bean>
+
+
+    <bean id="Claim-FooterView-buttons" parent="Claim-FooterView-buttons-parentBean"/>
+    <bean id="Claim-FooterView-buttons-parentBean" parent="Uif-HorizontalBoxSection" >
+        <property name="items">
+            <list>
+                <bean id="claim-updateNote_button" parent="Uif-SecondaryActionButton" p:style="float:left;margin-left:55em" p:methodToCall="updateClaimNote" p:actionLabel="Update Claim Response Info" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEClaimingSearchPanel-MessageSection" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="claim_search_message" parent="Uif-Message" p:messageText="@{claimErrorMessage}"/>
+            </list>
+        </property>
+    </bean>
+</beans>

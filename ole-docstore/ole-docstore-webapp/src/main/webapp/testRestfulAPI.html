@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+   <style type="text/css">
+        #restfulAPIDiv {
+            font-family: verdana,Arial,sans-serif;
+            font-size:12px !important;
+			width:100% !important;
+			height:auto !important;
+        }
+        #restfulAPIDiv h2 h1 {
+            font-size:8px !important;
+        }
+        #restfulAPIDiv form input select {
+            font-size:8px !important;
+        }
+
+    #restfulAPIDiv h3 a:visited {
+           color :#FF0000 !important;
+    }
+
+    </style>
+
+</head>
+<body>
+<div id="restfulAPIDiv">
+	<h3><a href="./getDocumentConfigInfo" target="_blank">Get Config Info</a></h3>
+	<h2>Get Document</h2>
+	<form name="getDocForm" method="GET" action="./document">
+		<input type="hidden" name="docAction" value="getDocument">
+		Document Id:&nbsp;<input type="text" name="docId" value="">
+		<br/>
+		<input type="button" value="Submit" onclick="submitGetDocRequest()">
+	</form>
+<script type="text/javascript">
+function submitGetDocRequest() {
+	var thisForm = document.forms['getDocForm']
+	var url = thisForm.action
+	url += "?docAction=" +thisForm.docAction.value
+	url += "&id=" +thisForm.docId.value
+			
+	
+	//thisForm.action = url
+	window.location.href = encodeURI(url)
+}
+function submitGetDocRequestForIDs() {
+	var thisForm = document.forms['getDocIDsForm']
+	var url = thisForm.action
+	//url += "?id=" +thisForm.docId.value
+	//thisForm.action = url
+	window.location.href = encodeURI(url)
+}
+function populate(o)
+{
+	d=document.getElementById('docType1');
+	if(!d){return;}			
+	var mitems=new Array();
+	mitems['bib']=['select format','marc','dublin'];
+/*
+	mitems['auth']=['select type','eac'];
+*/
+	d.options.length=0;
+	cur=mitems[o.options[o.selectedIndex].value];
+	if(!cur){return;}
+	d.options.length=cur.length;
+	for(var i=0;i<cur.length;i++)
+	{
+		d.options[i].text=cur[i];
+		d.options[i].value=cur[i];
+	}
+}
+function populate1(o)
+{
+	
+	field1=document.getElementById('field1');
+	field2=document.getElementById('field2');
+	field3=document.getElementById('field3');
+	
+	if(!field1){return;}		
+	if(!field2){return;}	
+	if(!field3){return;}	
+	var mitems=new Array();
+	mitems['marc']=['select field','Author_search','Title_search','Publisher_search'];
+	mitems['dublin']=['select field','Author_search','Title_search','Publisher_search'];
+/*	mitems['eac']=['select field','RecordId','MaintenanceStatus','MaintenanceAgencyCode'];*/
+	field1.options.length=0;
+	field2.options.length=0;
+	field3.options.length=0;
+	
+	cur=mitems[o.options[o.selectedIndex].value];
+	if(!cur){return;}
+	field1.options.length=cur.length;
+	field2.options.length=cur.length;
+	field3.options.length=cur.length;
+	for(var i=0;i<cur.length;i++)
+	{
+		field1.options[i].text=cur[i];
+		field1.options[i].value=cur[i];
+		field2.options[i].text=cur[i];
+		field2.options[i].value=cur[i];
+		field3.options[i].text=cur[i];
+		field3.options[i].value=cur[i];
+	}
+}
+</script>
+
+
+	<!--<h2>Add Document</h2>
+	<form name="addDocForm" method="POST" action="./document" enctype="multipart/form-data" >
+		<input type="hidden" name="docAction" value="add">
+		Doc Category:&nbsp;
+		<select name="docCategory">
+			<option value="bib">Bibliographic</option>
+			<option value="auth">Authorities</option>
+		</select>
+		<br/><br/>
+		Doc Type:&nbsp;
+		<select name="docType">
+			<option value="marc">MARC</option>
+			<option value="dublin">DUBLIN</option>
+		</select>
+		<br/>
+		Select the file containing the Document:&nbsp;<input type="file" name="xmlData">
+		<br/>
+		<input type="submit" value="Submit"/>
+	</form>
+
+	<h2>Update Document</h2>-->
+	<h2>Delete Document</h2>
+	<form name="deleteDocForm" method="POST" action="./document">
+		<input type="hidden" name="docAction" value="delete">
+		Doc Category:&nbsp;
+		<select name="docCategory">					
+			<option value="bib">Work</option>
+<!--
+			<option value="auth">Authorities</option>
+-->
+		</select>
+		<br/><br/>
+		Doc Id:&nbsp;<input type="text" name="id" id="id" value=""/>
+		<br/><br/>
+		<input type="submit" value="Submit" >
+	</form>
+
+<!--
+	<h2>Get Document IDs</h2>
+	<form name="getDocIDsForm" method="POST" action="./document"  >
+		<input type="hidden" name="docAction" value="getIDs">
+		Doc Category:&nbsp;
+		<select name="docCategoryGetId" id="docCategoryGetId" onchange="populate(this)">		
+			<option value="select category">select category</option>			
+			<option value="bib">Work</option>
+&lt;!&ndash;
+			<option value="auth">Authorities</option>
+&ndash;&gt;
+		</select>
+		Doc Format:&nbsp;
+		<select name="docType1" id="docType1" onchange="populate1(this)">
+		</select>
+		<br />
+		<br />
+		 field name1:&nbsp;
+		<select name="field" id="field1">
+		</select>
+		field Value1:&nbsp;<input type="text" name="fvalue" value="">
+		<br/><br/>
+		field name2:&nbsp;
+		<select name="field" id="field2">
+		</select>
+		field Value2:&nbsp;<input type="text" name="fvalue" value="">
+		<br/><br/>
+		field name3:&nbsp;
+		<select name="field" id="field3">
+		</select>
+		field Value3:&nbsp;<input type="text" name="fvalue" value="">
+		<br/><br/>
+		Operator:&nbsp;
+		<select name="operator">					
+			 <option value="OR">OR</option>
+			 <option value="AND">AND</option>					
+		</select>
+		<br/><br/>
+		<input type="submit" value="Submit" onclick="submitGetDocRequestForIDs()">
+	</form>
+-->
+</div>
+</body>
+</html>

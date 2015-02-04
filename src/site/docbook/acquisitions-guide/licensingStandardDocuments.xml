@@ -1,0 +1,1558 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"
+    version="5.0" xml:lang="en-US">
+    <title><anchor xml:id="_Standard_Licensing_E-Docs"/>Standard Licensing E-Docs<indexterm
+            significance="normal">
+            <primary>E-Docs</primary>
+        </indexterm></title>
+    <para role="Body Text"><inlinemediaobject>
+            <alt>Select/Acquire</alt>
+            <imageobject>
+                <imagedata fileref="../images/SelectAcquire.png"/>
+            </imageobject>
+        </inlinemediaobject>&gt;<inlinemediaobject>
+            <alt>Licensing</alt>
+            <imageobject>
+                <imagedata fileref="../images/LicensingNoTitlePage-18.png"/>
+            </imageobject>
+        </inlinemediaobject> &gt; <inlinemediaobject>
+            <alt>Licensing Links</alt>
+            <imageobject>
+                <imagedata fileref="../images/LicensingNoTitlePage-5.png"/>
+            </imageobject>
+        </inlinemediaobject></para>
+    <para role="Body Text">On the <emphasis role="bold">Select/Acquire</emphasis> menu, the
+        Licensing submenu allows users to view and maintain Licensing E-Docs.</para>
+    <para/>
+    <section>
+        <title><anchor xml:id="_AgreementDoc"/>Agreement<indexterm significance="normal">
+                <primary>Workflow, Initiate</primary>
+            </indexterm></title>
+        <para role="Normal (Web)"><inlinemediaobject>
+                <alt>Select/Acquire</alt>
+                <imageobject>
+                    <imagedata fileref="../images/SelectAcquire.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+                    <alt>Licensing</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/LicensingNoTitlePage-18.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis>
+            <emphasis role="bold">&gt;</emphasis><inlinemediaobject>
+                <alt>Agreement</alt>
+                <imageobject>
+                    <imagedata fileref="../images/LicensingNoTitlePage-2.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold">&gt;</emphasis><inlinemediaobject>
+                <alt>Agreement Search</alt>
+                <imageobject>
+                    <imagedata fileref="../images/LicensingNoTitlePage-3.png"/>
+                </imageobject>
+            </inlinemediaobject></para>
+        <para/>
+        <warning>
+            <para>License Agreements are not currently functioning. This is a placeholder for the
+                work in progress.</para>
+        </warning>
+    </section>
+    <section>
+        <title><anchor xml:id="_Initiate_License_Workflow"/>Initiate License Workflow<indexterm
+                significance="normal">
+                <primary>Workflow, Initiate</primary>
+            </indexterm></title>
+        <para role="Normal (Web)"><inlinemediaobject>
+                <alt>Select/Acquire</alt>
+                <imageobject>
+                    <imagedata fileref="../images/SelectAcquire.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                <alt>Electronic Resources</alt>
+                <imageobject>
+                    <imagedata fileref="../images/eresource-65.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt;</emphasis><inlinemediaobject>
+                <alt>E-Resource links</alt>
+                <imageobject>
+                    <imagedata fileref="../images/LicensingNoTitlePage-10.png"/>
+                </imageobject>
+            </inlinemediaobject></para>
+        <para role="Normal">In OLE, licensing and License Requests can be initiated from an
+                <emphasis role="bold">E-Resource</emphasis> Record on the <emphasis role="bold"
+                >Select/Acquire</emphasis> tab. </para>
+        <para>When creating an E-Resource record, a user must click <inlinemediaobject>
+                <alt>Start New License</alt>
+                <imageobject>
+                    <imagedata fileref="../images/LicensingNoTitlePage-startNewLicense.png"/>
+                </imageobject>
+            </inlinemediaobject> to start the licensing workflow.</para>
+        <para>
+            <screenshot>
+                <mediaobject>
+                    <alt>E-Resource Licenses page</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/LicensingNoTitlePage-1.png" width="100%"/>
+                    </imageobject>
+                </mediaobject>
+            </screenshot>
+        </para>
+        <para>To open the newly created license, click the License Title. Alternatively, from the
+                <emphasis role="bold">Select/Acquire</emphasis> tab, click <emphasis role="bold"
+                >License Request</emphasis> under the <emphasis role="bold">Licensing</emphasis>
+            sub-menu.</para>
+        <note>
+            <para>To learn more about the E-Resource Record, see the section <link
+                    linkend="_E-Resource">E-Resource</link>.</para>
+        </note>
+        <para/>
+    </section>
+    <section>
+        <title><anchor xml:id="_License_Request"/>License Request<indexterm significance="normal">
+                <primary>License Request</primary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Select/Acquire</alt>
+                <imageobject>
+                    <imagedata fileref="../images/SelectAcquire.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+                    <alt>Licensing</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/LicensingNoTitlePage-18.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>License Request Link</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/LicensingNoTitlePage-19.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>License Request Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/LicensingNoTitlePage-20.png"/>
+                    </imageobject>
+                </inlinemediaobject>&gt; <inlinemediaobject>
+                    <alt>License Request</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/LicensingNoTitlePage-21.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">A License Request e-doc is a tool for collecting related information
+            and documents during license investigations and negotiations. The License Request is a
+            routable document, allowing various authorized users to complete workflow actions like
+            reviews, approvals, signatures, or just notifications.</para>
+        <note>
+            <para role="Body Text"> License Requests will continue to be developed and modified in
+                future releases.</para>
+        </note>
+        <para/>
+        <section>
+            <title><anchor xml:id="_Toc338681552"/>Getting Started</title>
+            <para role="Normal">You must be part of the OLE_Licenses and OLE_LicenseManager to edit
+                license requests.</para>
+            <para role="Normal"/>
+            <para role="Normal">In order for a License Request to be created, the <emphasis
+                    role="bold">start new license</emphasis> box must be clicked on the <emphasis
+                    role="bold">E-Resource Document</emphasis>'s Licenses tab. If this was done,
+                staff may look for the License Request related to the E-Resource by clicking
+                    <emphasis role="bold">License Request</emphasis> under the <emphasis role="bold"
+                    >Licensing</emphasis> header of the Licensing Menu.</para>
+            <para role="Normal"/>
+            <note>
+                <para role="Normal"> For information on searching, see <link
+                    xlink:href="../../../webhelp/BASICS/content/ch02s04.html">Searching OLE</link> on the
+                        <emphasis>Guide to OLE Basic Functionality and Key
+                    Concepts</emphasis>.</para>
+            </note>
+        </section>
+        <section>
+            <title><anchor xml:id="_Toc338681553"/>Document Layout</title>
+            <para role="Normal"/>
+            <para role="Normal">
+                <screenshot>
+                    <mediaobject>
+                        <alt>License Request Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/LicensingNoTitlePage-24.png" width="100%"
+                            />
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Body Text">The License Request document includes the <emphasis role="bold"
+                    >Overview, </emphasis><emphasis role="bold">Event Log</emphasis>, <emphasis
+                    role="bold">Agreement Documents</emphasis>, and <emphasis role="bold">Agreement
+                </emphasis>tabs, in addition to the standard tabs. </para>
+            <note>
+                <para> For information about the<emphasis role="bold"> standard tabs</emphasis>, see
+                    <link xlink:href="../../../webhelp/BASICS/content/ch02s02.html">Standard Tabs</link> on
+                    the <emphasis>Guide to OLE Basic Functionality and Key
+                    Concepts</emphasis>.</para>
+            </note>
+            <para/>
+            <section>
+                <title>Overview Tab</title>
+                <para role="Normal">The License Request contains a custom tab called the <emphasis
+                        role="bold">Overview</emphasis> that contains basic information about the
+                    License Request. The License Request status, agreement method (license, SERU,
+                    etc.) and the type of License Request (new, addendum, renewal) are noted
+                    here.</para>
+                <para role="Normal"/>
+                <tip>
+                    <para role="Normal"> It is important to understand the workflow functions of
+                        licensing before working in the <emphasis role="bold">Overview</emphasis>
+                        tab. See <link linkend="_Workflows_Overview">Workflows Overview</link> for
+                        more information about the license workflows steps.</para>
+                </tip>
+                <para role="Normal"/>
+                <para role="Normal">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>License Request Overview Tab</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/LicensingNoTitlePage-27.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="Normal"/>
+                <para role="TableHeading"><emphasis role="bold">Document Overview Tabs
+                        Definitions</emphasis></para>
+                <informaltable frame="top">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Initiate Licensing Workflow</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Select workflow to utilize
+                                        for this License Request.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Current Location</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Select current location of
+                                        the negotiation process or documentation (such as at Vendor,
+                                        or at Campus Purchasing).</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Agreement Method</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Describes the type of
+                                        agreement being documented (negotiated, SERU, Copyright,
+                                        etc.).</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Owner/Assignee</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. A combined list of all users
+                                        in OLE_Licenses or OLE_LicenseManagers who can be “owners”
+                                        for a License Request. Intended to be used to “assign” a
+                                        License Request to a single user within a larger role or
+                                        group.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">License Request Type</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Indicates the type of this
+                                        license negotiation process, whether new, renewal, or
+                                        addendum.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+                <para/>
+                <tip>
+                    <para role="Normal"> Fields marked Required must be completed before the License
+                        Request can be submitted. The License Request can be saved without
+                        completing these fields.</para>
+                </tip>
+            </section>
+            <section>
+                <title>Event Log Tab</title>
+                <para role="Normal">The Event Log captures automated entries for workflow status
+                    changes, adding or linking Agreements or Agreement Documents. Users can also
+                    manually add entries to capture external communications, notes, or to summarize
+                    any actions external to OLE (such as with Vendor/Provider, University Legal,
+                    University Purchasing, etc.). You may add an event note by filling out the
+                    required fields and clicking <inlinemediaobject>
+                        <alt>Add</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/LicensingNoTitlePage-29.png"/>
+                        </imageobject>
+                    </inlinemediaobject>. </para>
+                <para role="Normal"/>
+                <para role="Normal">Many events can be recorded in the event log. You may display
+                    10, 25, 50, or 100 entries at one time. Additionally, you may search for events
+                    from the search bar.</para>
+                <para role="Normal"/>
+                <para role="Normal">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>License Request Event Log tab</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/LicensingNoTitlePage-31.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="Normal"/>
+                <para role="TableHeading"><emphasis role="bold">Event Log Tabs
+                        Definitions</emphasis></para>
+                <informaltable frame="top">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Type</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">System generated. The event type value
+                                        will be ‘system’ when the request is initiated, 'user' if a
+                                        line was added manually by user; 'file' if an Agreement doc
+                                        was added; 'agreement' if a linked Agreement document was
+                                        edited or added; 'location' if a location change occurred;
+                                        'status' if a license status change occurred.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Date/Time</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">System generated. Logs the date and
+                                        time for the event log line item.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Staff</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Logs the user id of the
+                                        person associated with the event log change. Defaults to
+                                        current user but can be modified by entering a name or
+                                        searching from the lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup2.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Event Log/Notes</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required; may be manually added or
+                                        system generated. Users may input information to provide
+                                        audit trail information. System also records what events
+                                        have occurred.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+                <para role="Normal"/>
+            </section>
+            <section>
+                <title><anchor xml:id="_Agreement_Documents_Tab"/><anchor
+                        xml:id="_Agreement_Documents_Tab_1"/>Agreement Documents Tab</title>
+                <para role="Normal">Throughout negotiations and investigations, various Licensing
+                    staff may need to upload or download miscellaneous documents. These are not
+                    restricted, and could be any documents that licensing staff wish to archive or
+                    share within the licensing process, such as Title Lists, Emails, Analytics or
+                    Statistics, sample agreements, signed and unsigned vendor agreements.</para>
+                <para role="Normal"/>
+                <para role="Normal">Agreement Documents should also be used to store updated
+                    Checklists used in the licensing process. Staff may download blank checklists
+                    from the <link linkend="_Manage_Checklist">Manage Checklist</link> (Word
+                    documents, PDF Forms, Excel, etc.) and upload completed or in-progress
+                    Checklists to the License Request, specific to this negotiation process. </para>
+                <para role="Normal"/>
+                <para role="Normal">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>License Request Agreement Documents Tab</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/LicensingNoTitlePage-33.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para/>
+                <para role="TableHeading"><emphasis role="bold">Agreement Documents Tab
+                        Definitions</emphasis></para>
+                <informaltable frame="top">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Date</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">System Generated. Date and time the
+                                        document was uploaded.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">User</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">System Generated. The name of the user
+                                        who uploaded the file.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Agreement Type</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Type of Agreement Document that has
+                                        been uploaded. Samples from the drop down list include Agent
+                                        information, Checklist, or Email.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Agreement Document Title</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Allows staff to identify a file with a
+                                        short title. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Attach File</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Select <emphasis role="bold"
+                                            >Browse</emphasis> to search for a document on your
+                                        local computer and upload it to OLE</para>
+                                    <para role="Table Cells">Select <emphasis role="bold">Download
+                                            attachment</emphasis> to open a document on your local
+                                        computer.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Agreement Notes</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Users may add quick summaries or other
+                                        notes about the document</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Agreement Version</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">If the same named document was uploaded
+                                        more than once, users may keep track of multiple versions.
+                                    </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Action</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Must choose <emphasis role="bold">add
+                                        </emphasis>to attach the document to OLE or <emphasis
+                                            role="bold">Delete</emphasis> to remove it.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+                <section>
+                    <title>To upload Agreement Documents: </title>
+                    <orderedlist numeration="arabic" spacing="normal">
+                        <listitem>
+                            <para role="List Paragraph">Select an <emphasis role="bold">agreement
+                                    type</emphasis> from the drop down menu.</para>
+                        </listitem>
+                        <listitem>
+                            <para role="List Paragraph">Enter a brief title for future search in the
+                                    <emphasis role="bold">Agreement Document Title</emphasis>
+                                field.</para>
+                        </listitem>
+                        <listitem>
+                            <para role="List Paragraph">Input any Notes about the document so that
+                                you will understand what it contains. </para>
+                        </listitem>
+                        <listitem>
+                            <para role="List Paragraph">To select the document to upload, click on
+                                    <emphasis role="bold">Browse</emphasis> to find your
+                                locally-saved file and select it for upload. </para>
+                        </listitem>
+                        <listitem>
+                            <para role="List Paragraph">Click <inlinemediaobject>
+                                    <alt>Add</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/LicensingNoTitlePage-29.png"/>
+                                    </imageobject>
+                                </inlinemediaobject> to save the Agreement Document.</para>
+                        </listitem>
+                        <listitem>
+                            <para role="List Paragraph">Click <inlinemediaobject>
+                                    <alt>Save</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/LicensingNoTitlePage-35.png"/>
+                                    </imageobject>
+                                </inlinemediaobject> at the bottom of the e-doc to save the License
+                                Request with the new Agreement Document.</para>
+                        </listitem>
+                    </orderedlist>
+                </section>
+                <section>
+                    <title role="Normal">To download Agreement Documents for Review or Edit: </title>
+                    <para role="Normal">Click <emphasis role="bold">Download Attachments</emphasis>
+                        to review and save a local copy. </para>
+                    <para role="Normal"/>
+                    <para role="Normal">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>License Request Agreement Documents Tab With Attachment</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/LicensingNoTitlePage-36.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para role="Normal"/>
+                </section>
+            </section>
+            <section>
+                <title><anchor xml:id="_Agreement"/>Agreement Tab</title>
+                <para role="Normal">As licensing investigations and negotiations workflows continue,
+                    staff may upload or link Agreements, or ONIX-PL format licenses. Users may use
+                    the Lookup to search for an existing Agreement to link to the License Request or
+                    create a new Agreement. The Agreement is an XML representation of the actual
+                    terms of the license itself. </para>
+                <para role="Normal"/>
+                <note>
+                    <para role="Normal"> Although Agreements are not available as part of 1.5,
+                        future releases should allow staff to either upload an ONIX-PL document
+                        directly or use a license editor GUI to record license terms as an
+                        Agreement.</para>
+                </note>
+                <para role="Normal"/>
+                <para role="Normal">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>License Request Agreement Tab</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/LicensingNoTitlePage-38.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <section>
+                    <title>Find/Link Agreement</title>
+                    <para role="Normal">Click on the Lookup <inlinemediaobject>
+                            <imageobject>
+                                <imagedata fileref="../images/Lookup2.png"/>
+                            </imageobject>
+                        </inlinemediaobject> to search existing Agreements, and link to an existing
+                        Agreement for reference or future renewal or amendment. It is not possible
+                        to upload an Agreement in 1.5, so there are no Agreements to link to License
+                        Requests in this release. Users will also be able to create a new Agreement
+                        from this screen for this License Request in future releases.</para>
+                    <para role="Normal"/>
+                    <para role="Normal">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>License Request Agreement Search</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/LicensingNoTitlePage-40.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para role="Normal"/>
+                </section>
+            </section>
+            <section>
+                <title>Process Overview</title>
+                <para role="Body Text">License Requests can be searched via the License Request menu
+                    selection.</para>
+                <orderedlist numeration="arabic" spacing="normal">
+                    <listitem>
+                        <para role="List Paragraph">Select the <emphasis role="bold">Document
+                                Number</emphasis> of the E-doc you wish to modify.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="List Paragraph">Add notes and/or agreement documents, or link to
+                            agreements as necessary.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="List Paragraph">Select the appropriate option for <emphasis
+                                role="bold">Initiate Licensing Workflow</emphasis>. See workflow
+                            information below.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="List Paragraph">Send ad hoc as necessary once the License
+                            Request status is en route (a workflow must be initiated).</para>
+                    </listitem>
+                </orderedlist>
+                <warning>
+                    <para role="Normal"> Known bug: The send ad hoc button is not working correctly.
+                        Rice developers are working to correct this error. To send ad hoc, users
+                        must add ad hoc recipients and <emphasis role="bold">approve</emphasis> the
+                        document. This will send the document to the ad hoc recipient and then move
+                        the document to the next person of the workflow.</para>
+                </warning>
+                <para role="Normal">Click <inlinemediaobject>
+                        <alt>Submit</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/LicensingNoTitlePage-42.png"/>
+                        </imageobject>
+                    </inlinemediaobject> or <inlinemediaobject>
+                        <alt>Save</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/LicensingNoTitlePage-35.png"/>
+                        </imageobject>
+                    </inlinemediaobject> as appropriate.</para>
+            </section>
+        </section>
+        <section>
+            <title>Business Rules</title>
+            <orderedlist numeration="arabic" spacing="normal">
+                <listitem>
+                    <para role="List">A License Request can link to none, one, or many Agreement
+                        Documents.</para>
+                </listitem>
+                <listitem>
+                    <para role="List">A License Request must have a License Request Type, an
+                        Agreement Method, a Current Location, and an Owner before submitting to a
+                        workflow.</para>
+                </listitem>
+                <listitem>
+                    <para role="List">A License Request can only have one Current Location.</para>
+                </listitem>
+                <listitem>
+                    <para role="List">A License Request can only have one current Owner.</para>
+                </listitem>
+                <listitem>
+                    <para role="List">A License Request can only have one current License
+                        Workflow.</para>
+                </listitem>
+            </orderedlist>
+        </section>
+        <section>
+            <title><anchor xml:id="_Routing-_Workflow"/>Routing</title>
+            <para role="Normal">The routing of License Request e-docs will be based on data values
+                in the License Request, and will be initiated via user selection of a value from the
+                    <emphasis role="bold">Initiate License Workflow </emphasis>drop-down.</para>
+            <section>
+                <title><anchor xml:id="_Workflows_Overview"/>Workflows Overview</title>
+                <para role="Normal">OLE will be pre-configured with some sample workflows and
+                    statuses to assist libraries in setting up initial Licensing processes.</para>
+                <para role="Normal"/>
+                <para role="Normal">Selected workflows, as defined below, will route the License
+                    Request to the selected Role to complete a desired action. </para>
+                <tip>
+                    <para role="Normal"> Reminder: A Role can be a single or many users.</para>
+                </tip>
+                <para role="Normal"/>
+                <para role="TableHeading"><emphasis role="bold">Licensing Workflow
+                        Descriptions</emphasis></para>
+                <informaltable frame="all">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells"><emphasis role="bold">Workflow
+                                            Name</emphasis></para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells"><emphasis role="bold">Workflow
+                                            Description</emphasis></para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">Manual (Blank)</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">N/A, Self= No routing or workflow
+                                        selection required. License Request will not become final
+                                        with custom doc status “Complete” until an actual workflow
+                                        is selected and completed.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">Review Only</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">This workflow allows owners to route
+                                        License Request to OLE_Reviewer (role) to complete reviews
+                                        as defined in local policies (external to OLE)</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">Signatory Only</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">This workflow allows owners to route
+                                        License Request to OLE_Signatory (role) to complete
+                                        signatures of noted agreement Documents. This workflow
+                                        requires ALL members of the signatory role to approve the
+                                        License Request, indicating they have signed the
+                                        document.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">Approval Only</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">This workflow allows owners to route
+                                        License Request to OLE_LicenseApprover (role) to approve the
+                                        License Request.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">Full Approval</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">This is full composite workflow
+                                        (combining Signature workflow, university approval step,
+                                        Review workflow, and Approval workflow), requiring all
+                                        approvals and steps. Approval will be the last step, and
+                                        based on Approved/Disapproved, complete the Licensing
+                                        workflow.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">Renewal*</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">This workflow is a modification to Full
+                                        Approvals, and could be customized locally to fit Local
+                                        Renewal approval policy.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">Addendum*</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">This workflow is a modification to Full
+                                        Approvals, and could be customized locally to fit Local
+                                        Addendum approval policy.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+                <para role="Normal"/>
+            </section>
+            <section>
+                <title>Workflow Rules</title>
+                <orderedlist numeration="arabic" spacing="normal">
+                    <listitem>
+                        <para role="List">As delivered, OLE Licensing workflows are optional, and
+                            are at the discretion of the owner of License Request to determine which
+                            workflow to initiate, based on knowledge of vendor and existing
+                            (external to OLE) policies.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="List">Delivered OLE Licensing Workflows require that “Any”
+                            member of a Role defined in workflow must complete the Action for
+                            workflow and status to move forward, with the exception of “Signatory”
+                            workflows which require all Users defined in OLE_Signatory to complete
+                            the action. </para>
+                    </listitem>
+                    <listitem>
+                        <para role="List">OLE will offer combined and single PeopleFlows defined and
+                            editable by adopting libraries, with ability to use different metadata
+                            to establish rules for routing or available routing. </para>
+                    </listitem>
+                    <listitem>
+                        <para role="List">KRMS rules engine will pull metadata from the License
+                            Request and tell the system how to update statuses of related and linked
+                            documents, and which PeopleFlow workflows are enabled for the License
+                            Request. </para>
+                    </listitem>
+                    <listitem>
+                        <para role="List">OLE will currently only support a single active workflow
+                            at one time (future OLE may include recall/replace workflow options, or
+                            options to edit and initiate multiple simultaneous or
+                            sub-workflows.)</para>
+                    </listitem>
+                    <listitem>
+                        <para role="List">Each individual workflow will update License Request
+                            Custom Document Status. </para>
+                    </listitem>
+                    <listitem>
+                        <para role="List">OLE will provide sample workflows, roles, routing and user
+                            interfaces to act as template for locally configurable roles, workflows.
+                            Using KRMS and PeopleFlow, sites should be able to modify, add to, or
+                            remove steps or options in Licensing workflows, including additional
+                            rules or metadata conditions into KRMS agenda(s).</para>
+                        <note>
+                            <para role="List"> Known bug: There is a bug being worked on in Rice
+                                that is preventing the “send adhoc” button to work. Users may send a
+                                license request only while approving a document. </para>
+                        </note>
+                    </listitem>
+                </orderedlist>
+                <para><emphasis role="bold">Statuses &amp; Workflow Definitions</emphasis></para>
+                <informaltable frame="all">
+                    <tgroup cols="4">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <colspec colname="col3" colnum="3"/>
+                        <colspec colname="col4" colnum="4"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"><emphasis role="bold">License Request
+                                            Manual Selection</emphasis></para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells"><emphasis role="bold">E-Doc Custom
+                                            Status</emphasis></para>
+                                </entry>
+                                <entry colname="col3" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells"><emphasis role="bold"
+                                            >Description.</emphasis></para>
+                                </entry>
+                                <entry colname="col4" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"><emphasis role="bold">Description of
+                                            the Workflow</emphasis></para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">License Needed</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">License Needed</para>
+                                </entry>
+                                <entry colname="col3" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">Default custom doc status upon
+                                        initiation.</para>
+                                </entry>
+                                <entry colname="col4" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">N/A (manual status change only).</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">License Requested</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">License Requested</para>
+                                </entry>
+                                <entry colname="col3" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">Manual custom doc status saved from
+                                        "Initiate Licensing Workflow" selection.</para>
+                                </entry>
+                                <entry colname="col4" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">N/A (manual status change only).</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">In Process</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">In Process</para>
+                                </entry>
+                                <entry colname="col3" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">Manual custom doc status saved from
+                                        "Initiate Licensing Workflow" selection.</para>
+                                </entry>
+                                <entry colname="col4" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">N/A (manual status change only).</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">In Negotiation</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">In Negotiation</para>
+                                </entry>
+                                <entry colname="col3" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">Manual custom doc status saved from
+                                        "Initiate Licensing Workflow" selection.</para>
+                                </entry>
+                                <entry colname="col4" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">N/A (manual status change only).</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">License Received</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">License Received</para>
+                                </entry>
+                                <entry colname="col3" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">Manual status derived from "Initiate
+                                        Licensing Workflow" selection, submitted by OLE_Licenses for
+                                        routing to OLE_LicenseManager.</para>
+                                </entry>
+                                <entry colname="col4" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Upon Submit, this concludes licensing
+                                        investigations by OLE-Licenses, and license request will
+                                        route to “Owner” in OLE_LicenseManager role.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">Review Only</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">Pending Review</para>
+                                </entry>
+                                <entry colname="col3" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">Status when "Review Only" workflow
+                                        selected from “Initiate Licensing Workflow”, and
+                                        submitted.</para>
+                                </entry>
+                                <entry colname="col4" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Initiate Licensing Workflow= Review
+                                        Only. Status updates while pending outstanding review action
+                                        by OLE-Reviewer.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">--</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">Review Complete</para>
+                                </entry>
+                                <entry colname="col3" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">Status when "Review only" workflow is
+                                        completed by user approving License Request.</para>
+                                </entry>
+                                <entry colname="col4" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Initiate Licensing Workflow= Review
+                                        Only. Status updates when outstanding review action by
+                                        OLE-Reviewer is completed.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">Signatory Only</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">Pending Signature</para>
+                                </entry>
+                                <entry colname="col3" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">Status when "Signature Only" is
+                                        selected from “Initiate Licensing Workflow” and
+                                        submitted.</para>
+                                </entry>
+                                <entry colname="col4" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Initiate Licensing Workflow= Signature
+                                        Only. Status updates while pending outstanding review action
+                                        by OLE-Signatory.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">--</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">Signature Complete</para>
+                                </entry>
+                                <entry colname="col3" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">Status when "Signature Only" workflow
+                                        is completed by OLE_Signatory and approved.</para>
+                                </entry>
+                                <entry colname="col4" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Initiate Licensing Workflow=Signature
+                                        Only. Status updates when outstanding signature action by
+                                        OLE-Signatory is completed.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">&lt;Current Location&gt;</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">Pending University </para>
+                                </entry>
+                                <entry colname="col3" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">Manual Status when University Approval
+                                        step is required in Full Approval or Renewal workflows;
+                                        routes to Owner/OLE_LicenseManager.</para>
+                                </entry>
+                                <entry colname="col4" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Initiate Licensing Workflow= Full
+                                        Approval. When combined workflow hits University approval
+                                        step e-doc routes to owner, and goes to Pending University
+                                        status.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">--</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">University processing complete</para>
+                                </entry>
+                                <entry colname="col3" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">Status when Owner/OLE_LicenseManager
+                                        approves License Request to complete University approval
+                                        workflow step.</para>
+                                </entry>
+                                <entry colname="col4" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Initiate Licensing Workflow= Full
+                                        Approval. When combined workflow hits University approval
+                                        step (above) and Owner approves to indicate when university
+                                        purchasing is complete.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">Approval Only</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">Pending Approval</para>
+                                </entry>
+                                <entry colname="col3" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">Status when "Approval only" workflow
+                                        selected from “Initiate Licensing Workflow” and
+                                        submitted.</para>
+                                </entry>
+                                <entry colname="col4" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Initiate Licensing Workflow= Approval
+                                        Only. Status updates while pending outstanding Approval
+                                        action by OLE-Licensing Approver.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">Full Approval</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">&lt;varies&gt;</para>
+                                </entry>
+                                <entry colname="col3" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">Status will update based on current
+                                        action pending or most recent action completed. “Full
+                                        Approval” is a composite workflow, and sequentially
+                                        processes all 3 primary workflows: Review Only, then
+                                        Signatory Only, and finally Approval Only. It also includes
+                                        a “University Approval step between Review and Signatory
+                                        workflows.</para>
+                                </entry>
+                                <entry colname="col4" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">Initiate Licensing Workflow=Full
+                                        Approval. Status updates when approval actions are
+                                        taken.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">Complete</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">Complete</para>
+                                </entry>
+                                <entry colname="col3" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">Status when "Approval Only" workflow is
+                                        completed by OLE_LicensingApprover via "Approve"
+                                        button.</para>
+                                </entry>
+                                <entry colname="col4" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Initiate Licensing Workflow=Approval
+                                        Only. Status updates when outstanding approval action by
+                                        OLE_LicensingApprover is completed. Should report to
+                                        Requisition.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">Failed</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">Negotiation Failed.</para>
+                                </entry>
+                                <entry colname="col3" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">Status when "Approval only" workflow is
+                                        completed by OLE_LicensingApprover role via "Disapprove"
+                                        button.</para>
+                                </entry>
+                                <entry colname="col4" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Initiate Licensing Workflow=Approval
+                                        Only. Status updates when outstanding approval action by
+                                        OLE_LicensingApprover is completed. Should report to
+                                        Requisition.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">--</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">&lt;exception&gt;</para>
+                                </entry>
+                                <entry colname="col3" colsep="1" rowsep="1" valign="bottom">
+                                    <para role="Table Cells">Something fails in workflow, License
+                                        Request returns to Owner. Owner can re-select workflow and
+                                        Submit again.</para>
+                                </entry>
+                                <entry colname="col4" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells"/>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+                <para role="Normal"/>
+            </section>
+            <section>
+                <title>Initiating Workflow</title>
+                <para role="Normal">To select and initiate workflows, authorized users are able to
+                    select from drop-down selections (as defined above and below) and click on
+                    “Submit” at bottom of License Request to initiate the workflow request.</para>
+                <para role="Normal"/>
+                <para role="Normal">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>License Overview Tab - Initiate workflow</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/LicensingNoTitlePage-46.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="Normal"/>
+                <para role="Normal">Manual changes to Status/Initiate Licensing Workflow will also
+                    update the status of the License Request that will be seen by anyone who views
+                    the License Request, or sees it listed in Search Results or Action Lists, to
+                    assist in managing staff expectations and assignments across multiple License
+                    Requests (status will tell them where each License Request is in
+                    progress).</para>
+                <section>
+                    <title><anchor xml:id="_Workflow_Options"/>Workflow Options</title>
+                    <para role="Normal"/>
+                    <para role="Normal"><emphasis role="underline">Phase I</emphasis>: </para>
+                    <para role="Normal">Description: Selection staff believes title requested will
+                        require a License/Agreement.</para>
+                    <para role="Normal">Action(s): Staff member clicks ‘start new license’ button on
+                        the appropriate E-Resource :</para>
+                    <orderedlist numeration="arabic" spacing="normal">
+                        <listitem>
+                            <para role="List Paragraph">System auto-routes to Action List of all
+                                members of OLE_Licenses. </para>
+                        </listitem>
+                        <listitem>
+                            <para role="List Paragraph">Custom Doc Status= License Needed.</para>
+                            <para role="Normal"/>
+                            <para role="Normal"><emphasis role="underline">Phase II</emphasis>: </para>
+                            <para role="Normal">Description: Investigations, gathering
+                                documentation</para>
+                            <para role="Normal">Action(s): <emphasis role="bold"
+                                    >OLE-Licenses</emphasis> role fills in missing data on License
+                                Request, communicates with Vendor/Provider, and uploads Agreement
+                                Documents, or creates/links draft Agreement/ONIX-PL.</para>
+                        </listitem>
+                        <listitem>
+                            <para role="List Paragraph">Workflow/Status Options:</para>
+                            <itemizedlist mark="disc" spacing="normal">
+                                <listitem>
+                                    <para role="List Paragraph"><emphasis role="underline">License
+                                            Needed</emphasis>. License Request “save”. No routing,
+                                        License Request Custom doc status is updated.</para>
+                                </listitem>
+                                <listitem>
+                                    <para role="List Paragraph"><emphasis role="underline">License
+                                            Requested</emphasis>. License Request “save”. No
+                                        routing, License Request Custom doc status is
+                                        updated.</para>
+                                </listitem>
+                                <listitem>
+                                    <para role="List Paragraph"><emphasis role="underline">In
+                                            Process</emphasis>, or <emphasis role="underline">In
+                                            Negotiation</emphasis>. License Request “save”. No
+                                        routing, License Request Custom doc status is
+                                        updated.</para>
+                                </listitem>
+                                <listitem>
+                                    <para role="List Paragraph"><emphasis role="underline">License
+                                            Received</emphasis>. Member of OLE_Licenses fills in
+                                        required metadata, changes “Owner” to a member of
+                                        OLE_LicenseManager, and “Submits” License Request. License
+                                        Request removed from OLE_Licenses Action List and routed to
+                                        the selected Owner in OLE_LicenseManager role.</para>
+                                    <para role="List Paragraph"/>
+                                    <para role="Normal"><emphasis role="underline">Phase
+                                            III</emphasis>: </para>
+                                    <para role="Normal">Description: Negotiations &amp;
+                                        Pre-Contracting</para>
+                                    <para role="Normal">Action (s): Specific user in <emphasis
+                                            role="bold">OLE_LicenseManager</emphasis> now is “Owner”
+                                        of License Request and is responsible in OLE for completing
+                                        all licensing and negotiations. </para>
+                                </listitem>
+                            </itemizedlist>
+                        </listitem>
+                        <listitem>
+                            <para role="List Paragraph">Permitted user for editing: Any user in role
+                                OLE_Licenses, OLE_LicenseManager, OLE_LicenseReviewer, or
+                                OLE_LicenseConfiguration.</para>
+                        </listitem>
+                        <listitem>
+                            <para role="List Paragraph">Can select any statuses in “Initiate
+                                Licensing Workflow” and Save License Request in order to update
+                                License Request custom doc status to describe repeating steps (i.e.,
+                                negotiation process and therefore statuses may go back and
+                                forth).</para>
+                        </listitem>
+                        <listitem>
+                            <para role="List Paragraph">Additional Workflow options:</para>
+                            <itemizedlist mark="disc" spacing="normal">
+                                <listitem>
+                                    <para role="List Paragraph"><emphasis role="underline">Review
+                                            Only</emphasis>: Initiate a review only workflow by
+                                        selecting “Review Only” and “Submit”. License Request will
+                                        Route to/appear in Action List of OLE_Reviewer. OLE_Reviewer
+                                        (any user available in role to complete action) can review
+                                        license request or linked Agreement or Agreement Documents,
+                                        upload or replace new versions of Agreement Documents-
+                                        including local Checklists. OLE_Reviewer can continue to
+                                        modify via “Save”, and only “Approve” when all Reviews
+                                        complete. License Request will route back to Owner for final
+                                        approval and completion.</para>
+                                </listitem>
+                                <listitem>
+                                    <para role="List Paragraph"><emphasis role="underline">Signatory
+                                            Only</emphasis>: Initiate a signatory only workflow by
+                                        selecting “Signatory Only” and “Submit”. License Request
+                                        will Route to/appear in Action List of OLE_Signatory.
+                                        OLE_Signatory (all users defined in role to complete action)
+                                        can review license request or linked Agreement or Agreement
+                                        Documents; and, download, and upload signed documents.
+                                        OLE_Signatory can continue to modify via “Save”, and only
+                                        “Approve” when all required documents signed, uploaded and
+                                        reviews complete. License Request will route back to
+                                        Owner.</para>
+                                </listitem>
+                                <listitem>
+                                    <para role="List Paragraph"><emphasis role="underline">Approval
+                                            Only</emphasis>: Initiate Approval step by selecting
+                                        “Approval Only” and “Submit”. License Request will Route
+                                        to/appear in Action List of OLE_LicensingApprover.
+                                        OLE_LicensingApprover (any user available in role to
+                                        complete action) can review license request or linked
+                                        Agreement or Agreement Documents. OLE_LicensingApprover can
+                                        continue to modify via “Save”, and only “Approve” or
+                                        “Disapprove” when review is complete. This will complete the
+                                        License Request workflow.</para>
+                                </listitem>
+                                <listitem>
+                                    <para role="List Paragraph"><emphasis role="underline">Full
+                                            Approval</emphasis>: Full Approval workflow combines a
+                                        sequence of above- first routing to OLE_Reviewer. When
+                                        Approved system routes to OLE_Signatory. When Approved,
+                                        routes to OLE_LicensingApprover. If Disapproved, status will
+                                        go to “Negotiation Failed.” If License Request Approved,
+                                        then workflow is complete and status goes to
+                                        “Complete”.</para>
+                                </listitem>
+                                <listitem>
+                                    <para role="List Paragraph"><emphasis role="underline"
+                                            >Complete</emphasis>: Any licensing workflow (Signatory
+                                        only, Approval only, Review only, etc.) is completed</para>
+                                </listitem>
+                                <listitem>
+                                    <para role="List Paragraph"><emphasis role="underline"
+                                            >Negotiation Failed</emphasis>. Any licensing workflow
+                                        (Signatory only, Approval only, Review only, etc.) is
+                                        disapproved at any approval step in the workflow.</para>
+                                </listitem>
+                            </itemizedlist>
+                        </listitem>
+                    </orderedlist>
+                    <para role="Normal"/>
+                    <para role="Normal"><inlinemediaobject>
+                            <alt>Licensing workflow</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/LicensingNoTitlePage-48.png"/>
+                            </imageobject>
+                        </inlinemediaobject></para>
+                    <para role="Normal"/>
+                    <note>
+                        <para role="Normal"> To learn more about workflows, Action Lists, and Ad Hoc
+                            Routing, see <link
+                                xlink:href="../../../webhelp/BASICS/content/ch04.html">OLE
+                                Workflow Overview and Key Concepts</link> on the <emphasis>Guide to
+                                OLE Basic Functionality and Key Concepts</emphasis>.</para>
+                    </note>
+                </section>
+            </section>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_Manage_Checklist"/>Manage Checklist<indexterm significance="normal">
+                <primary>Manage Checklist</primary>
+            </indexterm><indexterm significance="normal">
+                <primary>Maintenance Documents, License</primary>
+                <secondary>Checklists</secondary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Select/Acquire</alt>
+                <imageobject>
+                    <imagedata fileref="../images/SelectAcquire.png"/>
+                </imageobject>
+            </inlinemediaobject> &gt; <inlinemediaobject>
+                <alt>License Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/LicensingAdmin.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Manage Checklist</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/LicensingNoTitlePage-56.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Checklist Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/LicensingNoTitlePage-57.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Checklist</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/LicensingNoTitlePage-58.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">Checklists contain the list of local institutions’ contractual
+            requirements, and can be downloaded for use with individual License Requests. The basic
+            checklists will contain action lists, compliancy checks, or internal policies for
+            different types or Agreements. Users may attach locally-downloaded and filled-in copies
+            to specific License Requests in 1.5.</para>
+        <para>The document can be initiated and edited only by members of the OLE-LIC
+            OLE_LicenseConfiguration role.</para>
+        <note>
+            <para> To upload completed Checklists to License Request negotiations, see <link
+                    linkend="_Agreement_Documents_Tab_1">Agreement Documents Tab</link>.</para>
+        </note>
+        <para role="Normal"/>
+        <section>
+            <title>Document Layout</title>
+            <para role="Normal">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Checklist Document</alt>
+                        <imageobject>
+                        <imagedata fileref="../images/LicensingNoTitlePage-59.png"
+                            width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot></para>
+            <para role="Body Text"/>
+            <para role="Body Text">The Manage Checklist document includes the <emphasis role="bold"
+                    >Add/Edit/Delete Checklist </emphasis>tab. The system automatically enters data
+                into both the <emphasis role="bold">Old</emphasis> and <emphasis role="bold"
+                    >New</emphasis> sections. Selected data fields are available for editing.</para>
+            <para role="Normal"/>
+            <para role="TableHeading"><emphasis role="bold">Add/Edit/Delete Check List Tab
+                    Definitions</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">CheckList Name </para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. A user-provided short name for
+                                    the checklist, and easy search and retrieval in future.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">CheckList Description</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Detailed description that may explain when,
+                                    where to use this checklist versus another. Purpose.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">File Name</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Name of the file associated with this
+                                    checklist.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Attach File</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Browse to select checklist to
+                                    upload.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator</para>
+                            </entry>
+                            <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                <para role="Table Cells">Indicates whether this checklist is active
+                                    or inactive. Remove the check mark to deactivate.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+        <section>
+            <title>Process Overview</title>
+            <para role="Normal"/>
+            <para role="Normal">Checklist maintenance and the Checklist Maintenance e-doc can be
+                undertaken to:</para>
+            <itemizedlist mark="disc" spacing="normal">
+                <listitem>
+                    <para role="List Paragraph">Create/Upload new checklists</para>
+                    <para role="List Paragraph">Enter the required fields.</para>
+                    <para role="List Paragraph">Attach a file from your local computer.</para>
+                    <para role="List Paragraph">Click <inlinemediaobject>
+                            <alt>submit</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/LicensingNoTitlePage-60.png"/>
+                            </imageobject>
+                        </inlinemediaobject>.</para>
+                    <para role="List Paragraph">Ad Hoc route the document as needed.</para>
+                    <para role="List Paragraph">Click <inlinemediaobject>
+                            <alt>close</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/LicensingNoTitlePage-61.png"/>
+                            </imageobject>
+                        </inlinemediaobject>.</para>
+                    <para role="List Paragraph"/>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">Download &amp; utilize local copy of
+                        checklist</para>
+                    <para role="List Paragraph">Search for the checklist you wish to use.</para>
+                    <para role="List Paragraph">Click on the <emphasis role="bold">checklist
+                            name</emphasis> to download the file.</para>
+                    <para role="List Paragraph"/>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">Delete a checklist</para>
+                    <para role="List Paragraph">Search for the checklist you wish to delete.</para>
+                    <para role="List Paragraph">Click <emphasis role="bold">delete</emphasis> in the
+                        actions column.</para>
+                    <para role="List Paragraph"/>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">Activate/Re-activate a checklist</para>
+                    <para role="Normal">Search for the checklist you wish to
+                        activate/re-activate.</para>
+                    <para role="Normal">Click <emphasis role="bold">edit</emphasis> in the actions
+                        column.</para>
+                    <para role="Normal">Check the <emphasis role="bold">Active Indicator</emphasis>
+                        box.</para>
+                    <para role="List Paragraph">Click <inlinemediaobject>
+                            <alt>submit</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/LicensingNoTitlePage-60.png"/>
+                            </imageobject>
+                        </inlinemediaobject>.</para>
+                </listitem>
+            </itemizedlist>
+            <itemizedlist mark="disc" spacing="normal">
+                <listitem>
+                    <para role="List Paragraph">Overlay/Replace a checklist</para>
+                    <para role="Normal">Search for the checklist you wish to
+                        activate/re-activate.</para>
+                    <para role="Normal">Click <emphasis role="bold">edit</emphasis> in the actions
+                        column.</para>
+                    <para role="Normal">Browse for a new file to attach.</para>
+                    <para role="List Paragraph">Click <inlinemediaobject>
+                            <alt>submit</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/LicensingNoTitlePage-60.png"/>
+                            </imageobject>
+                        </inlinemediaobject>.</para>
+                </listitem>
+            </itemizedlist>
+        </section>
+    </section>
+</chapter>

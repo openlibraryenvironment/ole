@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+  <bean id="OleStatisticalCategory" parent="OleStatisticalCategory-parentBean"/>
+
+  <bean id="OleStatisticalCategory-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.ole.deliver.bo.OleStatisticalCategoryBo"/>
+  <!--  <property name="inquiryDefinition">
+      <ref bean="OleStatisticalCategory-inquiryDefinition"/>
+    </property>
+    <property name="lookupDefinition">
+      <ref bean="OleStatisticalCategory-lookupDefinition"/>
+    </property>-->
+    <property name="titleAttribute" value="oleStatisticalCategoryCode"/>
+    <property name="objectLabel" value="Patron Statistical Category"/>
+
+    <property name="attributes">
+      <list>
+        <ref bean="OleStatisticalCategory-oleStatisticalCategoryId"/>
+        <ref bean="OleStatisticalCategory-oleStatisticalCategoryCode"/>
+        <ref bean="OleStatisticalCategory-oleStatisticalCategoryName"/>
+        <ref bean="OleStatisticalCategory-oleStatisticalCategoryDesc"/>
+        <ref bean="OleStatisticalCategory-active"/>
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="OleStatisticalCategory-oleStatisticalCategoryId" parent="OleStatisticalCategory-oleStatisticalCategoryId-parentBean"/>
+
+  <bean id="OleStatisticalCategory-oleStatisticalCategoryId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="Statistical Category Id"/>
+    <property name="maxLength" value="10"/>
+      <!--<property name="validCharactersConstraint">
+      <bean parent="NumericPatternConstraint"/>
+    </property>-->
+      <property name="control">
+          <bean id="TextControlDefinition_oleStatisticalCategoryId" parent="TextControlDefinition" p:size="30"/>
+      </property>
+      <property name="controlField">
+          <bean id="Uif-TextControl_oleStatisticalCategoryId" parent="Uif-TextControl" p:size="30"/>
+      </property>
+
+    <property name="name" value="oleStatisticalCategoryId"/>
+    <property name="label" value="Statistical Category Id"/>
+      <property name="description" value="Patron Statistical Category Id"/>
+  </bean>
+  
+
+
+  <bean id="OleStatisticalCategory-oleStatisticalCategoryCode" parent="OleStatisticalCategory-oleStatisticalCategoryCode-parentBean"/>
+  
+  <bean id="OleStatisticalCategory-oleStatisticalCategoryCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="Statistical Category Code"/>
+    <property name="maxLength" value="40"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean id="TextControlDefinition_oleStatisticalCategoryCode" parent="TextControlDefinition" p:size="30"/>
+    </property>
+    <property name="controlField">
+      <bean id="Uif-TextControl_oleStatisticalCategoryCode" parent="Uif-TextControl" p:size="30"/>
+    </property>     
+    <property name="name" value="oleStatisticalCategoryCode"/>
+    <property name="label" value="Statistical Category Code"/>
+    <property name="description" value="Patron Statistical Category Code"/>
+  </bean>
+
+
+   <bean id="OleStatisticalCategory-oleStatisticalCategoryDesc" parent="OleStatisticalCategory-oleStatisticalCategoryDesc-parentBean"/>
+
+  <bean id="OleStatisticalCategory-oleStatisticalCategoryDesc-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="Statistical Category Description"/>
+    <property name="maxLength" value="700"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="required" value="true"/>
+    <property name="control">
+    <bean id="TextControlDefinition_oleStatisticalCategoryDescription" parent="TextControlDefinition" p:size="30"/>
+    </property>
+    <property name="controlField">
+      <bean id="Uif-TextControl_oleStatisticalCategoryDescription" parent="Uif-TextControl" p:size="30"/>
+    </property>
+    <property name="name" value="oleStatisticalCategoryDesc"/>
+    <property name="label" value="Statistical Category Description"/>
+    <property name="description" value="Patron Statistical Category Description"/>
+  </bean>
+
+   <bean id="OleStatisticalCategory-oleStatisticalCategoryName" parent="OleStatisticalCategory-oleStatisticalCategoryName-parentBean"/>
+
+  <bean id="OleStatisticalCategory-oleStatisticalCategoryName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="forceUppercase" value="false"/>
+    <property name="shortLabel" value="Statistical Category Name"/>
+    <property name="maxLength" value="100"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean id="TextControlDefinition_oleStatisticalCategoryName" parent="TextControlDefinition" p:size="30"/>
+    </property>
+    <property name="controlField">
+      <bean id="Uif-TextControl_oleStatisticalCategoryName" parent="Uif-TextControl" p:size="30"/>
+    </property>
+    <property name="name" value="oleStatisticalCategoryName"/>
+    <property name="label" value="Statistical Category Name"/>
+    <property name="description" value=" Patron Statistical Category Name"/>
+  </bean>
+
+
+  <bean id="OleStatisticalCategory-active" parent="OleStatisticalCategory-active-parentBean"/>
+    <bean id="OleStatisticalCategory-active-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="active"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="active"/>
+        <property name="maxLength" value="1"/>
+        <property name="validCharactersConstraint">
+            <bean  parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean  parent="Uif-CheckboxControl"/>
+        </property>
+        <property name="summary" value="Active Indicator"/>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+        <property name="label" value="Active Indicator"/>
+        <property name="description" value="This attribute is used to describe whether the associated object is active or inactive."/>
+    </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+
+    <bean id="OleStatisticalCategory-InquiryView" parent="Uif-OLEInquiryView">
+        <property name="headerText" value="Patron Statistical Category Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.deliver.bo.OleStatisticalCategoryBo" />
+        <property name="singlePageView" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-VerticalBoxSection">
+                    <property name="header.headerText" value="Patron Statistical Category" />
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-GridGroup">
+                                <property name="items">
+                                    <list>
+                                        <bean id="inquiry_oleStatisticalCategoryId" parent="Uif-InputField" p:propertyName="oleStatisticalCategoryId" />
+                                        <bean id="inquiry_oleStatisticalCategoryCode" parent="Uif-InputField" p:propertyName="oleStatisticalCategoryCode" p:enableAutoDirectInquiry="false"/>
+                                        <bean id="inquiry_oleStatisticalCategoryDesc" parent="Uif-InputField" p:propertyName="oleStatisticalCategoryDesc" />
+                                        <bean id="inquiry_oleStatisticalCategoryName" parent="Uif-InputField" p:propertyName="oleStatisticalCategoryName"/>
+                                        <bean id="inquiry_active" parent="Uif-InputField" p:propertyName="active" />
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+
+    <!-- <bean id="Uif-LookupView-RemoveAction" parent="Uif-LookupView-RemoveAction-parentBean"/>
+    <bean id="Uif-LookupView-RemoveAction-parentBean" abstract="true" class="org.kuali.ole.service.OleLookupView" parent="Uif-OLELookupView"/>-->
+
+    <bean id="OleStatisticalCategory-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="Statistical Category Lookup" />
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/BASICS/content/ch02s04.html#_lookupHelp"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="dataObjectClassName" value="org.kuali.ole.deliver.bo.OleStatisticalCategoryBo" />
+        <property name="viewHelperServiceClass" value="org.kuali.ole.deliver.lookup.OleStatisticalCategoryBoLookupableImpl"/>
+        <property name="criteriaFields">
+            <list>
+                <bean id="oleStatisticalCategoryCode" parent="Uif-LookupCriteriaInputField" p:propertyName="oleStatisticalCategoryCode" p:enableAutoDirectInquiry="false"/>
+                <bean id="oleStatisticalCategoryDesc" parent="Uif-LookupCriteriaInputField" p:propertyName="oleStatisticalCategoryDesc" />
+                <bean id="oleStatisticalCategoryName" parent="Uif-LookupCriteriaInputField" p:propertyName="oleStatisticalCategoryName" />
+                <bean id="activeIndicator" parent="Uif-LookupCriteriaInputField" p:propertyName="active" />
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+               <!-- <bean parent="Uif-DataField" p:propertyName="oleStatisticalCategoryId"/>-->
+                <bean id="searchResult_oleStatisticalCategoryCode" parent="Uif-DataField" p:propertyName="oleStatisticalCategoryCode" />
+                <bean id="searchResult_oleStatisticalCategoryDesc" parent="Uif-DataField" p:propertyName="oleStatisticalCategoryDesc" />
+                <bean id="searchResult_oleStatisticalCategoryName" parent="Uif-DataField" p:propertyName="oleStatisticalCategoryName" />
+                <bean id="searchResult_active" parent="Uif-DataField" p:propertyName="active" />
+            </list>
+        </property>
+    </bean>
+
+</beans>

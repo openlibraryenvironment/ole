@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<dublin_core schema="dc">
+  <dcvalue element="contributor" qualifier="author">Hahn, Karla</dcvalue>
+  <dcvalue element="date" qualifier="accessioned">2004-05-28T20:22:48Z</dcvalue>
+  <dcvalue element="date" qualifier="available">2004-05-28T20:22:48Z</dcvalue>
+  <dcvalue element="date" qualifier="issued">2001</dcvalue>
+  <dcvalue element="identifier" qualifier="citation">Hahn KL. Electronic Ecology: A Case Study of Electronic Journals in Context. Washington, DC: Association of Research Libraries. 2001.</dcvalue>
+  <dcvalue element="identifier" qualifier="isbn">0-918006-48-1</dcvalue>
+  <dcvalue element="identifier" qualifier="uri">http://hdl.handle.net/1903/17</dcvalue>
+  <dcvalue element="description" qualifier="none">These files are the final manuscript drafts of the books' chapters submitted to the publisher in December of 2001.</dcvalue>
+  <dcvalue element="description" qualifier="abstract">In the late twentieth century, the development and widespread adoption of the World-Wide Web accelerated the appearance of both new all-electronic journals and electronic counterparts of existing print journals. At the time this study was initiated in late 1997, electronic journals were still largely experimental. Little was known about their success or how they might be developed to attract both content and readership. 
+
+In early 1998, the ecology community offered an opportunity that seemed in many ways an ideal natural experiment, allowing me to compare a fully electronic journal with one that was published in both print and electronic forms, both serving the same community. The ecology community was at the very earliest stages of developing a new communications system. Two new peer-reviewed journals were starting up in quite similar subject areas, one electronic only, and the other publishing print and electronic versions simultaneously, which acted in many ways as a sort of control.
+
+I chose to focus on content development—how the authors of the manuscripts and the editors who select and solicit material were viewing electronic publishing—an aspect of electronic publishing which had attracted little attention. The study’s initial structure was based on three questions:
+
+(1) What is the decision process that authors are using to decide to publish in an electronic journal?
+
+(2) How do social factors influence the author’s decision to publish in an electronic journal?
+
+(3) How do the authors and editors working closely with an electronic journal perceive electronic journals? 
+
+Further structure was provided by the development of the conceptual foundations of the project, grounded in three research traditions that I found most applicable: the classic research into scientific communication, which mostly predated the widespread adoption of network technology, the sociology of science, and diffusion of innovations theory. Diffusion theory was highly influential in the formative phases of the ecology case study, including the shaping of the initial research questions and the choice of tools for conceptualizing roles and decision processes. All three traditions highlighted the importance of a community focus and provided points of comparison.
+Electronic publishing was the up-front context for all my discussions with my informants, though print publishing practices were inevitably pervasive as contrasts to the electronic discussion. Twenty-seven informants associated with the two journals provided the main body of interviews. Editors and publishing staff from both journals were interviewed, along with a group of authors from each journal. While the consistent emphasis of the study was on authors and editors, five readers were also identified and interviewed.
+The research approaches I used to investigate the development of ecology’s new journals were successful, both in answering my initial research questions and by yielding emergent insights to the functions of a discipline’s journal system. The rich understanding yielded by careful study of this experiment suggests that it is not necessary to wait for circumstances favoring the creation of large quantitative data sets to begin understanding the function and implications of e-journals.
+
+Content analysis of informant interviews revealed nine common journal selection decision elements that influence an author’s decision: article quality, personal obligations, turnaround time, review process, audience size, audience character, niche, special features, and journal prestige. These elements interact in a process that authors, publishers, and editors described as attempting to match articles and journals. 
+
+The data support an even richer representation of the journal selection decision, an open systems model. The model illustrates the relations between the journal selection decision’s main entities: author, editor, manuscript, and journal, and expresses a picture of the system that I found to be broadly shared within the ecology community. The model embodies the key role of editors in content recruitment and journal development, a significant study finding. The journals’ editors fit the description of opinion leaders. They are not merely central within a network of colleagues whom they canvas for manuscripts, but clearly play a powerful role in structuring the relationships of authors and readers with journals.
+
+ Considering the meaning of electronic journals from the standpoint of working scientists generated a set of key functionalities that repeatedly mentioned by informants as integral to electronic publications. The first four, acceleration, usability, accessibility, and quality filtering, were often related to existing functions of the print-based journal publishing system. The second four, interaction, interconnection , online discussion, and cost effectiveness, describe entirely new functions and new expectations created by the development of e-journal publishing.
+
+In the interviews from which these functionalities emerged, all groups of informants regularly described a simplified model of a structured journal system, usually possessing three tiers. Breadth of audience was described more consistently as the key variable separating tiers, as quality was recognized to vary between journals within the same tier. This important role played by breadth of audience has been widely neglected in many discussions of quality control and peer review.
+
+Looking to the future of electronic publishing, two dimensions of the publishing system that emerged from the qualitative research process strike me as particularly novel and significant for the development of an electronic publishing system:
+
+(1)	the way the existing publishing system is structured by journal title identities, a process that is mediated through the peer review system. While my informants recognized that the current peer review system was time-consuming and labor intensive, the quality filtering that they rely on results directly from the review and journal systems. The emphasis the ecologists placed on the filtering role suggests that publishing system models lacking journals as organizing structures will need explicitly to substitute other features to replace this organizing function.
+ 
+(2)	the integrating function of the publishing system as it creates and maintains connections. Electronic publishing systems were exciting to ecologists, not merely as technologies to make data accessible, but also as systems to integrate data in new ways, in order to support new ways of communicating information, such as models, across barriers of space and time. Going beyond even higher-level improvements in electronic text linking, my informants suggested not merely integration of text, but also integration of data and other information constructs into the publishing system.
+
+This case suggests that there is room for further work in the arena of conceptualizing emerging electronic publishing systems. Even if a best design exists, it may not be adopted for cultural or other reasons. In fact, it seems likely that, given the drive for open access and integration, publishing systems serving diverse communities, while differing in significant ways, would still share many core functionalities and allow significant integration of community publishing systems. General models will need to either provide enough flexibility to account for variations in communicative practice or focus on a highly abstracted level.</dcvalue>
+  <dcvalue element="description" qualifier="provenance">Submitted by Karla Hahn (khahn@umd.edu) on 2004-05-28T20:22:47Z
+No. of bitstreams: 8
+EEc-dec13-front1.doc: 39424 bytes, checksum: be778b881e2dfb8afba25b5a6f9b4dab (MD5)
+ch1-revdec10.doc: 79360 bytes, checksum: 0a723cc0c566c67e620743b3a8ff50fb (MD5)
+ch2-revdec10.doc: 91136 bytes, checksum: 51a2985c2fa50d8fbd10263979f0fb48 (MD5)
+ch3-revdec10.doc: 87552 bytes, checksum: 8b4126594155ac2e0fa3ed3642e8e495 (MD5)
+ch4-revdec10.doc: 64512 bytes, checksum: 590c6f4b90cb89abd20a353f4dfa02fc (MD5)
+ch5-revdec10.doc: 69632 bytes, checksum: 36780e45765606717b6f32a19d081708 (MD5)
+ch6-revdec10.doc: 55296 bytes, checksum: 0f6351691b57a61656b373535b245ef8 (MD5)
+ch7-revdec10.doc: 66048 bytes, checksum: 607d7bab5c69ca5174870ca3f852be09 (MD5)</dcvalue>
+  <dcvalue element="description" qualifier="provenance">Made available in DSpace on 2004-05-28T20:22:48Z (GMT). No. of bitstreams: 8
+EEc-dec13-front1.doc: 39424 bytes, checksum: be778b881e2dfb8afba25b5a6f9b4dab (MD5)
+ch1-revdec10.doc: 79360 bytes, checksum: 0a723cc0c566c67e620743b3a8ff50fb (MD5)
+ch2-revdec10.doc: 91136 bytes, checksum: 51a2985c2fa50d8fbd10263979f0fb48 (MD5)
+ch3-revdec10.doc: 87552 bytes, checksum: 8b4126594155ac2e0fa3ed3642e8e495 (MD5)
+ch4-revdec10.doc: 64512 bytes, checksum: 590c6f4b90cb89abd20a353f4dfa02fc (MD5)
+ch5-revdec10.doc: 69632 bytes, checksum: 36780e45765606717b6f32a19d081708 (MD5)
+ch6-revdec10.doc: 55296 bytes, checksum: 0f6351691b57a61656b373535b245ef8 (MD5)
+ch7-revdec10.doc: 66048 bytes, checksum: 607d7bab5c69ca5174870ca3f852be09 (MD5)
+  Previous issue date: 2001</dcvalue>
+  <dcvalue element="description" qualifier="sponsorship">This research was funded in part by an ISI Doctoral Dissertation Proposal Scholarship awarded by the American Society for Information Science and Technology in 1998.</dcvalue>
+  <dcvalue element="format" qualifier="extent">39424 bytes</dcvalue>
+  <dcvalue element="format" qualifier="extent">79360 bytes</dcvalue>
+  <dcvalue element="format" qualifier="extent">91136 bytes</dcvalue>
+  <dcvalue element="format" qualifier="extent">87552 bytes</dcvalue>
+  <dcvalue element="format" qualifier="extent">64512 bytes</dcvalue>
+  <dcvalue element="format" qualifier="extent">69632 bytes</dcvalue>
+  <dcvalue element="format" qualifier="extent">55296 bytes</dcvalue>
+  <dcvalue element="format" qualifier="extent">66048 bytes</dcvalue>
+  <dcvalue element="format" qualifier="mimetype">application/msword</dcvalue>
+  <dcvalue element="format" qualifier="mimetype">application/msword</dcvalue>
+  <dcvalue element="format" qualifier="mimetype">application/msword</dcvalue>
+  <dcvalue element="format" qualifier="mimetype">application/msword</dcvalue>
+  <dcvalue element="format" qualifier="mimetype">application/msword</dcvalue>
+  <dcvalue element="format" qualifier="mimetype">application/msword</dcvalue>
+  <dcvalue element="format" qualifier="mimetype">application/msword</dcvalue>
+  <dcvalue element="format" qualifier="mimetype">application/msword</dcvalue>
+  <dcvalue element="language" qualifier="iso">en_US</dcvalue>
+  <dcvalue element="publisher" qualifier="none">Association of Research Libraries</dcvalue>
+  <dcvalue element="subject" qualifier="none">Electronic publishing</dcvalue>
+  <dcvalue element="subject" qualifier="none">case study</dcvalue>
+  <dcvalue element="subject" qualifier="none">Qualitative research</dcvalue>
+  <dcvalue element="subject" qualifier="none">Ecology</dcvalue>
+  <dcvalue element="subject" qualifier="none">electronic journals</dcvalue>
+  <dcvalue element="subject" qualifier="none">authors</dcvalue>
+  <dcvalue element="subject" qualifier="none">editors</dcvalue>
+  <dcvalue element="subject" qualifier="none">publishers</dcvalue>
+  <dcvalue element="subject" qualifier="none">Scholarly electronic publishing -- Social aspects.</dcvalue>
+  <dcvalue element="subject" qualifier="none">Electronic journals -- Social aspects.</dcvalue>
+  <dcvalue element="subject" qualifier="none">Ecology -- Periodicals -- Publishing.</dcvalue>
+  <dcvalue element="subject" qualifier="none">Communication in science.</dcvalue>
+  <dcvalue element="subject" qualifier="none">Diffusion of innovations.</dcvalue>
+  <dcvalue element="title" qualifier="none">Electronic Ecology: A Case Study of Electronic Journals in Context</dcvalue>
+  <dcvalue element="type" qualifier="none">Book</dcvalue>
+</dublin_core>

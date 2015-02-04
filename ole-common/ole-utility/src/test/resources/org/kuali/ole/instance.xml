@@ -1,0 +1,51 @@
+<instanceCollection xmlns:i="http://ole.kuali.org/standards/ole-instance">
+  <instance>
+    <instanceIdentifier>100000</instanceIdentifier>
+    <resourceIdentifier/>
+    <formerResourceIdentifiers source="Sirsi">(Sirsi) a100000</formerResourceIdentifiers>
+    <holdings>
+         <holdingsIdentifier/>
+         <formerIdentifiers>
+             <identifier>100000-2</identifier>
+             <identifierType>IUHoldings</identifierType>
+         </formerIdentifiers>
+         <recordType>y</recordType>
+         <encodingLevel>u</encodingLevel>
+         <receiptStatus>2</receiptStatus>
+         <acquisitionMethod>c</acquisitionMethod>
+         <expectedAcquisitionEndDate>   </expectedAcquisitionEndDate>
+         <generalRetentionPolicy>0</generalRetentionPolicy>
+         <specificRetentionPolicy>
+             <policyType> </policyType>
+             <numberOfUnits>21</numberOfUnits>
+             <unitType>m</unitType>
+         </specificRetentionPolicy>
+         <completeness>0</completeness>
+         <copiesReported>50</copiesReported>
+         <lendingPolicy>a</lendingPolicy>
+         <reproductionPolicy>a</reproductionPolicy>
+         <separateOrCompositeReport>0</separateOrCompositeReport>
+         <extension>
+         </extension>
+    </holdings>
+    <item>
+        <itemIdentifier>100000-2-1</itemIdentifier>
+        <accessInformation>
+            <barcode>30000067082648  </barcode>
+        </accessInformation>
+        <itemType/>
+        <location>
+            <locationStatus>Permanent</locationStatus>
+            <shelvingScheme> </shelvingScheme>
+            <shelvingOrder> </shelvingOrder>
+            <classificationPart>PR6052.O5 W92</classificationPart>
+            <classificationSort/>
+            <classificationView/>
+            <nonPublicNote>nonPublicNote0</nonPublicNote>
+            <publicNote>publicNote0</publicNote>
+        </location>
+        <extension>
+        </extension>
+    </item>
+  </instance>
+</instanceCollection>

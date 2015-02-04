@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <bean id="OleGloballyProtectedFieldMaintenanceDocument-workflowProperties-parentBean" abstract="true"
+          parent="WorkflowProperties">
+        <property name="workflowPropertyGroups">
+            <list>
+                <bean parent="WorkflowPropertyGroup">
+                    <property name="workflowProperties">
+                        <list>
+                            <bean id="oldMaintainableObject" parent="WorkflowProperty" p:path="oldMaintainableObject.businessObject"/>
+                            <bean id="newMaintainableObject" parent="WorkflowProperty" p:path="newMaintainableObject.businessObject"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="OleGloballyProtectedFieldMaintenanceDocument-MaintenanceView" parent="Uif-OleMaintenanceView">
+        <property name="headerText" value="Globally Protected Field "/>
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="${ole.externalizable.help.url}/reference/webhelp/CG/content/ch04s02.html"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OleGloballyProtectedField"/>
+        <property name="items">
+            <list>
+                <bean id="field_DocumentOverviewSectionId" parent="Uif-DocumentOverviewSection" p:order="10" p:render="@{maintenanceAction ne 'Delete'}"/>
+                <bean parent="Uif-MaintenanceGridSection">
+                    <property name="headerText" value="Add/Edit Globally Protected Field "/>
+                    <property name="items">
+                        <list>
+                            <bean id="create_tag" parent="Uif-InputField" p:propertyName="tag" p:enableAutoDirectInquiry="false"/>
+                            <bean id="create_firstIndicator" parent="Uif-InputField" p:propertyName="firstIndicator" />
+                            <bean id="create_secondIndicator" parent="Uif-InputField" p:propertyName="secondIndicator"/>
+                            <bean id="create_subField" parent="Uif-InputField" p:propertyName="subField"/>
+                            <bean id="create_actveIndicator" parent="Uif-InputField" p:propertyName="activeIndicator" />
+                        </list>
+                    </property>
+                    <property name="propertyReplacers">
+                        <list>
+                            <bean id="ConditionalBeanPropertyId" parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items"
+                                  p:condition="maintenanceAction eq 'Delete'">
+                                <property name="replacement">
+                                    <list>
+                                        <bean id="deleteFd_tag" parent="Uif-DataField" p:propertyName="tag" p:readOnly="true"/>
+                                        <bean id="deleteFd_firstIndicator" parent="Uif-DataField" p:propertyName="firstIndicator" p:readOnly="true"/>
+                                        <bean id="deleteFd_secondIndicator" parent="Uif-DataField" p:propertyName="secondIndicator" p:readOnly="true"/>
+                                        <bean id="deleteFd_subField" parent="Uif-DataField" p:propertyName="subField" p:readOnly="true" />
+                                        <bean id="deleteFd_activeIndicator" parent="Uif-DataField" p:propertyName="activeIndicator" p:readOnly="true" />
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean id="field_DocumentNotesAndAttachmentsId"  parent="Uif-DocumentNotesSection" p:disclosure.defaultOpen="false" p:order="30" p:render="@{maintenanceAction ne 'Delete'}"/>
+                <bean id="field_DocumentAdHocRecipientSectionId" parent="Uif-DocumentAdHocRecipientsSection" p:disclosure.defaultOpen="false" p:order="40" p:render="@{maintenanceAction ne 'Delete'}"/>
+                <bean id="field_DocumentRouteLogSectionId" parent="Uif-DocumentRouteLogSection" p:disclosure.defaultOpen="false" p:order="50" p:render="@{maintenanceAction ne 'Delete'}"/>
+            </list>
+        </property>
+        <property name="page.footer">
+        <bean parent="Uif-FooterBase">
+            <property name="items">
+                <list>
+                    <bean parent="Uif-PrimaryActionButton" p:methodToCall="route" p:actionLabel="submit" p:performClientSideValidation="true"
+                          p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
+                    <bean parent="Uif-PrimaryActionButton" p:methodToCall="save" p:actionLabel="save" p:performClientSideValidation="true"
+                          p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}"/>
+                    <bean parent="Uif-PrimaryActionButton" p:methodToCall="blanketApprove" p:actionLabel="blanket approve" p:performClientSideValidation="true"
+                          p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE]}"/>
+                    <bean  parent="Uif-SecondaryActionButton" p:methodToCall="close" p:actionLabel="close"
+                          p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]} "/>
+                    <bean parent="Uif-PrimaryActionButton" p:methodToCall="cancel" p:actionLabel="cancel"
+                          p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+
+                </list>
+            </property>
+            <property name="propertyReplacers">
+            <list>
+                <bean id="ConditionalBeanPropertyReplacer_button" parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items"
+                     p:condition="maintenanceAction eq 'Delete'">
+                    <property name="replacement">
+                        <list>
+                            <bean id="deleteButton" parent="Uif-PrimaryActionButton" p:methodToCall= "deleteDocument" p:actionLabel="Delete" />
+                            <bean id="cancelButton" parent="Uif-SecondaryActionButton" p:methodToCall="cancel" p:actionLabel="Cancel" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+            </property>
+        </bean>
+    </property>
+    </bean>
+    <bean id="OleGloballyProtectedFieldMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
+        <property name="dataObjectClass" value="org.kuali.ole.select.bo.OleGloballyProtectedField"/>
+        <property name="documentTypeName" value="OLE_GLBLY_PRCT_FLD"/>
+        <property name="allowsRecordDeletion" value="true"/>
+        <property name="lockingKeys">
+            <list>
+                <value>oleGloballyProtectedFieldId</value>
+            </list>
+        </property>
+    </bean>
+</beans>

@@ -1,0 +1,211 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="Alert-Uif-DocumentPage" parent="Uif-DocumentPage">
+        <property name="items">
+            <list merge="true">
+                <ref bean="OLE-Alerts"/>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>ole/alert/script/alert.js</value>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="OLE-Alerts" parent="Uif-Disclosure-HorizontalBoxSection">
+        <property name="headerText" value="Alerts"/>
+        <property name="items">
+            <list>
+                <ref bean="OLE-AlertSection"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="Uif-AddLineActions" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addAlertLine" p:actionLabel="add"
+          p:actionEvent="addLine" p:loadingMessageText="Adding Alert..." p:focusOnIdAfterSubmit="LINE_FIRST"
+          p:performClientSideValidation="true" p:dirtyOnAction="true" p:id="@{#collectionGroup.id}_add"/>
+
+    <bean id="OLE-AlertSection" parent="Uif-Disclosure-TableCollectionSection">
+        <property name="headerText" value="Alerts"/>
+        <property name="collectionObjectClass" value="org.kuali.ole.alert.bo.AlertBo"/>
+        <property name="propertyName" value="alertBoList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.separateAddLine" value="true"/>
+        <property name="addLineLabel">
+            <bean parent="Uif-Message" p:messageText=""/>
+        </property>
+        <property name="layoutManager.addLineGroup.layoutManager.numberOfColumns" value="10"/>
+        <property name="layoutManager.richTable.templateOptions">
+            <map>
+                <entry key="aaSorting" value="[[1,'asc']]"/>
+                <entry key="bPaginate" value="false"/>
+                <entry key="bInfo" value="false"/>
+                <entry key="bFilter" value="false"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+<!--                <bean parent="Uif-InputField" p:propertyName="alertRecipient"
+                      p:label="Alert Recipient(s)" p:readOnly="@{!#isAddLine}"
+                      p:fieldLabel.renderColon="false">
+                </bean>-->
+<!--                <bean parent="Uif-InputField" p:propertyName="receivingUserId" p:label="Alert Recipient"
+                      p:fieldLabel.renderColon="false" p:readOnly="@{!#isAddLine and !#line.editFlag}" p:render="@{#isAddLine}">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.deliver.bo.OleCirculationDeskMapping"
+                              p:fieldConversions="principalId:receivingUserId" p:lookupParameters="receivingUserId:principalId"/>
+                    </property>
+                </bean>
+
+                <bean  parent="Uif-InputField" p:propertyName="receivingGroupId"
+                      p:label="Alert Recipient Group" p:render="@{#isAddLine}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.alert.keyValue.OleGroupKeyValue"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-InputField" p:propertyName="receivingGroupName" p:label="Alert Recipient Group"
+                      p:fieldLabel.renderColon="false" p:readOnly="@{!#isAddLine}" p:render="@{!#isAddLine}">
+                </bean>
+
+                <bean parent="Uif-InputField" p:propertyName="receivingUserName" p:label="Alert Recipient User"
+                      p:fieldLabel.renderColon="false" p:readOnly="@{!#isAddLine}" p:render="@{!#isAddLine}">
+                </bean>-->
+
+                <bean p:propertyName="receivingRoleName" parent="Uif-InputField" p:label="Role" p:readOnly="@{!#isAddLine}">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.rice.kim.impl.role.RoleBo" p:fieldConversions="id:receivingRoleId,name:receivingRoleName"/>
+
+                    </property>
+                </bean>
+                <bean p:propertyName="receivingGroupName" parent="Uif-InputField" p:label="Group" p:readOnly="@{!#isAddLine}">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.rice.kim.impl.group.GroupBo" p:fieldConversions="id:receivingGroupId,name:receivingGroupName"/>
+
+                    </property>
+                </bean>
+                <bean  p:propertyName="receivingUserName" parent="Uif-InputField" p:label="Person" p:readOnly="@{!#isAddLine}">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.rice.kim.api.identity.Person"
+                              p:fieldConversions="principalId:receivingUserId;,principalName:receivingUserName"/>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-InputField" p:propertyName="alertNote" p:label="Note"
+                      p:fieldLabel.renderColon="false" p:readOnly="@{!#isAddLine}">
+                    <property name="control">
+                        <bean parent="Uif-TextAreaControl" p:rows="2" p:cols="25"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="alertDate" p:fieldLabel.renderColon="false"
+                      p:label="Alert Date" p:readOnly="@{!#isAddLine and !#line.editFlag}">
+                    <property name="control">
+                        <bean parent="Uif-DateControl" p:size="10"/>
+                    </property>
+                </bean>
+<!--
+                <bean parent="Uif-InputField" p:propertyName="alertInitiatorId" p:label="Alert Initiator Id"
+                      p:fieldLabel.renderColon="false" p:readOnly="true" p:render="@{!#isAddLine}">
+                </bean>-->
+                <bean parent="Uif-InputField" p:propertyName="alertInitiatorName" p:label="Alert Initiator"
+                      p:fieldLabel.renderColon="false" p:readOnly="true" p:render="@{!#isAddLine}">
+                </bean>
+<!--                <bean parent="Uif-InputField" p:propertyName="alertModifierId" p:label="Alert Modifier Id"
+                      p:fieldLabel.renderColon="false" p:readOnly="true" p:render="@{!#isAddLine}">
+                </bean>-->
+                <bean parent="Uif-InputField" p:propertyName="alertModifierName" p:label="Alert Modifier"
+                      p:fieldLabel.renderColon="false" p:readOnly="true" p:render="@{!#isAddLine}">
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="alertModifiedDate" p:label="Alert Modified Date"
+                      p:fieldLabel.renderColon="false" p:readOnly="true" p:render="@{!#isAddLine}">
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="status" p:label="Status"
+                      p:fieldLabel.renderColon="false" p:readOnly="true" p:render="@{!#isAddLine}">
+                </bean>
+
+
+
+
+
+<!--                <bean  parent="Uif-InputField" p:propertyName="action"
+                      p:label="Action" p:render="@{!#isAddLine}" p:readOnly="@{!#isAddLine and !#line.editFlag}">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key=" " p:value=" "/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="Approve" p:value="Approve"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>-->
+<!--                <bean parent="Uif-InputField" p:propertyName="status" p:label="Status"
+                      p:fieldLabel.renderColon="false" p:readOnly="@{!#isAddLine and !#line.editFlag}" p:render="@{!#isAddLine}">
+                </bean>-->
+
+                <!--                <bean parent="Uif-DataField" p:propertyName="initiator" p:fieldLabel.renderColon="false"
+                                      p:render="@{!#isAddLine}"
+                                      p:label="Initiator"/>
+                                <bean parent="Uif-DataField" p:propertyName="status" p:fieldLabel.renderColon="false"
+                                      p:render="@{!#isAddLine}"
+                                      p:label="status"/>-->
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+<!--                <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="addLine"
+                      p:actionLabel="Add Alert"/>-->
+                <!--<bean parent="Uif-AddLineActions"/>-->
+
+                <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="saveAlert"
+                      p:actionLabel="Save" p:render="@{!#isAddLine and #line.editFlag and #line.alertStatus}"/>
+                <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="editAlert"
+                      p:actionLabel="Edit" p:render="@{!#isAddLine and !#line.editFlag and #line.alertStatus}"/>
+                <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteAlert"
+                      p:actionLabel="Delete" p:render="@{!#isAddLine and !#line.editFlag and #line.alertStatus}" />
+                <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="approveAlert"
+                      p:actionLabel="Approve" p:render="@{!#isAddLine and !#line.editFlag and #line.alertStatus and document.documentHeader.workflowDocument.document.status.code ne 'I'}" />
+            </list>
+        </property>
+      <property name="addLineActions">
+            <list>
+                <bean parent="Uif-AddLineActions"/>
+            </list>
+        </property>
+
+    </bean>
+
+
+    <bean id="OLE-AlertInquirySection" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="4" p:disclosure.defaultOpen="true">
+        <property name="headerText" value="Alerts" />
+        <property name="collectionObjectClass" value="org.kuali.ole.alert.bo.AlertBo" />
+        <property name="propertyName" value="alertBoList" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean  parent="Uif-InputField" p:propertyName="receivingGroupName" p:label="Alert Recipient Group"/>
+                <bean  parent="Uif-InputField" p:propertyName="receivingUserName" p:label="Alert Recipient User"/>
+                <bean parent="Uif-InputField" p:propertyName="alertNote" p:label="Note"/>
+                <bean parent="Uif-InputField" p:propertyName="alertDate" p:label="Alert Date"/>
+                <bean  parent="Uif-InputField" p:propertyName="alertInitiatorName" p:label="Alert Initiator"/>
+                <bean  parent="Uif-InputField" p:propertyName="alertModifierName" p:label="Alert Modifier"/>
+                <bean parent="Uif-InputField" p:propertyName="alertModifiedDate" p:label="Alert Modified Date"/>
+                <bean parent="Uif-InputField" p:propertyName="status" p:label="Status"/>
+            </list>
+        </property>
+    </bean>
+
+
+
+</beans>

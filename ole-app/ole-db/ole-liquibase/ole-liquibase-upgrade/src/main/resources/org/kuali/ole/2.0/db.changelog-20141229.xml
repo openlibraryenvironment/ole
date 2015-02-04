@@ -1,0 +1,227 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet context="bootstrap" author="ole" id="OLE_GOKB_PKG_T">
+        <createTable catalogName="ole"
+                     schemaName="ole"
+                     tableName="OLE_GOKB_PKG_T ">
+            <column name="GOKB_PKG_ID"   type="INTEGER"/>
+            <column name="PKG_NAME"  type="VARCHAR(1000)"/>
+            <column name="VARIANT_NAME"  type="VARCHAR(4000)"/>
+            <column name="PKG_STATUS" type="VARCHAR(20)"/>
+            <column name="PKG_SCOPE"  type="VARCHAR(20)"/>
+            <column name="BREAKABLE"  type="VARCHAR(10)"/>
+            <column name="FXD"  type="VARCHAR(10)"/>
+            <column name="AVLBLE"  type="VARCHAR(10)"/>
+            <column name="DATE_CREATED"  type="DATE"/>
+            <column name="DATE_UPDATED"  type="DATE"/>
+            <column name="VER_NBR" type="DECIMAL(8)"/>
+            <column name="OBJ_ID"  type="VARCHAR(36)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_GOKB_PKG_T_PK">
+        <addPrimaryKey catalogName="ole"
+                       columnNames="GOKB_PKG_ID"
+                       constraintName="OLE_GOKB_PKG_T_PK"
+                       schemaName="ole"
+                       tableName="OLE_GOKB_PKG_T"/>
+
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_GOKB_TIPP_T">
+        <createTable catalogName="ole"
+                     schemaName="ole"
+                     tableName="OLE_GOKB_TIPP_T ">
+            <column name="GOKB_TIPP_ID"   type="INTEGER"/>
+            <column name="GOKB_PKG_ID"   type="INTEGER"/>
+            <column name="GOKB_TITLE_ID"  type="INTEGER"/>
+            <column name="GOKB_PLTFRM_ID"  type="INTEGER"/>
+            <column name="TIPP_STATUS"  type="VARCHAR(100)"/>
+            <column name="STATUS_REASON"  type="VARCHAR(300)"/>
+            <column name="STRT_DT" type="DATE"/>
+            <column name="STRT_VOL"  type="VARCHAR(100)"/>
+            <column name="STRT_ISSUE"  type="VARCHAR(100)"/>
+            <column name="END_DT" type="DATE"/>
+            <column name="END_VOL"  type="VARCHAR(100)"/>
+            <column name="END_ISSUE"  type="VARCHAR(100)"/>
+            <column name="EMBARGO"  type="VARCHAR(50)"/>
+            <column name="PLTFRM_HOST_URL" type="VARCHAR(300)"/>
+            <column name="DATE_CREATED" type="DATE"/>
+            <column name="DATE_UPDATED" type="DATE"/>
+            <column name="VER_NBR" type="DECIMAL(8)"/>
+            <column name="OBJ_ID"  type="VARCHAR(36)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_GOKB_TIPP_T_PK">
+        <addPrimaryKey catalogName="ole"
+                       columnNames="GOKB_TIPP_ID"
+                       constraintName="OLE_GOKB_TIPP_T_PK"
+                       schemaName="ole"
+                       tableName="OLE_GOKB_TIPP_T"/>
+
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_GOKB_TITLE_T">
+        <createTable catalogName="ole"
+                     schemaName="ole"
+                     tableName="OLE_GOKB_TITLE_T ">
+            <column name="GOKB_TITLE_ID"   type="INTEGER"/>
+            <column name="TITLE_NAME"   type="VARCHAR(500)"/>
+            <column name="VARIANT_NAME"  type="VARCHAR(4000)"/>
+            <column name="MEDIUM"  type="VARCHAR(50)"/>
+            <column name="PURE_QA"  type="VARCHAR(50)"/>
+            <column name="TI_ISSN_ONLINE"  type="VARCHAR(50)"/>
+            <column name="TI_ISSN_PRNT" type="VARCHAR(50)"/>
+            <column name="TI_ISSN_L"  type="VARCHAR(50)"/>
+            <column name="OCLC_NUM"  type="INTEGER"/>
+            <column name="TI_DOI" type="VARCHAR(50)"/>
+            <column name="TI_PROPRIETARY_ID"  type="INTEGER"/>
+            <column name="TI_SUNCAT"  type="VARCHAR(50)"/>
+            <column name="TI_LCCN"  type="VARCHAR(50)"/>
+            <column name="PUBLSHR_ID" type="INTEGER"/>
+            <column name="IMPRINT" type="INTEGER"/>
+            <column name="DATE_CREATED" type="DATE"/>
+            <column name="DATE_UPDATED" type="DATE"/>
+            <column name="VER_NBR" type="DECIMAL(8)"/>
+            <column name="OBJ_ID"  type="VARCHAR(36)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_GOKB_TITLE_T_PK">
+        <addPrimaryKey catalogName="ole"
+                       columnNames="GOKB_TITLE_ID"
+                       constraintName="OLE_GOKB_TITLE_T_PK"
+                       schemaName="ole"
+                       tableName="OLE_GOKB_TITLE_T"/>
+
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_GOKB_PLTFRM_T">
+        <createTable catalogName="ole"
+                     schemaName="ole"
+                     tableName="OLE_GOKB_PLTFRM_T ">
+            <column name="GOKB_PLTFRM_ID"   type="INTEGER"/>
+            <column name="PLTFRM_NAME"   type="VARCHAR(500)"/>
+            <column name="PLTFRM_STATUS"  type="VARCHAR(100)"/>
+            <column name="PLTFRM_PRVDR_ID"  type="INTEGER"/>
+            <column name="AUTH"  type="VARCHAR(50)"/>
+            <column name="SOFTWARE_PLTFRM"  type="VARCHAR(50)"/>
+            <column name="DATE_CREATED" type="DATE"/>
+            <column name="DATE_UPDATED"  type="DATE"/>
+            <column name="VER_NBR" type="DECIMAL(8)"/>
+            <column name="OBJ_ID"  type="VARCHAR(36)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_GOKB_PLTFRM_T_PK">
+        <addPrimaryKey catalogName="ole"
+                       columnNames="GOKB_PLTFRM_ID"
+                       constraintName="OLE_GOKB_PLTFRM_T_PK"
+                       schemaName="ole"
+                       tableName="OLE_GOKB_PLTFRM_T"/>
+
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_GOKB_ORG_T">
+        <createTable catalogName="ole"
+                     schemaName="ole"
+                     tableName="OLE_GOKB_ORG_T ">
+            <column name="GOKB_ORG_ID"   type="INTEGER"/>
+            <column name="ORG_NAME"   type="VARCHAR(1000)"/>
+            <column name="VARIANT_NAME"  type="VARCHAR(4000)"/>
+            <column name="DATE_CREATED" type="DATE"/>
+            <column name="DATE_UPDATED"  type="DATE"/>
+            <column name="VER_NBR" type="DECIMAL(8)"/>
+            <column name="OBJ_ID"  type="VARCHAR(36)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_GOKB_ORG_T_PK">
+        <addPrimaryKey catalogName="ole"
+                       columnNames="GOKB_ORG_ID"
+                       constraintName="OLE_GOKB_ORG_T_PK"
+                       schemaName="ole"
+                       tableName="OLE_GOKB_ORG_T"/>
+
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_GOKB_UPDATE_LOG_T">
+        <createTable catalogName="ole"
+                     schemaName="ole"
+                     tableName="OLE_GOKB_UPDATE_LOG_T ">
+            <column name="ID"   type="INTEGER"/>
+            <column name="NUM_PKGS"   type="INTEGER"/>
+            <column name="NUM_TIPPS"   type="INTEGER"/>
+            <column name="NUM_TITLES"   type="INTEGER"/>
+            <column name="NUM_ORGS"   type="INTEGER"/>
+            <column name="NUM_PLTFRMS"   type="INTEGER"/>
+            <column name="USER_NM"   type="VARCHAR(100)"/>
+            <column name="STATUS"  type="VARCHAR(20)"/>
+            <column name="START_TIME" type="DATE"/>
+            <column name="END_TIME"  type="DATE"/>
+            <column name="VER_NBR" type="DECIMAL(8)"/>
+            <column name="OBJ_ID"  type="VARCHAR(36)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_GOKB_UPDATE_LOG_T_PK">
+        <addPrimaryKey catalogName="ole"
+                       columnNames="ID"
+                       constraintName="OLE_GOKB_UPDATE_LOG_T_PK"
+                       schemaName="ole"
+                       tableName="OLE_GOKB_UPDATE_LOG_T"/>
+
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_GOKB_ORG_ROLE_T">
+        <createTable catalogName="ole"
+                     schemaName="ole"
+                     tableName="OLE_GOKB_ORG_ROLE_T ">
+            <column name="GOKB_ORG_ROLE_ID"   type="INTEGER"/>
+            <column name="GOKB_ORG_ID"   type="INTEGER"/>
+            <column name="ROLE"   type="VARCHAR(100)"/>
+            <column name="VER_NBR" type="DECIMAL(8)"/>
+            <column name="OBJ_ID"  type="VARCHAR(36)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_GOKB_ORG_ROLE_T_PK">
+        <addPrimaryKey catalogName="ole"
+                       columnNames="GOKB_ORG_ROLE_ID"
+                       constraintName="OLE_GOKB_ORG_ROLE_T_PK"
+                       schemaName="ole"
+                       tableName="OLE_GOKB_ORG_ROLE_T"/>
+
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_GOKB_REVIEW_T">
+        <createTable catalogName="ole"
+                     schemaName="ole"
+                     tableName="OLE_GOKB_REVIEW_T ">
+            <column name="GOKB_REVIEW_ID"   type="INTEGER"/>
+            <column name="REVIEW_DT"   type="DATE"/>
+            <column name="E_RESOURCE_ID"   type="VARCHAR(100)"/>
+            <column name="E_RESOURCE_NAME"  type="VARCHAR(100)"/>
+            <column name="TYPE" type="VARCHAR(100)"/>
+            <column name="DETAILS"  type="VARCHAR(1000)"/>
+            <column name="GOKB_TIPP_ID" type="INTEGER"/>
+            <column name="VER_NBR" type="DECIMAL(8)"/>
+            <column name="OBJ_ID"  type="VARCHAR(36)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_GOKB_REVIEW_T_PK">
+        <addPrimaryKey catalogName="ole"
+                       columnNames="GOKB_REVIEW_ID"
+                       constraintName="OLE_GOKB_REVIEW_T_PK"
+                       schemaName="ole"
+                       tableName="OLE_GOKB_REVIEW_T"/>
+
+    </changeSet>
+
+</databaseChangeLog>

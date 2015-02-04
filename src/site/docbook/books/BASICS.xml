@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<book xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+    <title>Guide to OLE Basic Functionality and Key Concepts</title>
+    <preface>
+        <title>Introduction</title>
+        <para>This guide provides information about general OLE concepts and gives instructions for
+            performing core functionality.</para>
+        <para role="Body Text">This guide is organized in this manner:</para>
+        <itemizedlist mark="disc" spacing="normal">
+            <listitem>
+                <para role="C1H Bullet">The first section gives information for navigating through
+                    the OLE system.  This includes OLE's tabs, screen elements, logging on and off
+                    the system, and some sample users for the test environment.</para>
+            </listitem>
+            <listitem>
+                <para role="C1H Bullet">OLE E-Doc Fundamentals provides information about the
+                    structure of OLE's e-documents.  This includes a description of the standard
+                    tabs, such as Notes and Attachments and Route Log, and an explanation of
+                    performing basic operations and searches. </para>
+            </listitem>
+            <listitem>
+                <para role="C1H Bullet">OLE Maintenance Document Fundamentals provides information
+                    abou the structure of OLE's maintenance documents.  This includes a description
+                    of the standard tabs, an explanation of performing basic operations, as well as
+                    some fiscal year information and extended attribute notes carried over from KFS. </para>
+            </listitem>
+            <listitem>
+                <para role="C1H Bullet">The next section gives general information about workflows
+                    within OLE and explains the Route Log and Action List.</para>
+            </listitem>
+            <listitem>
+                <para>The final section gives information on importing accounting information for
+                    Select and Acquire and provides links to sample data to be used in the test
+                    environment.</para>
+            </listitem>
+        </itemizedlist>
+        <para> This guide as well as guides to other OLE modules are available for download from the
+            <link xlink:href="../../../html/Index.html">OLE Documentation Portal</link>.</para>
+    </preface>
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../basics-guide/navigatingThroughOLE.xml"/>
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../basics-guide/OLEEdocFundamentals.xml"/>
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../basics-guide/OLEMaintenancedocFundamentals.xml"/>
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../basics-guide/OLEWorkflowOverview.xml"/>
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../basics-guide/importingDataIntoOLE.xml"/>
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../basics-guide/OLEGlossary.xml"/>
+</book>

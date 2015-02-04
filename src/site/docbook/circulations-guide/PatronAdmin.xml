@@ -1,0 +1,611 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0"
+    xml:lang="en-US">
+   <title>Patron Admin</title>
+   <para role="Body Text"><inlinemediaobject>
+   <alt>Maintenance</alt>
+   <imageobject>
+    <imagedata fileref="../images/maintenanceMenu.png"/>
+   </imageobject>
+  </inlinemediaobject> &gt; <inlinemediaobject>
+   <alt>Patron Admin</alt>
+   <imageobject>
+    <imagedata fileref="../images/DeliverNoTitlePage-PatronAdmin.png"/>
+   </imageobject>
+  </inlinemediaobject> &gt;<inlinemediaobject>
+   <alt>Patron Admin Links</alt>
+   <imageobject>
+    <imagedata fileref="../images/DeliverNoTitlePage-PatronAdminMenu.png"/>
+   </imageobject>
+  </inlinemediaobject>
+ </para>
+   <para role="Body Text">On the Maintenance menu, Patron Admin provides access to a number of
+  patron maintenance documents.</para>
+ <section>
+  <title><anchor xml:id="_Address_Source"/>Address Source</title>
+  <para role="Body Text">
+   <inlinemediaobject>
+    <alt>Maintenance</alt>
+    <imageobject>
+     <imagedata fileref="../images/maintenanceMenu.png"/>
+    </imageobject>
+   </inlinemediaobject> &gt; <inlinemediaobject>
+    <alt>Patron Admin</alt>
+    <imageobject>
+     <imagedata fileref="../images/DeliverNoTitlePage-PatronAdmin.png"/>
+    </imageobject>
+   </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+     <alt>Address Source</alt>
+     <imageobject>
+      <imagedata fileref="../images/DeliverNoTitlePage-179.png"/>
+     </imageobject>
+    </inlinemediaobject> &gt; <inlinemediaobject>
+     <alt>Address Source Lookup</alt>
+     <imageobject>
+      <imagedata fileref="../images/DeliverNoTitlePage-178.png"/>
+     </imageobject>
+    </inlinemediaobject>&gt; <inlinemediaobject>
+     <alt>Address Source</alt>
+     <imageobject>
+      <imagedata fileref="../images/DeliverNoTitlePage-180.png"/>
+     </imageobject>
+    </inlinemediaobject></emphasis></para>
+  <para role="Body Text">The Address Source document is used to define where the address came from
+   on a <emphasis role="bold">Patron</emphasis> document. For example, loaded from the registrar,
+   input by an operator or patron, etc. Some or even all of your Address Sources could be identical
+   to your Sources. The Address Source has been defined specifically for situations where you wish
+   to preserve information from a particular Address source when overlaying existing patron data
+   during an import. For example, data from a Source “Registrar Load” would typically have its address
+   data identified as Address Source “Registrar Load” but you may wish to preserve any existing address
+   whose Address Source is “Patron Supplied”. You would set your import options appropriately. </para>
+  <section>
+   <title role="Heading 4circ">Document Layout</title>
+   <para role="Body Text">
+    <screenshot>
+     <mediaobject>
+      <alt>Address Source Document</alt>
+      <imageobject>
+       <imagedata fileref="../images/DeliverNoTitlePage-181.png" width="100%"/>
+      </imageobject>
+     </mediaobject>
+    </screenshot>
+   </para>
+   <para role="Body Text">The Address Source document includes the <emphasis role="bold">Add/Edit
+     Address Source</emphasis> tab. The system automatically enters data into both the <emphasis
+     role="bold">Old</emphasis> and <emphasis role="bold">New</emphasis> sections in this tab.
+    Selected data fields are available for editing.</para>
+   <para role="Normal"/>
+   <para role="TableHeading"><emphasis role="bold">Add/Edit Address Source Tab
+     Definitions</emphasis></para>
+   <informaltable frame="top">
+    <tgroup cols="2">
+     <colspec colname="col1" colnum="1"/>
+     <colspec colname="col2" colnum="2"/>
+     <tbody>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Title </para>
+       </entry>
+       <entry colname="col2" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Description </para>
+       </entry>
+      </row>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">OLE Address Source Code<emphasis> </emphasis></para>
+       </entry>
+       <entry colname="col2" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Required. A unique code to identify an address source.</para>
+       </entry>
+      </row>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">OLE Address Source Name</para>
+       </entry>
+       <entry colname="col2" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Required. The familiar title of the address source.</para>
+       </entry>
+      </row>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">OLE Address Source Description</para>
+       </entry>
+       <entry colname="col2" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Required. A description of the source address source.</para>
+       </entry>
+      </row>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Active Indicator</para>
+       </entry>
+       <entry colname="col2" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Indicates whether the address source is active or inactive. Remove
+         the check mark to deactivate the code.</para>
+       </entry>
+      </row>
+     </tbody>
+    </tgroup>
+   </informaltable>
+  </section>
+ </section>
+   <section>
+    <title><anchor xml:id="_Borrower_Type"/>Patron Type</title>
+    <para role="Body Text">
+   <inlinemediaobject>
+    <alt>Maintenance</alt>
+    <imageobject>
+     <imagedata fileref="../images/maintenanceMenu.png"/>
+    </imageobject>
+   </inlinemediaobject> &gt; <inlinemediaobject>
+    <alt>Patron Admin</alt>
+    <imageobject>
+     <imagedata fileref="../images/DeliverNoTitlePage-PatronAdmin.png"/>
+    </imageobject>
+   </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+     <alt>Patron Type</alt>
+     <imageobject>
+      <imagedata fileref="../images/DeliverNoTitlePage-32.png"/>
+     </imageobject>
+    </inlinemediaobject> &gt; <inlinemediaobject>
+     <alt>Patron Type Lookup</alt>
+     <imageobject>
+      <imagedata fileref="../images/DeliverNoTitlePage-57.png"/>
+     </imageobject>
+    </inlinemediaobject> &gt; <inlinemediaobject>
+     <alt>Patron Type</alt>
+     <imageobject>
+      <imagedata fileref="../images/DeliverNoTitlePage-146.png"/>
+     </imageobject>
+    </inlinemediaobject></emphasis></para>
+    <para role="Normal">Borrower types allow for distinct groups to be granted permissions such as
+     the ability to borrow items, the default circulation loan period, ability to renew and/or
+     request, eligibility for physical delivery, etc. Borrower type is one of the three primary
+     characteristics controlling circulation policy sets (the other two being item type and shelving
+     location). Each patron record in OLE must have a borrower type.</para>
+    <section>
+     <title role="Heading 4circ">Document Layout</title>
+     <para role="Normal"/>
+     <para role="Normal">
+    <screenshot>
+     <mediaobject>
+      <alt>Patron Type Document</alt>
+      <imageobject>
+       <imagedata fileref="../images/DeliverNoTitlePage-147.png" width="100%"/>
+      </imageobject>
+     </mediaobject>
+    </screenshot>
+   </para>
+     <para role="Body Text">The Borrower Type document includes the <emphasis role="bold">Add/Edit
+       Borrower Type </emphasis>tab. The system automatically enters data into both the <emphasis
+       role="bold">Old</emphasis> and <emphasis role="bold">New</emphasis> sections in this tab.
+      Selected data fields are available for editing.</para>
+     <para role="Normal"/>
+     <para role="TableHeading"><emphasis role="bold">Add/Edit Borrower Type Tab
+       Definitions</emphasis></para>
+     <informaltable frame="top">
+      <tgroup cols="2">
+       <colspec colname="col1" colnum="1"/>
+       <colspec colname="col2" colnum="2"/>
+       <tbody>
+        <row>
+         <entry colname="col1" colsep="1" rowsep="1" valign="top">
+          <para role="Table Cells">Title </para>
+         </entry>
+         <entry colname="col2" colsep="1" rowsep="1" valign="top">
+          <para role="Table Cells">Description </para>
+         </entry>
+        </row>
+        <row>
+         <entry colname="col1" colsep="1" rowsep="1" valign="top">
+          <para role="Table Cells">Borrower Type Code </para>
+         </entry>
+         <entry colname="col2" colsep="1" rowsep="1" valign="top">
+          <para role="Table Cells">Required. The borrower type code associated with this borrower
+           type</para>
+         </entry>
+        </row>
+        <row>
+         <entry colname="col1" colsep="1" rowsep="1" valign="top">
+          <para role="Table Cells">Borrower Type Description</para>
+         </entry>
+         <entry colname="col2" colsep="1" rowsep="1" valign="top">
+          <para role="Table Cells">Required. A description of the borrower type.</para>
+         </entry>
+        </row>
+        <row>
+         <entry colname="col1" colsep="1" rowsep="1" valign="top">
+          <para role="Table Cells">Borrower Type Name</para>
+         </entry>
+         <entry colname="col2" colsep="1" rowsep="1" valign="top">
+          <para role="Table Cells">Required. The familiar title of the borrower type.</para>
+         </entry>
+        </row>
+        <row>
+         <entry colname="col1" colsep="1" rowsep="1" valign="top">
+          <para role="Table Cells">Active</para>
+         </entry>
+         <entry colname="col2" colsep="1" rowsep="1" valign="top">
+          <para role="Table Cells">Indicates whether this borrower type is active or inactive.
+           Remove the check mark to deactivate.</para>
+         </entry>
+        </row>
+       </tbody>
+      </tgroup>
+     </informaltable>
+     <para role="Normal"/>
+    </section>
+   </section>
+ <section>
+  <title><anchor xml:id="_Fee_Type"/>Fee Type</title>
+  <para role="Body Text">
+   <inlinemediaobject>
+    <alt>Maintenance</alt>
+    <imageobject>
+     <imagedata fileref="../images/maintenanceMenu.png"/>
+    </imageobject>
+   </inlinemediaobject> &gt; <inlinemediaobject>
+    <alt>Patron Admin</alt>
+    <imageobject>
+     <imagedata fileref="../images/DeliverNoTitlePage-PatronAdmin.png"/>
+    </imageobject>
+   </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+     <alt>Fee Type</alt>
+     <imageobject>
+      <imagedata fileref="../images/DeliverNoTitlePage-184.png"/>
+     </imageobject>
+    </inlinemediaobject> &gt; <inlinemediaobject>
+     <alt>Fee Type Lookup</alt>
+     <imageobject>
+      <imagedata fileref="../images/DeliverNoTitlePage-185.png"/>
+     </imageobject>
+    </inlinemediaobject> &gt; <inlinemediaobject>
+     <alt>Fee Type</alt>
+     <imageobject>
+      <imagedata fileref="../images/DeliverNoTitlePage-131.png"/>
+     </imageobject>
+    </inlinemediaobject></emphasis></para>
+  <para role="Body Text">The Fee Type document is used to define the type of fee created on the
+    <emphasis role="bold">Patron Bill Payment</emphasis> document.</para>
+  <section>
+   <title role="Heading 4circ">Document Layout</title>
+   <para role="Body Text">
+    <screenshot>
+     <mediaobject>
+      <alt>Fee Type Document</alt>
+      <imageobject>
+       <imagedata fileref="../images/DeliverNoTitlePage-186.png" width="100%"/>
+      </imageobject>
+     </mediaobject>
+    </screenshot>
+   </para>
+   <para role="Body Text">The Fee Type document includes the <emphasis role="bold">Add/Edit Fee
+     Type</emphasis> tab. The system automatically enters data into both the <emphasis role="bold"
+     >Old</emphasis> and <emphasis role="bold">New</emphasis> sections in this tab. Selected data
+    fields are available for editing.</para>
+   <para role="Normal"/>
+   <para role="TableHeading"><emphasis role="bold">Add/Edit Fee Type Tab
+    Definitions</emphasis></para>
+   <informaltable frame="top">
+    <tgroup cols="2">
+     <colspec colname="col1" colnum="1"/>
+     <colspec colname="col2" colnum="2"/>
+     <tbody>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Title </para>
+       </entry>
+       <entry colname="col2" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Description </para>
+       </entry>
+      </row>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Fee Type Code<emphasis> </emphasis></para>
+       </entry>
+       <entry colname="col2" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Required. A unique code to identify a fee type.</para>
+       </entry>
+      </row>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Fee Type Name</para>
+       </entry>
+       <entry colname="col2" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Required. The familiar title of the fee type.</para>
+       </entry>
+      </row>
+     </tbody>
+    </tgroup>
+   </informaltable>
+  </section>
+ </section>
+   <section>
+    <title><anchor xml:id="_Source"/>Patron Source</title>
+    <para role="Body Text">
+   <inlinemediaobject>
+    <alt>Maintenance</alt>
+    <imageobject>
+     <imagedata fileref="../images/maintenanceMenu.png"/>
+    </imageobject>
+   </inlinemediaobject> &gt; <inlinemediaobject>
+    <alt>Patron Admin</alt>
+    <imageobject>
+     <imagedata fileref="../images/DeliverNoTitlePage-PatronAdmin.png"/>
+    </imageobject>
+   </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+     <alt>Patron Source</alt>
+     <imageobject>
+      <imagedata fileref="../images/DeliverNoTitlePage-169.png"/>
+     </imageobject>
+    </inlinemediaobject> &gt; <inlinemediaobject>
+     <alt>Patron Source Lookup</alt>
+     <imageobject>
+      <imagedata fileref="../images/DeliverNoTitlePage-170.png"/>
+     </imageobject>
+    </inlinemediaobject>&gt; <inlinemediaobject>
+     <alt>Patron Source</alt>
+     <imageobject>
+      <imagedata fileref="../images/DeliverNoTitlePage-169a.png"/>
+     </imageobject>
+    </inlinemediaobject></emphasis></para>
+    <para role="Body Text">The Source document is used to define where the information on the Patron
+     document has been obtained. </para>
+    <section>
+     <title role="Heading 4circ">Document Layout</title>
+     <para role="Normal"/>
+     <para role="Body Text">
+    <screenshot>
+     <mediaobject>
+      <alt>Patron Source Document</alt>
+      <imageobject>
+       <imagedata fileref="../images/DeliverNoTitlePage-171.png" width="100%"/>
+      </imageobject>
+     </mediaobject>
+    </screenshot>
+   </para>
+     <para role="Body Text">The OLE Source document includes the <emphasis role="bold">Add/Edit
+       Source</emphasis> tab. The system automatically enters data into both the <emphasis
+       role="bold">Old</emphasis> and <emphasis role="bold">New</emphasis> sections in this tab.
+      Selected data fields are available for editing.</para>
+     <para role="Normal"/>
+     <para role="TableHeading"><emphasis role="bold">Add/Edit Source Tab
+      Definitions</emphasis></para>
+     <informaltable frame="top">
+      <tgroup cols="2">
+     <colspec colname="col1" colnum="1" colwidth="2.51*"/>
+     <colspec colname="col2" colnum="2" colwidth="1*"/>
+     <tbody>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Title </para>
+       </entry>
+       <entry colname="col2" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Description </para>
+       </entry>
+      </row>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">OLE Source Code<emphasis> </emphasis></para>
+       </entry>
+       <entry colname="col2" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Required. A unique code to identify an OLE source.</para>
+       </entry>
+      </row>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">OLE Source Name</para>
+       </entry>
+       <entry colname="col2" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Required. The familiar title of the source.</para>
+       </entry>
+      </row>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">OLE Source Description</para>
+       </entry>
+       <entry colname="col2" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Required. A description of the source.</para>
+       </entry>
+      </row>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Active Indicator</para>
+       </entry>
+       <entry colname="col2" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Indicates whether this carrier code is active or inactive. Remove
+         the check mark to deactivate the code.</para>
+       </entry>
+      </row>
+     </tbody>
+    </tgroup>
+     </informaltable>
+    </section>
+   </section>
+ <section>
+  <title><anchor xml:id="_Payment_Status"/>Payment Status</title>
+  <para role="Body Text"><inlinemediaobject>
+    <alt>Maintenance</alt>
+    <imageobject>
+     <imagedata fileref="../images/maintenanceMenu.png"/>
+    </imageobject>
+   </inlinemediaobject> &gt; <inlinemediaobject>
+    <alt>Patron Admin</alt>
+    <imageobject>
+     <imagedata fileref="../images/DeliverNoTitlePage-PatronAdmin.png"/>
+    </imageobject>
+   </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+     <alt>Payment Status</alt>
+     <imageobject>
+      <imagedata fileref="../images/DeliverNoTitlePage-189.png"/>
+     </imageobject>
+    </inlinemediaobject>&gt; <inlinemediaobject>
+     <alt>Payment Status Lookup</alt>
+     <imageobject>
+      <imagedata fileref="../images/DeliverNoTitlePage-132.png"/>
+     </imageobject>
+    </inlinemediaobject> &gt; <inlinemediaobject>
+     <alt>Payment Status</alt>
+     <imageobject>
+      <imagedata fileref="../images/DeliverNoTitlePage-190.png"/>
+     </imageobject>
+    </inlinemediaobject></emphasis></para>
+  <para role="Body Text">The Payment Status document is used to define the status of payment on the
+    <emphasis role="bold">Patron Bill Payment</emphasis>.</para>
+  <section>
+   <title role="Heading 4circ">Document Layout</title>
+   <para role="Body Text">
+    <screenshot>
+     <mediaobject>
+      <alt>Payment Status Document</alt>
+      <imageobject>
+       <imagedata fileref="../images/DeliverNoTitlePage-191.png" width="100%"/>
+      </imageobject>
+     </mediaobject>
+    </screenshot>
+   </para>
+   <para role="Body Text">The Payment Status document includes the <emphasis role="Strong">Add/Edit
+     Payment Status</emphasis> tab. The system automatically enters data into both the <emphasis
+     role="bold">Old</emphasis> and <emphasis role="bold">New</emphasis> sections in this tab.
+    Selected data fields are available for editing.</para>
+   <para role="Normal"/>
+   <para role="TableHeading"><emphasis role="bold">Add/Edit Payment Status Tab
+     Definitions</emphasis></para>
+   <informaltable frame="top">
+    <tgroup cols="2">
+     <colspec colname="col1" colnum="1"/>
+     <colspec colname="col2" colnum="2"/>
+     <tbody>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Title </para>
+       </entry>
+       <entry colname="col2" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Description </para>
+       </entry>
+      </row>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Payment Status Code</para>
+       </entry>
+       <entry colname="col2" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Required. A unique code to identify a payment status.</para>
+       </entry>
+      </row>
+      <row>
+       <entry colname="col1" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Payment Status Name</para>
+       </entry>
+       <entry colname="col2" colsep="1" rowsep="1" valign="top">
+        <para role="Table Cells">Required. The familiar title of the payment status.</para>
+       </entry>
+      </row>
+     </tbody>
+    </tgroup>
+   </informaltable>
+  </section>
+ </section>
+   <section>
+    <title><anchor xml:id="_Statistical_Category"/>Statistical Category</title>
+    <para role="Body Text">
+   <inlinemediaobject>
+    <alt>Maintenance</alt>
+    <imageobject>
+     <imagedata fileref="../images/maintenanceMenu.png"/>
+    </imageobject>
+   </inlinemediaobject> &gt; <inlinemediaobject>
+    <alt>Patron Admin</alt>
+    <imageobject>
+     <imagedata fileref="../images/DeliverNoTitlePage-PatronAdmin.png"/>
+    </imageobject>
+   </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+     <alt>Statistical Category</alt>
+     <imageobject>
+      <imagedata fileref="../images/DeliverNoTitlePage-174.png"/>
+     </imageobject>
+    </inlinemediaobject> &gt; <inlinemediaobject>
+     <alt>Statistical Category Lookup</alt>
+     <imageobject>
+      <imagedata fileref="../images/DeliverNoTitlePage-133.png"/>
+     </imageobject>
+    </inlinemediaobject>&gt; <inlinemediaobject>
+     <alt>Patron Statistical Category</alt>
+     <imageobject>
+      <imagedata fileref="../images/DeliverNoTitlePage-175.png"/>
+     </imageobject>
+    </inlinemediaobject>
+   </emphasis></para>
+    <para role="Body Text">The Statistical Category document is used to identify statistical
+     categories associated with an OLE patron. </para>
+    <section>
+     <title role="Heading 4circ">Document Layout</title>
+     <para role="Body Text">
+    <screenshot>
+     <mediaobject>
+      <alt>Patron Statistical Category Document</alt>
+      <imageobject>
+       <imagedata fileref="../images/DeliverNoTitlePage-176.png" width="100%"/>
+      </imageobject>
+     </mediaobject>
+    </screenshot>
+   </para>
+     <para role="Body Text">The Statistical Category document includes the <emphasis role="bold"
+       >Add/Edit Statistical Category</emphasis> tab. The system automatically enters data into both
+      the <emphasis role="bold">Old</emphasis> and <emphasis role="bold">New</emphasis> sections in
+      this tab. Selected data fields are available for editing.</para>
+     <para role="Normal"/>
+     <para role="TableHeading"><emphasis role="bold">Add/Edit Statistical Category Tab
+       Definitions</emphasis></para>
+     <informaltable frame="top">
+      <tgroup cols="2">
+       <colspec colname="col1" colnum="1"/>
+       <colspec colname="col2" colnum="2"/>
+       <tbody>
+        <row>
+         <entry colname="col1" colsep="1" rowsep="1" valign="top">
+          <para role="Table Cells">Title </para>
+         </entry>
+         <entry colname="col2" colsep="1" rowsep="1" valign="top">
+          <para role="Table Cells">Description </para>
+         </entry>
+        </row>
+        <row>
+         <entry colname="col1" colsep="1" rowsep="1" valign="top">
+          <para role="Table Cells">Statistical Category Code<emphasis> </emphasis></para>
+         </entry>
+         <entry colname="col2" colsep="1" rowsep="1" valign="top">
+          <para role="Table Cells">Required. A unique code to identify a statistical
+           category.</para>
+         </entry>
+        </row>
+        <row>
+         <entry colname="col1" colsep="1" rowsep="1" valign="top">
+          <para role="Table Cells">Statistical Category Name</para>
+         </entry>
+         <entry colname="col2" colsep="1" rowsep="1" valign="top">
+          <para role="Table Cells">Required. The familiar title of the statistical category.</para>
+         </entry>
+        </row>
+        <row>
+         <entry colname="col1" colsep="1" rowsep="1" valign="top">
+          <para role="Table Cells">Statistical Category Description</para>
+         </entry>
+         <entry colname="col2" colsep="1" rowsep="1" valign="top">
+          <para role="Table Cells">Required. A description of the source statistical
+           category.</para>
+         </entry>
+        </row>
+        <row>
+         <entry colname="col1" colsep="1" rowsep="1" valign="top">
+          <para role="Table Cells">Active Indicator</para>
+         </entry>
+         <entry colname="col2" colsep="1" rowsep="1" valign="top">
+          <para role="Table Cells">Indicates whether the statistical category is active or inactive.
+           Remove the check mark to deactivate the code.</para>
+         </entry>
+        </row>
+       </tbody>
+      </tgroup>
+     </informaltable>
+    </section>
+   </section>
+  </chapter>

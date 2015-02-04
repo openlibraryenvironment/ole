@@ -1,0 +1,226 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans      http://www.springframework.org/schema/beans/spring-beans-2.0.xsd      http://rice.kuali.org/dd      http://rice.kuali.org/dd/dd.xsd">
+<!--
+ Copyright 2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean id="AccountMaintenanceDocument-parentBean" parent="AccountMaintenanceDocument-baseBean" abstract="true">
+  	<property name="maintainableSections">
+		<list merge="true">
+		 <!-- changes for jira ole-2341 for removing the tabs contracts and grants and indirect cost recovery accounts-->
+		<!--  
+			<ref bean="AccountMaintenanceDocument-ContractsAndGrants"/>
+      <ref bean="AccountMaintenanceDocument-IndirectCostRecoveryAccounts"/> -->
+      <ref bean="AccountMaintenanceDocument-OleStewardshipRequirements"/>
+       <ref bean="AccountMaintenanceDocument-OleLegacyFundCodes"/>
+<!--        <ref bean="AccountMaintenanceDocument-OleSufficientFundCheck"/> 
+ -->       <ref bean="AccountMaintenanceDocument-GuidelinesAndPurposes"/>
+       
+       
+		</list>
+  	</property>
+    <property name="defaultExistenceChecks">
+      <list merge="true">
+	      	<bean parent="ReferenceDefinition" p:attributeName="cfda" p:attributeToHighlightOnFail="accountCfdaNumber" />
+ 	    </list>   
+    </property>
+  </bean>
+    <!-- changes for jira ole-2341 for removing the tabs contracts and grants and indirect cost recovery accounts-->
+  <!-- Maintenance Section Definitions -->
+  <!--  
+  <bean id="AccountMaintenanceDocument-ContractsAndGrants" parent="AccountMaintenanceDocument-ContractsAndGrants-parentBean"/>
+
+  <bean id="AccountMaintenanceDocument-ContractsAndGrants-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="title" value="Contracts And Grants"/>
+    <property name="maintainableItems">
+      <list>
+        <dd:maintField attributeName="contractControlFinCoaCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="contractControlAccountNumber" p:webUILeaveFieldFunction="onblur_accountNumber_newAccount">
+    			<property name="webUILeaveFieldFunctionParameters">
+    				<list>
+    					<value>contractControlFinCoaCode</value>
+    				</list>
+    			</property> 
+    		</bean>         
+        <dd:maintField attributeName="acctIndirectCostRcvyTypeCd"/>
+        <bean parent="MaintainableFieldDefinition" p:name="financialIcrSeriesIdentifier" p:overrideFieldConversions="financialIcrSeriesIdentifier:financialIcrSeriesIdentifier" p:overrideLookupClass="org.kuali.ole.coa.businessobject.IndirectCostRecoveryRateDetail"/>
+		<dd:maintField attributeName="accountCfdaNumber"/>
+        <dd:maintField attributeName="contractsAndGrantsAccountResponsibilityId"/>
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="AccountMaintenanceDocument-IndirectCostRecoveryAccounts" parent="AccountMaintenanceDocument-IndirectCostRecoveryAccounts-parentBean"/>
+  
+  <bean id="AccountMaintenanceDocument-IndirectCostRecoveryAccounts-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="indirectCostRecoveryAccounts"/>
+    <property name="title" value="Indirect Cost Recovery Accounts"/>
+    <property name="maintainableItems">
+      <list>
+          <bean parent="MaintainableCollectionDefinition">
+            <property name="name" value="indirectCostRecoveryAccounts"/>
+            <property name="businessObjectClass" value="org.kuali.ole.coa.businessobject.IndirectCostRecoveryAccount"/>
+            <property name="summaryTitle" value="Indirect Cost Recovery Account"/>
+            <property name="summaryFields">
+            <list>
+              <dd:maintField attributeName="indirectCostRecoveryFinCoaCode"/>
+              <dd:maintField attributeName="indirectCostRecoveryAccountNumber"/>
+              <dd:maintField attributeName="accountLinePercent"/>
+            </list>
+            </property>
+            <property name="maintainableFields">
+              <list>
+                <bean parent="MaintainableFieldDefinition" p:name="indirectCostRecoveryAccountGeneratedIdentifier" p:unconditionallyReadOnly="true"/>
+                <dd:maintField attributeName="indirectCostRecoveryFinCoaCode"/>
+                <bean parent="MaintainableFieldDefinition" p:name="indirectCostRecoveryAccountNumber" p:webUILeaveFieldFunction="onblur_accountNumber_newAccount">
+                  <property name="webUILeaveFieldFunctionParameters">
+                    <list>
+                      <value>indirectCostRecoveryFinCoaCode</value>
+                    </list>
+                  </property> 
+                </bean>      
+                <dd:maintField attributeName="accountLinePercent" />
+                <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
+                <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>
+              </list>
+            </property>
+          </bean>
+      </list>
+    </property>
+  </bean>
+  -->
+   <!-- changes for jira ole-2341 -->
+  <bean id="AccountMaintenanceDocument-OleStewardshipRequirements" parent="AccountMaintenanceDocument-OleStewardshipRequirements-parentBean"/>
+  
+  <bean id="AccountMaintenanceDocument-OleStewardshipRequirements-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="OleStewardshipRequirements"/>
+    <property name="title" value="Stewardship Requirements"/>
+    <property name="maintainableItems">
+      <list>
+          <bean parent="MaintainableCollectionDefinition">
+            <property name="name" value="oleStewardshipRequirements"/>
+            <property name="businessObjectClass" value="org.kuali.ole.select.businessobject.OleStewardshipRequirement"/>
+            <property name="summaryTitle" value="Stewardship Requirement"/>
+            <property name="summaryFields">
+            <list>
+              <dd:maintField attributeName="stewardshipNote"/>
+              <dd:maintField attributeName="stewardshipTypeCode"/>
+            </list>
+            </property>
+            <property name="maintainableFields">
+              <list>
+                <bean parent="MaintainableFieldDefinition" p:name="stewardshipId" p:unconditionallyReadOnly="true"/>
+                <dd:maintField attributeName="stewardshipTypeCode" required="true"/> 
+                 <dd:maintField attributeName="stewardshipNote" /> 
+                 
+                <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>
+              </list>
+            </property>
+          </bean>
+      </list>
+    </property>
+  </bean>
+  
+  
+  
+  <bean id="AccountMaintenanceDocument-OleSufficientFundCheck" parent="AccountMaintenanceDocument-OleSufficientFundCheck-parentBean"/>
+  
+  <bean id="AccountMaintenanceDocument-OleSufficientFundCheck-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <!-- <property name="id" value="oleSufficientFundCheckList"/> -->
+    <property name="title" value="Sufficient Funds Check2"/>
+    <property name="maintainableItems">
+      <list>
+          <bean parent="MaintainableCollectionDefinition">
+            <property name="name" value="oleStewardshipRequirements"/>
+            <property name="businessObjectClass" value="org.kuali.ole.select.businessobject.OleSufficientFundCheck"/>
+            <property name="summaryTitle" value="Sufficient Fund Check"/>
+            <property name="summaryFields">
+            <list>
+              <dd:maintField attributeName="encumbExpenseMethod"/>
+			  <dd:maintField attributeName="encumbExpenseConstraintType"/>
+			  <dd:maintField attributeName="encumbranceAmount"/>  
+			  <dd:maintField attributeName="expenseAmount"/>   
+			  <!-- <dd:maintField attributeName="encumbExpenseType"/>  -->                                  
+            </list>
+            </property>
+            <property name="maintainableFields">
+              <list>
+                <dd:maintField attributeName="encumbExpenseMethod"/>
+			  	<dd:maintField attributeName="encumbExpenseConstraintType"/>
+			  	<dd:maintField attributeName="encumbranceAmount"/>  
+			    <dd:maintField attributeName="expenseAmount"/>    
+			  	<!-- <dd:maintField attributeName="encumbExpenseType"/>  -->
+              </list>
+            </property>
+          </bean>
+      </list>
+    </property>
+  </bean> 
+   
+   <bean id="AccountMaintenanceDocument-OleLegacyFundCodes" parent="AccountMaintenanceDocument-OleLegacyFundCodes-parentBean"/>
+  
+  <bean id="AccountMaintenanceDocument-OleLegacyFundCodes-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="OleLegacyFundCodes"/>
+    <property name="title" value="Legacy Fund Codes"/>
+    <property name="maintainableItems">
+      <list>
+          <bean parent="MaintainableCollectionDefinition">          	        
+            <property name="name" value="oleLegacyFundCodes"/>
+            <property name="businessObjectClass" value="org.kuali.ole.select.businessobject.OleLegacyFundCode"/>
+            <property name="summaryTitle" value="Legacy Fund Code"/>
+            <property name="summaryFields">
+            <list>
+              <dd:maintField attributeName="legacyFundCode"/>
+              <dd:maintField attributeName="legacyFundCodeNote"/>
+            </list>
+            </property>
+            <property name="maintainableFields">
+              <list>
+                <bean parent="MaintainableFieldDefinition" p:name="legacyFundCodeIdentifier" p:unconditionallyReadOnly="true"/>
+                <dd:maintField attributeName="legacyFundCode"/> 
+                 <dd:maintField attributeName="legacyFundCodeNote"/> 
+                 
+                <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>
+              </list>
+            </property>
+          </bean>
+      </list>
+    </property>
+  </bean>
+    <bean id="AccountMaintenanceDocument-GuidelinesAndPurposes" parent="AccountMaintenanceDocument-GuidelinesAndPurposes-parentBean"/>
+
+  <bean id="AccountMaintenanceDocument-GuidelinesAndPurposes-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="title" value="Sufficient Funds Check"/>
+   <!--  <property name="id" value="oleSufficientFundCheckList"/> -->
+    <property name="maintainableItems">
+      <list>
+        <dd:maintField attributeName="accountSufficientFundsCode" required="true"/>
+        <dd:maintField attributeName="pendingAcctSufficientFundsIndicator"/> 
+        
+        <dd:maintField attributeName="oleSufficientFundCheck.encumbExpenseMethod" required="false"/>
+        <dd:maintField attributeName="oleSufficientFundCheck.encumbExpenseConstraintType" required="false"/>
+       	<dd:maintField attributeName="oleSufficientFundCheck.encumbranceAmount"  required="false"/>
+        <dd:maintField attributeName="oleSufficientFundCheck.expenseAmount" required="false"/>
+        <!-- <dd:maintField attributeName="oleSufficientFundCheck.encumbExpenseType"/>  -->       
+       <!--  <dd:maintField attributeName="oleSufficientFundCheck.expenseMethod"/>
+        <dd:maintField attributeName="oleSufficientFundCheck.expenseConstraintType"/>
+        <dd:maintField attributeName="oleSufficientFundCheck.expenseAmount"/>
+        <dd:maintField attributeName="oleSufficientFundCheck.expenseType"/> -->
+        <dd:maintField attributeName="oleSufficientFundCheck.notificationOption" required="false"/>
+        <!--  <dd:maintField attributeName="oleSufficientFundCheck.reserveOption"/> -->
+      </list>
+    </property>
+  </bean>
+  
+</beans>

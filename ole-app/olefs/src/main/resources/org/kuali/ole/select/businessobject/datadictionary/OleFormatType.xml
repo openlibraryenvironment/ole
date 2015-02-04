@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   - Copyright 2011 The Kuali Foundation.
+   - 
+   - Licensed under the Educational Community License, Version 2.0 (the "License");
+   - you may not use this file except in compliance with the License.
+   - You may obtain a copy of the License at
+   - 
+   - http://www.opensource.org/licenses/ecl2.php
+   - 
+   - Unless required by applicable law or agreed to in writing, software
+   - distributed under the License is distributed on an "AS IS" BASIS,
+   - WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   - See the License for the specific language governing permissions and
+   - limitations under the License.
+ -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+
+    <bean id="OleFormatType" parent="OleFormatType-parentBean"></bean>
+    
+    <bean id="OleFormatType-parentBean" abstract="true" parent="BusinessObjectEntry" >
+        <property name="objectLabel" value="FormatType" />
+		<property name="businessObjectClass"
+			value="org.kuali.ole.select.businessobject.OleFormatType" />
+		<property name="inquiryDefinition">
+            <ref bean="OleFormatType-inquiryDefinition"/>
+        </property>
+        <property name="lookupDefinition">
+            <ref bean="OleFormatType-lookupDefinition"/>
+        </property>
+        <property name="titleAttribute" value="formatId"/>
+		<property name="attributes">
+			<list>
+				<ref bean="OleFormatType-formatTypeId"/>
+				<ref bean="OleFormatType-formatTypeName" />
+				<ref bean="OleFormatType-active"/>
+			</list>
+		</property>
+    </bean>
+    
+    
+    <bean id="OleFormatType-formatTypeId" parent="OleFormatType-formatTypeId-parentBean"/>
+    
+    <bean id="OleFormatType-formatTypeId-parentBean" abstract="true" parent="AttributeDefinition">
+	  <property name="name" value="formatTypeId"/>
+	  <property name="label" value="Format Type Id"/>
+	  <property name="shortLabel" value="formatTypeId"/>
+	  <property name="maxLength" value="9"/>
+	  <property name="validationPattern">
+	    <ref bean="NumericValidation" />
+	  </property>
+	  <property name="control">
+	    <bean parent="TextControlDefinition" p:size="11"/>
+	  </property>
+	</bean>
+	
+	<bean id="OleFormatType-formatTypeName" parent="OleFormatType-formatTypeName-parentBean" />
+	
+	<bean id="OleFormatType-formatTypeName-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="formatTypeName" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Format Type" />
+		<property name="shortLabel" value="formatTypeName" />
+		<property name="maxLength" value="50" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="50" />
+		</property>
+	</bean>
+	
+	<bean id="OleFormatType-active" parent="OleFormatType-active-parentBean"/>
+
+    <bean id="OleFormatType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+      <property name="name" value="active"/>
+    </bean>
+    
+    
+    
+    <bean id="OleFormatType-inquiryDefinition" parent="OleFormatType-inquiryDefinition-parentBean"/>
+	
+	<bean id="OleFormatType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+	    <property name="title" value="Format Type Inquiry"/>
+	    <property name="inquirySections">
+           <list>
+              <bean parent="InquirySectionDefinition">
+                 <property name="title" value=""/>
+                 <property name="numberOfColumns" value="1"/>
+                 <property name="inquiryFields">
+                    <list>
+                       <bean parent="FieldDefinition" p:attributeName="formatTypeId"/>
+                       <bean parent="FieldDefinition" p:attributeName="formatTypeName"/>
+                       <bean parent="FieldDefinition" p:attributeName="active"/>
+                    </list>
+                 </property>
+              </bean>
+          </list>
+      </property>
+	</bean>
+	
+	<bean id="OleFormatType-lookupDefinition" parent="OleFormatType-lookupDefinition-parentBean"/>
+
+    <bean id="OleFormatType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+      <property name="title" value="Format Type Lookup"/>
+    
+      <property name="defaultSort">
+        <bean parent="SortDefinition">
+        </bean>
+      </property>
+      <property name="lookupFields">
+        <list>
+          <bean parent="FieldDefinition" p:attributeName="formatTypeId"/>
+          <bean parent="FieldDefinition" p:attributeName="formatTypeName"/>
+          <bean parent="FieldDefinition" p:attributeName="active"/>
+        </list>
+      </property>
+      <property name="resultFields">
+        <list>
+         <bean parent="FieldDefinition" p:attributeName="formatTypeId"/>
+         <bean parent="FieldDefinition" p:attributeName="formatTypeName"/>
+         <bean parent="FieldDefinition" p:attributeName="active"/>
+        </list>
+      </property>
+    </bean>
+	
+</beans>

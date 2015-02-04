@@ -1,0 +1,2 @@
+NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID
+"OLE-DLVR","Deliver","RENEW_INFORMATION_INDICATOR_FOR_VUFIND_SERVICES","OLE6518","1","CONFG","N","This is for deciding whether the renewable value is needed in the getCheckedOutItems and lookupUser service response or not ","A","OLE"

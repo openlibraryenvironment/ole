@@ -1,0 +1,305 @@
+PERM_ID,OBJ_ID,VER_NBR,PERM_TMPL_ID,NMSPC_CD,NM,DESC_TXT,ACTV_IND
+OLE10004,OLE10004,1,23,OLE-SELECT,Requisition LookUp,Lookup of Requisition Document,Y
+OLE10005,OLE10005,1,16,OLE-SELECT,Requisition Edit,Editing the Requisition Document,Y
+OLE10006,OLE10006,2,14,OLE-SELECT,Requisition Cancel,Cancelling Requisition Document,Y
+OLE10007,OLE10007,1,8,OLE-SELECT,Requisition Approve,Approving the Requisition Document,Y
+OLE10008,OLE10008,1,1,OLE-SELECT,Assign To Others,can search  take & assign requisitions to selectors,Y
+OLE10009,OLE10009,1,16,OLE-PURAP,PurchaseOrder Edit,Editing PurchaseOrder Document,Y
+OLE10010,OLE10010,1,8,OLE-PURAP,PurchaseOrder Approve,Approving PurchaseOrder on Condition,Y
+OLE10011,OLE10011,1,16,OLE-PURAP,PurchaseOrder Amendment Edit,Editing the Amend PurchaseOrder Document,Y
+OLE10012,OLE10012,1,14,OLE-PURAP,PurchaseOrder Amendment Cancel,Cancelling the Amend PurchaseOrder,Y
+OLE10013,OLE10013,1,1,OLE-PURAP,PurchaseOrder Amendment Acknowledge,Acknowledging for PurchaseOrder Amend Document,Y
+OLE10014,OLE10014,1,42,OLE-PURAP,PurchaseOrder Amendment Creation,Creating a PurchaseOrder Amendment Document,Y
+OLE10015,OLE10015,1,10,OLE-VND,Create Vendor,Creating a new Vendor,Y
+OLE10016,OLE10016,1,8,OLE-VND,Vendor Approval,Approving the vendor which is new,Y
+OLE10017,OLE10017,2,16,OLE-VND,Edit Vendor,Editing the Vendor which is created,Y
+OLE10018,OLE10018,1,42,OLE-PURAP,PurchaseOrder Creation,Creating Purchase Order,Y
+OLE10019,OLE10019,1,14,OLE-PURAP,PurchaseOrder Cancel,Cancelling PurchaseOrder Document,Y
+OLE10020,OLE10020,1,8,OLE-PURAP,PurchaseOrder Approve Conditional,Approving PurchaseOrder Document depending on amount,Y
+OLE10021,OLE10021,1,26,OLE-VND,Edit Discounts,Authorizes users to modify Discount on Vendor Document,Y
+OLE10022,OLE10022,1,1,OLE-SELECT,Load Error,Authorizes users to reloads  routes the Document for action,Y
+OLE10023,OLE10023,1,1,OLE-SELECT,Load Duplicate Check,Authorizes users to check for Duplicate Records,Y
+OLE10024,OLE10024,1,1,OLE-SELECT,Load Fund Check,Authorizes users to check the Funds and routes the reports to corresponding selectors,Y
+OLE10025,OLE10025,1,1,OLE-PURAP,Transmit PO,Transmitting the PurchaseOrder Document,Y
+OLE10026,OLE10026,1,1,OLE-PURAP,Retransmit PurchaseOrder,Authorizes users to Retransmit the PurchaseOrder Document,Y
+OLE10027,OLE10027,1,1,OLE-SELECT,Setup New Users,Authorizes Users to add New Users,Y
+OLE10028,OLE10028,2,8,OLE-SELECT,Condition on Line Item,Authorizes users to send FYI to ACQ  Manager,Y
+OLE10029,OLE10029,1,8,OLE-SELECT,New Vendor,Authorizes Users to send FYI to ACQ Manager when a new Vendor is Created,Y
+OLE10030,OLE10030,1,1,OLE-SELECT,No Selector in Load,Authorizes user to route the Document if no Selector identifed,Y
+OLE10031,OLE10031,1,1,OLE-SELECT,Requisition Auto,System Generated,Y
+OLE10032,OLE10032,1,1,OLE-SELECT,Staff Pickup,Authorizes Users to send to any Selectors,Y
+OLE10035,OLE10035,2,24,OLE-SELECT,Inquire Into Records,Authorizes users to Inquire Records,Y
+OLE10036,OLE10036,2,40,OLE-SELECT,Open Document,Authorizes users to open Vendor Documents.,Y
+OLE10041,OLE10041,1,10,OLE-SELECT,Initiate OLE Documents,Authorizes the initiation of Financial System Documents.,Y
+OLE10042,OLE10042,6,42,OLE-SELECT,Initiate Vendor Document,Authorizes users to Create Vendor Document,Y
+OLE10043,OLE10043,3,42,OLE-SELECT,Edit Vendor Document,Authorizes users to Edit Vendor Document,Y
+OLE10044,OLE10044,1,10,OLE-SELECT,Initiate Receiving Line Items Document,Authorizes the initiation of Receiving Line Items Transactional Documents.,N
+OLE10045,OLE10045,1,16,OLE-SELECT,Edit Receiving Line Items Document,Edit permission for Receiving Line Items Transactional documents prior to the document being submitted.,N
+OLE10046,OLE10046,1,4,OLE-SELECT,Blanket Approve Receiving Line Items  Document,Allows access to the Blanket Approval button on OLE Receiving Line Item Documents.,Y
+OLE10047,OLE10047,1,40,OLE-SELECT,Open Receiving Line Items Document,Authorizes users to open Receiving Line Items document.,Y
+OLE10048,OLE10048,1,4,OLE-SELECT,Blanket Approve RCVC Document,Allows access to the Blanket Approval button on OLE Receiving Line Item Documents.,Y
+OLE10049,OLE10049,1,10,OLE-SELECT,Initiate Payment Request Document,Authorizes the initiation of the Payment Request Document.,N
+OLE10050,OLE10050,1,16,OLE-SELECT,Edit ENROUTE Payment Request Document,Authorizes users who can edit Payment Request Documents that are in ENROUTE status.,Y
+OLE10051,OLE10051,1,16,OLE-SELECT,Edit PROCESSED Payment Request Document,Authorizes users who can edit Payment Request Documents that are in ENROUTE status.,Y
+OLE10052,OLE10052,1,16,OLE-SELECT,Edit FINAL Payment Request Document,Authorizes users who can edit Payment Request Documents that are in ENROUTE status.,Y
+OLE10053,OLE10053,1,OLE41,OLE-SELECT,Modify PREQ Account Accounting Lines,Allows users to modify the Source accounting lines on documents answering to the parent document Accounts PayableTransactional Document when a document is at the Account Node of routing.,Y
+OLE10054,OLE10054,1,31,OLE-SELECT,Cancel Payment Request,Users authorized to take the Request Cancel action on Payment Request documents.,Y
+OLE10055,OLE10055,1,1,OLE-SELECT,Add New Line Item,Authorizes the User to add new Line Item while receiving PO,Y
+OLE10056,OLE10056,1,16,OLE-SELECT,Close Purchase Order,Authorizes the User Close PO,Y
+OLE10057,OLE10057,1,16,OLE-SELECT,Edit Payment Request Document,Edit permission Payment Request document prior to the document being submitted.,Y
+OLE10060,OLE10060,2,1,OLE-SELECT,Firm Type Requisition Edit,Editing the Firm Type Requisition Document,Y
+OLE10061,OLE10061,2,1,OLE-SELECT,Firm Type PurchaseOrder Edit,Editing Firm Type PurchaseOrder Document,Y
+OLE10062,OLE10062,2,16,OLE-SELECT,Firm Type PurchaseOrder Amendment Edit,Editing the Firm Tpye Amend PurchaseOrder Document,Y
+OLE10063,OLE10063,2,1,OLE-SELECT,Edit Own Requisition Document,Edit permission for own Requisition document,Y
+OLE10064,OLE10064,1,1,OLE-SELECT,Edit Own Assigned Requisition Document,Edit permission for own or Assigned Requisition document,Y
+OLE10065,OLE10065,1,16,OLE-SELECT,Edit Void Document,Edit permission for the Purchase Order Void document prior to the document being submitted.,Y
+OLE10066,OLE10066,1,16,OLE-SELECT,Edit Split Document,Edit permission for the Purchase Order Split document prior to the document being submitted.,Y
+OLE10067,OLE10067,1,16,OLE-SELECT,Edit Reopen Document,Edit permission for the Purchase Order Reopen document prior to the document being submitted.,Y
+OLE10068,OLE10068,3,16,OLE-SELECT,Print Action,Authorizes users to take the Print action on a Purchase Order.,Y
+OLE10069,OLE10069,3,16,OLE-SELECT,Print Purchase Order,Users who can print a Purchase Order document.,Y
+OLE10070,OLE10070,3,16,OLE-SELECT,Preview Purchase Order,Users who can preview a Purchase Order document before printing it.,Y
+OLE10071,OLE10071,1,1,OLE-SELECT,Other Type Requisition Edit,Editing the Other Order Type Requisition Document,Y
+OLE10100,OLE10100,1,33,OLE-PURAP,Upload ordInputFileType,Authorizes users to access and upload the ordinary File.,Y
+OLE10108,OLE10108,1,1,OLE-SELECT,Search Load Summary,Authorizes the User to add Search Load Summary,Y
+OLE10109,OLE10109,1,16,OLE-SELECT,View Load Summary,Authorizes the User to add View Load Summary,Y
+OLE10110,OLE10110,1,1,OLE-SELECT,Other Type PurchaseOrder Edit,Editing the Other Order Type Purchase Order Document,Y
+OLE10111,OLE10111,1,16,OLE-SELECT,Other Type PurchaseOrder Amendment Edit,Editing the Other Order Type Purchase Order Amendment Document,Y
+OLE10112,OLE10112,1,16,OLE-SELECT,Edit Requisition Document,,Y
+OLE10115,OLE10115,1,10,OLE-PURAP,Initiate Order Queue Document,Authorizes the initiation of Order Queue Documents.,Y
+OLE10116,OLE10116,1,10,OLE-SELECT,Initiate Receiving Document,Authorizes the initiation of Receiving Documents.,N
+OLE10117,OLE10117,1,16,OLE-SELECT,Edit Receiving Document,Authorizes the edit of Receiving Documents.,N
+OLE10118,OLE10118,1,16,OLE-SELECT,Edit Receiving Queue Document,Authorizes the edit of Receiving Queue Documents.,Y
+OLE10119,OLE10119,1,10,OLE-SELECT,Initiate Receiving Queue Document,Authorizes the initiation of Receiving Queue Documents.,Y
+OLE10120,OLE10120,1,1,OLE-SELECT,Assign own Requisition,Assign own Requisition,Y
+OLE10121,OLE10121,1,4,OLE-SELECT,Blanket Approve Vendor Document,Allows access to the Blanket Approval button on OLE Vendor Documents.,Y
+OLE10122,OLE10122,1,4,OLE-SELECT,Blanket Approve PO Amendment Document,Allows access to the Blanket Approval button on POA Documents.,Y
+OLE80141,OLE80141,1,1,OLE-SELECT,Create Vendor Division,Authorizes users to Edit Vendor Document,Y
+OLE80142,OLE80142,1,1,OLE-SELECT,Deactivate Vendor,Authorizes users to deactivate Vendor Document,Y
+OLE80155,OLE80155,1,1,OLE-SELECT,Delete UnApproved PREQ Document,This Permission is used to delete the unapproved Payment Request Documents.,Y
+OLE80156,OLE80156,1,1,OLE-SELECT,Delete Approved PREQ Document,This Permission is used to delete the approved Payment Request Documents.,Y
+OLE80157,OLE80157,1,10,OLE-SELECT,Initiate Document OLE_DI,This Permission is for Initiating the Distribution of Income and Expense Document.,Y
+OLE80158,OLE80158,1,10,OLE-SELECT,Initiate Document OLE_DV,This Permission is for Initiating the Disbursement Voucher Document.,Y
+OLE80159,OLE80159,1,16,OLE-SELECT,Edit Document OLE_DV PreRoute,This Permission is for the Disbursement Voucher document in the PreRoute state.,Y
+OLE80160,OLE80160,1,16,OLE-SELECT,Edit Document OLE_DV ENROUTE,This Permission is for the Disbursement Voucher Document which is in Enroute state.,Y
+OLE80161,OLE80161,1,16,OLE-SELECT,Edit Document OLE_CM PreRoute,This Permission is for the Credit Memo which is in PreRoute state.,Y
+OLE80162,OLE80162,1,10,OLE-SELECT,Initiate Document OLE_GEC,Initiate Permission of the General Error Correction Document.,Y
+OLE80163,OLE80163,1,1,OLE-SELECT,Edit Vendor Linking Number,Allows users to edit Vendor Linking Number.,Y
+OLE80164,OLE80164,1,10,OLE-SELECT,Initiate Budget Document,Allows to create Budget Adjustment document.,Y
+OLE80165,OLE80165,1,16,OLE-SELECT,Edit Budget Document,Allows to edit Budget Adjustment document.,Y
+OLE80166,OLE80166,1,10,OLE-SELECT,Initiate Transfer Fund Document,Allows to create Transfer Fund document.,Y
+OLE80167,OLE80167,1,16,OLE-SELECT,Edit Transfer Fund Document,Allows to edit Transfer Fund document.,Y
+OLE80168,OLE80168,1,10,OLE-SELECT,Initiate Deposit Document,Allows to create Deposit Adjustment document.,Y
+OLE80169,OLE80169,1,16,OLE-SELECT,Edit Deposit Document,Allows to edit Deposit Adjustment document.,Y
+OLE80170,OLE80170,1,1,OLE-SELECT,Edit Restriction,Allows users to edit restriction on accounts.,Y
+OLE80171,OLE80171,1,1,OLE-SELECT,Edit Sufficient fund check,Allows users to edit Sufficient fund check on accounts.,Y
+OLE80172,OLE80172,1,1,OLE-SELECT,Upload Budget,Allows users to upload budget file.,Y
+OLE80333,OLE80333,1,5,OLE-SELECT,Route Document.,Authorizers the users to route the Payment request Document.,Y
+OLE80510,OLE80510,1,4,OLE-SELECT,Approve OLE_REQS,Allow users to approve and cancel requisition document.,Y
+OLE80511,OLE80511,1,10,OLE-SELECT,Initiate Document(PURAP),Allow users to Create the Purchasing Accounts Payable Simple Maintenance documents.,Y
+OLE80512,OLE80512,1,16,OLE-SELECT,Edit Document(PURAP),Allow users to Edit the Purchasing Accounts Payable Simple Maintenance documents.,Y
+OLE80513,OLE80513,1,10,OLE-SELECT,Initiate Document(COA),Allow users to Create the  Chart Simple Maintenance documents.,Y
+OLE80514,OLE80514,1,16,OLE-SELECT,Edit Document(COA),Allow users to Edit the Chart Simple Maintenance documents.,Y
+OLE80515,OLE80515,1,10,OLE-SELECT,Initiate Document(RCV),Allow users to Create the  Receiving Maintenance documents.,Y
+OLE80516,OLE80516,1,16,OLE-SELECT,Edit Document(RCV),Allow users to Edit the Receiving Maintenance documents.,Y
+OLE80517,OLE80517,1,10,OLE-SELECT,Initiate Document(Invoice),Allow users to Create the  Invoicing Maintenance documents.,Y
+OLE80518,OLE80518,1,16,OLE-SELECT,Edit Document(Invoice),Allow users to Edit the Invoicing Maintenance documents.,Y
+OLE80519,OLE80519,1,10,OLE-SELECT,Initiate Document(Complex RCV),Allow users to Create the  Complex Receiving Maintenance documents.,Y
+OLE80520,OLE80520,1,16,OLE-SELECT,Edit Document(Complex RCV),Allow users to Edit the Complex Receiving Maintenance documents.,Y
+OLE80521,OLE80521,1,10,OLE-SELECT,Initiate Document (Complex PURAP),Allow users to Create the Purchasing Accounts Payable Complex Maintenance documents.,Y
+OLE80522,OLE80522,1,16,OLE-SELECT,Edit Document (Complex PURAP),Allow users to Edit the Purchasing Accounts Payable Complex Maintenance documents.,Y
+OLE80523,OLE80523,1,10,OLE-SELECT,Initiate Document (Complex COA),Allow users to Create the  Chart Complex Maintenance documents.,Y
+OLE80524,OLE80524,1,16,OLE-SELECT,Edit Document (Complex COA),Allow users to Edit the Chart Complex Maintenance documents.,Y
+OLE10123,OLE10123,1,10,OLE-SELECT,Initiate Invoice Document,Authorizes the initiation of the Invoice Document.,N
+OLE10124,OLE10124,1,16,OLE-SELECT,Edit ENROUTE Invoice Document,Authorizes users who can edit Invoice Documents that are in ENROUTE status.,Y
+OLE10125,OLE10125,1,16,OLE-SELECT,Edit PROCESSED Invoice Document,Authorizes users who can edit Invoice Documents that are in ENROUTE status.,Y
+OLE10126,OLE10126,1,16,OLE-SELECT,Edit FINAL Invoice Document,Authorizes users who can edit Invoice Documents that are in ENROUTE status.,Y
+OLE10127,OLE10127,1,OLE41,OLE-SELECT,Modify PRQS Account Accounting Lines,Allows users to modify the Source accounting lines on documents answering to the parent document Accounts PayableTransactional Document when a document is at the Account Node of routing.,Y
+OLE10128,OLE10128,1,31,OLE-SELECT,Cancel Invoice,Users authorized to take the Request Cancel action on Invoice documents.,Y
+OLE10129,OLE10129,1,16,OLE-SELECT,Edit Invoice Document,Edit permission Invoice document prior to the document being submitted.,Y
+OLE10130,1203,1,10,OLE-PTRN,Initiate Borrower Document,Initiate Borrower Document,Y
+OLE10131,1204,1,23,KR-NS,Look up Borrower Document,Look up Borrower Document,Y
+OLE10132,1206,1,24,KR-NS,Inquire Borrower Document,Inquire Borrower Document,Y
+OLE10133,1014,1,57,KR-KRAD,Edit Location Level Name Field,Editing Location Level Name Field,Y
+OLE10134,1015,1,23,KR-KRAD,View Location Level,View Location Level Document,Y
+OLE10135,OLE100051,1,1,OLE-LIC,License Request workflow initial filter,License Request workflow initial filter,Y
+OLE10136,OLE100061,1,1,OLE-LIC,Full License Request workflow,Full License Request workflow,Y
+OLE10137,OLE100071,1,1,OLE-LIC,License Request secondary filter,License Request secondary filter,Y
+OLE10138,1008,1,10,OLE-PTRN,Initiate AddressType Document,Initiate AddressType Document,Y
+OLE10139,1009,1,16,OLE-PTRN,Edit AddressType Document,Edit AddressType Document,Y
+OLE10140,1010,1,10,OLE-PTRN,Initiate EmailType Document,Initiate EmailType Document,Y
+OLE10141,1011,1,16,OLE-PTRN,Edit EmailType Document,Edit EmailType Document,Y
+OLE10142,1012,1,10,OLE-PTRN,Initiate PhoneType Document,Initiate PhoneType Document,Y
+OLE10143,1013,1,16,OLE-PTRN,Edit PhoneType Document,Edit PhoneType Document,Y
+OLE10144,1016,1,10,OLE-CAT,Initiate Access Method Document,Initiate Access Method Document,Y
+OLE10145,1017,1,10,OLE-CAT,Initiate Acquisition Method Document,Initiate Acquisition Method Document,Y
+OLE10146,1018,1,10,OLE-CAT,Initiate Action Document,Initiate Action Document,Y
+OLE10147,1019,1,10,OLE-CAT,Initiate Completeness Document,Initiate Completeness Document,Y
+OLE10148,1020,1,10,OLE-CAT,Initiate Country Codes Document,Initiate Country Codes Document,Y
+OLE10149,1021,1,10,OLE-CAT,Initiate Location Status Document,Initiate Location Status Document,Y
+OLE10150,1022,1,10,OLE-CAT,Initiate Shelving Order Document,Initiate Shelving Order Document,Y
+OLE10151,1023,1,10,OLE-CAT,Initiate Shelving Scheme Document,Initiate Shelving Scheme Document,Y
+OLE10152,1024,1,10,OLE-CAT,Initiate Specific Retention Policy Document,Initiate Specific Retention Policy Document,Y
+OLE10153,1025,1,10,OLE-CAT,Initiate Seperate Or Composite Report Document,Initiate Seperate Or Composite Report Document,Y
+OLE10154,1026,1,10,OLE-CAT,Initiate Record Type Document,Initiate Record Type Document,Y
+OLE10155,1027,1,10,OLE-CAT,Initiate Lending Policy Document,Initiate Lending Policy Document,Y
+OLE10156,1028,1,10,OLE-CAT,Initiate Instance Item Type Document,Initiate Instance Item Type Document,Y
+OLE10157,1029,1,10,OLE-CAT,Initiate Specific Retention Policy Type Unit Document,Initiate Specific Retention Policy Type Unit Document,Y
+OLE10158,1030,1,10,OLE-CAT,Initiate Source Of Term Document,Initiate Source Of Term Document,Y
+OLE10159,1031,1,10,OLE-CAT,Initiate Notation Type Document,Initiate Notation Type Document,Y
+OLE10160,1032,1,10,OLE-CAT,Initiate Privacy Document,Initiate Privacy Document,Y
+OLE10161,1033,1,10,OLE-CAT,Initiate Receipt Status Document,Initiate Receipt Status Document,Y
+OLE10162,1034,1,10,OLE-CAT,Initiate ELARelatioshipDocument Document,Initiate ELARelatioshipDocument Document,Y
+OLE10163,1035,1,10,OLE-CAT,Initiate EncodingLevelDocument Document,Initiate EncodingLevelDocument Document,Y
+OLE10164,1036,1,10,OLE-CAT,Initiate FieldEncodingLevelDocument Document,Initiate FieldEncodingLevelDocument Document,Y
+OLE10165,1037,1,10,OLE-CAT,Initiate GeneralRetentionPolicyDocument Document,Initiate GeneralRetentionPolicyDocument Document,Y
+OLE10166,1038,1,10,OLE-CAT,Initiate Statistical Searching Codes Document,Initiate Statistical Searching Codes Document,Y
+OLE10167,1039,1,10,OLE-CAT,Initiate Type Of Ownership Document,Initiate Type Of Ownership Document,Y
+OLE10168,1040,1,10,OLE-CAT,Initiate Reproduction Policy Document,Initiate Reproduction Policy Document,Y
+OLE10169,OLE1001,1,10,OLE-LIC,Initiate Checklist Document,Initiate Checklist Document,Y
+OLE10170,OLE1002,1,16,OLE-LIC,Edit Checklist Document,Edit Checklist Document,Y
+OLE10171,OLE1003,1,10,OLE-LIC,Initiate License Request Status Document,Initiate License Request Status Document,Y
+OLE10172,OLE1004,1,16,OLE-LIC,Edit License Request Status Document,Edit License Request Status Document,Y
+OLE10173,OLE1005,1,10,OLE-LIC,Initiate Current Location Document,Initiate Current Location Document,Y
+OLE10174,OLE1006,1,16,OLE-LIC,Edit Current Location Document,Edit Current Location Document,Y
+OLE10175,OLE1007,1,10,OLE-LIC,Initiate License Request Type Document,Initiate License Request Type Document,Y
+OLE10176,OLE1008,1,16,OLE-LIC,Edit License Request Type Document,Edit License Request Type Document,Y
+OLE10177,OLE1009,1,10,OLE-LIC,Initiate Agreement DocType Document,Initiate Agreement DocType Document,Y
+OLE10178,OLE1010,1,16,OLE-LIC,Edit Agreement DocType Document,Edit Agreement DocType Document,Y
+OLE10179,OLE1011,1,10,OLE-LIC,Initiate Agreement Method Document,Initiate Agreement Method Document,Y
+OLE10180,OLE1012,1,16,OLE-LIC,Edit Agreement Method Document,Edit Agreement Method Document,Y
+OLE10181,OLE1013,1,10,OLE-LIC,Initiate Agreement Status Document,Initiate Agreement Status Document,Y
+OLE10182,OLE1014,1,16,OLE-LIC,Edit Agreement Status Document,Edit Agreement Status Document,Y
+OLE10183,OLE1015,1,10,OLE-LIC,Initiate Agreement Type Document,Initiate Agreement Type Document,Y
+OLE10184,OLE1016,1,16,OLE-LIC,Edit Agreement Type Document,Edit Agreement Type Document,Y
+OLE10185,OLE1017,1,4,OLE-LIC,Blanket Approve,Blanket Approve for License Request Document,Y
+OLE10187,1101,1,1,OLE-PTRN,Can Override Loan,Can Override the Loan Document,Y
+OLE10188,1102,1,1,OLE-PTRN,Mapping Circulation Desk,This is for mapping the circulation Desk with the operator,Y
+OLE10190,OLE1018,1,16,OLE-LIC,Edit License Request Document,Editing the License Request document,Y
+OLE10191,OLE1019,1,15,OLE-LIC,Save License Request Document,Save the License Request document,Y
+OLE10192,2100,1,1,OLE-DLVR,Can Remove Note,Can Remove Check-in Note,Y
+KR1000,D0C2892F47EB9142E0406E0AC31D23D6,1,8,KUALI,Take Requested Complete Action,Authorizes users to take the Complete action on documents routed to them.,Y
+KRLLMD1,ED104,1,10,OLE-SELECT,Initiate Location Level Maintenance Document,Initiate Location Level Maintenance Document,Y
+KRLMD1,ED102,1,42,OLE-SELECT,Edit Location Maintenance Document,Edit Location Maintenance Document,Y
+KRLMD2,ED103,1,42,OLE-SELECT,Edit Location Maintenance Document for Shelving Location Administrator,Edit Location Maintenance Document for Shelving Location Administrator,Y
+KRSAP10003,CDD8032915D6BF1FE040F90A05B94313,1,58,KR-SAP,View Kitchen Sink Group,Allows users to view the group in kitchen sink page 9.,Y
+KRSAP10004,CDD8032915DABF1FE040F90A05B94313,1,58,KR-SAP,View Kitchen Sink Page,Allows users to view page 9 in the kitchen sink,Y
+KRSAP10005,CDD8032915DEBF1FE040F90A05B94313,1,59,KR-SAP,Edit Kitchen Sink Group,Allows users to edit the group in page 9 of the kitchen sink,Y
+KRSAP10006,CDD8032915E2BF1FE040F90A05B94313,1,56,KR-SAP,View Kitchen Sink Field,Allows users to view the field in page 9 of the kitchen sink,Y
+KRSAP10007,CDD8032915E6BF1FE040F90A05B94313,1,57,KR-SAP,Edit Kitchen Sink Field,Allows users to edit the field in page 9 of the kitchen sink,Y
+KRSAP10008,CDD8032915EABF1FE040F90A05B94313,1,56,KR-SAP,View Kitchen Sink Field Group,Allows users to view the field group in page 9 of the kitchen sink,Y
+KRSAP10009,CDD8032915EEBF1FE040F90A05B94313,1,57,KR-SAP,Edit Kitchen Sink Field Group,Allows users to edit the field group in page 9 of the kitchen sink,Y
+KRSAP10010,CDD8032915F2BF1FE040F90A05B94313,1,62,KR-SAP,Perform Kitchen Sink Action,Allows users to perform the save action in page 9 of the kitchen sink,Y
+KRSAP10011,CDD8032915F6BF1FE040F90A05B94313,1,60,KR-SAP,View Kitchen Sink Widget,Allows users to view the quickfinder widget in page 9 of the kitchen sink,Y
+KRSAP10012,CDD8032915FABF1FE040F90A05B94313,1,63,KR-SAP,View Kitchen Sink Line,Allows users to view the collection line in page 9 of the kitchen sink,Y
+KRSAP10013,CDD8032915FEBF1FE040F90A05B94313,1,64,KR-SAP,Edit Kitchen Sink Line,Allows users to edit the collection line in page 9 of the kitchen sink,Y
+KRSAP10014,CDD803291602BF1FE040F90A05B94313,1,65,KR-SAP,View Kitchen Sink Line Field,Allows users to view the collection line field in page 9 of the kitchen sink,Y
+KRSAP10015,CDD803291607BF1FE040F90A05B94313,1,66,KR-SAP,Edit Kitchen Sink Line Field,Allows users to edit the collection line field in page 9 of the kitchen sink,Y
+KRSAP10016,CDD80329160CBF1FE040F90A05B94313,1,67,KR-SAP,Perform Kitchen Sink Line Action,Allows users to perform the delete line action in page 9 of the kitchen sink,Y
+OLEIITMD,ED1012,1,42,OLE-SELECT,Edit Item Type Maintenance Document,Edit Item Type Maintenance Document,Y
+OLEITAS,ED1013,1,10,OLE-SELECT,Initiate Item Availability Maintenance Document,Initiate Item Availability Maintenance Document,Y
+OLERSMD,ED1014,1,42,OLE-SELECT,Edit Receipt Status Maintenance Document,Edit Receipt Status Maintenance Document,Y
+OLESSMD,ED1011,1,42,OLE-SELECT,Edit Call Number Type Maintenance Document,Edit Call Number Type Maintenance Document,Y
+OLESTSRC,ED1015,1,42,OLE-SELECT,Edit Statistical Searching Codes Maintenance Document,Edit Statistical Searching Codes Maintenance Document,Y
+OLETYPO,ED1016,1,42,OLE-SELECT,Edit Type Of Ownership Maintenance Document,Edit Type Of Ownership Maintenance Document,Y
+OLE10193,3100,1,58,OLE-SELECT,Show Serials Receiving Record From Holding,Allows users to view Serial Receiving record from Holdings record.,Y
+OLE10195,OLE90071,1,62,OLE-PTRN,Create fastadd,User can create an item record,Y
+OLE10196,OLE90072,1,42,OLE-PTRN,Create/Update Circulation desk,User can create and maintain circulation desk,Y
+OLE10197,OLE90073,1,58,OLE-PTRN,Display Existing loan,User can display existing loan,Y
+OLE10198,OLE90074,1,62,OLE-PTRN,Update due date,User can update due date.,Y
+OLE10199,OLE90075,1,58,OLE-PTRN,Display request,User can display request,Y
+OLE10200,OLE90076,1,58,OLE-DLVR,Update request queue,User can update request queue,Y
+OLE10201,OLE90077,1,62,OLE-PTRN,Can Override,User can override.,Y
+OLE10202,OLE90078,1,62,OLE-PTRN,Post payment,The posted amount will be detected from the bill amount.,Y
+OLE10203,OLE90079,1,62,OLE-PTRN,Post forgive,The posted amount will be detected from the bill amount.,Y
+OLE10205,OLE90081,1,59,OLE-PTRN,Create/Update proxy patron,User can create/update proxy patron,Y
+OLE10206,OLE90082,1,59,OLE-PTRN,Can backdate check-in time/date,User can backdate check-in time/date.,Y
+OLE10207,OLE90083,1,59,OLE-PTRN,EDITOR_ITEM_INFORMATION,User can update item record,Y
+OLE10208,OLE90084,1,59,OLE-PTRN,Update patron address only,User can update patron address,Y
+OLE10209,OLE90085,1,58,OLE-PTRN,Display Current loan,User can display current loaned item,Y
+OLE10210,OLE90086,1,1,OLE-PTRN,Display Bill,User can display bill,Y
+OLE10211,OLE90087,1,1,OLE-PTRN,Create/update Bill,User can create/update bill,Y
+OLE10212,OLE90088,1,1,OLE-PTRN,Can update item status,Can update item status,Y
+OLE10214,OLE90090,1,42,OLE-PTRN,Edit Request Document,Edit Request Document,Y
+OLE404,OLE404,1,1,OLE-SELECT,SERIAL_RECEIVING_SEARCH,Allows user to perform serial receiving search,Y
+OLE10223,OLE70004,1,58,OLE-CAT,DESC_WORKBENCH_EXPORT_XML,Exports requested record to requestXml,Y
+OLE10224,OLE70005,1,1,OLE-CAT,DESC_WORKBENCH_SEARCH,User can search the bib/holding/item record,Y
+OLE10225,OLE70006,1,1,OLE-CAT,MARC_EDITOR_ADD_BIB,User can create a bib record,Y
+OLE10226,OLE70007,1,62,OLE-CAT,MARC_EDITOR_EDIT_BIB,User can edit a bib record,Y
+OLE10227,OLE70008,1,62,OLE-CAT,MARC_EDITOR_DELETE_BIB,User can delete a bib record,Y
+OLE10228,OLE70009,1,57,OLE-CAT,MARC_EDITOR_BIB_STATUS,User can edit bib status for a bib record,Y
+OLE10229,OLE70010,1,59,OLE-CAT,EDITOR_HOLDINGS_CALLNUMBER,User can view holdings call number,Y
+OLE10230,OLE70011,1,59,OLE-CAT,EDITOR_HOLDINGS_LOCATION,User can view holdings location,Y
+OLE10231,OLE70012,1,59,OLE-CAT,EDITOR_ITEM_CALLNUMBERANDLOCATION,User can view item callnumber and  location,Y
+OLE10232,OLE70014,1,62,OLE-CAT,INSTANCE_EDITOR_ADD_INSTANCE,User can add instance for a bib record,Y
+OLE10233,OLE70015,1,62,OLE-CAT,INSTANCE_EDITOR_EDIT_INSTANCE,User can edit instance for a bib record,Y
+OLE10234,OLE70016,1,62,OLE-CAT,INSTANCE_EDITOR_EDIT_ITEM,User can edit item for a bib record,Y
+OLE10235,OLE70017,1,1,OLE-CAT,INSTANCE_EDITOR_ADD_ITEM,User can add item record ,Y
+OLE10236,OLE70018,1,1,OLE-CAT,INSTANCE_EDITOR_DELETE_INSTANCE,User can delete instance record ,Y
+OLE10237,OLE70019,1,1,OLE-CAT,INSTANCE_EDITOR_DELETE_ITEM,User can delete item record ,Y
+OLE10238,OLE70020,1,1,OLE-CAT,CALL_NUMBER_BROWSE,Allows user to perform call number searches,Y
+OLE10239,OLE70021,1,1,OLE-CAT,TRANSFER_HOLDING_OR_ITEM,Allows user to perform transfer holding/item searches,Y
+OLE10240,OLE70022,1,1,OLE-CAT,BOUND_WITH,Allows user to perform bound holding/item,Y
+OLE10241,OLE70023,1,58,OLE-CAT,INGEST_BIB_LOCAL,Allows user to import bib locally,Y
+OLE10242,OLE70024,1,58,OLE-CAT,INGEST_BIB_EXTERNAL,Allows user to import bib from external,Y
+OLE10243,OLE70025,1,1,OLE-CAT,BATCH_PROCESS_IMPORT,Allows user to import bib through batch process,Y
+OLE10244,OLE70026,1,1,OLE-CAT,BATCH_PROCESS_EXPORT,Allows user to export batch through batch process,Y
+OLE10269,10090,1,10,OLE-SELECT,Initiate E-Resource Record,Allows user to initiate the E-Resource record.,Y
+OLE10270,10091,1,16,OLE-SELECT,Edit E-Resource Record,Allows user to edit the E-Resource record.,Y
+OLE10271,OLE70052,1,1,OLE-CAT,BATCH_PROCESS_DELETE,Allows user to delete a batch through batch process,Y
+OLE9001,OLE9001,1,52,OLE,Maintain KRMS Agenda,Allows creation and modification of agendas via the agenda editor,Y
+OLE10272,OLE70053,1,16,OLE-SELECT,Edit Item Availability Maintenance Document,Edit Item Availability Maintenance Document,Y
+OLE10273,OLE70054,1,62,OLE-CAT,INSTANCE_EDITOR_DELETE_EINSTANCE,User can delete an eHoldings record,Y
+OLE10274,OLE70055,1,62,OLE-CAT,MARC_EDITOR_ADD_EINSTANCE,User can add an eholding record,Y
+OLE10275,OLE70056,1,62,OLE-CAT,INSTANCE_EDITOR_EDIT_EINSTANCE,User can edit an eholding record,Y
+OLE10276,OLE70057,1,42,OLE-PTRN,Initiate Patron Document,Authorizes users to Create Patron Document,Y
+OLE10277,OLE70058,1,42,OLE-PTRN,Edit Patron Document,Authorizes users to Edit Patron Document,Y
+OLE10278,OLE70059,1,62,OLE-CAT,INSTANCE_EDITOR_EINSTANCE_RESTORE_OLE-DEFAULTS,Authorizes users to restore ole defaults,Y
+OLE10279,OLE70060,1,16,OLE-SELECT,Edit Serial Receiving Document,Authorizes users to Edit Serial Receiving Document,Y
+OLE10280,OLE70061,1,1,OLE-SELECT,Link Existing Bib,Allows users to link existing bib to requisition,Y
+OLE10281,OLE70062,1,4,OLE-SELECT,Blanket Approve CM Document,Allows User to blanket approve a CM document,Y
+OLE10282,OLE70063,1,59,OLE-PTRN,Update patron overview,User can update Barcode Borrower Type Upload Image etc. ,Y
+OLE10283,OLE70064,1,59,OLE-PTRN,Update patron name only,User can update patron name,Y
+OLE10284,OLE70065,1,59,OLE-PTRN,Update patron phone only,User can update patron phone type  phone number extension number details etc. ,Y
+OLE10285,OLE70066,1,59,OLE-PTRN,Update patron email only,User can update patron email address,Y
+OLE10286,OLE70067,1,59,OLE-PTRN,Update patron affiliation,User can update patron affiliation details,Y
+OLE10287,OLE70068,1,59,OLE-PTRN,Update patron library policies,User can update library policies,Y
+OLE10288,OLE70069,1,58,OLE-PTRN,Display Loaned records,User can view loaned records,Y
+OLE10289,OLE70070,1,58,OLE-PTRN,Display Temporary Circulation History records,User can view temporary circulation history records,Y
+OLE10290,OLE70071,1,59,OLE-PTRN,Update Patron Notes,User can update patron notes.,Y
+OLE10291,OLE70072,1,58,OLE-PTRN,Display Proxy Patron,User can view proxy patron.,Y
+OLE10292,OLE70073,1,59,OLE-PTRN,Update Patron Local Id,User can update patron's local identification.,Y
+OLE10293,OLE70074,1,59,OLE-PTRN,Display InvalidOrLost Barcode,User can view invalid or lost barcode.,Y
+OLE10294,OLE70075,1,59,OLE-CAT,EDITOR_HOLDINGS_EXTENT_OF_OWNERSHIP,User can update extent of ownership,Y
+OLE10295,OLE70076,1,10,OLE-CAT,Initiate Batch Process Profile,User can initiate batch process profile,Y
+OLE10296,OLE70077,1,16,OLE-CAT,Edit Batch Process Profile,User can initiate batch process profile,Y
+OLE10298,OLE70079,1,1,OLE-DLVR,Patron record expired,Allows users to override if patron record is expired.,Y
+OLE10299,OLE70080,1,1,OLE-DLVR,Proxy patron record expired,Allows users to override if proxy patron record is expired.,Y
+OLE10300,OLE70081,1,1,OLE-DLVR,Patron has a general block,Allows users to override if a patron record has a general block.,Y
+OLE10301,OLE70082,1,1,OLE-DLVR,Patron has max # of items checked out,Allows users to override if a patron has checked out maximum number of items.,Y
+OLE10302,OLE70083,1,1,OLE-DLVR,Patron has max # of checked out items marked 'claimed returned',Allows users to override if a patron has checked out maximum number of items marked 'claimed returned'.,Y
+OLE10303,OLE70084,1,1,OLE-DLVR,Patron has max amount of overdue fines,Allows users to override if a patron has maximum amount of overdue fines.,Y
+OLE10304,OLE70085,1,1,OLE-DLVR,Patron has max amount of replacement fees,Allows users to override if a patron has maximum amount of replacement fees.,Y
+OLE10305,OLE70086,1,1,OLE-DLVR,Patron has max amount of all charges,Allows users to override if a patron has maximum amount of all charges.,Y
+OLE10306,OLE70087,1,1,OLE-DLVR,Patron has max # of overdue items checked out,Allows users to override if a patron has checked out maximum number of overdue items.,Y
+OLE10307,OLE70088,1,1,OLE-DLVR,Patron has max # of recalled overdue items checked out,Allows users to override if a patron has checked out maximum number of recalled overdue items.,Y
+OLE10308,OLE70089,1,1,OLE-DLVR,Item on hold for another patron,Allows users to override if an item is on hold for another patron.,Y
+OLE10309,OLE70090,1,1,OLE-DLVR,Renewal limit reached,Allows users to override if renewal has reached its maximum.,Y
+OLE10311,OLE70092,1,1,OLE-DLVR,Patron has at least one item overdue for more than n days,Allows users to override if patron has at least one item overdue for more than n days,Y
+OLE10312,OLE70093,1,1,OLE-DLVR,Patron has at least one recalled item overdue for more than n days,Allows users to override if patron has at least one recalled item overdue for more than n days,Y
+OLE10313,OLE70094,1,1,OLE-DLVR,Item currently loaned to another patron,Allows users to override if an item is currently loaned to another patron,Y
+OLE10314,OLE70095,1,1,OLE-DLVR,Item has pending request queue where patron presenting item is NOT the patron in queue position '1',Allows users to override if patron presenting item is NOT the patron in queue position '1',Y
+OLE10315,OLE70096,1,1,OLE-DLVR,Item not at circ desk authorized to service the item’s shelving location,Allows users to override if an item is not at a circ desk authorized to service the item’s shelving location,Y
+OLE10316,OLE70097,1,58,OLE-CAT,Global Edit of Holdings/Items/EHoldings,Allows users to edit multiple OLE Instances by making the same changes to all affected OLE Instances,Y
+OLE10317,OLE70098,1,1,OLE-CAT,Create Analytics,Allows users to Create 'analytics' links between a series holdings record and one or more analytics holdings records.,Y
+OLE10318,OLE70099,1,66,OLE-SELECT,Edit Enumeration Main Receipt History,Allows user to edit Enumeration field in Main Receipt History in serial receiving record.,Y
+OLE10319,OLE70100,1,66,OLE-SELECT,Edit Enumeration Supplementary Receipt History,Allows user to edit Enumeration field in Supplementary Receipt History in serial receiving record.,Y
+OLE10320,OLE70101,1,66,OLE-SELECT,Edit Enumeration Index Receipt History,Allows user to edit Enumeration field in Index Receipt History in serial receiving record.,Y
+OLE10321,OLE70102,1,66,OLE-SELECT,Edit Chronology Main Receipt History,Allows user to edit Chronology field in Main Receipt History in serial receiving record.,Y
+OLE10322,OLE70103,1,66,OLE-SELECT,Edit Chronology Supplementary Receipt History,Allows user to edit Chronology field in Supplementary Receipt History in serial receiving record.,Y
+OLE10323,OLE70104,1,66,OLE-SELECT,Edit Chronology Index Receipt History,Allows user to edit Chronology field in Index Receipt History in serial receiving record.,Y
+OLE10324,OLE70105,1,1,OLE-DLVR,Item contains the pending request,Allows users to override if item contains pending request.,Y
+OLE10325,OLE70325,1,10,OLE-SELECT,Initiate Platform Record,Allows user to initiate the Platform record.,Y
+OLE10326,OLE70326,1,16,OLE-SELECT,Edit Platform Record,Allows user to edit the Platform record.,Y
+OLE10327,OLE10327,1,62,OLE-SELECT,Delete E-Resource Record,Allows user to delete the E-Resource record.,Y
+OLE10328,OLE10328,1,62,OLE-SELECT,Delete E-Resource Instance,Allows user to delete the selected Instances under E-Resource record.,Y
+

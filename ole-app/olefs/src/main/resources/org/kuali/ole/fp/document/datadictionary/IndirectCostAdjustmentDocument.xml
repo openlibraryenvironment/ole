@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+<!--
+ Copyright 2007-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean id="IndirectCostAdjustmentDocument" parent="IndirectCostAdjustmentDocument-parentBean"/>
+
+  <bean id="IndirectCostAdjustmentDocument-parentBean" abstract="true" parent="AccountingDocumentEntry">
+    <property name="allowsErrorCorrection" value="true"/>
+    <property name="documentTypeName" value="OLE_ICA"/>
+    <property name="documentClass" value="org.kuali.ole.fp.document.IndirectCostAdjustmentDocument"/>
+    <property name="baseDocumentClass" value="org.kuali.ole.fp.document.IndirectCostAdjustmentDocument"/>
+    <property name="businessRulesClass" value="org.kuali.ole.sys.document.validation.impl.AccountingRuleEngineRuleBase"/>
+    <property name="documentAuthorizerClass" value="org.kuali.ole.sys.document.authorization.AccountingDocumentAuthorizerBase"/>
+    <property name="documentPresentationControllerClass" value="org.kuali.ole.fp.document.authorization.IndirectCostAdjustmentDocumentPresentationController"/>
+    <property name="importedLineParserClass" value="org.kuali.ole.fp.businessobject.IndirectCostAdjustmentDocumentAccountingLineParser" />
+    <property name="sessionDocument" value="true"/>
+    <property name="allowsCopy" value="true"/>
+
+    <property name="validationMap" ref="IndirectCostAdjustmentDocument-validations"/>
+    <property name="accountingLineGroups">
+    	<map>
+    		<entry>
+    			<key><value>source</value></key>
+	    		<ref bean="IndirectCostAdjustmentDocument-sourceAccountingLineGroup" parent="AccountingLineGroup"/>
+	    	</entry>
+	    	<entry>
+	    		<key><value>target</value></key>
+	    		<ref bean="IndirectCostAdjustmentDocument-targetAccountingLineGroup" parent="AccountingLineGroup"/>
+	    	</entry>
+    	</map>
+    </property>
+    <property name="workflowAttributes">
+    	<ref bean="IndirectCostAdjustmentDocument-workflowAttributes"/>
+    </property>
+    
+  </bean>
+  
+  <!-- validations -->
+  <bean id="IndirectCostAdjustmentDocument-validations" parent="IndirectCostAdjustmentDocument-validations-parentBean"/>
+  
+  <bean id="IndirectCostAdjustmentDocument-validations-parentBean"  abstract="true" class="org.springframework.beans.factory.config.MapFactoryBean">
+  	<property name="sourceMap">
+		<map key-type="java.lang.Class">
+			<entry>
+				<key><value>org.kuali.ole.sys.document.validation.event.AttributedRouteDocumentEvent</value></key>
+				<value>IndirectCostAdjustment-routeDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.ole.sys.document.validation.event.AttributedSaveDocumentEvent</value></key>
+				<value>IndirectCostAdjustment-saveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.ole.sys.document.validation.event.AttributedApproveDocumentEvent</value></key>
+				<value>IndirectCostAdjustment-approveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.ole.sys.document.validation.event.AttributedBlanketApproveDocumentEvent</value></key>
+				<value>IndirectCostAdjustment-blanketApproveDocumentValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.ole.sys.document.validation.event.AddAccountingLineEvent</value></key>
+				<value>IndirectCostAdjustment-addAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.ole.sys.document.validation.event.DeleteAccountingLineEvent</value></key>
+				<value>IndirectCostAdjustment-deleteAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.ole.sys.document.validation.event.UpdateAccountingLineEvent</value></key>
+				<value>IndirectCostAdjustment-updateAccountingLineValidation</value>
+			</entry>
+			<entry>
+				<key><value>org.kuali.ole.sys.document.validation.event.ReviewAccountingLineEvent</value></key>
+				<value>IndirectCostAdjustment-reviewAccountingLineValidation</value>
+			</entry>
+    	</map>
+    </property>
+  </bean>
+  
+  <!-- accounting line groups -->
+  <bean id="IndirectCostAdjustmentDocument-sourceAccountingLineGroup" parent="IndirectCostAdjustmentDocument-sourceAccountingLineGroup-parentBean"/> 
+  <bean id="IndirectCostAdjustmentDocument-sourceAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
+	  <property name="accountingLineView" ref="IndirectCostAdjustmentDocument-accountingLineView"/>
+	  <property name="accountingLineClass" value="org.kuali.ole.sys.businessobject.SourceAccountingLine"/>
+	  <property name="groupLabel" value="Grant"/>
+	  <property name="accountingLineAuthorizerClass" value="org.kuali.ole.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer"/>
+	  <property name="importedLinePropertyPrefix" value="source"/>
+	  <property name="totals" ref="AccountingDocument-sourceGroupTotals"/>
+	  <property name="errorKey" value="document.sourceAccounting*,sourceAccountingLines,newSourceLine*"/> <!-- note people copying this: AV and JV have extra things that belong here -->
+	</bean>
+	
+	<bean id="IndirectCostAdjustmentDocument-targetAccountingLineGroup" parent="IndirectCostAdjustmentDocument-targetAccountingLineGroup-parentBean"/>	
+	<bean id="IndirectCostAdjustmentDocument-targetAccountingLineGroup-parentBean" parent="AccountingLineGroup" abstract="true">
+	  <property name="accountingLineView" ref="IndirectCostAdjustmentDocument-accountingLineView"/>
+	  <property name="accountingLineClass" value="org.kuali.ole.sys.businessobject.TargetAccountingLine"/>
+	  <property name="groupLabel" value="Receipt"/>
+	  <property name="accountingLineAuthorizerClass" value="org.kuali.ole.fp.document.authorization.FinancialProcessingAccountingLineAuthorizer"/>
+	  <property name="importedLinePropertyPrefix" value="target"/>
+	  <property name="totals" ref="AccountingDocument-targetGroupTotals"/>
+	  <property name="errorKey" value="document.targetAccounting*,targetAccountingLines,newTargetLine*"/>
+	</bean>  
+	
+	<bean id="IndirectCostAdjustmentDocument-accountingLineView" parent="IndirectCostAdjustmentDocument-accountingLineView-parent"/>
+	<bean id="IndirectCostAdjustmentDocument-accountingLineView-parent" parent="AccountingLineView" abstract="true">
+		<property name="elements">
+			<list>
+				<bean parent="AccountingLineView-sequenceNumber"/>
+				<bean parent="AccountingLineView-lines">
+					<property name="lines">
+						<list>
+							<ref bean="IndirectCostAdjustmentDocument-accountingInformation"/>
+						</list>
+					</property>
+				</bean>
+				<bean parent="AccountingLineView-field" p:name="amount" p:required="true"/>
+				<bean parent="AccountingLineView-actions"/>
+			</list>
+		</property>
+	</bean>
+		
+	<bean id="IndirectCostAdjustmentDocument-accountingInformation" parent="IndirectCostAdjustmentDocument-accountingInformation-parent"/>
+	<bean id="IndirectCostAdjustmentDocument-accountingInformation-parent" parent="AccountingLineView-line" abstract="true">
+		<property name="elementName" value="accountingInformation"/>
+		<property name="fields">
+			<list>
+				<bean parent="AccountingLineView-field" p:name="chartOfAccountsCode" p:required="true" p:webUILeaveFieldFunction="loadChartInfo" p:dynamicLabelProperty="chart.finChartOfAccountDescription"/>
+				<bean parent="AccountingLineView-field" p:name="accountNumber" p:required="true" p:webUILeaveFieldFunction="loadAccountInfo" p:dynamicLabelProperty="account.accountName">
+					<property name="overrideFields">
+						<list>
+							<bean parent="AccountingLineView-overrideField" p:name="accountExpiredOverride"/>
+							<bean parent="AccountingLineView-overrideField" p:name="nonFringeAccountOverride"/>
+						</list>
+					</property>
+				</bean>
+				<bean parent="AccountingLineView-field" p:name="subAccountNumber" p:webUILeaveFieldFunction="loadSubAccountInfo" p:dynamicLabelProperty="subAccount.subAccountName"/>
+				<bean parent="AccountingLineView-field" p:name="financialObjectCode" p:required="true" p:unconditionallyReadOnly="true" p:dynamicNameLabelGeneratorBeanName="objectCodeDynamicNameLabelGenerator">
+					<property name="overrideFields">
+						<list>
+							<bean parent="AccountingLineView-overrideField" p:name="objectBudgetOverride" p:allowEditDespiteReadOnlyParentWhenAccoutingLineEditable="true"/>
+						</list>
+					</property>
+				</bean>
+				<bean parent="AccountingLineView-field" p:name="financialSubObjectCode" p:dynamicNameLabelGeneratorBeanName="subObjectCodeDynamicNameLabelGenerator" />
+				<bean parent="AccountingLineView-field" p:name="projectCode" p:webUILeaveFieldFunction="loadProjectInfo" p:dynamicLabelProperty="project.projectDescription"/>
+				<bean parent="AccountingLineView-field" p:name="organizationReferenceId"/>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- workflow attributes for routing -->
+	<bean id="IndirectCostAdjustmentDocument-workflowAttributes" parent="IndirectCostAdjustmentDocument-workflowAttributes-parentBean"/>
+	
+	<bean id="IndirectCostAdjustmentDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+    	
+    	<property name="routingTypeDefinitions">
+    		<map>
+    			<entry key="Account" value-ref="RoutingType-AccountingDocument-Account"/>
+    			<entry key="AccountingOrganizationHierarchy" value-ref="RoutingType-AccountingDocument-OrganizationHierarchy"/>
+    			<entry key="SubFund" value-ref="RoutingType-AccountingDocument-SubFund"/>
+    			<entry key="Award" value-ref="RoutingType-AccountingDocument-Award"/>
+    		</map>
+    	</property>
+	</bean>
+</beans>

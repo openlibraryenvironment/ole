@@ -1,0 +1,678 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <!--
+       - Copyright 2011 The Kuali Foundation.
+       -
+       - Licensed under the Educational Community License, Version 2.0 (the "License");
+       - you may not use this file except in compliance with the License.
+       - You may obtain a copy of the License at
+       -
+       - http://www.opensource.org/licenses/ecl2.php
+       -
+       - Unless required by applicable law or agreed to in writing, software
+       - distributed under the License is distributed on an "AS IS" BASIS,
+       - WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+       - See the License for the specific language governing permissions and
+       - limitations under the License.
+     -->
+
+    <bean id="InvoiceItem" parent="OleInvoiceItem-parentBean"/>
+
+    <bean id="OleInvoiceItem-parentBean" abstract="true" parent="InvoiceItem-parentBean">
+        <property name="businessObjectClass" value="org.kuali.ole.select.businessobject.OleInvoiceItem"/>
+        <property name="baseBusinessObjectClass"	value="org.kuali.ole.module.purap.businessobject.InvoiceItem" />
+        <property name="attributes">
+            <list merge="true">
+                <ref bean="InvoiceItem-itemCurrencyType"/>
+                <ref bean="InvoiceItem-itemForeignListPrice"/>
+                <ref bean="InvoiceItem-itemForeignDiscount"/>
+                <ref bean="InvoiceItem-itemForeignDiscountType"/>
+                <ref bean="InvoiceItem-itemForeignDiscountAmt"/>
+                <ref bean="InvoiceItem-itemForeignUnitCost"/>
+                <ref bean="InvoiceItem-itemExchangeRate"/>
+                <ref bean="InvoiceItem-itemUnitCostUSD"/>
+                <ref bean="InvoiceItem-itemRouteToRequestorIndicator"/>
+                <ref bean="InvoiceItem-itemPublicViewIndicator"/>
+                <ref bean="InvoiceItem-formatTypeId"/>
+                <ref bean="InvoiceItem-itemNoOfParts"/>
+                <ref bean="InvoiceItem-itemListPrice"/>
+                <ref bean="InvoiceItem-itemDiscount"/>
+                <ref bean="InvoiceItem-itemDiscountType"/>
+                <ref bean="InvoiceItem-itemSurcharge"/>
+                <ref bean="InvoiceItem-note"/>
+                <ref bean="InvoiceItem-localTitleId"/>
+                <ref bean="InvoiceItem-poItemIdentifier"/>
+                <ref bean="InvoiceItem-foreignCurrencyExtendedPrice"/>
+                <ref bean="InvoiceItem-itemTitleId"/>
+                <ref bean="InvoiceItem-bibUUID"/>
+                <ref bean="InvoiceItem-invoiceDocument.vendorName"/>
+                <ref bean="InvoiceItem-invoiceDocument.documentNumber"/>
+                <ref bean="InvoiceItem-invoiceDocument.purchaseOrderIdentifier"/>
+                <ref bean="InvoiceItem-sourceAccountingLines.accountNumber"/>
+                <ref bean="InvoiceItem-sourceAccountingLines.chartOfAccountsCode"/>
+                <ref bean="InvoiceItem-docData.title"/>
+                <ref bean="InvoiceItem-docData.author"/>
+                <ref bean="InvoiceItem-donorCode"/>
+                <ref bean="InvoiceItem-docData.publisher"/>
+                <ref bean="InvoiceItem-docData.placeOfPublication"/>
+                <ref bean="InvoiceItem-docData.isbn"/>
+                <ref bean="InvoiceItem-docData.price"/>
+                <ref bean="InvoiceItem-docData.format"/>
+                <ref bean="InvoiceItem-docData.publicationDate"/>
+                <ref bean="InvoiceItem-isAdditionalChargeUsd"/>
+                <ref bean="InvoiceItem-receiptStatusId"/>
+                <ref bean="InvoiceItem-oleItemQuantity"/>
+                <ref bean="InvoiceItem-olePoOutstandingQuantity"/>
+                <ref bean="InvoiceItem-invoiceListPrice"/>
+                <ref bean="InvoiceItem-invoiceForeignListPrice"/>
+                <ref bean="InvoiceItem-oleCopiesOrdered"/>
+                <ref bean="InvoiceItem-discountItem"/>
+                <ref bean="InvoiceItem-purchaseOrderIdentifier"/>
+                <ref bean="InvoiceItem-subscriptionFromDate"/>
+                <ref bean="InvoiceItem-subscriptionToDate"/>
+                <ref bean="InvoiceItem-subscriptionOverlap"/>
+            </list>
+        </property>
+        <property name="relationships">
+            <list>
+                <bean parent="RelationshipDefinition"  p:objectAttributeName="docData">
+                    <property name="primitiveAttributes">
+                        <list>
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="itemTitleId"
+                                  p:targetName="titleId" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="InvoiceItem-itemCurrencyType" parent="InvoiceItem-itemCurrencyType-parentBean"/>
+
+    <bean id="InvoiceItem-itemCurrencyType-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="itemCurrencyType"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Currency Type"/>
+        <property name="shortLabel" value="Type"/>
+        <property name="maxLength" value="200"/>
+        <property name="validationPattern">
+            <ref bean="AnyCharacterWithWhitespaceValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="InvoiceItem-itemForeignListPrice" parent="InvoiceItem-itemForeignListPrice-parentBean"/>
+
+    <bean id="InvoiceItem-itemForeignListPrice-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemUnitPrice">
+        <property name="name" value="itemForeignListPrice"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Foreign List Price"/>
+        <property name="shortLabel" value="Foreign List Price"/>
+
+    </bean>
+
+    <bean id="InvoiceItem-donorCode" parent="InvoiceItem-donorCode-parentBean"/>
+    <bean id="InvoiceItem-donorCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="donorCode"/>
+        <property name="label" value="Donor"/>
+        <property name="shortLabel" value="Donor"/>
+        <property name="maxLength" value="10"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="10"/>
+        </property>
+    </bean>
+    <bean id="InvoiceItem-itemForeignDiscount" parent="InvoiceItem-itemForeignDiscount-parentBean"/>
+
+    <bean id="InvoiceItem-itemForeignDiscount-parentBean" abstract="true" parent="GenericAttributes-percent">
+        <property name="name" value="itemForeignDiscount"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Foreign Discount"/>
+        <property name="shortLabel" value="Foreign Discount"/>
+        <property name="validationPattern">
+            <bean parent="FixedPointValidationPattern" p:precision="19" p:scale="4" />
+        </property>
+    </bean>
+
+    <bean id="InvoiceItem-itemForeignDiscountType" parent="InvoiceItem-itemForeignDiscountType-parentBean"/>
+
+    <bean id="InvoiceItem-itemForeignDiscountType-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="itemForeignDiscountType" />
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Discount Type"/>
+        <property name="shortLabel" value="Discount Type"/>
+        <property name="maxLength" value="1"/>
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.ole.module.purap.businessobject.options.DiscountTypeValuesFinder" p:includeKeyInLabel="false"/>
+        </property>
+    </bean>
+    <bean id="InvoiceItem-localTitleId" parent="InvoiceItem-localTitleId-parentBean"/>
+    <bean id="InvoiceItem-localTitleId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="localTitleId"/>
+        <property name="label" value="Title ID"/>
+        <property name="shortLabel" value="Title ID"/>
+        <property name="maxLength" value="200"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+    <bean id="InvoiceItem-itemForeignDiscountAmt" parent="InvoiceItem-itemForeignDiscountAmt-parentBean"/>
+
+    <bean id="InvoiceItem-itemForeignDiscountAmt-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemUnitPrice">
+        <property name="name" value="itemForeignDiscountAmt"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Foreign Discount Amt"/>
+        <property name="shortLabel" value="Foreign Discount Amt"/>
+
+    </bean>
+
+    <bean id="InvoiceItem-itemForeignUnitCost" parent="InvoiceItem-itemForeignUnitCost-parentBean"/>
+
+    <bean id="InvoiceItem-itemForeignUnitCost-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemUnitPrice">
+        <property name="name" value="itemForeignUnitCost"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Foreign Unit Cost"/>
+        <property name="shortLabel" value="Foreign Unit Cost"/>
+
+    </bean>
+
+    <bean id="InvoiceItem-itemExchangeRate" parent="InvoiceItem-itemExchangeRate-parentBean"/>
+
+    <bean id="InvoiceItem-itemExchangeRate-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemUnitPrice">
+        <property name="name" value="itemExchangeRate"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Exchange Rate"/>
+        <property name="shortLabel" value="Exchange Rate"/>
+        <property name="validationPattern">
+            <bean parent="FixedPointValidationPattern" p:precision="19" p:scale="6" />
+        </property>
+
+    </bean>
+
+
+    <bean id="InvoiceItem-itemUnitCostUSD" parent="InvoiceItem-itemUnitCostUSD-parentBean"/>
+
+    <bean id="InvoiceItem-itemUnitCostUSD-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemUnitPrice">
+        <property name="name" value="itemUnitCostUSD"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="USD Unit Cost"/>
+        <property name="shortLabel" value="USD Unit Cost"/>
+
+    </bean>
+
+    <bean id="InvoiceItem-itemRouteToRequestorIndicator" parent="InvoiceItem-itemRouteToRequestorIndicator-parentBean"/>
+
+    <bean id="InvoiceItem-itemRouteToRequestorIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="itemRouteToRequestorIndicator"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Route To Requestor"/>
+        <property name="shortLabel" value="Route To Requestor"/>
+        <property name="maxLength" value="1"/>
+        <property name="control">
+            <bean parent="CheckboxControlDefinition"/>
+        </property>
+    </bean>
+
+    <bean id="InvoiceItem-itemPublicViewIndicator" parent="InvoiceItem-itemPublicViewIndicator-parentBean"/>
+
+    <bean id="InvoiceItem-itemPublicViewIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="itemPublicViewIndicator"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Public View"/>
+        <property name="shortLabel" value="Public View"/>
+        <property name="maxLength" value="2"/>
+        <property name="control">
+            <bean parent="CheckboxControlDefinition"/>
+        </property>
+    </bean>
+
+    <bean id="InvoiceItem-formatTypeId" parent="InvoiceItem-formatTypeId-parentBean" />
+    <bean id="InvoiceItem-formatTypeId-parentBean" abstract="true" parent="OleFormatType-formatTypeId">
+        <property name="name" value="formatTypeId"/>
+        <property name="label" value="Format"/>
+        <property name="shortLabel" value="Format"/>
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.ole.select.businessobject.options.OleFormatTypeValuesFinder" p:includeKeyInLabel="false"/>
+        </property>
+    </bean>
+
+    <bean id="InvoiceItem-itemNoOfParts" parent="InvoiceItem-itemNoOfParts-parentBean"/>
+    <bean id="InvoiceItem-itemNoOfParts-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="itemNoOfParts"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="No.Of Parts"/>
+        <property name="shortLabel" value="No. of Parts"/>
+        <property name="maxLength" value="3"/>
+        <property name="validationPattern">
+            <ref bean="NumericValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="5" />
+        </property>
+    </bean>
+
+    <bean id="InvoiceItem-itemListPrice" parent="InvoiceItem-itemListPrice-parentBean"/>
+    <bean id="InvoiceItem-itemListPrice-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemUnitPrice">
+        <property name="name" value="itemListPrice"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="List Price"/>
+        <property name="shortLabel" value="List Price"/>
+
+    </bean>
+
+    <bean id="InvoiceItem-itemDiscount" parent="InvoiceItem-itemDiscount-parentBean"/>
+    <bean id="InvoiceItem-itemDiscount-parentBean" abstract="true" parent="GenericAttributes-percent">
+        <property name="name" value="itemDiscount"/>
+        <property name="label" value="Discount"/>
+        <property name="shortLabel" value="Discount"/>
+        <property name="validationPattern">
+            <bean parent="FixedPointValidationPattern" p:precision="19" p:scale="4" />
+        </property>
+    </bean>
+
+    <bean id="InvoiceItem-itemDiscountType" parent="InvoiceItem-itemDiscountType-parentBean"/>
+    <bean id="InvoiceItem-itemDiscountType-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="itemDiscountType"/>
+        <property name="label" value="Discount Type"/>
+        <property name="shortLabel" value="Discount Type"/>
+        <property name="maxLength" value="1"/>
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.ole.module.purap.businessobject.options.DiscountTypeValuesFinder" p:includeKeyInLabel="false"/>
+        </property>
+    </bean>
+
+    <bean id="InvoiceItem-itemSurcharge" parent="InvoiceItem-itemSurcharge-parentBean"/>
+    <bean id="InvoiceItem-itemSurcharge-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemUnitPrice">
+        <property name="name" value="itemSurcharge"/>
+        <property name="label" value="Prorated Surcharge"/>
+        <property name="shortLabel" value="Prorated Surcharge"/>
+    </bean>
+
+    <bean id="InvoiceItem-poItemIdentifier" parent="InvoiceItem-poItemIdentifier-parentBean"/>
+    <bean id="InvoiceItem-poItemIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemIdentifier">
+        <property name="name" value="poItemIdentifier"/>
+        <property name="label" value="PO Item Identifier"/>
+        <property name="shortLabel" value="Po ItemId"/>
+    </bean>
+
+    <bean id="InvoiceItem-note" parent="InvoiceItem-note-parentBean"/>
+    <bean id="InvoiceItem-note-parentBean" abstract="true" parent="OleInvoiceNote-note">
+        <property name="name" value="note"/>
+        <property name="label" value="Note"/>
+        <property name="shortLabel" value="Text"/>
+    </bean>
+    <bean id="InvoiceItem-itemCatalogNumber-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="itemCatalogNumber"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Item Catalog Number"/>
+        <property name="shortLabel" value="Vendor Item Identifier"/>
+        <property name="maxLength" value="30"/>
+        <property name="validationPattern">
+            <ref bean="AnyCharacterWithWhitespaceValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="15"/>
+        </property>
+    </bean>
+
+    <bean id="InvoiceItem-itemUnitOfMeasureCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="itemUnitOfMeasureCode"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Item Unit Of Measure Code"/>
+        <property name="shortLabel" value="UOM"/>
+        <property name="maxLength" value="4"/>
+        <property name="validationPattern">
+            <ref bean="AnyCharacterValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="5"/>
+        </property>
+
+    </bean>
+
+    <bean id="InvoiceItem-foreignCurrencyExtendedPrice" parent="InvoiceItem-foreignCurrencyExtendedPrice-parentBean"/>
+
+    <bean id="InvoiceItem-foreignCurrencyExtendedPrice-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+        <property name="name" value="foreignCurrencyExtendedPrice"/>
+        <property name="label" value="Foreign Currency Extended Price"/>
+        <property name="shortLabel" value="Foreign Currency Extended Cost"/>
+    </bean>
+
+    <bean id="InvoiceItem-itemTitleId" parent="InvoiceItem-itemTitleId-parentBean"/>
+    <bean id="InvoiceItem-itemTitleId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="itemTitleId"/>
+        <property name="label" value="Title ID"/>
+        <property name="shortLabel" value="Title ID"/>
+        <property name="maxLength" value="200"/>
+        <property name="control">
+            <bean parent="HiddenControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+    <bean id="InvoiceItem-bibUUID" parent="InvoiceItem-bibUUID-parentBean"/>
+    <bean id="InvoiceItem-bibUUID-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="bibUUID"/>
+        <property name="label" value="Title Bib ID"/>
+        <property name="shortLabel" value="Title Bib ID"/>
+        <property name="maxLength" value="200"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="InvoiceItem-invoiceDocument.vendorName" parent="InvoiceItem-invoiceDocument.vendorName-parentBean"/>
+
+    <bean id="InvoiceItem-invoiceDocument.vendorName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="invoiceDocument.vendorName"/>
+        <property name="label" value="Vendor Name"/>
+        <property name="shortLabel" value="Vendor Name"/>
+        <property name="maxLength" value="200"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="InvoiceItem-sourceAccountingLines.accountNumber" parent="InvoiceItem-sourceAccountingLines.accountNumber-parentBean" />
+
+    <bean id="InvoiceItem-sourceAccountingLines.accountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="sourceAccountingLines.accountNumber"/>
+        <property name="label" value="Account Number"/>
+        <property name="shortLabel" value="Account #"/>
+        <property name="maxLength" value="20"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="InvoiceItem-sourceAccountingLines.chartOfAccountsCode" parent="InvoiceItem-sourceAccountingLines.chartOfAccountsCode-parentBean" />
+
+    <bean id="InvoiceItem-sourceAccountingLines.chartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="sourceAccountingLines.chartOfAccountsCode"/>
+        <property name="label" value="Chart Code"/>
+        <property name="shortLabel" value="Chart #"/>
+        <property name="maxLength" value="20"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="InvoiceItem-docData.title" parent="InvoiceItem-docData.title-parentBean" />
+    <bean id="InvoiceItem-docData.title-parentBean" abstract="true" parent="DocData-title">
+        <property name="name" value="docData.title"/>
+        <property name="label" value="Title"/>
+        <property name="shortLabel" value="Title"/>
+        <property name="maxLength" value="200"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="InvoiceItem-docData.author" parent="InvoiceItem-docData.author-parentBean" />
+    <bean id="InvoiceItem-docData.author-parentBean" abstract="true" parent="DocData-author">
+        <property name="name" value="docData.author"/>
+        <property name="label" value="Author"/>
+        <property name="shortLabel" value="Author"/>
+        <property name="maxLength" value="200"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="InvoiceItem-docData.publisher" parent="InvoiceItem-docData.publisher-parentBean" />
+    <bean id="InvoiceItem-docData.publisher-parentBean" parent="DocData-publisher" abstract="true"
+          p:name="docData.publisher"
+          p:forceUppercase="false"
+          p:label="Publisher"
+          p:shortLabel="Publisher"
+          p:required="false" >
+    </bean>
+
+    <bean id="InvoiceItem-docData.placeOfPublication" parent="InvoiceItem-docData.placeOfPublication-parentBean" />
+    <bean id="InvoiceItem-docData.placeOfPublication-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="docData.placeOfPublication"/>
+        <property name="label" value="Place Of Publication"/>
+        <property name="shortLabel" value="Place Of Publication"/>
+        <property name="maxLength" value="200"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="InvoiceItem-docData.publicationDate" parent="InvoiceItem-docData.publicationDate-parentBean" />
+    <bean id="InvoiceItem-docData.publicationDate-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="docData.publicationDate"/>
+        <property name="label" value="Publication Date"/>
+        <property name="shortLabel" value="Publication Date"/>
+        <property name="maxLength" value="200"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="InvoiceItem-docData.format" parent="InvoiceItem-docData.format-parentBean" />
+    <bean id="InvoiceItem-docData.format-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="docData.format"/>
+        <property name="label" value="Format"/>
+        <property name="shortLabel" value="Format"/>
+        <property name="maxLength" value="200"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="InvoiceItem-docData.price" parent="InvoiceItem-docData.price-parentBean" />
+    <bean id="InvoiceItem-docData.price-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="docData.price"/>
+        <property name="label" value="Price"/>
+        <property name="shortLabel" value="Price"/>
+        <property name="maxLength" value="200"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="InvoiceItem-docData.isbn" parent="InvoiceItem-docData.isbn-parentBean"/>
+    <bean id="InvoiceItem-docData.isbn-parentBean" abstract="true" parent="DocData-isbn">
+        <property name="name" value="docData.isbn"/>
+        <property name="label" value="ISBN"/>
+        <property name="shortLabel" value="ISBN"/>
+        <property name="maxLength" value="200"/>
+        <property name="validationPattern">
+            <ref bean="AnyCharacterValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="InvoiceItem-invoiceDocument.documentNumber" parent="InvoiceItem-invoiceDocument.documentNumber-parentBean"/>
+    <bean id="InvoiceItem-invoiceDocument.documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="invoiceDocument.documentNumber"/>
+        <property name="label" value="Document Number"/>
+        <property name="shortLabel" value="Document Number"/>
+        <property name="maxLength" value="200"/>
+        <property name="validationPattern">
+            <ref bean="NumericValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+
+
+    <bean id="InvoiceItem-invoiceDocument.purchaseOrderIdentifier" parent="InvoiceItem-invoiceDocument.purchaseOrderIdentifier-parentBean" />
+    <bean id="InvoiceItem-invoiceDocument.purchaseOrderIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="invoiceDocument.purchaseOrderIdentifier"/>
+        <property name="label" value="Invoice  PO Identifier"/>
+        <property name="shortLabel" value="Payment PO Identifier"/>
+        <property name="maxLength" value="200"/>
+        <property name="validationPattern">
+            <ref bean="NumericValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+    <bean id="InvoiceItem-isAdditionalChargeUsd" parent="InvoiceItem-isAdditionalChargeUsd-parentBean"/>
+    <bean id="InvoiceItem-isAdditionalChargeUsd-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="additionalChargeUsd"/>
+        <property name="label" value="Additional Charge USD"/>
+        <property name="shortLabel" value="USD"/>
+        <property name="maxLength" value="10"/>
+        <property name="control">
+            <bean parent="CheckboxControlDefinition"/>
+        </property>
+    </bean>
+
+    <bean id="InvoiceItem-receiptStatusId" parent="InvoiceItem-receiptStatusId-parentBean"/>
+    <bean id="InvoiceItem-receiptStatusId-parentBean" abstract="true" parent="OleReceiptStatus-receiptStatusId">
+        <property name="name" value="receiptStatusId"/>
+        <property name="label" value="Receipt Status"/>
+        <property name="shortLabel" value="Receipt Status"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+       <!-- <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.ole.select.businessobject.options.OleReceiptStatusValuesFinder" p:includeKeyInLabel="false"/>
+        </property>-->
+    </bean>
+
+    <bean id="InvoiceItem-oleItemQuantity" parent="InvoiceItem-oleItemQuantity-parentBean"/>
+    <bean id="InvoiceItem-oleItemQuantity-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="oleItemQuantity"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="No of Copies Ordered"/>
+        <property name="shortLabel" value="No of Copies Ordered"/>
+        <property name="maxLength" value="3"/>
+        <property name="required" value="true"/>
+        <property name="validationPattern">
+            <ref bean="NumericValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="3" />
+        </property>
+    </bean>
+
+    <bean id="InvoiceItem-olePoOutstandingQuantity" parent="InvoiceItem-olePoOutstandingQuantity-parentBean"/>
+    <bean id="InvoiceItem-olePoOutstandingQuantity-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="olePoOutstandingQuantity"/>
+        <property name="label" value="Item Open Quantity"/>
+        <property name="shortLabel" value="Open Qty"/>
+        <property name="maxLength" value="3"/>
+        <property name="validationPattern">
+            <bean parent="FixedPointValidationPattern" p:precision="11" p:scale="2"  p:allowNegative="true"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="3" />
+        </property>
+    </bean>
+
+    <bean id="InvoiceItem-invoiceListPrice" parent="InvoiceItem-invoiceListPrice-parentBean"/>
+    <bean id="InvoiceItem-invoiceListPrice-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="invoiceListPrice"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Invoiced Price"/>
+        <property name="shortLabel" value="Invoiced Price"/>
+        <property name="maxLength" value="30"/>
+        <property name="validationPattern">
+            <ref bean="AnyCharacterWithWhitespaceValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="5"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="5"/>
+        </property>
+    </bean>
+
+    <bean id="InvoiceItem-invoiceForeignListPrice" parent="InvoiceItem-invoiceForeignListPrice-parentBean"/>
+    <bean id="InvoiceItem-invoiceForeignListPrice-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="invoiceForeignListPrice"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Invoiced Foreign Price"/>
+        <property name="shortLabel" value="Invoiced Foreign Price"/>
+        <property name="maxLength" value="25"/>
+        <property name="validationPattern">
+            <ref bean="AnyCharacterWithWhitespaceValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="5"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="5"/>
+        </property>
+    </bean>
+
+    <bean id="InvoiceItem-oleCopiesOrdered" parent="InvoiceItem-oleCopiesOrdered-parentBean"/>
+    <bean id="InvoiceItem-oleCopiesOrdered-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="oleCopiesOrdered"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Copies Invoiced"/>
+        <property name="shortLabel" value="Copies Invoiced"/>
+        <property name="maxLength" value="30"/>
+        <property name="validationPattern">
+            <ref bean="AnyCharacterWithWhitespaceValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="5"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="5"/>
+        </property>
+    </bean>
+
+    <bean id="InvoiceItem-discountItem" parent="InvoiceItem-discountItem-parentBean"/>
+    <bean id="InvoiceItem-discountItem-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="discountItem"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Discount"/>
+        <property name="shortLabel" value="Discount"/>
+        <property name="maxLength" value="30"/>
+        <property name="validationPattern">
+            <ref bean="AnyCharacterWithWhitespaceValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="5"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="5"/>
+        </property>
+    </bean>
+
+    <bean id="InvoiceItem-purchaseOrderIdentifier" parent="InvoiceItem-purchaseOrderIdentifier-parentBean" />
+
+    <bean id="InvoiceItem-purchaseOrderIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-purapDocumentIdentifier">
+        <property name="name" value="purchaseOrderIdentifier"/>
+        <property name="label" value="Purchase Order #"/>
+        <property name="shortLabel" value="Purchase Order #"/>
+    </bean>
+
+    <bean id="InvoiceItem-subscriptionFromDate" parent="InvoiceItem-subscriptionFromDate-parentBean"/>
+
+    <bean id="InvoiceItem-subscriptionFromDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+        <property name="name" value="subscriptionFromDate"/>
+        <property name="label" value="Subscription From Date"/>
+        <property name="shortLabel" value="Subscription From"/>
+    </bean>
+
+    <bean id="InvoiceItem-subscriptionToDate" parent="InvoiceItem-subscriptionToDate-parentBean"/>
+
+    <bean id="InvoiceItem-subscriptionToDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+        <property name="name" value="subscriptionToDate"/>
+        <property name="label" value="Subscription To Date"/>
+        <property name="shortLabel" value="Subscription To"/>
+    </bean>
+
+    <bean id="InvoiceItem-subscriptionOverlap" parent="InvoiceItem-subscriptionOverlap-parentBean"/>
+
+    <bean id="InvoiceItem-subscriptionOverlap-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
+        <property name="name" value="subscriptionOverlap"/>
+        <property name="label" value="Subscription Overlap"/>
+        <property name="shortLabel" value="Subscription Overlap"/>
+    </bean>
+
+</beans>
+
+	

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+<!--
+ Copyright 2007-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean id="ObjectCodeMaintenanceDocument" parent="ObjectCodeMaintenanceDocument-parentBean"/>
+
+  <bean id="ObjectCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.ole.coa.businessobject.ObjectCode"/>
+    <property name="maintainableClass" value="org.kuali.ole.coa.document.ObjectCodeMaintainableImpl"/>
+    <property name="maintainableSections">
+      <list>
+        <ref bean="ObjectCodeMaintenanceDocument-EditObjectCode"/>
+      </list>
+    </property>
+    <property name="defaultExistenceChecks">
+      <list>
+        <bean parent="ReferenceDefinition" p:attributeName="universityFiscal" p:attributeToHighlightOnFail="universityFiscalYear"/>
+        <bean parent="ReferenceDefinition" p:attributeName="chartOfAccounts" p:attributeToHighlightOnFail="chartOfAccountsCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="finObjMandatoryTrnfrelim" p:attributeToHighlightOnFail="finObjMandatoryTrnfrelimCd"/>
+        <bean parent="ReferenceDefinition" p:attributeName="financialObjectLevel" p:attributeToHighlightOnFail="financialObjectLevelCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="financialObjectType" p:attributeToHighlightOnFail="financialObjectTypeCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="financialObjectSubType" p:attributeToHighlightOnFail="financialObjectSubTypeCode"/>
+      </list>
+    </property>
+    <property name="lockingKeys">
+      <list>
+        <value>universityFiscalYear</value>
+        <value>chartOfAccountsCode</value>
+        <value>financialObjectCode</value>
+      </list>
+    </property>
+    
+    
+    
+    
+    
+    <property name="documentTypeName" value="OLE_OBJT"/>
+    <property name="businessRulesClass" value="org.kuali.ole.coa.document.validation.impl.ObjectCodeRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.ole.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
+    <property name="promptBeforeValidationClass" value="org.kuali.ole.coa.document.validation.impl.ObjectCodePreRules"/>
+    <property name="webScriptFiles">
+      <list>
+        <value>../dwr/interface/ChartService.js</value>
+        <value>../scripts/sys/objectInfo.js</value>
+      </list>
+    </property>
+	<property name="documentPresentationControllerClass" value="org.kuali.ole.sys.document.authorization.FinancialSystemMaintenanceDocumentPresentationControllerBase"/>
+    <property name="workflowAttributes">
+    	<ref bean="ObjectCodeMaintenanceDocument-workflowAttributes"/>
+    </property>
+  </bean>
+
+<!-- Maintenance Section Definitions -->
+
+
+  <bean id="ObjectCodeMaintenanceDocument-EditObjectCode" parent="ObjectCodeMaintenanceDocument-EditObjectCode-parentBean"/>
+
+  <bean id="ObjectCodeMaintenanceDocument-EditObjectCode-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Object Code"/>
+    <property name="title" value="Edit Object Code"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="universityFiscalYear" p:required="true" p:defaultValueFinderClass="org.kuali.ole.sys.businessobject.defaultvalue.FiscalYearFinder"/>
+        <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="financialObjectCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="financialObjectCodeName" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="financialObjectCodeShortName" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="reportsToChartOfAccountsCode" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="reportsToFinancialObjectCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="financialObjectTypeCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="financialObjectLevelCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="financialObjectSubTypeCode" p:required="true"/>
+        
+        <!--  Start Code changes to hide Historic Financial Object Code, Object Sub-Type Code as per JIRA OLE2345 -->
+        <!-- bean parent="MaintainableFieldDefinition" p:name="historicalFinancialObjectCode"/-->
+        <!--  End Code changes to hide Historic Financial Object Code, Object Sub-Type Code as per JIRA OLE2345 -->
+        
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
+        
+        <!--  Start Code changes to hide Budget Aggregation Code, Mandatory transfer or elimination, Federal Funded Code and Next Year object
+			  Code as per JIRA OLE2345 -->
+        
+        <!-- <bean parent="MaintainableFieldDefinition" p:name="financialBudgetAggregationCd" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="finObjMandatoryTrnfrelimCd" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="financialFederalFundedCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="nextYearFinancialObjectCode"/> -->
+        
+        <!--  End Code changes to hide Budget Aggregation Code, Mandatory transfer or elimination, Federal Funded Code and Next Year object
+			  Code as per JIRA OLE2345 -->
+        
+      </list>
+    </property>
+  </bean>
+  
+	<!-- workflow attributes -->
+  	<bean id="ObjectCodeMaintenanceDocument-workflowAttributes" parent="ObjectCodeMaintenanceDocument-workflowAttributes-parentBean"/>
+  
+	<bean id="ObjectCodeMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+	<property name="routingTypeDefinitions">
+    		
+    		<map>
+    			<entry key="Chart" value-ref="ObjectCodeMaintenanceDocument-RoutingType-Chart"/>
+    			<entry key="OrganizationHierarchy" value-ref="ObjectCodeMaintenanceDocument-RoutingType-OrganizationHierarchy"/>
+    		</map>
+    	
+		</property>
+	</bean>
+	
+	<bean id="ObjectCodeMaintenanceDocument-RoutingAttribute-Chart" class="org.kuali.rice.krad.datadictionary.RoutingAttribute">
+    	<property name="qualificationAttributeName" value="chartOfAccountsCode"/>
+	</bean>
+	
+	<bean id="ObjectCodeMaintenanceDocument-RoutingAttribute-Organization" class="org.kuali.rice.krad.datadictionary.RoutingAttribute">
+    	<property name="qualificationAttributeName" value="organizationCode"/>
+	</bean>
+	
+	
+	<bean id="ObjectCodeMaintenanceDocument-DocumentValuePathGroup-ChartOrganization" class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
+    	<property name="documentValues">
+    		<list>
+    			<value>initiatorChartOfAccountsCode</value>
+    			<value>initiatorOrganizationCode</value>
+    		</list>
+    	</property>
+   	</bean>
+   	
+   	<bean id="ObjectCodeMaintenanceDocument-DocumentValuePathGroup-Chart" class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
+    	<property name="documentValues">
+    		<list>
+    			<value>newMaintainableObject.businessObject.chartOfAccountsCode</value>
+    		</list>
+    	</property>
+   	</bean>
+   	
+   	<bean id="ObjectCodeMaintenanceDocument-RoutingType-OrganizationHierarchy" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+		        <ref bean="ObjectCodeMaintenanceDocument-RoutingAttribute-Chart"/>
+    			<ref bean="ObjectCodeMaintenanceDocument-RoutingAttribute-Organization"/>
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<ref bean="ObjectCodeMaintenanceDocument-DocumentValuePathGroup-ChartOrganization"/>
+    		</list>
+    	</property>
+    </bean>
+    
+    <bean id="ObjectCodeMaintenanceDocument-RoutingType-Chart" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+		        <ref bean="ObjectCodeMaintenanceDocument-RoutingAttribute-Chart"/>
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<ref bean="ObjectCodeMaintenanceDocument-DocumentValuePathGroup-Chart"/>
+    		</list>
+    	</property>
+    </bean>
+</beans>

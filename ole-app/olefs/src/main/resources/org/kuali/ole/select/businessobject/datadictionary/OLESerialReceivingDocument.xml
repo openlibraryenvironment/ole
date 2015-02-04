@@ -1,0 +1,763 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <bean id="OLESerialReceivingDocument" parent="OLESerialReceivingDocument-parentBean"/>
+    <bean id="OLESerialReceivingDocument-parentBean" abstract="true" parent="uifTransactionalDocumentEntry">
+        <property name="documentTypeName" value="OLE_SER_RECV_REC"/>
+        <property name="documentClass" value="org.kuali.ole.select.bo.OLESerialReceivingDocument"/>
+        <property name="attributes">
+            <list>
+                <ref bean="OLESerialReceivingDocument-serialReceivingRecordId"/>
+                <ref bean="OLESerialReceivingDocument-actionInterval"/>
+                <ref bean="OLESerialReceivingDocument-title"/>
+                <ref bean="OLESerialReceivingDocument-issn"/>
+                <ref bean="OLESerialReceivingDocument-poId"/>
+                <ref bean="OLESerialReceivingDocument-vendorId"/>
+                <ref bean="OLESerialReceivingDocument-publisher"/>
+                <ref bean="OLESerialReceivingDocument-bibId"/>
+                <ref bean="OLESerialReceivingDocument-instanceId"/>
+                <ref bean="OLESerialReceivingDocument-boundLocation"/>
+                <ref bean="OLESerialReceivingDocument-unboundLocation"/>
+                <ref bean="OLESerialReceivingDocument-subscriptionStatus"/>
+                <ref bean="OLESerialReceivingDocument-serialReceiptLocation"/>
+                <ref bean="OLESerialReceivingDocument-callNumber"/>
+                <ref bean="OLESerialReceivingDocument-receivingRecordType"/>
+                <ref bean="OLESerialReceivingDocument-printLabel"/>
+                <ref bean="OLESerialReceivingDocument-publicDisplay"/>
+                <ref bean="OLESerialReceivingDocument-copyNumber"/>
+                <ref bean="OLESerialReceivingDocument-createItem"/>
+                <ref bean="OLESerialReceivingDocument-claim"/>
+                <ref bean="OLESerialReceivingDocument-actionDate"/>
+                <ref bean="OLESerialReceivingDocument-serialReceivingRecord"/>
+                <ref bean="OLESerialReceivingDocument-urgentNote"/>
+                <ref bean="OLESerialReceivingDocument-corporateAuthor"/>
+                <ref bean="OLESerialReceivingDocument-generalReceivingNote"/>
+                <ref bean="OLESerialReceivingDocument-treatmentInstructionNote"/>
+                <ref bean="OLESerialReceivingDocument-claimIntervalInformation"/>
+                <ref bean="OLESerialReceivingDocument-enumerationCaptionLevel1"/>
+                <ref bean="OLESerialReceivingDocument-enumerationCaptionLevel2"/>
+                <ref bean="OLESerialReceivingDocument-enumerationCaptionLevel3"/>
+                <ref bean="OLESerialReceivingDocument-enumerationCaptionLevel4"/>
+                <ref bean="OLESerialReceivingDocument-enumerationCaptionLevel5"/>
+                <ref bean="OLESerialReceivingDocument-enumerationCaptionLevel6"/>
+                <ref bean="OLESerialReceivingDocument-chronologyCaptionLevel1"/>
+                <ref bean="OLESerialReceivingDocument-chronologyCaptionLevel2"/>
+                <ref bean="OLESerialReceivingDocument-chronologyCaptionLevel3"/>
+                <ref bean="OLESerialReceivingDocument-chronologyCaptionLevel4"/>
+                <ref bean="OLESerialReceivingDocument-active"/>
+                <ref bean="OLESerialReceivingDocument-vendorAliasName"/>
+                <ref bean="OLESerialReceivingDocument-vendorName"/>
+
+            </list>
+        </property>
+    </bean>
+    <bean id="OLESerialReceivingDocument-serialReceivingRecordId" parent="OLESerialReceivingDocument-serialReceivingRecordId-parentBean"/>
+    <bean id="OLESerialReceivingDocument-serialReceivingRecordId-parentBean" parent="AttributeDefinition">
+        <property name="name" value="serialReceivingRecordId"/>
+        <property name="label" value="serialReceivingRecordId"/>
+        <property name="shortLabel" value="serialReceivingRecordId"/>
+        <property name="maxLength" value="40"/>
+        <property name="controlField"> <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
+    <bean id="OLESerialReceivingDocument-actionInterval" parent="OLESerialReceivingDocument-actionInterval-parentBean"/>
+    <bean id="OLESerialReceivingDocument-actionInterval-parentBean" parent="AttributeDefinition">
+        <property name="name" value="actionInterval"/>
+        <property name="label" value="Action Interval(* for claim)"/>
+        <property name="shortLabel" value="Action Interval"/>
+        <property name="maxLength" value="40"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLESerialReceivingDocument-title" parent="OLESerialReceivingDocument-title-parentBean"/>
+    <bean id="OLESerialReceivingDocument-title-parentBean" parent="AttributeDefinition">
+        <property name="name" value="title"/>
+        <property name="label" value="Title"/>
+        <property name="shortLabel" value="Title"/>
+        <property name="maxLength" value="500"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLESerialReceivingDocument-issn" parent="OLESerialReceivingDocument-issn-parentBean"/>
+    <bean id="OLESerialReceivingDocument-issn-parentBean" parent="AttributeDefinition">
+        <property name="name" value="issn"/>
+        <property name="label" value="ISSN"/>
+        <property name="shortLabel" value="ISSN"/>
+        <property name="maxLength" value="40"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLESerialReceivingDocument-poId" parent="OLESerialReceivingDocument-poId-parentBean"/>
+    <bean id="OLESerialReceivingDocument-poId-parentBean" parent="AttributeDefinition">
+        <property name="name" value="poId"/>
+        <property name="label" value="PO ID"/>
+        <property name="shortLabel" value="PO ID"/>
+        <property name="maxLength" value="50"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLESerialReceivingDocument-vendorId" parent="OLESerialReceivingDocument-vendorId-parentBean"/>
+    <bean id="OLESerialReceivingDocument-vendorId-parentBean" parent="AttributeDefinition">
+        <property name="name" value="vendorId"/>
+        <property name="label" value="Vendor Id"/>
+        <property name="shortLabel" value="Vendor Id"/>
+        <property name="maxLength" value="30"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
+    <bean id="OLESerialReceivingDocument-vendorName" parent="OLESerialReceivingDocument-vendorName-parentBean"/>
+    <bean id="OLESerialReceivingDocument-vendorName-parentBean" parent="AttributeDefinition">
+        <property name="name" value="vendorName"/>
+        <property name="label" value="Vendor Name(* for claim)"/>
+        <property name="shortLabel" value="Vendor Name"/>
+        <property name="maxLength" value="45"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="45"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="45"/>
+        </property>
+    </bean>
+
+
+    <bean id="OLESerialReceivingDocument-publisher" parent="OLESerialReceivingDocument-publisher-parentBean"/>
+    <bean id="OLESerialReceivingDocument-publisher-parentBean" parent="AttributeDefinition">
+        <property name="name" value="publisher"/>
+        <property name="label" value="Publisher"/>
+        <property name="shortLabel" value="Publisher"/>
+        <property name="maxLength" value="150"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLESerialReceivingDocument-bibId" parent="OLESerialReceivingDocument-bibId-parentBean"/>
+    <bean id="OLESerialReceivingDocument-bibId-parentBean" parent="AttributeDefinition">
+        <property name="name" value="localId"/>
+        <property name="label" value="Bib Record ID"/>
+        <property name="shortLabel" value="Bib Record ID"/>
+        <property name="maxLength" value="40"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLESerialReceivingDocument-instanceId" parent="OLESerialReceivingDocument-instanceId-parentBean"/>
+    <bean id="OLESerialReceivingDocument-instanceId-parentBean" parent="AttributeDefinition">
+        <property name="name" value="instanceId"/>
+        <property name="label" value="Instance Record ID"/>
+        <property name="shortLabel" value="Instance Record"/>
+        <property name="maxLength" value="40"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLESerialReceivingDocument-boundLocation" parent="OLESerialReceivingDocument-boundLocation-parentBean"/>
+    <bean id="OLESerialReceivingDocument-boundLocation-parentBean" parent="AttributeDefinition">
+        <property name="name" value="boundLocation"/>
+        <property name="label" value="Bound Location"/>
+        <property name="shortLabel" value="Bound Location"/>
+        <property name="maxLength" value="100"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLESerialReceivingDocument-unboundLocation" parent="OLESerialReceivingDocument-unboundLocation-parentBean"/>
+    <bean id="OLESerialReceivingDocument-unboundLocation-parentBean" parent="AttributeDefinition">
+        <property name="name" value="unboundLocation"/>
+        <property name="label" value="UnBound Location"/>
+        <property name="shortLabel" value="UnBound Location"/>
+        <property name="maxLength" value="100"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLESerialReceivingDocument-subscriptionStatus" parent="OLESerialReceivingDocument-subscriptionStatus-parentBean"/>
+    <bean id="OLESerialReceivingDocument-subscriptionStatus-parentBean" parent="AttributeDefinition">
+        <property name="name" value="subscriptionStatus"/>
+        <property name="label" value="Subscription Status"/>
+        <property name="shortLabel" value="Subscription Status"/>
+        <property name="maxLength" value="40"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLESerialReceivingDocument-serialReceiptLocation" parent="OLESerialReceivingDocument-serialReceiptLocation-parentBean"/>
+    <bean id="OLESerialReceivingDocument-serialReceiptLocation-parentBean" parent="AttributeDefinition">
+        <property name="name" value="serialReceiptLocation"/>
+        <property name="label" value="Serials Receipt Work Unit"/>
+        <property name="shortLabel" value="Serials Receipt Work Unit"/>
+        <property name="maxLength" value="40"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLESerialReceivingDocument-callNumber" parent="OLESerialReceivingDocument-callNumber-parentBean"/>
+    <bean id="OLESerialReceivingDocument-callNumber-parentBean" parent="AttributeDefinition">
+        <property name="name" value="callNumber"/>
+        <property name="label" value="Call Number"/>
+        <property name="shortLabel" value="Call Number"/>
+        <property name="maxLength" value="40"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLESerialReceivingDocument-receivingRecordType" parent="OLESerialReceivingDocument-receivingRecordType-parentBean"/>
+    <bean id="OLESerialReceivingDocument-receivingRecordType-parentBean" parent="AttributeDefinition">
+        <property name="name" value="receivingRecordType"/>
+        <property name="label" value="Receiving Record Type"/>
+        <property name="shortLabel" value="Receiving Record Type"/>
+        <property name="maxLength" value="40"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLESerialReceivingDocument-printLabel" parent="OLESerialReceivingDocument-printLabel-parentBean"/>
+    <bean id="OLESerialReceivingDocument-printLabel-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="printLabel"/>
+        <property name="shortLabel" value="Print Label"/>
+        <property name="label" value="Print Label"/>
+    </bean>
+
+    <bean id="OLESerialReceivingDocument-publicDisplay" parent="OLESerialReceivingDocument-publicDisplay-parentBean"/>
+    <bean id="OLESerialReceivingDocument-publicDisplay-parentBean" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="publicDisplay"/>
+        <property name="label" value="Public Display"/>
+        <property name="shortLabel" value="Public Display"/>
+    </bean>
+
+    <bean id="OLESerialReceivingDocument-copyNumber" parent="OLESerialReceivingDocument-copyNumber-parentBean"/>
+    <bean id="OLESerialReceivingDocument-copyNumber-parentBean" parent="AttributeDefinition">
+        <property name="name" value="copyNumber"/>
+        <property name="label" value="Copy Number"/>
+        <property name="shortLabel" value="Copy Number"/>
+        <property name="maxLength" value="40"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLESerialReceivingDocument-createItem" parent="OLESerialReceivingDocument-createItem-parentBean"/>
+    <bean id="OLESerialReceivingDocument-createItem-parentBean" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="createItem"/>
+        <property name="label" value="Create Item"/>
+        <property name="shortLabel" value="Create Item"/>
+    </bean>
+
+    <bean id="OLESerialReceivingDocument-claim" parent="OLESerialReceivingDocument-claim-parentBean"/>
+    <bean id="OLESerialReceivingDocument-claim-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
+        <property name="name" value="claim"/>
+        <property name="label" value="Claim"/>
+        <property name="shortLabel" value="Claim"/>
+    </bean>
+
+    <bean id="OLESerialReceivingDocument-actionDate" parent="OLESerialReceivingDocument-actionDate-parentBean"/>
+    <bean id="OLESerialReceivingDocument-actionDate-parentBean" parent="AttributeReferenceDummy-genericDate">
+        <property name="name" value="actionDate"/>
+        <property name="label" value="Action Date(* for claim)"/>
+        <property name="shortLabel" value="Action Date"/>
+    </bean>
+
+    <bean id="OLESerialReceivingDocument-serialReceivingRecord" parent="OLESerialReceivingDocument-serialReceivingRecord-parentBean"/>
+    <bean id="OLESerialReceivingDocument-serialReceivingRecord-parentBean" parent="AttributeDefinition">
+        <property name="name" value="serialReceivingRecord"/>
+        <property name="label" value="Serials Receiving Record #"/>
+        <property name="shortLabel" value="Serials Receiving Record #"/>
+        <property name="maxLength" value="40"/>
+        <property name="control">
+            <bean parent="TextareaControlDefinition" p:cols="50" p:rows="3"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextAreaControl" p:cols="50" p:rows="3"/>
+        </property>
+    </bean>
+
+
+    <bean id="OLESerialReceivingDocument-urgentNote" parent="OLESerialReceivingDocument-urgentNote-parentBean"/>
+    <bean id="OLESerialReceivingDocument-urgentNote-parentBean" parent="AttributeDefinition">
+        <property name="name" value="urgentNote"/>
+        <property name="label" value="Urgent Note"/>
+        <property name="shortLabel" value="Urgent Note"/>
+        <property name="maxLength" value="500"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control">
+            <bean parent="TextareaControlDefinition" p:cols="50" p:rows="3"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextAreaControl" p:cols="50" p:rows="3"/>
+        </property>
+    </bean>
+
+    <bean id="OLESerialReceivingDocument-corporateAuthor" parent="OLESerialReceivingDocument-corporateAuthor-parentBean"/>
+    <bean id="OLESerialReceivingDocument-corporateAuthor-parentBean" parent="AttributeDefinition">
+        <property name="name" value="corporateAuthor"/>
+        <property name="label" value="Author"/>
+        <property name="shortLabel" value="Author"/>
+        <property name="maxLength" value="100"/>
+        <property name="control">
+            <bean parent="TextareaControlDefinition" p:cols="50" p:rows="3"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLESerialReceivingDocument-generalReceivingNote" parent="OLESerialReceivingDocument-generalReceivingNote-parentBean"/>
+    <bean id="OLESerialReceivingDocument-generalReceivingNote-parentBean" parent="AttributeDefinition">
+        <property name="name" value="generalReceivingNote"/>
+        <property name="label" value="General Receiving Note"/>
+        <property name="shortLabel" value="General Receiving Note"/>
+        <property name="maxLength" value="500"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control">
+            <bean parent="TextareaControlDefinition" p:cols="50" p:rows="3"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextAreaControl" p:cols="50" p:rows="3"/>
+        </property>
+    </bean>
+
+    <bean id="OLESerialReceivingDocument-treatmentInstructionNote" parent="OLESerialReceivingDocument-treatmentInstructionNote-parentBean"/>
+    <bean id="OLESerialReceivingDocument-treatmentInstructionNote-parentBean" parent="AttributeDefinition">
+        <property name="name" value="treatmentInstructionNote"/>
+        <property name="label" value="Treatment Instruction Note"/>
+        <property name="shortLabel" value="Treatment Instruction Note"/>
+        <property name="maxLength" value="500"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control">
+            <bean parent="TextareaControlDefinition" p:cols="50" p:rows="3"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextAreaControl" p:cols="50" p:rows="3"/>
+        </property>
+    </bean>
+
+    <bean id="OLESerialReceivingDocument-claimIntervalInformation" parent="OLESerialReceivingDocument-claimIntervalInformation-parentBean"/>
+    <bean id="OLESerialReceivingDocument-claimIntervalInformation-parentBean" parent="AttributeDefinition">
+        <property name="name" value="claimIntervalInformation"/>
+        <property name="label" value="Claim Information"/>
+        <property name="shortLabel" value="Claim Information"/>
+        <property name="maxLength" value="500"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLESerialReceivingDocument-enumerationCaptionLevel1" parent="OLESerialReceivingDocument-enumerationCaptionLevel1-parentBean"/>
+    <bean id="OLESerialReceivingDocument-enumerationCaptionLevel1-parentBean" parent="AttributeDefinition">
+        <property name="name" value="enumerationCaptionLevel1"/>
+        <property name="label" value="Enumeration Caption Level1"/>
+        <property name="shortLabel" value="Enumeration Caption Level1"/>
+        <property name="maxLength" value="50"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLESerialReceivingDocument-enumCaption1" parent="OLESerialReceivingDocument-enumCaption1-parentBean"/>
+    <bean id="OLESerialReceivingDocument-enumCaption1-parentBean" parent="AttributeDefinition">
+        <property name="name" value="enumCaption1"/>
+        <property name="label" value="Enum Caption 1"/>
+        <property name="shortLabel" value="Enum Caption 1"/>
+        <property name="maxLength" value="5"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="5"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="5"/>
+        </property>
+    </bean>
+
+
+    <bean id="OLESerialReceivingDocument-enumCaption2" parent="OLESerialReceivingDocument-enumCaption2-parentBean"/>
+    <bean id="OLESerialReceivingDocument-enumCaption2-parentBean" parent="AttributeDefinition">
+        <property name="name" value="enumCaption2"/>
+        <property name="label" value="Enum Caption 2"/>
+        <property name="shortLabel" value="Enum Caption 2"/>
+        <property name="maxLength" value="5"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="5"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="5"/>
+        </property>
+    </bean>
+
+
+    <bean id="OLESerialReceivingDocument-enumCaption3" parent="OLESerialReceivingDocument-enumCaption3-parentBean"/>
+    <bean id="OLESerialReceivingDocument-enumCaption3-parentBean" parent="AttributeDefinition">
+        <property name="name" value="enumCaption3"/>
+        <property name="label" value="Enum Caption 3"/>
+        <property name="shortLabel" value="Enum Caption 3"/>
+        <property name="maxLength" value="5"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="5"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="5"/>
+        </property>
+    </bean>
+
+
+    <bean id="OLESerialReceivingDocument-enumCaption4" parent="OLESerialReceivingDocument-enumCaption4-parentBean"/>
+    <bean id="OLESerialReceivingDocument-enumCaption4-parentBean" parent="AttributeDefinition">
+        <property name="name" value="enumCaption4"/>
+        <property name="label" value="Enum Caption 4"/>
+        <property name="shortLabel" value="Enum Caption 4"/>
+        <property name="maxLength" value="5"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="5"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="5"/>
+        </property>
+    </bean>
+
+
+    <bean id="OLESerialReceivingDocument-enumCaption5" parent="OLESerialReceivingDocument-enumCaption5-parentBean"/>
+    <bean id="OLESerialReceivingDocument-enumCaption5-parentBean" parent="AttributeDefinition">
+        <property name="name" value="enumCaption5"/>
+        <property name="label" value="Enum Caption 5"/>
+        <property name="shortLabel" value="Enum Caption 5"/>
+        <property name="maxLength" value="5"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="5"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="5"/>
+        </property>
+    </bean>
+
+
+    <bean id="OLESerialReceivingDocument-enumCaption6" parent="OLESerialReceivingDocument-enumCaption6-parentBean"/>
+    <bean id="OLESerialReceivingDocument-enumCaption6-parentBean" parent="AttributeDefinition">
+        <property name="name" value="enumCaption6"/>
+        <property name="label" value="Enum Caption 6"/>
+        <property name="shortLabel" value="Enum Caption 6"/>
+        <property name="maxLength" value="5"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="5"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="5"/>
+        </property>
+    </bean>
+
+
+    <bean id="OLESerialReceivingDocument-enumLevel1" parent="OLESerialReceivingDocument-enumLevel1-parentBean"/>
+    <bean id="OLESerialReceivingDocument-enumLevel1-parentBean" parent="AttributeDefinition">
+        <property name="name" value="enumLevel1"/>
+        <property name="label" value="Enum Level 1"/>
+        <property name="shortLabel" value="Enum Level 1"/>
+        <property name="maxLength" value="5"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="5"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="5"/>
+        </property>
+    </bean>
+
+    <bean id="OLESerialReceivingDocument-enumLevel2" parent="OLESerialReceivingDocument-enumLevel2-parentBean"/>
+    <bean id="OLESerialReceivingDocument-enumLevel2-parentBean" parent="AttributeDefinition">
+        <property name="name" value="enumLevel2"/>
+        <property name="label" value="Enum Level 2"/>
+        <property name="shortLabel" value="Enum Level 2"/>
+        <property name="maxLength" value="5"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="5"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="5"/>
+        </property>
+    </bean>
+
+    <bean id="OLESerialReceivingDocument-enumLevel3" parent="OLESerialReceivingDocument-enumLevel3-parentBean"/>
+    <bean id="OLESerialReceivingDocument-enumLevel3-parentBean" parent="AttributeDefinition">
+        <property name="name" value="enumLevel3"/>
+        <property name="label" value="Enum Level 3"/>
+        <property name="shortLabel" value="Enum Level 3"/>
+        <property name="maxLength" value="5"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="5"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="5"/>
+        </property>
+    </bean>
+
+    <bean id="OLESerialReceivingDocument-enumLevel4" parent="OLESerialReceivingDocument-enumLevel4-parentBean"/>
+    <bean id="OLESerialReceivingDocument-enumLevel4-parentBean" parent="AttributeDefinition">
+        <property name="name" value="enumLevel4"/>
+        <property name="label" value="Enum Level 4"/>
+        <property name="shortLabel" value="Enum Level 4"/>
+        <property name="maxLength" value="5"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="5"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="5"/>
+        </property>
+    </bean>
+
+    <bean id="OLESerialReceivingDocument-enumLevel5" parent="OLESerialReceivingDocument-enumLevel5-parentBean"/>
+    <bean id="OLESerialReceivingDocument-enumLevel5-parentBean" parent="AttributeDefinition">
+        <property name="name" value="enumLevel5"/>
+        <property name="label" value="Enum Level 5"/>
+        <property name="shortLabel" value="Enum Level 5"/>
+        <property name="maxLength" value="5"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="5"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="5"/>
+        </property>
+    </bean>
+
+    <bean id="OLESerialReceivingDocument-enumLevel6" parent="OLESerialReceivingDocument-enumLevel6-parentBean"/>
+    <bean id="OLESerialReceivingDocument-enumLevel6-parentBean" parent="AttributeDefinition">
+        <property name="name" value="enumLevel6"/>
+        <property name="label" value="Enum Level 6"/>
+        <property name="shortLabel" value="Enum Level 6"/>
+        <property name="maxLength" value="5"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="5"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="5"/>
+        </property>
+    </bean>
+
+
+
+
+    <bean id="OLESerialReceivingDocument-enumerationCaptionLevel2" parent="OLESerialReceivingDocument-enumerationCaptionLevel2-parentBean"/>
+    <bean id="OLESerialReceivingDocument-enumerationCaptionLevel2-parentBean" parent="AttributeDefinition">
+        <property name="name" value="enumerationCaptionLevel2"/>
+        <property name="label" value="Enumeration Caption Level2"/>
+        <property name="shortLabel" value="Enumeration Caption Level2"/>
+        <property name="maxLength" value="50"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLESerialReceivingDocument-enumerationCaptionLevel3" parent="OLESerialReceivingDocument-enumerationCaptionLevel3-parentBean"/>
+    <bean id="OLESerialReceivingDocument-enumerationCaptionLevel3-parentBean" parent="AttributeDefinition">
+        <property name="name" value="enumerationCaptionLevel3"/>
+        <property name="label" value="Enumeration Caption Level3"/>
+        <property name="shortLabel" value="Enumeration Caption Level3"/>
+        <property name="maxLength" value="50"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLESerialReceivingDocument-enumerationCaptionLevel4" parent="OLESerialReceivingDocument-enumerationCaptionLevel4-parentBean"/>
+    <bean id="OLESerialReceivingDocument-enumerationCaptionLevel4-parentBean" parent="AttributeDefinition">
+        <property name="name" value="enumerationCaptionLevel4"/>
+        <property name="label" value="Enumeration Caption Level4"/>
+        <property name="shortLabel" value="Enumeration Caption Level4"/>
+        <property name="maxLength" value="50"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLESerialReceivingDocument-enumerationCaptionLevel5" parent="OLESerialReceivingDocument-enumerationCaptionLevel5-parentBean"/>
+    <bean id="OLESerialReceivingDocument-enumerationCaptionLevel5-parentBean" parent="AttributeDefinition">
+        <property name="name" value="enumerationCaptionLevel5"/>
+        <property name="label" value="Enumeration Caption Level5"/>
+        <property name="shortLabel" value="Enumeration Caption Level5"/>
+        <property name="maxLength" value="50"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLESerialReceivingDocument-enumerationCaptionLevel6" parent="OLESerialReceivingDocument-enumerationCaptionLevel6-parentBean"/>
+    <bean id="OLESerialReceivingDocument-enumerationCaptionLevel6-parentBean" parent="AttributeDefinition">
+        <property name="name" value="enumerationCaptionLevel6"/>
+        <property name="label" value="Enumeration Caption Level6"/>
+        <property name="shortLabel" value="Enumeration Caption Level6"/>
+        <property name="maxLength" value="50"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLESerialReceivingDocument-chronologyCaptionLevel1" parent="OLESerialReceivingDocument-chronologyCaptionLevel1-parentBean"/>
+    <bean id="OLESerialReceivingDocument-chronologyCaptionLevel1-parentBean" parent="AttributeDefinition">
+        <property name="name" value="chronologyCaptionLevel1"/>
+        <property name="label" value="Chronology Caption Level1"/>
+        <property name="shortLabel" value="Chronology Caption Level1"/>
+        <property name="maxLength" value="50"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLESerialReceivingDocument-chronologyCaptionLevel2" parent="OLESerialReceivingDocument-chronologyCaptionLevel2-parentBean"/>
+    <bean id="OLESerialReceivingDocument-chronologyCaptionLevel2-parentBean" parent="AttributeDefinition">
+        <property name="name" value="chronologyCaptionLevel2"/>
+        <property name="label" value="Chronology Caption Level2"/>
+        <property name="shortLabel" value="Chronology Caption Level2"/>
+        <property name="maxLength" value="50"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLESerialReceivingDocument-chronologyCaptionLevel3" parent="OLESerialReceivingDocument-chronologyCaptionLevel3-parentBean"/>
+    <bean id="OLESerialReceivingDocument-chronologyCaptionLevel3-parentBean" parent="AttributeDefinition">
+        <property name="name" value="chronologyCaptionLevel3"/>
+        <property name="label" value="Chronology Caption Level3"/>
+        <property name="shortLabel" value="Chronology Caption Level3"/>
+        <property name="maxLength" value="50"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLESerialReceivingDocument-chronologyCaptionLevel4" parent="OLESerialReceivingDocument-chronologyCaptionLevel4-parentBean"/>
+    <bean id="OLESerialReceivingDocument-chronologyCaptionLevel4-parentBean" parent="AttributeDefinition">
+        <property name="name" value="chronologyCaptionLevel4"/>
+        <property name="label" value="Chronology Caption Level4"/>
+        <property name="shortLabel" value="Chronology Caption Level4"/>
+        <property name="maxLength" value="50"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLESerialReceivingDocument-active" parent="OLESerialReceivingDocument-active-parentBean"/>
+    <bean id="OLESerialReceivingDocument-active-parentBean" parent="AttributeDefinition">
+        <property name="name" value="active"/>
+        <property name="label" value="active"/>
+        <property name="shortLabel" value="active"/>
+        <property name="maxLength" value="10"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="5"/>
+        </property>
+
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="5" p:hidden="true"/>
+        </property>
+    </bean>
+
+    <bean id="OLESerialReceivingDocument-vendorAliasName" parent="OLESerialReceivingDocument-vendorAliasName-parentBean"/>
+    <bean id="OLESerialReceivingDocument-vendorAliasName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="vendorAliasName"/>
+        <property name="forceUppercase" value="true"/>
+        <!-- <property name="label" value="Vendor Alias Name"/>-->
+        <property name="maxLength" value="20"/>
+        <property name="validationPattern">
+            <ref bean="AnyCharacterWithWhitespaceValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="22"/>
+        </property>
+    </bean>
+
+</beans>

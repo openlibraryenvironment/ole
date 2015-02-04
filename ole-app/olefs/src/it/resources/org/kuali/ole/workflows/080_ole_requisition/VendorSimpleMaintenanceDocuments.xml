@@ -1,0 +1,72 @@
+<data xmlns="ns:workflow" xsi:schemaLocation="ns:workflow resource:WorkflowData" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+      <documentType>
+      <name>OLE_PMCUT</name>
+      <parent>OLEVendorSimpleMaintenanceDocument</parent>
+      <label>
+        Currency Type
+      </label>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fcurrencytype.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
+    
+    <documentType>
+      <name>OLE_PMVTF</name>
+      <parent>OLEVendorSimpleMaintenanceDocument</parent>
+      <label>
+       Vendor Transmission Format
+      </label>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Fvendortransmissionformat.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
+    
+    <documentType>
+      <name>OLE_PMALST</name>
+      <parent>OLEVendorSimpleMaintenanceDocument</parent>
+      <label>
+       Alias Type
+      </label>
+      <helpDefinitionURL>
+        default.htm?turl=WordDocuments%2Faliastype.htm
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
+    
+   <documentType>
+  <name>OLE_PMVTT</name> 
+  <parent>OLEVendorSimpleMaintenanceDocument</parent> 
+  <label>Vendor Transmission Type</label> 
+  <helpDefinitionURL>default.htm?turl=WordDocuments%2Fconnectiontype.htm</helpDefinitionURL> 
+  <active>true</active> 
+  <routingVersion>2</routingVersion> 
+  </documentType>
+ <documentType>
+  <name>OLE_PMEXCH</name> 
+  <parent>OLEVendorSimpleMaintenanceDocument</parent> 
+  <label>Exchange Rate</label> 
+  <helpDefinitionURL>default.htm?turl=WordDocuments%2Fcurrencytype.htm</helpDefinitionURL> 
+  <active>true</active> 
+  <routingVersion>2</routingVersion> 
+  </documentType>
+ 
+    </documentTypes>
+</data>

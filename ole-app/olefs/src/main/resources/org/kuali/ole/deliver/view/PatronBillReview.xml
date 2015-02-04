@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="PatronBillReview" parent="PatronBillReview-parentBean" />
+    <bean id="PatronBillReview-parentBean" parent="Uif-OLEFormView">
+        <property name="items">
+            <list>
+                <bean id="PatronBillReviewPage" parent="Uif-Page" >
+                    <property name="items">
+                        <list>
+                            <ref bean="ReviewBill-HorizontalBoxSection" />
+                            <ref bean="ReviewedBill-HorizontalBoxSection"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="footer">
+            <ref bean="ClearFooterView-buttons" />
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>/ole/deliver/billPayment/css/BillPayment.css</value>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>/ole/deliver/billPayment/script/BillPayment.js</value>
+            </list>
+        </property>
+        <property name="formClass" value="org.kuali.ole.deliver.form.PatronBillReviewForm"/>
+    </bean>
+
+    <bean id="ReviewBill-HorizontalBoxSection" parent="ReviewBill-HorizontalBoxSection-parentBean" />
+    <bean id="ReviewBill-HorizontalBoxSection-parentBean" parent="Uif-VerticalBoxGroup" p:disclosure.render="false">
+        <property name="items">
+            <list>
+                 <ref bean="ReviewBillSection" />
+                  <ref bean="ReviewBillFooter"/>
+            </list>
+     </property>
+    </bean>
+
+    <bean id="ReviewedBill-HorizontalBoxSection" parent="ReviewedBill-HorizontalBoxSection-parentBean" />
+    <bean id="ReviewedBill-HorizontalBoxSection-parentBean" parent="Uif-VerticalBoxGroup" p:disclosure.render="false">
+        <property name="items">
+            <list>
+                <ref bean="ReviewedBillSection" />
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="ReviewBillSection" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="7" p:style="width:1000px">
+        <property name="headerText" value="Patron Bill Review" />
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.PatronBillReviewDocument"/>
+        <property name="propertyName" value="patronBillReviewFormList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <!--<property name="addLineLabel" value="false"/>-->
+        <property name="layoutManager.richTable.disableTableSort" value="true" />
+        <property name="layoutManager.richTable.render" value="true"/>
+            <property name="items">
+                <list>
+                    <bean id="review" parent="Uif-InputField" p:label="Select" p:width="10%" p:propertyName="select" >
+                        <property name="control">
+                            <bean parent="Uif-CheckboxControl" p:cssClasses="billReviewClass"/>
+                        </property>
+                    </bean>
+                    <bean id="reviewBillNumber" parent="Uif-DataField" p:label="Bill No" p:width="10%" p:propertyName="billNumber"/>
+                    <bean id="reviewBillDate" parent="Uif-DataField" p:label="Bill date" p:width="10%" p:propertyName="billDate"/>
+                    <bean id="reviewPatronId" parent="Uif-DataField" p:label="Patron ID" p:width="10%" p:propertyName="patronId"/>
+                    <bean id="reviewFirstName" parent="Uif-DataField" p:label="First Name" p:width="10%" p:propertyName="firstName"/>
+                    <bean id="reviewLastName" parent="Uif-DataField" p:label="Last Name" p:width="10%" p:propertyName="lastName"/>
+                    <bean id="reviewItemBarcode" parent="Uif-DataField" p:label="Item Barcode" p:width="10%" p:propertyName="itemBarcode"/>
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+    <bean id="ReviewBillFooter" parent="Uif-FooterBase">
+        <property name="items">
+            <list>
+                <bean parent="Uif-SecondaryActionButton" p:methodToCall="review" p:actionLabel="Review" p:style="float:left;margin-left:2em"/>
+                <bean parent="Uif-SecondaryActionButton" p:methodToCall="close" p:actionLabel="Close" p:style="float:left;margin-left:2em"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="ReviewedBillSection" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="7" p:style="width:1000px">
+        <property name="headerText" value="Reviewed Patron Bill" />
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.PatronBillReviewDocument"/>
+        <property name="propertyName" value="patronBillReviewedFormList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <!--<property name="addLineLabel" value="false"/>-->
+        <property name="layoutManager.richTable.disableTableSort" value="true" />
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="items">
+            <list>
+                <bean id="reviewed" parent="Uif-InputField" p:label="Select" p:width="10%" p:propertyName="select" >
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" p:cssClasses="billReviewedClass"/>
+                    </property>
+                </bean>
+                <bean id="reviewedBillNumber" parent="Uif-DataField" p:label="Bill No" p:width="10%" p:propertyName="billNumber"/>
+                <bean id="reviewedBillDate" parent="Uif-DataField" p:label="Bill date" p:width="10%" p:propertyName="billDate"/>
+                <bean id="reviewedPatronId" parent="Uif-DataField" p:label="Patron ID" p:width="10%" p:propertyName="patronId"/>
+                <bean id="reviewedFirstName" parent="Uif-DataField" p:label="First Name" p:width="10%" p:propertyName="firstName"/>
+                <bean id="reviewedLastName" parent="Uif-DataField" p:label="Last Name" p:width="10%" p:propertyName="lastName"/>
+                <bean id="reviewedItemBarcode" parent="Uif-DataField" p:label="Item Barcode" p:width="10%" p:propertyName="itemBarcode"/>
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+</beans>

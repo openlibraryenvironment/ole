@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<chapter xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"
+    version="5.0" xml:lang="en-US">
+    <title><anchor xml:id="_Introduction"/>Introduction </title>
+    <para role="Normal (Web)">This guide provides information about using Deliver Functions. The
+        Deliver Module covers the interactions between the library and its patrons. </para>
+    <note>
+        <para>To learn more about the Deliver Module, see the <emphasis>Deliver Overview</emphasis>
+            in the wiki’s<link xlink:href="../html/Index.html">OLE Documentation Portal</link>.
+        </para>
+    </note>
+    <para role="Body Text">This guide is organized as follows.</para>
+    <itemizedlist mark="disc" spacing="normal">
+        <listitem>
+            <para role="C1H Bullet">The first section provides an explanation of Deliver Batch
+                Processes </para>
+        </listitem>
+        <listitem>
+            <para role="C1H Bullet">The next section provides an explanation of circulation and
+                billing processes. </para>
+        </listitem>
+        <listitem>
+            <para role="C1H Bullet">The next section presents information related to patrons. </para>
+        </listitem>
+        <listitem>
+            <para>The final sections describe the associated maintenance documents (Maintenance
+                documents control database tables) for circulation, then for patrons.</para>
+        </listitem>
+    </itemizedlist>
+    <para role="C1H Bullet">These sections are divided into subsections covering individual
+        functions. For each function, the applicable subsection presents a breadcrumb trail showing
+        how to access the function and information on the layout and fields on the related
+        screen(s). As appropriate, some subsections include business rules and routing information
+        for e-docs and/or special instructions for performing activities. </para>
+    <note>
+        <para>In order to work efficiently in the system’s Deliver screens, you need to understand
+            the basics of the user interface. For information and instructions on logging on and
+            off, navigating, understanding the components of screens, and performing basic
+            operations in the screens, see <link xlink:href="../../../webhelp/BASICS/index.html">OLE Basic
+                Functionality and Key Concepts.</link>
+        </para>
+        <para> This guide as well as guides to other OLE modules are available from the <link
+                xlink:href="../html/Index.html">OLE Documentation Portal</link>.</para>
+    </note>
+</chapter>

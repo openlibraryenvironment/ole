@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="OLEEResourceManageGOKBPopUp" parent="Uif-FormView">
+        <property name="headerText" value="E-Resource"/>
+        <property name="formClass" value="org.kuali.ole.select.form.OLEEResourceRecordForm"/>
+        <property name="items">
+            <list>
+                <bean id="OLEEResourceManageGOKBPage" parent="Uif-Page">
+                    <property name="items">
+                        <list>
+                            <ref bean="EResourceInstance_ManageGoKbPopup"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="EResourceInstance_ManageGoKbPopup" parent="Uif-VerticalBoxSection">
+        <property name="headerText" value="Manage GOKb data"/>
+        <property name="items">
+            <list>
+                <ref bean="OLEEResourceRecordView-ManageGoKbPopup-SubSection1"/>
+                <ref bean="OLEEResourceRecordView-ManageGoKbPopup-SubSection2"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordView-ManageGoKbPopup-SubSection1" parent="Uif-TableCollectionSection">
+        <property name="collectionObjectClass" value="org.kuali.ole.select.bo.OLEGOKbMappingValue"/>
+        <property name="propertyName" value="oleGOKbMappingValueList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="layoutManager.richTable.disableTableSort" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="goKbDataElement.dataElementName" p:label="Data Element">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="40" p:disabled="true"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="gokbValue" p:label="GOKb value">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="40" p:disabled="true"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="localValue" p:label="Local Value">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="40" p:disabled="true"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:label="Reset" p:propertyName="reset" >
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" p:disabled="@{#line.gokbFlag}" />
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceRecordView-ManageGoKbPopup-SubSection2" parent="Uif-FooterBase">
+        <property name="items">
+            <list>
+                <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="saveGokbData" p:actionLabel="Save"
+                      p:performClientSideValidation="true"/>
+                <bean parent="Uif-PrimaryActionButton" p:actionScript="closeLightBoxComponentTipp('div#EResourceInstance_ManageGoKbPopup');"
+                      p:actionLabel="Cancel"/>
+            </list>
+        </property>
+    </bean>
+
+
+
+</beans>

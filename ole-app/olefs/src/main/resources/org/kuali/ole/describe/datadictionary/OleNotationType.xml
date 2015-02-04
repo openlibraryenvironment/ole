@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <!--
+
+        Copyright 2005-2012 The Kuali Foundation
+
+        Licensed under the Educational Community License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at
+
+        http://www.opensource.org/licenses/ecl2.php
+
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+
+    -->
+    <bean id="OleNotationType" parent="OleNotationType-parentBean"/>
+
+    <bean id="OleNotationType-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.describe.bo.OleNotationType"/>
+        <property name="titleAttribute" value="notationTypeId"/>
+        <property name="objectLabel" value="Ole Notation Type"/>
+
+        <property name="attributes">
+            <list>
+                <ref bean="OleNotationType-notationTypeId"/>
+                <ref bean="OleNotationType-notationTypeCode"/>
+                <ref bean="OleNotationType-notationTypeName"/>
+                <ref bean="OleNotationType-source"/>
+                <ref bean="OleNotationType-sourceDate"/>
+                <ref bean="OleNotationType-active"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+
+    <bean id="OleNotationType-notationTypeId" parent="OleNotationType-notationTypeId-parentBean"/>
+
+    <bean id="OleNotationType-notationTypeId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Notation Type Id"/>
+        <property name="maxLength" value="10"/>
+        <property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+        <property name="name" value="notationTypeId"/>
+        <property name="label" value="Notation Type Id"/>
+        <property name="description" value="Notation Type Id"/>
+    </bean>
+
+
+    <bean id="OleNotationType-notationTypeCode" parent="OleNotationType-notationTypeCode-parentBean"/>
+
+    <bean id="OleNotationType-notationTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Notation Type Code"/>
+        <property name="maxLength" value="30"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="notationTypeCode"/>
+        <property name="label" value="Notation Type Code"/>
+        <property name="description" value="Notation Type Code"/>
+
+    </bean>
+
+
+    <bean id="OleNotationType-notationTypeName" parent="OleNotationType-notationTypeName-parentBean"/>
+
+    <bean id="OleNotationType-notationTypeName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Notation Type Name"/>
+        <property name="maxLength" value="100"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="notationTypeName"/>
+        <property name="label" value="Notation Type Name"/>
+        <property name="description" value="Notation Type Name"/>
+
+    </bean>
+
+
+    <bean id="OleNotationType-source" parent="OleNotationType-source-parentBean"/>
+
+    <bean id="OleNotationType-source-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Source"/>
+        <property name="maxLength" value="100"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="source"/>
+        <property name="label" value="Source"/>
+        <property name="description" value="Source"/>
+
+    </bean>
+
+
+    <bean id="OleNotationType-sourceDate" parent="OleNotationType-sourceDate-parentBean"/>
+    <bean id="OleNotationType-sourceDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+        <property name="shortLabel" value="Source Date"/>
+        <property name="name" value="sourceDate"/>
+        <property name="label" value="Source Date"/>
+        <property name="required" value="true"/>
+    </bean>
+
+
+    <bean id="OleNotationType-active" parent="OleNotationType-active-parentBean"/>
+
+    <bean id="OleNotationType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+        <property name="name" value="active"/>
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+
+    <bean id="OleNotationType-InquiryView" parent="Uif-OLEInquiryView">
+        <property name="headerText" value="Notation Type Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.describe.bo.OleNotationType"/>
+        <property name="singlePageView" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-VerticalBoxSection">
+                    <property name="header.headerText" value="Notation Type"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2">
+                                <property name="items">
+                                    <list>
+                                        <bean id="inquiry_notationTypeId" parent="Uif-InputField" p:propertyName="notationTypeId"/>
+                                        <bean id="inquiry_notationTypeCode" parent="Uif-InputField" p:propertyName="notationTypeCode"/>
+                                        <bean id="inquiry_notationTypeName" parent="Uif-InputField" p:propertyName="notationTypeName"/>
+                                        <bean id="inquiry_source" parent="Uif-InputField" p:propertyName="source"/>
+                                        <bean id="inquiry_sourceDate" parent="Uif-InputField" p:propertyName="sourceDate"/>
+                                        <bean id="inquiry_active" parent="Uif-InputField" p:propertyName="active"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                    <property name="headerText" value="Notation Type"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+
+    <bean id="OleNotationType-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="Notation Type Lookup"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.describe.bo.OleNotationType"/>
+        <property name="criteriaFields">
+            <list>
+                <bean id="notationTypeCode" parent="Uif-LookupCriteriaInputField" p:propertyName="notationTypeCode"/>
+                <bean id="notationTypeName" parent="Uif-LookupCriteriaInputField" p:propertyName="notationTypeName"/>
+                <bean id="source" parent="Uif-LookupCriteriaInputField" p:propertyName="source"/>
+                <bean id="sourceDate" parent="Uif-LookupCriteriaInputField" p:propertyName="sourceDate">
+                    <property name="control">
+                        <bean id="date" parent="Uif-DateControl" p:size="10"/>
+                    </property>
+                </bean>
+                <bean id="active" parent="Uif-LookupCriteriaInputField" p:propertyName="active"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean id="searchResult_notationTypeId" parent="Uif-DataField" p:propertyName="notationTypeId"/>
+                <bean id="searchResult_notationTypeCode" parent="Uif-DataField" p:propertyName="notationTypeCode"/>
+                <bean id="searchResult_notationTypeName" parent="Uif-DataField" p:propertyName="notationTypeName"/>
+                <bean id="searchResult_source" parent="Uif-DataField" p:propertyName="source"/>
+                <bean id="searchResult_sourceDate" parent="Uif-DataField" p:propertyName="sourceDate"/>
+                <bean id="searchResult_active" parent="Uif-DataField" p:propertyName="active"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

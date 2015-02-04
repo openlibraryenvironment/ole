@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2005-2008 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="YearEndGeneralErrorCorrection-routeDocumentValidation" parent="YearEndGeneralErrorCorrection-routeDocumentValidation-parentBean" scope="prototype" />
+  
+  	<bean id="YearEndGeneralErrorCorrection-routeDocumentValidation-parentBean" parent="GeneralErrorCorrection-routeDocumentValidation" abstract="true" />
+
+  	<bean id="YearEndGeneralErrorCorrection-approveDocumentValidation" parent="YearEndGeneralErrorCorrection-approveDocumentValidation-parentBean" scope="prototype" />
+  
+  	<bean id="YearEndGeneralErrorCorrection-approveDocumentValidation-parentBean" parent="GeneralErrorCorrection-approveDocumentValidation" abstract="true" />
+  	
+  	<bean id="YearEndGeneralErrorCorrection-saveDocumentValidation" parent="YearEndGeneralErrorCorrection-saveDocumentValidation-parentBean" scope="prototype" />
+  
+  	<bean id="YearEndGeneralErrorCorrection-saveDocumentValidation-parentBean" parent="GeneralErrorCorrection-saveDocumentValidation" abstract="true" />
+  
+	<bean id="YearEndGeneralErrorCorrection-blanketApproveDocumentValidation" parent="YearEndGeneralErrorCorrection-blanketApproveDocumentValidation-parentBean" scope="prototype" />
+  
+  	<bean id="YearEndGeneralErrorCorrection-blanketApproveDocumentValidation-parentBean" parent="GeneralErrorCorrection-blanketApproveDocumentValidation" abstract="true" />
+  		  
+	<bean id="YearEndGeneralErrorCorrection-addAccountingLineValidation" parent="YearEndGeneralErrorCorrection-addAccountingLineValidation-parentBean" scope="prototype" />
+  
+	<bean id="YearEndGeneralErrorCorrection-addAccountingLineValidation-parentBean" parent="GeneralErrorCorrection-addAccountingLineValidation" abstract="true" />
+  		
+	<bean id="YearEndGeneralErrorCorrection-deleteAccountingLineValidation" parent="YearEndGeneralErrorCorrection-deleteAccountingLineValidation-parentBean" scope="prototype" />
+  
+	<bean id="YearEndGeneralErrorCorrection-deleteAccountingLineValidation-parentBean" parent="GeneralErrorCorrection-deleteAccountingLineValidation" abstract="true" />
+  		
+	<bean id="YearEndGeneralErrorCorrection-updateAccountingLineValidation" parent="YearEndGeneralErrorCorrection-updateAccountingLineValidation-parentBean" scope="prototype" />
+  
+	<bean id="YearEndGeneralErrorCorrection-updateAccountingLineValidation-parentBean" parent="GeneralErrorCorrection-updateAccountingLineValidation" abstract="true" />
+  	
+	<bean id="YearEndGeneralErrorCorrection-reviewAccountingLineValidation" parent="YearEndGeneralErrorCorrection-reviewAccountingLineValidation-parentBean" scope="prototype" />
+  
+	<bean id="YearEndGeneralErrorCorrection-reviewAccountingLineValidation-parentBean" parent="GeneralErrorCorrection-reviewAccountingLineValidation" abstract="true" />
+
+	<bean id="YearEndGeneralErrorCorrection-capitalAccountingLinesObjectSubtypeValidations" parent="YearEndGeneralErrorCorrection-capitalAccountingLinesObjectSubtypeValidations-parentBean" scope="prototype" />
+	<bean id="YearEndGeneralErrorCorrection-capitalAccountingLinesObjectSubtypeValidations-parentBean" parent="DistributionOfIncomeAndExpense-capitalAccountingLinesObjectSubtypeValidations" abstract="true"/>
+</beans>

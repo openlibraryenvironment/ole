@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   - Copyright 2011 The Kuali Foundation.
+   - 
+   - Licensed under the Educational Community License, Version 2.0 (the "License");
+   - you may not use this file except in compliance with the License.
+   - You may obtain a copy of the License at
+   - 
+   - http://www.opensource.org/licenses/ecl2.php
+   - 
+   - Unless required by applicable law or agreed to in writing, software
+   - distributed under the License is distributed on an "AS IS" BASIS,
+   - WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   - See the License for the specific language governing permissions and
+   - limitations under the License.
+ -->
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+    <record>
+        <leader>00198cy a22000854 4500</leader>
+        <controlfield tag="001">a5556513</controlfield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">B1489 .F63 2003</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">30000087234815</subfield>
+            <subfield code="d">5/16/2011</subfield>
+            <subfield code="e">5/16/2011</subfield>
+            <subfield code="k">CHECKEDOUT</subfield>
+            <subfield code="l">_RCSTACKS</subfield>
+            <subfield code="m">B-WELLS</subfield>
+            <subfield code="n">14</subfield>
+            <subfield code="p">$27.00</subfield>
+            <subfield code="q">1</subfield>
+            <subfield code="r">M</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">NORMAL</subfield>
+            <subfield code="u">11/13/2003</subfield>
+            <subfield code="o">.STAFF. CAT; 01-20-2004; CC234</subfield>
+            <subfield code="o">.STAFF. SENT 01-25-2004; OCL; IUL</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>00183cy a22000854 4500</leader>
+        <controlfield tag="001">a5556513</controlfield>
+    </record>
+    <record>
+        <leader>00248cy a22001094 4500</leader>
+        <controlfield tag="001">a5556513</controlfield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">U601 .O55 2003</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">30000087265231</subfield>
+            <subfield code="d">4/10/2004</subfield>
+            <subfield code="e">2/9/2004</subfield>
+            <subfield code="l">_RCSTACKS</subfield>
+            <subfield code="m">B-WELLS</subfield>
+            <subfield code="p">$16.00</subfield>
+            <subfield code="q">1</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">NORMAL</subfield>
+            <subfield code="u">1/22/2004</subfield>
+            <subfield code="o">.STAFF. CAT; 02-05-2004; AS999</subfield>
+            <subfield code="o">.STAFF. SENT 02-08-2004; OCL; IUL</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>00194cy a22000854 4500</leader>
+        <controlfield tag="001">a5556514</controlfield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">WP17 L665a 2003</subfield>
+            <subfield code="w">NLM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">30000080487626</subfield>
+            <subfield code="d">8/4/2009</subfield>
+            <subfield code="e">6/30/2009</subfield>
+            <subfield code="l">STACKS</subfield>
+            <subfield code="m">I-MEDICINE</subfield>
+            <subfield code="n">12</subfield>
+            <subfield code="q">4</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">NORMAL</subfield>
+            <subfield code="u">9/11/2003</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">WP17 L665a 2003 DVD</subfield>
+            <subfield code="w">NLM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">30000080487634</subfield>
+            <subfield code="d">12/17/2008</subfield>
+            <subfield code="e">11/24/2008</subfield>
+            <subfield code="l">CIRCDESK</subfield>
+            <subfield code="m">I-MEDICINE</subfield>
+            <subfield code="n">6</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">NORMAL</subfield>
+            <subfield code="u">9/11/2003</subfield>
+            <subfield code="z">DVD</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>00232cy a22001094 4500</leader>
+        <controlfield tag="001">a5556514</controlfield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">HJ9639.5.Z9 E34 2003</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">30000053736298</subfield>
+            <subfield code="d">6/23/2011</subfield>
+            <subfield code="e">6/23/2011</subfield>
+            <subfield code="k">MESSAGE</subfield>
+            <subfield code="l">_DOCSSTKL</subfield>
+            <subfield code="m">B-WELLS</subfield>
+            <subfield code="r">M</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">NORMAL</subfield>
+            <subfield code="u">9/11/2003</subfield>
+            <subfield code="o">.STAFF. CAT; 08-13-2004; SC000</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>00190cy a22000854 4500</leader>
+        <controlfield tag="001">a5556514</controlfield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">B1489 .F63 2003</subfield>
+            <subfield code="w">LC</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">30000087234815</subfield>
+            <subfield code="d">5/16/2011</subfield>
+            <subfield code="e">5/16/2011</subfield>
+            <subfield code="l">_RCSTACKS</subfield>
+            <subfield code="m">B-WELLS</subfield>
+            <subfield code="n">14</subfield>
+            <subfield code="p">$27.00</subfield>
+            <subfield code="q">1</subfield>
+            <subfield code="r">M</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">NORMAL</subfield>
+            <subfield code="u">11/13/2003</subfield>
+            <subfield code="o">.STAFF. CAT; 01-20-2004; CC234</subfield>
+            <subfield code="o">.STAFF. SENT 01-25-2004; OCL; IUL</subfield>
+        </datafield>
+    </record>
+</collection>

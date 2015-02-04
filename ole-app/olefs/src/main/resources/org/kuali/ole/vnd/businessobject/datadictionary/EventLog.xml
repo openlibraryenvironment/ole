@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+    <!--
+     Copyright 2007-2009 The Kuali Foundation
+
+     Licensed under the Educational Community License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+     http://www.opensource.org/licenses/ecl2.php
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+    -->
+
+    <bean id="OleVendorEventLog" parent="OleVendorEventLog-parentBean"/>
+
+    <bean id="OleVendorEventLog-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.vnd.businessobject.VendorEventLog"/>
+        <property name="titleAttribute" value="vendorEventLogId"/>
+        <property name="objectLabel" value="Vendor Event Log"/>
+        <property name="attributes">
+            <list>
+                <ref bean="OleVendorEventLog-vendorHeaderGeneratedIdentifier"/>
+                <ref bean="OleVendorEventLog-vendorDetailAssignedIdentifier"/>
+                <ref bean="OleVendorEventLog-vendorEventLogId"/>
+                <ref bean="OleVendorEventLog-logType"/>
+                <ref bean="OleVendorEventLog-eventType"/>
+                <ref bean="OleVendorEventLog-eventDate"/>
+                <ref bean="OleVendorEventLog-eventNote"/>
+                <ref bean="OleVendorEventLog-eventUser"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+
+    <bean id="OleVendorEventLog-vendorEventLogId" parent="OleVendorEventLog-vendorEventLogId-parentBean"/>
+
+    <bean id="OleVendorEventLog-vendorEventLogId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="vendorEventLogId"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Vendor Event Log Id"/>
+        <property name="shortLabel" value="Id"/>
+        <property name="maxLength" value="8"/>
+        <property name="validationPattern">
+            <ref bean="NumericValidation" />
+        </property>
+        <property name="control">
+            <ref bean="HiddenControl" />
+        </property>
+    </bean>
+
+    <bean id="OleVendorEventLog-vendorHeaderGeneratedIdentifier" parent="OleVendorEventLog-vendorHeaderGeneratedIdentifier-parentBean"/>
+
+    <bean id="OleVendorEventLog-vendorHeaderGeneratedIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="vendorHeaderGeneratedIdentifier"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Vendor Header Generated Identifier"/>
+        <property name="shortLabel" value="Header Generated ID"/>
+        <property name="maxLength" value="10"/>
+        <property name="validationPattern">
+            <ref bean="NumericValidation" />
+        </property>
+        <property name="control">
+            <ref bean="HiddenControl" />
+        </property>
+    </bean>
+
+    <bean id="OleVendorEventLog-vendorDetailAssignedIdentifier" parent="OleVendorEventLog-vendorDetailAssignedIdentifier-parentBean"/>
+
+    <bean id="OleVendorEventLog-vendorDetailAssignedIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="vendorDetailAssignedIdentifier"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Vendor Detail Assigned Identifier"/>
+        <property name="shortLabel" value="Detail Assigned ID"/>
+        <property name="maxLength" value="10"/>
+        <property name="validationPattern">
+            <ref bean="NumericValidation" />
+        </property>
+        <property name="control">
+            <ref bean="HiddenControl" />
+        </property>
+    </bean>
+
+    <bean id="OleVendorEventLog-eventType" parent="OleVendorEventLog-eventType-parentBean"/>
+
+    <bean id="OleVendorEventLog-eventType-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Event Type"/>
+        <property name="maxLength" value="40"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="eventTypeName"/>
+        <property name="label" value="Event Type"/>
+        <property name="description" value="Event Type"/>
+
+    </bean>
+
+
+    <bean id="OleVendorEventLog-logType" parent="OleVendorEventLog-logType-parentBean"/>
+
+    <bean id="OleVendorEventLog-logType-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Event Type"/>
+        <property name="maxLength" value="40"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="logTypeName"/>
+        <property name="label" value="Log Type"/>
+        <property name="description" value="Log Type"/>
+
+    </bean>
+
+
+    <bean id="OleVendorEventLog-eventDate" parent="OleVendorEventLog-eventDate-parentBean"/>
+
+    <bean id="OleVendorEventLog-eventDate-parentBean" abstract="true" parent="AttributeDefinition">
+
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Event Date"/>
+        <property name="maxLength" value="36"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="36"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+        <property name="name" value="date"/>
+        <property name="label" value="Event Date"/>
+        <property name="description" value="Event Date"/>
+
+    </bean>
+
+
+    <bean id="OleVendorEventLog-eventUser" parent="OleVendorEventLog-eventUser-parentBean"/>
+
+    <bean id="OleVendorEventLog-eventUser-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Event User"/>
+        <property name="maxLength" value="40"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="userId"/>
+        <property name="label" value="Event User"/>
+        <property name="description" value="Event User"/>
+
+    </bean>
+
+
+    <bean id="OleVendorEventLog-eventNote" parent="OleVendorEventLog-eventNote-parentBean"/>
+
+    <bean id="OleVendorEventLog-eventNote-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Note"/>
+        <property name="maxLength" value="800"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="note"/>
+        <property name="label" value="Note"/>
+        <property name="description" value="Note"/>
+
+    </bean>
+
+</beans>

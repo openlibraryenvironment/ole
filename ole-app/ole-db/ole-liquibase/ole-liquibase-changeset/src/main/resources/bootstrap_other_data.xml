@@ -1,0 +1,42 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet context="demo" author="ole" id="ALTER_SESSIONS_FOR_ORACLE_ONLY" dbms="oracle">
+        <sql>ALTER SESSION SET NLS_DATE_FORMAT = 'RRMMDDHH24MISS'</sql>
+    </changeSet>
+
+    <!--  Just loads the "OLE" user -->
+    <changeSet context="demo" author="ole" id="KREW_PPL_FLW_T">
+        <loadData tableName="KREW_PPL_FLW_T" file="ole-bootstrap/people-flows/ole_krew_ppl_flw_t.csv" />
+    </changeSet>
+
+    <changeSet context="demo" author="ole" id="OLE_E_RES_STAT_T">
+        <loadData tableName="OLE_E_RES_STAT_T" file="ole-bootstrap/ole_e_res_stat_t.csv" />
+    </changeSet>
+
+    <!-- Financial System-->
+
+    <changeSet context="demo" author="ole" id="FS_OPTION_T">
+        <loadData tableName="FS_OPTION_T" file="ole-bootstrap/financial-system/FS_OPTION_T.csv"/>
+    </changeSet>
+
+    <changeSet context="demo" author="ole" id="FP_FSCL_YR_CTRL_T">
+        <loadData tableName="FP_FSCL_YR_CTRL_T" file="ole-bootstrap/financial-system/FP_FSCL_YR_CTRL_T.csv"/>
+    </changeSet>
+
+    <changeSet context="demo" author="ole" id="FP_FUNC_CTRL_CD_T">
+        <loadData tableName="FP_FUNC_CTRL_CD_T" file="ole-bootstrap/financial-system/FP_FUNC_CTRL_CD_T.csv"/>
+    </changeSet>
+
+    <changeSet context="demo" author="ole" id="SH_ACCT_PERIOD_T">
+        <loadData tableName="SH_ACCT_PERIOD_T" file="ole-bootstrap/financial-system/SH_ACCT_PERIOD_T.csv"/>
+    </changeSet>
+
+    <changeSet context="demo" author="ole" id="ALRT_DOC_TYP_T">
+        <loadData tableName="ALRT_DOC_TYP_T" file="ole-bootstrap/ALRT_DOC_TYP_T.csv"/>
+    </changeSet>
+
+</databaseChangeLog>

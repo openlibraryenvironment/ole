@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="OLEBatchProcessDefinitionDocument" parent="OLEBatchProcessDefinitionDocument-parentBean"/>
+    <bean id="OLEBatchProcessDefinitionDocument-parentBean" abstract="true" parent="uifTransactionalDocumentEntry">
+        <property name="documentTypeName" value="OLE_BCH_PRCS_PRFL_DOC"/>
+        <property name="documentClass" value="org.kuali.ole.batch.document.OLEBatchProcessDefinitionDocument"/>
+        <property name="attributes">
+            <list>
+                <ref bean="OLEBatchProcessDefinitionDocument-batchProcessName"/>
+                <ref bean="OLEBatchProcessDefinitionDocument-batchProcessProfileName"/>
+                <ref bean="OLEBatchProcessDefinitionDocument-batchProcessType"/>
+                <ref bean="OLEBatchProcessDefinitionDocument-batchProcessKRMSProfile"/>
+                <ref bean="OLEBatchProcessDefinitionDocument-batchProcessProfileId"/>
+                <ref bean="OLEBatchProcessDefinitionDocument-outputFormat"/>
+                <ref bean="OLEBatchProcessDefinitionDocument-destinationDirectoryPath"/>
+                <ref bean="OLEBatchProcessDefinitionDocument-exportType"/>
+                <ref bean="OLEBatchProcessDefinitionDocument-chunkSize"/>
+                <ref bean="OLEBatchProcessDefinitionDocument-maxRecordsInFile"/>
+                <ref bean="OLEBatchProcessDefinitionDocument-maxNumberOfThreads"/>
+                <ref bean="OLEBatchProcessDefinitionDocument-emailIds"/>
+                <ref bean="OLEBatchProcessDefinitionDocument-scheduleCheck"/>
+                <ref bean="OLEBatchProcessDefinitionDocument-oneTimeCheck"/>
+                <ref bean="OLEBatchProcessDefinitionDocument-oneTimeStartTime"/>
+                <ref bean="OLEBatchProcessDefinitionDocument-recurringCheck"/>
+                <ref bean="OLEBatchProcessDefinitionDocument-scheduleTypeDailyCheck"/>
+                <ref bean="OLEBatchProcessDefinitionDocument-scheduleTypeWeeklyCheck"/>
+                <ref bean="OLEBatchProcessDefinitionDocument-scheduleTypeMonthlyCheck"/>
+                <ref bean="OLEBatchProcessDefinitionDocument-startTime"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definition -->
+
+    <bean id="OLEBatchProcessDefinitionDocument-batchProcessName" parent="OLEBatchProcessDefinitionDocument-batchProcessName-parentBean"/>
+    <bean id="OLEBatchProcessDefinitionDocument-batchProcessName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="40"/>
+        <property name="shortLabel" value="Batch Process Name"/>
+        <property name="description" value="Batch Process Name"/>
+        <property name="name" value="batchProcessName"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Batch Process Name"/>
+    </bean>
+
+    <bean id="OLEBatchProcessDefinitionDocument-batchProcessProfileName" parent="OLEBatchProcessDefinitionDocument-batchProcessProfileName-parentBean"/>
+    <bean id="OLEBatchProcessDefinitionDocument-batchProcessProfileName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="40"/>
+        <property name="shortLabel" value="Batch Process Profile Name"/>
+        <property name="description" value="Batch Process Profile Name"/>
+        <property name="name" value="batchProcessProfileName"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Batch Process Profile Name"/>
+    </bean>
+
+    <bean id="OLEBatchProcessDefinitionDocument-batchProcessType" parent="OLEBatchProcessDefinitionDocument-batchProcessType-parentBean"/>
+    <bean id="OLEBatchProcessDefinitionDocument-batchProcessType-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="40"/>
+        <property name="shortLabel" value="Batch Process Type"/>
+        <property name="description" value="Batch Process Type"/>
+        <property name="name" value="batchProcessType"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Batch Process Type"/>
+    </bean>
+
+    <bean id="OLEBatchProcessDefinitionDocument-batchProcessKRMSProfile" parent="OLEBatchProcessDefinitionDocument-batchProcessKRMSProfile-parentBean"/>
+    <bean id="OLEBatchProcessDefinitionDocument-batchProcessKRMSProfile-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="40"/>
+        <property name="shortLabel" value="Batch Process KRMS Profile"/>
+        <property name="description" value="Batch Process KRMS Profile"/>
+        <property name="name" value="batchProcessKRMSProfile"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Batch Process KRMS Profile"/>
+    </bean>
+
+    <bean id="OLEBatchProcessDefinitionDocument-batchProcessProfileId" parent="OLEBatchProcessDefinitionDocument-batchProcessProfileId-parentBean"/>
+    <bean id="OLEBatchProcessDefinitionDocument-batchProcessProfileId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="40"/>
+        <property name="shortLabel" value="Batch Process Profile Id"/>
+        <property name="description" value="Batch Process Profile Id"/>
+        <property name="name" value="batchProcessProfileId"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Batch Process Profile Id"/>
+    </bean>
+
+    <bean id="OLEBatchProcessDefinitionDocument-outputFormat" parent="OLEBatchProcessDefinitionDocument-outputFormat-parentBean"/>
+    <bean id="OLEBatchProcessDefinitionDocument-outputFormat-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="40"/>
+        <property name="shortLabel" value="Output Format"/>
+        <property name="description" value="Output Format"/>
+        <property name="name" value="outputFormat"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Output Format"/>
+    </bean>
+
+    <bean id="OLEBatchProcessDefinitionDocument-destinationDirectoryPath" parent="OLEBatchProcessDefinitionDocument-destinationDirectoryPath-parentBean"/>
+    <bean id="OLEBatchProcessDefinitionDocument-destinationDirectoryPath-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="500"/>
+        <property name="shortLabel" value="Output File Name"/>
+        <property name="description" value="Output File Name"/>
+        <property name="name" value="destinationDirectoryPath"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Output File Name"/>
+    </bean>
+
+    <bean id="OLEBatchProcessDefinitionDocument-exportType" parent="OLEBatchProcessDefinitionDocument-exportType-parentBean"/>
+    <bean id="OLEBatchProcessDefinitionDocument-exportType-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="4"/>
+        <property name="shortLabel" value="Export Type"/>
+        <property name="description" value="Export type"/>
+        <property name="name" value="exportType"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Export Type"/>
+    </bean>
+
+    <bean id="OLEBatchProcessDefinitionDocument-chunkSize" parent="OLEBatchProcessDefinitionDocument-chunkSize-parentBean"/>
+    <bean id="OLEBatchProcessDefinitionDocument-chunkSize-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="40"/>
+        <property name="shortLabel" value="Batch Size"/>
+        <property name="description" value="Batch Size"/>
+        <property name="name" value="chunkSize"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Batch Size"/>
+    </bean>
+
+
+    <bean id="OLEBatchProcessDefinitionDocument-maxRecordsInFile" parent="OLEBatchProcessDefinitionDocument-maxRecordsInFile-parentBean"/>
+    <bean id="OLEBatchProcessDefinitionDocument-maxRecordsInFile-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="40"/>
+        <property name="shortLabel" value="Maximum Number of Records in a File"/>
+        <property name="description" value="Maximum Number of Records in a File"/>
+        <property name="name" value="maxRecordsInFile"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Maximum Number of Records in a File"/>
+    </bean>
+
+
+    <bean id="OLEBatchProcessDefinitionDocument-maxNumberOfThreads" parent="OLEBatchProcessDefinitionDocument-maxNumberOfThreads-parentBean"/>
+    <bean id="OLEBatchProcessDefinitionDocument-maxNumberOfThreads-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="40"/>
+        <property name="shortLabel" value="Maximum Number of Threads"/>
+        <property name="description" value="Maximum Number of Threads"/>
+        <property name="name" value="maxNumberOfThreads"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Maximum Number of Threads"/>
+    </bean>
+
+    <bean id="OLEBatchProcessDefinitionDocument-emailIds" parent="OLEBatchProcessDefinitionDocument-emailIds-parentBean"/>
+    <bean id="OLEBatchProcessDefinitionDocument-emailIds-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="400"/>
+        <property name="shortLabel" value="Send Job Report To"/>
+        <property name="description" value="Send Job Report To"/>
+        <property name="name" value="emailIds"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <!--<property name="validCharactersConstraint">
+            <bean parent="EmailAddressPatternConstraint" />
+        </property>-->
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Send Job Report To"/>
+    </bean>
+
+    <bean id="OLEBatchProcessDefinitionDocument-scheduleCheck" parent="OLEBatchProcessDefinitionDocument-scheduleCheck-parentBean"/>
+    <bean id="OLEBatchProcessDefinitionDocument-scheduleCheck-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+        <property name="name" value="scheduleCheck"/>
+        <property name="shortLabel" value="Schedule"/>
+        <property name="label" value="Schedule"/>
+    </bean>
+
+    <bean id="OLEBatchProcessDefinitionDocument-oneTimeCheck" parent="OLEBatchProcessDefinitionDocument-oneTimeCheck-parentBean"/>
+    <bean id="OLEBatchProcessDefinitionDocument-oneTimeCheck-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+        <property name="name" value="oneTimeCheck"/>
+        <property name="shortLabel" value="One Time"/>
+        <property name="label" value="One Time"/>
+    </bean>
+
+    <bean id="OLEBatchProcessDefinitionDocument-oneTimeStartTime" parent="OLEBatchProcessDefinitionDocument-oneTimeStartTime-parentBean"/>
+    <bean id="OLEBatchProcessDefinitionDocument-oneTimeStartTime-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="40"/>
+        <property name="shortLabel" value="Time"/>
+        <property name="description" value="Time"/>
+        <property name="name" value="oleBatchProcessScheduleBo.oneTimeStartTime"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Time"/>
+    </bean>
+
+    <bean id="OLEBatchProcessDefinitionDocument-recurringCheck" parent="OLEBatchProcessDefinitionDocument-recurringCheck-parentBean"/>
+    <bean id="OLEBatchProcessDefinitionDocument-recurringCheck-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+        <property name="name" value="recurringCheck"/>
+        <property name="shortLabel" value="Recurring"/>
+        <property name="label" value="Recurring"/>
+    </bean>
+
+    <bean id="OLEBatchProcessDefinitionDocument-scheduleTypeDailyCheck" parent="OLEBatchProcessDefinitionDocument-scheduleTypeDailyCheck-parentBean"/>
+    <bean id="OLEBatchProcessDefinitionDocument-scheduleTypeDailyCheck-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+        <property name="name" value="scheduleTypeDailyCheck"/>
+        <property name="shortLabel" value="Daily"/>
+        <property name="label" value="Daily"/>
+    </bean>
+
+    <bean id="OLEBatchProcessDefinitionDocument-scheduleTypeWeeklyCheck" parent="OLEBatchProcessDefinitionDocument-scheduleTypeWeeklyCheck-parentBean"/>
+    <bean id="OLEBatchProcessDefinitionDocument-scheduleTypeWeeklyCheck-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+        <property name="name" value="scheduleTypeWeeklyCheck"/>
+        <property name="shortLabel" value="Weekly"/>
+        <property name="label" value="Weekly"/>
+    </bean>
+
+    <bean id="OLEBatchProcessDefinitionDocument-scheduleTypeMonthlyCheck" parent="OLEBatchProcessDefinitionDocument-scheduleTypeMonthlyCheck-parentBean"/>
+    <bean id="OLEBatchProcessDefinitionDocument-scheduleTypeMonthlyCheck-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+        <property name="name" value="scheduleTypeMonthlyCheck"/>
+        <property name="shortLabel" value="Monthly"/>
+        <property name="label" value="Monthly"/>
+    </bean>
+
+    <bean id="OLEBatchProcessDefinitionDocument-startTime" parent="OLEBatchProcessDefinitionDocument-startTime-parentBean"/>
+    <bean id="OLEBatchProcessDefinitionDocument-startTime-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="40"/>
+        <property name="shortLabel" value="Start Time"/>
+        <property name="description" value="Start Time"/>
+        <property name="name" value="oleBatchProcessScheduleBo.startTime"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Start Time"/>
+    </bean>
+
+</beans>

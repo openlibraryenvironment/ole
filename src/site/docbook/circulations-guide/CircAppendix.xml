@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"
+    version="5.0" xml:lang="en-US">
+    <title>APPENDIX<indexterm significance="normal">
+            <primary>APPENDIX</primary>
+        </indexterm></title>
+    <section>
+        <title><anchor xml:id="_Deliver_Terms"/>Deliver Terms and Definitions<indexterm
+                significance="normal">
+                <primary>Terms &amp; Definitions</primary>
+            </indexterm>
+        </title>
+        <para role="Normal"/>
+        <informaltable frame="all">
+            <tgroup cols="2">
+                <colspec colname="col1" colnum="1"/>
+                <colspec colname="col2" colnum="2"/>
+                <tbody>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                            <para role="TableHeading"><phrase role="Table Cells Emphasis"
+                                    >Term</phrase></para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                            <para role="TableHeading"><phrase role="Table Cells Emphasis"
+                                    >Definition</phrase></para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">Patron</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">An individual who has some level of library
+                                privileges. A person with access to a library (virtual or physical)
+                                and identified as belonging to a specific group, e.g., faculty,
+                                undergraduate, unaffiliated, etc. Each group may have different
+                                levels of service privileges, e.g., faculty have indefinite loan
+                                periods when borrowing items, undergraduates can borrow for 90 days,
+                                etc. </para>
+                            <para role="Table Cells">Synonyms: borrower, patron, library user</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">Borrower Type</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">A group of library users (e.g.,
+                                “undergraduate”, “graduate”, “faculty”, “alumni”, “affiliate”, etc.)
+                                who share a primary characteristic(s) and have the same service
+                                privileges (e.g., loan period, fine rate, access (or not)  to
+                                interlibrary loan, etc.). Borrower type is one component in
+                                determining whether or not a user can borrow a library item and if
+                                so, under what policies.</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">Check digit</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">A check digit is a form of redundancy check
+                                used for error detection, the decimal equivalent of a binary
+                                checksum. It consists of a single digit computed from the other
+                                digits in the message. With a check digit, one can detect simple
+                                errors in the input of a series of digits, such as a single mistyped
+                                digit or some permutations of two successive digits. In libraries,
+                                e.g., check digit routines can be used to validate ISBNs, ISSN, and
+                                item and patron barcode numbers.</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">Circulation</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">The functions, policies and processes by which
+                                a library loans materials to its users, tracks such transactions and
+                                charges fines and fees for policy violations, e.g., overdue fines
+                                for late returns, lost item replacement fees, etc. Departments in
+                                charge of circulation may also issue patron ID cards, rent lockers,
+                                collect copying fees, manage the interlibrary loan function,
+                                etc.</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">Circulation Desk</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">The place that is considered an item's "home"
+                                when it is presented for circulation transactions, i.e., it can be
+                                checked out without override AND, when checked-in, does not need to
+                                be routed as it is already "home".</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">Shelving Location</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">The place where a library’s item is housed,
+                                either permanently or temporarily. Identified in a holdings and/or
+                                item-level record, shelving location is used as one attribute in
+                                determining whether items housed there are eligible for borrowing
+                                and if so, the applicable policy. See also Location.</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">Item status</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">A descriptor describing an item's state for
+                                circulation purposes, e.g., "not checked out", "on hold", "checked
+                                out", "on shelf", etc. If an item is still in the order process,
+                                item status typically is the same as the order status, e.g., "on
+                                order", "received", "in processing", etc.</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">Item Type</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">An identifier assigned to each item in a
+                                library that, in circulation, is one component to determine whether
+                                or not such an item can be borrowed and, if so, the conditions of
+                                the loan. Item types are generally defined by each library and can
+                                be either a specific format (e.g., “DVD”, “CD”, “Map”,
+                                “Dissertation”, etc.) or an indicator of borrowing eligibility
+                                (e.g., “Circulating”, “Non-Circulating”).</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">Loan</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">The process by which the system: (1) validates
+                                whether or not a library user can borrow a library item based on
+                                defined attributes (e.g., the circulation desk location, the
+                                shelving location of the item, item type, borrower type, etc.); and
+                                (2) if a loan is permitted, links the item with the patron and
+                                applies certain conditions (e.g., length of loan period) based on
+                                policies defined in configuration files.</para>
+                            <para role="Table Cells">Synonyms: Check-out, charge, charge out</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">Loan Period</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">The period of time for which a user has been
+                                allowed to borrow a library item. The loan period is usually
+                                dependent on the item type, the item’s location and the borrower
+                                type. A loan period can be expressed in days, hours, as a fixed
+                                date, or as “indefinite”.</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">Location</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">An element in a library’s system configuration
+                                that describes a conceptual entity (e.g., “The University of X
+                                Library") or a building (“John Doe Memorial Library”) or an area
+                                (“Doe Library, Bookstacks”; “Doe Library, Circulation Desk”). All
+                                library items are assigned to a shelving area location and this
+                                becomes an attribute in identifying an item’s eligibility for
+                                borrowing and if eligible, the applicable loan policy. Locations may
+                                also refer to library staff work areas at which certain functions
+                                (e.g., acquisitions, cataloging or circulation) are performed on or
+                                with items housed at shelving locations; work areas (e.g., a
+                                circulation location) are identified at operator login.</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">Request</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">The ability of a library user/patron to ask for
+                                services relating to the retrieval, loan or copying of an item in
+                                the library’s collections. Such requests are now typically submitted
+                                online through a public interface that must interact with the
+                                library’s “back office” system. See also Hold Request and Recall
+                                Request.</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">Return</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                            <para role="Normal">The process by which the system: removes the
+                                temporary linkage between an item loaned by the library to a patron;
+                                calculates any overdue fines or penalties to be charged to the
+                                patron; and resets the item status to indicate its next state (e.g.,
+                                “not checked out”, “in transit”, “on hold”, etc.).</para>
+                            <para role="Table Cells">Synonyms: Check-in, discharge</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">Overdue Fine</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">The amount charged to a patron when a loaned
+                                library item is returned late. Overdue fines are calculated at
+                                check-in, based on an amount per day/hour, and may vary depending
+                                upon the borrower type, the item’s location and the item
+                                type.</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">Overdue Recall Fine</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">The amount charged to a patron when a loaned
+                                library item that has been recalled is returned late. Recall overdue
+                                fines are calculated at check-in, based on an amount per day/hour,
+                                and may vary depending upon the borrower type, the item’s location
+                                and the item type.</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">Replacement Fee</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">The amount charged to a patron for an
+                                unreturned item. Lost item replacement fees may be a specific amount
+                                (as defined in the item-level record) or a standard amount based on
+                                borrower type, the item’s location and the item type.</para>
+                        </entry>
+                    </row>
+                </tbody>
+            </tgroup>
+        </informaltable>
+        <para role="Normal"/>
+        <para role="Normal">For additional OLE terms and definitions, see the <link
+                xlink:href="../../../webhelp/BASICS/content/go01.html">OLE glossary</link>.</para>
+        <para role="Body Text"/>
+    </section>
+    <section>
+        <title><anchor xml:id="_Deliver_Roles"/>Deliver Roles<indexterm significance="normal">
+                <primary>Role, intro</primary>
+            </indexterm></title>
+        <para role="Body Text">Below are some of the roles that will be authorized to use
+            Loan/Return, Request, Patron, My Account, and related maintenance documents in the OLE
+            test drive. Please see individual e-docs for specific requirements in each workflow. </para>
+        <note>
+            <para role="Body Text">Sample users are provided for ease of testing and can be replaced
+                with local library users. </para>
+        </note>
+        <para role="Body Text"/>
+        <informaltable frame="all">
+            <tgroup cols="3">
+                <colspec colname="col1" colnum="1"/>
+                <colspec colname="col2" colnum="2"/>
+                <colspec colname="col3" colnum="3"/>
+                <tbody>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells"><phrase role="Table Cells Emphasis"><emphasis
+                                        role="bold">Role Name</emphasis></phrase></para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells"><phrase role="Table Cells Emphasis"><emphasis
+                                        role="bold">Sample User</emphasis></phrase></para>
+                        </entry>
+                        <entry colname="col3" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells"><phrase role="Table Cells Emphasis"><emphasis
+                                        role="bold">Functions/
+                                Permissions</emphasis></phrase></para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                            <para role="Table Cells">Patron Manager</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                            <para role="Table Cells">admin</para>
+                        </entry>
+                        <entry colname="col3" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">System user who has all permissions for patrons
+                                and for borrower types</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                            <para role="Table Cells">Full Circulation Attendant</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                            <para role="Table Cells">dev1</para>
+                        </entry>
+                        <entry colname="col3" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">System user who can edit patrons and
+                                maintenance documents pertaining to patrons with the exception of
+                                borrower types</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="bottom">Limited
+                            Circulation Attendant</entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="bottom">testuser1,
+                            testuser2</entry>
+                        <entry colname="col3" colsep="1" rowsep="1" valign="top">System user who can
+                            view but not edit patron records and has no access to patron
+                            type.</entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                            <para role="Table Cells">Circ Desk Attendant I</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                            <para role="Table Cells">testuser1</para>
+                        </entry>
+                        <entry colname="col3" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">System user who can view patrons and edit their
+                                address, can loan and return items, update/backdate due dates and
+                                create fast adds.</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="bottom">Circ Desk
+                            Attendant II</entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="bottom">eric,
+                            edna</entry>
+                        <entry colname="col3" colsep="1" rowsep="1" valign="top">System user who can
+                            loan and return items, update/backdate due dates, create fast adds,
+                            create and edit requests, post and forgive payments.</entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="bottom">Circulation
+                            Supervisor</entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="bottom">dev1,
+                            dev2</entry>
+                        <entry colname="col3" colsep="1" rowsep="1" valign="top">System user who can
+                            loan and return items, update/backdate due dates, create fast adds,
+                            create and edit requests, post and forgive payments, create and update
+                            bills, update request queue, manage patron addresses and proxy
+                            accounts.</entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="bottom">Super
+                            Circulation Supervisor</entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="bottom">admin;
+                            admin1</entry>
+                        <entry colname="col3" colsep="1" rowsep="1" valign="top">System user who can
+                            loan and return items, update/backdate due dates, create fast adds,
+                            create and edit requests, post and forgive payments, create and update
+                            bills, update request queue, manage patron addresses and proxy accounts,
+                            and manage circulation desks.</entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                            <para role="Table Cells">Shelving Location Administrator</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                            <para role="Table Cells">dev1, dev2</para>
+                        </entry>
+                        <entry colname="col3" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">System user who can create and edit permissions
+                                for shelving locations. Can view the location, location level and
+                                create, edit a maintenance document only where the location level is
+                                a shelving level</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                            <para role="Table Cells">Location Administrator</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                            <para role="Table Cells">admin, admin1</para>
+                        </entry>
+                        <entry colname="col3" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">System user who can add and edit institutions,
+                                campuses, libraries and collections. Can view, create, edit location
+                                maintenance documents and can view, edit the name of the location
+                                level maintenance document.</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                            <para role="Table Cells">Deliver Admin</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                            <para role="Table Cells">admin, admin1</para>
+                        </entry>
+                        <entry colname="col3" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">System user who can initiate and map
+                                circulation desks</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                            <para role="Table Cells">Operator</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                            <para role="Table Cells">edna, eric, dev2</para>
+                        </entry>
+                        <entry colname="col3" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">System user who can loan materials</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                            <para role="Table Cells">Unit Manager</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                            <para role="Table Cells">dev2</para>
+                        </entry>
+                        <entry colname="col3" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells">System user who can loan and override
+                                loan</para>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                            <para role="Table Cells">&lt;any user-Action List&gt;</para>
+                        </entry>
+                        <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                            <para role="Table Cells">&lt;any Kuali user&gt;</para>
+                        </entry>
+                        <entry colname="col3" colsep="1" rowsep="1" valign="top">
+                            <para role="Table Cells"/>
+                        </entry>
+                    </row>
+                </tbody>
+            </tgroup>
+        </informaltable>
+    </section>
+    <section>
+        <title><anchor xml:id="_Linked_Resources"/>Linked Resources<indexterm significance="normal">
+                <primary>Appendix</primary>
+                <secondary>Linked Resources</secondary>
+            </indexterm></title>
+        <itemizedlist mark="disc" spacing="normal">
+            <listitem>
+                <para role="List Paragraph"><link xlink:href="../../../webhelp/BASICS/index.html"
+                        >OLE Basic Functionality and Key Concepts.</link>: E-Docs, action buttons-
+                    basic overview of elements</para>
+            </listitem>
+            <listitem>
+                <para role="List Paragraph"><link xlink:href="../../../html/Index.html">OLE
+                        Documentation Portal</link>
+                </para>
+            </listitem>
+            <listitem>
+                <para role="List Paragraph"><link
+                        xlink:href="https://wiki.kuali.org/display/OLE/OLE+Published+Documentation"
+                        >OLE Published User Documentation</link> on the wiki</para>
+            </listitem>
+            <listitem>
+                <para role="List Paragraph"><link xlink:href="http://www.kuali.org/ole/roadmap">OLE
+                        Roadmap</link></para>
+            </listitem>
+        </itemizedlist>
+        <para role="Normal"/>
+    </section>
+</chapter>

@@ -1,0 +1,3962 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.editeur.org/onix-pl" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="Addressee">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:AddresseeIdentifier" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>You have a CHOICE of the next 2 items at this level</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:AddresseeName" maxOccurs="unbounded" minOccurs="0" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:AddresseeContact" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:AddresseeEmail" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PlaceName">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:PlaceNameType" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:Name" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>You have a CHOICE of the next 2 items at this level</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:PlaceNamePart" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PaymentTerm">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:PaymentTermType" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:TermStatus" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:Authority" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:Annotation" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:LicenseTextLink" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:LicenseDocumentReference" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:OtherDocumentReference" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:PaymentTermQuantity" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:PaymentTermRelatedAgent" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:PaymentTermRelatedResource" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:PaymentTermRelatedTimePoint" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:PaymentTermRelatedPlace" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PlaceQuantity">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:PlaceQuantityType" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:QuantityDetail" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="MessageNote">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PaymentTerms">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:CurrencyCode" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:PaymentTerm" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GeneralTermPlaceRelator">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="TimePointRelatedPlace">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:TimePointPlaceRelator" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:RelatedPlace" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PlaceRelatedTimePoint">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:PlaceTimePointRelator" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:RelatedTimePoint" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ResourceIDType">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ResourceQuantity">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:ResourceQuantityType" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:QuantityDetail" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="LicenseStatus">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="LicenseRelatedResource">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:LicenseResourceRelator" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:RelatedResource" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SortNumber">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="TimePointRelatedResource">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:TimePointResourceRelator" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:RelatedResource" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="TimePointRelatedTimePoint">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:TimePointTimePointRelator" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:RelatedTimePoint" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AgentName">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:AgentNameType" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:Name" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>You have a CHOICE of the next 2 items at this level</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:AgentNamePart" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UsageRelatedTimePoint">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:UsageTimePointRelator" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:RelatedTimePoint" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="OtherDocumentReference">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:ReferenceRelator" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:DocumentLabel" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:SectionDesignation" minOccurs="0" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:SectionIdentifier" minOccurs="0" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:Annotation" minOccurs="0" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:Zero or more repetitions:Zero or more repetitions:Zero or more repetitions:Zero or more repetitions:Zero or more repetitions:Zero or more repetitions:Zero or more repetitions:Zero or more repetitions:Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp" use="optional"/>
+      <xs:attribute type="xs:string" name="sourcetype" use="optional"/>
+      <xs:attribute type="xs:string" name="sourcename" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="TimePointQuantity">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:TimePointQuantityType" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:QuantityDetail" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="LicenseGrantResourceRelator">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ResourceQuantityType">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SenderIdentifier">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:SenderIDType" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:IDTypeName" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:IDValue" xmlns:onix="http://www.editeur.org/onix-pl"/>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PlaceResourceRelator">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GeneralTermRelatedResource">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:GeneralTermResourceRelator" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:RelatedResource" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="LicenseGrantRelatedPlace">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:LicenseGrantPlaceRelator" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:RelatedPlace" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AgentQuantityType">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ResourceResourceRelator">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ContinuingAccessTermQuantity">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:ContinuingAccessTermQuantityType" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:QuantityDetail" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UsagePurpose">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ResourceIdentifier">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:ResourceIDType" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:IDTypeName" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:IDValue" xmlns:onix="http://www.editeur.org/onix-pl"/>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PlaceType">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="MessageNumber">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PlacePlaceRelator">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddresseeIDType">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="LicenseGrantPlaceRelator">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GeneralTermRelatedAgent">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:GeneralTermAgentRelator" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:RelatedAgent" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="LicenseRelatedAgent">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:LicenseAgentRelator" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:RelatedAgent" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp" use="optional"/>
+      <xs:attribute type="xs:string" name="sourcetype" use="optional"/>
+      <xs:attribute type="xs:string" name="sourcename" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="User">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UsageAgentRelator">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ResourceRelatedAgent">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:ResourceAgentRelator" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:RelatedAgent" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddresseeName">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcetype" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcename" use="optional"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="LicenseRelatedPlace">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:LicensePlaceRelator" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:RelatedPlace" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SenderContact">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UsageExceptionType">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="LicenseDetail">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:LicenseIdentifier" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>You have a CHOICE of the next 2 items at this level1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:Description" maxOccurs="unbounded" minOccurs="0" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:LicenseStatus" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:LicenseRenewalType" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:Annotation" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:LicenseDocument" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:OtherDocumentReference" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:LicenseRelatedAgent" maxOccurs="unbounded" minOccurs="0" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>2 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:LicenseRelatedResource" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:LicenseRelatedTimePoint" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:LicenseRelatedPlace" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="LicenseRenewalType">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="IDTypeName">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcetype" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcename" use="optional"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AgentRelatedResource">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:AgentResourceRelator" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:RelatedResource" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SupplyTerms">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:SupplyTerm" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UsageTerms">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:Usage" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AgentRelatedTimePoint">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:AgentTimePointRelator" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:RelatedTimePoint" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="LicenseTextLink">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="href" use="optional"/>
+          <xs:attribute type="xs:string" name="datestamp" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcetype" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcename" use="optional"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="LicenseGrantTimePointRelator">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GeneralTermTimePointRelator">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Annotation">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:AnnotationType" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:Authority" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:AnnotationText" xmlns:onix="http://www.editeur.org/onix-pl"/>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp" use="optional"/>
+      <xs:attribute type="xs:string" name="sourcetype" use="optional"/>
+      <xs:attribute type="xs:string" name="sourcename" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GeneralTermType">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GeneralTerms">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:GeneralTerm" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AgentNamePartType">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AnnotationType">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcetype" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcename" use="optional"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ExpressionTimePointRelator">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AgentPlaceRelator">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ContinuingAccessTermRelatedAgent">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:ContinuingAccessTermAgentRelator" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:RelatedAgent" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ExpressionStatus">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="NamePart">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcetype" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcename" use="optional"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="TextPreceding">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="language"/>
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Header">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:Sender" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:Addressee" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:MessageNumber" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:MessageRepeat" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:SentDateTime" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:MessageNote" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PlaceNamePart">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:PlaceNamePartType" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:NamePart" xmlns:onix="http://www.editeur.org/onix-pl"/>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AgentIdentifier">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:AgentIDType" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:IDTypeName" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:IDValue" xmlns:onix="http://www.editeur.org/onix-pl"/>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="QuantityDetail">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:Proximity" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:Value" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:QuantityUnit" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:ReferenceUnit" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp" use="optional"/>
+      <xs:attribute type="xs:string" name="sourcetype" use="optional"/>
+      <xs:attribute type="xs:string" name="sourcename" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Usage">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:UsageType" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:UsageStatus" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:Authority" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:Annotation" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:LicenseTextLink" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:LicenseDocumentReference" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:OtherDocumentReference" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:User" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:UsedResource" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:UsagePurpose" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:UsageMethod" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:UsageCondition" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:UsageException" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:UsageQuantity" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:UsageRelatedAgent" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:UsageRelatedResource" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:UsageRelatedTimePoint" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:UsageRelatedPlace" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SupplyTermTimePointRelator">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ContinuingAccessTermType">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UsageQuantityType">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GeneralTermAgentRelator">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="IDValue">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcetype" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcename" use="optional"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="LicenseRelatedTimePoint">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:LicenseTimePointRelator" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:RelatedTimePoint" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="TimePointPlaceRelator">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PaymentTermAgentRelator">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ContinuingAccessTermRelatedPlace">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:ContinuingAccessTermPlaceRelator" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:RelatedPlace" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddresseeEmail">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AgentAgentRelator">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SupplyTermAgentRelator">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="LicenseGrantPurpose">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Value">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcetype" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcename" use="optional"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddresseeIdentifier">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:AddresseeIDType" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:IDTypeName" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:IDValue" xmlns:onix="http://www.editeur.org/onix-pl"/>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PlaceRelatedPlace">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:PlacePlaceRelator" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:RelatedPlace" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="TimePointLabel">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ResourcePlaceRelator">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ResourceRelatedPlace">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:ResourcePlaceRelator" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:RelatedPlace" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PaymentTermRelatedTimePoint">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:PaymentTermTimePointRelator" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:RelatedTimePoint" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SectionDesignation">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcetype" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcename" use="optional"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DocumentIdentifier">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:DocumentIDType" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:IDTypeName" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:IDValue" xmlns:onix="http://www.editeur.org/onix-pl"/>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="LicenseDocumentText">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:DocumentLabel" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:TextElement" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="TimePointType">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PlaceIDType">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="TimePointIdentifier">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:TimePointIDType" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:IDValue" xmlns:onix="http://www.editeur.org/onix-pl"/>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp" use="optional"/>
+      <xs:attribute type="xs:string" name="sourcetype" use="optional"/>
+      <xs:attribute type="xs:string" name="sourcename" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PaymentTermQuantity">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:PaymentTermQuantityType" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:QuantityDetail" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UsageQuantity">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:UsageQuantityType" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:QuantityDetail" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DocumentLabel">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcetype" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcename" use="optional"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PlaceAgentRelator">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CurrencyCode">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SenderName">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcetype" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcename" use="optional"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="LicenseDocument">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:LicenseDocumentType" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:DocumentLabel" xmlns:onix="http://www.editeur.org/onix-pl"/>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SupplyTermQuantity">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:SupplyTermQuantityType" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:QuantityDetail" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ResourceRelatedTimePoint">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:ResourceTimePointRelator" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:RelatedTimePoint" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ExpressionAgentRelator">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Description">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcetype" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcename" use="optional"/>
+          <xs:attribute type="xs:string" name="language" use="optional"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AgentTimePointRelator">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GeneralTermRelatedTimePoint">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:GeneralTermTimePointRelator" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:RelatedTimePoint" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GeneralTermQuantityType">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PlaceQuantityType">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AgentRelatedPlace">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:AgentPlaceRelator" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:RelatedPlace" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Definitions">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:AgentDefinition" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:ResourceDefinition" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:TimePointDefinition" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:PlaceDefinition" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:DocumentDefinition" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AgentRelatedAgent">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:AgentAgentRelator" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:RelatedAgent" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="MessageRepeat">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="LicenseDocumentReference">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:DocumentLabel" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:SectionDesignation" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:SectionIdentifier" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp" use="optional"/>
+      <xs:attribute type="xs:string" name="sourcetype" use="optional"/>
+      <xs:attribute type="xs:string" name="sourcename" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="LicenseTimePointRelator">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="LicensePlaceRelator">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DocumentPlaceRelator">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DocumentType">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ContinuingAccessTerms">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:ContinuingAccessTerm" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UsageStatus">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ContinuingAccessTermResourceRelator">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Sender">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:SenderIdentifier" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>You have a CHOICE of the next 2 items at this level</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:SenderName" maxOccurs="unbounded" minOccurs="0" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:SenderContact" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:SenderEmail" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PlaceNamePartType">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="LicenseAgentRelator">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcetype" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcename" use="optional"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="LicenseDocumentType">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SupplyTermRelatedTimePoint">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:SupplyTermTimePointRelator" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:RelatedTimePoint" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ExpressionVersion">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcetype" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcename" use="optional"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GeneralTermResourceRelator">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PlaceLabel">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ExpressionReference">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:ReferenceRelator" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:ExpressionIdentifier" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:ExpressionVersion" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="TimePointQuantityType">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SupplyTermPlaceRelator">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PlaceRelatedResource">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:PlaceResourceRelator" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:RelatedResource" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ContinuingAccessTermTimePointRelator">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UsageTimePointRelator">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ExpressionRelatedAgent">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:ExpressionAgentRelator" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:Name" xmlns:onix="http://www.editeur.org/onix-pl"/>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ExpressionIdentifier">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:ExpressionIDType" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:IDTypeName" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:IDValue" xmlns:onix="http://www.editeur.org/onix-pl"/>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp" use="optional"/>
+      <xs:attribute type="xs:string" name="sourcetype" use="optional"/>
+      <xs:attribute type="xs:string" name="sourcename" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ReferenceUnit">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcetype" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcename" use="optional"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PaymentTermPlaceRelator">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RelatedTimePoint">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcetype" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcename" use="optional"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GeneralTermRelatedPlace">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:GeneralTermPlaceRelator" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:RelatedPlace" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SenderIDType">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AgentQuantity">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:AgentQuantityType" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:QuantityDetail" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ContinuingAccessTermRelatedTimePoint">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:ContinuingAccessTermTimePointRelator" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:RelatedTimePoint" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DocumentRelatedAgent">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:DocumentAgentRelator" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:RelatedAgent" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DocumentRelatedResource">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:DocumentResourceRelator" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:RelatedResource" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AgentType">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="LicenseGrant">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:LicenseGrantType" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:Authority" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:Annotation" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:LicenseTextLink" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:LicenseDocumentReference" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:OtherDocumentReference" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:LicenseGrantPurpose" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:LicenseGrantCondition" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:LicenseGrantRelatedAgent" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:LicenseGrantRelatedResource" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:LicenseGrantRelatedTimePoint" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:LicenseGrantRelatedPlace" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PaymentTermResourceRelator">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PaymentTermRelatedAgent">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:PaymentTermAgentRelator" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:RelatedAgent" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GeneralTerm">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:GeneralTermType" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:TermStatus" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:Authority" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:Annotation" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:LicenseTextLink" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:LicenseDocumentReference" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:OtherDocumentReference" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:GeneralTermQuantity" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:GeneralTermRelatedAgent" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:GeneralTermRelatedResource" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:GeneralTermRelatedTimePoint" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:GeneralTermRelatedPlace" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SupplyTermType">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ExpressionType">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DocumentIDType">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UsageException">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:UsageExceptionType" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:LicenseTextLink" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:LicenseDocumentReference" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ResourceLabel">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ContinuingAccessTermAgentRelator">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DocumentAgentRelator">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Proximity">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcetype" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcename" use="optional"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AgentIDType">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ExpressionRelatedTimePoint">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:ExpressionTimePointRelator" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:TimePointIdentifier" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SenderEmail">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="LicenseResourceRelator">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PaymentTermRelatedResource">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:PaymentTermResourceRelator" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:RelatedResource" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ResourceAgentRelator">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PlaceIdentifier">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:PlaceIDType" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:IDTypeName" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:IDValue" xmlns:onix="http://www.editeur.org/onix-pl"/>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PaymentTermType">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AnnotationText">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="language" use="optional"/>
+          <xs:attribute type="xs:string" name="datestamp" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcetype" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcename" use="optional"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DocumentTimePointRelator">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PaymentTermRelatedPlace">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:PaymentTermPlaceRelator" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:RelatedPlace" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ReferenceRelator">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcetype" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcename" use="optional"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="LicenseIdentifier">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:LicenseIDType" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:IDTypeName" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:IDValue" xmlns:onix="http://www.editeur.org/onix-pl"/>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="LicenseGrantCondition">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ResourceType">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PlaceTimePointRelator">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ResourceTimePointRelator">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SupplyTermQuantityType">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SupplyTermRelatedResource">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:SupplyTermResourceRelator" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:RelatedResource" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="TimePointDefinition">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:TimePointLabel" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:TimePointType" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:Authority" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:TimePointIdentifier" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:Description" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:Annotation" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:LicenseTextLink" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:LicenseDocumentReference" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:OtherDocumentReference" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:TimePointQuantity" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:TimePointRelatedAgent" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:TimePointRelatedResource" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:TimePointRelatedTimePoint" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:TimePointRelatedPlace" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="LicenseGrantRelatedTimePoint">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:LicenseGrantTimePointRelator" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:RelatedTimePoint" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SupplyTermResourceRelator">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ResourceRelatedResource">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:ResourceResourceRelator" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:RelatedResource" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ContinuingAccessTermRelatedResource">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:ContinuingAccessTermResourceRelator" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:RelatedResource" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="LicenseIDType">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DisplayNumber">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UsagePlaceRelator">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AgentResourceRelator">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PlaceNameType">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PaymentTermQuantityType">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="LicenseGrantRelatedResource">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:LicenseGrantResourceRelator" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:RelatedResource" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ExpressionIDType">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcetype" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcename" use="optional"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UsedResource">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ONIXPublicationsLicenseMessage">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:Header" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:PublicationsLicenseExpression" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="version"/>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="LicenseGrantType">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AgentDefinition">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:AgentLabel" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:AgentType" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:Authority" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:AgentIdentifier" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:AgentName" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:Description" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:Annotation" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:LicenseTextLink" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:LicenseDocumentReference" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:OtherDocumentReference" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:AgentQuantity" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:AgentRelatedAgent" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:AgentRelatedResource" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:AgentRelatedTimePoint" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:AgentRelatedPlace" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DocumentDefinition">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:DocumentLabel" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:DocumentType" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:Authority" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:DocumentIdentifier" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:Description" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:Annotation" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:DocumentRelatedAgent" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:DocumentRelatedResource" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:DocumentRelatedTimePoint" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:DocumentRelatedPlace" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RelatedPlace">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcetype" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcename" use="optional"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="LicenseGrantRelatedAgent">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:LicenseGrantAgentRelator" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:RelatedAgent" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UsageType">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SectionIdentifier">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:SectionIDType" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:IDValue" xmlns:onix="http://www.editeur.org/onix-pl"/>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp" use="optional"/>
+      <xs:attribute type="xs:string" name="sourcetype" use="optional"/>
+      <xs:attribute type="xs:string" name="sourcename" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="LicenseGrantAgentRelator">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PaymentTermTimePointRelator">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="TimePointResourceRelator">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ContinuingAccessTermQuantityType">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DocumentRelatedPlace">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:DocumentPlaceRelator" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:RelatedPlace" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SentDateTime">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="TextElement">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:SortNumber" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:DisplayNumber" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:TextPreceding" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:Text" xmlns:onix="http://www.editeur.org/onix-pl"/>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="id"/>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GeneralTermQuantity">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:GeneralTermQuantityType" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:QuantityDetail" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DocumentResourceRelator">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SectionIDType">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcetype" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcename" use="optional"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UsageRelatedAgent">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:UsageAgentRelator" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:RelatedAgent" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddresseeContact">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ContinuingAccessTermPlaceRelator">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AgentNameType">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PlaceDefinition">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:PlaceLabel" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:PlaceType" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:Authority" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:PlaceIdentifier" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:PlaceName" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:Description" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:Annotation" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:LicenseTextLink" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:LicenseDocumentReference" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:OtherDocumentReference" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:PlaceQuantity" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:PlaceRelatedAgent" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:PlaceRelatedResource" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:PlaceRelatedTimePoint" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:PlaceRelatedPlace" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="TimePointRelatedAgent">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:TimePointAgentRelator" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:RelatedAgent" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UsageRelatedResource">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:UsageResourceRelator" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:RelatedResource" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UsageResourceRelator">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Name">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcetype" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcename" use="optional"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RelatedResource">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcetype" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcename" use="optional"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Text">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="language"/>
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DocumentRelatedTimePoint">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:DocumentTimePointRelator" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:RelatedTimePoint" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SupplyTerm">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:SupplyTermType" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:TermStatus" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:Authority" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:Annotation" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:LicenseTextLink" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:LicenseDocumentReference" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:OtherDocumentReference" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:SupplyTermQuantity" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:SupplyTermRelatedAgent" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:SupplyTermRelatedResource" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:SupplyTermRelatedTimePoint" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:SupplyTermRelatedPlace" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SupplyTermRelatedAgent">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:SupplyTermAgentRelator" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:RelatedAgent" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PlaceRelatedAgent">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:PlaceAgentRelator" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:RelatedAgent" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ResourceDefinition">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:ResourceLabel" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:ResourceType" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:Authority" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:ResourceIdentifier" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:Description" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:Annotation" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:LicenseTextLink" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:LicenseDocumentReference" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:OtherDocumentReference" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:ResourceQuantity" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:ResourceRelatedAgent" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:ResourceRelatedResource" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:ResourceRelatedTimePoint" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:ResourceRelatedPlace" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="TimePointTimePointRelator">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ExpressionDetail">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:ExpressionType" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:ExpressionIdentifier" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:ExpressionVersion" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:ExpressionStatus" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:Authority" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:Description" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:Annotation" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:ExpressionReference" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:ExpressionRelatedAgent" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:ExpressionRelatedTimePoint" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RelatedAgent">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcetype" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcename" use="optional"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AgentLabel">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AgentNamePart">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:AgentNamePartType" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:NamePart" xmlns:onix="http://www.editeur.org/onix-pl"/>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PublicationsLicenseExpression">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:ExpressionDetail" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:LicenseDetail" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:Definitions" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:LicenseGrant" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:UsageTerms" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:SupplyTerms" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:ContinuingAccessTerms" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:PaymentTerms" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:GeneralTerms" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:LicenseDocumentText" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="version"/>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="TimePointAgentRelator">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UsageMethod">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="QuantityUnit">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcetype" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcename" use="optional"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ContinuingAccessTerm">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:ContinuingAccessTermType" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:TermStatus" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:Authority" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Optional:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:Annotation" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:LicenseTextLink" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:LicenseDocumentReference" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:OtherDocumentReference" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:ContinuingAccessTermQuantity" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:ContinuingAccessTermRelatedAgent" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:ContinuingAccessTermRelatedResource" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:ContinuingAccessTermRelatedTimePoint" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="onix:ContinuingAccessTermRelatedPlace" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>Zero or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UsageRelatedPlace">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:UsagePlaceRelator" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:RelatedPlace" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Authority">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcetype" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcename" use="optional"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UsageCondition">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp"/>
+          <xs:attribute type="xs:string" name="sourcetype"/>
+          <xs:attribute type="xs:string" name="sourcename"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="TermStatus">
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:enumeration value="onixPL:ExplicitYes"/>
+        <xs:enumeration value="onixPL:Yes"/>
+        <xs:enumeration value="onixPL:No"/>
+        <xs:enumeration value="onixPL:Uncertain"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+  <xs:element name="TimePointIDType">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="datestamp" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcetype" use="optional"/>
+          <xs:attribute type="xs:string" name="sourcename" use="optional"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SupplyTermRelatedPlace">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="onix:SupplyTermPlaceRelator" xmlns:onix="http://www.editeur.org/onix-pl"/>
+        <xs:element ref="onix:RelatedPlace" xmlns:onix="http://www.editeur.org/onix-pl">
+          <xs:annotation>
+            <xs:documentation>1 or more repetitions:</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="datestamp"/>
+      <xs:attribute type="xs:string" name="sourcetype"/>
+      <xs:attribute type="xs:string" name="sourcename"/>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

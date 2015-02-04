@@ -1,0 +1,524 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        
+        <bean id="OleVendorCreditMemo-calculateAccountsPayableValidation" parent="OleVendorCreditMemo-calculateAccountsPayableValidation-parentBean" scope="prototype" />
+	
+	<bean id="OleVendorCreditMemo-calculateAccountsPayableValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>
+  				<bean parent="OleVendorCreditMemo-calculateAccountsPayable-itemsCollectionValidation" scope="prototype" /> 				
+  				<bean parent="VendorCreditMemo-totalMatchesVendorAmountValidation" scope="prototype" />
+  				<bean parent="VendorCreditMemo-totalOverZeroValidation" scope="prototype" />			
+  			</list>
+  		</property>										
+	</bean>
+	
+	<bean id="OleVendorCreditMemo-calculateAccountsPayable-itemsCollectionValidation" abstract="true" parent="CollectionValidation" scope="prototype">
+  		<property name="collectionProperty" value="document.items" />
+		<property name="validations">
+			<list>  			
+				<bean parent="OleVendorCreditMemo-flagLineItemTotalsValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="itemIterationSubjectFieldConversation" />
+						</list>
+					</property>  							
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="OleVendorCreditMemo-flagLineItemTotalsValidation" class="org.kuali.ole.select.document.validation.impl.OleVendorCreditMemoFlagLineItemTotalsValidation" abstract="true">
+	</bean>
+	
+	<bean id="OleVendorCreditMemo-itemExtendedPriceValidation" parent="OleVendorCreditMemo-itemExtendedPriceValidation-parentBean" scope="prototype"/>
+	
+	<bean id="OleVendorCreditMemo-itemExtendedPriceValidation-parentBean" class="org.kuali.ole.select.document.validation.impl.OleVendorCreditMemoItemExtendedPriceValidation" abstract="true">
+		<property name="dataDictionaryService" ref="dataDictionaryService" />
+	</bean>
+	
+	<bean id="OleVendorCreditMemo-approveDocument-itemsCollection-lineItemIndicatorBranchingValidation-isLineIndicator-extendedPriceNonZeroBranchingValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+		<property name="validations">
+			<list>
+				<bean parent="OleVendorCreditMemo-processAccountValidation-parentBean" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="itemIterationSubjectFieldConversation" />
+						</list>
+					</property>	                                
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="OleVendorCreditMemo-approveDocument-itemsCollection-lineItemIndicatorBranchingisLineIndicator-extendedPriceNonZeroBranchingValidation" abstract="true" parent="PurchasingAccountsPayable-extendedPriceNonZeroBranchingValidation" scope="prototype">
+		<property name="branchMap">
+			<map>
+				<entry>							
+					<key><value>isExtendedPriceNonZero</value></key>
+					<bean parent="OleVendorCreditMemo-approveDocument-itemsCollection-lineItemIndicatorBranchingValidation-isLineIndicator-extendedPriceNonZeroBranchingValidation" scope="prototype" />
+				</entry>
+			</map>
+		</property>
+		<property name="parameterProperties">
+			<list>
+				<bean parent="itemIterationSubjectFieldConversation" />
+			</list>
+		</property>																																									
+	</bean>
+	
+	<bean id="OleVendorCreditMemo-approveDocument-itemsCollection-lineItemIndicatorBranchingValidation-isLineIndicatorBranchCompositeValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+		<property name="validations">
+  			<list>
+										
+				<bean parent="VendorCreditMemo-itemQuantityValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="itemIterationSubjectFieldConversation" />
+						</list>
+					</property>												
+				</bean>
+
+				<bean parent="VendorCreditMemo-itemUnitPriceValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="itemIterationSubjectFieldConversation" />
+						</list>
+					</property>												
+				</bean>
+
+				<bean parent="OleVendorCreditMemo-itemExtendedPriceValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="itemIterationSubjectFieldConversation" />
+						</list>
+					</property>												
+				</bean>
+				
+				<bean parent="OleVendorCreditMemo-approveDocument-itemsCollection-lineItemIndicatorBranchingisLineIndicator-extendedPriceNonZeroBranchingValidation" scope="prototype" />						
+			</list>
+		</property>
+	</bean>
+	<bean id="OleVendorCreditMemo-approveDocument-itemsCollection-lineItemIndicatorBranchingValidation" abstract="true" parent="PurchasingAccountsPayable-lineItemIndicatorBranchingValidation" scope="prototype">
+		<property name="branchMap">
+			<map>
+				<entry>							
+					<key><value>isLineItemIndicator</value></key>
+					<bean parent="OleVendorCreditMemo-approveDocument-itemsCollection-lineItemIndicatorBranchingValidation-isLineIndicatorBranchCompositeValidation" scope="prototype" />																				
+				</entry>		
+				<entry>							
+					<key><value>isNotLineItemIndicator</value></key>
+					<bean parent="OleVendorCreditMemo-approveDocument-itemsCollection-lineItemIndicatorBranchingValidation-notLineItemIndicatorBranchCompositeValidation" scope="prototype" />																	
+				</entry>							
+			</map>
+		</property>
+		<property name="parameterProperties">
+			<list>
+				<bean parent="itemIterationSubjectFieldConversation" />
+			</list>
+		</property>																			
+	</bean>
+	<bean id="OleVendorCreditMemo-approveDocument-itemsCollectionValidation" abstract="true" parent="CollectionValidation" scope="prototype">
+  		<property name="collectionProperty" value="document.items" />
+  		<property name="validations">
+  			<list>
+				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="iterationSubject" />
+								<property name="targetValidationProperty" value="businessObjectForValidation" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+
+				<bean parent="OleVendorCreditMemo-approveDocument-itemsCollection-lineItemIndicatorBranchingValidation" scope="prototype" />
+																		
+			</list>
+		</property>
+	</bean>
+	<bean id="OleVendorCreditMemo-approveDocumentValidation" parent="OleVendorCreditMemo-approveDocumentValidation-parentBean" scope="prototype" />
+  
+  	<bean id="OleVendorCreditMemo-approveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>
+			    <bean parent="OleVendorCreditMemo-approveDocument-itemsCollectionValidation" scope="prototype" />
+			    
+				<bean parent="OleVendorCreditMemo-newProcessItemValidation-parentBean" scope="prototype"/>
+								
+				<bean parent="AccountsPayable-processApprovalAtAccountsPayableReviewAllowedValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  												
+				<bean parent="AccountsPayable-validateAccountsPayableItemsValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  				
+				<bean parent="VendorCreditMemo-totalOverZeroValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>
+
+				<!--<bean parent="PurchasingAccountsPayable-checkNegativeAccountsValidation" scope="prototype"/>-->
+			</list>
+		</property>
+  	</bean>
+	
+	<bean id="OleVendorCreditMemo-routeDocument-lineItemIndicator-isLineItemIndicatorBranchCompositeValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+		<property name="validations">
+  			<list>
+									
+				<bean parent="VendorCreditMemo-itemQuantityValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="itemIterationSubjectFieldConversation" />
+						</list>
+					</property>												
+				</bean>
+	
+				<bean parent="VendorCreditMemo-itemUnitPriceValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="itemIterationSubjectFieldConversation" />
+						</list>
+					</property>												
+				</bean>
+	
+				<bean parent="OleVendorCreditMemo-itemExtendedPriceValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="itemIterationSubjectFieldConversation" />
+						</list>
+					</property>												
+				</bean>																															
+				
+				<bean parent="OleVendorCreditMemo-routeDocument-lineItemIndicator-isLineItemIndicatorBranch-extendedPriceNonZeroBranchingValidation" scope="prototype" />							
+			
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="OleVendorCreditMemo-routeDocument-lineItemIndicator-isNotLineItemIndicator-extendedPriceNonZero-isExtendedPriceNonZeroBranchCompositeValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+		<property name="validations">
+			<list>
+				<bean parent="OleVendorCreditMemo-processAccountValidation-parentBean" scope="prototype">
+					<property name="parameterProperties">
+			            <list>
+					        <bean parent="itemIterationSubjectFieldConversation" />
+						</list>
+					</property>	                                
+				</bean>
+			</list>
+		</property>
+	</bean> 
+	
+	<bean id="OleVendorCreditMemo-routeDocument-lineItemIndicator-isNotLineItemIndicator-extendedPriceNonZeroBranchingValidation" abstract="true" parent="PurchasingAccountsPayable-extendedPriceNonZeroBranchingValidation" scope="prototype">
+		<property name="branchMap">
+			<map>
+				<entry>							
+					<key><value>isExtendedPriceNonZero</value></key>
+					<bean parent="OleVendorCreditMemo-routeDocument-lineItemIndicator-isNotLineItemIndicator-extendedPriceNonZero-isExtendedPriceNonZeroBranchCompositeValidation" scope="prototype" />				
+				</entry>
+			</map>
+		</property>
+		<property name="parameterProperties">
+			<list>
+				<bean parent="itemIterationSubjectFieldConversation" />
+			</list>
+		</property>																																									
+	</bean>
+	
+	<bean id="OleVendorCreditMemo-routeDocument-lineItemIndicator-isNotLineItemIndicatorBranchCompositeValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+		<property name="validations">
+  			<list>									
+				<bean parent="PurchasingAccountsPayable-belowTheLineValuesValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="itemIterationSubjectFieldConversation" />
+						</list>
+					</property>																										
+				</bean>																		
+											
+				<bean parent="OleVendorCreditMemo-routeDocument-lineItemIndicator-isNotLineItemIndicator-extendedPriceNonZeroBranchingValidation" scope="prototype" />
+				
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="OleVendorCreditMemo-routeDocument-lineItemIndicatorBranchingValidation" abstract="true" parent="PurchasingAccountsPayable-lineItemIndicatorBranchingValidation" scope="prototype">
+		<property name="branchMap">
+			<map>
+				<entry>							
+					<key><value>isLineItemIndicator</value></key>
+					<bean parent="OleVendorCreditMemo-routeDocument-lineItemIndicator-isLineItemIndicatorBranchCompositeValidation" scope="prototype" />																				
+				</entry>		
+				<entry>							
+					<key><value>isNotLineItemIndicator</value></key>
+					<bean parent="OleVendorCreditMemo-routeDocument-lineItemIndicator-isNotLineItemIndicatorBranchCompositeValidation" scope="prototype" />																		
+				</entry>							
+			</map>
+		</property>
+		<property name="parameterProperties">
+			<list>
+				<bean parent="itemIterationSubjectFieldConversation" />
+			</list>
+		</property>												
+	</bean>
+	<bean id="OleVendorCreditMemo-routeDocument-itemsCollectionValidation" abstract="true" parent="CollectionValidation" scope="prototype">
+  		<property name="collectionProperty" value="document.items" />
+ 		<property name="validations">
+ 			<list>
+				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="iterationSubject" />
+								<property name="targetValidationProperty" value="businessObjectForValidation" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				
+				<bean parent="OleVendorCreditMemo-routeDocument-lineItemIndicatorBranchingValidation" scope="prototype" />					
+												
+			</list>
+		</property>
+	</bean>
+	<bean id="OleVendorCreditMemo-routeDocumentValidation" parent="OleVendorCreditMemo-routeDocumentValidation-parentBean" scope="prototype" />
+  
+  	<bean id="OleVendorCreditMemo-routeDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>
+  				<bean parent="PurchasingAccountsPayable-bankCodeValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="accountingDocumentFieldConversion" />
+						</list>
+					</property>
+				</bean>
+  			
+			    <bean parent="OleVendorCreditMemo-routeDocument-itemsCollectionValidation" scope="prototype" />
+
+				<bean parent="OleVendorCreditMemo-newProcessItemValidation-parentBean" scope="prototype"/>
+				
+				<bean parent="AccountsPayable-processApprovalAtAccountsPayableReviewAllowedValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  												
+				<bean parent="AccountsPayable-validateAccountsPayableItemsValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  				
+				<bean parent="VendorCreditMemo-totalOverZeroValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  					
+				
+				<!--<bean parent="PurchasingAccountsPayable-checkNegativeAccountsValidation" scope="prototype"/>-->
+														
+			</list>
+		</property>
+  	</bean>
+	
+  	<bean id="OleVendorCreditMemo-routeDocument-lineItemIndicator-isLineItemIndicatorBranch-extendedPriceNonZero-isExtendedPriceNonZeroBranchCompositeValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+		<property name="validations">
+			<list>
+				<bean parent="OleVendorCreditMemo-processAccountValidation-parentBean" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="itemIterationSubjectFieldConversation" />
+						</list>
+					</property>	                                
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="OleVendorCreditMemo-routeDocument-lineItemIndicator-isLineItemIndicatorBranch-extendedPriceNonZeroBranchingValidation" abstract="true" parent="PurchasingAccountsPayable-extendedPriceNonZeroBranchingValidation" scope="prototype">
+		<property name="branchMap">
+			<map>
+				<entry>							
+					<key><value>isExtendedPriceNonZero</value></key>
+					<bean parent="OleVendorCreditMemo-routeDocument-lineItemIndicator-isLineItemIndicatorBranch-extendedPriceNonZero-isExtendedPriceNonZeroBranchCompositeValidation" scope="prototype" />
+				</entry>
+			</map>
+		</property>
+		<property name="parameterProperties">
+			<list>
+				<bean parent="itemIterationSubjectFieldConversation" />
+			</list>
+		</property>																														
+	</bean>	
+	
+	<bean id="OleVendorCreditMemo-processAccountValidation" parent="OleVendorCreditMemo-processAccountValidation-parentBean" scope="prototype"/>
+	
+	<bean id="OleVendorCreditMemo-processAccountValidation-parentBean" class="org.kuali.ole.select.document.validation.impl.OleVendorCreditMemoProcessAccountValidation" abstract="true">
+        <property name="parameterProperties">
+         	<list>
+            	<bean parent="itemIterationSubjectFieldConversation" />
+         	</list>
+        </property>
+		<property name="hasAccountsValidation" ref="PurchasingAccountsPayable-hasAccountsValidation"/>
+		<property name="accountHasAtleastOnePercentValidation" ref="PurchasingAccountsPayable-accountHasAtleastOnePercentValidation"/>
+		<property name="accountLineAmountValidation" ref="PurchasingAccountsPayable-accountingLineAmountValidation"/>
+		<property name="accountPercentValidation" ref="PurchasingAccountsPayable-accountPercentValidation"/>
+		<property name="accountTotalValidation" ref="OleVendorCreditMemo-accountTotalValidation"/>
+		<property name="accountingStringsValidation" ref="PurchasingAccountsPayable-uniqueAccountingStringsValidation"/>
+	</bean>
+	
+	
+	<bean id="OleVendorCreditMemo-accountTotalValidation" parent="OleVendorCreditMemo-accountTotalValidation-parentBean" scope="prototype"/>
+	<bean id="OleVendorCreditMemo-accountTotalValidation-parentBean" class="org.kuali.ole.select.document.validation.impl.OleVendorCreditMemoAccountTotalValidation" abstract="true"/>
+	
+	<bean id="OleVendorCreditMemo-approveDocument-itemsCollection-notLineItemIndicator-extendedPriceNonZeroBranchingValidation-extendedPriceNonZeroBranchCompositeValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+		<property name="validations">
+			<list>
+				<bean parent="OleVendorCreditMemo-processAccountValidation" scope="prototype">
+					<property name="parameterProperties">
+			            <list>
+					        <bean parent="itemIterationSubjectFieldConversation" />
+						</list>
+					</property>	                                
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="OleVendorCreditMemo-approveDocument-itemsCollection-notLineItemIndicator-extendedPriceNonZeroBranchingValidation" abstract="true" parent="PurchasingAccountsPayable-extendedPriceNonZeroBranchingValidation" scope="prototype">
+		<property name="branchMap">
+			<map>
+				<entry>							
+					<key><value>isExtendedPriceNonZero</value></key>
+					<bean parent="OleVendorCreditMemo-approveDocument-itemsCollection-notLineItemIndicator-extendedPriceNonZeroBranchingValidation-extendedPriceNonZeroBranchCompositeValidation" scope="prototype" />
+				</entry>
+			</map>
+		</property>
+		<property name="parameterProperties">
+			<list>
+				<bean parent="itemIterationSubjectFieldConversation" />
+			</list>
+		</property>																																									
+	</bean>
+	
+	<bean id="OleVendorCreditMemo-approveDocument-itemsCollection-lineItemIndicatorBranchingValidation-notLineItemIndicatorBranchCompositeValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+		<property name="validations">
+			<list>
+				<bean parent="PurchasingAccountsPayable-belowTheLineValuesValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="itemIterationSubjectFieldConversation" />
+						</list>
+					</property>																										
+				</bean>
+				<bean parent="OleVendorCreditMemo-approveDocument-itemsCollection-notLineItemIndicator-extendedPriceNonZeroBranchingValidation" scope="prototype" />											
+			</list>
+		</property>
+	</bean>	
+	
+	<bean id="OleVendorCreditMemo-newProcessItemValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true"> 								
+        <property name="quitOnFail" value="false" />
+        <property name="validations">
+            <list>
+                <!-- These are the validations from within the loop of items in newProcessItemValidation in
+                     PurchasingAccountsPayableDocumentRuleBase
+-->
+                <bean parent="OleVendorCreditMemo-newProcessItem-itemsCollectionValidation" scope="prototype" />	  		
+                <!-- End of the newProcessItemValidation in PurchasingAccountsPayableDocumentRuleBase
+-->			                
+            </list>
+        </property>					
+    </bean>
+    
+    <bean id="OleVendorCreditMemo-newProcessItem-itemsCollectionValidation" abstract="true" parent="CollectionValidation" scope="prototype">
+		<property name="collectionProperty" value="document.items" />
+		<property name="validations">
+			<list>
+				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="iterationSubject" />
+								<property name="targetValidationProperty" value="businessObjectForValidation" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+                            
+				<!-- Need to do the itemConsideredEnteredBranchingValidation to determine whether
+                     we need to call the newIndividualItemValidation (not needed if item is not 
+                     considered entered
+-->
+				<bean parent="OleVendorCreditMemo-newProcessItem-itemsCollection-itemConsideredEnteredBranchingValidation" scope="prototype" />
+				<!-- End of itemConsideredEnteredBranchingValidation -->	
+			</list>
+		</property>
+	</bean>     
+	
+	<bean id="OleVendorCreditMemo-newProcessItem-itemsCollection-itemConsideredEnteredBranchingValidation" abstract="true" parent="PurchasingAccountsPayable-itemConsideredEnteredBranchingValidation" scope="prototype">
+		<property name="branchMap">
+			<map>
+				<entry>
+					<key><value>needsIndividualItemValidation</value></key>
+					<bean parent="OleVendorCreditMemo-itemConsideredEnteredCompositeValidation-parentBean" scope="prototype"/>
+				</entry>
+			</map>
+		</property>
+		<property name="parameterProperties">
+			<list>
+				<bean parent="itemIterationSubjectFieldConversation" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="OleVendorCreditMemo-itemConsideredEnteredCompositeValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true"> 								
+        <property name="quitOnFail" value="false" />
+        <property name="validations">
+            <list>    
+			  
+                <bean parent="PurchasingAccountsPayable-newIndividualItemValidation" scope="prototype">
+                    <property name="parameterProperties">
+                        <list>
+                            <bean parent="itemIterationSubjectFieldConversation" />
+                        </list>
+                    </property>
+                </bean>
+				
+				<!-- Need to do the purchasingAccountsPayableRequiresAccountValidationBranchingValidation to determine
+				     whether we need to call the processAccountValidation
+-->
+                <bean parent="OleVendorCreditMemo-itemConsideredEnteredComposite-requiresAccountValidationBranchingValidation" scope="prototype" />		
+				<!-- End of purchasingAccountsPayableRequiresAccountValidationBranchingValidation
+-->				            				                        
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="OleVendorCreditMemo-itemConsideredEnteredComposite-requiresAccountValidationBranchingValidation" abstract="true" parent="PurchasingAccountsPayable-requiresAccountValidationBranchingValidation" scope="prototype">
+        <property name="branchMap">
+	        <map>
+		        <entry>
+			        <key><value>needsAccountValidation</value></key>
+                    <bean parent="OleVendorCreditMemo-itemConsideredEnteredComposite-requiresAccountValidation-needsAccountBranchCompositeValidation" scope="prototype" />                              
+				</entry>
+			</map>
+		</property>
+		<property name="parameterProperties">
+            <list>
+		        <bean parent="itemIterationSubjectFieldConversation" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="OleVendorCreditMemo-itemConsideredEnteredComposite-requiresAccountValidation-needsAccountBranchCompositeValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+    	<property name="validations">
+    		<list>
+    			<bean parent="OleVendorCreditMemo-processAccountValidation-parentBean" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="itemIterationSubjectFieldConversation" />
+						</list>
+					</property>	                                
+				</bean>
+    		</list>
+    	</property>
+    </bean>
+	
+</beans>

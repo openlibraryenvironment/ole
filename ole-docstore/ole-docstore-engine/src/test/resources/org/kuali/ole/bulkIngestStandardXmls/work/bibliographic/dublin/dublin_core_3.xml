@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<dublin_core schema="dc">
+  <dcvalue element="contributor" qualifier="author">Logan, George C.</dcvalue>
+  <dcvalue element="contributor" qualifier="author">Bodor, Thomas W.</dcvalue>
+  <dcvalue element="contributor" qualifier="author">Jones, Lynn D.</dcvalue>
+  <dcvalue element="contributor" qualifier="author">Creveling, Marian C.</dcvalue>
+  <dcvalue element="contributor" qualifier="author">Leone, Mark P.</dcvalue>
+  <dcvalue element="date" qualifier="accessioned">2010-12-13T20:32:21Z</dcvalue>
+  <dcvalue element="date" qualifier="available">2010-12-13T20:32:21Z</dcvalue>
+  <dcvalue element="date" qualifier="issued">1992</dcvalue>
+  <dcvalue element="identifier" qualifier="uri">http://hdl.handle.net/1903/11035</dcvalue>
+  <dcvalue element="description" qualifier="abstract">This report provides a detailed summary of archaeological excavations that were conducted
+by Archaeology in Annapolis inside the ground story of the Charles Carroll House in Annapolis
+(18AP45) during the summer and fall of 1991. This project was initiated by Charles Carroll
+House of Annapolis, Inc. (CCHA), and was made possible through an agreement between CCHA
+and Historic Annapolis Foundation. It was designed as an initial phase of a larger project to
+restore the Carroll House to its late 18th-century appearance, while at the same time adding
+modern facilities to accomodate receptions, conferences, and other adaptive uses.
+These excavations were conducted between June and mid October of 1991, prior to interior
+house restoration, with monitoring of site restoration activities continuing well into 1992.
+Archaeologists, working with fieldschool students, and volunteers, tested all identified rooms in
+the house's ground story and then expanded excavations as deemed necessary and as time
+permitted.
+In designing the project and in preparing this final report, the staff followed the &quot;Guidelines
+for Archaeological Investigations in Maryland&quot; (McNarnara 1981). The report includes several
+levels of summaries (from descriptive summaries of soil levels excavated from the individual
+units (Appendix A), to interpretive room summaries) in an effort to make the data easily
+accessible and understandable to archaeologists and others interested in this site.</dcvalue>
+  <dcvalue element="description" qualifier="provenance">Submitted by Terry Owen (towen@umd.edu) on 2010-12-13T20:31:52Z
+No. of bitstreams: 1
+ap45 1992.pdf: 26213332 bytes, checksum: 6d2c4ddde90e39ba2173c1f918997f8f (MD5)</dcvalue>
+  <dcvalue element="description" qualifier="provenance">Approved for entry into archive by Manager for faculty self-deposit collections(drum-help@umd.edu) on 2010-12-13T20:32:21Z (GMT) No. of bitstreams: 1
+ap45 1992.pdf: 26213332 bytes, checksum: 6d2c4ddde90e39ba2173c1f918997f8f (MD5)</dcvalue>
+  <dcvalue element="description" qualifier="provenance">Made available in DSpace on 2010-12-13T20:32:21Z (GMT). No. of bitstreams: 1
+ap45 1992.pdf: 26213332 bytes, checksum: 6d2c4ddde90e39ba2173c1f918997f8f (MD5)
+  Previous issue date: 1992</dcvalue>
+  <dcvalue element="language" qualifier="iso">en_US</dcvalue>
+  <dcvalue element="subject" qualifier="none">Archaeology</dcvalue>
+  <dcvalue element="subject" qualifier="none">Annapolis, Maryland</dcvalue>
+  <dcvalue element="subject" qualifier="none">Cahrles Carroll House</dcvalue>
+  <dcvalue element="subject" qualifier="none">18AP45</dcvalue>
+  <dcvalue element="title" qualifier="none">1991 Archaeological Excavations at the Charles Carroll House in Annapolis, Maryland, 18AP45</dcvalue>
+  <dcvalue element="type" qualifier="none">Technical Report</dcvalue>
+  <dcvalue element="relation" qualifier="isAvailableAt">University of Maryland (College Park, Md)</dcvalue>
+  <dcvalue element="relation" qualifier="isAvailableAt">Digital Repository at the University of Maryland</dcvalue>
+</dublin_core>

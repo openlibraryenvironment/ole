@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <!--
+
+        Copyright 2005-2012 The Kuali Foundation
+
+        Licensed under the Educational Community License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at
+
+        http://www.opensource.org/licenses/ecl2.php
+
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+
+    -->
+    <bean id="OLEDonor" parent="OLEDonor-parentBean"/>
+
+    <bean id="OLEDonor-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.select.bo.OLEDonor"/>
+        <property name="titleAttribute" value="donorCode"/>
+        <property name="objectLabel" value="Ole Donor"/>
+        <property name="attributes">
+            <list>
+                <ref bean="OLEDonor-donorId"/>
+                <ref bean="OLEDonor-donorCode"/>
+                <ref bean="OLEDonor-donorName"/>
+                <ref bean="OLEDonor-donorNote"/>
+                <ref bean="OLEDonor-donorPublicDisplay"/>
+                <ref bean="OLEDonor-donorAmount"/>
+                <ref bean="OLEDonor-bookPlateUrl"/>
+                <ref bean="OLEDonor-donorPublicUrl"/>
+                <ref bean="OLEDonor-active"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+    <bean id="OLEDonor-donorId" parent="OLEDonor-donorId-parentBean"/>
+
+    <bean id="OLEDonor-donorId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Donor Id"/>
+        <property name="maxLength" value="10"/>
+        <property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+        <property name="name" value="donorId"/>
+        <property name="label" value="Donor Id"/>
+        <property name="description" value="Donor Id"/>
+    </bean>
+
+    <bean id="OLEDonor-donorCode" parent="OLEDonor-donorCode-parentBean"/>
+
+    <bean id="OLEDonor-donorCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Donor Code"/>
+        <property name="maxLength" value="10"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="10"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="10"/>
+        </property>
+        <property name="name" value="donorCode"/>
+        <property name="label" value="Donor Code"/>
+        <property name="description" value="Donor Code"/>
+    </bean>
+
+    <bean id="OLEDonor-donorName" parent="OLEDonor-donorName-parentBean"/>
+
+    <bean id="OLEDonor-donorName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Donor Name"/>
+        <property name="maxLength" value="255"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="donorName"/>
+        <property name="label" value="Donor Name"/>
+        <property name="description" value="Donor Name"/>
+    </bean>
+
+    <bean id="OLEDonor-donorNote" parent="OLEDonor-donorNote-parentBean"/>
+
+    <bean id="OLEDonor-donorNote-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Donor Note"/>
+        <property name="maxLength" value="40"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="donorNote"/>
+        <property name="label" value="Donor Note"/>
+        <property name="description" value="Donor Note"/>
+    </bean>
+
+    <bean id="OLEDonor-donorPublicDisplay" parent="OLEDonor-donorPublicDisplay-parentBean"/>
+
+    <bean id="OLEDonor-donorPublicDisplay-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Donor Public Display"/>
+        <property name="maxLength" value="100"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="donorPublicDisplay"/>
+        <property name="label" value="Donor Public Display"/>
+        <property name="description" value="Donor Public Display"/>
+    </bean>
+
+    <bean id="OLEDonor-donorAmount" parent="OLEDonor-donorAmount-parentBean"/>
+
+    <bean id="OLEDonor-donorAmount-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Donor Amount"/>
+        <property name="maxLength" value="40"/>
+        <property name="validationPattern">
+            <bean parent="FixedPointValidationPattern" p:precision="11" p:scale="2"  p:allowNegative="true"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="8"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="10"/>
+        </property>
+        <property name="name" value="donorAmount"/>
+        <property name="label" value="Donor Amount"/>
+        <property name="description" value="Donor Amount"/>
+    </bean>
+
+
+    <bean id="OLEDonor-bookPlateUrl" parent="OLEDonor-bookPlateUrl-parentBean"/>
+    <bean id="OLEDonor-bookPlateUrl-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Bookplate URL"/>
+        <property name="maxLength" value="40"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="40"/>
+        </property>
+        <property name="name" value="bookPlateUrl"/>
+        <property name="label" value="Bookplate URL"/>
+        <property name="description" value="This field would be to store a URL at which the image file for a virtual bookplate is stored
+"/>
+    </bean>
+
+    <bean id="OLEDonor-donorPublicUrl" parent="OLEDonor-donorPublicUrl-parentBean"/>
+    <bean id="OLEDonor-donorPublicUrl-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Donor public URL"/>
+        <property name="maxLength" value="40"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="40"/>
+        </property>
+        <property name="name" value="donorPublicUrl"/>
+        <property name="label" value="Donor public URL"/>
+        <property name="description" value="This field would store a URL on which information about the donor is stored"/>
+    </bean>
+
+
+
+    <bean id="OLEDonor-active" parent="OLEDonor-active-parentBean"/>
+
+    <bean id="OLEDonor-active-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="active"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="active"/>
+        <property name="maxLength" value="1"/>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-CheckboxControl"/>
+        </property>
+        <property name="summary" value="Active Indicator"/>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+        <property name="label" value="Active Indicator"/>
+        <property name="description"
+                  value="This attribute is used to describe whether the associated object is active or inactive."/>
+    </bean>
+
+
+    <!-- Business Object Inquiry Definition -->
+
+
+    <bean id="OLEDonor-InquiryView" parent="Uif-OLEInquiryView">
+        <property name="headerText" value="Donor Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OLEDonor"/>
+        <property name="singlePageView" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-VerticalBoxSection">
+                    <property name="header.headerText" value="Donor"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2">
+                                <property name="items">
+                                    <list>
+                                        <bean id="inquiry_donorCode" parent="Uif-InputField"
+                                              p:propertyName="donorCode"/>
+                                        <bean id="inquiry_donorName" parent="Uif-InputField"
+                                              p:propertyName="donorName"/>
+                                        <bean id="inquiry_donorNote" parent="Uif-InputField"
+                                              p:propertyName="donorNote"/>
+                                        <bean id="inquiry_donorPublicDisplay" parent="Uif-InputField"
+                                              p:propertyName="donorPublicDisplay"/>
+                                        <bean id="inquiry_donorAmount" parent="Uif-InputField"
+                                              p:propertyName="donorAmount"/>
+                                        <bean id="inquiry_bookPlateUrl" parent="Uif-InputField"
+                                              p:propertyName="bookPlateUrl"/>
+                                        <bean id="inquiry_donorPublicUrl" parent="Uif-InputField"
+                                              p:propertyName="donorPublicUrl"/>
+                                        <bean id="inquiry_oleDonorActive" parent="Uif-InputField"
+                                              p:propertyName="active"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                    <property name="headerText" value="Donor"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <!-- Business Object Lookup Definition -->
+
+    <bean id="OLEDonor-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="Donor Lookup"/>
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/BASICS/content/ch02s04.html#_lookupHelp"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OLEDonor"/>
+        <property name="criteriaFields">
+            <list>
+                <bean id="donorCode" parent="Uif-LookupCriteriaInputField" p:propertyName="donorCode"
+                      p:enableAutoDirectInquiry="false"/>
+                <bean id="donorName" parent="Uif-LookupCriteriaInputField" p:propertyName="donorName"/>
+                <bean id="oleDonorActive" parent="Uif-LookupCriteriaInputField" p:propertyName="active"/>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>ole/select/scripts/donor.js</value>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean id="searchResult_donorCode" parent="Uif-MessageField" p:label="Donor Code" p:messageText="@{#line.donorCode}"/>
+                <bean id="searchResult_donorName" parent="Uif-MessageField" p:label="Donor Name" p:messageText="@{#line.donorName}"/>
+                <bean id="searchResult_donorNote" parent="Uif-MessageField" p:label="Donor Note" p:messageText="@{#line.donorNote}"/>
+                <bean id="searchResult_donorPublicDisplay" parent="Uif-MessageField" p:label="Donor Public Display" p:messageText="@{#line.donorPublicDisplay}"/>
+                <bean id="searchResult_donorAmount" parent="Uif-MessageField" p:label="Donor Amount" p:messageText="@{T(org.kuali.ole.krad.OleComponentUtils).formatAsCurrency(#line.donorAmount)}"/>
+                <bean id="searchResult_bookPlateUrl" parent="Uif-MessageField" p:label="Bookplate URL" p:messageText="@{#line.bookPlateUrl}"/>
+                <bean id="searchResult_donorPublicUrl" parent="Uif-MessageField" p:label="Donor public URL" p:messageText="@{#line.donorPublicUrl}"/>
+                <bean id="searchResult_oleDonorActive" parent="Uif-MessageField" p:label="Active Indicator" p:messageText="@{#line.active}"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

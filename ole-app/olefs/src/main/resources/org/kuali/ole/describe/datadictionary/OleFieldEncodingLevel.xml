@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <!--
+
+        Copyright 2005-2012 The Kuali Foundation
+
+        Licensed under the Educational Community License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at
+
+        http://www.opensource.org/licenses/ecl2.php
+
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+
+    -->
+    <bean id="FieldEncodingLevel" parent="FieldEncodingLevel-parentBean"/>
+
+    <bean id="FieldEncodingLevel-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.describe.bo.OleFieldEncodingLevel"/>
+        <property name="titleAttribute" value="fieldEncodingLevelId"/>
+        <property name="objectLabel" value="FieldEncodingLevel"/>
+
+        <property name="attributes">
+            <list>
+                <ref bean="FieldEncodingLevel-fieldEncodingLevelId"/>
+                <ref bean="FieldEncodingLevel-fieldEncodingLevelCode"/>
+                <ref bean="FieldEncodingLevel-fieldEncodingLevelName"/>
+                <ref bean="FieldEncodingLevel-source"/>
+                <ref bean="FieldEncodingLevel-sourceDate"/>
+                <ref bean="FieldEncodingLevel-active"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+
+    <bean id="FieldEncodingLevel-fieldEncodingLevelId" parent="FieldEncodingLevel-fieldEncodingLevelId-parentBean"/>
+
+    <bean id="FieldEncodingLevel-fieldEncodingLevelId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Field Encoding Level Id"/>
+        <property name="maxLength" value="10"/>
+        <property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+        <property name="name" value="fieldEncodingLevelId"/>
+        <property name="label" value="Field Encoding Level Id"/>
+    </bean>
+
+
+
+    <bean id="FieldEncodingLevel-fieldEncodingLevelCode" parent="FieldEncodingLevel-fieldEncodingLevelCode-parentBean"/>
+
+    <bean id="FieldEncodingLevel-fieldEncodingLevelCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Field Encoding Level Code"/>
+        <property name="maxLength" value="30"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="fieldEncodingLevelCode"/>
+        <property name="label" value="Field Encoding Level Code"/>
+        <property name="description" value="Field Encoding Level Code"/>
+    </bean>
+
+
+    <bean id="FieldEncodingLevel-source" parent="FieldEncodingLevel-source-parentBean"/>
+
+    <bean id="FieldEncodingLevel-source-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Source"/>
+        <property name="maxLength" value="100"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="source"/>
+        <property name="label" value="source"/>
+        <property name="description" value="source"/>
+    </bean>
+
+    <bean id="FieldEncodingLevel-fieldEncodingLevelName" parent="FieldEncodingLevel-fieldEncodingLevelName-parentBean"/>
+
+    <bean id="FieldEncodingLevel-fieldEncodingLevelName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Field Encoding Level Name"/>
+        <property name="maxLength" value="30"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="fieldEncodingLevelName"/>
+        <property name="label" value="Field Encoding Level Name"/>
+        <property name="description" value="Field Encoding Level Name"/>
+    </bean>
+
+
+    <bean id="FieldEncodingLevel-sourceDate" parent="FieldEncodingLevel-sourceDate-parentBean"/>
+    <bean id="FieldEncodingLevel-sourceDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+        <property name="name" value="sourceDate"/>
+        <property name="shortLabel" value="Source Date"/>
+        <property name="label" value="Source Date"/>
+        <property name="required" value="true"/>
+    </bean>
+
+
+    <bean id="FieldEncodingLevel-active" parent="FieldEncodingLevel-active-parentBean"/>
+    <bean id="FieldEncodingLevel-active-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="active"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="active"/>
+        <property name="maxLength" value="1"/>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-CheckboxControl"/>
+        </property>
+        <property name="summary" value="Active Indicator"/>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+        <property name="label" value="Active Indicator"/>
+        <property name="description" value="This attribute is used to describe whether the associated object is active or inactive."/>
+    </bean>
+
+
+    <!-- Business Object Inquiry Definition -->
+
+    <bean id="FieldEncodingLevel-InquiryView" parent="Uif-OLEInquiryView">
+        <property name="headerText" value="Field Encoding Level Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.describe.bo.OleFieldEncodingLevel" />
+        <property name="singlePageView" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-VerticalBoxSection">
+                    <property name="header.headerText" value="Field Encoding Level" />
+                    <property name="items">
+                        <list>
+                        <bean parent="Uif-GridGroup">
+                            <property name="items">
+                                <list>
+                                    <bean id="inquiry_fieldEncodingLevelId" parent="Uif-InputField" p:propertyName="fieldEncodingLevelId" />
+                                    <bean id="inquiry_fieldEncodingLevelCode" parent="Uif-InputField" p:propertyName="fieldEncodingLevelCode" />
+                                    <bean id="inquiry_fieldEncodingLevelName" parent="Uif-InputField" p:propertyName="fieldEncodingLevelName" />
+                                    <bean id="inquiry_source" parent="Uif-InputField" p:propertyName="source" />
+                                    <bean id="inquiry_sourceDate" parent="Uif-InputField" p:propertyName="sourceDate" />
+                                    <bean id="inquiry_active" parent="Uif-InputField" p:propertyName="active" />
+                                </list>
+                            </property>
+                        </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+
+    <bean id="FieldEncodingLevel-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="Field Encoding Level Lookup" />
+        <property name="dataObjectClassName" value="org.kuali.ole.describe.bo.OleFieldEncodingLevel" />
+        <property name="criteriaFields">
+            <list>
+                <bean id="fieldEncodingLevelCode" parent="Uif-LookupCriteriaInputField" p:propertyName="fieldEncodingLevelCode" />
+                <bean id="fieldEncodingLevelName" parent="Uif-LookupCriteriaInputField" p:propertyName="fieldEncodingLevelName" />
+                <bean id="source" parent="Uif-LookupCriteriaInputField" p:propertyName="source" />
+                <bean id="sourceDate" parent="Uif-LookupCriteriaInputField" p:propertyName="sourceDate">
+                    <property name="control">
+                        <bean id="date" parent="Uif-DateControl" p:size="10"/>
+                    </property>
+                </bean>
+                <bean id="active" parent="Uif-LookupCriteriaInputField" p:propertyName="active" />
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean id="searchResult_fieldEncodingLevelId" parent="Uif-DataField" p:propertyName="fieldEncodingLevelId" />
+                <bean id="searchResult_fieldEncodingLevelCode" parent="Uif-DataField" p:propertyName="fieldEncodingLevelCode" />
+                <bean id="searchResult_fieldEncodingLevelName" parent="Uif-DataField" p:propertyName="fieldEncodingLevelName" />
+                <bean id="searchResult_source" parent="Uif-DataField" p:propertyName="source" />
+                <bean id="searchResult_sourceDate" parent="Uif-DataField" p:propertyName="sourceDate" />
+                <bean id="searchResult_active" parent="Uif-DataField" p:propertyName="active" />
+            </list>
+        </property>
+    </bean>
+
+</beans>

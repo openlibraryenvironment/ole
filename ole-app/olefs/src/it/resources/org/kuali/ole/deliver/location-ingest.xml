@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<locationGroup xmlns="http://ole.kuali.org/standards/ole-location">
+<location>
+  <locationCode>INDIANA</locationCode>
+  <locationName>Indiana University</locationName>
+  <locationLevelCode>INSTITUTION</locationLevelCode>
+  <parentLocationCode></parentLocationCode>
+</location>
+<location>
+  <locationCode>BLOOMINGTON</locationCode>
+  <locationName>Bloomington</locationName>
+  <locationLevelCode>CAMPUS</locationLevelCode>
+  <parentLocationCode>INDIANA</parentLocationCode>
+</location>
+<location>
+  <locationCode>Fort Wayne Library</locationCode>
+  <locationName>Fort Wayne Library</locationName>
+  <locationLevelCode>LIBRARY</locationLevelCode>
+  <parentLocationCode>BLOOMINGTON</parentLocationCode>
+</location>
+<location>
+  <locationCode>Main Collection</locationCode>
+  <locationName>Main Collection</locationName>
+  <locationLevelCode>COLLECTION</locationLevelCode>
+  <parentLocationCode>Fort Wayne Library</parentLocationCode>
+</location>
+<location>
+  <locationCode>Course Reserve</locationCode>
+  <locationName>Course Reserve</locationName>
+  <locationLevelCode>SHELVING</locationLevelCode>
+  <parentLocationCode>Main Collection</parentLocationCode>
+</location>
+<location>
+  <locationCode>Stacks</locationCode>
+  <locationName>Stacks</locationName>
+  <locationLevelCode>SHELVING</locationLevelCode>
+  <parentLocationCode>Main Collection</parentLocationCode>
+</location>
+</locationGroup>
+

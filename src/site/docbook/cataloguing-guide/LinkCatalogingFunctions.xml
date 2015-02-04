@@ -1,0 +1,910 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0"
+    xml:lang="en-US">
+<title><anchor xml:id="LinkTitleHoldingsItems"/>Link Titles, Holdings, or Items</title>
+<para role="Normal"><inlinemediaobject>
+            <alt>Describe</alt>
+            <imageobject>
+                <imagedata fileref="../images/DescribeNoTitlePage-DescribeTab.png"/>
+            </imageobject>
+        </inlinemediaobject>
+        <emphasis role="bold">&gt;</emphasis><inlinemediaobject>
+            <alt>Link Titles, Holdings or Items</alt>
+            <imageobject>
+                <imagedata fileref="../images/DescribeNoTitlePage-1.png"/>
+            </imageobject>
+        </inlinemediaobject><emphasis role="bold">&gt;</emphasis><inlinemediaobject>
+            <alt>Link Titles, Holdings or Items Links</alt>
+            <imageobject>
+                <imagedata fileref="../images/DescribeNoTitlePage-2.png"/>
+            </imageobject>
+        </inlinemediaobject></para>
+<para role="Normal"/>
+<para role="Body Text">On the Describe menu, the Link Titles, Holdings, or Items submenu provides
+        access for users to create and modify analytics and bound-withs</para>
+    <section>
+        <title><anchor xml:id="_analytics"/>Analytics</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Describe</alt>
+                <imageobject>
+                    <imagedata fileref="../images/DescribeNoTitlePage-DescribeTab.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt;</emphasis><inlinemediaobject>
+                <alt>Link Titles, Holdings or Items</alt>
+                <imageobject>
+                    <imagedata fileref="../images/DescribeNoTitlePage-1.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Analytics</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DescribeNoTitlePage-8.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Analytics</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DescribeNoTitlePage-9.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Normal">The <emphasis role="bold">Analytics</emphasis> interface can be used to
+            create a link between the record for a monographic series and the records for individual
+            works within the series. OLE accomplishes this by allowing you to link an item record to
+            two different holdings records, one holdings record for the series, and the other for a
+            title in the series. The purpose of this interface is to allow a user of your
+            OPAC/discovery layer to locate an item within a series in your collection, and ascertain
+            its status (“on shelf,” “checked out,” etc.) regardless of whether the user searches it
+            by series or by the individual work in the series. Since OLE does not have its own
+            OPAC/discovery layer, it is up to each OLE site to determine how to make the Analytics
+            functionality work within the OPAC/discovery layer it has chosen to implement in
+            conjunction with OLE.</para>
+        <tip>
+            <para>An Analytics relationship will always need to be set up manually by a library
+                staff member.</para>
+        </tip>
+        <section>
+            <title>Process Overview</title>
+            <orderedlist>
+                <listitem>
+                    <para role="Normal">Call up the <emphasis role="bold">Analytics</emphasis>
+                        interface.</para>
+                    <para role="Normal"/>
+                    <para role="Normal">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Analytics Interface</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-10.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para> Search and retrieve the bibliographic records for your series and the
+                        titles within it.</para>
+                    <para role="Normal"/>
+                    <para role="Normal">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Analytics Interface: Sample search with results displayed</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-155.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para/>
+                    <tip>
+                        <para>If you make sure that the series title exists in all of the records
+                            before you begin, you can retrieve them all with a single search.</para>
+                    </tip>
+                </listitem>
+                <listitem>
+                    <para>Check the title for your <emphasis role="bold">series</emphasis> record,
+                        then click <inlinemediaobject>
+                            <alt>Select as Series</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DescribeNoTitlePage-156.png"/>
+                            </imageobject>
+                        </inlinemediaobject></para>
+                    <para>Your series will appear in the <emphasis role="bold">Series</emphasis>
+                        tree at the bottom left:</para>
+                    <para role="Normal"/>
+                    <para role="Normal">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Analytics Interface: Sample title in Series Tree</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-157.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para/>
+                    <para>If you select more than one title and click <emphasis role="bold">Select
+                            as Series</emphasis>, you will receive an error message:</para>
+                    <para role="Normal"/>
+                    <para role="Normal">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Analytics Interface Error Message: Only one bibliographic
+                                    record can be selected as series record.</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-158.png"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>From your search results, select any and all of the records for the
+                        individual titles within the series for which you wish to establish an
+                        Analytics relationship, then click <inlinemediaobject>
+                            <alt>Select as Analytics</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DescribeNoTitlePage-160.png"/>
+                            </imageobject>
+                        </inlinemediaobject>.</para>
+                    <tip>
+                        <para>Remember to uncheck the record for your series title before clicking
+                            on <emphasis role="bold">Select as Analytics</emphasis>. If you fail to
+                            do so, you will receive an error message:</para>
+                        <para role="Normal">
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Analytics Interface Error Message: The selected
+                                        bibliographic record is already selected as Series
+                                        record.</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DescribeNoTitlePage-163.png"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                    </tip>
+                    <para>The records you have selected will now appear in the <emphasis role="bold"
+                            >Analytics</emphasis> tree at the bottom right:</para>
+                    <para/>
+                    <para role="Normal">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Analytics Interface: Sample Titles in Analytics Tree</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-164.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para/>
+                </listitem>
+                <listitem>
+                    <para> Check the <emphasis role="bold">holdings</emphasis> for your series
+                        record in the Series tree, and the <emphasis role="bold">items</emphasis>
+                        for the records in the Analytics tree, then click <inlinemediaobject>
+                            <alt>Create Analytics Relation</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DescribeNoTitlePage-167.png"/>
+                            </imageobject>
+                        </inlinemediaobject>.</para>
+                    <para/>
+                    <para role="Normal">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Analytics Interface: Sample Bib and Holdings Records checked in
+                                    Series and Analytics Trees; ready to create analytics
+                                    relation</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-170.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para/>
+                    <para>The Analytic items will now be linked to both the Series holdings record
+                        and the Analytics holdings records. Thus, they will now appear in both
+                        trees. The Series holdings will be identified by “SH” (<emphasis
+                            role="underline">S</emphasis>eries <emphasis role="underline"
+                            >H</emphasis>oldings) in the Series tree, and the Analytics items will
+                        be identified by “AI” (<emphasis role="underline">A</emphasis>nalytics
+                            <emphasis role="underline">I</emphasis>tem) in both trees:</para>
+                    <para/>
+                    <para role="Normal">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Analytics Interface: Analytics Relation created will display
+                                    "SH", "AI" beside the record identifiers</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-171.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para/>
+                    <para>The “SH” and “AI” codes will also appear elsewhere in various places once
+                        an analytics relationship has been set up.</para>
+                    <para>It will appear in the left pane navigation in individual record
+                        displays:</para>
+                    <para/>
+                    <para role="Normal">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>"SH" and "AI" codes beside the record identifiers in the
+                                    Editor</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-172.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para/>
+                    <para>It will appear in the <emphasis role="bold">Relations</emphasis> column of
+                        Search Results lists in Search Workbench for searches of holdings or item
+                        records:</para>
+                    <para/>
+                    <para role="Normal">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>"AI" code beside the search results within the Search Workbench </alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-174.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para/>
+                </listitem>
+            </orderedlist>
+            <section>
+                <title>Adding a New Analytic Title to an Existing Series</title>
+                <para>To add a new analytics title to an existing series:</para>
+                <orderedlist>
+                    <listitem>
+                        <para> Create or add a record for that title to the database.</para>
+                    </listitem>
+                    <listitem>
+                        <para> Call up the <emphasis role="bold">Analytics </emphasis>
+                            interface.</para>
+                    </listitem>
+                    <listitem>
+                        <para> Search for the records in your series, including the new analytics
+                            title.</para>
+                    </listitem>
+                    <listitem>
+                        <para> Select the record for the Series title, then click on <inlinemediaobject>
+                                <alt>Select as Series</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-156.png"/>
+                                </imageobject>
+                            </inlinemediaobject></para>
+                        <para>This will place the Series record in the <emphasis role="bold"
+                                >Series</emphasis> tree at the lower left, and show the existing
+                            links between the Series holdings and Analytics items:</para>
+                        <para/>
+                        <para>
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Analytics Interface: Title Selected and displayed within
+                                        the Series Tree</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DescribeNoTitlePage-157.png"
+                                            width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>Click on the new Analytics record to place it in the <emphasis
+                                role="bold">Analytics</emphasis> tree at the lower right. Remember
+                            to uncheck the Series record first:</para>
+                        <para/>
+                        <para>
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Analytics Interface: A new sample record selected and
+                                        displayed within the analytics tree</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DescribeNoTitlePage-180.png"
+                                            width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>Check the record for the <emphasis role="bold">holdings</emphasis> in
+                            the Series tree, and the record for the <emphasis role="bold"
+                                >item</emphasis> in the Analytics tree, then click <inlinemediaobject>
+                                <alt>Create Analytics Relation</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-167.png"/>
+                                </imageobject>
+                            </inlinemediaobject>.</para>
+                        <para/>
+                        <para>
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Analytics Interface: Sample Bib and Holdings Records
+                                        checked in Series and Analytics Trees; ready to create
+                                        analytics relation</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DescribeNoTitlePage-186.png"
+                                            width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                        <para>The item will now appear linked to the holdings in the <emphasis
+                                role="bold">Series</emphasis> tree, as well as remaining linked to
+                            the holdings in the <emphasis role="bold">Analytics</emphasis>
+                            tree:</para>
+                        <para/>
+                        <para>
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Analytics Interface: Analytics Relation created will
+                                        display "SH", "AI" beside the record identifiers</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DescribeNoTitlePage-190.png"
+                                            width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                    </listitem>
+                </orderedlist>
+            </section>
+            <section>
+                <title>"Classed Together" vs. "Scattered" Series</title>
+                <para>The Analytics interface in OLE can be used either for series that are “classed
+                    together” (all volumes in the series have the same call number) or series that
+                    are “scattered” or “classed separately”(the volumes in the series have different
+                    call numbers).</para>
+                <para>To set up Analytics relationships for a classed together series, supply the
+                    call number for the series in the holdings record for the series as well as in
+                    the holdings records for the individual titles in the series, as shown in the
+                    above examples.</para>
+                <para>To set up Analytics relationships for a scattered series, do not supply a call
+                    number in the holdings record for either the series or the analytics titles.
+                    Instead, supply the call number for each volume in the series in the item record
+                    for that volume:</para>
+                <para/>
+                <para>
+                    <screenshot>
+                        <mediaobject>
+                            <alt>A sample scattered series in the Editor</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DescribeNoTitlePage-191.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para>You can also set the shelving location in item records for a series shelved in
+                    multiple locations, regardless of whether it is a series classed together or a
+                    series classed separately.</para>
+            </section>
+            <section>
+                <title>Breaking an Analytics Relationship</title>
+                <para>To break an Analytics relationship between a Series record and any or all of
+                    its Analytics records:</para>
+                <orderedlist>
+                    <listitem>
+                        <para> Open the <emphasis role="bold">Analytics</emphasis> interface.</para>
+                    </listitem>
+                    <listitem>
+                        <para> Search for the records involved in the Analytics relationship you
+                            wish to break. You can search for either the entire series, or for one
+                            of the titles in the series.</para>
+                    </listitem>
+                    <listitem>
+                        <para> From the Search Results list, click on the title of one of the
+                            records to display it. It does not matter if it is the record for the
+                            series, or a record for a title in the series.</para>
+                    </listitem>
+                    <listitem>
+                        <para> In the left navigation pane, click on <emphasis role="italic"
+                                >either</emphasis> “SH” or “AI” (it does not matter which you
+                            choose):</para>
+                        <para/>
+                        <para>
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>"SH" and "AI" codes beside the record identifiers in the
+                                        Editor.  Click on one to open the Analytics Summary</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DescribeNoTitlePage-193.png"
+                                            width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para> This will open up the Analytics Summary screen. Check the boxes of
+                            any items for which you wish to break the Analytics relationship, then
+                            click <emphasis role="bold">Break Analytics Relation</emphasis>:</para>
+                        <para/>
+                        <para>
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Analytics Summary Page with Sample Data.  Check the boxes
+                                        of the records to break and click Break Analytics
+                                        Relation</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DescribeNoTitlePage-197.png"
+                                            width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                    </listitem>
+                </orderedlist>
+            </section>
+            <section>
+                <title>Business Rules</title>
+                <itemizedlist>
+                    <listitem>
+                        <para> Only one record may be the “Series” holdings record in an analytics
+                            relationship; any number of records may be involved in the relationship
+                            as “Analytics” records.</para>
+                    </listitem>
+                    <listitem>
+                        <para> The same record cannot be both the “Series” record and an “Analytics”
+                            record within an Analytics relationship. </para>
+                    </listitem>
+                </itemizedlist>
+            </section>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_Bound_Withs"/>Bound-Withs</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Describe</alt>
+                <imageobject>
+                    <imagedata fileref="../images/DescribeNoTitlePage-DescribeTab.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt;</emphasis><inlinemediaobject>
+                <alt>Link Titles, Holdings or Items</alt>
+                <imageobject>
+                    <imagedata fileref="../images/DescribeNoTitlePage-1.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Bound-with's</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DescribeNoTitlePage-46.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Bound-with Instance</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DescribeNoTitlePage-47.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Normal">In special cases it is necessary to link a single OLE Instance (Holdings
+            and Item records) to multiple bibliographic records to account for situations when
+            titles with multiple bibliographic records (i.e., bibliographically unrelated works) are
+            joined together in a single physical volume (i.e., are “bound-with” each other).</para>
+        <para role="Normal"/>
+        <para role="Normal">Depending on an OLE site’s cataloging policies, it would also be
+            possible for two or more OLE Instances to share an Item record because of a bound-with
+            situation, and also for one or more of those OLE Instances to have additional Item
+            records attached because the library holds multiple copies of a work, some of which are
+            not bound-withs.</para>
+        <para role="Normal"/>
+        <tip>
+            <para role="Normal"> Bound-withs will always need to be setup manually by a library
+                staff member through this interface.</para>
+        </tip>
+        <section>
+            <title>Process Overview</title>
+            <orderedlist>
+                <listitem>
+                    <para role="Normal">Call up the <emphasis role="bold">Bound-with
+                            Instance</emphasis> interface.</para>
+                    <para role="Normal"/>
+                    <para role="Normal">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Bound-with Instance with sample search results displayed</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-49.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para role="Body Text">Search for the OLE Instance that will be shared by
+                        multiple bibliographic records. You may select a <emphasis role="bold"
+                            >Document Type</emphasis> and search using Boolean operators as needed.
+                        Search results appear below the <emphasis role="bold">Search
+                            Conditions</emphasis> tab.</para>
+                </listitem>
+                <listitem>
+                    <para role="Normal">When the correct record is displayed, select it and click
+                            <emphasis role="bold">Copy to Tree1</emphasis>.</para>
+                </listitem>
+                <listitem>
+                    <para role="Normal">Search for the additional bibliographic records with which
+                        the OLE Instance will be shared (in some cases these may not exist. You will
+                        need to create the records prior to beginning the bound-with
+                        process).</para>
+                </listitem>
+                <listitem>
+                    <para role="Normal">When the correct record is displayed, select it and click
+                            <emphasis role="bold">Copy to Tree2</emphasis>.</para>
+                    <para role="Normal">Each Tree will show the bibliographic record. You may branch
+                        down to the Instance or item level by clicking the arrow next to the folder. </para>
+                    <para role="Normal"/>
+                    <para role="Normal">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Bound-with Instance: Titles copied to Tree1 and Tree2</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-50.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para/>
+                </listitem>
+                <listitem>
+                    <para role="Normal">Select the holdings record for the holdings and item to be
+                        retained in Tree 1. </para>
+                </listitem>
+                <listitem>
+                    <para role="Normal">Select the bibliographic description to join the holdings
+                        record from Tree 2.</para>
+                    <para>
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Bound-with Instance: Holding is checked in tree1, bibliographic
+                                    record is checked in tree2</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-48.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para/>
+                </listitem>
+                <listitem>
+                    <para role="Normal">Click<inlinemediaobject>
+                            <alt>Bound-with</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DescribeNoTitlePage-51.png"/>
+                            </imageobject>
+                        </inlinemediaobject>.</para>
+                    <para role="Normal"/>
+                    <para role="Normal">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Bound-with Instance: In Tree1, Bounded titles are
+                                    displayed.</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-52.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para/>
+                    <para role="Normal">Since every bibliographic record must have at least one
+                        attached OLE Holdings, setting up a bound-with will frequently result in one
+                        or more existing OLE Holdings becoming redundant. You will need to delete
+                        the redundant OLE Holdings manually as part of the workflow. The items
+                        attached to these holdings will also be deleted.</para>
+                </listitem>
+                <listitem>
+                    <para role="Normal">Select the extraneous instances attached to the
+                        bibliographic descriptions. </para>
+                    <para/>
+                    <para role="Normal">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Bound-with Instance: Check the holdings to remove the
+                                    extraneous instance</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-54.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para/>
+                    <para role="Normal">Click<inlinemediaobject>
+                            <alt>Delete Instance</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DescribeNoTitlePage-53.png"/>
+                            </imageobject>
+                        </inlinemediaobject>.</para>
+                </listitem>
+                <listitem>
+                    <para role="Normal">Click <emphasis role="bold">Continue</emphasis> to confirm
+                        the deletion.</para>
+                    <para/>
+                    <para role="Normal">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Bound-with Instance: Instance Deletion confirmation</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-55.png"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para/>
+                </listitem>
+            </orderedlist>
+            <para>The “BIB(2)" code will appear in the left pane navigation in individual record
+                displays:</para>
+            <para/>
+            <para role="Normal">
+                <screenshot>
+                    <mediaobject>
+                        <alt>In the Editor, "BIBS(2)" code will display in the left pane navigation.
+                            Click to bring up the Bound-With Summary</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-71.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <para>Clicking on the "BIB(2)" code in the left pane navigation will bring up the
+                    <emphasis role="bold">Bound-With Summary</emphasis> page where users can view
+                and edit the bibliographic records of each title.</para>
+            <para/>
+            <para role="Normal">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Bound-With Summary with Sample Records Displayed</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DescribeNoTitlePage-205.png" width="100%"
+                            />
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+        </section>
+        <section>
+            <title>Business Rules</title>
+            <itemizedlist>
+                <listitem>
+                    <para role="List Paragraph"> A Bibliographic record is not required to have an
+                        OLE Instance, but it may have one, zero, or many OLE Instances.  </para>
+                </listitem>
+                <listitem>
+                    <para role="Normal (Web)"> A Holdings record may have zero, one, or many Item
+                        records. </para>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph"> An Item record must be linked to a Holdings record
+                        – if there are zero Holdings records, there must be zero Item records.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">A user must be authorized to perform the bound-with
+                        function in order to use it, and must be authorized to perform it for the
+                        appropriate work unit depending on local configuration options.</para>
+                    <para role="Normal"/>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">All titles linked by the bound-with process will
+                        share the same item record, including the item record’s associated call
+                        number, item ID, and locations.</para>
+                </listitem>
+            </itemizedlist>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_Transfer_Instance-Item"/>Transfer Item/Instance</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Describe</alt>
+                <imageobject>
+                    <imagedata fileref="../images/DescribeNoTitlePage-DescribeTab.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt;</emphasis><inlinemediaobject>
+                <alt>Link Titles, Holdings or Items</alt>
+                <imageobject>
+                    <imagedata fileref="../images/DescribeNoTitlePage-1.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Transfer titles, Holdings or Items</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DescribeNoTitlePage-149.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Transfer Instance/Item</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DescribeNoTitlePage-150.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Normal">The Transfer Instance/Item interface allows OLE users to transfer
+            Instance records from one bibliographic record to another and transfer Item record from
+            one Instance to another. </para>
+        <section>
+            <title>Process Overview</title>
+            <orderedlist>
+                <listitem>
+                    <para role="Normal">Call up the <emphasis role="bold">Transfer
+                            Instance/Item</emphasis> interface.</para>
+                    <para role="Normal"/>
+                    <para role="Normal">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Transfer Instance/Item Interface</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-151.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para role="Body Text">Search for the record that you wish to transfer. You may
+                        select a <emphasis role="bold">Document Type</emphasis> and search using
+                        Boolean operators as needed. Search results appear below the <emphasis
+                            role="bold">Search Conditions</emphasis> tab.</para>
+                </listitem>
+                <listitem>
+                    <para role="Normal">When the correct record is displayed, select it and click
+                            <emphasis role="bold">Copy to Tree1</emphasis>. </para>
+                </listitem>
+                <listitem>
+                    <para role="Normal">Search for the additional bibliographic records with which
+                        the OLE Instance or Item will be transferred. </para>
+                </listitem>
+                <listitem>
+                    <para role="Normal">When the correct record is displayed, select it and click
+                            <emphasis role="bold">Copy to Tree2</emphasis>.</para>
+                    <tip>
+                        <para role="Normal"> Click <emphasis role="bold">View</emphasis> to confirm
+                            the correct record.</para>
+                    </tip>
+                </listitem>
+                <listitem>
+                    <para role="Normal">Each Tree will show the bibliographic record. You may branch
+                        down to the Instance or item level by clicking the arrow next to the
+                        folder.</para>
+                    <para role="Normal">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Transfer Instance/Item Interface: Records in both tree1 and
+                                    tree2. Click the arrow next to expand the record
+                                    information</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-152.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para role="Normal"> Check the box to specify what level you wish to perform the
+                        transfer on.</para>
+                </listitem>
+                <listitem>
+                    <para role="Normal">Click the appropriate button to transfer the Instance or
+                        Item from the left to the right or vice versa. In this example, the Instance
+                        record in Tree 2 is selected and will be transferred Right to Left to the
+                        checked Bibliographic description in Tree 1.</para>
+                    <para role="Normal"/>
+                    <para role="Normal">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Transfer Instance/Item Interface: Holdings record selected in
+                                    Tree1, Item record selected in Tree2. Ready to transfer</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-153.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para role="Normal">If there is only one item or holdings, OLE will delete the
+                        records. Click <emphasis role="bold">Delete</emphasis> to confirm this and
+                        to continue with the transfer.</para>
+                    <para role="Normal"/>
+                    <para role="Normal">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Transfer Instance/Item Interface: Select Delete to confirm the
+                                    tranfer and delete the extraneous record</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-153a.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>OLE will provide a confirmation message. Click <emphasis role="bold"
+                            >Refresh</emphasis> in <emphasis role="bold">Tree 1</emphasis> to see
+                        the transferred Holdings or Item record.</para>
+                    <para role="Normal"/>
+                    <para role="Normal">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Transfer Instance/Item Interface: Confirmation message is
+                                    displayed when the transfer is completed</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-154.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                </listitem>
+            </orderedlist>
+        </section>
+        <section>
+            <title>Business Rules</title>
+            <itemizedlist>
+                <listitem>
+                    <para role="List Paragraph">An OLE Instance must have one Item record and may
+                        have many Item records. </para>
+                    <note>
+                        <para role="Normal"> This rule is under review for future releases.</para>
+                    </note>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">An Item record can only be transferred to an OLE
+                        Instance.</para>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">If the transfer of an Item record would result in an
+                        OLE Instance with no Item records, that OLE Instance will be deleted.</para>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">An OLE Instance must have at least one associated
+                        Bibliographic Description. One OLE Instance may be associated with many
+                        Bibliographic Descriptions (to account for “bound-withs”).</para>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">A Bibliographic Description must have at least one
+                        OLE Instance and may have many OLE Instances.</para>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">An OLE Instance may only be transferred to a
+                        Bibliographic Description.</para>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">If the transfer of an OLE Instance would result in a
+                        Bibliographic Description with no OLE Instance, that Bibliographic
+                        Description will be deleted.</para>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">A user may not transfer an OLE Instance to or from
+                        Bibliographic Descriptions that the user’s work unit does not “own”. A user
+                        may not transfer Item records to or from OLE Instances that the user’s work
+                        unit does not own.</para>
+                    <note>
+                        <para role="Normal"> Work units are being defined for a future
+                            release.</para>
+                    </note>
+                </listitem>
+            </itemizedlist>
+        </section>
+    </section>
+</chapter>
+
+

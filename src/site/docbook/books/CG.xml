@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<book xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+    <title>Guide to the OLE Describe and Manage Module</title>
+    <preface>
+        <title>Introduction</title>
+        <para role="Normal (Web)">This guide provides information about using Describe and Manage
+            functions. The Describe and Manage Module strives to achieve two goals:</para>
+        <para role="Normal (Web)">
+            <orderedlist>
+                <listitem>
+                    <para>To describe the library’s materials so staff and the public can find them
+                        and access their contents.</para>
+                </listitem>
+                <listitem>
+                    <para>To manage the library’s physical and electronic inventory so that it is
+                        accurately represented in the system. </para>
+                </listitem>
+            </orderedlist>
+            <note>
+                <para> To learn more about the Describe Module, see the <emphasis>Describe
+                    Overview</emphasis> on the <link xlink:href="../../../html/Index.html">OLE
+                        Documentation Portal</link>.</para>
+            </note>
+        </para>
+        <para role="Body Text">This guide is organized to follow the layout of the Describe
+            tab.</para>
+        <itemizedlist mark="disc" spacing="normal">
+            <listitem>
+                <para role="C1H Bullet">The first section provides explanations of cataloging
+                    functions: the workbench, bound-withs, import single bibliographic records,
+                    record editors, transfer and browse the catalog. </para>
+            </listitem>
+            <listitem>
+                <para role="C1H Bullet">The second section presents information related to
+                    cataloging administration: maintenance documents (documents that control
+                    database tables) associated with cataloging.</para>
+            </listitem>
+        </itemizedlist>
+        <para role="C1H Bullet">These sections are divided into subsections covering individual
+            functions. For each function, the applicable subsection presents a breadcrumb trail
+            showing how to access the function and information on the layout and fields on the
+            related screen(s). As appropriate, some subsections include business rules and routing
+            information for e-docs and/or special instructions for performing activities.</para>
+        <note>
+            <para>In order to work efficiently in the system’s Deliver screens, you need to
+                understand the basics of the user interface. For information and instructions on
+                logging on and off, navigating, understanding the components of screens, and
+                performing basic operations in the screens, see <link
+                    xlink:href="../../../webhelp/BASICS/index.html">OLE Basic Functionality and Key
+                    Concepts.</link>
+            </para>
+        </note>
+        <para> This guide as well as guides to other OLE modules are available for download from the
+            <link xlink:href="../../../html/Index.html">OLE Documentation Portal</link>.</para>
+        <tip>
+            <para> Bookmark any page within OLE.  This will allow you to easily navigate back to an
+                interface or e-doc in one click, just log in. </para>
+        </tip>
+    </preface>
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../cataloguing-guide/catalogingFunctions.xml"/>
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../cataloguing-guide/LinkCatalogingFunctions.xml"/>
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../cataloguing-guide/singleRecordImportExport.xml"/>
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../cataloguing-guide/catalogingMaintenanceDocuments.xml"/>
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../cataloguing-guide/describeAppendix.xml"/>
+</book>

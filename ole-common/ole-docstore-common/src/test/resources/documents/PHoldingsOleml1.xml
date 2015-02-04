@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<holdings>
+    <active>false</active>
+    <category>work</category>
+    <content>
+        &lt;oleHoldings&gt;
+            &lt;callNumber&gt;
+                &lt;number&gt;1234&lt;/number&gt;
+                &lt;shelvingScheme&gt;
+                    &lt;codeValue&gt;LCC&lt;/codeValue&gt;
+                &lt;/shelvingScheme&gt;
+            &lt;/callNumber&gt;
+            &lt;interLibraryLoanAllowed&gt;false&lt;/interLibraryLoanAllowed&gt;
+            &lt;staffOnlyFlag&gt;false&lt;/staffOnlyFlag&gt;
+        &lt;/oleHoldings&gt;
+    </content>
+    <fastAdd>false</fastAdd>
+    <format>oleml</format>
+    <public>false</public>
+    <staffOnly>false</staffOnly>
+    <type>holdings</type>
+    <holdingsType>print</holdingsType>
+    <bib>
+        <active>false</active>
+        <category>work</category>
+        <fastAdd>false</fastAdd>
+        <format>marc</format>
+        <id>wbm-10000001</id>
+        <public>false</public>
+        <staffOnly>false</staffOnly>
+        <type>bibliographic</type>
+    </bib>
+</holdings>

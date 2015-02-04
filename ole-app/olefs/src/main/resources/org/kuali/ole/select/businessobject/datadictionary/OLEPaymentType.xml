@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <!--
+
+        Copyright 2005-2012 The Kuali Foundation
+
+        Licensed under the Educational Community License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at
+
+        http://www.opensource.org/licenses/ecl2.php
+
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+
+    -->
+    <bean id="OlePaymentType" parent="OlePaymentType-parentBean"/>
+
+    <bean id="OlePaymentType-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.select.bo.OLEPaymentType"/>
+        <property name="titleAttribute" value="olePaymentTypeName"/>
+        <property name="objectLabel" value="Ole Payment Type"/>
+
+        <property name="attributes">
+            <list>
+                <ref bean="OlePaymentType-olePaymentTypeId"/>
+                <ref bean="OlePaymentType-olePaymentTypeName"/>
+                <ref bean="OlePaymentType-olePaymentTypeDescription" />
+                <ref bean="OlePaymentType-active"/>
+
+
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+
+    <bean id="OlePaymentType-olePaymentTypeId" parent="OlePaymentType-olePaymentTypeId-parentBean"/>
+
+    <bean id="OlePaymentType-olePaymentTypeId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Payment Type Id"/>
+        <property name="maxLength" value="10"/>
+        <property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+        <property name="name" value="olePaymentTypeId"/>
+        <property name="label" value="Payment Type Id"/>
+        <property name="description" value="Payment Type Id"/>
+    </bean>
+
+
+    <bean id="OlePaymentType-olePaymentTypeDescription" parent="OlePaymentType-olePaymentTypeDescription-parentBean"/>
+
+    <bean id="OlePaymentType-olePaymentTypeDescription-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Payment Type Description"/>
+        <property name="maxLength" value="100"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="olePaymentTypeDescription"/>
+        <property name="label" value="Payment Type  Description"/>
+        <property name="description" value="Payment Type Description"/>
+
+    </bean>
+    <bean id="OlePaymentType-olePaymentTypeName" parent="OlePaymentType-olePaymentTypeName-parentBean"/>
+
+    <bean id="OlePaymentType-olePaymentTypeName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Payment Type Name"/>
+        <property name="maxLength" value="40"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="olePaymentTypeName"/>
+        <property name="label" value="Payment Type Name"/>
+        <property name="description" value="Payment Type Name"/>
+
+    </bean>
+
+        <!--<bean id="OlePaymentType-active" parent="OlePaymentType-active-parentBean"/>
+
+        <bean id="OlePaymentType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+            <property name="name" value="active"/>
+        </bean>-->
+
+    <bean id="OlePaymentType-active" parent="OlePaymentType-active-parentBean"/>
+
+    <bean id="OlePaymentType-active-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="active"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="active"/>
+        <property name="maxLength" value="1"/>
+        <property name="validCharactersConstraint">
+            <bean  parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean  parent="Uif-CheckboxControl"/>
+        </property>
+        <property name="summary" value="Active Indicator"/>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+        <property name="label" value="Active Indicator"/>
+        <property name="description" value="This attribute is used to describe whether the associated object is active or inactive."/>
+    </bean>
+
+
+    <!-- Business Object Inquiry Definition -->
+
+
+    <bean id="OlePaymentType-InquiryView" parent="Uif-OLEInquiryView">
+        <property name="headerText" value="Payment Type Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OLEPaymentType"/>
+        <property name="singlePageView" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-VerticalBoxSection">
+                    <property name="header.headerText" value="Payment Type"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2">
+                                <property name="items">
+                                    <list>
+                                        <bean id="inquiry_id" parent="Uif-InputField" p:propertyName="olePaymentTypeId"/>
+                                        <bean id="inquiry_name" parent="Uif-InputField" p:propertyName="olePaymentTypeName"/>
+                                        <bean id="inquiry_olePaymentTypeDescription" parent="Uif-InputField" p:propertyName="olePaymentTypeDescription"/>
+                                        <bean id="inquiry_active" parent="Uif-InputField" p:propertyName="active"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                    <property name="headerText" value="Payment Type"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <!-- Business Object Lookup Definition -->
+
+
+    <bean id="OlePaymentType-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="Payment Type Lookup"/>
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/BASICS/content/ch02s04.html#_lookupHelp"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OLEPaymentType"/>
+        <property name="criteriaFields">
+            <list>
+                <bean id="olePaymentTypeName" parent="Uif-LookupCriteriaInputField" p:propertyName="olePaymentTypeName" p:enableAutoDirectInquiry="false"/>
+                <bean id="olePaymentTypeDescription" parent="Uif-LookupCriteriaInputField" p:propertyName="olePaymentTypeDescription"/>
+                <bean id="olePaymentTypeActive" parent="Uif-LookupCriteriaInputField" p:propertyName="active"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean id="searchResult_olePaymentTypeName" parent="Uif-DataField" p:propertyName="olePaymentTypeName"/>
+                <bean id="searchResult_olePaymentTypeDescription" parent="Uif-DataField" p:propertyName="olePaymentTypeDescription"/>
+                <bean id="searchResult_olePaymentTypeActive" parent="Uif-DataField" p:propertyName="active"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

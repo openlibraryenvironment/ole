@@ -1,0 +1,1123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="WorkEInstanceEditorView" parent="WorkEInstanceEditorView-parentBean"/>
+
+    <bean id="WorkEInstanceEditorView-parentBean" parent="Uif-OLEFormView">
+        <property name="headerText" value="Work Instance Editor"/>
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/CG/content/ch01s04.html"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="WorkEInstanceViewPage" parent="Uif-Page">
+                    <property name="headerText" value="@{headerText}"/>
+                    <property name="help">
+                        <bean parent="Uif-Help">
+                            <property name="externalHelpUrl"
+                                      value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/CG/content/ch01s04.html"/>
+                            <property name="tooltipHelpContent" value="[Help] help"/>
+                        </bean>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <ref bean="WorkEInstanceIdSection"/>
+                            <ref bean="WorkEInstanceMessageSection"/>
+                            <bean parent="Uif-SecondaryActionButton" p:actionLabel="Edit" p:actionScript="edit()"
+                                  p:render="@{canAdd and editable eq 'false'}"/>
+                            <ref bean="WorkEInstanceButtonSection1"/>
+                            <ref bean="StatusUpdatedFieldSectionHolding"/>
+                            <ref bean="WorkEInstanceDetailsSection"/>
+                            <ref bean="WorkEInstanceButtonSection2"/>
+
+                            <ref bean="hdnDocCategory"/>
+                            <ref bean="hdnDocType"/>
+                            <ref bean="hdnDocFormat"/>
+                            <ref bean="hiddenGlobalEditFlag"/>
+
+
+                            <ref bean="hiddenEHoldingsAccessStatusEditFlag"/>
+                            <ref bean="hiddenEHoldingsPlatformEditFlag"/>
+                            <ref bean="hiddenEHoldingsStatusDateEditFlag"/>
+                            <ref bean="hiddenEHoldingsPublisherEditFlag"/>
+                            <ref bean="hiddenEHoldingsStaffOnlyEditFlag"/>
+                            <ref bean="hiddenEHoldingsImprintEditFlag"/>
+                            <ref bean="hiddenEHoldingsStatisticalCodeEditFlag"/>
+                            <ref bean="hiddenEHoldingsISSNEditFlag"/>
+                            <ref bean="hiddenEHoldingsLocationEditFlag"/>
+
+                            <ref bean="hiddenEHoldingsCallNumberPrefixEditFlag"/>
+
+
+                            <ref bean="hiddenEHoldingsCallNumberEditFlag"/>
+                            <ref bean="hiddenEHoldingsShelvingOrderEditFlag"/>
+                            <ref bean="hiddenEHoldingsCallNumberTypeEditFlag"/>
+                            <ref bean="hiddenEHoldingsExtentOfOwnerShipEditFlag"/>
+                            <ref bean="hiddenEHoldingsCoverageExtentOfOwnerShipEditFlag"/>
+                            <ref bean="hiddenEHoldingsPerpetualAccessEditFlag"/>
+                            <ref bean="hiddenEHoldingsRelationShipsEditFlag"/>
+                            <ref bean="hiddenEHoldingSubscriptionEditFlag"/>
+                            <ref bean="hiddenEHoldingsAccessInformationEditFlag"/>
+                            <ref bean="hiddenEHoldingsLicenseDetailsEditFlag"/>
+                            <ref bean="hiddenEHoldingsEHoldingsNoteEditFlag"/>
+
+                            <ref bean="hiddenEHoldingsDonorCodeEditFlag"/>
+                            <ref bean="hiddenEHoldingsDonorPublicDisplayEditFlag"/>
+                            <ref bean="hiddenEHoldingsDonorNoteEditFlag"/>
+
+                            <ref bean="hiddenEHoldingsLinkEditFlag"/>
+                            <ref bean="hiddenEHoldingsPersistentLinkEditFlag"/>
+                            <ref bean="hiddenEHoldingsSimultaneousEditFlag"/>
+                            <ref bean="hiddenEHoldingsAccessLocationEditFlag"/>
+                            <ref bean="hiddenEHoldingsLinkTextEditFlag"/>
+                            <ref bean="hiddenEHoldingsAdminUserNameEditFlag"/>
+                            <ref bean="hiddenEHoldingsAdminPasswordEditFlag"/>
+                            <ref bean="hiddenEHoldingsAccessUserNameEditFlag"/>
+                            <ref bean="hiddenEHoldingsAccessPasswordEditFlag"/>
+                            <ref bean="hiddenEHoldingsAdminUrlEditFlag"/>
+                            <ref bean="hiddenEHoldingsAuthenticationEditFlag"/>
+                            <ref bean="hiddenEHoldingsProxiedEditFlag"/>
+                            <ref bean="hiddenEHoldingsIllEditFlag"/>
+
+
+
+                        </list>
+                    </property>
+                </bean>
+
+            </list>
+        </property>
+        <property name="formClass" value="org.kuali.ole.describe.form.EditorForm"/>
+    </bean>
+
+
+    <bean id="hiddenEHoldingsDonorCodeEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditEHoldingsFieldsFlagBO.donorCodeEditFlag"/>
+    <bean id="hiddenEHoldingsDonorPublicDisplayEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditEHoldingsFieldsFlagBO.donorPublicDisplayEditFlag"/>
+    <bean id="hiddenEHoldingsDonorNoteEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditEHoldingsFieldsFlagBO.donorNoteEditFlag"/>
+
+
+
+    <bean id="hiddenEHoldingsAccessStatusEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditEHoldingsFieldsFlagBO.accessStatusEditFlag"/>
+    <bean id="hiddenEHoldingsPlatformEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditEHoldingsFieldsFlagBO.platformEditFlag"/>
+    <bean id="hiddenEHoldingsStatusDateEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditEHoldingsFieldsFlagBO.statusDateEditFlag"/>
+    <bean id="hiddenEHoldingsPublisherEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditEHoldingsFieldsFlagBO.publisherEditFlag"/>
+    <bean id="hiddenEHoldingsStaffOnlyEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditEHoldingsFieldsFlagBO.staffOnlyEditFlag"/>
+    <bean id="hiddenEHoldingsImprintEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditEHoldingsFieldsFlagBO.imprintEditFlag"/>
+    <bean id="hiddenEHoldingsStatisticalCodeEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditEHoldingsFieldsFlagBO.statisticalCodeEditFlag"/>
+    <bean id="hiddenEHoldingsISSNEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditEHoldingsFieldsFlagBO.iSSNEditFlag"/>
+    <bean id="hiddenEHoldingsLocationEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditEHoldingsFieldsFlagBO.locationEditFlag"/>
+
+    <bean id="hiddenEHoldingsCallNumberPrefixEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditEHoldingsFieldsFlagBO.callNumberPrefixEditFlag"/>
+    <bean id="hiddenEHoldingsCallNumberEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditEHoldingsFieldsFlagBO.callNumberEditFlag"/>
+    <bean id="hiddenEHoldingsShelvingOrderEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditEHoldingsFieldsFlagBO.shelvingOrderEditFlag"/>
+    <bean id="hiddenEHoldingsCallNumberTypeEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditEHoldingsFieldsFlagBO.callNumberTypeEditFlag"/>
+    <bean id="hiddenEHoldingsExtentOfOwnerShipEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditEHoldingsFieldsFlagBO.extentOfOwnerShipEditFlag"/>
+    <bean id="hiddenEHoldingsCoverageExtentOfOwnerShipEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditEHoldingsFieldsFlagBO.coverageExtentOfOwnerShipEditFlag"/>
+    <bean id="hiddenEHoldingsPerpetualAccessEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditEHoldingsFieldsFlagBO.perpetualAccessEditFlag"/>
+    <bean id="hiddenEHoldingsRelationShipsEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditEHoldingsFieldsFlagBO.relationShipsEditFlag"/>
+    <bean id="hiddenEHoldingSubscriptionEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditEHoldingsFieldsFlagBO.subscriptionEditFlag"/>
+    <bean id="hiddenEHoldingsAccessInformationEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditEHoldingsFieldsFlagBO.accessInformationEditFlag"/>
+    <bean id="hiddenEHoldingsLicenseDetailsEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditEHoldingsFieldsFlagBO.licenseDetailsEditFlag"/>
+    <bean id="hiddenEHoldingsEHoldingsNoteEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditEHoldingsFieldsFlagBO.eHoldingsNoteEditFlag"/>
+
+    <bean id="hiddenEHoldingsLinkEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditEHoldingsFieldsFlagBO.linkEditFlag"/>
+    <bean id="hiddenEHoldingsPersistentLinkEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditEHoldingsFieldsFlagBO.persistentLinkEditFlag"/>
+    <bean id="hiddenEHoldingsSimultaneousEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditEHoldingsFieldsFlagBO.simultaneousEditFlag"/>
+    <bean id="hiddenEHoldingsAccessLocationEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditEHoldingsFieldsFlagBO.accessLocationEditFlag"/>
+    <bean id="hiddenEHoldingsLinkTextEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditEHoldingsFieldsFlagBO.linkTextEditFlag"/>
+    <bean id="hiddenEHoldingsAdminUserNameEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditEHoldingsFieldsFlagBO.adminUserNameEditFlag"/>
+    <bean id="hiddenEHoldingsAdminPasswordEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditEHoldingsFieldsFlagBO.adminPasswordEditFlag"/>
+    <bean id="hiddenEHoldingsAccessUserNameEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditEHoldingsFieldsFlagBO.accessUserNameEditFlag"/>
+    <bean id="hiddenEHoldingsAccessPasswordEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditEHoldingsFieldsFlagBO.accessPasswordEditFlag"/>
+    <bean id="hiddenEHoldingsAdminUrlEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditEHoldingsFieldsFlagBO.adminUrlEditFlag"/>
+    <bean id="hiddenEHoldingsAuthenticationEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditEHoldingsFieldsFlagBO.authenticationEditFlag"/>
+    <bean id="hiddenEHoldingsProxiedEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditEHoldingsFieldsFlagBO.proxiedEditFlag"/>
+    <bean id="hiddenEHoldingsIllEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditEHoldingsFieldsFlagBO.illEditFlag"/>
+
+    <bean id="hdnDocCategory" parent="Uif-InputField"  p:hidden="true" p:propertyName="docCategory"/>
+    <bean id="hdnDocType" parent="Uif-InputField"  p:hidden="true" p:propertyName="docType"/>
+    <bean id="hdnDocFormat" parent="Uif-InputField"  p:hidden="true" p:propertyName="docFormat"/>
+
+    <bean id="hiddenGlobalEditFlag" parent="Uif-InputField"  p:hidden="true" p:propertyName="globalEditFlag"/>
+
+
+
+
+
+    <bean id="WorkEInstanceIdSection" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="OleEinstance-EInstanceId" parent="Uif-DataField" p:propertyName="documentForm.selectedEHoldings.holdingsIdentifier"
+                      p:label="* E-Holdings Id" p:style="float: right;" p:required="true"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="WorkEInstanceMessageSection" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="workEInstanceMessage" parent="Uif-Message" p:messageText="@{documentForm.message}"
+                      p:cssClasses="messageClass"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="WorkEInstanceDetailsSection" parent="Uif-VerticalBoxSection" p:readOnly="@{editable eq 'false'}">
+        <property name="items">
+            <list>
+                <ref bean="OleEHoldingsOverviewSection"/>
+                <ref bean="OleEInstanceLocationInformationSection"/>
+                <ref bean="OleEInstanceCallNumberInformation"/>
+                <ref bean="OleExtentOfOwnershipDetails"/>
+                <ref bean="OleEHoldingsRelatedERS"/>
+                <ref bean="OleEHoldingsAcquisitionSection"/>
+                <ref bean="OLEEHoldings-Subscription"/>
+                <ref bean="OleEInstanceDonorInformation"/>
+                <ref bean="OleEHoldingsAccessInfoSection"/>
+                <ref bean="LinkInformation"/>
+                <ref bean="OleEHoldingsLicenseSection"/>
+                <ref bean="OleEInstanceHoldingNotes"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OleEInstanceLocationInformationSection" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="headerText" value="Location Information"/>
+        <property name="items">
+            <list>
+                <bean id="OleEInstanceLocationInformationSectionGroup" parent="Uif-HorizontalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean id="OleEHoldingLocation" parent="Uif-InputField"
+                                  p:propertyName="documentForm.selectedEHoldings.location.locationLevel.name"
+                                  p:label="Location"
+                                  p:instructionalText="Type * for all locations, other letters for matching locations">
+                                <property name="suggest">
+                                    <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
+                                        <property name="suggestQuery">
+                                            <bean parent="Uif-AttributeQueryConfig"
+                                                  p:queryMethodToCall="retrieveLocationDetailsForSuggest"
+                                                  p:queryMethodInvokerConfig.targetClass="org.kuali.ole.describe.keyvalue.LocationValuesBuilder"/>
+                                        </property>
+                                        <property name="templateOptions">
+                                            <map merge="true">
+                                                <entry key="minLength" value="1"/>
+                                            </map>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OleEInstanceCallNumberInformation" parent="Uif-Disclosure-GridSubSection"
+          p:layoutManager.numberOfColumns="5">
+        <property name="headerText" value="Call Number Information"/>
+        <property name="items">
+            <list>
+                <bean id="OleEHoldingCallNumberPrefix" parent="Uif-InputField"
+                      p:propertyName="documentForm.selectedEHoldings.callNumber.prefix"
+                      p:label="Prefix" p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="5" p:maxLength=""/>
+                    </property>
+                </bean>
+                <bean id="OleEHoldingCallNumber" parent="Uif-InputField"
+                      p:propertyName="documentForm.selectedEHoldings.callNumber.number"
+                      p:label="Call Number" p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="30" p:maxLength=""/>
+                    </property>
+                </bean>
+                <bean id="OleEHoldingCallNumberHoldingsBrowseLink" parent="Uif-SecondaryActionButton-Small"
+                      p:style="float:left;margin-left:0em" p:actionScript="browse('holdings');"
+                      p:actionLabel="Browse" p:render="@{editable eq 'true'}"/>
+                <bean id="OleEHoldingShelvingOrder" parent="Uif-InputField"
+                      p:propertyName="documentForm.selectedEHoldings.callNumber.shelvingOrder.fullValue"
+                      p:label="Shelving Order" p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="30" p:maxLength="100"/>
+                    </property>
+                </bean>
+                <bean id="OleEHoldingShelvingScheme" parent="Uif-InputField"
+                      p:propertyName="documentForm.selectedEHoldings.callNumber.shelvingScheme.codeValue"
+                      p:label="Call Number Type" p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="dropdown"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.describe.keyvalue.ShelvingScheme"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OleExtentOfOwnershipDetails" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="headerText" value="Extent Of Ownership"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridSection" p:layoutManager.numberOfColumns="1">
+                    <property name="items">
+                        <list>
+                            <ref bean="OleExtentOfOwnershipDetails-CoverageSection"/>
+                            <ref bean="OleExtentOfOwnershipDetails-PerpetualAccessSection"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OleExtentOfOwnershipDetails-CoverageSection" parent="Uif-TableCollectionSection"
+          p:layoutManager.suppressLineWrapping="true">
+        <property name="headerText" value="Coverage"/>
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.docstore.common.document.content.instance.Coverage"/>
+        <property name="propertyName" value="documentForm.selectedEHoldings.extentOfOwnership[0].coverages.coverage"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderAddBlankLineButton" value="false" />
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="false">
+                <entry key="bPaginate" value="false"/>
+                <entry key="bInfo" value="false"/>
+                <entry key="bFilter" value="false"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="coverageStartDateFormat" parent="Uif-InputField" p:propertyName="coverageStartDateFormat"
+                      p:constraintText="Date format" p:label="Start Date" p:onKeyPressScript="coverageDateStart(this.id)"
+                      p:onClickScript="coverageDateStart(this.id)"  p:onChangeScript="coverageDateStart(this.id)" p:onMouseOverScript="coverageDateStart(this.id)">
+                    <property name="control">
+                        <bean parent="Uif-DateControl" >
+                            <property name="datePicker.templateOptions">
+                                <map>
+                                    <entry key="showOn" value="button"/>
+                                    <entry key="constrainInput" value="true"/>
+                                    <entry key="buttonImage" value="@{#ThemeImages}cal.gif"/>
+                                    <entry key="buttonImageOnly" value="true"/>
+                                    <entry key="showAnim" value="fadeIn"/>
+                                    <entry key="showButtonPanel" value="true"/>
+                                    <entry key="changeMonth" value="true"/>
+                                    <entry key="changeYear" value="true"/>
+                                    <entry key="numberOfMonths" value="1"/>
+                                </map>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="coverageStartDateString" parent="Uif-InputField" p:propertyName="coverageStartDateString"
+                     p:constraintText="Relative date format">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" p:maxLength="30"
+                              p:onKeyPressScript="coverageDateStart(this.id)" p:onClickScript="coverageDateStart(this.id)" p:onMouseOverScript="coverageDateStart(this.id)"/>
+                    </property>
+                </bean>
+                <bean id="coverageStartVolume" parent="Uif-InputField" p:propertyName="coverageStartVolume"
+                      p:label="Start Volume">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" p:maxLength="30" p:onKeyPressScript="coverageDateStart(this.id)" p:onClickScript="coverageDateStart(this.id)"/>
+                    </property>
+                </bean>
+                <bean id="coverageStartIssue" parent="Uif-InputField" p:propertyName="coverageStartIssue"
+                      p:label="Start Issue">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" p:maxLength="30" p:onKeyPressScript="coverageDateStart(this.id)" p:onClickScript="coverageDateStart(this.id)"/>
+                    </property>
+                </bean>
+                <bean id="coverageEndDateFormat" parent="Uif-InputField" p:propertyName="coverageEndDateFormat"
+                      p:constraintText="Date format" p:label="End Date" p:onKeyPressScript="coverageDateEnd(this.id)"
+                      p:onClickScript="coverageDateEnd(this.id)" p:onChangeScript="coverageDateEnd(this.id)" p:onMouseOverScript="coverageDateEnd(this.id)">
+                    <property name="control">
+                        <bean parent="Uif-DateControl" >
+                            <property name="datePicker.templateOptions">
+                                <map>
+                                    <entry key="showOn" value="button"/>
+                                    <entry key="constrainInput" value="true"/>
+                                    <entry key="buttonImage" value="@{#ThemeImages}cal.gif"/>
+                                    <entry key="buttonImageOnly" value="true"/>
+                                    <entry key="showAnim" value="fadeIn"/>
+                                    <entry key="showButtonPanel" value="true"/>
+                                    <entry key="changeMonth" value="true"/>
+                                    <entry key="changeYear" value="true"/>
+                                    <entry key="numberOfMonths" value="1"/>
+                                </map>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="coverageEndDateString" parent="Uif-InputField" p:propertyName="coverageEndDateString"
+                      p:constraintText="Relative date format">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" p:maxLength="30"
+                              p:onKeyPressScript="coverageDateEnd(this.id)" p:onClickScript="coverageDateEnd(this.id)" p:onMouseOverScript="coverageDateEnd(this.id)"/>
+                    </property>
+                </bean>
+                <bean id="coverageEndVolume" parent="Uif-InputField" p:propertyName="coverageEndVolume"
+                      p:label="End Volume">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" p:maxLength="30" p:onKeyPressScript="coverageDateEnd(this.id)" p:onClickScript="coverageDateEnd(this.id)"/>
+                    </property>
+                </bean>
+                <bean id="coverageEndIssue" parent="Uif-InputField" p:propertyName="coverageEndIssue"
+                      p:label="End Issue">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" p:maxLength="30" p:onKeyPressScript="coverageDateEnd(this.id)" p:onClickScript="coverageDateEnd(this.id)"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="OleExtentOfOwnershipDetails-CoverageSection_addTagButton_id" parent="Uif-SecondaryActionButton-Small"
+                      p:methodToCall="addCoverageSection" p:successCallback="eHoldingsAddOrRemove()"  p:actionLabel="Add" p:style="Margin-top:0.4em;"
+                      p:ajaxSubmit="true" p:evaluateDisabledOnKeyUp="true"
+                      p:disabled="@{#line.coverageStartDateString eq 'empty'}"/>
+                <bean id="OleExtentOfOwnershipDetails-CoverageSection_removeTagButton_id" parent="Uif-SecondaryActionButton-Small"
+                      p:methodToCall="removeCoverageSection" p:successCallback="eHoldingsAddOrRemove()" p:actionLabel="Remove" p:style="Margin-top:0.4em;"
+                      p:ajaxSubmit="true" />
+            </list>
+        </property>
+        <property name="layoutManager.actionFieldPrototype.group.layoutManager">
+            <bean  parent="Uif-HorizontalBoxLayout"/>
+        </property>
+        <property name="layoutManager.actionFieldPrototype.label" value=""/>
+    </bean>
+
+    <bean id="OleExtentOfOwnershipDetails-PerpetualAccessSection" parent="Uif-TableCollectionSection"
+          p:layoutManager.suppressLineWrapping="true">
+        <property name="headerText" value="Perpetual Access"/>
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.docstore.common.document.content.instance.PerpetualAccess"/>
+        <property name="propertyName"
+                  value="documentForm.selectedEHoldings.extentOfOwnership[0].perpetualAccesses.perpetualAccess"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderAddBlankLineButton" value="false" />
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="false">
+                <entry key="bPaginate" value="false"/>
+                <entry key="bInfo" value="false"/>
+                <entry key="bFilter" value="false"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="perpetualAccessStartDateFormat" parent="Uif-InputField" p:propertyName="perpetualAccessStartDateFormat"
+                      p:constraintText="Date format" p:label="Start Date" p:onKeyPressScript="perpetualDateStart(this.id)"
+                      p:onClickScript="perpetualDateStart(this.id)" p:onChangeScript="perpetualDateStart(this.id)" p:onMouseOverScript="perpetualDateStart(this.id)">
+                    <property name="control">
+                        <bean parent="Uif-DateControl" >
+                            <property name="datePicker.templateOptions">
+                                <map>
+                                    <entry key="showOn" value="button"/>
+                                    <entry key="constrainInput" value="true"/>
+                                    <entry key="buttonImage" value="@{#ThemeImages}cal.gif"/>
+                                    <entry key="buttonImageOnly" value="true"/>
+                                    <entry key="showAnim" value="fadeIn"/>
+                                    <entry key="showButtonPanel" value="true"/>
+                                    <entry key="changeMonth" value="true"/>
+                                    <entry key="changeYear" value="true"/>
+                                    <entry key="numberOfMonths" value="1"/>
+                                </map>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="perpetualAccessStartDateString" parent="Uif-InputField" p:propertyName="perpetualAccessStartDateString"
+                      p:constraintText="Relative date format">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" p:maxLength="30"
+                              p:onKeyPressScript="perpetualDateStart(this.id)" p:onClickScript="perpetualDateStart(this.id)" p:onMouseOverScript="perpetualDateStart(this.id)"/>
+                    </property>
+                </bean>
+                <bean id="perpetualAccessStartVolume" parent="Uif-InputField"
+                      p:propertyName="perpetualAccessStartVolume" p:label="Start Volume">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" p:maxLength="30" p:onKeyPressScript="perpetualDateStart(this.id)"
+                              p:onClickScript="perpetualDateStart(this.id)"/>
+                    </property>
+                </bean>
+                <bean id="perpetualAccessStartIssue" parent="Uif-InputField" p:propertyName="perpetualAccessStartIssue"
+                      p:label="Start Issue">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" p:maxLength="30" p:onKeyPressScript="perpetualDateStart(this.id)" p:onClickScript="perpetualDateStart(this.id)"/>
+                    </property>
+                </bean>
+                <bean id="perpetualAccessEndDateFormat" parent="Uif-InputField" p:propertyName="perpetualAccessEndDateFormat"
+                      p:constraintText="Date format" p:label="End Date" p:onKeyPressScript="perpetualDateEnd(this.id)"
+                      p:onClickScript="perpetualDateEnd(this.id)" p:onChangeScript="perpetualDateEnd(this.id)" p:onMouseOverScript="perpetualDateEnd(this.id)">
+                    <property name="control">
+                        <bean parent="Uif-DateControl" >
+                            <property name="datePicker.templateOptions">
+                                <map>
+                                    <entry key="showOn" value="button"/>
+                                    <entry key="constrainInput" value="true"/>
+                                    <entry key="buttonImage" value="@{#ThemeImages}cal.gif"/>
+                                    <entry key="buttonImageOnly" value="true"/>
+                                    <entry key="showAnim" value="fadeIn"/>
+                                    <entry key="showButtonPanel" value="true"/>
+                                    <entry key="changeMonth" value="true"/>
+                                    <entry key="changeYear" value="true"/>
+                                    <entry key="numberOfMonths" value="1"/>
+                                </map>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="perpetualAccessEndDateString" parent="Uif-InputField" p:propertyName="perpetualAccessEndDateString"
+                      p:constraintText="Relative date format">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" p:maxLength="30"
+                              p:onKeyPressScript="perpetualDateEnd(this.id)" p:onClickScript="perpetualDateEnd(this.id)" p:onMouseOverScript="perpetualDateEnd(this.id)"/>
+                    </property>
+                </bean>
+                <bean id="perpetualAccessEndVolume" parent="Uif-InputField" p:propertyName="perpetualAccessEndVolume"
+                      p:label="End Volume">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" p:maxLength="30" p:onKeyPressScript="perpetualDateEnd(this.id)" p:onClickScript="perpetualDateEnd(this.id)"/>
+                    </property>
+                </bean>
+                <bean id="perpetualAccessEndIssue" parent="Uif-InputField" p:propertyName="perpetualAccessEndIssue"
+                      p:label="End Issue">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" p:maxLength="30" p:onKeyPressScript="perpetualDateEnd(this.id)" p:onClickScript="perpetualDateEnd(this.id)"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="OleExtentOfOwnershipDetails-PerpetualAccessSection_addTagButton_id" parent="Uif-SecondaryActionButton-Small"
+                      p:methodToCall="addPerpetualAccessSection" p:successCallback="eHoldingsAddOrRemove()"  p:actionLabel="Add" p:style="Margin-top:0.4em;"
+                      p:ajaxSubmit="true" />
+                <bean id="OleExtentOfOwnershipDetails-PerpetualAccessSection_removeTagButton_id" parent="Uif-SecondaryActionButton-Small"
+                      p:methodToCall="removePerpetualAccessSection" p:successCallback="eHoldingsAddOrRemove()"  p:actionLabel="Remove" p:style="Margin-top:0.4em;"
+                      p:ajaxSubmit="true" />
+            </list>
+        </property>
+        <property name="layoutManager.actionFieldPrototype.group.layoutManager">
+            <bean  parent="Uif-HorizontalBoxLayout"/>
+        </property>
+        <property name="layoutManager.actionFieldPrototype.label" value=""/>
+    </bean>
+    <bean id="OleEHoldingsRelatedERS" parent="Uif-Disclosure-HorizontalBoxSection">
+        <property name="headerText" value="Relationships"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridSubSection" p:layoutManager.numberOfColumns="4">
+                    <property name="items">
+                        <list>
+                            <bean id="OleEinstance-ResourceName" parent="Uif-LinkField" p:link.linkText="@{eResourceTitle}" p:label="E-Resource Name"
+                                  p:href="oleERSController?viewId=OLEEResourceRecordView&amp;methodToCall=docHandler&amp;docId=@{tokenId}&amp;command=displayDocSearchView"
+                                  p:target="_blank"/>
+                            <bean id="OleEinstance-relatedHoldingIdentifier" parent="Uif-DataField"
+                                  p:propertyName="documentForm.extendedEHoldingFields.relatedHoldingIdentifier"
+                                  p:label="Related Instance"/>
+                            <bean id="OleEinstance-eResourceId" parent="Uif-DataField" p:propertyName="documentForm.selectedEHoldings.eResourceId"
+                                  p:label="E-Resource ID"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OleEHoldingsOverviewSection" parent="Uif-Disclosure-HorizontalBoxSection">
+        <property name="headerText" value="Overview"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4">
+                    <property name="items">
+                        <list>
+                            <bean id="OleEinstance-accessStatus"  parent="Uif-InputField" p:propertyName="documentForm.selectedEHoldings.accessStatus"
+                                  p:label="Access Status" p:required="true">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="active" p:value="Active"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="inActive" p:value="InActive"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                            <bean id="OleEinstance-platformName"  parent="Uif-InputField"
+                                  p:propertyName="documentForm.selectedEHoldings.platform.platformName"
+                                  p:label="Platform">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="dropdown"/>
+                                </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.select.keyvalue.OLEPlatformRecordDocumentKeyValues"/>
+                                </property>
+                            </bean>
+                            <bean id="OleEinstance-statusDate" parent="Uif-InputField"
+                                  p:propertyName="documentForm.selectedEHoldings.StatusDate" p:label="* Status Date"
+                                  p:readOnly="true" p:required="true">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="10" p:maxLength="30"/>
+                                </property>
+                            </bean>
+                            <bean id="OleEinstance-publisher" parent="Uif-InputField" p:propertyName="documentForm.selectedEHoldings.publisher"
+                                  p:label="Publisher">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="35" p:maxLength="200"/>
+                                </property>
+                            </bean>
+                            <bean id="oleEIstanceStaffOnlyForGlobalEdit" parent="Uif-InputField" p:propertyName="staffOnlyFlagInGlobalEdit"
+                                  p:label="Staff Only"
+                                  p:required="false"  p:render="@{globalEditFlag eq 'true'}" p:colSpan="3">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-20-select" />
+                                </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.describe.keyvalue.OLEStaffFieldKeyValueFinder"/>
+                                </property>
+                            </bean>
+                            <bean id="OleEinstance-staffOnlyFlagForHoldings" parent="Uif-InputField" p:propertyName="staffOnlyFlagForHoldings"
+                                  p:label="Staff Only" p:render="@{globalEditFlag eq 'false'}"  p:colSpan="3">
+                                <property name="control">
+                                    <bean parent="Uif-CheckboxControl"/>
+                                </property>
+                            </bean>
+                            <bean id="OleEinstance-imprint" parent="Uif-InputField" p:propertyName="documentForm.selectedEHoldings.imprint"
+                                  p:label="Imprint">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="35" p:maxLength="50"/>
+                                </property>
+                            </bean>
+                            <bean id="OleEinstance-statisticalSearchingCodeValue" parent="Uif-InputField"
+                                  p:propertyName="documentForm.selectedEHoldings.statisticalSearchingCode.codeValue"
+                                  p:label="Statistical Code">
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.describe.keyvalue.StatisticalSearchingCodes"/>
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select" p:onClickScript="statisticalCode(this.id)" p:onKeyPressScript="statisticalCode(this.id)"/>
+                                </property>
+                            </bean>
+                            <bean id="OleEinstance-ISSN" parent="Uif-DataField" p:propertyName="documentForm.issn" p:label="ISSN"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OleEInstanceHoldingNotes" parent="Uif-Disclosure-TableCollectionSection"
+          p:layoutManager.suppressLineWrapping="true">
+        <property name="headerText" value="Note"/>
+        <property name="collectionObjectClass" value="org.kuali.ole.docstore.common.document.content.instance.Note"/>
+        <property name="propertyName" value="documentForm.selectedEHoldings.note"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="renderAddBlankLineButton" value="true" />
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="false">
+                <entry key="bPaginate" value="false"/>
+                <entry key="bInfo" value="false"/>
+                <entry key="bFilter" value="false"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="OleEHoldingNoteTypeField" parent="Uif-InputField" p:propertyName="type"
+                      p:label="Type" p:labelPlacement="LEFT">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="public" p:value="Public"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="nonPublic" p:value="Non-Public"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="OleEHoldingNoteDescField" parent="Uif-InputField" p:propertyName="value"
+                      p:label="Note">
+                    <property name="control">
+                        <bean parent="Uif-TextAreaControl" p:rows="2" p:cols="30"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="OleEInstanceHoldingNotes-addTagButton_id" parent="Uif-SecondaryActionButton-Small"
+                      p:methodToCall="addOleEInstanceHoldingNotes" p:successCallback="eHoldingsAddOrRemove()" p:actionLabel="Add" p:style="Margin-top:0.4em;"
+                      p:ajaxSubmit="true" />
+                <bean id="OleEInstanceHoldingNotes_removeTagButton_id" parent="Uif-SecondaryActionButton-Small"
+                      p:methodToCall="removeOleEInstanceHoldingNotes" p:successCallback="eHoldingsAddOrRemove()" p:actionLabel="Remove" p:style="Margin-top:0.4em;"
+                      p:ajaxSubmit="true" />
+            </list>
+        </property>
+        <property name="layoutManager.actionFieldPrototype.group.layoutManager">
+            <bean  parent="Uif-HorizontalBoxLayout"/>
+        </property>
+        <property name="layoutManager.actionFieldPrototype.label" value=""/>
+    </bean>
+
+    <bean id="OleEHoldingsAcquisitionSection" parent="Uif-Disclosure-HorizontalBoxSubSection">
+        <property name="headerText" value="Acquisition Information"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4">
+                    <property name="items">
+                        <list>
+                            <bean id="OleEinstance-paymentStatus" parent="Uif-DataField"
+                                  p:propertyName="documentForm.extendedEHoldingFields.paymentStatus"
+                                  p:label="Payment Status"/>
+                            <bean id="OleEinstance-purchaseOrderId" parent="Uif-DataField" p:propertyName="documentForm.extendedEHoldingFields.purchaseOrderId"
+                                  p:label="PO Number(s)"/>
+                            <bean id="OleEinstance-vendorName" parent="Uif-DataField" p:propertyName="documentForm.extendedEHoldingFields.vendorName"
+                                  p:label="Vendor"/>
+                            <bean id="OleEinstance-orderType" parent="Uif-DataField" p:propertyName="documentForm.extendedEHoldingFields.orderType"
+                                  p:label="Order Type"/>
+                            <bean id="OleEinstance-currentFYCost" parent="Uif-DataField"
+                                  p:propertyName="documentForm.extendedEHoldingFields.currentFYCost"
+                                  p:label="Current FY Cost"/>
+                            <bean id="OleEinstance-orderFormat" parent="Uif-DataField" p:propertyName="documentForm.extendedEHoldingFields.orderFormat"
+                                  p:label="Order Format"/>
+                            <bean id="OleEinstance-fundCode" parent="Uif-DataField"
+                                  p:propertyName="documentForm.extendedEHoldingFields.fundCode" p:label="Fund Code"/>
+                            <!--<bean parent="Uif-InputField"
+                                  p:propertyName="documentForm.selectedEHoldings.donorPublicDisplay"
+                                  p:label="Donor Public Display">
+                                <property name="control">
+                                    <bean parent="Uif-TextAreaControl" p:cols="50" p:rows="3"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="documentForm.selectedEHoldings.donorNote"
+                                  p:label="Donor Note">
+                                <property name="control">
+                                    <bean parent="Uif-TextAreaControl" p:cols="50" p:rows="3"/>
+                                </property>
+                            </bean>-->
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id ="OLEEHoldings-Subscription" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="headerText" value="Subscription" />
+        <property name="items">
+            <list>
+                <bean id="EHoldings-Subscription" parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4" >
+                    <property name="items">
+                        <list>
+                            <bean id="eInstance_subscriptionStatus" parent="Uif-InputField"
+                                  p:propertyName="documentForm.selectedEHoldings.subscriptionStatus"
+                                  p:label="Subscription Status">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="dropdown"/>
+                                </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.module.purap.businessobject.options.OLESubscriptionStatusKeyValueFinder"/>
+                                </property>
+                            </bean>
+                            <bean id="eInstance_cancellation_decision_date" parent="Uif-InputField" p:propertyName="documentForm.selectedEHoldings.cancellationDecisionDate" p:label="Cancellation Decision Date">
+                                <property name="control">
+                                    <bean id="eInstance_cancel_decision_date" parent="Uif-DateControl" p:size="10"/>
+                                </property>
+                            </bean>
+                            <bean id="eInstance_initial_subscription_startDate" parent="Uif-InputField" p:propertyName="documentForm.selectedEHoldings.initialSubscriptionStartDate" p:label="Initial Subscription Start Date">
+                                <property name="control">
+                                    <bean parent="Uif-DateControl" p:size="10"/>
+                                </property>
+                            </bean>
+                            <bean id="eInstance_cancellation_effective_date" parent="Uif-InputField" p:propertyName="documentForm.selectedEHoldings.cancellationEffectiveDate" p:label="Cancellation Effective Date">
+                                <property name="control">
+                                    <bean id="eInstance_cancel_effective_date" parent="Uif-DateControl" p:size="10"/>
+                                </property>
+                            </bean>
+                            <bean id="eInstance_current_subscription_startDate" parent="Uif-InputField" p:propertyName="documentForm.selectedEHoldings.currentSubscriptionStartDate" p:label="Current Subscription Start Date">
+                                <property name="control">
+                                    <bean parent="Uif-DateControl" p:size="10"/>
+                                </property>
+                            </bean>
+                            <bean id="eInstance_cancellation_reason" parent="Uif-InputField" p:propertyName="documentForm.selectedEHoldings.cancellationReason" p:label="Cancellation Reason">
+                                <property name="control">
+                                    <bean id="eInstance_cancel_reason" parent="Uif-TextAreaControl" />
+                                </property>
+                            </bean>
+                            <bean id="eInstance_current_subscription_endDate" parent="Uif-InputField" p:propertyName="documentForm.selectedEHoldings.currentSubscriptionEndDate" p:label="Current Subscription End Date">
+                                <property name="control">
+                                    <bean parent="Uif-DateControl" p:size="10"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OleEInstanceDonorInformation" parent="Uif-GridSubSection" p:layoutManager.numberOfColumns="2">
+        <property name="items">
+            <list>
+                <ref bean="OleEInstanceDonorInformation-ListOfDonors"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean  id="OleEInstanceDonorInformation-ListOfDonors"  parent="Uif-TableCollectionSection"  p:layoutManager.numberOfColumns="3">
+        <property name="headerText" value="" />
+        <property name="collectionObjectClass" value="org.kuali.ole.docstore.common.document.content.instance.DonorInfo" />
+        <property name="propertyName" value="documentForm.selectedEHoldings.donorInfo" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean id="oleEInstanceDonorCode" parent="Uif-InputField"
+                      p:propertyName="donorCode" p:label="Donor Code" p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" p:maxLength="10"
+                              p:onClickScript="donorCodeDisable()" p:onKeyPressScript="donorCodeDisable()"/>
+                    </property>
+                    <property name="quickfinder">
+                        <bean id="DonorCode-quickFinder" parent="Uif-QuickFinderByScript"
+                              p:dataObjectClassName="org.kuali.ole.select.bo.OLEDonor"
+                              p:lookupParameters="donorCode:donorCode"
+                              p:fieldConversions="donorCode:donorCode,donorPublicDisplay:donorPublicDisplay,donorNote:donorNote"/>
+                    </property>
+                </bean>
+                <bean id="oleEInstanceDonorPublicDisplay" parent="Uif-InputField"
+                      p:propertyName="donorPublicDisplay" p:label="Donor Public Display" p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:onClickScript="donorCodeDisable()" p:onKeyPressScript="donorCodeDisable()"
+                              p:disabled="@{#line?.donorCode ne null and #line?.donorCode ne ''}"/>
+                    </property>
+                </bean>
+                <bean id="oleEInstanceDonorNote" parent="Uif-InputField" p:propertyName="donorNote"
+                      p:label="Donor Note" p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:onClickScript="donorCodeDisable()" p:onKeyPressScript="donorCodeDisable()"
+                              p:disabled="@{#line?.donorCode ne null and #line?.donorCode ne ''}"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="addLineActions">
+            <list>
+                <bean id="holdings_donor-add" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addDonorToEInstance" p:successCallback="eHoldingsAddOrRemove()" p:actionLabel="Add"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OleEHoldingsAccessInfoSection" parent="Uif-Disclosure-HorizontalBoxSubSection">
+        <property name="headerText" value="Access Information"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4">
+                    <property name="items">
+                        <list>
+<!--
+                            <bean id="OleEinstance_linkURL_id" parent="Base-Uif-InputField" p:propertyName="documentForm.selectedEHoldings.link.url"
+                                  p:label="Link">
+                                <property name="control">
+                                    <bean id="oleEinstance_linkURL_len_id" parent="Uif-TextAreaControl"
+                                          p:maxLength="400" p:rows="1" p:cols="20"/>
+                                </property>
+                            </bean>
+-->
+                            <bean id="OleEinstance-numberOfSimultaneousUser" parent="Uif-InputField"
+                                  p:propertyName="documentForm.selectedEHoldings.holdingsAccessInformation.numberOfSimultaneousUser"
+                                  p:label="No. of Simultaneous User">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="10" p:maxLength="10" p:onKeyPressScript="noOfUser(this.id)"
+                                          p:onChangeScript="noOfUser(this.id)"/>
+                                </property>
+                            </bean>
+                            <bean id="OleEinstance_localPersistentLink_id" parent="Base-Uif-InputField" p:propertyName="documentForm.selectedEHoldings.localPersistentLink"
+                                  p:label="Persistent Link">
+                                <property name="control">
+                                    <bean id="oleEinstance_localPersistentLink_len_id" parent="Uif-TextAreaControl"
+                                          p:maxLength="400" p:rows="1" p:cols="20"/>
+                                </property>
+                            </bean>
+                            <bean id="OleEinstance-accessLocation" parent="Uif-InputField" p:propertyName="documentForm.extendedEHoldingFields.accessLocation"
+                                  p:label="Access Location" >
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.select.keyvalue.OLEAccessLocationKeyValues"/>
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-MultiSelectControl" p:size="3" p:onKeyPressScript="accessLocation(this.id)" p:onClickScript="accessLocation(this.id)"/>
+                                </property>
+                            </bean>
+<!--
+                            <bean id="OleEinstance_linkText_id" parent="Base-Uif-InputField" p:propertyName="documentForm.selectedEHoldings.link.text"
+                                  p:label="Link Text">
+                                <property name="control">
+                                    <bean id="oleEinstance_linkText_len_id" parent="Uif-TextAreaControl"
+                                          p:maxLength="400" p:rows="1" p:cols="20"/>
+                                </property>
+                            </bean>
+-->
+                            <bean id="OleEinstance-adminUserName" parent="Uif-InputField"
+                                  p:propertyName="documentForm.selectedEHoldings.platform.adminUserName"
+                                  p:label="Admin Username">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="10" p:maxLength="40"/>
+                                </property>
+                            </bean>
+                            <bean id="OleEinstance-accessUsername" parent="Uif-InputField"
+                                  p:propertyName="documentForm.selectedEHoldings.holdingsAccessInformation.accessUsername"
+                                  p:label="Access Username">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="10" p:maxLength="40"/>
+                                </property>
+                            </bean>
+                            <bean id="OleEinstance-adminPassword" parent="Uif-InputField"
+                                  p:propertyName="documentForm.selectedEHoldings.platform.adminPassword"
+                                  p:label="Admin Password">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="10" p:maxLength="40"/>
+                                </property>
+                            </bean>
+                            <bean id="OleEinstance-accessPassword" parent="Uif-InputField"
+                                  p:propertyName="documentForm.selectedEHoldings.holdingsAccessInformation.accessPassword"
+                                  p:label="Access Password">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="10" p:maxLength="40"/>
+                                </property>
+                            </bean>
+                            <bean id="OleEinstance-adminUrl" parent="Uif-InputField"
+                                  p:propertyName="documentForm.selectedEHoldings.platform.adminUrl" p:label="Admin URL">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="30" p:maxLength="100"/>
+                                </property>
+                            </bean>
+                            <bean id="OleEinstance-authenticationType" parent="Uif-InputField"
+                                  p:propertyName="documentForm.selectedEHoldings.holdingsAccessInformation.authenticationType"
+                                  p:label="Authentication Type">
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.select.keyvalue.OLEAuthenticationTypeKeyValues"/>
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select" p:onClickScript="authenticationType(this.id)" p:onKeyPressScript="authenticationType(this.id)"/>
+                                </property>
+                            </bean>
+                            <bean id="OleEinstance-proxiedResource" parent="Uif-InputField"
+                                  p:propertyName="documentForm.proxiedResource"
+                                  p:label="Proxied">
+                                <property name="control">
+                                    <bean parent="Uif-CheckboxControl"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="LinkInformation" parent="Uif-GridSubSection" p:layoutManager.numberOfColumns="2">
+        <property name="items">
+            <list>
+                <ref bean="LinkAndLinkTextSection"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="LinkAndLinkTextSection" parent="Uif-TableCollectionSection" p:layoutManager.suppressLineWrapping="true">
+        <property name="headerText" value=""/>
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.docstore.common.document.content.instance.Link"/>
+        <property name="propertyName" value="documentForm.selectedEHoldings.link"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderAddBlankLineButton" value="false" />
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="false">
+                <entry key="bPaginate" value="false"/>
+                <entry key="bInfo" value="false"/>
+                <entry key="bFilter" value="false"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="OleEinstance-linkURL" parent="Uif-InputField" p:propertyName="url"
+                      p:label="URL">
+                    <property name="validCharactersConstraint">
+                        <bean parent="UrlPatternConstraint" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-TextAreaControl"  p:maxLength="400" p:rows="1" p:cols="20"/>
+                    </property>
+                </bean>
+                <bean id="OleEinstance-linkText" parent="Uif-InputField" p:propertyName="text"
+                      p:label="Link Text">
+                    <property name="control">
+                        <bean parent="Uif-TextAreaControl"  p:maxLength="400" p:rows="1" p:cols="20"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="LinkAndLinkTextSection_addLinkButton_id" parent="Uif-SecondaryActionButton-Small"
+                      p:methodToCall="addLink" p:actionLabel="Add" p:style="Margin-top:0.4em;"
+                      p:ajaxSubmit="true" />
+                <bean id="LinkAndLinkTextSection_removeLinkButton_id" parent="Uif-SecondaryActionButton-Small"
+                      p:methodToCall="deleteLink" p:actionLabel="Remove" p:style="Margin-top:0.4em;"
+                      p:ajaxSubmit="true" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OleEHoldingsLicenseSection" parent="Uif-Disclosure-HorizontalBoxSubSection">
+        <property name="headerText" value="License Details"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="1">
+                    <property name="items">
+                        <list>
+                            <bean id="OleEinstance-interLibraryLoanAllowed" parent="Uif-InputField"
+                                  p:propertyName="documentForm.selectedEHoldings.interLibraryLoanAllowed"
+                                  p:label="ILL Allowed">
+                                <property name="control">
+                                    <bean parent="Uif-CheckboxControl"/>
+                                </property>
+                            </bean>
+                            <ref bean="OLEEResourceLicenses-E-Instance"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceLicenses-E-Instance" parent="Uif-Disclosure-TableCollectionSection"
+          p:layoutManager.numberOfColumns="1">
+        <property name="headerText" value="Licenses"/>
+        <property name="collectionObjectClass" value="org.kuali.ole.select.document.OLEEResourceLicense"/>
+        <property name="propertyName" value="documentForm.extendedEHoldingFields.license"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="items">
+            <list>
+                <!--<bean id="licenseTitle" parent="Uif-DataField" p:propertyName="documentRouteHeaderValue.docTitle"
+                      p:label="License Title"/>-->
+                <bean id="EInstanceLicenseTitle" parent="Uif-LinkField" p:style="font-weight:bold;"
+                      p:href="oleLicenseRequest?methodToCall=docHandler&amp;docId=@{#line.documentRouteHeaderValue.documentId}&amp;command=displayDocSearchView"
+                      p:linkText="@{#line.documentDescription}" p:target="_blank" p:label="License Title"/>
+                <bean id="licensor" parent="Uif-DataField" p:propertyName="documentRouteHeaderValue.initiatorWorkflowId"
+                      p:label="Licensor"/>
+                <bean id="licenseRequestStatusCode" parent="Uif-DataField"
+                      p:propertyName="documentRouteHeaderValue.appDocStatus"
+                      p:label="Licens Request Status"/>
+                <bean id="licenseLastModifedDate" parent="Uif-DataField"
+                      p:propertyName="documentRouteHeaderValue.appDocStatusDate"
+                      p:label="License Request Last Modified Date"/>
+                <!--<bean id="attachmentLink" parent="Uif-LinkField" p:style="font-weight:bold;" p:link.href="@{#line.getUrl()}" p:link.linkText="@{#line.getAttachmentDisplay()}" p:target="_blank" p:label="Attachments"/>-->
+                <bean id="licenseStartDate" parent="Uif-DataField" p:propertyName="licenseStartDate"
+                      p:label="License Start Date"/>
+                <bean id="licenseEndDate" parent="Uif-DataField" p:propertyName="documentRouteHeaderValue.finalizedDate"
+                      p:label="License End Date"/>
+                <!--<bean id="DocumentId" parent="Uif-LinkField" p:style="font-weight:bold;" p:href="oleLicenseRequest?methodToCall=docHandler&amp;docId=@{documentRouteHeaderValue.documentId}&amp;command=displayDocSearchView" p:linkText="edit" p:target="_blank" p:label="Action"/>-->
+            </list>
+        </property>
+        <property name="addLineActions">
+            <list></list>
+        </property>
+        <property name="lineActions">
+            <list></list>
+        </property>
+
+    </bean>
+
+    <bean id="OleEHoldingsButton" parent="Uif-HorizontalFieldGroup" p:render="@{showEditorFooter eq false}">
+        <property name="items">
+            <list>
+                <bean id="OleEHoldingsButton_Save" parent="Uif-SecondaryActionButton" p:methodToCall="save" p:actionLabel="Save"
+                      p:style="float:left;margin-left:30em"/>
+                <!-- <bean id="continueInstanceProcess" parent="Uif-SecondaryActionButton" p:methodToCall="EditNewInstance" p:actionLabel="Continue Process"
+                       p:style="float:left;margin-left:30em" p:performClientSideValidation="false"  p:render="@{needToCreateInstance eq true}"/>-->
+            </list>
+        </property>
+    </bean>
+
+    <bean id="WorkEInstanceButtonSection1" parent="Uif-HorizontalFieldGroup" p:render="@{editable eq 'true' and globalEditFlag eq 'false'}" >
+        <property name="items">
+            <list>
+                <bean id="EInstanceRestore" parent="Uif-SecondaryActionButton-Small"
+                      p:actionScript="methodToCall('load');" p:actionLabel="Restore OLE defaults" p:align="left"
+                      p:actionEvent="restoreOLEDefaults" p:componentSecurity.performActionAuthz="true"/>
+                <bean id="EInstanceSave" parent="Uif-SecondaryActionButton-Small" p:actionScript="methodToCall('save');"
+                      p:actionLabel="Save" p:align="right" p:actionEvent="save"
+                      p:componentSecurity.performActionAuthz="true"/>
+                <bean id="EInstanceCancel" parent="Uif-SecondaryActionButton-Small"
+                      p:actionScript="methodToCall('cancel');" p:actionLabel="Cancel" p:align="right"/>
+                <bean id="EInstanceCopy" parent="Uif-SecondaryActionButton-Small" p:actionScript="methodToCall('copy');"
+                      p:actionLabel="Copy" p:align="right" p:actionEvent="addEInstance"
+                      p:componentSecurity.performActionAuthz="true"/>
+                <bean id="EInstanceDelete" parent="Uif-SecondaryActionButton-Small"
+                      p:actionScript="methodToCall('delete');" p:actionLabel="Delete" p:align="right"
+                      p:actionEvent="deleteEInstance" p:componentSecurity.performActionAuthz="true"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="WorkEInstanceButtonSection2" parent="Uif-HorizontalFieldGroup" p:render="@{editable eq 'true' and globalEditFlag eq 'false'}" >
+        <property name="items">
+            <list>
+                <bean id="eInstanceRestore" parent="Uif-SecondaryActionButton-Small"
+                      p:actionScript="methodToCall('load');" p:actionLabel="Restore OLE defaults" p:align="left"
+                      p:actionEvent="restoreOLEDefaults" p:componentSecurity.performActionAuthz="true"/>
+                <bean id="eInstanceSave" parent="Uif-SecondaryActionButton-Small" p:actionScript="methodToCall('save');"
+                      p:actionLabel="Save" p:align="right" p:actionEvent="save"
+                      p:componentSecurity.performActionAuthz="true" />
+                <bean id="eInstanceCancel" parent="Uif-SecondaryActionButton-Small"
+                      p:actionScript="methodToCall('cancel');" p:actionLabel="Cancel" p:align="right"/>
+                <bean id="eInstanceCopy" parent="Uif-SecondaryActionButton-Small" p:actionScript="methodToCall('copy');"
+                      p:actionLabel="Copy" p:align="right" p:actionEvent="addEInstance"
+                      p:componentSecurity.performActionAuthz="true"/>
+                <bean id="eInstanceDelete" parent="Uif-SecondaryActionButton-Small"
+                      p:actionScript="methodToCall('delete');" p:actionLabel="Delete" p:align="right"
+                      p:actionEvent="deleteEInstance" p:componentSecurity.performActionAuthz="true"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

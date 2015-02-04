@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--suppress SpringFacetInspection -->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <!--
+
+        Copyright 2005-2012 The Kuali Foundation
+
+        Licensed under the Educational Community License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at
+
+        http://www.opensource.org/licenses/ecl2.php
+
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+
+    -->
+    <bean id="OleCalendar" parent="OleCalendar-parentBean"/>
+
+    <bean id="OleCalendar-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.deliver.calendar.bo.OleCalendar"/>
+        <property name="titleAttribute" value="calendarDescription"/>
+        <property name="objectLabel" value="Ole Calendar"/>
+
+        <property name="attributes">
+            <list>
+                <ref bean="OleCalendar-calendarId"/>
+                <ref bean="OleCalendar-calendarDescription"/>
+                <ref bean="OleCalendar-beginDate"/>
+                <ref bean="OleCalendar-endDate"/>
+                <ref bean="OleCalendar-message"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+    <bean id="OleCalendar-message" parent="OleCalendar-message-parentBean"/>
+
+    <bean id="OleCalendar-message-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="message"/>
+        <property name="shortLabel" value="Message"/>
+        <property name="label" value="Message"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
+
+    <bean id="OleCalendar-calendarId" parent="OleCalendar-calendarId-parentBean"/>
+
+    <bean id="OleCalendar-calendarId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Ole Calendar  Id"/>
+        <property name="maxLength" value="10"/>
+        <property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+        <property name="name" value="calendarId"/>
+        <property name="label" value="Ole Calendar Id"/>
+        <property name="description" value="Ole Calendar Id"/>
+    </bean>
+
+
+
+
+
+    <bean id="OleCalendar-calendarDescription" parent="OleCalendar-calendarDescription-parentBean"/>
+
+    <bean id="OleCalendar-calendarDescription-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="calendarDescription"/>
+        <property name="shortLabel" value="Calendar Description"/>
+        <property name="label" value="Calendar Description"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+
+    <bean id="OleCalendar-beginDate" parent="OleCalendar-beginDate-parentBean"/>
+
+    <bean id="OleCalendar-beginDate-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="beginDate"/>
+        <property name="shortLabel" value="Begin Date"/>
+        <property name="label" value="Begin Date"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+
+
+    <bean id="OleCalendar-endDate" parent="OleCalendar-endDate-parentBean"/>
+
+    <bean id="OleCalendar-endDate-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="endDate"/>
+        <property name="shortLabel" value="End Date"/>
+        <property name="label" value="End Date"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OleCalendar-calendarGroupName" parent="OleCalendar-calendarGroupName-parentBean"/>
+    <bean id="OleCalendar-calendarGroupName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="calendarGroupName"/>
+        <property name="shortLabel" value="Group Name"/>
+        <property name="label" value="Group Name"/>
+    </bean>
+
+
+
+
+    <!-- Business Object Inquiry Definition -->
+
+
+    <bean id="OleCalendar-InquiryView" parent="Uif-OLEInquiryView">
+        <property name="headerText" value="Calendar Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.deliver.calendar.bo.OleCalendar"/>
+        <property name="viewHelperServiceClass" value="org.kuali.ole.deliver.calendar.inquiry.OleCalendarInquirableImpl"/>
+        <property name="singlePageView" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-VerticalBoxSection">
+                    <property name="header.headerText" value="Calendar"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="1">
+                                <property name="items">
+                                    <list>
+
+                                        <ref bean="OleCalendar-InquiryView-mainSection"/>
+                                        <ref bean="OleCalendar-InquiryView-oleCalendarWeekList" />
+                                        <ref bean="OleCalendar-InquiryView-oleCalendarExceptionDateList" />
+                                        <ref bean="OleCalendar-InquiryView-oleCalendarExceptionPeriodList" />
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                    <property name="headerText" value="Calendar"/>
+                </bean>
+            </list>
+        </property>
+
+    </bean>
+
+
+    <bean id="OleCalendar-InquiryView-mainSection" parent="Uif-GridGroup">
+        <property name="title" value="Calendar" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="8">
+                    <property name="items">
+                        <list>
+                           <!-- <bean id="inquiry_calendarId" parent="Uif-InputField" p:propertyName="calendarId"/>-->
+                            <bean id="inquiry_calendarDescription" parent="Uif-InputField" p:propertyName="calendarDescription"/>
+                            <bean id="inquiry_oleCalendarGroup" parent="Uif-InputField" p:propertyName="oleCalendarGroup.calendarGroupCode"/>
+                            <bean id="inquiry_beginDate" parent="Uif-InputField" p:propertyName="beginDate"/>
+                            <bean id="inquiry_endDate" parent="Uif-InputField" p:propertyName="endDate"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="OleCalendar-InquiryView-oleCalendarWeekList" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="14" >
+        <property name="headerText" value="Calendar Week List" />
+        <property name="collectionObjectClass" value=" org.kuali.ole.deliver.calendar.bo.OleCalendarWeek"/>
+        <property name="propertyName" value="oleCalendarWeekList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.richTable.disableTableSort" value="false" />
+        <property name="items">
+            <list>
+                <bean id="OleCalendar-InquiryView-oleCalendarWeekList-openTime" parent="Uif-DataField" p:label="Open Time" p:propertyName="openTime"/>
+                <bean id="OleCalendar-InquiryView-oleCalendarWeekList-openTimeSession" parent="Uif-DataField" p:label="Open Time Session" p:propertyName="openTimeSession" />
+                <bean id="OleCalendar-InquiryView-oleCalendarWeekList-closeTime" parent="Uif-DataField" p:label="Close Time" p:propertyName="closeTime" />
+                <bean id="OleCalendar-InquiryView-oleCalendarWeekList-closeTimeSession" parent="Uif-DataField" p:label="Close Time Session" p:propertyName="closeTimeSession" />
+                <bean id="OleCalendar-InquiryView-oleCalendarWeekList-startDay" parent="Uif-DataField" p:label="Start Day" p:propertyName="startDay" />
+                <bean id="OleCalendar-InquiryView-oleCalendarWeekList-endDay" parent="Uif-DataField" p:label="End Day" p:propertyName="endDay"/>
+                <bean id="OleCalendar-InquiryView-oleCalendarWeekList-eachDayWeek" parent="Uif-DataField" p:label="Each Day Week" p:propertyName="eachDayWeek"/>
+
+
+
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+    <bean id="OleCalendar-InquiryView-oleCalendarExceptionDateList" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="12" >
+        <property name="headerText" value="Exception Date List" />
+        <property name="collectionObjectClass" value=" org.kuali.ole.deliver.calendar.bo.OleCalendarExceptionDate"/>
+        <property name="propertyName" value="oleCalendarExceptionDateList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.richTable.disableTableSort" value="false" />
+        <property name="items">
+            <list>
+                <bean id="OleCalendar-InquiryView-oleCalendarExceptionDateList-date" parent="Uif-DataField" p:label="Date" p:propertyName="date"/>
+                <bean id="OleCalendar-InquiryView-oleCalendarExceptionDateList-exceptionType" parent="Uif-DataField" p:label="Exception Type" p:propertyName="exceptionType" />
+                <bean id="OleCalendar-InquiryView-oleCalendarExceptionDateList-openTime" parent="Uif-DataField" p:label="Open Time" p:propertyName="openTime"/>
+                <bean id="OleCalendar-InquiryView-oleCalendarExceptionDateList-openTimeSession" parent="Uif-DataField" p:label="Open Time Session" p:propertyName="openTimeSession" />
+                <bean id="OleCalendar-InquiryView-oleCalendarExceptionDateList-closeTime" parent="Uif-DataField" p:label="Close Time" p:propertyName="closeTime" />
+                <bean id="OleCalendar-InquiryView-oleCalendarExceptionDateList-closeTimeSession" parent="Uif-DataField" p:label="Close Time Session" p:propertyName="closeTimeSession" />
+
+
+
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+    <bean id="OleCalendar-InquiryView-oleCalendarExceptionPeriodList" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="8" >
+        <property name="headerText" value="Exception Period List" />
+        <property name="collectionObjectClass" value=" org.kuali.ole.deliver.calendar.bo.OleCalendarExceptionPeriod"/>
+        <property name="propertyName" value="oleCalendarExceptionPeriodList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="layoutManager.richTable.disableTableSort" value="false" />
+        <property name="items">
+            <list>
+
+                <bean id="OleCalendar-InquiryView-oleCalendarExceptionPeriodList-beginDate" parent="Uif-DataField" p:label="Begin Date" p:propertyName="beginDate"/>
+                <bean id="OleCalendar-InquiryView-oleCalendarExceptionPeriodList-endDate" parent="Uif-DataField" p:label="End Date" p:propertyName="endDate" />
+                <bean id="OleCalendar-InquiryView-oleCalendarExceptionPeriodList-exceptionPeriodType" parent="Uif-DataField" p:label="Exception Period Type" p:propertyName="exceptionPeriodType"/>
+                <bean id="OleCalendar-InquiryView-oleCalendarExceptionPeriodList-calendarExceptionPeriodDesc" parent="Uif-DataField" p:label="Exception Period Desc" p:propertyName="calendarExceptionPeriodDesc"/>
+
+
+            </list>
+        </property>
+        <property name="subCollections">
+            <list>
+                <ref bean="OleCalendar-InquiryView-oleCalendarExceptionPeriodList-oleCalendarExceptionPeriodWeekList" />
+            </list>
+        </property>
+        <!-- <property name="renderLineActions" value="false"/>-->
+    </bean>
+
+
+    <bean id="OleCalendar-InquiryView-oleCalendarExceptionPeriodList-oleCalendarExceptionPeriodWeekList" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="14" >
+        <property name="headerText" value="Exception Period Week List" />
+        <property name="collectionObjectClass" value=" org.kuali.ole.deliver.calendar.bo.OleCalendarExceptionPeriodWeek"/>
+        <property name="propertyName" value="oleCalendarExceptionPeriodWeekList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.richTable.disableTableSort" value="false" />
+        <property name="items">
+            <list>
+                <bean id="OleCalendar-InquiryView-oleCalendarExceptionPeriodWeekList-openTime" parent="Uif-DataField" p:label="Open Time" p:propertyName="openTime"/>
+                <bean id="OleCalendar-InquiryView-oleCalendarExceptionPeriodWeekList-openTimeSession" parent="Uif-DataField" p:label="Open Time Session" p:propertyName="openTimeSession" />
+                <bean id="OleCalendar-InquiryView-oleCalendarExceptionPeriodWeekList-closeTime" parent="Uif-DataField" p:label="Close Time" p:propertyName="closeTime" />
+                <bean id="OleCalendar-InquiryView-oleCalendarExceptionPeriodWeekList-closeTimeSession" parent="Uif-DataField" p:label="Close Time Session" p:propertyName="closeTimeSession" />
+                <bean id="OleCalendar-InquiryView-oleCalendarExceptionPeriodWeekList-startDay" parent="Uif-DataField" p:label="Start Day" p:propertyName="startDay" />
+                <bean id="OleCalendar-InquiryView-oleCalendarExceptionPeriodWeekList-endDay" parent="Uif-DataField" p:label="End Day" p:propertyName="endDay"/>
+                <bean id="OleCalendar-InquiryView-oleCalendarExceptionPeriodWeekList-eachDayOfExceptionWeek" parent="Uif-DataField" p:label="Each Day Of Exception Week" p:propertyName="eachDayOfExceptionWeek"/>
+
+
+            </list>
+        </property>
+
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+    <!--inquiry ends-->
+    <bean id="OleCalendar-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="Calendar Lookup" />
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/BASICS/content/ch02s04.html#_lookupHelp"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="dataObjectClassName" value="org.kuali.ole.deliver.calendar.bo.OleCalendar" />
+        <property name="viewHelperServiceClass" value="org.kuali.ole.deliver.lookup.OleCalendarLookupableImpl"/>
+        <property name="criteriaFields">
+            <list>
+                <bean id="calendarDescription" parent="Uif-LookupCriteriaInputField" p:propertyName="calendarDescription" p:enableAutoDirectInquiry="false"/>
+                <bean id="beginDate" parent="Uif-LookupCriteriaInputField" p:propertyName="beginDate" />
+                <bean id="endDate" parent="Uif-LookupCriteriaInputField" p:propertyName="endDate" />
+                <!--<bean parent="Uif-LookupCriteriaInputField" p:propertyName="parentLevelId"/>-->
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean id="searchResult_calendarDescription" parent="Uif-DataField" p:propertyName="calendarDescription" />
+                <bean id="searchResult_beginDate" parent="Uif-DataField" p:propertyName="beginDate" />
+                <bean id="searchResult_endDate" parent="Uif-DataField" p:propertyName="endDate" />
+                <!-- <bean id="searchResult_oleCalendarGroup" parent="Uif-InputField" p:propertyName="oleCalendarGroup.calendarGroupCode"/>-->
+            </list>
+        </property>
+    </bean>
+</beans>
+
+
+

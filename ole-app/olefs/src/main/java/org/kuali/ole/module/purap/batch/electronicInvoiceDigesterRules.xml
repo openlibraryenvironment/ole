@@ -1,0 +1,661 @@
+<?xml version="1.0"?>
+<!--
+ Copyright 2007-2008 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE digester-rules 
+    PUBLIC "-//Jakarta Apache //DTD digester-rules XML V1.0//EN" 
+    "http://jakarta.apache.org/commons/digester/dtds/digester-rules.dtd">
+
+<digester-rules>
+
+    <pattern value="cXML">
+        <object-create-rule classname="org.kuali.ole.module.purap.businessobject.ElectronicInvoice" />
+		
+		<set-properties-rule>
+      		<alias attr-name="version" prop-name="version" />
+      		<alias attr-name="timestamp" prop-name="timestamp" />
+      		<alias attr-name="payloadID" prop-name="payloadID" />
+      		<alias attr-name="xml:lang" prop-name="locale" />
+	    </set-properties-rule>
+	   
+	   <!-- HEADER -->
+	   <pattern value="Header">
+		    <object-create-rule classname="org.kuali.ole.module.purap.util.cxml.CxmlHeader" />
+		    
+		    <!-- FROM -->
+		    <set-properties-rule pattern="From/Credential">
+			   <alias attr-name="domain" prop-name="fromDomain" />
+		    </set-properties-rule>
+		    
+		    <call-method-rule pattern="From/Credential/Identity" methodname="setFromIdentity" paramcount="0" />
+		    <call-method-rule pattern="From/Credential/SharedSecret" methodname="setFromSharedSecret" paramcount="0" />
+		    
+		    <!-- TO -->
+		    <set-properties-rule pattern="To/Credential">
+			   <alias attr-name="domain" prop-name="toDomain" />
+		    </set-properties-rule>
+		    
+		    <call-method-rule pattern="To/Credential/Identity" methodname="setToIdentity" paramcount="0" />
+ 		    <call-method-rule pattern="To/Credential/SharedSecret" methodname="setToSharedSecret" paramcount="0" />
+ 		    
+		   <!-- SENDER -->
+		   <set-properties-rule pattern="Sender/Credential">
+			   <alias attr-name="domain" prop-name="senderDomain" />
+		   </set-properties-rule>
+		    
+		   <call-method-rule pattern="Sender/Credential/Identity" methodname="setSenderIdentity" paramcount="0" />
+		   <call-method-rule pattern="Sender/Credential/SharedSecret" methodname="setSenderSharedSecret" paramcount="0" />
+		   <call-method-rule pattern="Sender/UserAgent" methodname="setSenderUserAgent" paramcount="0" />
+		    
+		   <set-next-rule methodname="setCxmlHeader" />
+		    
+	   </pattern> <!-- Header -->
+	   
+	   <!-- REQUEST -->
+	   <pattern value="Request">
+	   		<set-properties-rule>
+			   <alias attr-name="deploymentMode" prop-name="deploymentMode"/>
+		   </set-properties-rule>
+	   </pattern>
+	   
+	   <pattern value="Request/InvoiceDetailRequest/InvoiceDetailRequestHeader">
+	   
+		   <object-create-rule classname="org.kuali.ole.module.purap.businessobject.ElectronicInvoiceDetailRequestHeader" />
+		   
+	   		<set-properties-rule>
+	      		<alias attr-name="invoiceID" prop-name="invoiceId"/>
+	      		<alias attr-name="purpose" prop-name="purpose"/>
+	      		<alias attr-name="operation" prop-name="operation"/>
+	      		<alias attr-name="invoiceDate" prop-name="invoiceDateString"/>
+	      		<alias attr-name="isInformationOnly" prop-name="buyerInformationOnlyIndicator"/>
+		    </set-properties-rule>
+		    
+		    <pattern value="InvoiceDetailHeaderIndicator">
+			    <set-properties-rule>
+		      		<alias attr-name="isHeaderInvoice" prop-name="headerInvoiceInd"/>
+			    </set-properties-rule>
+		    </pattern>
+		    
+		    <pattern value="InvoiceDetailLineIndicator">
+			    <set-properties-rule>
+				    <alias attr-name="isTaxInLine" prop-name="taxInfoProvidedIndicator"/>
+		      		<alias attr-name="isSpecialHandlingInLine" prop-name="specialHandlingInfoProvidedIndicator"/>
+		      		<alias attr-name="isShippingInLine" prop-name="shippingInfoProvidedIndicator"/>
+		      		<alias attr-name="isDiscountInLine" prop-name="discountInfoProvidedIndicator"/>
+		      		<alias attr-name="isAccountingInLine" prop-name="accountingInfoProvidedIndicator"/>
+			    </set-properties-rule>
+		    </pattern>
+		    
+	   		<!-- INVOICE PARTNER -->
+	   		<pattern value="InvoicePartner">
+	   			<set-properties-rule pattern="IdReference">
+		      		<alias attr-name="domain" prop-name="idReferenceDomain" />
+		      		<alias attr-name="identifier" prop-name="idReferenceIdentifier" />
+	      		</set-properties-rule>
+
+	      		<call-method-rule pattern="IdReference/Creator" methodname="setIdReferenceCreator" paramcount="0" />
+	      		<call-method-rule pattern="IdReference/Description" methodname="setIdReferenceDescription" paramcount="0" />
+	      		
+	      		<pattern value="Contact">
+
+		      		<object-create-rule classname="org.kuali.ole.module.purap.businessobject.ElectronicInvoiceContact" />
+
+		      		<set-properties-rule>
+			      		<alias attr-name="role" prop-name="role" />
+			      		<alias attr-name="addressID" prop-name="addressID" />
+		      		</set-properties-rule>
+
+					<call-method-rule pattern="Name" methodname="setName" paramcount="0" />			      		
+					
+	      			<pattern value="PostalAddress">
+	      			
+	      				<object-create-rule classname="org.kuali.ole.module.purap.businessobject.ElectronicInvoicePostalAddress" />
+	      				
+	      				<set-properties-rule>
+			      			<alias attr-name="name" prop-name="type" />
+		      			</set-properties-rule>
+		      		
+	      				<call-method-rule pattern="DeliverTo" methodname="addName" paramcount="0" />
+	      				
+	      				<!-- Have to find a better way of handling this element -->
+	      				<call-method-rule pattern="Street" methodname="addStreet" paramcount="0" />
+	      				
+	      				<call-method-rule pattern="City" methodname="setCityName" paramcount="0" />
+	      				<call-method-rule pattern="State" methodname="setStateCode" paramcount="0" />
+	      				<call-method-rule pattern="PostalCode" methodname="setPostalCode" paramcount="0" />
+	      				<call-method-rule pattern="Country" methodname="setCountryName" paramcount="0" />
+	      				
+	      				<pattern value="Country">
+	      					<set-properties-rule>
+				      			<alias attr-name="isoCountryCode" prop-name="countryCode" />
+			      			</set-properties-rule>
+	      				</pattern>
+	      				
+	      				<set-next-rule methodname="addPostalAddress" />
+	      				
+	      			</pattern> <!-- PostalAddress -->
+	      			
+	      			<pattern value="Email">
+	                    <call-method-rule methodname="addEmailAddress" paramcount="2" />
+	                    <call-param-rule attrname="name" paramnumber="0"/>
+	                    <call-param-rule paramnumber="1"/>
+                	</pattern>
+                
+                	<pattern value="Phone">
+	                    <call-method-rule methodname="addPhoneNumber" paramcount="4" />
+	                    <call-param-rule attrname="name" paramnumber="0"/>
+	                    <call-param-rule pattern="TelephoneNumber/CountryCode" paramnumber="1"/>
+	                    <call-param-rule pattern="TelephoneNumber/AreaOrCityCode" paramnumber="2"/>
+	                    <call-param-rule pattern="TelephoneNumber/Number" paramnumber="3"/>
+                	</pattern>
+                	
+                    <pattern value="Fax">
+	                    <call-method-rule methodname="addFaxNumber" paramcount="4" />
+	                    <call-param-rule attrname="name" paramnumber="0"/>
+	                    <call-param-rule pattern="TelephoneNumber/CountryCode" paramnumber="1"/>
+	                    <call-param-rule pattern="TelephoneNumber/AreaOrCityCode" paramnumber="2"/>
+	                    <call-param-rule pattern="TelephoneNumber/Number" paramnumber="3"/>
+                	</pattern>
+                    
+                    <call-method-rule pattern="URL" methodname="addWebAddress" paramcount="0" />
+                    
+	      			<set-next-rule methodname="addInvoicePartnerContact" />
+	      			
+	      		</pattern> <!-- InvoicePartner/Contacts -->
+	      		
+	   		</pattern> <!-- InvoicePartner -->
+	   		
+	   		<!-- SHIPPING DETAILS -->
+	   		<pattern value="InvoiceDetailShipping">
+	   			<set-properties-rule>
+	      			<alias attr-name="shippingDate" prop-name="shippingDateString" />
+      			</set-properties-rule>
+      			
+      			<!-- CONTACTS -->
+	      		<pattern value="Contact">
+      				
+      				<object-create-rule classname="org.kuali.ole.module.purap.businessobject.ElectronicInvoiceContact" />
+      				
+      				<set-properties-rule>
+			      		<alias attr-name="role" prop-name="role" />
+			      		<alias attr-name="addressID" prop-name="addressID" />
+		      		</set-properties-rule>
+
+					<call-method-rule pattern="Name" methodname="setName" paramcount="0" />			      		
+					
+	      			<pattern value="PostalAddress">
+	      			
+	      				<object-create-rule classname="org.kuali.ole.module.purap.businessobject.ElectronicInvoicePostalAddress" />
+	      				
+	      				<set-properties-rule>
+			      			<alias attr-name="name" prop-name="type" />
+		      			</set-properties-rule>
+		      		
+	      				<call-method-rule pattern="DeliverTo" methodname="addName" paramcount="0" />
+	      				
+	      				<!-- FIXME: Have to find a better way of handling this element -->
+	      				<call-method-rule pattern="Street" methodname="addStreet" paramcount="0" />
+	      				
+	      				
+	      				<call-method-rule pattern="City" methodname="setCityName" paramcount="0" />
+	      				<call-method-rule pattern="State" methodname="setStateCode" paramcount="0" />
+	      				<call-method-rule pattern="PostalCode" methodname="setPostalCode" paramcount="0" />
+	      				<call-method-rule pattern="Country" methodname="setCountryName" paramcount="0" />
+	      				
+	      				<pattern value="Country">
+	      					<set-properties-rule>
+				      			<alias attr-name="isoCountryCode" prop-name="countryCode" />
+			      			</set-properties-rule>
+	      				</pattern>
+	      				
+	      				<set-next-rule methodname="addPostalAddress" />
+	      				
+	      			</pattern> <!-- PostalAddress -->
+	      			
+	      			<pattern value="Email">
+	                    <call-method-rule methodname="addEmailAddress" paramcount="2" />
+	                    <call-param-rule attrname="name" paramnumber="0"/>
+	                    <call-param-rule paramnumber="1"/>
+                	</pattern>
+                	
+                	<pattern value="Phone">
+	                    <call-method-rule methodname="addPhoneNumber" paramcount="4" />
+	                    <call-param-rule attrname="name" paramnumber="0"/>
+	                    <call-param-rule pattern="TelephoneNumber/CountryCode" paramnumber="1"/>
+	                    <call-param-rule pattern="TelephoneNumber/AreaOrCityCode" paramnumber="2"/>
+	                    <call-param-rule pattern="TelephoneNumber/Number" paramnumber="3"/>
+                	</pattern>
+                	
+                    <pattern value="Fax">
+	                    <call-method-rule methodname="addFaxNumber" paramcount="4" />
+	                    <call-param-rule attrname="name" paramnumber="0"/>
+	                    <call-param-rule pattern="TelephoneNumber/CountryCode" paramnumber="1"/>
+	                    <call-param-rule pattern="TelephoneNumber/AreaOrCityCode" paramnumber="2"/>
+	                    <call-param-rule pattern="TelephoneNumber/Number" paramnumber="3"/>
+                	</pattern>
+                    
+                    <call-method-rule pattern="URL" methodname="addWebAddress" paramcount="0" />
+                    
+	      			<set-next-rule methodname="addInvoiceShippingContacts" />
+	      			
+      			</pattern> <!-- InvoiceDetailShipping/Contact -->
+      			
+      			<!-- INFO: Skipping CarrierIdentifier,ShipmentIdentifier,DocumentReference since these are not handled currently -->
+      			
+	   		</pattern> <!-- InvoiceDetailShipping -->
+	   		
+	   		<!-- The next two elements were not used currently -->
+	   		<set-properties-rule pattern="InvoiceDetailPaymentTerm">
+   				<alias attr-name="payInNumberOfDays" prop-name="payInNumberOfDays" paramtype="java.lang.Integer"/>
+   				<alias attr-name="percentageRate" prop-name="percentageRate"/>
+   			</set-properties-rule>
+   			
+	   		<set-properties-rule pattern="PaymentTerm">
+   				<alias attr-name="payInNumberOfDays" prop-name="payInNumberOfDays" paramtype="java.lang.Integer"/>
+   			</set-properties-rule>
+
+			<!-- INFO: Comments element not handled currently -->    			
+			
+	   		<pattern value="Extrinsic">
+	   			<object-create-rule classname="org.kuali.ole.module.purap.util.cxml.CxmlExtrinsic" />
+	   			
+	   			<call-method-rule methodname="setValue" paramcount="0" />
+    			<set-properties-rule>
+    				<alias attr-name="name" prop-name="name" />
+    			</set-properties-rule>
+    			
+	   			<set-next-rule methodname="addExtrinsic" />
+	   		</pattern> <!--  Extrinsic -->
+	   		
+	   		<set-next-rule methodname="setInvoiceDetailRequestHeader" />
+		   
+	   </pattern> <!--  Request -->
+		   
+	   <!-- INVOICE ORDER -->
+	   <pattern value="Request/InvoiceDetailRequest/InvoiceDetailOrder">
+	   
+		   <object-create-rule classname="org.kuali.ole.module.purap.businessobject.ElectronicInvoiceOrder" />
+		   
+		   <set-properties-rule pattern="InvoiceDetailOrderInfo/OrderReference">
+      			<alias attr-name="orderID" prop-name="orderReferenceOrderID" />
+      			<alias attr-name="orderDate" prop-name="orderReferenceOrderDateString" />
+     	   </set-properties-rule>
+     		   
+     	   <set-properties-rule pattern="InvoiceDetailOrderInfo/OrderReference/DocumentReference">
+      			<alias attr-name="payloadID" prop-name="orderReferenceDocumentRefPayloadID" />
+     	   </set-properties-rule>
+     			
+		   <call-method-rule pattern="InvoiceDetailOrderInfo/OrderReference/DocumentReference" methodname="setOrderReferenceDocumentRef" paramcount="0" />
+		   
+		   <set-properties-rule pattern="InvoiceDetailOrderInfo/MasterAgreementReference">
+		  	   <alias attr-name="agreementID" prop-name="masterAgreementReferenceID" />
+     		   <alias attr-name="agreementDate" prop-name="masterAgreementReferenceDateString" />
+    	   </set-properties-rule>
+    		   
+    	   <set-properties-rule pattern="InvoiceDetailOrderInfo/MasterAgreementIDInfo">
+      		   <alias attr-name="agreementID" prop-name="masterAgreementIDInfoID" />
+      		   <alias attr-name="agreementDate" prop-name="masterAgreementIDInfoDateString" />
+   		   </set-properties-rule>
+    		   
+    	   <set-properties-rule pattern="InvoiceDetailOrderInfo/OrderIDInfo">
+    		   <alias attr-name="orderID" prop-name="orderIDInfoID" />
+     		   <alias attr-name="orderDate" prop-name="orderIDInfoDateString" />
+    	   </set-properties-rule>
+    		   
+    	   <set-properties-rule pattern="InvoiceDetailOrderInfo/SupplierOrderInfo">
+    		   <alias attr-name="orderID" prop-name="supplierOrderInfoID" />
+    	   </set-properties-rule>
+     	
+     	
+     	   <!-- INVOICE ITEM -->
+	   	   <pattern value="InvoiceDetailItem">	   
+	   			<object-create-rule classname="org.kuali.ole.module.purap.businessobject.ElectronicInvoiceItem" />
+	   			
+	   			<set-properties-rule>
+    				<alias attr-name="invoiceLineNumber" prop-name="invoiceLineNumber" />
+     				<alias attr-name="quantity" prop-name="quantity" />
+    			</set-properties-rule>
+    			
+    			<call-method-rule pattern="UnitOfMeasure" methodname="setUnitOfMeasure" paramcount="0" />
+    			
+    			<call-method-rule pattern="UnitPrice/Money" methodname="setUnitPrice" paramcount="0" />
+    			<set-properties-rule pattern="UnitPrice/Money">
+    				<alias attr-name="currency" prop-name="unitPriceCurrency" />
+    			</set-properties-rule>
+    			
+    			<!-- Currently, the element name is SubTotalAmount instead of SubtotalAmount (case problem - total/Total) I think we're not using this element-->
+    			<call-method-rule pattern="SubtotalAmount/Money" methodname="setSubTotalAmount" paramcount="0" />
+    			<set-properties-rule pattern="SubtotalAmount/Money">
+    				<alias attr-name="currency" prop-name="subTotalAmountCurrency" />
+    			</set-properties-rule>
+    			
+    			<call-method-rule pattern="Tax/Money" methodname="setTaxAmount" paramcount="0" />
+    			<set-properties-rule pattern="Tax/Money">
+    				<alias attr-name="currency" prop-name="taxAmountCurrency" />
+    			</set-properties-rule>
+    			
+    			<!-- Parser is just trying to read the value of Tax element and setting it as description. (I think it's not possible....)
+    			But there is a seperate element available for description in xsd/dtd, 
+    			HAVE TO DECIDE BASED ON MORE SAMPLE DATA FILES -->
+    			<call-method-rule pattern="Tax/Description" methodname="setTaxDescription" paramcount="0" />
+    			
+    			<call-method-rule pattern="InvoiceDetailLineSpecialHandling/Money" methodname="setInvoiceLineSpecialHandlingAmount" paramcount="0" />
+    			<set-properties-rule pattern="InvoiceDetailLineSpecialHandling/Money">
+    				<alias attr-name="currency" prop-name="invoiceLineSpecialHandlingAmountCurrency" />
+    			</set-properties-rule>
+    			
+    			<call-method-rule pattern="InvoiceDetailLineShipping/Money" methodname="setInvoiceLineShippingAmount" paramcount="0" />
+    			<set-properties-rule pattern="InvoiceDetailLineShipping/Money">
+    				<alias attr-name="currency" prop-name="invoiceLineShippingAmountCurrency" />
+    			</set-properties-rule>
+    			
+    			<set-properties-rule pattern="InvoiceDetailLineShipping/InvoiceDetailShipping">
+    				<alias attr-name="shippingDate" prop-name="shippingDateString" />
+    			</set-properties-rule>
+    			
+    			<pattern value="InvoiceDetailLineShipping/InvoiceDetailShipping/Contact">
+	
+		      		<object-create-rule classname="org.kuali.ole.module.purap.businessobject.ElectronicInvoiceContact" />
+
+		      		<set-properties-rule>
+			      		<alias attr-name="role" prop-name="role" />
+			      		<alias attr-name="addressID" prop-name="addressID" />
+		      		</set-properties-rule>
+
+					<call-method-rule pattern="Name" methodname="setName" paramcount="0" />			      		
+					
+	      			<pattern value="PostalAddress">
+	      			
+	      				<object-create-rule classname="org.kuali.ole.module.purap.businessobject.ElectronicInvoicePostalAddress" />
+	      				
+	      				<set-properties-rule>
+			      			<alias attr-name="name" prop-name="type" />
+		      			</set-properties-rule>
+		      		
+	      				<call-method-rule pattern="DeliverTo" methodname="addName" paramcount="0" />
+	      				
+	      				<!-- Have to find a better way of handling this element -->
+	      				<call-method-rule pattern="Street" methodname="addStreet" paramcount="0" />
+	      				
+	      				
+	      				<call-method-rule pattern="City" methodname="setCityName" paramcount="0" />
+	      				<call-method-rule pattern="State" methodname="setStateCode" paramcount="0" />
+	      				<call-method-rule pattern="PostalCode" methodname="setPostalCode" paramcount="0" />
+	      				<call-method-rule pattern="Country" methodname="setCountryName" paramcount="0" />
+	      				
+	      				<pattern value="Country">
+	      					<set-properties-rule>
+				      			<alias attr-name="isoCountryCode" prop-name="countryCode" />
+			      			</set-properties-rule>
+	      				</pattern>
+	      				
+	      				<set-next-rule methodname="addPostalAddress" />
+	      				
+	      			</pattern> <!-- PostalAddress -->
+	      			
+	      			<pattern value="Email">
+	                    <call-method-rule methodname="addEmailAddress" paramcount="2" />
+	                    <call-param-rule attrname="name" paramnumber="0"/>
+	                    <call-param-rule paramnumber="1"/>
+                	</pattern>
+                
+                	<pattern value="Phone">
+	                    <call-method-rule methodname="addPhoneNumber" paramcount="4" />
+	                    <call-param-rule attrname="name" paramnumber="0"/>
+	                    <call-param-rule pattern="TelephoneNumber/CountryCode" paramnumber="1"/>
+	                    <call-param-rule pattern="TelephoneNumber/AreaOrCityCode" paramnumber="2"/>
+	                    <call-param-rule pattern="TelephoneNumber/Number" paramnumber="3"/>
+                	</pattern>
+                	
+                    <pattern value="Fax">
+	                    <call-method-rule methodname="addFaxNumber" paramcount="4" />
+	                    <call-param-rule attrname="name" paramnumber="0"/>
+	                    <call-param-rule pattern="TelephoneNumber/CountryCode" paramnumber="1"/>
+	                    <call-param-rule pattern="TelephoneNumber/AreaOrCityCode" paramnumber="2"/>
+	                    <call-param-rule pattern="TelephoneNumber/Number" paramnumber="3"/>
+                	</pattern>
+                    
+                    <call-method-rule pattern="URL" methodname="addWebAddress" paramcount="0" />
+                    
+	      			<set-next-rule methodname="addInvoiceShippingContacts" />
+	      			
+	      		</pattern> <!-- InvoiceDetailLineShipping/InvoiceDetailShipping/Contact -->
+		      		
+    			<call-method-rule pattern="GrossAmount/Money" methodname="setInvoiceLineGrossAmount" paramcount="0" />
+    			<set-properties-rule pattern="GrossAmount/Money">
+    				<alias attr-name="currency" prop-name="invoiceLineGrossAmountCurrency" />
+    			</set-properties-rule>
+    			
+    			<call-method-rule pattern="InvoiceDetailDiscount/Money" methodname="setInvoiceLineDiscountAmount" paramcount="0" />
+    			<set-properties-rule pattern="InvoiceDetailDiscount/Money">
+    				<alias attr-name="currency" prop-name="invoiceLineDiscountAmountCurrency" />
+    			</set-properties-rule>
+    			
+    			<!-- Not handled currently, but this is there in Barnes&Noble's xml file,
+    			but contains ZERO!!! -->
+    			<set-properties-rule pattern="Money">
+    				<alias attr-name="percentageRate" prop-name="invoiceLineDiscountPercentageRate" />
+    			</set-properties-rule>
+    			
+    			<call-method-rule pattern="NetAmount/Money" methodname="setInvoiceLineNetAmount" paramcount="0" />
+    			<set-properties-rule pattern="NetAmount/Money">
+    				<alias attr-name="currency" prop-name="invoiceLineNetAmountCurrency" />
+    			</set-properties-rule>
+    			
+    			<call-method-rule pattern="InvoiceDetailItemReference/Country" methodname="setReferenceCountryName" paramcount="0" />
+    			<set-properties-rule pattern="InvoiceDetailItemReference/Country">
+    				<alias attr-name="isoCountryCode" prop-name="referenceCountryCode" />
+    			</set-properties-rule>
+    			
+    			<call-method-rule pattern="InvoiceDetailItemReference/Description" methodname="setReferenceDescription" paramcount="0" />
+    			<call-method-rule pattern="InvoiceDetailItemReference/ItemID/SupplierPartAuxiliaryID" methodname="setReferenceItemIDSupplierPartAuxID" paramcount="0" />
+    			<call-method-rule pattern="InvoiceDetailItemReference/ItemID/SupplierPartID" methodname="setReferenceItemIDSupplierPartID" paramcount="0" />
+    			
+    			<set-properties-rule pattern="InvoiceDetailItemReference">
+    				<alias attr-name="lineNumber" prop-name="referenceLineNumber" />
+     				<alias attr-name="serialNumber" prop-name="referenceSerialNumber" />
+    			</set-properties-rule>
+    			
+    			<call-method-rule pattern="InvoiceDetailItemReference/ManufacturerName" methodname="setReferenceManufacturerName" paramcount="0" />
+    			<call-method-rule pattern="InvoiceDetailItemReference/ManufacturerPartID" methodname="setReferenceManufacturerPartID" paramcount="0" />
+    			
+    			<call-method-rule pattern="InvoiceDetailItemReference/SerialNumber" methodname="addReferenceSerialNumber" paramcount="0" />
+    			
+    			<call-method-rule pattern="Comments" methodname="addComments" paramcount="0" />
+    			
+    			<pattern value="Extrinsic">
+		   			<object-create-rule classname="org.kuali.ole.module.purap.util.cxml.CxmlExtrinsic" />
+		   			
+		   			<call-method-rule methodname="setValue" paramcount="0" />
+	    			<set-properties-rule>
+	    				<alias attr-name="name" prop-name="name" />
+	    			</set-properties-rule>
+	    			
+		   			<set-next-rule methodname="addExtrinsic" />
+	   			</pattern> <!--  Extrinsic -->
+    			
+		   		<set-next-rule methodname="addInvoiceItem" />
+		   		
+		   </pattern> 	<!-- InvoiceDetailItem -->  
+		   
+		   <!-- InvoiceDetailServiceItem -->
+	   	   <pattern value="InvoiceDetailServiceItem">	   
+	   			<object-create-rule classname="org.kuali.ole.module.purap.businessobject.ElectronicInvoiceItem" />
+	   			
+	   			<set-properties-rule>
+    				<alias attr-name="invoiceLineNumber" prop-name="invoiceLineNumber" />
+     				<alias attr-name="quantity" prop-name="quantity" />
+    			</set-properties-rule>
+    			
+    			<call-method-rule pattern="UnitOfMeasure" methodname="setUnitOfMeasure" paramcount="0" />
+    			
+    			<call-method-rule pattern="UnitPrice/Money" methodname="setUnitPrice" paramcount="0" />
+    			<set-properties-rule pattern="UnitPrice/Money">
+    				<alias attr-name="currency" prop-name="unitPriceCurrency" />
+    			</set-properties-rule>
+    			
+    			<!--  FIXME : These two values should be set only if UnitPrice not available. Have to do some R&D -->
+    			<call-method-rule pattern="UnitRate/UnitOfMeasure" methodname="setUnitOfMeasure" paramcount="0" />
+    			<call-method-rule pattern="UnitRate/Money" methodname="setUnitPrice" paramcount="0" />
+    			
+    			<!-- This is not handled currently, but it is needed if there is no UnitPrice/Money element-->
+    			<set-properties-rule pattern="UnitRate/Money">
+    				<alias attr-name="currency" prop-name="unitPriceCurrency" />
+    			</set-properties-rule>
+    			
+    			<!-- In parser, the element name is SubTotalAmount instead of SubtotalAmount (case problem - total/Total)
+    			I think we're not using this element-->
+    			<call-method-rule pattern="SubtotalAmount/Money" methodname="setSubTotalAmount" paramcount="0" />
+    			<set-properties-rule pattern="SubtotalAmount/Money">
+    				<alias attr-name="currency" prop-name="subTotalAmountCurrency" />
+    			</set-properties-rule>
+    			
+    			<call-method-rule pattern="Tax/Money" methodname="setTaxAmount" paramcount="0" />
+    			<set-properties-rule pattern="Tax/Money">
+    				<alias attr-name="currency" prop-name="taxAmountCurrency" />
+    			</set-properties-rule>
+    			
+    			<!-- Parser is just trying to read the value of Tax element and setting it as description. (I think it's not possible....)
+    			But there is a seperate element available for description in xsd/dtd, 
+    			HAVE TO DECIDE BASED ON MORE SAMPLE DATA FILES -->
+    			<call-method-rule pattern="Tax/Description" methodname="setTaxDescription" paramcount="0" />
+    			
+    			<call-method-rule pattern="GrossAmount/Money" methodname="setInvoiceLineGrossAmount" paramcount="0" />
+    			<set-properties-rule pattern="GrossAmount/Money">
+    				<alias attr-name="currency" prop-name="invoiceLineGrossAmountCurrency" />
+    			</set-properties-rule>
+    			
+    			<call-method-rule pattern="InvoiceDetailDiscount/Money" methodname="setInvoiceLineDiscountAmount" paramcount="0" />
+    			<set-properties-rule pattern="InvoiceDetailDiscount/Money">
+    				<alias attr-name="currency" prop-name="invoiceLineDiscountAmountCurrency" />
+    			</set-properties-rule>
+    			
+    			<!-- Not handled currently, but this is there in Barnes&Noble's xml file,
+    			but contains ZERO!!! -->
+    			<set-properties-rule pattern="Money">
+    				<alias attr-name="percentageRate" prop-name="invoiceLineDiscountPercentageRate" />
+    			</set-properties-rule>
+    			
+    			<call-method-rule pattern="NetAmount/Money" methodname="setInvoiceLineNetAmount" paramcount="0" />
+    			<set-properties-rule pattern="NetAmount/Money">
+    				<alias attr-name="currency" prop-name="invoiceLineNetAmountCurrency" />
+    			</set-properties-rule>
+    			
+    			<call-method-rule pattern="InvoiceDetailServiceItemReference/Description" methodname="setReferenceDescription" paramcount="0" />
+    			<call-method-rule pattern="InvoiceDetailServiceItemReference/ItemID/SupplierPartAuxiliaryID" methodname="setReferenceItemIDSupplierPartAuxID" paramcount="0" />
+    			<call-method-rule pattern="InvoiceDetailServiceItemReference/ItemID/SupplierPartID" methodname="setReferenceItemIDSupplierPartID" paramcount="0" />
+    			
+    			<set-properties-rule pattern="InvoiceDetailServiceItemReference">
+    				<alias attr-name="lineNumber" prop-name="referenceLineNumber" />
+    			</set-properties-rule>
+
+	   			<call-method-rule pattern="Comments" methodname="addComments" paramcount="0" />
+	   			    			
+    			<pattern value="Extrinsic">
+		   			<object-create-rule classname="org.kuali.ole.module.purap.util.cxml.CxmlExtrinsic" />
+		   			
+		   			<call-method-rule methodname="setValue" paramcount="0" />
+	    			<set-properties-rule>
+	    				<alias attr-name="name" prop-name="name" />
+	    			</set-properties-rule>
+	    			
+		   			<set-next-rule methodname="addExtrinsic" />
+	   			</pattern> <!--  Extrinsic -->
+	   			
+		   		<set-next-rule methodname="addInvoiceItem" />
+		   		
+		   </pattern> 	<!-- InvoiceDetailServiceItem --> 
+	   
+     	   <set-next-rule methodname="addInvoiceDetailOrder" />
+     		   
+	   </pattern> <!-- Request/InvoiceDetailRequest/InvoiceDetailOrder -->
+	   
+	    <!-- InvoiceDetailSummary -->
+	   <pattern value="Request/InvoiceDetailRequest/InvoiceDetailSummary">
+		   <object-create-rule classname="org.kuali.ole.module.purap.businessobject.ElectronicInvoiceDetailRequestSummary" />
+		   
+		   <call-method-rule pattern="Tax/Money" methodname="setTaxAmount" paramcount="0" />
+   		   <set-properties-rule pattern="Tax/Money">
+   				<alias attr-name="currency" prop-name="taxAmountCurrency" />
+   	   	   </set-properties-rule>
+		   
+		   <call-method-rule pattern="Tax/Description" methodname="setTaxDescription" paramcount="0" />
+		   
+		   <!-- FIXME: If the above desc is empty, have to get the desc from TaxDetail... Have to do this check-->
+		   <call-method-rule pattern="Tax/TaxDetail/Description" methodname="setTaxDescription" paramcount="0" />
+		   
+		   <set-properties-rule pattern="Tax/TaxDetail">
+   				<alias attr-name="category" prop-name="taxCategory" />
+   				<alias attr-name="purpose" prop-name="taxPurpose" />
+   				<alias attr-name="percentageRate" prop-name="taxPercentageRate" />
+   	   	   </set-properties-rule>
+   	   	   
+		   <call-method-rule pattern="SpecialHandlingAmount/Money" methodname="setSpecialHandlingAmount" paramcount="0" />
+   		   <set-properties-rule pattern="SpecialHandlingAmount/Money">
+   				<alias attr-name="currency" prop-name="specialHandlingAmountCurrency" />
+   	   	   </set-properties-rule>
+		   
+		   <call-method-rule pattern="SpecialHandlingAmount/Description" methodname="setSpecialHandlingAmountDescription" paramcount="0" />
+		   
+		   <!-- In parser, the element name is SubTotalAmount instead of SubtotalAmount (case problem - total/Total)
+   			I think we're not using this element-->
+   			<call-method-rule pattern="SubtotalAmount/Money" methodname="setSubTotalAmount" paramcount="0" />
+   			<set-properties-rule pattern="SubtotalAmount/Money">
+   				<alias attr-name="currency" prop-name="subTotalAmountCurrency" />
+   			</set-properties-rule>
+		   
+		    <call-method-rule pattern="ShippingAmount/Money" methodname="setShippingAmount" paramcount="0" />
+   			<set-properties-rule pattern="ShippingAmount/Money">
+   				<alias attr-name="currency" prop-name="shippingAmountCurrency" />
+   			</set-properties-rule>
+		   
+		    <call-method-rule pattern="GrossAmount/Money" methodname="setGrossAmount" paramcount="0" />
+    		<set-properties-rule pattern="GrossAmount/Money">
+    			<alias attr-name="currency" prop-name="grossAmountCurrency" />
+    		</set-properties-rule>
+		   
+		    <call-method-rule pattern="InvoiceDetailDiscount/Money" methodname="setDiscountAmount" paramcount="0" />
+    		<set-properties-rule pattern="InvoiceDetailDiscount/Money">
+    			<alias attr-name="currency" prop-name="discountAmountCurrency" />
+    		</set-properties-rule>
+		   
+		    <!-- Not handled currently, but this is there in Barnes&Noble's xml file,
+    			 but contains ZERO!!! -->
+    		<set-properties-rule pattern="Money">
+    			<alias attr-name="percentageRate" prop-name="invoiceLineDiscountPercentageRate" />
+    		</set-properties-rule>
+    			
+		    <call-method-rule pattern="NetAmount/Money" methodname="setNetAmount" paramcount="0" />
+    		<set-properties-rule pattern="NetAmount/Money">
+    			<alias attr-name="currency" prop-name="netAmountCurrency" />
+    		</set-properties-rule>
+    		
+    		<call-method-rule pattern="DepositAmount/Money" methodname="setDepositAmount" paramcount="0" />
+    		<set-properties-rule pattern="DepositAmount/Money">
+    			<alias attr-name="currency" prop-name="depositAmountCurrency" />
+    		</set-properties-rule>
+    		
+    		<call-method-rule pattern="DueAmount/Money" methodname="setDueAmount" paramcount="0" />
+    		<set-properties-rule pattern="DueAmount/Money">
+    			<alias attr-name="currency" prop-name="dueAmountCurrency" />
+    		</set-properties-rule>
+		   
+		   <set-next-rule methodname="setInvoiceDetailRequestSummary" />
+		   
+	   </pattern> <!-- Request/InvoiceDetailRequest/InvoiceDetailSummary -->
+		
+    </pattern> <!-- cXML -->
+    
+</digester-rules>

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0"
+    xml:lang="en-US">
+    <title><anchor xml:id="BatchProcesses"/>Batch Processes<indexterm significance="normal">
+        <primary> Purchasing/Accounts Payable</primary>
+        <secondary>batch processes </secondary>
+    </indexterm></title>
+    <para role="Body Text">Users do not interact directly with OLE batch processes, but some users
+        want to understand how these processes keep the data base up to date. For users who are
+        interested, the following table summarizes the functions of the system’s Purchasing/Accounts
+        Payable batch processes. These processes, which are run according to a predetermined
+        schedule, not only keep your database up to date but, in some cases, generate new e-docs as
+        needed to make certain types of adjustments. </para>
+    <note>
+        <para role="Body Text"> These batch processes continue to be reviewed into the 2.0 release. </para>
+    </note>
+    <para role="TableHeading"><emphasis role="bold">Purchasing and Accounts Payable Batch
+        Jobs</emphasis></para>
+    <informaltable frame="topbot">
+        <tgroup cols="2">
+            <colspec colname="col1" colnum="1"/>
+            <colspec colname="col2" colnum="2"/>
+            <tbody>
+                <row>
+                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                        <para role="Table Cells">Job Name</para>
+                    </entry>
+                    <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                        <para role="Table Cells">Description</para>
+                    </entry>
+                </row>
+                <row>
+                    <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                        <para role="Table Cells">approveLineItemReceivingJob</para>
+                    </entry>
+                    <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                        <para role="Table Cells">If unordered items have been received and noted when doing line item
+                            receiving, Purchasing and Accounts Payable attempts to create a Purchase Order Amendment e-doc to
+                            adjust for the new items. If a purchase order cannot be amended for some reason (for example, if it
+                            is closed or has pending payment requests), this job rechecks each time it is run and creates the
+                            Purchase Order Amendment e-doc as soon as it is allowed to do so.</para>
+                    </entry>
+                </row>
+                <row>
+                    <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                        <para role="Table Cells">autoApprovePaymentRequestsJob</para>
+                    </entry>
+                    <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                        <para role="Table Cells">Automatically approves payment request documents with a current or past pay
+                            date.</para>
+                    </entry>
+                </row>
+                <row>
+                    <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                        <para role="Table Cells">autoClosePurchaseOrdersJob</para>
+                    </entry>
+                    <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                        <para role="Table Cells">Closes open purchase orders with no remaining encumbrance.</para>
+                    </entry>
+                </row>
+                <row>
+                    <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                        <para role="Table Cells">autoCloseRecurringOrdersJob</para>
+                    </entry>
+                    <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                        <para role="Table Cells">Looks at the end date on a recurring order (that is, a purchase order with
+                            a recurring payment type not equal to null). If this date is less than or equal to the date defined
+                            in the AUTO_CLOSE_RECURRING_PO_DATE parameter, it closes the purchase order and disencumbers any
+                            outstanding amounts.</para>
+                    </entry>
+                </row>
+                <row>
+                    <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                        <para role="Table Cells">electronicInvoiceExtractJob</para>
+                    </entry>
+                    <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                        <para role="Table Cells">Examines and validates invoices uploaded electronically by vendors. Creates
+                            Payment Request e-docs for valid invoices and creates Electronic Invoice Reject e-docs for invalid
+                            invoices.</para>
+                    </entry>
+                </row>
+                <row>
+                    <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                        <para role="Table Cells">faxPendingDocumentJob</para>
+                    </entry>
+                    <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                        <para role="Table Cells">Not yet supported by OLE; this job is a placeholder for a process used by
+                            Indiana University. (POs are queued electronically to be sent via fax, and this job runs every 15
+                            minutes. If there is a problem with the fax device, the job fails. If the fax device is working
+                            normally, the POs are faxed.)</para>
+                    </entry>
+                </row>
+                <row>
+                    <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                        <para role="Table Cells">purchasingPreDisbursementExtractJob</para>
+                    </entry>
+                    <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                        <para role="Table Cells">Extracts all eligible and approved Payment Request and Credit Memos e-docs
+                            into the Pre-Disbursement Processor (PDP) for payment.</para>
+                    </entry>
+                </row>
+                <row>
+                    <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                        <para role="Table Cells">purchasingPreDisbursementImmediatesExtractJob</para>
+                    </entry>
+                    <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                        <para role="Table Cells">Extracts eligible and approved payment requests and credit memos flagged
+                            for immediate payment into the Pre-Disbursement Processor (PDP) for payment.</para>
+                    </entry>
+                </row>
+                <row>
+                    <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                        <para role="Table Cells">receivingPaymentRequestJob</para>
+                    </entry>
+                    <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                        <para role="Table Cells">If using receiving and if a payment request is entered that exceeds the
+                            open quantity on the purchase order, the payment request is held in "Waiting on Receiving" status.
+                            This job checks payment requests held in this status and releases them for normal routing when the
+                            purchase order has a sufficient open quantity.</para>
+                    </entry>
+                </row>
+                <row>
+                    <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                        <para role="Table Cells">approveLineItemReceivingJob</para>
+                    </entry>
+                    <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                        <para role="Table Cells">If unordered items are received when doing line item receiving, Purchasing
+                            and Accounts Payable attempts to create a Purchase Order Amendment e-doc to adjust for the new
+                            items. If the purchase order cannot be amended for some reason (for example, if it is closed or has
+                            pending payment requests), this job rechecks every time it is run and creates the Purchase Order
+                            Amendment e-doc as soon as it is allowed to do so.</para>
+                    </entry>
+                </row>
+                <row>
+                    <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                        <para role="Table Cells">autoApprovePaymentRequestsJob</para>
+                    </entry>
+                    <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                        <para role="Table Cells">Automatically approves payment request documents with a current or past pay
+                            date.</para>
+                    </entry>
+                </row>
+                <row>
+                    <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                        <para role="Table Cells">autoClosePurchaseOrdersJob</para>
+                    </entry>
+                    <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                        <para role="Table Cells">Closes open purchase orders with no remaining encumbrance.</para>
+                    </entry>
+                </row>
+                <row>
+                    <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                        <para role="Table Cells">autoCloseRecurringOrdersJob</para>
+                    </entry>
+                    <entry colname="col2" colsep="1" rowsep="1" valign="bottom">
+                        <para role="Table Cells">Looks at the end date on a recurring order (that is, a purchase order with
+                            a recurring payment type not equal to null). If this date is less than or equal to the date defined
+                            in the AUTO_CLOSE_RECURRING_PO_DATE parameter, closes the Purchase Order and disencumbers any
+                            outstanding amounts.</para>
+                    </entry>
+                </row>
+            </tbody>
+        </tgroup>
+    </informaltable>
+</chapter>

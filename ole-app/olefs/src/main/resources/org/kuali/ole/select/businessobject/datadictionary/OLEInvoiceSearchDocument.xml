@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   - Copyright 2011 The Kuali Foundation.
+   - 
+   - Licensed under the Educational Community License, Version 2.0 (the "License");
+   - you may not use this file except in compliance with the License.
+   - You may obtain a copy of the License at
+   - 
+   - http://www.opensource.org/licenses/ecl2.php
+   - 
+   - Unless required by applicable law or agreed to in writing, software
+   - distributed under the License is distributed on an "AS IS" BASIS,
+   - WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   - See the License for the specific language governing permissions and
+   - limitations under the License.
+ -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="OLEInvoiceSearchDocument" parent="OLEInvoiceSearchDocument-parentBean"/>
+
+    <bean id="OLEInvoiceSearchDocument-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.select.bo.OLEInvoiceSearchDocument"/>
+        <property name="titleAttribute" value="documentNumber"/>
+        <property name="objectLabel" value="Document Number"/>
+        <property name="attributes">
+            <list>
+                <ref bean="OLEInvoiceSearchDocument-invoiceNumber"/>
+                <ref bean="OLEInvoiceSearchDocument-invoiceDate"/>
+                <ref bean="OLEInvoiceSearchDocument-invoiceType"/>
+                <ref bean="OLEInvoiceSearchDocument-invoicePayDate"/>
+                <ref bean="OLEInvoiceSearchDocument-invoiceSubType"/>
+                <ref bean="OLEInvoiceSearchDocument-purapDocumentIdentifier"/>
+                <ref bean="OLEInvoiceSearchDocument-invoiceSubTypeId"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEInvoiceSearchDocument-invoiceNumber" parent="OLEInvoiceSearchDocument-invoiceNumber-parentBean"/>
+    <bean id="OLEInvoiceSearchDocument-invoiceNumber-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="invoiceNumber"/>
+        <property name="label" value="Invoice Number"/>
+        <property name="shortLabel" value="invoice Number"/>
+        <property name="description" value="Invoice Number"/>
+        <!--<property name="maxLength" value="8"/>-->
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLEInvoiceSearchDocument-invoiceType" parent="OLEInvoiceSearchDocument-invoiceType-parentBean"/>
+    <bean id="OLEInvoiceSearchDocument-invoiceType-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="invoiceType"/>
+        <property name="label" value="Invoice Type"/>
+        <property name="shortLabel" value="invoice Type"/>
+        <property name="description" value="Invoice Type"/>
+        <!--<property name="maxLength" value="8"/>-->
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLEInvoiceSearchDocument-purapDocumentIdentifier" parent="OLEInvoiceSearchDocument-purapDocumentIdentifier-parentBean"/>
+    <bean id="OLEInvoiceSearchDocument-purapDocumentIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="purapDocumentIdentifier"/>
+        <property name="label" value="Purchase Order Identifier"/>
+        <property name="shortLabel" value="Purchase Order Identifier"/>
+        <property name="description" value="Purchase Order Identifier"/>
+        <!--<property name="maxLength" value="8"/>-->
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLEInvoiceSearchDocument-invoiceSubType" parent="OLEInvoiceSearchDocument-invoiceSubType-parentBean"/>
+    <bean id="OLEInvoiceSearchDocument-invoiceSubType-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="invoiceSubType"/>
+        <property name="label" value="Invoice SubType"/>
+        <property name="shortLabel" value="invoice SubType"/>
+        <property name="description" value="Invoice SubType"/>
+        <!--<property name="maxLength" value="8"/>-->
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLEInvoiceSearchDocument-invoiceSubTypeId" parent="OLEInvoiceSearchDocument-invoiceSubTypeId-parentBean"/>
+    <bean id="OLEInvoiceSearchDocument-invoiceSubTypeId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="invoiceSubTypeId"/>
+        <property name="label" value="Invoice SubTypeId"/>
+        <property name="shortLabel" value="invoice SubTypeId"/>
+        <property name="description" value="Invoice SubTypeId"/>
+        <!--<property name="maxLength" value="8"/>-->
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLEInvoiceSearchDocument-invoiceDate" parent="OLEInvoiceSearchDocument-invoiceDate-parentBean"/>
+
+    <bean id="OLEInvoiceSearchDocument-invoiceDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+        <property name="name" value="invoiceDate"/>
+        <property name="label" value="Invoice Date"/>
+        <property name="description" value="Invoice Date"/>
+    </bean>
+
+    <bean id="OLEInvoiceSearchDocument-invoicePayDate" parent="OLEInvoiceSearchDocument-invoicePayDate-parentBean"/>
+
+    <bean id="OLEInvoiceSearchDocument-invoicePayDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+        <property name="name" value="invoicePayDate"/>
+        <property name="label" value="Invoice PayDate"/>
+        <property name="description" value="Invoice PayDate"/>
+    </bean>
+
+
+    <bean id="OLEInvoiceSearchDocument-LookupView" parent="OLEInvoiceSearchDocument-LookupView-parentBean"/>
+
+    <bean id="OLEInvoiceSearchDocument-LookupView-parentBean" abstract="true" parent="Uif-OLELookupView">
+        <property name="headerText" value="Invoice" />
+        <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OLEInvoiceSearchDocument" />
+        <property name="viewHelperServiceClass" value="org.kuali.ole.select.lookup.OLEInvoiceSearchDocumentLookupableImpl"/>
+        <property name="criteriaFields">
+            <list>
+                <bean id="invoiceNum" parent="Uif-LookupCriteriaInputField" p:propertyName="invoiceNumber" p:label="Vendor Invoice Number"/>
+                <bean id="invoiceType" parent="Uif-LookupCriteriaInputField" p:propertyName="invoiceTypeId" p:label="Invoice Type Id">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.fp.businessobject.options.OLEInvoiceSearchInvoiceTypeValuesFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" />
+                    </property>
+                </bean>
+                <bean id="invoiceDt" parent="Uif-LookupCriteriaInputField" p:propertyName="invoiceDate">
+                    <property name="control">
+                        <bean parent="Uif-DateControl" p:size="10"/>
+                    </property>
+                </bean>
+                <bean id="invoicePayDate" parent="Uif-LookupCriteriaInputField" p:propertyName="invoicePayDate">
+                    <property name="control">
+                        <bean parent="Uif-DateControl" p:size="10"/>
+                    </property>
+                </bean>
+                <bean id="invoiceSubTypeId" parent="Uif-LookupCriteriaInputField" p:propertyName="invoiceSubTypeId">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.select.businessobject.options.OLEInvoiceSearchSubTypeValuesFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" />
+                    </property>
+                </bean>
+                <bean id="vendorInfo" parent="Uif-LookupCriteriaInputField" p:propertyName="vendorNumber" p:label="Vendor Name">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.select.businessobject.options.OLEInvoiceVendorTypeFinder" />
+                    </property>
+
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" />
+                    </property>
+                </bean>
+                <bean id="purapDocumentIdentifier" parent="Uif-LookupCriteriaInputField" p:propertyName="purapDocumentIdentifier" p:label="Purchase Order #"/>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>ole/select/scripts/OLEInvoiceSearchDocument.js</value>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean id="searchResult_documentNumber" parent="Uif-LinkField" p:style="font-weight:bold;" p:href="../kew/DocHandler.do?command=displayDocSearchView&amp;docId=@{line?.documentNumber}" p:linkText="@{line?.documentNumber}" p:target="_blank" p:label="Document Number"/>
+                <bean id="searchResult_invoiceNum" parent="Uif-DataField" p:propertyName="invoiceNumber" p:label="Vendor Invoice Number" />
+                <bean id="searchResult_invoiceType" parent="Uif-DataField" p:propertyName="invoiceType" p:label="Invoice Type"/>
+                <bean id="searchResult_vendorName" parent="Uif-DataField" p:propertyName="vendorName" p:label="Vendor Name"/>
+                <bean id="searchResult_invoiceDt" parent="Uif-DataField" p:propertyName="invoiceDate"/>
+                <bean id="searchResult_invoicePayDate" parent="Uif-DataField" p:propertyName="invoicePayDate"/>
+                <bean id="searchResult_invoiceSubType" parent="Uif-DataField" p:propertyName="invoiceSubType" p:label="Invoice SubType"/>
+                <bean id="searchResult_purapDocumentIdentifier" parent="Uif-DataField" p:propertyName="purapDocumentIdentifier" p:label="Purchase Order Identifier"/>
+                <bean id="searchResult_documentStatus" parent="Uif-DataField" p:propertyName="documentStatus" p:label="Requsition Document Status"/>
+                <bean id="searchResult_workflow_documentStatus" parent="Uif-DataField" p:propertyName="workFlowDocumentStatus" p:label="Document Status"/>
+                <!--<bean id="searchResult_routeStatus" parent="Uif-LinkField" p:style="font-weight:bold;display:block;" p:href="../kew/RouteLog.do?documentId=@{#line?.documentNumber}"  p:target="_blank" p:label="Route Status" p:cssClasses="search_route"/>-->
+            </list>
+        </property>
+    </bean>
+</beans>

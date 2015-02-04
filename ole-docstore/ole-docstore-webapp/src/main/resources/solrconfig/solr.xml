@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+ All (relative) paths are relative to the installation path
+  
+  persistent: Save changes made via the API to this file
+  sharedLib: path to a lib directory that will be shared across all cores
+-->
+<solr>
+    <solrcloud>
+        <!--<str name="host">127.0.0.1</str>-->
+        <!--<int name="hostPort">8080</int>-->
+    </solrcloud>
+</solr>

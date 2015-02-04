@@ -1,0 +1,700 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+<!--
+   - Copyright 2011 The Kuali Foundation.
+   - 
+   - Licensed under the Educational Community License, Version 2.0 (the "License");
+   - you may not use this file except in compliance with the License.
+   - You may obtain a copy of the License at
+   - 
+   - http://www.opensource.org/licenses/ecl2.php
+   - 
+   - Unless required by applicable law or agreed to in writing, software
+   - distributed under the License is distributed on an "AS IS" BASIS,
+   - WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   - See the License for the specific language governing permissions and
+   - limitations under the License.
+ -->
+
+    <bean id="LineItemReceivingItem" parent="OleLineItemReceivingItem-parentBean"/>
+
+    <bean id="OleLineItemReceivingItem-parentBean" abstract="true" parent="LineItemReceivingItem-parentBean">
+        <property name="businessObjectClass" value="org.kuali.ole.select.businessobject.OleLineItemReceivingItem"/>
+        <property name="baseBusinessObjectClass" value="org.kuali.ole.module.purap.businessobject.LineItemReceivingItem"/>
+        <property name="attributes">
+            <list merge="true">
+                <ref bean="LineItemReceivingItem-itemOrderedParts"/>
+                <ref bean="LineItemReceivingItem-itemReceivedTotalParts"/>
+                <ref bean="LineItemReceivingItem-itemReturnedTotalParts"/>
+                <ref bean="LineItemReceivingItem-itemDamagedTotalParts"/>
+                <ref bean="LineItemReceivingItem-itemReceivedPriorParts"/>
+                <ref bean="LineItemReceivingItem-itemReceivedToBeParts"/>
+                <ref bean="LineItemReceivingItem-availableToPublic"/>
+                <ref bean="LineItemReceivingItem-oleFormatId"/>
+                <!--  Changes for OLE-2061 Starts -->
+                <ref bean="LineItemReceivingItem-exceptionTypeId"/>
+                <ref bean="LineItemReceivingItem-exceptionNotes"/>
+                <!--  Changes for OLE-2061 Ends -->
+                <!--  Changes for OLE-2062 Starts -->
+                <ref bean="LineItemReceivingItem-noteTypeId"/>
+                <ref bean="LineItemReceivingItem-receiptNotes"/>
+                <ref bean="LineItemReceivingItem-notes"/>
+                <ref bean="LineItemReceivingItem-isNotesAck"/>
+                <!--  Changes for OLE-2062 Ends -->
+                <ref bean="LineItemReceivingItem-localTitleId"/>
+
+                <ref bean="LineItemReceivingItem-itemTitleId"/>
+                <ref bean="LineItemReceivingItem-bibUUID"/>
+                <ref bean="LineItemReceivingItem-lineItemReceivingDocument.vendorName"/>
+                <ref bean="LineItemReceivingItem-docData.publisher"/>
+                <ref bean="LineItemReceivingItem-docData.title"/>
+                <ref bean="LineItemReceivingItem-docData.author"/>
+                <ref bean="LineItemReceivingItem-docData.placeOfPublication"/>
+                <ref bean="LineItemReceivingItem-docData.publicationDate"/>
+                <ref bean="LineItemReceivingItem-docData.format"/>
+                <ref bean="LineItemReceivingItem-docData.price"/>
+                <ref bean="LineItemReceivingItem-docData.isbn"/>
+                <ref bean="LineItemReceivingItem-lineItemReceivingDocument.documentNumber"/>
+                <ref bean="LineItemReceivingItem-lineItemReceivingDocument.purchaseOrderIdentifier"/>
+                <ref bean="LineItemReceivingItem-receiptStatusId"/>
+                <ref bean="LineItemReceivingItem-parts"/>
+                <ref bean="LineItemReceivingItem-partEnumeration"/>
+                <ref bean="LineItemReceivingItem-locationCopies"/>
+                <ref bean="LineItemReceivingItem-startingCopyNumber"/>
+                <ref bean="LineItemReceivingItem-itemCopies"/>
+                <ref bean="LineItemReceivingItem-oleItemOrderedQuantity"/>
+                <ref bean="LineItemReceivingItem-oleItemReceivedPriorQuantity"/>
+                <ref bean="LineItemReceivingItem-oleItemReceivedToBeQuantity"/>
+                <ref bean="LineItemReceivingItem-oleItemReceivedTotalQuantity"/>
+                <ref bean="LineItemReceivingItem-oleItemReturnedTotalQuantity"/>
+                <ref bean="LineItemReceivingItem-oleItemDamagedTotalQuantity"/>
+                <ref bean="LineItemReceivingItem-oleItemOrderedParts"/>
+                <ref bean="LineItemReceivingItem-oleItemReceivedPriorParts"/>
+                <ref bean="LineItemReceivingItem-oleItemReceivedToBeParts"/>
+                <ref bean="LineItemReceivingItem-oleItemReceivedTotalParts"/>
+                <ref bean="LineItemReceivingItem-oleItemReturnedTotalParts"/>
+                <ref bean="LineItemReceivingItem-oleItemDamagedTotalParts"/>
+                <ref bean="LineItemReceivingItem-donorCode"/>
+                <ref bean="LineItemReceivingItem-enumeration"/>
+                <ref bean="LineItemReceivingItem-location"/>
+                <ref bean="LineItemReceivingItem-copyNumber"/>
+                <ref bean="LineItemReceivingItem-receiptStatus"/>
+
+            </list>
+        </property>
+        <property name="relationships">
+            <list>
+                <bean parent="RelationshipDefinition"  p:objectAttributeName="docData">
+                    <property name="primitiveAttributes">
+                        <list>
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="itemTitleId"
+                                  p:targetName="titleId" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean><!--
+  
+	  <bean parent="RelationshipDefinition" p:objectAttributeName="bibInfoBean">
+		<property name="primitiveAttributes">
+			<list>
+				<bean parent="PrimitiveAttributeDefinition" p:sourceName="itemTitleId"
+					p:targetName="titleId" />
+			</list>
+		</property>
+	</bean>
+
+--><!-- Attribute Definitions -->
+
+    <bean id="LineItemReceivingItem-itemOrderedParts" parent="LineItemReceivingItem-itemOrderedParts-parentBean"/>
+
+    <bean id="LineItemReceivingItem-itemOrderedParts-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemQuantity">
+        <property name="name" value="itemOrderedParts"/>
+        <property name="label" value="Item Ordered Parts"/>
+        <property name="shortLabel" value="No Parts Ordered"/>
+    </bean>
+
+    <bean id="LineItemReceivingItem-itemReceivedTotalParts" parent="LineItemReceivingItem-itemReceivedTotalParts-parentBean"/>
+
+    <bean id="LineItemReceivingItem-itemReceivedTotalParts-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemQuantity">
+        <property name="name" value="itemReceivedTotalParts"/>
+        <property name="label" value="Item Received Total Parts"/>
+        <property name="shortLabel" value="Parts Rcd"/>
+    </bean>
+
+    <bean id="LineItemReceivingItem-itemReturnedTotalParts" parent="LineItemReceivingItem-itemReturnedTotalParts-parentBean"/>
+
+    <bean id="LineItemReceivingItem-itemReturnedTotalParts-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemQuantity">
+        <property name="name" value="itemReturnedTotalParts"/>
+        <property name="label" value="Item Returned Total Parts"/>
+        <property name="shortLabel" value="Parts Rtd"/>
+    </bean>
+    <bean id="LineItemReceivingItem-localTitleId" parent="LineItemReceivingItem-localTitleId-parentBean"/>
+    <bean id="LineItemReceivingItem-localTitleId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="localTitleId"/>
+        <property name="label" value="Title ID"/>
+        <property name="shortLabel" value="Title ID"/>
+        <property name="maxLength" value="200"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+    <bean id="LineItemReceivingItem-itemDamagedTotalParts" parent="LineItemReceivingItem-itemDamagedTotalParts-parentBean"/>
+
+    <bean id="LineItemReceivingItem-itemDamagedTotalParts-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="itemDamagedTotalParts"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Item Damaged Total Parts"/>
+        <property name="shortLabel" value="Parts Damaged"/>
+        <property name="maxLength" value="11"/>
+        <property name="validationPattern">
+            <ref bean="FloatingPointValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="13"/>
+        </property>
+    </bean>
+
+    <bean id="LineItemReceivingItem-donorCode" parent="LineItemReceivingItem-donorCode-parentBean"/>
+    <bean id="LineItemReceivingItem-donorCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="donorCode"/>
+        <property name="label" value="Donor"/>
+        <property name="shortLabel" value="Donor"/>
+        <property name="maxLength" value="10"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="10"/>
+        </property>
+    </bean>
+    <bean id="LineItemReceivingItem-itemReceivedPriorParts" parent="LineItemReceivingItem-itemReceivedPriorParts-parentBean"/>
+
+    <bean id="LineItemReceivingItem-itemReceivedPriorParts-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemQuantity">
+        <property name="name" value="itemReceivedPriorParts"/>
+        <property name="label" value="Prior Parts Rcd"/>
+        <property name="shortLabel" value="Prior Parts Rcd"/>
+    </bean>
+    <bean id="LineItemReceivingItem-itemReceivedToBeParts" parent="LineItemReceivingItem-itemReceivedToBeParts-parentBean"/>
+
+    <bean id="LineItemReceivingItem-itemReceivedToBeParts-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemQuantity">
+        <property name="name" value="itemReceivedToBeParts"/>
+        <property name="label" value="Parts to be Rcd"/>
+        <property name="shortLabel" value="Parts to be Rcd"/>
+        <property name="validationPattern">
+            <bean parent="FixedPointValidationPattern" p:precision="11" p:scale="2" p:allowNegative="true"/>
+        </property>
+    </bean>
+
+    <bean id="LineItemReceivingItem-availableToPublic" parent="LineItemReceivingItem-availableToPublic-parentBean"/>
+
+    <bean id="LineItemReceivingItem-availableToPublic-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="availableToPublic"/>
+        <property name="label" value="Available to Public"/>
+        <property name="shortLabel" value="Available to Public"/>
+        <property name="maxLength" value="1"/>
+        <property name="control">
+            <bean parent="CheckboxControlDefinition"/>
+        </property>
+    </bean>
+
+    <bean id="LineItemReceivingItem-oleFormatId" parent="LineItemReceivingItem-oleFormatId-parentBean"/>
+
+    <bean id="LineItemReceivingItem-oleFormatId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="oleFormatId"/>
+        <property name="label" value="Format"/>
+        <property name="shortLabel" value="Format"/>
+        <property name="maxLength" value="5"/>
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.ole.select.businessobject.options.OleFormatTypeValuesFinder" p:includeKeyInLabel="false"/>
+        </property>
+    </bean>
+
+    <!--  Changes for OLE-2061 Starts -->
+    <bean id="LineItemReceivingItem-exceptionTypeId" parent="LineItemReceivingItem-exceptionTypeId-parentBean"/>
+    <bean id="LineItemReceivingItem-exceptionTypeId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="exceptionTypeId"/>
+        <property name="label" value="Exception Type"/>
+        <property name="shortLabel" value="Exception Type"/>
+        <property name="maxLength" value="50"/>
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.ole.select.businessobject.options.OleExceptionTypeValuesFinder" p:includeKeyInLabel="false"/>
+        </property>
+    </bean>
+
+    <bean id="LineItemReceivingItem-exceptionNotes" parent="LineItemReceivingItem-exceptionNotes-parentBean"/>
+    <bean id="LineItemReceivingItem-exceptionNotes-parentBean" abstract="true" parent="OleReceivingLineExceptionNotes-exceptionNotes">
+        <property name="name" value="exceptionNotes"/>
+        <property name="label" value="Note"/>
+        <property name="shortLabel" value="Note"/>
+    </bean>
+    <!--  Changes for OLE-2061 Ends -->
+
+    <!--  Changes for OLE-2062 Starts -->
+    <bean id="LineItemReceivingItem-noteTypeId" parent="LineItemReceivingItem-noteTypeId-parentBean"/>
+    <bean id="LineItemReceivingItem-noteTypeId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="noteTypeId"/>
+        <property name="label" value="Note Type"/>
+        <property name="shortLabel" value="Note Type"/>
+        <property name="maxLength" value="50"/>
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.ole.select.businessobject.options.OleNoteTypeValuesFinder" p:includeKeyInLabel="false"/>
+        </property>
+    </bean>
+
+    <bean id="LineItemReceivingItem-receiptNotes" parent="LineItemReceivingItem-receiptNotes-parentBean"/>
+    <bean id="LineItemReceivingItem-receiptNotes-parentBean" abstract="true" parent="OleLineItemReceivingReceiptNotes-notes">
+        <property name="name" value="receiptNotes"/>
+        <property name="label" value="Note"/>
+        <property name="shortLabel" value="Note"/>
+    </bean>
+    <bean id="LineItemReceivingItem-notes" parent="LineItemReceivingItem-notes-parentBean"/>
+    <bean id="LineItemReceivingItem-notes-parentBean" abstract="true" parent="OleLineItemReceivingReceiptNotes-notes">
+        <property name="name" value="notes"/>
+        <property name="label" value="Note"/>
+        <property name="shortLabel" value="Note"/>
+    </bean>
+
+    <bean id="LineItemReceivingItem-isNotesAck" parent="LineItemReceivingItem-isNotesAck-parentBean"/>
+    <bean id="LineItemReceivingItem-isNotesAck-parentBean" abstract="true" parent="OleLineItemReceivingReceiptNotes-isNotesAck">
+        <property name="name" value="notesAck"/>
+        <property name="label" value="Notes Acknowledge"/>
+        <property name="shortLabel" value="Acknowledge"/>
+        <property name="maxLength" value="10"/>
+        <property name="control">
+            <bean parent="CheckboxControlDefinition"/>
+        </property>
+    </bean>
+    <!--  Changes for OLE-2062 Ends -->
+
+    <bean id="LineItemReceivingItem-itemTitleId" parent="LineItemReceivingItem-itemTitleId-parentBean" />
+    <bean id="LineItemReceivingItem-itemTitleId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="itemTitleId"/>
+        <property name="label" value="Title ID"/>
+        <property name="shortLabel" value="Title ID"/>
+        <property name="maxLength" value="200"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="LineItemReceivingItem-bibUUID" parent="LineItemReceivingItem-bibUUID-parentBean"/>
+    <bean id="LineItemReceivingItem-bibUUID-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="bibUUID"/>
+        <property name="label" value="Title Bib ID"/>
+        <property name="shortLabel" value="Title Bib ID"/>
+        <property name="maxLength" value="200"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+
+
+    <bean id="LineItemReceivingItem-itemDescription-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="itemDescription"/>
+        <property name="label" value="Item Description"/>
+        <property name="shortLabel" value="Description"/>
+        <property name="maxLength" value="4000"/>
+        <!-- <property name="validationPattern">
+          <ref bean="AnyCharacterWithWhitespaceValidation" />
+        </property> -->
+        <property name="control">
+            <bean parent="TextareaControlDefinition" p:rows="1" p:cols="45"/>
+        </property>
+    </bean>
+    <bean id="LineItemReceivingItem-lineItemReceivingDocument.vendorName" parent="LineItemReceivingItem-lineItemReceivingDocument.vendorName-parentBean"/>
+    <bean id="LineItemReceivingItem-lineItemReceivingDocument.vendorName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="lineItemReceivingDocument.vendorName"/>
+        <property name="label" value="Vendor Name"/>
+        <property name="shortLabel" value="Vendor Name"/>
+        <property name="maxLength" value="200"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+    <bean id="LineItemReceivingItem-docData.title" parent="LineItemReceivingItem-docData.title-parentBean" />
+    <bean id="LineItemReceivingItem-docData.title-parentBean" abstract="true" parent="DocData-title">
+        <property name="name" value="docData.title"/>
+        <property name="label" value="Title"/>
+        <property name="shortLabel" value="Title"/>
+        <property name="maxLength" value="200"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="LineItemReceivingItem-docData.author" parent="LineItemReceivingItem-docData.author-parentBean" />
+    <bean id="LineItemReceivingItem-docData.author-parentBean" abstract="true" parent="DocData-author">
+        <property name="name" value="docData.author"/>
+        <property name="label" value="Author"/>
+        <property name="shortLabel" value="Author"/>
+        <property name="maxLength" value="200"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="LineItemReceivingItem-docData.publisher" parent="LineItemReceivingItem-docData.publisher-parentBean" />
+    <bean id="LineItemReceivingItem-docData.publisher-parentBean" parent="DocData-publisher" abstract="true"
+          p:name="docData.publisher"
+          p:forceUppercase="false"
+          p:label="Publisher"
+          p:shortLabel="Publisher"
+          p:required="false" >
+    </bean>
+
+    <bean id="LineItemReceivingItem-docData.placeOfPublication" parent="LineItemReceivingItem-docData.placeOfPublication-parentBean" />
+    <bean id="LineItemReceivingItem-docData.placeOfPublication-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="docData.placeOfPublication"/>
+        <property name="label" value="Place Of Publication"/>
+        <property name="shortLabel" value="Place Of Publication"/>
+        <property name="maxLength" value="200"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="LineItemReceivingItem-docData.publicationDate" parent="LineItemReceivingItem-docData.publicationDate-parentBean" />
+    <bean id="LineItemReceivingItem-docData.publicationDate-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="docData.publicationDate"/>
+        <property name="label" value="Publication Date"/>
+        <property name="shortLabel" value="Publication Date"/>
+        <property name="maxLength" value="200"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="LineItemReceivingItem-docData.format" parent="LineItemReceivingItem-docData.format-parentBean" />
+    <bean id="LineItemReceivingItem-docData.format-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="docData.format"/>
+        <property name="label" value="Format"/>
+        <property name="shortLabel" value="Format"/>
+        <property name="maxLength" value="200"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="LineItemReceivingItem-docData.price" parent="LineItemReceivingItem-docData.price-parentBean" />
+    <bean id="LineItemReceivingItem-docData.price-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="docData.price"/>
+        <property name="label" value="Price"/>
+        <property name="shortLabel" value="Price"/>
+        <property name="maxLength" value="200"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="LineItemReceivingItem-docData.isbn" parent="LineItemReceivingItem-docData.isbn-parentBean"/>
+    <bean id="LineItemReceivingItem-docData.isbn-parentBean" abstract="true" parent="DocData-isbn">
+        <property name="name" value="docData.isbn"/>
+        <property name="label" value="ISBN"/>
+        <property name="shortLabel" value="ISBN"/>
+        <property name="maxLength" value="200"/>
+        <property name="validationPattern">
+            <ref bean="AnyCharacterValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="LineItemReceivingItem-lineItemReceivingDocument.documentNumber" parent="LineItemReceivingItem-lineItemReceivingDocument.documentNumber-parentBean"/>
+    <bean id="LineItemReceivingItem-lineItemReceivingDocument.documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="lineItemReceivingDocument.documentNumber"/>
+        <property name="label" value="Document Number"/>
+        <property name="shortLabel" value="Document Number"/>
+        <property name="maxLength" value="200"/>
+        <property name="validationPattern">
+            <ref bean="NumericValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="LineItemReceivingItem-lineItemReceivingDocument.purchaseOrderIdentifier" parent="LineItemReceivingItem-lineItemReceivingDocument.purchaseOrderIdentifier-parentBean" />
+    <bean id="LineItemReceivingItem-lineItemReceivingDocument.purchaseOrderIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="lineItemReceivingDocument.purchaseOrderIdentifier"/>
+        <property name="label" value="Line Item Receiving Identifier"/>
+        <property name="shortLabel" value="Receiving Identifier"/>
+        <property name="maxLength" value="200"/>
+        <property name="validationPattern">
+            <ref bean="NumericValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="LineItemReceivingItem-receiptStatusId" parent="LineItemReceivingItem-receiptStatusId-parentBean"/>
+    <bean id="LineItemReceivingItem-receiptStatusId-parentBean" abstract="true" parent="OleReceiptStatus-receiptStatusId">
+        <property name="name" value="receiptStatusId"/>
+        <property name="label" value="Receipt Status"/>
+        <property name="shortLabel" value="Receipt Status"/>
+
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.ole.select.businessobject.options.OleLineItemReceivingReceiptStatusValuesFinder" p:includeKeyInLabel="false"/>
+        </property>
+    </bean>
+
+    <bean id="LineItemReceivingItem-parts" parent="LineItemReceivingItem-parts-parentBean"/>
+    <bean id="LineItemReceivingItem-parts-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="parts"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Parts"/>
+        <property name="shortLabel" value="Parts"/>
+        <property name="maxLength" value="50"/>
+        <property name="validationPattern">
+            <ref bean="NumericValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="LineItemReceivingItem-partEnumeration" parent="LineItemReceivingItem-partEnumeration-parentBean"/>
+    <bean id="LineItemReceivingItem-partEnumeration-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="partEnumeration"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Part Enumeration"/>
+        <property name="shortLabel" value="Part Enumeration"/>
+        <property name="maxLength" value="50"/>
+        <property name="validationPattern">
+            <ref bean="AnyCharacterWithWhitespaceValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="LineItemReceivingItem-locationCopies" parent="LineItemReceivingItem-locationCopies-parentBean"/>
+    <bean id="LineItemReceivingItem-locationCopies-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="locationCopies"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Location Copies"/>
+        <property name="shortLabel" value="Location Copies"/>
+        <property name="maxLength" value="200"/>
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.ole.select.businessobject.options.OleLocationKeyValueFinder" p:includeKeyInLabel="false"/>
+        </property>
+    </bean>
+
+    <bean id="LineItemReceivingItem-startingCopyNumber" parent="LineItemReceivingItem-startingCopyNumber-parentBean"/>
+
+    <bean id="LineItemReceivingItem-startingCopyNumber-parentBean"  abstract="true" parent="AttributeDefinition">
+        <property name="name" value="startingCopyNumber"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Starting Copy"/>
+        <property name="shortLabel" value="Starting Copy"/>
+        <property name="maxLength" value="4"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="3" />
+        </property>
+    </bean>
+
+    <bean id="LineItemReceivingItem-itemCopies" parent="LineItemReceivingItem-itemCopies-parentBean"/>
+    <bean id="LineItemReceivingItem-itemCopies-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="itemCopies"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Copies"/>
+        <property name="shortLabel" value="Copies"/>
+        <property name="maxLength" value="4"/>
+        <property name="validationPattern">
+            <ref bean="NumericValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="3" />
+        </property>
+    </bean>
+
+    <bean id="LineItemReceivingItem-oleItemOrderedQuantity" parent="LineItemReceivingItem-oleItemOrderedQuantity-parentBean"/>
+    <bean id="LineItemReceivingItem-oleItemOrderedQuantity-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="oleItemOrderedQuantity"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Item Ordered Quantity"/>
+        <property name="shortLabel" value="Qty Ordered"/>
+        <property name="maxLength" value="3"/>
+        <property name="required" value="false"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="3" />
+        </property>
+    </bean>
+
+    <bean id="LineItemReceivingItem-oleItemReceivedPriorQuantity" parent="LineItemReceivingItem-oleItemReceivedPriorQuantity-parentBean"/>
+    <bean id="LineItemReceivingItem-oleItemReceivedPriorQuantity-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="oleItemReceivedPriorQuantity"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Prior Qty Rcd"/>
+        <property name="shortLabel" value="Prior Qty Rcd"/>
+        <property name="maxLength" value="3"/>
+        <property name="required" value="false"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="3" />
+        </property>
+    </bean>
+
+    <bean id="LineItemReceivingItem-oleItemReceivedToBeQuantity" parent="LineItemReceivingItem-oleItemReceivedToBeQuantity-parentBean"/>
+    <bean id="LineItemReceivingItem-oleItemReceivedToBeQuantity-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="oleItemReceivedToBeQuantity"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Qty to be Rcd"/>
+        <property name="shortLabel" value="Qty to be Rcd"/>
+        <property name="maxLength" value="3"/>
+        <property name="required" value="false"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="3" />
+        </property>
+    </bean>
+
+    <bean id="LineItemReceivingItem-oleItemReceivedTotalQuantity" parent="LineItemReceivingItem-oleItemReceivedTotalQuantity-parentBean"/>
+    <bean id="LineItemReceivingItem-oleItemReceivedTotalQuantity-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="oleItemReceivedTotalQuantity"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Item Received Total Quantity"/>
+        <property name="shortLabel" value="Item Received Total Quantity"/>
+        <property name="maxLength" value="3"/>
+        <property name="required" value="false"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="3" />
+        </property>
+    </bean>
+
+    <bean id="LineItemReceivingItem-oleItemReturnedTotalQuantity" parent="LineItemReceivingItem-oleItemReturnedTotalQuantity-parentBean"/>
+    <bean id="LineItemReceivingItem-oleItemReturnedTotalQuantity-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="oleItemReturnedTotalQuantity"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Item Returned Total Quantity"/>
+        <property name="shortLabel" value="Item Returned Total Quantity"/>
+        <property name="maxLength" value="3"/>
+        <property name="required" value="false"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="3" />
+        </property>
+    </bean>
+
+    <bean id="LineItemReceivingItem-oleItemDamagedTotalQuantity" parent="LineItemReceivingItem-oleItemDamagedTotalQuantity-parentBean"/>
+    <bean id="LineItemReceivingItem-oleItemDamagedTotalQuantity-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="oleItemDamagedTotalQuantity"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Item Damaged Total Quantity"/>
+        <property name="shortLabel" value="Item Damaged Total Quantity"/>
+        <property name="maxLength" value="3"/>
+        <property name="required" value="false"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="3" />
+        </property>
+    </bean>
+
+    <bean id="LineItemReceivingItem-oleItemOrderedParts" parent="LineItemReceivingItem-oleItemOrderedParts-parentBean"/>
+    <bean id="LineItemReceivingItem-oleItemOrderedParts-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="oleItemOrderedParts"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Item Ordered Parts"/>
+        <property name="shortLabel" value="No Parts Ordered"/>
+        <property name="maxLength" value="3"/>
+        <property name="required" value="false"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="3" />
+        </property>
+    </bean>
+
+    <bean id="LineItemReceivingItem-oleItemReceivedPriorParts" parent="LineItemReceivingItem-oleItemReceivedPriorParts-parentBean"/>
+    <bean id="LineItemReceivingItem-oleItemReceivedPriorParts-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="oleItemReceivedPriorParts"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Prior Parts Rcd"/>
+        <property name="shortLabel" value="Prior Parts Rcd"/>
+        <property name="maxLength" value="3"/>
+        <property name="required" value="false"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="3" />
+        </property>
+    </bean>
+
+    <bean id="LineItemReceivingItem-oleItemReceivedToBeParts" parent="LineItemReceivingItem-oleItemReceivedToBeParts-parentBean"/>
+    <bean id="LineItemReceivingItem-oleItemReceivedToBeParts-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="oleItemReceivedToBeParts"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Parts to be Rcd"/>
+        <property name="shortLabel" value="Parts to be Rcd"/>
+        <property name="maxLength" value="3"/>
+        <property name="required" value="false"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="3" />
+        </property>
+    </bean>
+
+    <bean id="LineItemReceivingItem-oleItemReceivedTotalParts" parent="LineItemReceivingItem-oleItemReceivedTotalParts-parentBean"/>
+    <bean id="LineItemReceivingItem-oleItemReceivedTotalParts-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="oleItemReceivedTotalParts"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Item Received Total Parts"/>
+        <property name="shortLabel" value="Item Received Total Parts"/>
+        <property name="maxLength" value="3"/>
+        <property name="required" value="false"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="3" />
+        </property>
+    </bean>
+
+    <bean id="LineItemReceivingItem-oleItemReturnedTotalParts" parent="LineItemReceivingItem-oleItemReturnedTotalParts-parentBean"/>
+    <bean id="LineItemReceivingItem-oleItemReturnedTotalParts-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="oleItemReturnedTotalParts"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Item Returned Total Parts"/>
+        <property name="shortLabel" value="Item Returned Total Parts"/>
+        <property name="maxLength" value="3"/>
+        <property name="required" value="false"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="3" />
+        </property>
+    </bean>
+
+    <bean id="LineItemReceivingItem-oleItemDamagedTotalParts" parent="LineItemReceivingItem-oleItemDamagedTotalParts-parentBean"/>
+    <bean id="LineItemReceivingItem-oleItemDamagedTotalParts-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="oleItemDamagedTotalParts"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Item Damaged Total Parts"/>
+        <property name="shortLabel" value="Item Damaged Total Parts"/>
+        <property name="maxLength" value="3"/>
+        <property name="required" value="false"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="3" />
+        </property>
+    </bean>
+
+    <bean id="LineItemReceivingItem-enumeration" parent="LineItemReceivingItem-enumeration-parentBean"/>
+
+    <bean id="LineItemReceivingItem-enumeration-parentBean"  abstract="true" parent="OleCopy-enumeration">
+        <property name="name" value="enumeration"/>
+        <property name="label" value="Enumeration"/>
+        <property name="shortLabel" value="Enum"/>
+    </bean>
+
+
+    <bean id="LineItemReceivingItem-location" parent="LineItemReceivingItem-location-parentBean"/>
+
+    <bean id="LineItemReceivingItem-location-parentBean"  abstract="true" parent="OleCopy-location">
+        <property name="name" value="location"/>
+        <property name="label" value="Location"/>
+        <property name="shortLabel" value="Location"/>
+    </bean>
+
+    <bean id="LineItemReceivingItem-copyNumber" parent="LineItemReceivingItem-copyNumber-parentBean"/>
+
+    <bean id="LineItemReceivingItem-copyNumber-parentBean"  abstract="true" parent="OleCopy-copyNumber">
+        <property name="name" value="copyNumber"/>
+        <property name="label" value="Copy Number"/>
+        <property name="shortLabel" value="Copy Number"/>
+    </bean>
+
+    <bean id="LineItemReceivingItem-receiptStatus" parent="LineItemReceivingItem-receiptStatus-parentBean"/>
+
+    <bean id="LineItemReceivingItem-receiptStatus-parentBean"  abstract="true" parent="OleCopy-receiptStatus">
+        <property name="name" value="receiptStatus"/>
+        <property name="label" value="Receipt Status"/>
+        <property name="shortLabel" value="Receipt Status"/>
+    </bean>
+
+
+</beans>

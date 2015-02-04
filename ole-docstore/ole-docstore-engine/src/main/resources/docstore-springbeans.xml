@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+   - Copyright 2011 The Kuali Foundation.
+   - 
+   - Licensed under the Educational Community License, Version 2.0 (the "License");
+   - you may not use this file except in compliance with the License.
+   - You may obtain a copy of the License at
+   - 
+   - http://www.opensource.org/licenses/ecl2.php
+   - 
+   - Unless required by applicable law or agreed to in writing, software
+   - distributed under the License is distributed on an "AS IS" BASIS,
+   - WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   - See the License for the specific language governing permissions and
+   - limitations under the License.
+ -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/tx	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+http://www.springframework.org/schema/context	http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+    <context:annotation-config/>
+
+    <bean id="requestHandlerService" class="org.kuali.ole.docstore.model.xstream.ingest.RequestHandler"/>
+    <bean id="documentIngesterService" class="org.kuali.ole.docstore.service.DocumentIngester"/>
+    <bean id="documentIndexerService" class="org.kuali.ole.docstore.service.DocumentIndexer"/>
+    <bean id="ingestNIndexHandlerService" class="org.kuali.ole.docstore.service.IngestNIndexHandlerService">
+        <property name="requestHandler">
+            <ref local="requestHandlerService"/>
+        </property>
+        <property name="documentIngester">
+            <ref local="documentIngesterService"/>
+        </property>
+        <property name="documentIndexer">
+            <ref local="documentIndexerService"/>
+        </property>
+    </bean>
+
+
+    <bean id="checkinManagerService" class="org.kuali.ole.repository.CheckinManager"/>
+    <bean id="checkoutManagerService" class="org.kuali.ole.repository.CheckoutManager"/>
+    <bean id="deleteManagerService"  class="org.kuali.ole.repository.DeleteManager"/>
+    <bean id="documentStoreManagerService" class="org.kuali.ole.repository.DocumentStoreManager">
+
+        <property name="checkinManager">
+            <ref local="checkinManagerService"/>
+        </property>
+
+        <property name="checkoutManager">
+            <ref local="checkoutManagerService"/>
+        </property>
+
+        <property name="deleteManager">
+            <ref local="deleteManagerService"/>
+        </property>
+        
+        <property name="requestHandler">
+            <ref local="requestHandlerService"/>
+        </property>
+    </bean>
+
+    <bean id="bulkIngestProcessHandlerService" class="org.kuali.ole.docstore.service.BulkIngestProcessHandlerService"/>
+
+    <bean id="documentManagerFactory" class="org.kuali.ole.docstore.document.jcr.JcrDocumentManagerFactory"/>
+
+    <bean id="repositoryManager" class="org.kuali.ole.RepositoryManager"/>
+
+    <bean id="documentService" class="org.kuali.ole.docstore.service.DocumentServiceImpl">
+        <property name="repositoryManager">
+            <ref local="repositoryManager"/>
+        </property>
+    </bean>
+
+    <bean id="docstoreFactory" class="org.kuali.ole.docstore.factory.RdbmsJcrDocstoreFactory"/>
+
+    <bean id="docstoreService" class="org.kuali.ole.docstore.engine.service.DocstoreServiceImpl"/>
+
+
+</beans>

@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:dd="http://rice.kuali.org/dd"
+       xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+
+<!--
+
+        Copyright 2005-2012 The Kuali Foundation
+
+        Licensed under the Educational Community License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at
+
+        http://www.opensource.org/licenses/ecl2.php
+
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+
+    -->
+    <bean id="OLEPurchaseOrderItemSearch" parent="OLEPurchaseOrderItemSearch-parentBean"/>
+
+    <bean id="OLEPurchaseOrderItemSearch-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.select.businessobject.OLEPurchaseOrderItemSearch" />
+        <property name="objectLabel" value="Purchas
+        e Order Search"/>
+        <property name="titleAttribute" value="poId" />
+       <!-- <property name="lookupDefinition">
+            <ref bean="OLEPurchaseOrderItemSearch-lookupDefinition"/>
+        </property>-->
+        <property name="attributes">
+            <list>
+                <ref bean="OLEPurchaseOrderItemSearch-itemDescription"/>
+                <ref bean="OLEPurchaseOrderItemSearch-purchaseOrderItemID"/>
+                <ref bean="OLEPurchaseOrderItemSearch-vendorName"/>
+                <ref bean="OLEPurchaseOrderItemSearch-purapDocumentIdentifier"/>
+                <ref bean="OLEPurchaseOrderItemSearch-vendorHeaderGeneratedIdentifier"/>
+                <ref bean="OLEPurchaseOrderItemSearch-vendorDetailAssignedIdentifier"/>
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEPurchaseOrderItemSearch-purchaseOrderItemID" parent="OLEPurchaseOrderItemSearch-purchaseOrderItemID-parentBean"/>
+    <bean id="OLEPurchaseOrderItemSearch-purchaseOrderItemID-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="purchaseOrderItemID"/>
+        <property name="name" value="purchaseOrderItemID" />
+        <property name="label" value="Purchase Order Item Identifier"/>
+        <property name="maxLength" value="200"/>
+        <property name="validationPattern">
+            <ref bean="NumericValidation" />
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="OLEPurchaseOrderItemSearch-itemDescription" parent="OLEPurchaseOrderItemSearch-itemDescription-parentBean"/>
+    <bean id="OLEPurchaseOrderItemSearch-itemDescription-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="shortLabel" value="itemDescription"/>
+        <property name="name" value="itemDescription" />
+        <property name="label" value="Description"/>
+        <property name="maxLength" value="4000"/>
+        <!--  <property name="validationPattern">
+         <ref bean="AnyCharacterWithWhitespaceValidation" />
+       </property> -->
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="40"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="OLEPurchaseOrderItemSearch-vendorName" parent="OLEPurchaseOrderItemSearch-vendorName-parentBean"/>
+    <bean id="OLEPurchaseOrderItemSearch-vendorName-parentBean" abstract="true" parent="InvoiceDocument-vendorName">
+        <property name="label" value="Vendor"/>
+        <property name="shortLabel" value="Vendor"/>
+        <property name="required" value="true"/>
+    </bean>
+
+    <bean id="OLEPurchaseOrderItemSearch-purapDocumentIdentifier" parent="OLEPurchaseOrderItemSearch-purapDocumentIdentifier-parentBean"/>
+    <bean id="OLEPurchaseOrderItemSearch-purapDocumentIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="shortLabel" value="purapDocumentIdentifier"/>
+        <property name="label" value="PO #"/>
+        <property name="name" value="purapDocumentIdentifier" />
+        <property name="maxLength" value="8"/>
+        <property name="validationPattern">
+            <ref bean="NumericValidation" />
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="40"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="OLEPurchaseOrderItemSearch-vendorHeaderGeneratedIdentifier" parent="OLEPurchaseOrderItemSearch-vendorHeaderGeneratedIdentifier-parentBean"/>
+
+    <bean id="OLEPurchaseOrderItemSearch-vendorHeaderGeneratedIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="required" value="true"/>
+        <property name="name" value="vendorHeaderGeneratedIdentifier" />
+        <property name="forceUppercase" value="true" />
+        <property name="label" value="Vendor Header Generated Identifier" />
+        <property name="shortLabel" value="Header Generated ID" />
+        <property name="maxLength" value="10" />
+        <property name="validationPattern">
+            <ref bean="NumericValidation" />
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl" />
+        </property>
+    </bean>
+    <bean id="OLEPurchaseOrderItemSearch-vendorDetailAssignedIdentifier" parent="OLEPurchaseOrderItemSearch-vendorDetailAssignedIdentifier-parentBean"/>
+
+    <bean id="OLEPurchaseOrderItemSearch-vendorDetailAssignedIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="required" value="true"/>
+        <property name="name" value="vendorDetailAssignedIdentifier" />
+        <property name="forceUppercase" value="true" />
+        <property name="label" value="Vendor Detail Assigned Identifier" />
+        <property name="shortLabel" value="Detail Assigned ID" />
+        <property name="maxLength" value="10" />
+        <property name="validationPattern">
+            <ref bean="NumericValidation" />
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl" />
+        </property>
+    </bean>
+
+   <!-- <bean id="OLEPurchaseOrderItemSearch-lookupDefinition" parent="OLEPurchaseOrderItemSearch-lookupDefinition-parentBean"/>
+
+    <bean id="OLEPurchaseOrderItemSearch-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="PO Item Search"/>
+        <property name="lookupableID" value="olePurchaseOrderItemLookupable" />
+        <property name="lookupFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="purapDocumentIdentifier"/>
+                <bean parent="FieldDefinition" p:attributeName="vendorHeaderGeneratedIdentifier"/>
+                <bean parent="FieldDefinition" p:attributeName="vendorDetailAssignedIdentifier"/>
+               &lt;!&ndash; <bean parent="FieldDefinition" p:attributeName="itemDescription"/>&ndash;&gt;
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="purapDocumentIdentifier"/>
+                <bean parent="FieldDefinition" p:attributeName="purchaseOrderItemID"/>
+                <bean parent="FieldDefinition" p:attributeName="itemDescription"/>
+            </list>
+        </property>
+    </bean>-->
+
+    <!-- Business Object Lookup Definition -->
+
+    <bean id="OLEPurchaseOrderItemSearch-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="PO Item Search" />
+        <property name="dataObjectClassName" value="org.kuali.ole.select.businessobject.OLEPurchaseOrderItemSearch" />
+        <property name="viewHelperServiceClass" value="org.kuali.ole.select.lookup.OLEPurchaseOrderItemLookupableHelperServiceImpl"/>
+        <property name="criteriaFields">
+            <list>
+                <bean id="purapDocumentIdentifier"  parent="Uif-LookupCriteriaInputField" p:propertyName="purapDocumentIdentifier" />
+                <bean id="vendorName"  parent="Uif-LookupCriteriaInputField" p:propertyName="vendorName"  p:readOnly="true"/>
+                <bean id="vendorHeaderGeneratedIdentifier"  parent="Uif-LookupCriteriaInputField" p:propertyName="vendorHeaderGeneratedIdentifier" p:readOnly="true"/>
+                <bean id="vendorDetailAssignedIdentifier"  parent="Uif-LookupCriteriaInputField" p:propertyName="vendorDetailAssignedIdentifier" p:readOnly="true"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean id="searchResult_accessMethodId" parent="Uif-DataField" p:propertyName="purapDocumentIdentifier" />
+                <bean id="searchResult_accessMethodCode" parent="Uif-DataField" p:propertyName="purchaseOrderItemID" />
+                <bean id="searchResult_vendorDetailAssignedIdentifier" parent="Uif-DataField" p:propertyName="itemDescription" />
+            </list>
+        </property>
+    </bean>
+
+</beans>

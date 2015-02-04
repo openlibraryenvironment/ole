@@ -1,0 +1,20 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.kuali.ole</groupId>
+        <version>2.0-SNAPSHOT</version>
+        <artifactId>ole-db</artifactId>
+    </parent>
+    <name>OLE Liquibase</name>
+    <artifactId>ole-liquibase</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>ole-liquibase-changeset</module>
+        <module>ole-liquibase-upgrade</module>
+    </modules>
+
+    <properties>
+        <impex.copy.phase>process-resources</impex.copy.phase>
+        <impex.scm.phase>process-resources</impex.scm.phase>
+    </properties>
+</project>

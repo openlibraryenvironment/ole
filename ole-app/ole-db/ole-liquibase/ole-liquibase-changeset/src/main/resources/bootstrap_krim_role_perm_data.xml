@@ -1,0 +1,93 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_KRIM_ATTR_DEFN_T">
+        <loadData tableName="KRIM_ATTR_DEFN_T" file="ole-bootstrap/attributes/krim_attr_defn_t.csv" />
+    </changeSet>
+    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_KRIM_TYP_T">
+        <loadData tableName="KRIM_TYP_T" file="ole-bootstrap/krim_typ_t.csv" />
+    </changeSet>
+    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_KRIM_TYP_ATTR_T">
+        <loadData tableName="KRIM_TYP_ATTR_T" file="ole-bootstrap/krim_typ_attr_t.csv" />
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_KRIM_ROLE_T">
+        <loadData tableName="KRIM_ROLE_T" file="ole-bootstrap/roles/krim_role_t.csv" />
+    </changeSet>
+    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_KRIM_ROLE_MBR_T">
+        <loadData tableName="KRIM_ROLE_MBR_T" file="ole-bootstrap/roles/krim_role_mbr_t.csv" />
+    </changeSet>
+    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_KRIM_ROLE_MBR_ATTR_DATA_T">
+        <loadData tableName="KRIM_ROLE_MBR_ATTR_DATA_T" file="ole-bootstrap/roles/krim_role_mbr_attr_data_t.csv" />
+    </changeSet>
+
+    <!--<changeSet context="bootstrap" author="ole" id="OLE_LOAD_KRIM_DLGN_T">-->
+        <!--<loadData tableName="KRIM_DLGN_T" file="bootstrap/krim_dlgn_t.csv" />-->
+    <!--</changeSet>-->
+    <!--<changeSet context="bootstrap" author="ole" id="OLE_LOAD_KRIM_DLGN_MBR_T">-->
+        <!--<loadData tableName="KRIM_DLGN_MBR_T" file="bootstrap/krim_dlgn_mbr_t.csv" />-->
+    <!--</changeSet>-->
+
+    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_KRIM_PERM_TMPL_T">
+        <loadData tableName="KRIM_PERM_TMPL_T" file="ole-bootstrap/permissions/krim_perm_tmpl_t.csv" />
+    </changeSet>
+    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_KRIM_PERM_T">
+        <loadData tableName="KRIM_PERM_T" file="ole-bootstrap/permissions/krim_perm_t.csv" />
+    </changeSet>
+    <changeSet context="bootstrap,demo" author="ole" id="OLE_LOAD_KRIM_PERM_ATTR_DATA_T">
+        <loadData tableName="KRIM_PERM_ATTR_DATA_T" file="ole-bootstrap/permissions/krim_perm_attr_data_t.csv" />
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_KRIM_RSP_T">
+        <loadData tableName="KRIM_RSP_T" file="ole-bootstrap/responsibilities/krim_rsp_t.csv" />
+    </changeSet>
+    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_KRIM_RSP_ATTR_DATA_T">
+        <loadData tableName="KRIM_RSP_ATTR_DATA_T" file="ole-bootstrap/responsibilities/krim_rsp_attr_data_t.csv" />
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_KRIM_ROLE_PERM_T">
+        <loadData tableName="KRIM_ROLE_PERM_T" file="ole-bootstrap/permissions/krim_role_perm_t.csv" />
+    </changeSet>
+    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_KRIM_ROLE_RSP_T">
+        <loadData tableName="KRIM_ROLE_RSP_T" file="ole-bootstrap/responsibilities/krim_role_rsp_t.csv" />
+    </changeSet>
+    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_KRIM_ROLE_RSP_ACTN_T">
+        <loadData tableName="KRIM_ROLE_RSP_ACTN_T" file="ole-bootstrap/responsibilities/krim_role_rsp_actn_t.csv" />
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_KRIM_PERM_T">
+        <loadData tableName="KRIM_PERM_T" file="ole-bootstrap/permissions/ole_krim_perm_t.csv" />
+    </changeSet>
+    <changeSet context="bootstrap" author="ole" id="OLE_KRIM_PERM_ATTR_DATA_T">
+        <loadData tableName="KRIM_PERM_ATTR_DATA_T" file="ole-bootstrap/permissions/ole_krim_perm_attr_data_t.csv" />
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_KRIM_RSP_T">
+        <loadData tableName="KRIM_RSP_T" file="ole-bootstrap/responsibilities/ole_krim_rsp_t.csv" />
+    </changeSet>
+    <changeSet context="bootstrap" author="ole" id="OLE_KRIM_RSP_ATTR_DATA_T">
+        <loadData tableName="KRIM_RSP_ATTR_DATA_T" file="ole-bootstrap/responsibilities/ole_krim_rsp_attr_data_t.csv" />
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_OLE_KRIM_ROLE_T">
+        <loadData tableName="KRIM_ROLE_T" file="ole-bootstrap/roles/ole_krim_role_t.csv" />
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_KRIM_ROLE_PERM_T">
+        <loadData tableName="KRIM_ROLE_PERM_T" file="ole-bootstrap/permissions/ole_krim_role_perm_t.csv" />
+    </changeSet>
+    <changeSet context="bootstrap" author="ole" id="OLE_KRIM_ROLE_RSP_T">
+        <loadData tableName="KRIM_ROLE_RSP_T" file="ole-bootstrap/responsibilities/ole_krim_role_rsp_t.csv" />
+    </changeSet>
+    <changeSet context="bootstrap" author="ole" id="OLE_KRIM_ROLE_RSP_ACTN_T">
+        <loadData tableName="KRIM_ROLE_RSP_ACTN_T" file="ole-bootstrap/responsibilities/ole_krim_role_rsp_actn_t.csv" />
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_KRIM_ROLE_MBR_T">
+        <loadData tableName="KRIM_ROLE_MBR_T" file="ole-bootstrap/roles/ole_krim_role_mbr_t.csv" />
+    </changeSet>
+
+</databaseChangeLog>

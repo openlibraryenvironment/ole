@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   - Copyright 2011 The Kuali Foundation.
+   - 
+   - Licensed under the Educational Community License, Version 2.0 (the "License");
+   - you may not use this file except in compliance with the License.
+   - You may obtain a copy of the License at
+   - 
+   - http://www.opensource.org/licenses/ecl2.php
+   - 
+   - Unless required by applicable law or agreed to in writing, software
+   - distributed under the License is distributed on an "AS IS" BASIS,
+   - WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   - See the License for the specific language governing permissions and
+   - limitations under the License.
+ -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+<!-- PaymentRequest Definitions -->
+	
+	<bean id="OlePaymentRequest-itemValidation" class="org.kuali.ole.select.document.validation.impl.OlePaymentRequestItemValidation" abstract="true">
+	</bean>
+	
+	<bean id="OlePaymentRequest-processItemValidation" class="org.kuali.ole.select.document.validation.impl.OlePaymentRequestProcessItemValidation" abstract="true">
+		<property name="purapService" ref="purapService" />
+		<property name="reviewAccountingLineValidation" ref="PaymentRequest-reviewAccountingLine" />		
+	</bean>
+	<bean id="OlePaymentRequest-invoiceValidation" class="org.kuali.ole.select.document.validation.impl.OlePaymentRequestInvoiceValidation" abstract="true"/>
+
+	
+	<bean id="OlePaymentRequest-routeDocumentValidation" parent="OlePaymentRequest-routeDocumentValidation-parentBean" scope="prototype" />
+  
+  	<bean id="OlePaymentRequest-routeDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>
+  				<bean parent="PurchasingAccountsPayable-bankCodeValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="accountingDocumentFieldConversion" />
+						</list>
+					</property>
+				</bean>
+  			
+			    <bean parent="OlePaymentRequest-routeDocument-itemsCollectionValidation" scope="prototype" />
+
+				<bean parent="PaymentRequest-routeDocument-fullDocumentEntryCompletedBranchingValidation" scope="prototype" />	 	
+																
+				<bean parent="AccountsPayable-processApprovalAtAccountsPayableReviewAllowedValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  	
+															
+				<bean parent="AccountsPayable-validateAccountsPayableItemsValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  	
+							
+				<bean parent="OlePaymentRequest-invoiceValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  									
+														
+				<bean parent="PaymentRequest-dateForContinueValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  			
+																
+				<bean parent="PaymentRequest-vendorValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  			
+																
+				<bean parent="PaymentRequest-payDateNotPastValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  															
+			
+				<bean parent="PurchasingAccountsPayable-checkNegativeAccountsValidation" scope="prototype"/>	
+
+				<bean parent="PaymentRequest-invoiceImageAttachmentValidation" scope="prototype"/>				
+			</list>
+		</property>
+  	</bean>
+	<!-- Route Document Event -->
+	<bean id="OlePaymentRequest-routeDocument-itemsCollectionValidation" abstract="true" parent="CollectionValidation" scope="prototype">
+  		<property name="collectionProperty" value="document.items" />
+  		<property name="validations">
+  			<list>  					  						
+				<bean parent="PaymentRequest-reviewValidation" scope="prototype">
+					<property name="parameterProperties">
+			            <list>
+							<bean parent="itemIterationSubjectFieldConversation" />
+						</list>
+					</property>
+				</bean>
+
+				<bean parent="OlePaymentRequest-processItemValidation" scope="prototype">
+					<property name="parameterProperties">
+			            <list>
+	  	                    <bean parent="itemIterationSubjectFieldConversation" />
+						</list>
+					</property>
+				</bean>			
+																						
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="OlePaymentRequest-approveDocumentValidation" parent="OlePaymentRequest-approveDocumentValidation-parentBean" scope="prototype" />
+  
+  	<bean id="OlePaymentRequest-approveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>
+			    <bean parent="OlePaymentRequest-approveDocument-itemsCollectionValidation" scope="prototype" />
+			    
+			    <bean parent="PaymentRequest-approveDocument-fullDocumentEntryCompletedBranchingValidation" scope="prototype" />
+											
+				<bean parent="AccountsPayable-processApprovalAtAccountsPayableReviewAllowedValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  							
+									
+				<bean parent="AccountsPayable-validateAccountsPayableItemsValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  				
+				
+				<bean parent="OlePaymentRequest-invoiceValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>				
+										
+				<bean parent="PaymentRequest-dateForContinueValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  		
+																	
+				<bean parent="PaymentRequest-vendorValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  		
+																	
+				<bean parent="PaymentRequest-payDateNotPastValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  								
+				
+				<bean parent="PurchasingAccountsPayable-checkNegativeAccountsValidation" scope="prototype"/>	
+				
+				<bean parent="PaymentRequest-invoiceImageAttachmentValidation" scope="prototype"/>							
+			</list>
+		</property>
+  	</bean>
+	<!-- Approve Document Event -->
+	<bean id="OlePaymentRequest-approveDocument-itemsCollectionValidation" abstract="true" parent="CollectionValidation" scope="prototype">
+  		<property name="collectionProperty" value="document.items" />
+  		<property name="validations">
+  			<list>
+				<bean parent="OlePaymentRequest-processItemValidation" scope="prototype">
+					<property name="parameterProperties">
+			            <list>
+	  	                    <bean parent="itemIterationSubjectFieldConversation" />
+						</list>
+					</property>
+				</bean>
+				
+			</list>
+		</property>
+	</bean>
+	
+	 <bean id="OlePaymentRequest-eInvoiceValidation" parent="OlePaymentRequest-eInvoiceValidation-parentBean" scope="prototype" />
+  
+	<bean id="OlePaymentRequest-eInvoiceValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+  			<list>
+			    <bean parent="OlePaymentRequest-eInvoice-itemsCollectionValidation" scope="prototype" />
+
+				<bean parent="PaymentRequest-eInvoice-fullDocumentEntryCompletedBranchingValidation" scope="prototype" />	 	
+
+				<bean parent="AccountsPayable-processApprovalAtAccountsPayableReviewAllowedValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  												
+				<bean parent="AccountsPayable-validateAccountsPayableItemsValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  				
+				<bean parent="OlePaymentRequest-invoiceValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  									
+														
+				<bean parent="PaymentRequest-dateForContinueValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  															
+				<bean parent="PaymentRequest-vendorValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  															
+				<bean parent="PaymentRequest-payDateNotPastValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  															
+			
+				<bean parent="PurchasingAccountsPayable-checkNegativeAccountsValidation" scope="prototype"/>	  						  			
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="OlePaymentRequest-eInvoice-itemsCollectionValidation" abstract="true" parent="CollectionValidation" scope="prototype">
+ 		<property name="collectionProperty" value="document.items" />
+ 		<property name="validations">
+ 			<list>
+				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="iterationSubject" />
+								<property name="targetValidationProperty" value="businessObjectForValidation" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+					
+				<bean parent="PaymentRequest-reviewValidation" scope="prototype">
+					<property name="parameterProperties">
+			            <list>
+	  	                    <bean parent="itemIterationSubjectFieldConversation" />
+						</list>
+					</property>
+				</bean>
+
+				<bean parent="OlePaymentRequest-processItemValidation" scope="prototype">
+					<property name="parameterProperties">
+			            <list>
+	  	                    <bean parent="itemIterationSubjectFieldConversation" />
+						</list>
+					</property>
+				</bean>
+																			
+			</list>
+		</property>
+	</bean>
+	<bean id="OlePaymentRequest-continuePurapValidation" parent="OlePaymentRequest-continuePurapValidation-parentBean" scope="prototype" />
+  
+	<bean id="OlePaymentRequest-continuePurapValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>
+  				<bean parent="PaymentRequest-purchaseOrderIdValidation" scope="prototype" />
+  				<bean parent="OlePaymentRequest-invoiceValidation" scope="prototype" />
+  				<bean parent="PaymentRequest-dateForContinueValidation" scope="prototype" />
+  			</list>
+  		</property>								
+	</bean>
+	 <bean id="OlePaymentRequest-calculateAccountsPayableValidation" parent="OlePaymentRequest-calculateAccountsPayableValidation-parentBean" scope="prototype" />
+	
+	<bean id="OlePaymentRequest-calculateAccountsPayableValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>
+  				<bean parent="OlePaymentRequest-itemValidation" scope="prototype"/>
+  				<bean parent="PaymentRequest-totalsValidation" scope="prototype" />
+  				<bean parent="PaymentRequest-payDateNotOverThresholdDaysAwayValidation" scope="prototype" />
+  				<!-- bean parent="PaymentRequest-grandTotalOverZeroValidation" scope="prototype" /-->
+  				<bean parent="PaymentRequest-payDateNotPastValidation" scope="prototype" />
+                <!-- <bean parent="PaymentRequest-lineItemQuantityNotZero" scope="prototype" /> -->  				
+  			</list>
+  		</property>										
+	</bean>
+</beans>

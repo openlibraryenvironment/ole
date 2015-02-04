@@ -1,0 +1,729 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!--
+	Copyright 2005 The Kuali Foundation
+	
+	Licensed under the Educational Community License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+	
+	http://www.opensource.org/licenses/ecl2.php
+	
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
+-->
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN" "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+<struts-config>
+	<form-beans>
+	     <!-- OLE bean definitions -->
+	     <form-bean name="PrLookUpForm" 
+            type="org.kuali.ole.select.document.web.struts.PersonRequestorLookUpForm" />
+	     <form-bean name="LookupForm" type="org.kuali.ole.select.lookup.web.DocLookupForm" />
+	     <form-bean name="OleOrderQueueForm" type="org.kuali.ole.select.document.web.struts.OleOrderQueueForm"/>
+	     <form-bean name="OleDefaultTableColumnValueForm" type="org.kuali.ole.select.document.web.OleDefaultTableColumnValueForm"/>
+	     <form-bean name="OleReceivingQueueSearchForm" type="org.kuali.ole.select.document.web.OleReceivingQueueSearchForm"/>
+	     <!-- <form-bean name="OleDefaultValueForm" type="org.kuali.ole.select.document.web.OleDefaultValueForm"></form-bean> -->
+		 <form-bean name="DataDictionaryDumperForm" type="org.kuali.ole.sys.web.dddumper.DataDictionaryDumperForm" />
+		 <form-bean name="DataDictionaryDumperDetailForm" type="org.kuali.ole.sys.web.dddumper.DataDictionaryDumperDetailForm" />
+		 <form-bean name="OleAcquisitionsSearchForm" type="org.kuali.ole.select.document.web.struts.OleAcquisitionsSearchForm"/>
+		 <form-bean name="OleFundLookupForm" type="org.kuali.ole.select.document.web.struts.OleFundLookupForm"/>
+	     
+		<!--  Rice Bean Definitions : This is a bean declared in Rice, but is needed throughout this config -->
+		<form-bean name="KualiForm"
+			type="org.kuali.rice.kns.web.struts.form.KualiForm" />
+		<form-bean name="BackdoorForm" 
+			type="org.kuali.rice.kns.web.struts.form.BackdoorForm" />
+        <form-bean name="KualiLogoutForm" type="org.kuali.rice.kns.web.struts.form.KualiLogoutForm" />
+
+		<!--  KFS Core Bean Definitions -->
+		<form-bean name="KualiBalanceInquiryReportMenuForm"
+			type="org.kuali.ole.sys.web.struts.KualiBalanceInquiryReportMenuForm" />
+		<form-bean name="KualiBatchJobModifyForm"
+			type="org.kuali.ole.sys.web.struts.KualiBatchJobModifyForm" />
+		<form-bean name="KualiBatchFileAdminForm"
+			type="org.kuali.ole.sys.web.struts.KualiBatchFileAdminForm" />
+		<form-bean name="KualiBatchInputFileForm"
+			type="org.kuali.ole.sys.web.struts.KualiBatchInputFileForm" />
+		<form-bean name="AcquisitionBatchInputFileForm"
+			type="org.kuali.ole.sys.web.struts.AcquisitionBatchInputFileForm" />
+		<form-bean name="KualiBatchInputFileSetForm"
+			type="org.kuali.ole.sys.web.struts.KualiBatchInputFileSetForm" />
+		<form-bean name="ElectronicFundTransferForm"
+			type="org.kuali.ole.sys.web.struts.ElectronicFundTransferForm" />
+
+		<!--  Financial Module Bean Definitions -->
+		<form-bean name="DepositWizardForm"
+			type="org.kuali.ole.fp.document.web.struts.DepositWizardForm" />
+		<form-bean name="CashReceiptForm"
+			type="org.kuali.ole.fp.document.web.struts.CashReceiptForm" />
+		<form-bean name="CreditCardReceiptForm"
+			type="org.kuali.ole.fp.document.web.struts.CreditCardReceiptForm" />
+		<form-bean name="AdvanceDepositForm"
+			type="org.kuali.ole.fp.document.web.struts.AdvanceDepositForm" />
+		<form-bean name="InternalBillingForm"
+			type="org.kuali.ole.fp.document.web.struts.InternalBillingForm" />
+		<form-bean name="ServiceBillingForm"
+			type="org.kuali.ole.fp.document.web.struts.ServiceBillingForm" />
+		<form-bean name="TransferOfFundsForm"
+			type="org.kuali.ole.fp.document.web.struts.TransferOfFundsForm" />
+		<form-bean name="YearEndTransferOfFundsForm"
+			type="org.kuali.ole.fp.document.web.struts.YearEndTransferOfFundsForm" />
+		<!-- <form-bean name="GeneralErrorCorrectionForm"
+			type="org.kuali.ole.fp.document.web.struts.GeneralErrorCorrectionForm" /> -->
+		<form-bean name="GeneralErrorCorrectionForm"
+			type="org.kuali.ole.select.document.web.struts.OleGeneralErrorCorrectionForm" />
+		<form-bean name="YearEndGeneralErrorCorrectionForm"
+			type="org.kuali.ole.fp.document.web.struts.YearEndGeneralErrorCorrectionForm" />
+		<!-- <form-bean name="DistributionOfIncomeAndExpenseForm"
+			type="org.kuali.ole.fp.document.web.struts.DistributionOfIncomeAndExpenseForm" /> -->
+		<form-bean name="DistributionOfIncomeAndExpenseForm"
+			type="org.kuali.ole.select.document.web.struts.OleDistributionOfIncomeAndExpenseForm" />
+		<form-bean name="YearEndDistributionOfIncomeAndExpenseForm"
+			type="org.kuali.ole.fp.document.web.struts.YearEndDistributionOfIncomeAndExpenseForm" />
+		<form-bean name="AuxiliaryVoucherForm"
+			type="org.kuali.ole.fp.document.web.struts.AuxiliaryVoucherForm" />
+		<form-bean name="BursarControlScreenForm"
+			type="org.kuali.module.financial.web.struts.form.BursarControlScreenForm" />
+		<form-bean name="JournalVoucherForm"
+			type="org.kuali.ole.fp.document.web.struts.JournalVoucherForm" />
+		<form-bean name="IndirectCostAdjustmentForm"
+			type="org.kuali.ole.fp.document.web.struts.IndirectCostAdjustmentForm" />
+		<form-bean name="NonCheckDisbursementForm"
+			type="org.kuali.ole.fp.document.web.struts.NonCheckDisbursementForm" />
+		<form-bean name="PreEncumbranceForm"
+			type="org.kuali.ole.fp.document.web.struts.PreEncumbranceForm" />
+		<!-- <form-bean name="DisbursementVoucherForm"
+			type="org.kuali.ole.fp.document.web.struts.DisbursementVoucherForm" /> -->
+		<form-bean name="CashManagementForm"
+			type="org.kuali.ole.fp.document.web.struts.CashManagementForm" />
+		<form-bean name="CashManagementStatusForm"
+			type="org.kuali.ole.fp.document.web.struts.CashManagementStatusForm" />
+		<form-bean name="ProcurementCardForm"
+			type="org.kuali.ole.fp.document.web.struts.ProcurementCardForm" />
+		<form-bean name="BudgetAdjustmentForm"
+			type="org.kuali.ole.fp.document.web.struts.BudgetAdjustmentForm" />
+		<form-bean name="YearEndBudgetAdjustmentForm"
+			type="org.kuali.ole.fp.document.web.struts.YearEndBudgetAdjustmentForm" />
+
+		<!--  Accounts Receivable Module Bean Definitions -->
+ 
+		<form-bean name="PaymentApplicationDocumentForm"
+			type="org.kuali.ole.module.ar.document.web.struts.PaymentApplicationDocumentForm" />
+		<form-bean name="CashControlDocumentForm"
+			type="org.kuali.ole.module.ar.document.web.struts.CashControlDocumentForm" />
+		<form-bean name="CustomerCreditMemoDocumentForm"
+			type="org.kuali.ole.module.ar.document.web.struts.CustomerCreditMemoDocumentForm" />
+		<form-bean name="CustomerInvoiceDocumentForm"
+			type="org.kuali.ole.module.ar.document.web.struts.CustomerInvoiceDocumentForm" />
+		<form-bean name="CustomerInvoiceWriteoffDocumentForm"
+			type="org.kuali.ole.module.ar.document.web.struts.CustomerInvoiceWriteoffDocumentForm" />
+		<form-bean name="CustomerAgingReportForm"
+			type="org.kuali.ole.module.ar.web.struts.CustomerAgingReportForm" />
+		<form-bean name="CustomerOpenItemReportForm"
+			type="org.kuali.ole.module.ar.web.struts.CustomerOpenItemReportForm" />
+		<form-bean name="CustomerInvoiceWriteoffLookupForm"
+			type="org.kuali.ole.module.ar.web.struts.CustomerInvoiceWriteoffLookupForm" />
+		<form-bean name="CustomerInvoiceWriteoffLookupSummaryForm"
+			type="org.kuali.ole.module.ar.web.struts.CustomerInvoiceWriteoffLookupSummaryForm" />
+		<form-bean name="CustomerStatementForm"
+			type="org.kuali.ole.module.ar.web.struts.CustomerStatementForm" />
+		<form-bean name="CustomerInvoiceForm"
+			type="org.kuali.ole.module.ar.web.struts.CustomerInvoiceForm" />
+
+
+
+		<!-- General Ledger Bean Definitions -->
+		<form-bean name="CorrectionForm"
+			type="org.kuali.ole.gl.document.web.struts.CorrectionForm" />
+		<form-bean name="BalanceInquiryForm"
+			type="org.kuali.ole.gl.web.struts.BalanceInquiryForm" />
+		<form-bean name="BalanceInquiryLookupForm"
+			type="org.kuali.ole.gl.web.struts.BalanceInquiryLookupForm" />
+
+		<!-- PURAP Module Bean Definitions -->
+ 
+		<form-bean name="ContractManagerAssignmentForm"
+			type="org.kuali.ole.module.purap.document.web.struts.ContractManagerAssignmentForm" /><!--
+		<form-bean name="RequisitionForm"
+			type="org.kuali.ole.module.purap.document.web.struts.RequisitionForm" />
+		-->
+		<form-bean name="OleRequisitionForm"
+			type="org.kuali.ole.select.document.web.struts.OleRequisitionForm" />
+		<form-bean name="RequisitionForm"
+			type="org.kuali.ole.select.document.web.struts.OleRequisitionForm" />
+		<form-bean name="OlePurchaseOrderForm"
+			type="org.kuali.ole.module.purap.document.web.struts.OlePurchaseOrderForm" />
+		<form-bean name="PurchaseOrderForm"
+			type="org.kuali.ole.module.purap.document.web.struts.PurchaseOrderForm" /><!--
+		
+		<form-bean name="PurchaseOrderForm"
+			type="org.kuali.ole.select.document.web.struts.OlePurchaseOrderForm" />-->
+		<form-bean name="PaymentRequestForm"
+			type="org.kuali.ole.module.purap.document.web.struts.PaymentRequestForm" />
+		<form-bean name="OlePaymentRequestForm" 
+	     	type="org.kuali.ole.select.document.web.struts.OlePaymentRequestForm"/>
+	     	
+	    <form-bean name="InvoiceForm"
+			type="org.kuali.ole.module.purap.document.web.struts.InvoiceForm" />
+		<form-bean name="OleInvoiceForm" 
+	     	type="org.kuali.ole.select.document.web.struts.OleInvoiceForm"/>
+	     	
+		<!-- <form-bean name="VendorCreditMemoForm"
+			type="org.kuali.ole.module.purap.document.web.struts.VendorCreditMemoForm" /> -->
+		<form-bean name="VendorCreditMemoForm" 
+	     	type="org.kuali.ole.select.document.web.struts.OleVendorCreditMemoForm"/>
+		<form-bean name="LineItemReceivingForm"
+			type="org.kuali.ole.module.purap.document.web.struts.LineItemReceivingForm" />
+		<form-bean name="OleLineItemReceivingForm"
+			type="org.kuali.ole.select.document.web.struts.OleLineItemReceivingForm" />
+		<form-bean name="CorrectionReceivingForm"
+			type="org.kuali.ole.module.purap.document.web.struts.CorrectionReceivingForm" />
+		<form-bean name="OleCorrectionReceivingForm"
+			type="org.kuali.ole.select.document.web.struts.OleCorrectionReceivingForm" />
+		<form-bean name="BulkReceivingForm"
+			type="org.kuali.ole.module.purap.document.web.struts.BulkReceivingForm" />
+		<form-bean name="ElectronicInvoiceRejectForm"
+			type="org.kuali.ole.module.purap.document.web.struts.ElectronicInvoiceRejectForm" />
+		<form-bean name="B2BForm"
+			type="org.kuali.ole.module.purap.web.struts.B2BForm" />
+
+		<form-bean name="ElectronicInvoiceTestForm"
+			type="org.kuali.ole.module.purap.document.web.struts.ElectronicInvoiceTestForm" />
+		<form-bean name="DisbursementVoucherForm"
+			type="org.kuali.ole.select.document.web.struts.OleDisbursementVoucherForm" />	
+
+
+		<!-- CG Module Bean Definitions -->
+ 
+		<form-bean name="CloseForm"
+			type="org.kuali.ole.module.cg.web.struts.CloseForm" />
+
+		<!-- PDP Module Bean Definitions -->
+		<form-bean name="PdpFormatForm" type="org.kuali.ole.pdp.web.struts.FormatForm" />
+
+		<!-- CAMs Module Bean Definitions -->
+		
+ 
+		<form-bean name="AssetPaymentForm"
+			type="org.kuali.ole.module.cam.document.web.struts.AssetPaymentForm" />
+		<form-bean name="AssetTransferForm"
+			type="org.kuali.ole.module.cam.document.web.struts.AssetTransferForm" />
+		<form-bean name="EquipmentLoanOrReturnForm"
+			type="org.kuali.ole.module.cam.document.web.struts.EquipmentLoanOrReturnForm" />
+		<form-bean name="BarcodeInventoryErrorForm"
+			type="org.kuali.ole.module.cam.document.web.struts.BarcodeInventoryErrorForm" />
+		<form-bean name="AssetBarCodeInventoryInputFileForm"
+			type="org.kuali.ole.module.cam.document.web.struts.AssetBarCodeInventoryInputFileForm" />
+
+		<!-- CAB Module Bean Definitions -->
+		<form-bean name="PurApLineForm"
+			type="org.kuali.ole.module.cab.document.web.struts.PurApLineForm" />
+		<form-bean name="GlLineForm"
+			type="org.kuali.ole.module.cab.document.web.struts.GlLineForm" />
+		<form-bean name="CapitalAssetInformationForm"
+			type="org.kuali.ole.module.cab.document.web.struts.CapitalAssetInformationForm" />
+			
+		<!-- DocStore Discovery Form definitions -->
+		<form-bean name="DiscoveryForm"
+			type="org.kuali.ole.docstore.discovery.web.struts.form.DiscoveryForm" />
+			
+        <!-- VND Module Bean Definitions -->
+	    <form-bean name="VendorExclusionForm"
+			type="org.kuali.ole.vnd.web.struts.VendorExclusionForm" />       			
+        <form-bean name="oleReqPOAskQuestionForm" type="org.kuali.ole.select.document.web.OLEReqPOAskQuestionForm"/>
+	</form-beans>
+
+ 	<global-exceptions>
+ 		<exception type="java.lang.Throwable"
+			handler="org.kuali.rice.kns.web.struts.form.pojo.StrutsExceptionIncidentHandler"
+ 			key="meaningless" />
+		<exception type="org.kuali.rice.krad.exception.AuthorizationException"
+			handler="org.kuali.rice.kns.web.struts.form.pojo.AuthorizationExceptionHandler"
+ 			key="meaningless" />
+ 	</global-exceptions>
+
+
+	<global-forwards>
+		<forward name="save" path="/index.jsp" redirect="true" />
+		<forward name="cancel" path="/index.jsp" redirect="true" />
+		<forward name="close" path="/index.jsp" redirect="true" />
+		<forward name="portal" path="/index.jsp" redirect="true" />
+		<forward name="oleportal" path="/oleIndex.jsp" redirect="true" />
+		<forward name="olesave" path="/oleIndex.jsp" redirect="true" />
+		<forward name="olecancel" path="/oleIndex.jsp" redirect="true" />
+		<forward name="oleclose" path="/oleIndex.jsp" redirect="true" />
+		<forward name="route_report" path="/kr/WEB-INF/jsp/RoutingReportForward.jsp" />
+		<forward name="exceptionIncidentHandler" path="/kr/kualiExceptionIncidentReport.do" />
+		<forward name="updateTextArea" path="/kr/WEB-INF/jsp/TextArea.jsp" />
+		<forward name="authorizationExceptionHandler" path="/kr/authorizationExceptionReport.do"
+			contextRelative="true" />
+		<forward name="moduleLocked" path="/krad/WEB-INF/jsp/moduleLocked.jsp"/>
+	</global-forwards>
+
+	<action-mappings>
+        
+           <action path="/oleOrderQueue" name="OleOrderQueueForm" input="/WEB-INF/jsp/OrderQueue.jsp"
+                type="org.kuali.ole.select.document.web.struts.OleOrderQueueAction"
+                scope="session" parameter="methodToCall" validate="true" attribute="KualiForm">
+            <forward name="basic" path="/WEB-INF/jsp/OleOrderQueue.jsp"/>
+        </action>
+        
+        <action path="/oleAcquisitionsSearch" name="OleAcquisitionsSearchForm" input="/WEB-INF/jsp/OleAcquisitionsSearch.jsp"
+                type="org.kuali.ole.select.document.web.struts.OleAcquisitionsSearchAction"
+                scope="session" parameter="methodToCall" validate="true" attribute="KualiForm">
+            <forward name="basic" path="/WEB-INF/jsp/OleAcquisitionsSearch.jsp"/>
+        </action>
+        
+    <!--     <action path="/oleFundLookup" name="OleFundLookupForm" input="/WEB-INF/jsp/OleFundLookup.jsp"
+                type="org.kuali.ole.select.document.web.struts.OleFundLookupAction"
+                scope="session" parameter="methodToCall" validate="true" attribute="KualiForm">
+            <forward name="basic" path="/WEB-INF/jsp/OleFundLookup.jsp"/>
+        </action> -->
+        
+        <action path="/oleFundLookup" name="OleFundLookupForm"
+			scope="request" attribute="KualiForm" parameter="methodToCall"
+			type="org.kuali.ole.select.document.web.struts.OleFundLookupAction">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic" path="/WEB-INF/jsp/OleFundLookup.jsp" />
+		</action>
+        
+        
+        <action path="/oledefaulttablecolumnValue" name="OleDefaultTableColumnValueForm" input="/WEB-INF/jsp/OleDefaultTableColumnValue.jsp"
+                type="org.kuali.ole.select.document.web.OleDefaultTableColumnValueAction"
+                scope="session" parameter="methodToCall" validate="true" attribute="KualiForm">
+            <forward name="basic" path="/WEB-INF/jsp/OleDefaultTableColumnValue.jsp"/>
+        </action>
+        
+        <action path="/oleReceivingQueueSearch" name="OleReceivingQueueSearchForm" input="/WEB-INF/jsp/OleReceivingQueueSearch.jsp"
+                type="org.kuali.ole.select.document.web.OleReceivingQueueSearchAction"
+                scope="session" parameter="methodToCall" validate="true" attribute="KualiForm">
+            <forward name="basic" path="/WEB-INF/jsp/OleReceivingQueueSearch.jsp"/>
+        </action>
+        
+        <!--  <action path="/oledefaultvalue" name="OleDefaultValueForm" input="/WEB-INF/jsp/OleDefaultValue.jsp"
+                type="org.kuali.ole.select.document.web.OleDefaultValueAction"
+                scope="session" parameter="methodToCall" validate="true" attribute="KualiForm">
+            <forward name="basic" path="/WEB-INF/jsp/OleDefaultValue.jsp"/>
+        </action> -->
+	
+		<!--  Core Action Mappings -->
+		<action path="/portal" name="KualiForm"
+			type="org.kuali.rice.kns.web.struts.action.KualiSimpleAction">
+			<forward name="basic" path="/portal.jsp" />
+		</action>
+		
+		<action path="/oleportal" name="KualiForm"
+			type="org.kuali.rice.kns.web.struts.action.KualiSimpleAction">
+			<forward name="basic" path="/olePortal.jsp" />
+		</action>
+
+		<action path="/index" name="KualiForm"
+			type="org.kuali.rice.kns.web.struts.action.KualiSimpleAction">
+			<forward name="basic" path="/portal.jsp" />
+		</action>
+		
+		<action path="/index" name="KualiForm"
+			type="org.kuali.rice.kns.web.struts.action.KualiSimpleAction">
+			<forward name="basic" path="/olePortal.jsp" />
+		</action>
+
+		<action path="/backdoorlogin" name="BackdoorForm" scope="request"
+			parameter="methodToCall" input="/WEB-INF/jsp/backdoor/oleIndex.jsp"
+			type="org.kuali.rice.kns.web.struts.action.BackdoorAction">
+			<forward name="basic" path="/olePortal.jsp" />
+			<forward name="viewPortal" path="/olePortal.jsp" />
+			<forward name="logout" path="/olelogout.do" />
+		</action>	
+		
+		<action path="/olebackdoorlogin" name="BackdoorForm" scope="request"
+			parameter="methodToCall" input="/WEB-INF/jsp/backdoor/index.jsp"
+			type="org.kuali.rice.kns.web.struts.action.BackdoorAction">
+			<forward name="basic" path="/portal.jsp" />
+			<forward name="viewPortal" path="/portal.jsp" />
+			<forward name="logout" path="/logout.do" />
+		</action>
+
+	<action path="/logout" name="KualiLogoutForm"
+			type="org.kuali.rice.kns.web.struts.action.KualiLogoutAction" />
+			
+	<action path="/olelogout" name="KualiLogoutForm"
+			type="org.kuali.rice.kns.web.struts.action.KualiLogoutAction" />
+
+		<action path="/updateTextArea" name="KualiForm"
+			type="org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase">
+			<forward name="basic" path="/kr/WEB-INF/jsp/TextArea.jsp" />
+		</action>
+
+		<action path="/balanceInquiryReportMenu" name="KualiBalanceInquiryReportMenuForm"
+			scope="request" attribute="KualiForm" parameter="methodToCall"
+			type="org.kuali.ole.sys.web.struts.KualiBalanceInquiryReportMenuAction">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic" path="/jsp/gl/KualiBalanceInquiryReportMenu.jsp" />
+		</action>
+
+		<action path="/dvPerDiem" name="DisbursementVoucherForm" scope="request"
+			attribute="KualiForm" parameter="methodToCall"
+			type="org.kuali.ole.fp.document.web.struts.DisbursementVoucherHelpAction">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic" path="/kr/WEB-INF/jsp/core/KualiHelp.jsp" />
+			<forward name="dvPerDiemLinks"
+				path="/jsp/fp/DisbursementVoucherTravelPerDiemLinks.jsp" />
+		</action>
+
+		<!-- KFS Action Mappings -->
+		<action path="/batchModify" name="KualiBatchJobModifyForm"
+			scope="request" attribute="KualiForm" parameter="methodToCall"
+			type="org.kuali.ole.sys.web.struts.KualiBatchJobModifyAction">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic" path="/jsp/sys/KualiBatchJobModify.jsp" />
+		</action>
+
+		<action path="/batchFileAdmin" name="KualiBatchFileAdminForm"
+			scope="request" attribute="KualiForm" parameter="methodToCall"
+			type="org.kuali.ole.sys.web.struts.KualiBatchFileAdminAction">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic" path="/jsp/sys/KualiBatchFileAdmin.jsp" />
+		</action>
+
+		<!-- EFT Action Mapping -->
+		<action path="/electronicFundTransfer" name="ElectronicFundTransferForm"
+			scope="request" parameter="methodToCall" attribute="KualiForm"
+			type="org.kuali.ole.sys.web.struts.ElectronicFundTransferAction">
+			<set-property property="cancellable" value="false" />
+			<forward name="basic" path="/jsp/sys/ElectronicFundTransfer.jsp" />
+		</action>
+
+		<!--  Module Action Mappings -->
+
+ 
+		<action path="/ar*" name="{1}Form" input="/jsp/module/ar/{1}.jsp"
+			type="org.kuali.ole.module.ar.document.web.struts.{1}Action" scope="request"
+			parameter="methodToCall" validate="true" attribute="KualiForm">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic" path="/jsp/module/ar/{1}.jsp" />
+			<forward name="arPrintPDF" path="/jsp/module/ar/ArPrintForward.jsp"
+				redirect="false" />
+		</action>
+
+		<action path="/arCustomerAgingReportLookup" name="CustomerAgingReportForm"
+			scope="request" attribute="KualiForm" parameter="methodToCall"
+			type="org.kuali.ole.module.ar.web.struts.CustomerAgingReportAction">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic" path="/jsp/module/ar/CustomerAgingReportLookup.jsp" />
+		</action>
+
+		<action path="/arCustomerOpenItemReportLookup" name="CustomerOpenItemReportForm"
+			scope="request" attribute="KualiForm" parameter="methodToCall"
+			type="org.kuali.ole.module.ar.web.struts.CustomerOpenItemReportAction">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic"
+				path="/jsp/module/ar/CustomerOpenItemReportLookup.jsp" />
+		</action>
+
+		<action path="/arCustomerInvoiceWriteoffLookup" name="CustomerInvoiceWriteoffLookupForm"
+			scope="request" attribute="KualiForm" parameter="methodToCall"
+			type="org.kuali.ole.module.ar.web.struts.CustomerInvoiceWriteoffLookupAction">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic"
+				path="/jsp/module/ar/CustomerInvoiceWriteoffLookup.jsp" />
+		</action>
+
+		<action path="/arCustomerInvoiceWriteoffLookupSummary" name="CustomerInvoiceWriteoffLookupSummaryForm"
+			scope="request" attribute="KualiForm" parameter="methodToCall"
+			type="org.kuali.ole.module.ar.web.struts.CustomerInvoiceWriteoffLookupSummaryAction">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic"
+				path="/jsp/module/ar/CustomerInvoiceWriteoffLookupSummary.jsp" />
+		</action>
+
+		<action path="/arCustomerStatement" name="CustomerStatementForm"
+			scope="request" attribute="KualiForm" parameter="methodToCall"
+			type="org.kuali.ole.module.ar.web.struts.CustomerStatementAction">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic" path="/jsp/module/ar/CustomerStatement.jsp" />
+			<forward name="arPrintPDF" path="/jsp/module/ar/ArPrintForward.jsp" />
+		</action>
+
+		<action path="/arCustomerInvoice" name="CustomerInvoiceForm"
+			scope="request" attribute="KualiForm" parameter="methodToCall"
+			type="org.kuali.ole.module.ar.web.struts.CustomerInvoiceAction">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic" path="/jsp/module/ar/CustomerInvoice.jsp" />
+		</action>
+
+		<action path="/uploadBarcodeInventoryFile" name="AssetBarCodeInventoryInputFileForm"
+			scope="request" attribute="KualiForm" parameter="methodToCall"
+			type="org.kuali.ole.module.cam.document.web.struts.AssetBarCodeInventoryInputFileAction">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic" path="/jsp/module/cams/BarcodeInventoryUpload.jsp" />
+		</action>
+
+		<action path="/cams*" name="{1}Form" input="/jsp/module/cams/{1}.jsp"
+			type="org.kuali.ole.module.cam.document.web.struts.{1}Action" scope="request"
+			parameter="methodToCall" validate="true" attribute="KualiForm">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic" path="/jsp/module/cams/{1}.jsp" />
+		</action>
+
+		<action path="/cab*" name="{1}Form" input="/jsp/module/cab/{1}.jsp"
+			type="org.kuali.ole.module.cab.document.web.struts.{1}Action" scope="session"
+			parameter="methodToCall" validate="true" attribute="KualiForm">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic" path="/jsp/module/cab/{1}.jsp" />
+		</action>
+
+		<action path="/financial*" name="{1}Form" input="/jsp/fp/{1}.jsp"
+			type="org.kuali.ole.fp.document.web.struts.{1}Action" scope="request"
+			parameter="methodToCall" validate="true" attribute="KualiForm">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic" path="/jsp/fp/{1}.jsp" />
+		</action>
+
+		<action path="/financialCashManagement" name="CashManagementForm"
+			input="/jsp/fp/CashManagement.jsp" type="org.kuali.ole.fp.document.web.struts.CashManagementAction"
+			scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic" path="/jsp/fp/CashManagement.jsp" />
+		</action>
+
+		<action path="/depositWizard" name="DepositWizardForm" input="/jsp/fp/DepositWizard.jsp"
+			scope="request" attribute="KualiForm" parameter="methodToCall"
+			type="org.kuali.ole.fp.document.web.struts.DepositWizardAction">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic" path="/jsp/fp/DepositWizard.jsp" />
+		</action>
+
+		<action path="/generalLedger*" name="{1}Form" input="/jsp/gl/{1}.jsp"
+			type="org.kuali.ole.gl.document.web.struts.{1}Action" scope="request"
+			parameter="methodToCall" validate="true" attribute="KualiForm">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic" path="/jsp/gl/{1}.jsp" />
+		</action>
+
+		<action path="/glBalanceInquiry" name="BalanceInquiryForm"
+			scope="request" attribute="KualiForm" parameter="methodToCall"
+			type="org.kuali.ole.gl.web.struts.BalanceInquiryAction">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic" path="/jsp/gl/BalanceInquiry.jsp" />
+		</action>
+
+		<action path="/glBalanceInquiryLookup" name="BalanceInquiryLookupForm"
+			scope="request" attribute="KualiForm" parameter="methodToCall"
+			type="org.kuali.ole.gl.web.struts.BalanceInquiryLookupAction">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic" path="/jsp/gl/BalanceInquiryLookup.jsp" />
+		</action>
+
+		<action path="/glModifiedInquiry" name="BalanceInquiryForm"
+			scope="request" attribute="KualiForm" parameter="methodToCall"
+			type="org.kuali.ole.gl.web.struts.BalanceInquiryAction">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic" path="/jsp/gl/ModifiedInquiry.jsp" />
+		</action>
+
+		<action path="/glAccountBalanceByConsolidationLookup" name="BalanceInquiryForm"
+			scope="request" attribute="KualiForm" parameter="methodToCall"
+			type="org.kuali.ole.gl.web.struts.BalanceInquiryAction">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic"
+				path="/jsp/gl/AccountBalanceByConsolidationLookup.jsp" />
+		</action>
+
+		<action path="/cashManagementStatus" name="CashManagementStatusForm"
+			type="org.kuali.ole.fp.document.web.struts.CashManagementStatusAction"
+			scope="request" attribute="KualiForm">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic" path="/jsp/fp/CashManagementStatus.jsp" />
+		</action>
+
+ 
+		<action path="/purap*" name="{1}Form" input="/jsp/module/purap/{1}.jsp"
+			type="org.kuali.ole.module.purap.document.web.struts.{1}Action"
+			scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic" path="/jsp/module/purap/{1}.jsp" />
+			<forward name="printPurchaseOrderPDF" path="/jsp/module/purap/PrintForward.jsp"
+				redirect="false" />
+			<forward name="retransmitPurchaseOrderPDF" path="/jsp/module/purap/RetransmitForward.jsp"
+				redirect="false" />
+			<forward name="printReceivingTicketPDF" path="/jsp/module/purap/ReceivingTicketForward.jsp"
+				redirect="false" />
+			<forward name="printPOQuoteListPDF" path="/jsp/module/purap/PrintPOQuoteListForward.jsp"
+				redirect="false" />
+		</action>
+
+		<action path="/purapPrint"
+			type="org.kuali.ole.module.purap.document.web.struts.PrintAction"
+			scope="request" />
+
+		<action path="/purapElectronicInvoiceTestFileGeneration" 
+			name="ElectronicInvoiceTestForm"
+			attribute="KualiForm" 
+			input="/jsp/module/purap/ElectronicInvoiceTest.jsp"
+			type="org.kuali.ole.module.purap.document.web.struts.ElectronicInvoiceTestAction"
+			scope="request">
+			<forward name="basic" path="/jsp/module/purap/ElectronicInvoiceTest.jsp" />
+		</action>
+
+		<action path="/b2b" name="B2BForm" scope="request" attribute="KualiForm"
+			parameter="methodToCall" type="org.kuali.ole.module.purap.web.struts.B2BAction">
+
+			<forward name="basic" path="/jsp/module/purap/ShopCatalogs.jsp" />
+			<forward name="removeframe" path="/jsp/module/purap/ShopRemoveFrame.jsp" />
+
+			<forward name="failure" path="/requisition/requisitionFailure.jsp" />
+			<forward name="invalid" path="/requisition/shopFail.jsp" />
+		</action>
+
+		<action path="/cg*" name="{1}Form" input="/jsp/module/cg/{1}.jsp"
+			type="org.kuali.ole.module.cg.web.struts.{1}Action" scope="request"
+			parameter="methodToCall" validate="true" attribute="KualiForm">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic" path="/jsp/module/cg/{1}.jsp" />
+		</action>
+
+		<action path="/batchUpload" name="KualiBatchInputFileForm"
+			scope="request" attribute="KualiForm" parameter="methodToCall"
+			type="org.kuali.ole.sys.web.struts.KualiBatchInputFileAction">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic"
+				path="/jsp/sys/KualiBatchInputFile.jsp" />
+		</action>
+
+		<action path="/acqBatchUpload" name="AcquisitionBatchInputFileForm"
+			scope="request" attribute="KualiForm" parameter="methodToCall"
+			type="org.kuali.ole.sys.web.struts.AcquisitionBatchInputFileAction">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic" path="/jsp/sys/AcquisitionBatchInputFile.jsp" />
+			<forward name="view" path="/jsp/sys/LoadBatchSummary.jsp" />
+		</action>
+		
+		 <action path="/batchlookup" name="LookupForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.rice.kns.web.struts.action.KualiLookupAction">
+	        <forward name="basic" path="/jsp/module/purap/OleBatchSummaryLookUp.jsp" />
+	    </action>
+	    
+		<action path="/batchUploadFileSet"
+			name="KualiBatchInputFileSetForm" scope="request"
+			attribute="KualiForm" parameter="methodToCall"
+			type="org.kuali.ole.sys.web.struts.KualiBatchInputFileSetAction">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic"
+				path="/jsp/sys/KualiBatchInputFileSet.jsp" />
+		</action>
+		
+		<!-- These are PDP items -->
+		<action path="/pdp/paymentdetail"
+		    name="KualiForm"
+			type="org.kuali.ole.pdp.web.struts.PaymentDetailAction"
+			scope="request" parameter="methodToCall" validate="false"
+			attribute="KualiForm" />
+		
+		<action path="/batchDetail"
+		    name="KualiForm"
+		    type="org.kuali.ole.pdp.web.struts.BatchAction"
+			scope="request" parameter="methodToCall" validate="false"
+            attribute="KualiForm" />
+
+		<action path="/pdp/format"
+			type="org.kuali.ole.pdp.web.struts.FormatAction"
+			name="PdpFormatForm"
+			scope="session" parameter="methodToCall" validate="false"
+			attribute="KualiForm">
+			<forward name="selection" path="/jsp/pdp/format/formatSelection.jsp" />
+			<forward name="continue" path="/jsp/pdp/format/formatContinue.jsp" />
+		</action>
+		
+		<action path="/doclookup" name="LookupForm" scope="request" attribute="KualiForm" parameter="methodToCall"
+	 		type="org.kuali.ole.select.lookup.web.KualiDocLookupAction">
+	        	<forward name="basic" path="/WEB-INF/jsp/KualiDocLookup.jsp" />
+	    </action>	     
+		
+		<action path="/dataDictionaryDumper" name="DataDictionaryDumperForm" scope="request"
+			attribute="KualiForm" 
+			type="org.kuali.ole.sys.web.dddumper.DataDictionaryDumperAction">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic" path="/jsp/sys/DataDictionaryDumper.jsp" />
+		</action>
+		<action path="/dataDictionaryDumperDetail" name="DataDictionaryDumperDetailForm" scope="request"
+			attribute="KualiForm" 
+			type="org.kuali.ole.sys.web.dddumper.DataDictionaryDumperDetailAction">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic" path="/jsp/sys/DataDictionaryDumperDetail.jsp" />
+		</action>
+		<action path="/prlookup" name="PrLookUpForm" scope="request" 
+		           attribute="KualiForm" parameter="methodToCall" 
+		           type="org.kuali.ole.module.purap.document.web.struts.PersonRequestorLookUpAction">
+	        <forward name="basic" path="/jsp/module/purap/PersonRequestorLookUp.jsp" />
+	    </action>
+	    
+	    <action path="/select*" name="{1}Form" input="/jsp/module/select/{1}.jsp"
+			type="org.kuali.ole.select.document.web.struts.{1}Action"
+			scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic" path="/jsp/module/select/{1}.jsp" />
+			<forward name="printPurchaseOrderPDF" path="/jsp/module/purap/PrintForward.jsp"
+				redirect="false" />
+			<forward name="retransmitPurchaseOrderPDF" path="/jsp/module/purap/RetransmitForward.jsp"
+				redirect="false" />
+			<forward name="printReceivingTicketPDF" path="/jsp/module/purap/ReceivingTicketForward.jsp"
+				redirect="false" />
+			<forward name="printPOQuoteListPDF" path="/jsp/module/purap/PrintPOQuoteListForward.jsp"
+				redirect="false" />
+		</action>
+		
+		<!-- DocStore Discovery action definitions. -->
+		<action path="/discovery" name="DiscoveryForm" scope="session"
+			attribute="discoveryForm" parameter="methodToCall"
+			type="org.kuali.ole.docstore.discovery.web.struts.action.DiscoveryAction">
+			<forward name="search" path="/WEB-INF/jsp/docstore/discovery/advancedSearch.jsp" />
+			<forward name="searchResults" path="/WEB-INF/jsp/docstore/discovery/searchResults.jsp" />
+			<forward name="moreFacets" path="/WEB-INF/jsp/docstore/discovery/moreFacets.jsp" />
+			<forward name="home" path="/portal.jsp" redirect="true"/>
+		</action>
+		
+		<action path="/oleFinancialDisbursementVoucher" name="DisbursementVoucherForm"
+			input="/jsp/module/select/OleDisbursementVoucher.jsp" type="org.kuali.ole.select.document.web.struts.OleDisbursementVoucherAction"
+			scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic" path="/jsp/module/select/OleDisbursementVoucher.jsp" />
+		</action>
+		
+		<action path="/oleFinancialDistributionOfIncomeAndExpense" name="DistributionOfIncomeAndExpenseForm" input="/jsp/module/select/OleDistributionOfIncomeAndExpense.jsp"
+			type="org.kuali.ole.select.document.web.struts.OleDistributionOfIncomeAndExpenseAction" scope="request"
+			parameter="methodToCall" validate="true" attribute="KualiForm">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic" path="/jsp/module/select/OleDistributionOfIncomeAndExpense.jsp" />
+		</action>
+		
+		<action path="/oleFinancialGeneralErrorCorrection" name="GeneralErrorCorrectionForm" input="/jsp/module/select/OleGeneralErrorCorrection.jsp"
+			type="org.kuali.ole.select.document.web.struts.OleGeneralErrorCorrectionAction" scope="request"
+			parameter="methodToCall" validate="true" attribute="KualiForm">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic" path="/jsp/module/select/OleGeneralErrorCorrection.jsp" />
+		</action>
+		
+		<action path="/selectOleVendorCreditMemo" name="VendorCreditMemoForm" input="/jsp/module/select/OleVendorCreditMemo.jsp"
+			type="org.kuali.ole.select.document.web.struts.OleVendorCreditMemoAction" scope="request"
+			parameter="methodToCall" validate="true" attribute="KualiForm">
+			<set-property property="cancellable" value="true" />
+			<forward name="basic" path="/jsp/module/select/OleVendorCreditMemo.jsp" />
+		</action>
+		
+        <action path="/oleReqPOAskQuestion" name="oleReqPOAskQuestionForm"
+                type="org.kuali.ole.select.document.web.OLEReqPOAskQuestionAction"
+                scope="request" parameter="methodToCall" attribute="KualiForm">
+            <forward name="basic" path="/WEB-INF/jsp/OLEReqPOAskQuestion.jsp" />
+        </action>
+
+	</action-mappings>
+
+	<controller
+		processorClass="org.kuali.rice.kns.web.struts.action.KualiRequestProcessor"
+		maxFileSize="5M" />
+		
+    <message-resources factory="org.kuali.rice.kns.web.struts.action.KualiPropertyMessageResourcesFactory" parameter="" />
+
+	<plug-in className="org.kuali.rice.kns.web.struts.form.pojo.PojoPlugin" />
+</struts-config>

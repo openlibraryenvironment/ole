@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+<!--
+ Copyright 2007-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean id="AccountMaintenanceDocument" parent="AccountMaintenanceDocument-parentBean"/>
+
+  <bean id="AccountMaintenanceDocument-parentBean" parent="AccountMaintenanceDocument-baseBean" abstract="true" />
+  
+  <bean id="AccountMaintenanceDocument-baseBean" abstract="true" parent="MaintenanceDocumentEntry" 
+  	p:businessObjectClass="org.kuali.ole.coa.businessobject.Account" 
+  	p:maintainableClass="org.kuali.ole.select.document.OleAccountMaintainableImpl">
+    <property name="maintainableSections">
+      <list>
+        <ref bean="AccountMaintenanceDocument-AccountMaintenance"/>
+        <ref bean="AccountMaintenanceDocument-OleAccountResponsibility"/>
+          <ref bean="AccountMaintenanceDocument-GuidelinesAndPurpose"/>
+        <ref bean="AccountMaintenanceDocument-AccountDescription"/>
+        
+      </list>
+    </property>
+    <property name="defaultExistenceChecks">
+        <list>
+	      	<bean parent="ReferenceDefinition" p:attributeName="organization" p:attributeToHighlightOnFail="organizationCode" /> 
+	      	<bean parent="ReferenceDefinition" p:attributeName="accountPhysicalCampus" p:attributeToHighlightOnFail="accountPhysicalCampusCode" /> 
+	      	<bean parent="ReferenceDefinition" p:attributeName="accountState" p:attributeToHighlightOnFail="accountStateCode" /> 
+	      	<bean parent="ReferenceDefinition" p:attributeName="postalZipCode" p:attributeToHighlightOnFail="accountZipCode" /> 
+	      	<bean parent="ReferenceDefinition" p:attributeName="accountType" p:attributeToHighlightOnFail="accountTypeCode" /> 
+	      <!--  changes for jira ole-2341 -->
+	      <!--  	<bean parent="ReferenceDefinition" p:attributeName="financialHigherEdFunction" p:attributeToHighlightOnFail="financialHigherEdFunctionCd" />  
+	      	<bean parent="ReferenceDefinition" p:attributeName="reportsToAccount" p:attributeToHighlightOnFail="reportsToAccountNumber" /> -->
+	      	<bean parent="ReferenceDefinition" p:attributeName="continuationAccount" p:attributeToHighlightOnFail="continuationAccountNumber" /> 
+	      	<bean parent="ReferenceDefinition" p:attributeName="endowmentIncomeAccount" p:attributeToHighlightOnFail="endowmentIncomeAccountNumber" /> 
+	      	<!-- <bean parent="ReferenceDefinition" p:attributeName="sufficientFundsCode" p:attributeToHighlightOnFail="accountSufficientFundsCode" />  -->
+	      	<bean parent="ReferenceDefinition" p:attributeName="accountFiscalOfficerUser" p:attributeToHighlightOnFail="accountFiscalOfficerUser.principalName" /> 
+	      	<bean parent="ReferenceDefinition" p:attributeName="accountSupervisoryUser" p:attributeToHighlightOnFail="accountSupervisoryUser.principalName" /> 
+	      	<bean parent="ReferenceDefinition" p:attributeName="accountManagerUser" p:attributeToHighlightOnFail="accountManagerUser.principalName" /> 
+	      	<bean parent="ReferenceDefinition" p:attributeName="accountRestrictedStatus" p:attributeToHighlightOnFail="accountRestrictedStatusCode" /> 
+	      	<bean parent="ReferenceDefinition" p:attributeName="subFundGroup" p:attributeToHighlightOnFail="subFundGroupCode" />
+	        <bean parent="ReferenceDefinition" p:attributeName="vendorDetail" p:attributeToHighlightOnFail="vendorName" />  
+	      	<bean parent="ReferenceDefinition" p:attributeName="budgetRecordingLevel" p:attributeToHighlightOnFail="budgetRecordingLevelCode" /> 
+	      	<bean parent="ReferenceDefinition" p:attributeName="acctIndirectCostRcvyType" p:attributeToHighlightOnFail="acctIndirectCostRcvyTypeCd" />
+  	    </list>   
+    </property>
+    <property name="lockingKeys">
+      <list>
+        <value>chartOfAccountsCode</value>
+        <value>accountNumber</value>
+      </list>
+    </property>
+    
+    <property name="documentTypeName" value="OLE_ACCT"/>
+    <property name="businessRulesClass" value="org.kuali.ole.coa.document.validation.impl.AccountRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.ole.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
+    <property name="documentPresentationControllerClass" value="org.kuali.ole.coa.document.authorization.AccountDocumentPresentationController"/>
+    <property name="promptBeforeValidationClass" value="org.kuali.ole.coa.document.validation.impl.AccountPreRules"/>
+    <property name="webScriptFiles">
+      <list>
+        <value>../dwr/interface/SubFundGroupService.js</value>
+        <value>../dwr/interface/AccountService.js</value>
+        <value>../scripts/coa/accountDocument.js</value>
+      </list>
+    </property>
+
+    <property name="workflowAttributes" ref="AccountMaintenanceDocument-workflowAttributes"/>
+  </bean>
+
+<!-- Maintenance Section Definitions -->
+
+
+  <bean id="AccountMaintenanceDocument-AccountMaintenance" parent="AccountMaintenanceDocument-AccountMaintenance-parentBean"/>
+
+  <bean id="AccountMaintenanceDocument-AccountMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="title" value="Account Maintenance"/>
+    <property name="maintainableItems">
+      <list>
+        <dd:maintField attributeName="chartOfAccountsCode" required="true"/>
+        <dd:maintField attributeName="accountNumber" required="true"/>
+        <dd:maintField attributeName="accountName" required="true"/>
+        <dd:maintField attributeName="organizationCode" required="true"/>
+        <dd:maintField attributeName="accountPhysicalCampusCode" />
+        <dd:maintField attributeName="accountCreateDate"/>
+        <dd:maintField attributeName="accountEffectiveDate" required="true" defaultValueFinderClass="org.kuali.ole.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder"/>
+        <dd:maintField attributeName="accountExpirationDate"/>
+        <dd:maintField attributeName="accountZipCode" />
+        <dd:maintField attributeName="accountCityName" />
+        <dd:maintField attributeName="accountStateCode" />
+        <dd:maintField attributeName="accountStreetAddress"/>
+        <dd:maintField attributeName="accountOffCampusIndicator"/>
+        <dd:maintField attributeName="closed"/>
+        <dd:maintField attributeName="accountTypeCode" />
+        <dd:maintField attributeName="subFundGroupCode" required="true" javascriptLeaveFieldFunction="onblur_subFundGroup" javascriptLeaveFieldCallbackFunction="checkRestrictedStatusCode_Callback"/>
+        <dd:maintField attributeName="vendorHeaderGeneratedIdentifier" />
+        <dd:maintField attributeName="vendorDetailAssignedIdentifier" />
+        <dd:maintField attributeName="vendorName" />
+        <dd:maintField attributeName="universityAccountNumber" required="true"/>
+          <!-- changes for jira ole-2341 -->
+   <!--       <dd:maintField attributeName="accountsFringesBnftIndicator" defaultValue="true"/> 
+        <dd:maintField attributeName="reportsToChartOfAccountsCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="reportsToAccountNumber" p:webUILeaveFieldFunction="onblur_accountNumber_newAccount">
+			<property name="webUILeaveFieldFunctionParameters">
+				<list>
+					<value>reportsToChartOfAccountsCode</value>
+				</list>
+			</property> 
+		</bean>      
+        <dd:maintField attributeName="financialHigherEdFunctionCd" required="true"/>   --> 
+        <dd:maintField attributeName="accountRestrictedStatusCode" required="true" javascriptLeaveFieldFunction="onblur_accountRestrictedStatusCode" javascriptLeaveFieldCallbackFunction="checkRestrictedStatusCode_Callback"/>
+        <dd:maintField attributeName="accountRestrictedStatusDate"/>
+        <dd:maintField attributeName="endowmentIncomeAcctFinCoaCd"/>
+        <bean parent="MaintainableFieldDefinition" p:name="endowmentIncomeAccountNumber" p:webUILeaveFieldFunction="onblur_accountNumber_newAccount">
+			<property name="webUILeaveFieldFunctionParameters">
+				<list>
+					<value>endowmentIncomeAcctFinCoaCd</value>
+				</list>
+			</property> 
+		</bean>        
+      </list>
+    </property>
+  </bean>
+
+    <bean id="AccountMaintenanceDocument-OleAccountResponsibility" parent="AccountMaintenanceDocument-OleAccountResponsibility-parentBean"/>
+
+    <bean id="AccountMaintenanceDocument-OleAccountResponsibility-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+        <property name="title" value="Account Responsibility"/>
+        <property name="maintainableItems">
+            <list>
+                <dd:maintField attributeName="accountFiscalOfficerSystemIdentifier" unconditionallyReadOnly="true" required="true"/>
+                <dd:maintField attributeName="accountFiscalOfficerUser.principalName" required="true"/>
+                <dd:maintField attributeName="accountsSupervisorySystemsIdentifier" unconditionallyReadOnly="true" required="true"/>
+                <dd:maintField attributeName="accountSupervisoryUser.principalName" />
+                <dd:maintField attributeName="accountManagerSystemIdentifier" unconditionallyReadOnly="true" required="true"/>
+                <dd:maintField attributeName="accountManagerUser.principalName" />
+                <dd:maintField attributeName="continuationFinChrtOfAcctCd"/>
+                <bean parent="MaintainableFieldDefinition" p:name="continuationAccountNumber" p:webUILeaveFieldFunction="onblur_accountNumber_newAccount">
+                    <property name="webUILeaveFieldFunctionParameters">
+                        <list>
+                            <value>continuationFinChrtOfAcctCd</value>
+                        </list>
+                    </property>
+                </bean>
+                <dd:maintField attributeName="incomeStreamFinancialCoaCode"/>
+                <bean parent="MaintainableFieldDefinition" p:name="incomeStreamAccountNumber" p:webUILeaveFieldFunction="onblur_accountNumber_newAccount">
+                    <property name="webUILeaveFieldFunctionParameters">
+                        <list>
+                            <value>incomeStreamFinancialCoaCode</value>
+                        </list>
+                    </property>
+                </bean>
+                <!--     <dd:maintField attributeName="budgetRecordingLevelCode" required="true"/>  -->
+                <!-- <dd:maintField attributeName="accountSufficientFundsCode" required="true"/>
+                <dd:maintField attributeName="pendingAcctSufficientFundsIndicator"/> -->
+                <!-- changes for jira ole-2341 -->
+                <!--      <dd:maintField attributeName="extrnlFinEncumSufficntFndIndicator"/>
+                    <dd:maintField attributeName="intrnlFinEncumSufficntFndIndicator"/>
+                    <dd:maintField attributeName="finPreencumSufficientFundIndicator"/> -->
+                <dd:maintField attributeName="financialObjectivePrsctrlIndicator"/>
+                <dd:maintField attributeName="thresholdPercentage"/>
+                <dd:maintField attributeName="thresholdAmount"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="AccountMaintenanceDocument-AccountResponsibility" parent="AccountMaintenanceDocument-AccountResponsibility-parentBean"/>
+
+  <bean id="AccountMaintenanceDocument-AccountResponsibility-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="title" value="Account Responsibility"/>
+    <property name="maintainableItems">
+      <list>
+        <dd:maintField attributeName="accountFiscalOfficerSystemIdentifier" unconditionallyReadOnly="true" required="true"/>
+        <dd:maintField attributeName="accountFiscalOfficerUser.principalName" required="true"/>
+        <dd:maintField attributeName="accountsSupervisorySystemsIdentifier" unconditionallyReadOnly="true" required="true"/>
+        <dd:maintField attributeName="accountSupervisoryUser.principalName" />
+        <dd:maintField attributeName="accountManagerSystemIdentifier" unconditionallyReadOnly="true" required="true"/>
+        <dd:maintField attributeName="accountManagerUser.principalName" />
+        <dd:maintField attributeName="continuationFinChrtOfAcctCd"/>
+        <bean parent="MaintainableFieldDefinition" p:name="continuationAccountNumber" p:webUILeaveFieldFunction="onblur_accountNumber_newAccount">
+			<property name="webUILeaveFieldFunctionParameters">
+				<list>
+					<value>continuationFinChrtOfAcctCd</value>
+				</list>
+			</property> 
+		</bean>                
+        <dd:maintField attributeName="incomeStreamFinancialCoaCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="incomeStreamAccountNumber" p:webUILeaveFieldFunction="onblur_accountNumber_newAccount">
+			<property name="webUILeaveFieldFunctionParameters">
+				<list>
+					<value>incomeStreamFinancialCoaCode</value>
+				</list>
+			</property> 
+		</bean>          
+     <!--     <dd:maintField attributeName="budgetRecordingLevelCode" required="true"/>  -->
+        <!-- <dd:maintField attributeName="accountSufficientFundsCode" required="true"/>
+        <dd:maintField attributeName="pendingAcctSufficientFundsIndicator"/> -->
+    <!-- changes for jira ole-2341 -->
+    <!--      <dd:maintField attributeName="extrnlFinEncumSufficntFndIndicator"/>
+        <dd:maintField attributeName="intrnlFinEncumSufficntFndIndicator"/>
+        <dd:maintField attributeName="finPreencumSufficientFundIndicator"/> -->  
+        <dd:maintField attributeName="financialObjectivePrsctrlIndicator"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="AccountMaintenanceDocument-GuidelinesAndPurpose" parent="AccountMaintenanceDocument-GuidelinesAndPurpose-parentBean"/>
+
+  <bean id="AccountMaintenanceDocument-GuidelinesAndPurpose-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="title" value="Guidelines And Purpose"/>
+    <property name="maintainableItems">
+      <list>
+        <dd:maintField attributeName="accountGuideline.accountExpenseGuidelineText" required="true"/>
+        <dd:maintField attributeName="accountGuideline.accountIncomeGuidelineText" />
+        <dd:maintField attributeName="accountGuideline.accountPurposeText" />
+      </list>
+    </property>
+  </bean>
+  <bean id="AccountMaintenanceDocument-AccountDescription" parent="AccountMaintenanceDocument-AccountDescription-parentBean"/>
+
+  <bean id="AccountMaintenanceDocument-AccountDescription-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="title" value="Account Description"/>
+    <property name="maintainableItems">
+      <list>
+        <dd:maintField attributeName="accountDescription.campusDescription"/>
+        <dd:maintField attributeName="accountDescription.organizationDescription"/>
+        <dd:maintField attributeName="accountDescription.responsibilityCenterDescription"/>
+    <!-- changes for jira ole-2341 -->
+      <!--    <dd:maintField attributeName="accountDescription.campusCode"/>
+        <dd:maintField attributeName="accountDescription.buildingCode"/>  -->
+      </list>
+    </property>
+  </bean>
+
+	<!-- workflow attributes -->
+  	<bean id="AccountMaintenanceDocument-workflowAttributes" parent="AccountMaintenanceDocument-workflowAttributes-parentBean"/>
+  
+  <bean id="AccountMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+		<property name="routingTypeDefinitions">
+    		<map>
+	    		<entry key="Account" value-ref="AccountMaintenanceDocument-RoutingType-Account"/>
+    			<entry key="OrganizationHierarchy" value-ref="RoutingType-MaintenanceDocument-OrganizationHierarchy"/>
+    			<entry key="Chart" value-ref="RoutingType-MaintenanceDocument-Chart"/>
+    			<entry key="AccountSupervisor" value-ref="AccountMaintenanceDocument-RoutingType-Account"/>
+    			<entry key="Award" value-ref="AccountMaintenanceDocument-RoutingType-Award"/>
+    			<entry key="SubFund" value-ref="RoutingType-MaintenanceDocument-SubFund"/>
+    		</map>
+		</property>
+		
+		<property name="searchingTypeDefinitions">
+    		<list>
+    			<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.ole.coa.businessobject.Account"/>
+    						<property name="attributeName" value="organizationCode"/>
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>newMaintainableObject.businessObject.organizationCode</value>
+    					</list>
+    				</property>
+    			</bean>
+    			<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.ole.coa.businessobject.Account"/>
+    						<property name="attributeName" value="accountFiscalOfficerSystemIdentifierForSearching"/>
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>newMaintainableObject.businessObject.accountFiscalOfficerUser.principalName</value>
+    					</list>
+    				</property>
+    			</bean>
+    			<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.ole.coa.businessobject.Account"/>
+    						<property name="attributeName" value="accountsSupervisorySystemsIdentifierForSearching"/>
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>newMaintainableObject.businessObject.accountSupervisoryUser.principalName</value>
+    					</list>
+    				</property>
+    			</bean>
+    			<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.ole.coa.businessobject.Account"/>
+    						<property name="attributeName" value="accountManagerSystemIdentifierForSearching"/>
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>newMaintainableObject.businessObject.accountManagerUser.principalName</value>
+    					</list>
+    				</property>
+    			</bean>
+    		</list>
+    	</property>
+	</bean>
+	
+	<bean id="AccountMaintenanceDocument-RoutingAttribute-AccountFiscalOfficerSystemIdentifier" class="org.kuali.rice.krad.datadictionary.RoutingAttribute">
+    	<property name="qualificationAttributeName" value="accountFiscalOfficerSystemIdentifier"/>
+	</bean>
+	
+	<bean id="AccountMaintenanceDocument-RoutingAttribute-AccountsSupervisorySystemsIdentifier" class="org.kuali.rice.krad.datadictionary.RoutingAttribute">
+    	<property name="qualificationAttributeName" value="accountsSupervisorySystemsIdentifier"/>
+	</bean>
+	
+	<bean id="AccountMaintenanceDocument-RoutingAttribute-Award" class="org.kuali.rice.krad.datadictionary.RoutingAttribute">
+    	<property name="qualificationAttributeName" value="contractsAndGrantsAccountResponsibilityId"/>
+	</bean>
+	
+   	<bean id="AccountMaintenanceDocument-DocumentValuePathGroup-AccountOfficersAndAccount" class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
+		<property name="documentValues">
+	   		<list>
+	   			<value>newMaintainableObject.businessObject.accountFiscalOfficerSystemIdentifier</value>
+	   			<value>newMaintainableObject.routingAccountsSupervisorySystemsIdentifier</value>
+	   			<value>newMaintainableObject.businessObject.chartOfAccountsCode</value>
+	   			<value>newMaintainableObject.businessObject.accountNumber</value>
+	   		</list>
+   		</property>
+   	</bean>
+   	
+   	 <bean id="AccountMaintenanceDocument-DocumentValuePathGroup-Award" class="org.kuali.rice.krad.datadictionary.DocumentValuePathGroup">
+		<property name="documentValues">
+	   		<list>
+	   			<value>newMaintainableObject.businessObject.contractsAndGrantsAccountResponsibilityId</value>
+	   		</list>
+   		</property>
+   	</bean>
+
+	<bean id="AccountMaintenanceDocument-RoutingType-Account" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+		        <ref bean="AccountMaintenanceDocument-RoutingAttribute-AccountFiscalOfficerSystemIdentifier"/>
+		        <ref bean="AccountMaintenanceDocument-RoutingAttribute-AccountsSupervisorySystemsIdentifier"/>
+		        <ref bean="RoutingAttribute-Chart"/>
+		        <ref bean="RoutingAttribute-Account"/>
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<ref bean="AccountMaintenanceDocument-DocumentValuePathGroup-AccountOfficersAndAccount"/>
+    		</list>
+    	</property>
+    </bean>
+  
+  <bean id="AccountMaintenanceDocument-RoutingType-Award" class="org.kuali.rice.krad.datadictionary.RoutingTypeDefinition">
+    	<property name="routingAttributes">
+    		<list>
+		        <ref bean="AccountMaintenanceDocument-RoutingAttribute-Award"/>
+    		</list>
+    	</property>
+    	<property name="documentValuePathGroups">
+    		<list>
+    			<ref bean="AccountMaintenanceDocument-DocumentValuePathGroup-Award"/>
+    		</list>
+    	</property>
+    </bean>
+ 
+</beans>

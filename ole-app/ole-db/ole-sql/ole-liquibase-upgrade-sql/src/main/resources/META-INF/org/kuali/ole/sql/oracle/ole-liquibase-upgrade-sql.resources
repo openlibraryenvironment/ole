@@ -1,0 +1,7 @@
+classpath:org/kuali/ole/sql/oracle/1.5.1.sql
+classpath:org/kuali/ole/sql/oracle/1.5.2.sql
+classpath:org/kuali/ole/sql/oracle/1.5.3.sql
+classpath:org/kuali/ole/sql/oracle/1.5.4.sql
+classpath:org/kuali/ole/sql/oracle/1.5.5.sql
+classpath:org/kuali/ole/sql/oracle/1.5.6.sql
+classpath:org/kuali/ole/sql/oracle/2.0.sql

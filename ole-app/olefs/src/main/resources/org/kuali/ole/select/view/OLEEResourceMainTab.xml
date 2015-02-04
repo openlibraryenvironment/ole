@@ -1,0 +1,903 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="OLEEResourceRecordView-E-ResourceRecordTab" parent="E-Res-Uif-DocumentPage">
+        <property name="headerText" value="Main" />
+        <property name="items">
+            <list merge="true">
+                <bean id="bannerMessage" parent="Uif-MessageField" p:messageText="@{document.bannerMessage}" p:cssClasses="successMessageClass"/>
+                <ref bean ="Ole-Uif-DocumentPageFooter-MainTab"/>
+                <ref bean="OLEEResourceMainTab-OverviewSection"/>
+                <ref bean="OLEEResourceMainTab-WorkflowSection"/>
+                <ref bean="OLEEResourceMainTab-VariantTitleSection"/>
+                <ref bean="OLEEResourceMainTab-Acquisitions"/>
+                <ref bean="OLEEResourceMainTab-Subscription"/>
+                <ref bean="OLEEResourceMainTab-SelectionSection"/>
+                <ref bean="OLEEResourceMainTab-AccessSection"/>
+                <ref bean="OLEEResourceMainTab-NoteSection"/>
+                <ref bean="EResourceInstance_ManageGoKbPopup"/>
+                <bean parent="Uif-DocumentAdHocRecipientsSection" p:disclosure.defaultOpen="false" p:order="40"/>
+                <bean parent="Uif-DocumentRouteLogSection" p:disclosure.defaultOpen="false" p:order="50"/>
+                <ref bean ="Ole-Uif-DocumentPageFooter-MainTab"/>
+                <!--<ref bean ="hdn_accessStatus"/>-->
+            </list>
+        </property>
+    </bean>
+    <bean id="Ole-Uif-DocumentPageFooter-MainTab" parent="Uif-Disclosure-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalBoxSection" p:style="float:left;margin-left:30em">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="save" p:actionLabel="Save" p:performClientSideValidation="true"
+                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP" />
+                            <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="sendAdHocRequests" p:actionLabel="send adhoc"
+                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SEND_ADHOC_REQUESTS]}"/>
+                            <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="true" p:methodToCall="deleteEresource" p:actionLabel="Delete"
+                                  p:successCallback="showEResourceNotDeletedPopUp('@{access}');" p:render="@{!(document.documentHeader.workflowDocument.initiated)}" p:componentSecurity.performActionAuthz="true" p:actionEvent="delete"/>
+                            <bean parent="Uif-PrimaryActionButton" p:actionLabel="Manage GOKb data"
+                                  p:methodToCall="getManageGOKbDataOnERes" p:ajaxSubmit="true"
+                                  p:successCallback="manageGokbPopup()"
+                                  p:render="@{!(document.documentHeader.workflowDocument.initiated or document.documentHeader.workflowDocument.final) and document.gokbIdentifier ne null}"/>
+                            <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route" p:actionLabel="Submit" p:performClientSideValidation="true"
+                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP" />
+                            <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="approve" p:actionLabel="Approve For Next Owner"  p:performClientSideValidation="true"
+                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]}" p:focusOnIdAfterSubmit="TOP" p:jumpToIdAfterSubmit="TOP" />
+                            <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="disapprove" p:actionLabel="disapprove"
+                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_DISAPPROVE]}"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!--<bean id="hdn_accessStatus" parent="Uif-InputField" p:propertyName="accessStatus">
+        <property name="hidden" value="true"/>
+    </bean>-->
+
+    <bean id="OLEEResourceMainTab_EResourceNotDeletedPopup" parent="Uif-VerticalBoxSection"  >
+        <property name="hidden" value="true"/>
+        <property name="headerText" value="Message"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField"
+                      p:messageText="This E-Resource could not be deleted because it is attached to one or more other records." />
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="OLEEResourceMainTab-WorkflowSection"  parent="Uif-GridGroup" p:layoutManager.numberOfColumns="3" >
+        <property name="items">
+            <list>
+                <ref bean="OLEEResourceMainTab-EResourceWorkflow"/>
+                <ref bean="OLEEResourceMainTab-WorkFlowStatusSection"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="OLEEResourceMainTab-OverviewSection"  parent="Uif-Disclosure-HorizontalBoxSection" >
+        <property name="headerText" value="Overview" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="6" >
+                    <property name="items">
+
+                        <list>
+                            <bean parent="Uif-InputField" p:propertyName="title" p:required="true" p:colSpan="4"
+                                  p:fieldLabel.colSpan="2"
+                                  p:width="60%" p:fieldLabel.width="40%">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="50" p:maxLength="100" p:textExpand="true"/>
+                                </property>
+                            </bean>
+
+                            <bean parent="Uif-InputField" p:propertyName="publisherId">
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.select.businessobject.options.OLEInvoiceVendorTypeFinder" />
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="vendorDropDownField" p:disabled="@{document.gokbIdentifier ne null}"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="oleERSIdentifier" p:readOnly="true"/>
+                            <bean id="eresource-statusId" parent="Uif-InputField" p:propertyName="statusId" p:label="Status" p:required="true" p:enableAutoQuickfinder="false">
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.select.keyvalue.OLEEResourceStatusKeyValues" />
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-DataField" p:propertyName="platformProvider"/>
+                            <bean parent="Uif-InputField" p:propertyName="isbn" p:readOnly="true"/>
+                            <bean id="eresource-statusDate" parent="Uif-DataField" p:propertyName="statusDate" p:label="Status Date">
+                                <property name="bindingInfo.bindToForm" value="true"/>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="vendorId" p:label="Vendor Name" p:enableAutoQuickfinder="false">
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.select.businessobject.options.OLEInvoiceVendorTypeFinder" />
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="vendorDropDownField"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="gokbIdentifier" p:readOnly="true"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceMainTab-EResourceWorkflow"  parent="Uif-Disclosure-GridSection" p:layoutManager.numberOfColumns="3" >
+        <property name="headerText" value="Indicate Workflow" />
+        <property name="items">
+            <list>
+                <bean id="EResourceWorkflow" parent="Uif-InputField" p:propertyName="eresourceWorkflowIndication"
+                      p:label="E-Resource workflow indication" >
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="cancellation" p:value="Cancellation"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="renewal" p:value="Renewal"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceMainTab-WorkFlowStatusSection"  parent="Uif-Disclosure-HorizontalBoxSection" >
+        <property name="headerText" value="Workflow Status"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalBoxGroup">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-GridSection" p:layoutManager.numberOfColumns="3" >
+                                <property name="items">
+                                    <list>
+                                        <bean id="ERName" parent="Uif-Label" p:labelText="WorkFlow Name"/>
+                                        <bean id="ERNeeded" parent="Uif-Label" p:labelText="Needed" p:align="center"/>
+                                        <bean id="ERStatus" parent="Uif-Label" p:labelText="Status"/>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-HorizontalBoxGroup">
+                                <property name="items">
+                                    <list>
+                                        <!--<bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="3" >
+                                            <property name="items">
+                                                <list>-->
+                                        <bean parent="Uif-InputField" p:propertyName="trialNeeded" p:label="Trial">
+                                            <property name="control">
+                                                <bean parent="Uif-CheckboxControl" p:style="float:right;margin-left:20em"/>
+                                            </property>
+                                        </bean>
+                                        <!--</list>
+                                    </property>
+                                </bean>-->
+                                        <bean parent="Uif-DataField" p:propertyName="trialStatus" p:fieldLabel.render="false" p:style="float:right;margin-left:20em"/>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-HorizontalBoxGroup">
+                                <property name="items">
+                                    <list>
+                                        <!--<bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="3" >
+                                            <property name="items">
+                                                <list>-->
+                                        <bean parent="Uif-InputField" p:propertyName="licenseNeeded" p:label="License" >
+                                            <property name="control">
+                                                <bean parent="Uif-CheckboxControl" p:style="float:right;margin-left:20em" />
+                                            </property>
+                                        </bean>
+                                        <!--</list>
+                                    </property>
+                                </bean>-->
+                                        <bean parent="Uif-DataField" p:propertyName="licenseReqStatus" p:fieldLabel.render="false" p:style="float:right;margin-left:20em"/>
+                                    </list>
+                                </property>
+                            </bean>
+
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceMainTab-VariantTitleSection" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="headerText" value="Variant Title"/>
+        <property name="items">
+            <list>
+                <ref bean="OLEEResourceMainTab-VariantTitle"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceMainTab-VariantTitle" parent="Uif-TableCollectionSection">
+        <property name="collectionObjectClass" value="org.kuali.ole.select.bo.OLEEResourceVariantTitle" />
+        <property name="propertyName" value="oleEResourceVariantTitleList" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderAddBlankLineButton" value="false" />
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="false">
+                <entry key="bPaginate" value="false"/>
+                <entry key="bInfo" value="false"/>
+                <entry key="bFilter" value="false"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="variantTitle" parent="Uif-InputField" p:propertyName="oleVariantTitle" />
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="OLEEResourceMainTab-VariantTitleSection_addTagButton_id" parent="Uif-SecondaryActionButton-Small"
+                      p:methodToCall="addVariantTitle" p:actionLabel="Add" p:style="Margin-top:0.4em;"
+                      p:ajaxSubmit="true" />
+                <bean id="OLEEResourceMainTab-VariantTitleSection_removeTagButton_id" parent="Uif-SecondaryActionButton-Small"
+                      p:methodToCall="removeVariantTitle" p:actionLabel="Remove" p:style="Margin-top:0.4em;"
+                      p:ajaxSubmit="true" p:render="@{document.oleEResourceVariantTitleList.size() ne 1}" />
+            </list>
+        </property>
+        <property name="layoutManager.actionFieldPrototype.group.layoutManager">
+            <bean id="OLEEResourceMainTab-VariantTitleSection-HorizontalBoxLayout"  parent="Uif-HorizontalBoxLayout"/>
+        </property>
+        <property name="layoutManager.actionFieldPrototype.label" value=" "/>
+    </bean>
+
+    <bean id="OLEEResourceMainTab-Acquisitions" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="headerText" value="Acquisitions" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridSection" p:layoutManager.numberOfColumns="1"  >
+                    <property name="items">
+                        <list>
+                            <ref bean="OLEEResourceMainTab-MaterialType"/>
+                            <ref bean="OLEEResourceMainTab-FormatType"/>
+                            <ref bean="OLEEResourceMainTab-ContentType"/>
+                            <ref bean="OLEEResourceMainTab-Details"/>
+                            <ref bean="OLEEResourceMainTab-FundCode"/>
+                            <ref bean="OLEEResourceMainTab-AccountingLines"/>
+
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id ="OLEEResourceMainTab-Subscription" parent="Uif-Disclosure-VerticalBoxSection" >
+        <property name="headerText" value="Subscription" />
+        <property name="items">
+            <list>
+                <ref bean="Subscription"/>
+                <ref bean="Subscription_Renewal"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Subscription" parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4" >
+        <property name="items">
+            <list>
+                <bean id="subscriptionStatusField" parent="Uif-InputField" p:propertyName="subscriptionStatus" p:label="Subscription Status">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="dropdown"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.module.purap.businessobject.options.OLESubscriptionStatusKeyValueFinder"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:label="Cancellation Candidate?" p:propertyName="cancellationCandidate">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+                <bean id="initial_subscription_startDate" parent="Uif-InputField" p:propertyName="initialSubscriptionStartDate" />
+                <bean id="cancellation_decision_date" parent="Uif-InputField" p:propertyName="cancellationDecisionDate" />
+                <bean id="current_subscription_startDate" parent="Uif-InputField" p:propertyName="currentSubscriptionStartDate" p:label="Current Subscription Start Date"/>
+                <bean id="cancellation_effective_date" parent="Uif-InputField" p:propertyName="cancellationEffectiveDate" p:label="Cancellation Effective Date" />
+                <bean id="current_subscription_endDate" parent="Uif-InputField" p:propertyName="currentSubscriptionEndDate" p:label="Current Subscription End Date" />
+                <bean id="cancellation_reason" parent="Uif-InputField" p:propertyName="cancellationReason" p:label="Cancellation Reason"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="Subscription_Renewal" parent="Uif-GridGroup" p:layoutManager.numberOfColumns="6">
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:label="Renewal Alert Enabled?" p:propertyName="renewalAlertEnabled">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+                <bean id="renewal_notice_period" parent="Uif-InputField" p:propertyName="renewalNoticePeriod" p:label="Notice Period in Days">
+                    <property name="control">
+                        <bean id="notice_period" parent="Uif-TextControl" p:size="6"/>
+                    </property>
+
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="recipientId" p:label="Recipient">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.deliver.bo.OleCirculationDeskMapping"
+                              p:fieldConversions="principalId:recipientId" p:lookupParameters="recipientId:principalId"/>
+                    </property>
+                </bean>
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceMainTab-MaterialType" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="1" >
+        <property name="collectionObjectClass" value="org.kuali.ole.select.bo.OLEMaterialTypeList" />
+        <property name="propertyName" value="oleMaterialTypes" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderAddBlankLineButton" value="false" />
+        <property name="renderAddLine" value="false"/>
+        <property name="headerText" value="" />
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="false">
+                <entry key="bPaginate" value="false"/>
+                <entry key="bInfo" value="false"/>
+                <entry key="bFilter" value="false"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="oleMaterialType" parent="Uif-InputField" p:propertyName="oleMaterialTypeId" p:label="Material Type" p:enableAutoQuickfinder="false" p:required="true" >
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.select.keyvalue.OLEMaterialTypeKeyValues" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="OLEEResourceMainTab-MaterialType_addTagButton_id" parent="Uif-SecondaryActionButton-Small"
+                      p:methodToCall="addMaterialType" p:actionLabel="Add" p:style="Margin-top:0.4em;"
+                      p:ajaxSubmit="true" />
+                <bean id="OLEEResourceMainTab-MaterialType_removeTagButton_id" parent="Uif-SecondaryActionButton-Small"
+                      p:methodToCall="removeMaterialType" p:actionLabel="Remove" p:style="Margin-top:0.4em;"
+                      p:ajaxSubmit="true" p:render="@{document.oleMaterialTypes.size() ne 1}"/>
+            </list>
+        </property>
+        <property name="layoutManager.actionFieldPrototype.group.layoutManager">
+            <bean id="OLEEResourceMainTab-MaterialType-HorizontalBoxLayout" parent="Uif-HorizontalBoxLayout"/>
+        </property>
+        <property name="layoutManager.actionFieldPrototype.label" value=""/>
+    </bean>
+
+    <bean id="OLEEResourceMainTab-FormatType" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="1" >
+        <property name="collectionObjectClass" value="org.kuali.ole.select.bo.OLEFormatTypeList" />
+        <property name="propertyName" value="oleFormatTypes" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderAddBlankLineButton" value="false" />
+        <property name="renderAddLine" value="false"/>
+        <property name="headerText" value="" />
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="false">
+                <entry key="bPaginate" value="false"/>
+                <entry key="bInfo" value="false"/>
+                <entry key="bFilter" value="false"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                 <bean id="oleFormatType" parent="Uif-InputField" p:propertyName="formatTypeId" p:label=" Format" p:enableAutoQuickfinder="false" p:required="true" >
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.select.keyvalue.OLEFormatTypeKeyValues" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="OLEEResourceMainTab-FormatType_addTagButton_id" parent="Uif-SecondaryActionButton-Small"
+                      p:methodToCall="addFormatType" p:actionLabel="Add" p:style="Margin-top:0.4em;"
+                      p:ajaxSubmit="true" />
+                <bean id="OLEEResourceMainTab-FormatType_removeTagButton_id" parent="Uif-SecondaryActionButton-Small"
+                      p:methodToCall="removeFormatType" p:actionLabel="Remove" p:style="Margin-top:0.4em;"
+                      p:ajaxSubmit="true" p:render="@{document.oleFormatTypes.size() ne 1}" />
+            </list>
+        </property>
+        <property name="layoutManager.actionFieldPrototype.group.layoutManager">
+            <bean id="OLEEResourceMainTab-FormatType-HorizontalBoxLayout" parent="Uif-HorizontalBoxLayout"/>
+        </property>
+        <property name="layoutManager.actionFieldPrototype.label" value=""/>
+    </bean>
+
+    <bean id="OLEEResourceMainTab-ContentType" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="1" >
+        <property name="collectionObjectClass" value="org.kuali.ole.select.bo.OLEContentTypes" />
+        <property name="propertyName" value="oleContentTypes" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderAddBlankLineButton" value="false" />
+        <property name="headerText" value="" />
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="false">
+                <entry key="bPaginate" value="false"/>
+                <entry key="bInfo" value="false"/>
+                <entry key="bFilter" value="false"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="oleContentType" parent="Uif-InputField" p:propertyName="oleContentTypeId" p:label="Content Type" p:enableAutoQuickfinder="false" p:required="true">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.select.keyvalue.OLEContentTypeKeyValues" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="OLEEResourceMainTab-ContentType_addTagButton_id" parent="Uif-SecondaryActionButton-Small"
+                      p:methodToCall="addContentType" p:actionLabel="Add" p:style="Margin-top:0.4em;"
+                      p:ajaxSubmit="true" />
+                <bean id="OLEEResourceMainTab-ContentType_removeTagButton_id" parent="Uif-SecondaryActionButton-Small"
+                      p:methodToCall="removeContentType" p:actionLabel="Remove" p:style="Margin-top:0.4em;"
+                      p:ajaxSubmit="true" p:render="@{document.oleContentTypes.size() ne 1}" />
+            </list>
+        </property>
+        <property name="layoutManager.actionFieldPrototype.group.layoutManager">
+            <bean id="OLEEResourceMainTab-ContentType-HorizontalBoxLayout" parent="Uif-HorizontalBoxLayout"/>
+        </property>
+        <property name="layoutManager.actionFieldPrototype.label" value=""/>
+    </bean>
+
+    <bean id="OLEEResourceMainTab-Details"  parent="Uif-Disclosure-HorizontalBoxSubSection" >
+        <property name="items">
+            <list>
+                <!--<bean parent="Uif-HorizontalBoxSection" p:layoutManager.cssClasses="fl-container-flex" p:layoutManager.style="border:1px dashed;">
+                    <property name="items">-->
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4" >
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:propertyName="paymentTypeId" p:enableAutoQuickfinder="false">
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.select.keyvalue.OLEPaymentTypeKeyValues" />
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="orderTypeId" p:enableAutoQuickfinder="false">
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.module.purap.businessobject.options.PurchaseOrderTypeValuesFinder" />
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="packageTypeId" p:enableAutoQuickfinder="false">
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.select.keyvalue.OLEPackageTypeKeyValues" />
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="packageScopeId" p:enableAutoQuickfinder="false">
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.select.keyvalue.OLEPackageScopeKeyValues" />
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="breakable">
+                                <property name="control">
+                                    <bean parent="Uif-CheckboxControl"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="fixedTitleList">
+                                <property name="control">
+                                    <bean parent="Uif-CheckboxControl"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="estimatedPrice">
+                                <property name="control">
+                                    <bean parent="Uif-CurrencyTextControl" p:size="26" p:maxLength="20"/>
+                                </property>
+                            </bean>
+                            <bean id="statisticalCategoryId" parent="Uif-InputField" p:propertyName="statisticalSearchingCode" p:label="Statistical Code" p:enableAutoQuickfinder="false">
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.describe.keyvalue.OLEStatisticalSearchingCodesValueFinder" />
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="dropDownField"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="description" p:width="50%" p:fieldLabel.width="50%"/>
+                            <!--<bean parent="Uif-InputField" p:propertyName="description"/>-->
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceMainTab-FundCode" parent="Uif-Disclosure-HorizontalBoxSubSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="3">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:propertyName="fundCode" p:label="Fund">
+                                <property name="quickfinder">
+                                    <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.ole.coa.businessobject.OleFundCode"
+                                          p:fieldConversions="fundCode:fundCode"/>
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="15"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-PrimaryActionButton" p:methodToCall="populateAccountingLines" p:actionLabel="Populate Accounting Lines"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceMainTab-AccountingLines" parent="Uif-Disclosure-TableSubCollection-WithinSection"
+          p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto;" p:disclosure.defaultOpen="false">
+        <property name="headerText" value="Accounting Lines"/>
+        <property name="collectionObjectClass" value="org.kuali.ole.select.bo.OLEEResourceAccountingLine"/>
+        <property name="propertyName" value="accountingLines"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.richTable.templateOptions" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderAddLine" value="true"/>
+        <property name="renderLineActions" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="chartOfAccountsCode">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.coa.businessobject.Chart"
+                              p:fieldConversions="chartOfAccountsCode:chartOfAccountsCode"
+                              p:lookupParameters="chartOfAccountsCode:chartOfAccountsCode"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="2"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="accountNumber">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="7"/>
+                    </property>
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.coa.businessobject.Account"
+                              p:fieldConversions="chartOfAccountsCode:chartOfAccountsCode,accountNumber:accountNumber"
+                              p:lookupParameters="chartOfAccountsCode:chartOfAccountsCode"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="subAccountNumber">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder"
+                              p:dataObjectClassName="org.kuali.ole.coa.businessobject.SubAccount"
+                              p:fieldConversions="chartOfAccountsCode:chartOfAccountsCode,accountNumber:accountNumber,subAccountNumber:subAccountNumber"
+                              p:lookupParameters="chartOfAccountsCode:chartOfAccountsCode,accountNumber:accountNumber"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="5"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="financialObjectCode">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder"
+                              p:dataObjectClassName="org.kuali.ole.coa.businessobject.ObjectCode"
+                              p:fieldConversions="financialObjectCode:financialObjectCode"
+                              p:lookupParameters="chartOfAccountsCode:chartOfAccountsCode"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="4"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="financialSubObjectCode">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder"
+                              p:dataObjectClassName="org.kuali.ole.coa.businessobject.SubObjectCode"
+                              p:fieldConversions="chartOfAccountsCode:chartOfAccountsCode,accountNumber:accountNumber,financialObjectCode:financialObjectCode,financialSubObjectCode:financialSubObjectCode"
+                              p:lookupParameters="financialObjectCode:financialObjectCode"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="3"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="projectCode">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder"
+                              p:dataObjectClassName="org.kuali.ole.coa.businessobject.ProjectCode"
+                              p:fieldConversions="code:projectCode"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="organizationReferenceId">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="8"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="accountLinePercent">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="20"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="addLineActions">
+            <list>
+                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="addEResAccountingLine" p:actionLabel="Add"/>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-DeleteLineAction"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceMainTab-SelectionSection" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="headerText" value="Selection" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridSection" p:layoutManager.numberOfColumns="1"  >
+                    <property name="items">
+                        <list>
+                            <ref bean="OLEEResourceMainTab-RequestorSection"/>
+                            <ref bean="OLEEResourceMainTab-SelectorSection"/>
+                            <ref bean="OLEEResourceMainTab-RequestorSelectorCommentSection"/>
+                            <bean id="reqPriority" parent="Uif-InputField" p:propertyName="reqPriority" p:label="Priority" p:enableAutoQuickfinder="false">
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.select.keyvalue.OLERequestPriorityKeyValues" />
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceMainTab-RequestorSection" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="1" >
+        <property name="collectionObjectClass" value="org.kuali.ole.select.bo.OLEEResourceRequestor" />
+        <property name="propertyName" value="requestors" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderAddBlankLineButton" value="false" />
+        <property name="renderAddLine" value="false"/>
+        <property name="headerText" value="" />
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="false">
+                <entry key="bPaginate" value="false"/>
+                <entry key="bInfo" value="false"/>
+                <entry key="bFilter" value="false"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="requestor" parent="Uif-InputField" p:propertyName="requestorId" p:label="Requestor">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.ole.deliver.bo.OLEPatronEntityViewBo"
+                              p:fieldConversions="lastName:requestorId"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" p:maxLength="40" />
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="OLEEResourceMainTab-RequestorSection_addTagButton_id" parent="Uif-SecondaryActionButton-Small"
+                      p:methodToCall="addRequestorType" p:actionLabel="Add" p:style="Margin-top:0.4em;"
+                      p:ajaxSubmit="true" />
+                <bean id="OLEEResourceMainTab-RequestorSection_removeTagButton_id" parent="Uif-SecondaryActionButton-Small"
+                      p:methodToCall="removeRequestorType" p:actionLabel="Remove" p:style="Margin-top:0.4em;"
+                      p:ajaxSubmit="true" p:render="@{document.requestors.size() ne 1}"/>
+            </list>
+        </property>
+        <property name="layoutManager.actionFieldPrototype.group.layoutManager">
+            <bean id="OLEEResourceMainTab-RequestorSection-HorizontalBoxLayout" parent="Uif-HorizontalBoxLayout"/>
+        </property>
+        <property name="layoutManager.actionFieldPrototype.label" value=""/>
+    </bean>
+
+    <bean id="OLEEResourceMainTab-SelectorSection" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="1" >
+        <property name="collectionObjectClass" value="org.kuali.ole.select.bo.OLEEResourceSelector" />
+        <property name="propertyName" value="selectors" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderAddBlankLineButton" value="false" />
+        <property name="renderAddLine" value="false"/>
+        <property name="headerText" value="" />
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="false">
+                <entry key="bPaginate" value="false"/>
+                <entry key="bInfo" value="false"/>
+                <entry key="bFilter" value="false"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="selector" parent="Uif-InputField" p:propertyName="selectorId" p:label="Selector">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.rice.kim.api.identity.Person"
+                              p:fieldConversions="name:selectorId"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" p:maxLength="40"  />
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="OLEEResourceMainTab-SelectorSection_addTagButton_id" parent="Uif-SecondaryActionButton-Small"
+                      p:methodToCall="addSelectorType" p:actionLabel="Add" p:style="Margin-top:0.4em;"
+                      p:ajaxSubmit="true" />
+                <bean id="OLEEResourceMainTab-SelectorSection_removeTagButton_id" parent="Uif-SecondaryActionButton-Small"
+                      p:methodToCall="removeSelectorType" p:actionLabel="Remove" p:style="Margin-top:0.4em;"
+                      p:ajaxSubmit="true" p:render="@{document.selectors.size() ne 1}" />
+            </list>
+        </property>
+        <property name="layoutManager.actionFieldPrototype.group.layoutManager">
+            <bean id="OLEEResourceMainTab-SelectorSection-HorizontalBoxLayout" parent="Uif-HorizontalBoxLayout"/>
+        </property>
+        <property name="layoutManager.actionFieldPrototype.label" value=""/>
+    </bean>
+
+    <bean id="OLEEResourceMainTab-RequestorSelectorCommentSection" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="1" >
+        <property name="collectionObjectClass" value="org.kuali.ole.select.bo.OLEEResourceReqSelComments" />
+        <property name="propertyName" value="reqSelComments" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderAddBlankLineButton" value="false" />
+        <property name="renderAddLine" value="false"/>
+        <property name="headerText" value="" />
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="false">
+                <entry key="bPaginate" value="false"/>
+                <entry key="bInfo" value="false"/>
+                <entry key="bFilter" value="false"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="reqSelComments" parent="Uif-InputField" p:propertyName="oleReqSelComments" />
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="OLEEResourceMainTab-RequestorSelectorCommentSection_addTagButton_id" parent="Uif-SecondaryActionButton-Small"
+                      p:methodToCall="addRequestorSelectorType" p:actionLabel="Add" p:style="Margin-top:0.4em;"
+                      p:ajaxSubmit="true" />
+                <bean id="OLEEResourceMainTab-RequestorSelectorCommentSection_removeTagButton_id" parent="Uif-SecondaryActionButton-Small"
+                      p:methodToCall="removeRequestorSelectorType" p:actionLabel="Remove" p:style="Margin-top:0.4em;"
+                      p:ajaxSubmit="true" p:render="@{document.reqSelComments.size() ne 1}" />
+            </list>
+        </property>
+        <property name="layoutManager.actionFieldPrototype.group.layoutManager">
+            <bean id="OLEEResourceMainTab-RequestorSelectorCommentSection-HorizontalBoxLayout"  parent="Uif-HorizontalBoxLayout"/>
+        </property>
+        <property name="layoutManager.actionFieldPrototype.label" value=""/>
+    </bean>
+
+    <bean id="OLEEResourceMainTab-AccessSection" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="headerText" value="Access" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridSection" p:layoutManager.numberOfColumns="1" >
+                    <property name="items">
+                        <list>
+                            <ref bean="OLEEResourceMainTab-Access"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceMainTab-Access"  parent="Uif-Disclosure-HorizontalBoxSubSection" >
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4">
+                    <property name="items">
+                        <list>
+
+                            <bean id="accessStatus" parent="Uif-InputField" p:propertyName="accessStatus"
+                                  p:label="Access Status" >
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="Active" p:value="Active"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="Inactive" p:value="Inactive"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+
+                            <bean parent="Uif-DataField" p:propertyName="accessType" p:label="Type of Access" />
+                            <bean id="authenticationTypeId" parent="Uif-DataField" p:propertyName="authenticationType" p:label="Authentication Type"/>
+                            <bean id="numOfSimultaneousUsers" parent="Uif-DataField" p:propertyName="numOfSimultaneousUsers" p:label="No. of Simultaneous User" />
+                            <bean id="accessLocation" parent="Uif-DataField" p:propertyName="accessLocationName" p:label="Access Location"/>
+                            <bean parent="Uif-DataField" p:propertyName="techRequirements"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceMainTab-NoteSection" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="headerText" value="Note" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridSection" p:layoutManager.numberOfColumns="1"  >
+                    <property name="items">
+                        <list>
+                            <bean id="publicDisplayNote" parent="Uif-InputField" p:propertyName="publicDisplayNote" p:label="Public Display Note"/>
+                            <ref bean="OLEEResourceMainTab-NoteTextSection"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="OLEEResourceMainTab-NoteTextSection" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="1" >
+        <property name="collectionObjectClass" value="org.kuali.ole.select.bo.OLEEResourceNotes" />
+        <property name="propertyName" value="eresNotes" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="false">
+                <entry key="bPaginate" value="false"/>
+                <entry key="bInfo" value="false"/>
+                <entry key="bFilter" value="false"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="oleERSNoteText" parent="Uif-DataField" p:propertyName="oleERSNoteText" />
+            </list>
+        </property>
+        <property name="layoutManager.actionFieldPrototype.group.layoutManager">
+            <bean id="OLEEResourceMainTab-NoteTextSection-HorizontalBoxLayout" parent="Uif-HorizontalBoxLayout"/>
+        </property>
+        <property name="layoutManager.actionFieldPrototype.label" value=""/>
+    </bean>
+
+</beans>

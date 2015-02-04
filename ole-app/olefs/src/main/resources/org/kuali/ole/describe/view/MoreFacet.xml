@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="MoreFacetView" parent="MoreFacetView-parentBean" />
+    <bean id="MoreFacetView-parentBean" parent="Uif-OLEFormView">
+        <property name="items">
+            <list>
+                <bean id="MoreFacetViewPage" parent="Uif-Page">
+                    <property name="items">
+                        <list>
+                            <ref bean="sortSection"/>
+                            <ref bean="LinkSection"/>
+                            <ref bean="FacetFieldResultTableSection1"/>
+                            <ref bean="moreFacetPrevious"/>
+                            <ref bean="moreFacetNext"/>
+                            <ref bean="facetPageShowEntries"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>ole/describe/css/search.css</value>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>ole/describe/scripts/morefacet.js</value>
+            </list>
+        </property>
+        <property name="formClass" value="org.kuali.ole.describe.form.OLESearchForm"/>
+    </bean>
+
+    <bean id="sortSection" parent="Base-Uif-InputField"
+          p:propertyName="searchParams.facetSort" p:label="Facet sort" p:style="float:left;margin-right:39.3em" p:onChangeScript="submitForm('moreFacets', null, null, null);">
+        <property name="control">
+            <bean parent="Uif-DropdownControl">
+                <property name="options">
+                    <list>
+                        <bean parent="Uif-KeyLabelPair" p:key="count" p:value="count"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="lex" p:value="lex"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="LinkSection" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean  id="LinkSection_ALL" parent="Uif-LinkField" p:href="olesearchcontroller?viewId=MoreFacetView&amp;methodToCall=moreFacets&amp;docType=@{docType}&amp;facetPrefix=ALL" p:linkText="ALL"/>
+                <bean  id="LinkSection_0" parent="Uif-LinkField" p:href="olesearchcontroller?viewId=MoreFacetView&amp;methodToCall=moreFacets&amp;docType=@{docType}&amp;facetPrefix=0" p:linkText="0"/>
+                <bean  id="LinkSection_1" parent="Uif-LinkField" p:href="olesearchcontroller?viewId=MoreFacetView&amp;methodToCall=moreFacets&amp;docType=@{docType}&amp;facetPrefix=1" p:linkText="1"/>
+                <bean  id="LinkSection_2" parent="Uif-LinkField" p:href="olesearchcontroller?viewId=MoreFacetView&amp;methodToCall=moreFacets&amp;docType=@{docType}&amp;facetPrefix=2" p:linkText="2"/>
+                <bean  id="LinkSection_3" parent="Uif-LinkField" p:href="olesearchcontroller?viewId=MoreFacetView&amp;methodToCall=moreFacets&amp;docType=@{docType}&amp;facetPrefix=3" p:linkText="3"/>
+                <bean  id="LinkSection_4" parent="Uif-LinkField" p:href="olesearchcontroller?viewId=MoreFacetView&amp;methodToCall=moreFacets&amp;docType=@{docType}&amp;facetPrefix=4" p:linkText="4"/>
+                <bean  id="LinkSection_5" parent="Uif-LinkField" p:href="olesearchcontroller?viewId=MoreFacetView&amp;methodToCall=moreFacets&amp;docType=@{docType}&amp;facetPrefix=5" p:linkText="5"/>
+                <bean  id="LinkSection_6" parent="Uif-LinkField" p:href="olesearchcontroller?viewId=MoreFacetView&amp;methodToCall=moreFacets&amp;docType=@{docType}&amp;facetPrefix=6" p:linkText="6"/>
+                <bean  id="LinkSection_7" parent="Uif-LinkField" p:href="olesearchcontroller?viewId=MoreFacetView&amp;methodToCall=moreFacets&amp;docType=@{docType}&amp;facetPrefix=7" p:linkText="7"/>
+                <bean  id="LinkSection_8" parent="Uif-LinkField" p:href="olesearchcontroller?viewId=MoreFacetView&amp;methodToCall=moreFacets&amp;docType=@{docType}&amp;facetPrefix=8" p:linkText="8"/>
+                <bean  id="LinkSection_9" parent="Uif-LinkField" p:href="olesearchcontroller?viewId=MoreFacetView&amp;methodToCall=moreFacets&amp;docType=@{docType}&amp;facetPrefix=9" p:linkText="9"/>
+                <bean  id="LinkSection_A" parent="Uif-LinkField" p:href="olesearchcontroller?viewId=MoreFacetView&amp;methodToCall=moreFacets&amp;docType=@{docType}&amp;facetPrefix=A" p:linkText="A"/>
+                <bean  id="LinkSection_B" parent="Uif-LinkField" p:href="olesearchcontroller?viewId=MoreFacetView&amp;methodToCall=moreFacets&amp;docType=@{docType}&amp;facetPrefix=B" p:linkText="B"/>
+                <bean  id="LinkSection_C" parent="Uif-LinkField" p:href="olesearchcontroller?viewId=MoreFacetView&amp;methodToCall=moreFacets&amp;docType=@{docType}&amp;facetPrefix=C" p:linkText="C"/>
+                <bean  id="LinkSection_D" parent="Uif-LinkField" p:href="olesearchcontroller?viewId=MoreFacetView&amp;methodToCall=moreFacets&amp;docType=@{docType}&amp;facetPrefix=D" p:linkText="D"/>
+                <bean  id="LinkSection_E" parent="Uif-LinkField" p:href="olesearchcontroller?viewId=MoreFacetView&amp;methodToCall=moreFacets&amp;docType=@{docType}&amp;facetPrefix=E" p:linkText="E"/>
+                <bean  id="LinkSection_F" parent="Uif-LinkField" p:href="olesearchcontroller?viewId=MoreFacetView&amp;methodToCall=moreFacets&amp;docType=@{docType}&amp;facetPrefix=F" p:linkText="F"/>
+                <bean  id="LinkSection_G" parent="Uif-LinkField" p:href="olesearchcontroller?viewId=MoreFacetView&amp;methodToCall=moreFacets&amp;docType=@{docType}&amp;facetPrefix=G" p:linkText="G"/>
+                <bean  id="LinkSection_H" parent="Uif-LinkField" p:href="olesearchcontroller?viewId=MoreFacetView&amp;methodToCall=moreFacets&amp;docType=@{docType}&amp;facetPrefix=H" p:linkText="H"/>
+                <bean  id="LinkSection_I" parent="Uif-LinkField" p:href="olesearchcontroller?viewId=MoreFacetView&amp;methodToCall=moreFacets&amp;docType=@{docType}&amp;facetPrefix=I" p:linkText="I"/>
+                <bean  id="LinkSection_J" parent="Uif-LinkField" p:href="olesearchcontroller?viewId=MoreFacetView&amp;methodToCall=moreFacets&amp;docType=@{docType}&amp;facetPrefix=J" p:linkText="J"/>
+                <bean  id="LinkSection_K" parent="Uif-LinkField" p:href="olesearchcontroller?viewId=MoreFacetView&amp;methodToCall=moreFacets&amp;docType=@{docType}&amp;facetPrefix=K" p:linkText="K"/>
+                <bean  id="LinkSection_L" parent="Uif-LinkField" p:href="olesearchcontroller?viewId=MoreFacetView&amp;methodToCall=moreFacets&amp;docType=@{docType}&amp;facetPrefix=L" p:linkText="L"/>
+                <bean  id="LinkSection_M" parent="Uif-LinkField" p:href="olesearchcontroller?viewId=MoreFacetView&amp;methodToCall=moreFacets&amp;docType=@{docType}&amp;facetPrefix=M" p:linkText="M"/>
+                <bean  id="LinkSection_N" parent="Uif-LinkField" p:href="olesearchcontroller?viewId=MoreFacetView&amp;methodToCall=moreFacets&amp;docType=@{docType}&amp;facetPrefix=N" p:linkText="N"/>
+                <bean  id="LinkSection_O" parent="Uif-LinkField" p:href="olesearchcontroller?viewId=MoreFacetView&amp;methodToCall=moreFacets&amp;docType=@{docType}&amp;facetPrefix=O" p:linkText="O"/>
+                <bean  id="LinkSection_P" parent="Uif-LinkField" p:href="olesearchcontroller?viewId=MoreFacetView&amp;methodToCall=moreFacets&amp;docType=@{docType}&amp;facetPrefix=P" p:linkText="P"/>
+                <bean  id="LinkSection_Q" parent="Uif-LinkField" p:href="olesearchcontroller?viewId=MoreFacetView&amp;methodToCall=moreFacets&amp;docType=@{docType}&amp;facetPrefix=Q" p:linkText="Q"/>
+                <bean  id="LinkSection_R" parent="Uif-LinkField" p:href="olesearchcontroller?viewId=MoreFacetView&amp;methodToCall=moreFacets&amp;docType=@{docType}&amp;facetPrefix=R" p:linkText="R"/>
+                <bean  id="LinkSection_S" parent="Uif-LinkField" p:href="olesearchcontroller?viewId=MoreFacetView&amp;methodToCall=moreFacets&amp;docType=@{docType}&amp;facetPrefix=S" p:linkText="S"/>
+                <bean  id="LinkSection_T" parent="Uif-LinkField" p:href="olesearchcontroller?viewId=MoreFacetView&amp;methodToCall=moreFacets&amp;docType=@{docType}&amp;facetPrefix=T" p:linkText="T"/>
+                <bean  id="LinkSection_U" parent="Uif-LinkField" p:href="olesearchcontroller?viewId=MoreFacetView&amp;methodToCall=moreFacets&amp;docType=@{docType}&amp;facetPrefix=U" p:linkText="U"/>
+                <bean  id="LinkSection_V" parent="Uif-LinkField" p:href="olesearchcontroller?viewId=MoreFacetView&amp;methodToCall=moreFacets&amp;docType=@{docType}&amp;facetPrefix=V" p:linkText="V"/>
+                <bean  id="LinkSection_W" parent="Uif-LinkField" p:href="olesearchcontroller?viewId=MoreFacetView&amp;methodToCall=moreFacets&amp;docType=@{docType}&amp;facetPrefix=W" p:linkText="W"/>
+                <bean  id="LinkSection_X" parent="Uif-LinkField" p:href="olesearchcontroller?viewId=MoreFacetView&amp;methodToCall=moreFacets&amp;docType=@{docType}&amp;facetPrefix=X" p:linkText="X"/>
+                <bean  id="LinkSection_Y" parent="Uif-LinkField" p:href="olesearchcontroller?viewId=MoreFacetView&amp;methodToCall=moreFacets&amp;docType=@{docType}&amp;facetPrefix=Y" p:linkText="Y"/>
+                <bean  id="LinkSection_Z" parent="Uif-LinkField" p:href="olesearchcontroller?viewId=MoreFacetView&amp;methodToCall=moreFacets&amp;docType=@{docType}&amp;facetPrefix=Z" p:linkText="Z"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="FacetFieldResultTableSection1" parent="Uif-TableCollectionSection">
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.docstore.common.search.FacetResultField" />
+        <property name="propertyName" value="facetResultFields" />
+        <property name="renderLineActions" value="false"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="items">
+            <list>
+                <bean id="facetField" parent="Uif-DataField" p:propertyName="fieldLabel"/>
+            </list>
+        </property>
+        <property name="subCollections">
+            <list>
+                <ref bean="FacetFieldSections1"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="FacetFieldSections1" parent="Uif-TableSubCollection-WithinSection" p:layoutManager.numberOfColumns="1" p:layoutManager.style="border:1px solid;">
+        <property name="collectionObjectClass" value="org.kuali.ole.docstore.common.search.ValueCount"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.disableTableSort" value="true" />
+        <property name="propertyName" value="valueCounts"/>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="iDisplayLength" value="50"/>
+                <entry key="bLengthChange" value="false"/>
+                <entry key="bInfo" value="false"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="moreFacetLink" parent="Uif-LinkField" p:style="font-weight:bold;border:0px;" p:label="@{#parentLine.fieldName}" p:href="@{#ConfigProperties['ole.search.url']}olesearchcontroller?viewId=OLESearchView&amp;methodToCall=facetSearch&amp;selectedFacet=@{#line.fullValue}&amp;docType=@{docType}&amp;selectedFacetName=@{#parentLine.fieldName}"
+                      p:linkText="@{#line.facetLabel}" p:target="_parent"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean  id="moreFacetNext" parent="Uif-InputField"  p:hidden="true" p:propertyName="showMoreFacetNext"/>
+    <bean  id="moreFacetPrevious" parent="Uif-InputField"  p:hidden="true" p:propertyName="showMoreFacetPrevious"/>
+
+
+
+</beans>

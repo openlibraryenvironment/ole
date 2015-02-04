@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="OleDeliverBatchJob" parent="OleDeliverBatchJob-parentBean"/>
+    <bean id="OleDeliverBatchJob-parentBean" abstract="true" parent="BusinessObjectEntry"
+          p:businessObjectClass="org.kuali.ole.deliver.bo.OleBatchJobBo" p:titleAttribute="requestTypeCode"
+          p:objectLabel="RequestType">
+        <property name="attributes">
+            <list>
+                <ref bean="OleDeliverBatchJob-jobId"/>
+                <ref bean="OleDeliverBatchJob-jobTriggerName"/>
+                <ref bean="OleDeliverBatchJob-jobCronExpression"/>
+                <ref bean="OleDeliverBatchJob-jobEnableStatus"/>
+            </list>
+        </property>
+        <property name="primaryKeys">
+            <list>
+                <value>jobId</value>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="OleDeliverBatchJob-jobId" parent="OleDeliverBatchJob-jobId-parentBean"/>
+
+    <bean id="OleDeliverBatchJob-jobId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="10"/>
+        <property name="shortLabel" value="JobId"/>
+        <property name="description" value="JobId"/>
+        <property name="name" value="jobId"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Job Id"/>
+    </bean>
+
+    <bean id="OleDeliverBatchJob-jobEnableStatus" parent="OleDeliverBatchJob-jobEnableStatus-parentBean"/>
+
+    <bean id="OleDeliverBatchJob-jobEnableStatus-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="jobEnableStatus"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="jobEnableStatus"/>
+        <property name="maxLength" value="1"/>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-CheckboxControl"/>
+        </property>
+        <property name="summary" value="Job Enable Indicator"/>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+        <property name="label" value="Enable Job"/>
+        <property name="description" value="This attribute is used to describe whether the associated object is active or injobEnableStatus."/>
+    </bean>
+
+
+    <bean id="OleDeliverBatchJob-jobTriggerName" parent="OleDeliverBatchJob-jobTriggerName-parentBean"/>
+
+    <bean id="OleDeliverBatchJob-jobTriggerName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="100"/>
+        <property name="shortLabel" value="Po Line Item No"/>
+        <property name="description" value="jobTriggerName"/>
+        <property name="name" value="jobTriggerName"/>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Job Trigger Name"/>
+    </bean>
+    <bean id="OleDeliverBatchJob-jobCronExpression" parent="OleDeliverBatchJob-jobCronExpression-parentBean"/>
+
+    <bean id="OleDeliverBatchJob-jobCronExpression-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="30"/>
+        <property name="shortLabel" value="Po Line Item No"/>
+        <property name="description" value="jobCronExpression"/>
+        <property name="name" value="jobCronExpression"/>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Job Cron Expression"/>
+    </bean>
+
+    <bean id="OleDeliverBatchJob-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="Batch Job Lookup" />
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="${ole.externalizable.help.url}/reference/webhelp/ADMIN/content/ch01s09.html"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="dataObjectClassName" value="org.kuali.ole.deliver.bo.OleBatchJobBo" />
+        <property name="criteriaFields">
+            <list>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="jobTriggerName"  />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="jobEnableStatus" />
+
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+
+                <bean parent="Uif-DataField" p:propertyName="jobTriggerName" />
+                <bean parent="Uif-DataField" p:propertyName="jobCronExpression" />
+                <bean parent="Uif-DataField" p:propertyName="jobEnableStatus" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OleDeliverBatchJob-InquiryView" parent="Uif-OLEInquiryView">
+        <property name="headerText" value="Batch Job Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.deliver.bo.OleBatchJobBo" />
+        <property name="singlePageView" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-VerticalBoxSection">
+                    <property name="header.headerText" value="Batch Job" />
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:propertyName="jobTriggerName" />
+                            <bean parent="Uif-InputField" p:propertyName="jobCronExpression" />
+                            <bean parent="Uif-InputField" p:propertyName="jobEnableStatus" />
+                        </list>
+                    </property>
+                    <property name="headerText" value="Batch Job"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+
+</beans>

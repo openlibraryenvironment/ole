@@ -1,0 +1,18 @@
+<request>
+  <requestDocuments>
+    <ingestDocument id="1" category="work" type="bibliographic" format="dublinunq">
+      <content><![CDATA[<OAI-PMH>
+  <ListRecords>
+    <record>
+      <metadata>
+        <oai_dc:dc>
+          <dc:coverage>Contributor for unq Dublin</dc:coverage>
+          <dc:relation>relation</dc:relation>
+        </oai_dc:dc>
+      </metadata>
+    </record>
+  </ListRecords>
+</OAI-PMH>]]></content>
+    </ingestDocument>
+  </requestDocuments>
+</request>

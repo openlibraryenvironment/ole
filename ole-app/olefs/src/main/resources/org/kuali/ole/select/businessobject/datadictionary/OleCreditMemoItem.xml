@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+<!--
+   - Copyright 2011 The Kuali Foundation.
+   - 
+   - Licensed under the Educational Community License, Version 2.0 (the "License");
+   - you may not use this file except in compliance with the License.
+   - You may obtain a copy of the License at
+   - 
+   - http://www.opensource.org/licenses/ecl2.php
+   - 
+   - Unless required by applicable law or agreed to in writing, software
+   - distributed under the License is distributed on an "AS IS" BASIS,
+   - WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   - See the License for the specific language governing permissions and
+   - limitations under the License.
+ -->
+
+	 <bean id="CreditMemoItem" parent="OleCreditMemoItem-parentBean"/>
+	
+	 <bean id="OleCreditMemoItem-parentBean" abstract="true" parent="CreditMemoItem-parentBean">
+		<property name="businessObjectClass" value="org.kuali.ole.select.businessobject.OleCreditMemoItem"/>
+		<property name="baseBusinessObjectClass"	value="org.kuali.ole.module.purap.businessobject.CreditMemoItem" />
+		
+		<property name="attributes">
+			<list merge="true">
+		
+	 			<ref bean="CreditMemoItem-itemCurrencyType"/>
+				<ref bean="CreditMemoItem-itemForeignListPrice"/>
+				<ref bean="CreditMemoItem-itemForeignDiscount"/>
+				<ref bean="CreditMemoItem-itemForeignDiscountType"/>
+				<ref bean="CreditMemoItem-itemForeignDiscountAmt"/>
+				<ref bean="CreditMemoItem-itemForeignUnitCost"/>
+				<ref bean="CreditMemoItem-itemExchangeRate"/>
+				<ref bean="CreditMemoItem-itemUnitCostUSD"/>
+				<ref bean="CreditMemoItem-itemTitleId"/>				
+				<ref bean="CreditMemoItem-bibUUID"/>
+				<ref bean="CreditMemoItem-docData.title"/>
+				<ref bean="CreditMemoItem-docData.author"/>
+				<ref bean="CreditMemoItem-docData.publisher"/>
+				<ref bean="CreditMemoItem-docData.placeOfPublication"/>
+				<ref bean="CreditMemoItem-docData.isbn"/>
+				<ref bean="CreditMemoItem-docData.price"/>
+				<ref bean="CreditMemoItem-docData.format"/>
+				<ref bean="CreditMemoItem-docData.publicationDate"/>
+				<ref bean="CreditMemoItem-sourceAccountingLines.accountNumber"/>
+				<ref bean="CreditMemoItem-sourceAccountingLines.chartOfAccountsCode"/>	
+				<ref bean="CreditMemoItem-itemSurcharge"/>
+                <ref bean="CreditMemoItem-foreignCurrencyExtendedPrice"/>
+                <ref bean="CreditMemoItem-isAdditionalChargeUsd"/>
+			</list>
+		</property>
+		
+	 </bean>
+
+	
+
+	<bean id="CreditMemoItem-itemCurrencyType" parent="CreditMemoItem-itemCurrencyType-parentBean"/>
+
+  <bean id="CreditMemoItem-itemCurrencyType-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="itemCurrencyType"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Currency Type"/>
+    <property name="shortLabel" value="Currency Type"/>
+    <property name="maxLength" value="200"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="30"/>
+    </property>
+  </bean>
+  
+  <bean id="CreditMemoItem-itemForeignListPrice" parent="CreditMemoItem-itemForeignListPrice-parentBean"/>
+
+  <bean id="CreditMemoItem-itemForeignListPrice-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemUnitPrice">
+    <property name="name" value="itemForeignListPrice"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Foreign List Price"/>
+    <property name="shortLabel" value="Foreign List Price"/>
+    
+  </bean>
+  
+  <bean id="CreditMemoItem-itemForeignDiscount" parent="CreditMemoItem-itemForeignDiscount-parentBean"/>
+
+  <bean id="CreditMemoItem-itemForeignDiscount-parentBean" abstract="true" parent="GenericAttributes-percent">
+    <property name="name" value="itemForeignDiscount"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Foreign Discount"/>
+    <property name="shortLabel" value="Foreign Discount"/>
+    <property name="validationPattern">
+      <bean parent="FixedPointValidationPattern" p:precision="19" p:scale="4" p:allowNegative="false"/>
+    </property>
+  </bean>
+  
+    <bean id="CreditMemoItem-itemForeignDiscountType" parent="CreditMemoItem-itemForeignDiscountType-parentBean"/>
+
+  <bean id="CreditMemoItem-itemForeignDiscountType-parentBean" abstract="true" parent="AttributeDefinition" >
+    <property name="name" value="itemForeignDiscountType" />
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Discount Type"/>
+    <property name="shortLabel" value="Discount Type"/>
+    <property name="maxLength" value="1"/>
+   
+    
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.ole.module.purap.businessobject.options.DiscountTypeValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+  </bean>
+  
+   <bean id="CreditMemoItem-itemForeignDiscountAmt" parent="CreditMemoItem-itemForeignDiscountAmt-parentBean"/>
+
+  <bean id="CreditMemoItem-itemForeignDiscountAmt-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemUnitPrice">
+    <property name="name" value="itemForeignDiscountAmt"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Foreign Discount Amt"/>
+    <property name="shortLabel" value="Foreign Discount Amt"/>
+    
+  </bean>
+  
+  <bean id="CreditMemoItem-itemForeignUnitCost" parent="CreditMemoItem-itemForeignUnitCost-parentBean"/>
+
+  <bean id="CreditMemoItem-itemForeignUnitCost-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemUnitPrice">
+    <property name="name" value="itemForeignUnitCost"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Foreign Unit Cost"/>
+    <property name="shortLabel" value="Foreign Unit Cost"/>
+    
+  </bean>
+  
+  <bean id="CreditMemoItem-itemExchangeRate" parent="CreditMemoItem-itemExchangeRate-parentBean"/>
+
+  <bean id="CreditMemoItem-itemExchangeRate-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemUnitPrice">
+    <property name="name" value="itemExchangeRate"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Exchange Rate"/>
+    <property name="shortLabel" value="Exchange Rate"/>
+    <property name="validationPattern">
+      <bean parent="FixedPointValidationPattern" p:precision="19" p:scale="6" />
+    </property>
+  
+  </bean>
+  
+  
+  <bean id="CreditMemoItem-itemUnitCostUSD" parent="CreditMemoItem-itemUnitCostUSD-parentBean"/>
+
+  <bean id="CreditMemoItem-itemUnitCostUSD-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemUnitPrice">
+    <property name="name" value="itemUnitCostUSD"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="USD Unit Cost"/>
+    <property name="shortLabel" value="USD Unit Cost"/>
+   
+  </bean>
+  
+  
+  <bean id="CreditMemoItem-itemTitleId" parent="CreditMemoItem-itemTitleId-parentBean"/>
+	<bean id="CreditMemoItem-itemTitleId-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="itemTitleId"/>
+		<property name="label" value="Title ID"/>
+		<property name="shortLabel" value="Title ID"/>
+		<property name="maxLength" value="200"/>
+		<property name="control">
+		  <bean parent="TextControlDefinition" p:size="40"/>
+		</property>
+	</bean>
+	
+	<bean id="CreditMemoItem-bibUUID" parent="CreditMemoItem-bibUUID-parentBean"/>
+	<bean id="CreditMemoItem-bibUUID-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="bibUUID"/>
+		<property name="label" value="Title Bib ID"/>
+		<property name="shortLabel" value="Title Bib ID"/>
+		<property name="maxLength" value="200"/>
+		<property name="control">
+		  <bean parent="TextControlDefinition" p:size="40"/>
+		</property>
+	</bean>
+  
+	<bean id="CreditMemoItem-docData.title" parent="CreditMemoItem-docData.title-parentBean" />
+  	<bean id="CreditMemoItem-docData.title-parentBean" abstract="true" parent="DocData-title">
+		<property name="name" value="docData.title"/>
+		<property name="label" value="Title"/>
+		<property name="shortLabel" value="Title"/>
+		<property name="maxLength" value="200"/>
+		<property name="control">
+		  	<bean parent="TextControlDefinition" p:size="40"/>
+		</property>
+	</bean>
+  
+  	<bean id="CreditMemoItem-docData.author" parent="CreditMemoItem-docData.author-parentBean" />
+	<bean id="CreditMemoItem-docData.author-parentBean" abstract="true" parent="DocData-author">
+		<property name="name" value="docData.author"/>
+		<property name="label" value="Author"/>
+		<property name="shortLabel" value="Author"/>
+		<property name="maxLength" value="200"/>
+		<property name="control">
+		  <bean parent="TextControlDefinition" p:size="40"/>
+		</property>
+	</bean>
+  
+	<bean id="CreditMemoItem-docData.publisher" parent="CreditMemoItem-docData.publisher-parentBean" />
+	<bean id="CreditMemoItem-docData.publisher-parentBean" parent="DocData-publisher" abstract="true"
+	       p:name="docData.publisher"
+	       p:forceUppercase="false"
+	       p:label="Publisher"
+	       p:shortLabel="Publisher"
+	       p:required="false" >
+	</bean> 
+
+	<bean id="CreditMemoItem-docData.placeOfPublication" parent="CreditMemoItem-docData.placeOfPublication-parentBean" />
+	<bean id="CreditMemoItem-docData.placeOfPublication-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="docData.placeOfPublication"/>
+		<property name="label" value="Place Of Publication"/>
+		<property name="shortLabel" value="Place Of Publication"/>
+		<property name="maxLength" value="200"/>
+		<property name="control">
+		  <bean parent="TextControlDefinition" p:size="40"/>
+		</property>
+	</bean>
+  
+	<bean id="CreditMemoItem-docData.publicationDate" parent="CreditMemoItem-docData.publicationDate-parentBean" />
+	<bean id="CreditMemoItem-docData.publicationDate-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="docData.publicationDate"/>
+		<property name="label" value="Publication Date"/>
+		<property name="shortLabel" value="Publication Date"/>
+		<property name="maxLength" value="200"/>
+		<property name="control">
+		  <bean parent="TextControlDefinition" p:size="40"/>
+		</property>
+	</bean>
+  
+	<bean id="CreditMemoItem-docData.format" parent="CreditMemoItem-docData.format-parentBean" />
+	<bean id="CreditMemoItem-docData.format-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="docData.format"/>
+		<property name="label" value="Format"/>
+		<property name="shortLabel" value="Format"/>
+		<property name="maxLength" value="200"/>
+		<property name="control">
+	 	 <bean parent="TextControlDefinition" p:size="40"/>
+		</property>
+	</bean>
+  
+	<bean id="CreditMemoItem-docData.price" parent="CreditMemoItem-docData.price-parentBean" />
+	<bean id="CreditMemoItem-docData.price-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="docData.price"/>
+		<property name="label" value="Price"/>
+		<property name="shortLabel" value="Price"/>
+		<property name="maxLength" value="200"/>
+		<property name="control">
+		  <bean parent="TextControlDefinition" p:size="40"/>
+		</property>
+	</bean>
+	
+	<bean id="CreditMemoItem-docData.isbn" parent="CreditMemoItem-docData.isbn-parentBean"/>
+    <bean id="CreditMemoItem-docData.isbn-parentBean" abstract="true" parent="DocData-isbn">
+  	    <property name="name" value="docData.isbn"/>
+    	<property name="label" value="ISBN"/>
+    	<property name="shortLabel" value="ISBN"/>
+    	<property name="maxLength" value="200"/>
+        <property name="validationPattern">
+      		<ref bean="AnyCharacterValidation" />
+    	</property>
+    	<property name="control">
+      		<bean parent="TextControlDefinition" p:size="40"/>
+    	</property>
+   </bean>  
+   
+   <bean id="CreditMemoItem-sourceAccountingLines.accountNumber" parent="CreditMemoItem-sourceAccountingLines.accountNumber-parentBean" />
+	
+	<bean id="CreditMemoItem-sourceAccountingLines.accountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="sourceAccountingLines.accountNumber"/>
+		<property name="label" value="Account Number"/>
+		<property name="shortLabel" value="Account #"/>
+		<property name="maxLength" value="20"/>
+		<property name="control">
+		  	<bean parent="TextControlDefinition" p:size="20"/>
+		</property>
+	</bean>
+	
+	<bean id="CreditMemoItem-sourceAccountingLines.chartOfAccountsCode" parent="CreditMemoItem-sourceAccountingLines.chartOfAccountsCode-parentBean" />
+	
+	<bean id="CreditMemoItem-sourceAccountingLines.chartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="sourceAccountingLines.chartOfAccountsCode"/>
+		<property name="label" value="Chart Code"/>
+		<property name="shortLabel" value="Chart #"/>
+		<property name="maxLength" value="20"/>
+		<property name="control">
+		  	<bean parent="TextControlDefinition" p:size="20"/>
+		</property>
+	</bean>	
+	
+	<bean id="CreditMemoItem-itemDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="itemDescription"/>
+    <property name="label" value="Item Description"/>
+    <property name="shortLabel" value="Description"/>
+    <property name="maxLength" value="4000"/>
+    <!-- <property name="validationPattern">
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
+    </property> -->
+    <property name="control">
+      <bean parent="TextareaControlDefinition" p:rows="2" p:cols="20"/>
+    </property>
+  </bean>
+  
+   <bean id="CreditMemoItem-itemSurcharge" parent="CreditMemoItem-itemSurcharge-parentBean"/>
+    <bean id="CreditMemoItem-itemSurcharge-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemUnitPrice">
+       <property name="name" value="itemSurcharge"/>
+       <property name="label" value="Prorated Surcharge"/>
+       <property name="shortLabel" value="Prorated Surcharge"/>
+    </bean>
+
+    <bean id="CreditMemoItem-foreignCurrencyExtendedPrice" parent="CreditMemoItem-foreignCurrencyExtendedPrice-parentBean"/>
+
+    <bean id="CreditMemoItem-foreignCurrencyExtendedPrice-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+        <property name="name" value="foreignCurrencyExtendedPrice"/>
+        <property name="label" value="Foreign Currency Extended Price"/>
+        <property name="shortLabel" value="Foreign Currency Extended Cost"/>
+    </bean>
+
+    <bean id="CreditMemoItem-isAdditionalChargeUsd" parent="CreditMemoItem-isAdditionalChargeUsd-parentBean"/>
+    <bean id="CreditMemoItem-isAdditionalChargeUsd-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="additionalChargeUsd"/>
+        <property name="label" value="Additional Charge USD"/>
+        <property name="shortLabel" value="USD"/>
+        <property name="maxLength" value="10"/>
+        <property name="control">
+            <bean parent="CheckboxControlDefinition"/>
+        </property>
+    </bean>
+
+     
+</beans>

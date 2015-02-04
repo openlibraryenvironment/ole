@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   - Copyright 2011 The Kuali Foundation.
+   - 
+   - Licensed under the Educational Community License, Version 2.0 (the "License");
+   - you may not use this file except in compliance with the License.
+   - You may obtain a copy of the License at
+   - 
+   - http://www.opensource.org/licenses/ecl2.php
+   - 
+   - Unless required by applicable law or agreed to in writing, software
+   - distributed under the License is distributed on an "AS IS" BASIS,
+   - WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   - See the License for the specific language governing permissions and
+   - limitations under the License.
+ -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+	
+    <bean id="OleDefaultValue" parent="OleDefaultValue-parentBean"/>
+	
+	<bean id="OleDefaultValue-parentBean" abstract="true" parent="BusinessObjectEntry">
+	    <property name="objectLabel" value="OleDefaultValue" />
+		<property name="businessObjectClass"
+			value="org.kuali.ole.select.businessobject.OleDefaultValue" />
+		<property name="inquiryDefinition">
+            <ref bean="OleDefaultValue-inquiryDefinition"/>
+        </property>
+        <property name="lookupDefinition">
+            <ref bean="OleDefaultValue-lookupDefinition"/>
+        </property>
+        <property name="titleAttribute" value="defaultValueId"/>
+        <property name="attributes">
+			<list>
+				<ref bean="OleDefaultValue-defaultValueId" />
+				<ref bean="OleDefaultValue-defaultTableColumnId"/>
+				<ref bean="OleDefaultValue-oleDefaultTableColumn-documentColumn"/>
+				<ref bean="OleDefaultValue-defaultValue"/>
+				<ref bean="OleDefaultValue-defaultValueFor" />
+				<ref bean="OleDefaultValue-roleId" />
+				<ref bean="OleDefaultValue-userId" />
+				<ref bean="OleDefaultValue-active"/>
+			</list>
+		</property>
+		<property name="relationships">
+            <list>
+                <bean parent="RelationshipDefinition">
+                    <property name="objectAttributeName" value="oleDefaultTableColumn"/>
+                    <property name="primitiveAttributes">
+                        <list>
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="defaultTableColumnId" p:targetName="defaultTableColumnId"/>
+                              <!-- <bean parent="PrimitiveAttributeDefinition" p:sourceName="defaultValue" p:targetName="defaultValue"/> --> 
+                        </list>                      
+                    </property>
+                </bean>
+                <bean parent="RelationshipDefinition">
+                    <property name="objectAttributeName" value="roles"/>
+                    <property name="primitiveAttributes">
+                        <list> 
+                            <!-- <bean parent="PrimitiveAttributeDefinition" p:sourceName="id" p:targetName="roleName"/> -->
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="roleId" p:targetName="id"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="RelationshipDefinition">
+                    <property name="objectAttributeName" value="users"/>
+                    <property name="primitiveAttributes">
+                        <list> 
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="userId" p:targetName="principalId"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+	</bean>
+	
+	
+	<bean id="OleDefaultValue-defaultValueId" parent="OleDefaultValue-defaultValueId-parentBean"/>	
+	<bean id="OleDefaultValue-defaultValueId-parentBean" abstract="true" parent="AttributeDefinition">
+	    <property name="name" value="defaultValueId"></property>
+	    <property name="label" value="Default Value Id"></property>
+	    <property name="shortLabel" value="Default Value Id"></property>
+	    <property name="maxLength" value="9"/>
+	    <property name="validationPattern">
+	        <ref bean="NumericValidation" />
+	    </property>
+	    <property name="control">
+	        <bean parent="TextControlDefinition" p:size="11"/>
+	    </property>
+	</bean>
+	
+	<bean id="OleDefaultValue-defaultTableColumnId" parent="OleDefaultValue-defaultTableColumnId-parentBean"/>	
+	<bean id="OleDefaultValue-defaultTableColumnId-parentBean" abstract="true" parent="AttributeDefinition">
+	    <property name="name" value="defaultTableColumnId"></property>
+	    <property name="label" value="Default Table Column Id"></property>
+	    <property name="shortLabel" value="Default Table Column Id"></property>
+	    <property name="maxLength" value="9"/>
+	    <property name="validationPattern">
+	        <ref bean="NumericValidation" />
+	    </property>
+	    <property name="control">
+	        <bean parent="TextControlDefinition" p:size="11"/>
+	    </property>
+	</bean>
+	
+	<bean id="OleDefaultValue-oleDefaultTableColumn-documentColumn" parent="OleDefaultValue-oleDefaultTableColumn-documentColumn-parentBean"/>	
+	<bean id="OleDefaultValue-oleDefaultTableColumn-documentColumn-parentBean" abstract="true" parent="AttributeDefinition">
+	    <property name="name" value="oleDefaultTableColumn.documentColumn"></property>
+	    <property name="label" value="Document Column"></property>
+	    <property name="shortLabel" value="Default Table Column Id"></property>
+	    <property name="maxLength" value="9"/>
+	    <!-- <property name="validationPattern">
+	        <ref bean="NumericValidation" />
+	    </property> -->
+	    <property name="control">
+	        <bean parent="TextControlDefinition" p:size="11"/>
+	    </property>
+	</bean>
+	
+	<bean id="OleDefaultValue-defaultValue" parent="OleDefaultValue-defaultValue-parentBean"/>	
+	<bean id="OleDefaultValue-defaultValue-parentBean" abstract="true" parent="AttributeDefinition">
+	    <property name="name" value="defaultValue"></property>
+	    <property name="label" value="Default Value"></property>
+	    <property name="shortLabel" value="Default Value"></property>
+	    <property name="maxLength" value="50" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="50" />
+		</property>
+	</bean>
+	
+	<bean id="OleDefaultValue-defaultValueFor" parent="OleDefaultValue-defaultValueFor-parentBean"/>	
+	<bean id="OleDefaultValue-defaultValueFor-parentBean" abstract="true" parent="AttributeDefinition">
+	    <property name="name" value="defaultValueFor"></property>
+	    <property name="label" value="Default Value For"></property>
+	    <property name="shortLabel" value="Default Value For"></property>
+	    <property name="maxLength" value="50" />
+		<property name="required" value="false" />
+		<property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.ole.select.businessobject.options.DefaultValueForValuesFinder" p:includeKeyInLabel="false"/>
+        </property>
+	</bean>
+	
+	<bean id="OleDefaultValue-roleId" parent="OleDefaultValue-roleId-parentBean"/>	
+	<bean id="OleDefaultValue-roleId-parentBean" abstract="true" parent="AttributeDefinition">
+	    <property name="name" value="roleId" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Role Id" />
+		<property name="shortLabel" value="Role Id" />
+		<!-- <property name="label" value="Id" />
+		<property name="shortLabel" value="Id" /> -->
+		<property name="maxLength" value="50" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="50"/>
+		</property>
+	</bean>
+	
+	<bean id="OleDefaultValue-userId" parent="OleDefaultValue-userId-parentBean"/>	
+	<bean id="OleDefaultValue-userId-parentBean" abstract="true" parent="AttributeDefinition">
+	    <property name="name" value="userId" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="User Id" />
+		<property name="shortLabel" value="User Id" />
+		<property name="maxLength" value="50" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="50"/>
+		</property>
+	</bean>
+	
+	<bean id="OleDefaultValue-active" parent="OleDefaultValue-active-parentBean"/>
+    <bean id="OleDefaultValue-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+        <property name="name" value="active"/>
+    </bean>
+	
+	<bean id="OleDefaultValue-inquiryDefinition" parent="OleDefaultValue-inquiryDefinition-parentBean"/>	
+	<bean id="OleDefaultValue-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+	    <property name="title" value="Default Value Inquiry"/>
+	    <property name="inquirySections">
+           <list>
+              <bean parent="InquirySectionDefinition">
+                 <property name="title" value="Dafault Value"/>
+                 <property name="numberOfColumns" value="1"/>
+                 <property name="inquiryFields">
+                    <list>
+                       <bean parent="FieldDefinition" p:attributeName="defaultValueId"/>
+                       <bean parent="FieldDefinition" p:attributeName="oleDefaultTableColumn.documentColumn"/>
+                       <bean parent="FieldDefinition" p:attributeName="defaultValue"/>
+                       <bean parent="FieldDefinition" p:attributeName="defaultValueFor"/>
+                       <bean parent="FieldDefinition" p:attributeName="userId"/>
+                       <bean parent="FieldDefinition" p:attributeName="roleId"/>
+                       <bean parent="FieldDefinition" p:attributeName="active"/>
+                    </list>
+                 </property>
+              </bean>
+          </list>
+      </property>
+	</bean>
+	
+	<bean id="OleDefaultValue-lookupDefinition" parent="OleDefaultValue-lookupDefinition-parentBean"/>
+    <bean id="OleDefaultValue-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+      <property name="title" value="Default Value Lookup"/>
+    
+      <property name="defaultSort">
+        <bean parent="SortDefinition">
+        </bean>
+      </property>
+      <property name="lookupFields">
+        <list>
+            <bean parent="FieldDefinition" p:attributeName="defaultValueId"/>
+            <bean parent="FieldDefinition" p:attributeName="defaultTableColumnId"/>
+            <bean parent="FieldDefinition" p:attributeName="defaultValue"/>
+            <bean parent="FieldDefinition" p:attributeName="defaultValueFor" p:defaultValue="User"/>
+            <bean parent="FieldDefinition" p:attributeName="userId" p:defaultValueFinderClass="org.kuali.ole.select.businessobject.defaultvalue.DefaultValueLoggedInUser"/>
+            <bean parent="FieldDefinition" p:attributeName="roleId"/>
+            <bean parent="FieldDefinition" p:attributeName="active"/>
+        </list>
+      </property>
+      <property name="resultFields">
+        <list>
+            <bean parent="FieldDefinition" p:attributeName="defaultValueId"/>
+            <bean parent="FieldDefinition" p:attributeName="oleDefaultTableColumn.documentColumn"/>
+            <bean parent="FieldDefinition" p:attributeName="defaultValue"/>
+            <bean parent="FieldDefinition" p:attributeName="defaultValueFor" p:defaultValue="User"/>
+            <bean parent="FieldDefinition" p:attributeName="userId" p:defaultValueFinderClass="org.kuali.ole.select.businessobject.defaultvalue.DefaultValueLoggedInUser"/>
+            <bean parent="FieldDefinition" p:attributeName="roleId"/>
+            <bean parent="FieldDefinition" p:attributeName="active"/>
+        </list>
+      </property>
+    </bean>
+	
+</beans>

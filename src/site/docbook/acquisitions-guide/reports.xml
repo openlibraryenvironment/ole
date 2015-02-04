@@ -1,0 +1,842 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0"
+         xml:lang="en-US">
+    <title>Reports</title>
+    <para role="Body Text"><inlinemediaobject>
+            <alt>Select/Acquire</alt>
+            <imageobject>
+                <imagedata fileref="../images/SelectAcquire.png"/>
+            </imageobject>
+        </inlinemediaobject>
+        <emphasis role="bold">&gt;<inlinemediaobject>
+                <alt>Reports</alt>
+                <imageobject>
+                    <imagedata fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-1.png"/>
+                </imageobject>
+            </inlinemediaobject> &gt;<inlinemediaobject>
+                <alt>Reports Links</alt>
+                <imageobject>
+                    <imagedata fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-2.png"/>
+                </imageobject>
+            </inlinemediaobject></emphasis></para>
+    <para role="Body Text">Order, Paying, Receiving, and E-Resource maintenance e-docs as well as
+        general ledger entry and available balances lookups are available via the Purchasing/Accounts
+        Payable submenu on the <emphasis role="bold">Select/Acquire</emphasis> menu tab. </para>
+    <section>
+        <title><anchor xml:id="_AvailableBalances"/>Available Balances<indexterm
+                significance="normal">
+                <primary>Available Balances</primary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Select/Acquire</alt>
+                <imageobject>
+                    <imagedata fileref="../images/SelectAcquire.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt;<inlinemediaobject>
+                    <alt>Reports</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-1.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis> &gt;<inlinemediaobject>
+                <alt>Available Balances</alt>
+                <imageobject>
+                    <imagedata fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-264.png"
+                    />
+                </imageobject>
+            </inlinemediaobject>&gt;<inlinemediaobject>
+                <alt>Available Balances Lookup</alt>
+                <imageobject>
+                    <imagedata fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-265.png"
+                    />
+                </imageobject>
+            </inlinemediaobject></para>
+        <note>
+            <para> For general information about entering lookup criteria, interpreting dollar
+                accumulators, drilling down into inquiries to see more detail, and including or excluding pending
+                entries, see <link linkend="_GLInquiriesBasicInformation">GL Inquiries: Basic
+                    Information</link>.</para>
+        </note>
+        <para role="Body Text">The Available Balances inquiry displays the cumulative balances for an
+            account by object code. The drilldown pattern is as follows:</para>
+        <orderedlist numeration="arabic" continuation="continues" spacing="normal">
+            <listitem>
+                <para role="C1H Number">General Ledger Balance</para>
+            </listitem>
+            <listitem>
+                <para role="C1H Number">GL Entry Lookup</para>
+            </listitem>
+            <listitem>
+                <para role="C1H Number">E-Doc</para>
+            </listitem>
+        </orderedlist>
+        <section>
+            <title>Lookup Criteria</title>
+            <para role="Body Text">Fill in at least Fiscal Year, Chart Code and Account Number. Use the lookup
+                icon <inlinemediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-267.png"/>
+                    </imageobject>
+                </inlinemediaobject> as necessary to select the criteria. Select the desired <emphasis role="bold"
+                        >Consolidation</emphasis> and <emphasis role="bold">Included Pending Entry</emphasis>
+                options.</para>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Available Balances Lookup Screen</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-268.jpg"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+        </section>
+        <section>
+            <title>Search Results</title>
+            <para role="Normal">The search results will show the amount of money that has been
+                budgeted for this account broken down by Object Codes.  To see further details
+                including Actuals and Encumbrance Amounts, select <emphasis role="bold"
+                    >All</emphasis> on the <emphasis role="bold">Include Pending Ledger
+                    Entry</emphasis> field and click the <inlinemediaobject>
+                    <alt>Search</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-269.png"/>
+                    </imageobject>
+                </inlinemediaobject> button again.   You may drill into the amount column to view
+                the details that make up the total amount. </para>
+            <para/>
+            <para role="Normal">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Available Balances Lookup Screen with "Include Pending Ledger Entry"
+                            set to All</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-270.jpg"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <para role="Normal">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Available Balances Sample Search Results</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-271.jpg"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <para role="Normal">Each underlined piece of information in the results grid is an
+                active URL which when clicked can provide you further details about each piece of
+                information.  For example clicking on the Actuals amount gives you a monthly
+                breakdown of payment requests that have been processed.</para>
+            <para role="Normal"/>
+            <para role="Normal">For more information on drilldowns, see <link linkend="_Drilldowns"
+                    >above</link>.</para>
+        </section>
+        <section>
+            <title>Query Available Account Balances: Requisition (Purchase Order, Payment Request) Line
+                Item</title>
+            <para role="Normal">Available Balance details can also be accessed from the Requisitions
+                page by clicking on the <inlinemediaobject>
+                    <alt>Bal Inquiry</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-272.png"/>
+                    </imageobject>
+                </inlinemediaobject> button <emphasis>after you have added an accounting
+                    line</emphasis>:</para>
+            <para role="Normal"/>
+            <para role="Normal">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Balance Inquiry from the Requisition, Purchase Order, or Payment
+                            Request Titles Tab</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-273.jpg"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Normal">From the <emphasis role="bold">Balance Inquiry Report Menu</emphasis>, select
+                <emphasis role="bold">Available Balances</emphasis>: </para>
+            <para role="Normal">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Balance Inquiry Report Menu: Select Available Balances</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-274.jpg"
+                            />
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Normal">To return to the requisition, click the <inlinemediaobject>
+                    <alt>Cancel</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-275.png"/>
+                    </imageobject>
+                </inlinemediaobject> button on each screen.</para>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_CashBalances"/>Cash Balances</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Select/Acquire</alt>
+                <imageobject>
+                    <imagedata fileref="../images/SelectAcquire.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt;<inlinemediaobject>
+                    <alt>Reports</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-1.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis> &gt;<inlinemediaobject>
+                <alt>Cash Balances</alt>
+                <imageobject>
+                    <imagedata fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-194.png"
+                    />
+                </imageobject>
+            </inlinemediaobject>&gt;<inlinemediaobject>
+                <alt>Cash Balance Lookup</alt>
+                <imageobject>
+                    <imagedata fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-193.png"
+                    />
+                </imageobject>
+            </inlinemediaobject></para>
+        <note>
+            <para> For general information about entering lookup criteria, interpreting dollar
+                accumulators, drilling down into inquiries to see more detail, and including or
+                excluding pending entries, see <link linkend="_GLInquiriesBasicInformation">GL
+                    Inquiries: Basic Information</link>.</para>
+        </note>
+        <para role="Body Text">The Cash Balances inquiry displays the beginning, year-to-date, and
+            available cash balances for an account and/or sub-account. It provides a bottom line
+            snapshot of your account. The report was designed for those accounts that produce
+            income/revenue through sales and services, and cash accounts. In most cases, fiscal
+            officers of auxiliary or service accounts or non-budgeted accounts are concerned with
+            their cash balances. However, fiscal officers of general fund accounts and some budgeted
+            accounts might not need to use the Cash Balances inquiry.</para>
+        <para role="Body Text">Choosing the <emphasis role="bold">Consolidation</emphasis> option
+            aggregates the amounts by Sub-Account and Sub-Object Code. The Detail option returns
+            balances for each Sub-Account and Sub-Object Code. The Include Pending Ledger Entry
+            option provides the user with the ability to include all cash pending entries, no
+            pending cash entries, or only those pending cash entries that are fully approved.
+            Cancelled and disapproved pending entries are not pulled into the balance inquiry
+            results. There are no drilldown hyperlinks available in this inquiry.</para>
+        <note>
+            <para>The Cash Balances inquiry should not be confused with the Available Balances
+                inquiry that compares actual transactions and encumbrances to budget amounts.</para>
+        </note>
+        <section>
+            <title>Lookup Criteria</title>
+            <para role="Body Text">Fill in at least Fiscal Year, Chart Code and Account Number. Use
+                the lookup icon <inlinemediaobject>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-267.png"/>
+                    </imageobject>
+                </inlinemediaobject> as necessary to select the criteria. Select the desired
+                    <emphasis role="bold">Consolidation</emphasis> and <emphasis role="bold"
+                    >Included Pending Ledger Entry</emphasis> options.</para>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Cash Balance Lookup Screen</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-3.png"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+        </section>
+        <section>
+            <title>Search Results</title>
+            <para role="Normal">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Cash Balance Lookup Search Results</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-4.png"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Normal"/>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_organizationReview"/>Organization Review</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Select/Acquire</alt>
+                <imageobject>
+                    <imagedata fileref="../images/SelectAcquire.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt;<inlinemediaobject>
+                    <alt>Reports</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-1.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Organization Review</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-83.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Organization Review Lookup</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-89.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Organization Review Role</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-92.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <note>
+            <para>For information about other KIM concepts and functions, see <link
+                xlink:href="../../../webhelp/ADMIN/content/ch07s02.html">Basic KIM Concepts</link> of the <link xlink:href="../../../webhelp/ADMIN/content/pr01.html"><emphasis role="italic"
+                    >Guide to OLE System Administration</emphasis></link>.
+            </para>
+        </note>
+        <para>The Organization Review document offers a simple interface to feed member and delegate
+            information into two KIM roles related to workflow routing.</para>
+        <para>The two roles affected by this document are:</para>
+        <itemizedlist>
+            <listitem>
+                <para>Accounting Reviewer: Establishes optional workflow action requests for
+                    documents based on chart, organization, document type, dollar amount and
+                    accounting override code.</para>
+            </listitem>
+            <listitem>
+                <para>Organization Reviewer: Establishes optional workflow action requests for
+                    documents based on chart, organization and document type.</para>
+            </listitem>
+        </itemizedlist>
+        <para>These roles are quite similar, with Accounting Reviewer generally being used for
+            document types that include accounting lines and organization reviewer being used for
+            document types that do not. The Organization Review document is designed to assist users
+            in selecting the appropriate role(s) for a given document type or group of document
+            types that need to receive workflow requests.</para>
+        <para>This interface enables institutions to more easily allow role members to assign
+            themselves to these roles. Note that these roles may also be assigned via the Role or
+            Person document as discussed elsewhere in this section.</para>
+        <note>
+            <para> Unlike other KIM documents, the Organization Review document is found on the
+                    <emphasis role="bold">Select/Aquire</emphasis> tab. Because it represents a
+                workflow modification that most OLE users are permitted to make.</para>
+        </note>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Organization Review Role Document</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-90.png"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Body Text">The Organization Review document includes the <emphasis
+                    role="bold">Organization Review</emphasis> and <emphasis role="bold">Assignee /
+                    Delegation</emphasis> tabs. </para>
+            <section>
+                <title>Organization Review Tab</title>
+                <para>The <emphasis role="bold">Organization Review</emphasis> tab identifies the
+                    chart and organization for which the user is establishing optional workflow
+                    action requests. It also defines the document type for which these requests are
+                    be generated. Review types determine whether this document creates a membership
+                    in the Accounting Reviewer role, the Organization Review role or both.</para>
+                <para/>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Organization Review Role Document: Organization Review Tab</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-93.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para/>
+                <para role="TableHeading"><emphasis role="bold">Organization Review tab
+                        definition</emphasis></para>
+                <informaltable frame="topbot">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Chart Code </para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Select the chart associated
+                                        with the organization for which you want to establish
+                                        additional workflow action requests.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Organization Code</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the organization code
+                                        identifying the organization for which you want to establish
+                                        additional workflow action requests or use the <emphasis
+                                            role="bold">Organization </emphasis>lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject> to select a value. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Document Type</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Use the <emphasis role="bold"
+                                            >Document Type </emphasis>lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject> to search for and select the document
+                                        type for which you want to establish additional workflow
+                                        action requests. Note that you may select a parent document
+                                        type to establish workflow routing for all document types
+                                        that answer to that parent in the document heirarchy. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Review Types</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required but may be display-only. This
+                                        value determines whether the document adds member
+                                        information to the accounting reviewer role ('Organization
+                                        Accounting Only'), the organization reviewer role
+                                        ('Organization Only'), or both.</para>
+                                    <para role="Table Cells">After you select a document type, this
+                                        system updates this field with a default value based on the
+                                        following rules:</para>
+                                    <para role="Table Cells">If the document type selected has a
+                                        route node associated with the organization reviewer or
+                                        accounting reviewer role, then review type is selected based
+                                        on this value and cannot be edited.</para>
+                                    <para role="Table Cells">If the document type selected is 'OLE'
+                                        (the OLE document at the top of the hierarchy), the Review
+                                        Type value defaults to 'both' but can be edited.</para>
+                                    <para role="Table Cells">If the closest parent document type is
+                                        'OLET' (the OLE document to which all transactional
+                                        documents answer), the Review Type value defaults to
+                                        'Organization Accounting Only' and cannot be edited.</para>
+                                    <para role="Table Cells">If the closest parent document type is
+                                        'OLEM' (the OLE document to which all complex maintenance
+                                        documents answer), the Review Type value defaults to
+                                        'Organization Only' and cannot be edited.</para>
+                                    <para role="Table Cells">If the closest parent document type is
+                                        'FSSM' (the OLE document to which all simple maintenance
+                                        document answer), the document returns an error. These
+                                        documents do not route for approval.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+            <section>
+                <title>Assignee/Delegation Tab</title>
+                <para>The <emphasis role="bold">Assignee/Delegation </emphasis>tab records any
+                    additional qualifying values needed for adding users to the Accounting Reviewer
+                    role and defines the person, group or role that should be assigned as a member
+                    or a delegate. This tab also collects detailed information about the type of
+                    workflow request to be generated and how workflow should handle that
+                    request.</para>
+                <para> For more information about delegating via the Organization Review document,
+                    see <link linkend="_delegation">Delegation</link>.</para>
+                <para/>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Organization Review Role Document: Assignee/Delegation Tab</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-94.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para/>
+                <para role="TableHeading"><emphasis role="bold">Assignee/Delegation tab
+                        definition</emphasis></para>
+                <informaltable frame="topbot">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">From Amount</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. This field is available only
+                                        if the Review Type value is either 'Organization Accounting
+                                        Only' or 'Both'.</para>
+                                    <para role="Table Cells">Enter a minimum dollar amount for
+                                        transactional documents below which you do not want to
+                                        generate action requests. If you do not want to establish a
+                                        minimum dollar amount, leave this field blank. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">To Amount</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. This field is available only
+                                        if the Review Type value is either 'Organization Accounting
+                                        Only' or 'Both'.</para>
+                                    <para role="Table Cells">Enter a maximum dollar amount for
+                                        transactional documents above which you do not want to
+                                        generate action requests. If you do not want to establish a
+                                        maximum dollar amount, leave this field blank. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Accounting Line Override Code</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Note that this field is
+                                        available only if the Review Type value is either
+                                        'Organization Accounting Only' or 'Both.'</para>
+                                    <para role="Table Cells">If you want action requests to be
+                                        generated only when a transactional document includes an
+                                        accounting line with a particular override code, select that
+                                        override code here. If you want action requests to be
+                                        generated whether or not an override code is present, leave
+                                        this field blank.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Principal Name</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Enter the principal name of
+                                        the person who is to receive these workflow action requests
+                                        or use the Person lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject> to select a value. <note>
+                                            <para>You must choose a principal name, role and/or
+                                                group to receive this workflow request. You may not
+                                                leave all these fields blank.</para>
+                                        </note></para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Namespace</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. To generate workflow action
+                                        requests to a particular role, select the namespace
+                                        associated with that role. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Role Name</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Enter the name of the role
+                                        that is to receive these workflow action requests or use the
+                                        Role lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject> to select a value. </para>
+                                    <note>
+                                        <para role="Table Cells">You must choose a principal name,
+                                            role and/or group to receive this workflow request. You
+                                            may not leave all these fields blank.</para>
+                                    </note>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Group Namespace</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. If you want to generate
+                                        workflow action requests to a particular group, select the
+                                        namespace associated with that group.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Group Name</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Enter the name of the group
+                                        that is to receive these workflow action requests or use the
+                                        Group lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject> to select a value. </para>
+                                    <note>
+                                        <para role="Table Cells">You must choose a principal name,
+                                            role and/or group to receive this workflow request. You
+                                            may not leave all these fields blank.</para>
+                                    </note>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Action Type Code</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">equired. Select the type of workflow
+                                        action request that is to be generated. Choices
+                                        include:</para>
+                                    <para>Approve</para>
+                                    <para>FYI</para>
+                                    <para>Acknowledge</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Priority Number</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Enter a priority number
+                                        between 1 and 11. If multiple action requests are generated
+                                        for this chart, organization and document type, requests
+                                        with lower priorities are generated before those with higher
+                                        priorities.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Action Policy Code</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. This value determines what
+                                        happens if multiple members of a role or group receive the
+                                        same action request and one of them takes the requested
+                                        action. For example, if a role has a group with three
+                                        members assigned, all of these members receive the action
+                                        request defined here; this code determines what the system
+                                        does when one of them takes action on the document.</para>
+                                    <para role="Table Cells">A value of 'FIRST' indicates that the
+                                        first member to take action on the document automatically
+                                        clears all requests for this responsibility that may be in
+                                        other group members' action lists.</para>
+                                    <para role="Table Cells">A value of 'ALL' indicates that each
+                                        group member must take individual action to clear his or her
+                                        requests. </para>
+                                    <note>
+                                        <para role="Table Cells">This value impacts only a single
+                                            action request. It has no impact on other requests that
+                                            might be generated by workflow for the same chart,
+                                            organization and document type.</para>
+                                    </note>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Force Action</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Check the box to indicate that the
+                                        assignee must take the action for this request even if the
+                                        user has already previously taken action on this document.
+                                        Leaving the box unchecked allows a request to be immediately
+                                        fulfilled if the assignee has previously taken action on
+                                        this specific document.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Active From Date</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. To begin generating these
+                                        requests on a specific date, enter that date here. If no
+                                        date is provided, the requests will be eligible for creation
+                                        a soon as the Organization Review document is processed or
+                                        final.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Active To Date</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. To stop generating these
+                                        requests on a specific day, enter that date here. If no date
+                                        is provided the requests will be generated
+                                        indefinitely.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+        </section>
+        <section>
+            <title><anchor xml:id="_delegation"/>Delegation</title>
+            <para>Users may use the Organization Review document to establish a delegate for a
+                current member of the Organization Reviewer or Organization Accounting Reviewer
+                role. Delegates inherit all responsibilities of the role member they're associated
+                with.</para>
+            <para>To create a delegate:</para>
+            <para>1. To create a delegate, use the <emphasis role="bold">Organization Review
+                </emphasis>lookup <inlinemediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/Lookup.png"/>
+                    </imageobject>
+                </inlinemediaobject> to find the member you want to create a delegate for.</para>
+            <para>2. Click the <emphasis role="bold">create delegation</emphasis> link.</para>
+            <para/>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Organization Review Lookup: "Create Delegation" is in the left most
+                            column</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-97.png"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <para>The system creates a new Organization Review document that copies all the fields
+                in the <emphasis role="bold">Organization Review</emphasis> tab from the selected
+                member role and renders them uneditable.</para>
+            <para/>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Organization Review Document: Organziation Review Tab with Sample
+                            Data</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-103.png"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <para>All values on the <emphasis role="bold">Assignee / Delegation</emphasis> tab are
+                also copied. These values may be edited. </para>
+            <para/>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Organization Review Document: Assignee / Delegation Tab with Sample
+                            Data</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-94.png"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+        </section>
+        <section>
+            <title>Process Overview</title>
+            <section>
+                <title>Business Rules</title>
+                <itemizedlist>
+                    <listitem>
+                        <para>Exactly one of the following groups of fields must be completed on the
+                                <emphasis role="bold">Assignee / Delegation</emphasis> tab:</para>
+                        <itemizedlist>
+                            <listitem>
+                                <para><emphasis role="bold">Principal Name</emphasis></para>
+                            </listitem>
+                            <listitem>
+                                <para><emphasis role="bold">Namespace</emphasis> and <emphasis
+                                        role="bold">Role Name</emphasis></para>
+                            </listitem>
+                            <listitem>
+                                <para><emphasis role="bold">Group Namespace</emphasis> and <emphasis
+                                        role="bold">Group</emphasis></para>
+                            </listitem>
+                        </itemizedlist>
+                    </listitem>
+                    <listitem>
+                        <para>When delegating an Accounting Reviewer role, the values for the
+                                <emphasis role="bold">From Amount</emphasis> and <emphasis
+                                role="bold">To Amount</emphasis> must fall within the range
+                            established for the role member whose responsibility is being
+                            delegated.</para>
+                    </listitem>
+                </itemizedlist>
+            </section>
+            <section>
+                <title>Routing</title>
+                <para>The Organization Review documenty uses organization review routing. It routes
+                    based on the chart and organization on the document.</para>
+            </section>
+        </section>
+    </section>
+</chapter>

@@ -1,0 +1,59 @@
+<config>
+
+  <param name="db.vendor">mysql</param>
+
+  <param name="jdbc.driver">${${db.vendor}.driver}</param>
+  <param name="jdbc.url">${${db.vendor}.url}</param>
+  <param name="jdbc.password">${jdbc.username}</param>
+  <param name="jdbc.dba.url">${${db.vendor}.dba.url}</param>
+  <param name="jdbc.dba.username">${${db.vendor}.dba.username}</param>
+  <param name="jdbc.dba.password">${${db.vendor}.dba.password}</param>
+
+  <param name="datasource.username">${jdbc.username}</param>
+  <param name="datasource.password">${jdbc.password}</param>
+  <param name="datasource.url">${jdbc.url}</param>
+
+  <param name="datasource.ojb.platform">${${db.vendor}.ojb.platform}</param>
+  <param name="datasource.ojb.sequence.manager">${${db.vendor}.ojb.sequence.manager}</param>
+  <param name="datasource.ojb.sequenceManager.className">${${db.vendor}.ojb.sequenceManager.className}</param>
+
+  <param name="datasource.platform">${${db.vendor}.platform}</param>
+  <param name="datasource.driver.class">${${db.vendor}.jdbc.driver}</param>
+  <param name="datasource.validating.query">${${db.vendor}.query.validate}</param>
+  <param name="datasource.pool.size">5</param>
+  <param name="datasource.connection.timeout">100000</param>
+  <param name="datasource.maximum.cached.preparedstatements">25</param>
+  <param name="datasource.xapool.connection.test.mode">2</param>
+  <param name="datasource.driver.name">${${db.vendor}.jdbc.driver}</param>
+  <param name="datasource.pool.maxActive">20</param>
+  <param name="datasource.pool.minIdle">5</param>
+  <param name="datasource.pool.initialSize">3</param>
+  <param name="datasource.pool.maxSize">20</param>
+  <param name="datasource.pool.minSize">5</param>
+  <param name="datasource.pool.maxWait">30000</param>
+
+  <param name="oracle.driver">oracle.jdbc.driver.OracleDriver</param>
+  <param name="oracle.jdbc.driver">${oracle.driver}</param>
+  <param name="oracle.ojb.platform">Oracle9i</param>
+  <param name="oracle.ojb.sequence.manager">org.apache.ojb.broker.util.sequence.SequenceManagerNextValImpl</param>
+  <param name="oracle.ojb.sequenceManager.className">org.apache.ojb.broker.util.sequence.SequenceManagerNextValImpl</param>
+  <param name="oracle.platform">org.kuali.rice.core.framework.persistence.platform.Oracle9iDatabasePlatform</param>
+  <param name="oracle.query.validate">SELECT SYSDATE FROM DUAL</param>
+  <param name="oracle.dba.url">jdbc:oracle:thin:@localhost:1521:XE</param>
+  <param name="oracle.url">${oracle.dba.url}</param>
+  <param name="oracle.dba.username">system</param>
+  <param name="oracle.dba.password">manager</param>
+
+  <param name="mysql.dba.url">jdbc:mysql://localhost</param>
+  <param name="mysql.url">${mysql.dba.url}/${jdbc.username}</param>
+  <param name="mysql.dba.username">root</param>
+  <param name="mysql.dba.password">NONE</param>
+  <param name="mysql.driver">com.mysql.jdbc.Driver</param>
+  <param name="mysql.jdbc.driver">${mysql.driver}</param>
+  <param name="mysql.ojb.platform">MySQL</param>
+  <param name="mysql.ojb.sequence.manager">org.apache.ojb.broker.platforms.KualiMySQLSequenceManagerImpl</param>
+  <param name="mysql.ojb.sequenceManager.className">org.apache.ojb.broker.platforms.KualiMySQLSequenceManagerImpl</param>
+  <param name="mysql.platform">org.kuali.rice.core.framework.persistence.platform.MySQLDatabasePlatform</param>
+  <param name="mysql.query.validate">select 1</param>
+
+</config>

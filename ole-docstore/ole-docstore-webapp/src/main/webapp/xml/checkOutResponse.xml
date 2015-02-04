@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?><OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd"><ListRecords><record>
+ <header>
+  <identifier>oai:quod.lib.umich.edu:MIU01-000029516</identifier>
+  <datestamp>2008-12-19T18:45:46Z</datestamp>
+  <setSpec>hathitrust:pd</setSpec>
+ </header>
+ <metadata>
+   <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+  <dc:title>U.S. Marines in Vietnam : the landing and the buildup, 1965 / by Jack Shulimson and Charles M. Johnson.</dc:title>
+  <dc:creator>Shulimson, Jack.</dc:creator>
+  <dc:subject>United States.--History--Vietnam War, 1961-1975</dc:subject>
+  <dc:subject>Vietnam War, 1961-1975--Campaigns</dc:subject>
+  <dc:description>xiii, 261 p. :</dc:description>
+  <dc:publisher>Washington : History and Museums Division, Headquarters, U.S. Marine Corps : for sale by the Supt. of Docs., U.S. Govt. Print. Off.,</dc:publisher>
+  <dc:date>1978.</dc:date>
+  <dc:identifier>(LCCN)78600120</dc:identifier>
+  <dc:identifier>(OCoLC)ocm05346770</dc:identifier>
+  <dc:identifier>DS558.9.M37 S58</dc:identifier>
+  <dc:identifier>959.704/34</dc:identifier>
+  <dc:identifier>DS558.9.M37 S581</dc:identifier>
+  <dc:identifier>http://hdl.handle.net/2027/mdp.39015003338806</dc:identifier>
+  <dc:source>http://hdl.handle.net/2027/mdp.39015003338806</dc:source>
+  <dc:language>eng</dc:language>
+  <dc:type>text</dc:type>
+  <dc:rights>We have determined this item to be in the public domain according to US copyright law through information in the bibliographic record and/or US copyright renewal records. The digital version is available for all educational uses worldwide. Please contact HathiTrust staff at hathitrust-help@umich.edu with any questions about this item.</dc:rights>
+   </oai_dc:dc>
+ </metadata>
+</record>
+</ListRecords></OAI-PMH>

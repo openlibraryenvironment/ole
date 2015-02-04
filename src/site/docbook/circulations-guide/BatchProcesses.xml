@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<chapter xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0">
+
+    <title><anchor xml:id="BatchProcesses"/>Batch Processes
+        <indexterm significance="normal">
+            <primary>Purchasing/Accounts Payable</primary>
+            <secondary>batch processes</secondary>
+        </indexterm>
+    </title>
+    <para role="Body Text">
+        <inlinemediaobject>
+            <alt>Admin</alt>
+            <imageobject>
+                <imagedata fileref="../images/Admin.png"/>
+            </imageobject>
+        </inlinemediaobject> &gt; <inlinemediaobject>
+            <alt>Batch Processes</alt>
+            <imageobject>
+                <imagedata fileref="../images/admin-396.png"/>
+            </imageobject>
+        </inlinemediaobject> &gt; <inlinemediaobject>
+            <alt>Batch/Scheduled Jobs</alt>
+            <imageobject>
+                <imagedata fileref="../images/AdminBatchBatchJob.png"/>
+            </imageobject>
+        </inlinemediaobject>
+    </para>
+    <para role="Body Text">The following table summarizes the functions of the system’s Deliver batch
+        processes. These processes generate notices of various kinds, generate bills for lost items,
+        delete temporary circulation histories and update reshelved materials’ item status.
+    </para>
+    <para role="Body Text">Each job may be scheduled by a library to run at any time. From the
+            <emphasis role="bold">Admin</emphasis> menu, click <emphasis role="bold">Batch/Scheduled
+            Jobs</emphasis> to enter the lookup. Click<emphasis role="bold">Search</emphasis>. Click
+            <emphasis role="bold">Edit </emphasis> to change the schedule for any job. (As of now,
+        the jobs are set to run at 2 AM Eastern time. A more user-friendly scheduling method will be
+        developed.) </para>
+    <para role="Body Text">Output files from these jobs are stored at a location chosen by the
+        library. The location is identified as the system parameter PDF_Location which can be found
+        at Admin &gt; System Configuration &gt; Parameter. </para>
+    <para/>
+    <para role="TableHeading">
+        <emphasis role="bold">Deliver Batch Jobs</emphasis>
+    </para>
+    <informaltable frame="top">
+        <tgroup cols="2">
+            <colspec colname="col1" colnum="1"/>
+            <colspec colname="col2" colnum="2"/>
+            <tbody>
+                <row>
+                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                        <para role="Table Cells">Job Name</para>
+                    </entry>
+                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                        <para role="Table Cells">Description</para>
+                    </entry>
+                </row>
+                <row>
+                    <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                        <para role="Table Cells">generateNoticesJob</para>
+                    </entry>
+                    <entry colname="col2" colsep="0" rowsep="1" valign="bottom">
+                        <para role="Normal">Identifies overdue items and creates notices for delivery to patrons
+                            using their preferred delivery method. A first overdue notice is generated
+                            <emphasis>
+                                <emphasis role="bold">n</emphasis>
+                                days/hours after the due
+                                date/time;
+                            </emphasis>
+                            subsequent overdue notices (how many determined locally) are then
+                            generated
+                            <emphasis role="bold">
+                                <emphasis>n</emphasis>
+                            </emphasis>
+                            days/hours after the last
+                            notice. Also generates replacement fee bills for items that have received
+                            <emphasis
+                                    role="bold">
+                                <emphasis>n</emphasis>
+                            </emphasis>
+                            overdue notices.
+                        </para>
+                    </entry>
+                </row>
+                <row>
+                    <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                        <para role="Table Cells">deleteTemporaryHistoryRecordJob</para>
+                    </entry>
+                    <entry colname="col2" colsep="0" rowsep="1" valign="bottom">
+                        <para role="Table Cells">If a library decides to store temporary circulation histories, this
+                            job purges those records systematically. (OLE runs this job at 2am every morning but
+                            this is
+                            locally configurable.)
+                        </para>
+                    </entry>
+                </row>
+                <row>
+                    <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                        <para role="Table Cells">generateRequestExpirationNoticeJob</para>
+                    </entry>
+                    <entry colname="col2" colsep="0" rowsep="1" valign="bottom">
+                        <para role="Table Cells">A library may opt to send patrons notices when requested items have
+                            been removed from an on-hold status because the patrons never picked up the items. This
+                            job
+                            creates these notices for delivery to patrons using their preferred delivery method but
+                            only
+                            for patrons whose records have the courtesy notice flag turned on.
+                        </para>
+                    </entry>
+                </row>
+                <row>
+                    <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                        <para role="Table Cells">deletingExpiredRequestsJob</para>
+                    </entry>
+                    <entry colname="col2" colsep="0" rowsep="1" valign="bottom">
+                        <para role="Table Cells">Identifies requested items that have been on hold but are now
+                            beyond
+                            the expiration date; the subsequent list then allows an operator to check-in these items
+                            to
+                            determine their next destination.
+                        </para>
+                    </entry>
+                </row>
+                <row>
+                    <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                        <para role="Table Cells">generateOnHoldNoticeJob</para>
+                    </entry>
+                    <entry colname="col2" colsep="0" rowsep="1" valign="bottom">
+                        <para role="Table Cells">Creates on-hold notices for delivery to patrons using their
+                            preferred delivery method to inform them when a requested item has become available and
+                            at
+                            what pick-up location.
+                        </para>
+                        <para role="Table Cells">If PDFs are generated for mail delivery, the
+                            PDF_LOCATION stores the directory location. </para>
+                    </entry>
+                </row>
+                <row>
+                    <entry colname="col1" colsep="1" rowsep="1" valign="bottom">
+                        <para role="Table Cells">updateStatusIntoAvailableAfterReSchelvingJob</para>
+                    </entry>
+                    <entry colname="col2" colsep="0" rowsep="1" valign="bottom">
+                        <para role="Table Cells">Circulation Desks may set an interval to allow for the time lag
+                            between check-in and reshelving. When this interval is defined, items checked-in are
+                            given
+                            the item status “Recently returned”. This job, following the interval, changes the item
+                            status to “Available”.
+                        </para>
+                        <note>
+                            <para>See additional information about the shelving lag time in the
+                                    <link linkend="_Circulation_Desk_1">Circulation Desk</link>
+                                documentation.</para>
+                        </note>
+                    </entry>
+                </row>
+                <row>
+                    <entry colname="col1" colsep="1" rowsep="0" valign="bottom">
+                        <para role="Table Cells">generateHoldCourtesyNoticeJob</para>
+                    </entry>
+                    <entry colname="col2" colsep="0" rowsep="0" valign="bottom">
+                        <para role="Normal">A library may opt to send patrons reminder notices when borrowed items
+                            are close to their due dates/times. This job creates these notices for delivery to
+                            patrons
+                            using their preferred delivery method but only for patrons whose records have the
+                            courtesy
+                            notice flag turned on.
+                        </para>
+                    </entry>
+                </row>
+            </tbody>
+        </tgroup>
+    </informaltable>
+</chapter>

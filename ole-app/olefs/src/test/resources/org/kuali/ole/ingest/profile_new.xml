@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<agendas>
+    <agenda>
+        <name>YBP</name>
+        <profileAttributes>
+            <attribute name="orderPerFile">SINGLE-ORDER</attribute>
+            <attribute name="vendorProfileCode">YBP</attribute>
+            <attribute name="contractMgr">John Doe</attribute>
+            <attribute name="assignToUser">Jane Doe</attribute>
+            <attribute name="chartCode">UA</attribute>
+            <attribute name="itemChartCode">BL</attribute>
+            <attribute name="orgCode">VPIT</attribute>
+            <attribute name="receivingRequired">false</attribute>
+            <attribute name="itemStatus">a values goes here</attribute>
+            <attribute name="locationStatus">Permanent</attribute>
+            <attribute name="useTaxInd">true</attribute>
+            <attribute name="orderType">firm_fixed_ybp</attribute>
+            <attribute name="payReqPositiveApprovalReq">true</attribute>
+            <attribute name="deliveryCampus">BL</attribute>
+            <attribute name="building">BL209</attribute>
+            <attribute name="publicView">false</attribute>
+            <attribute name="internalPurchasingLimit">null</attribute>
+            <attribute name="costSource">EST</attribute>
+            <attribute name="recordType">x</attribute>
+            <attribute name="encodingLevel">1</attribute>
+            <attribute name="receiptStatus">3</attribute>
+            <attribute name="acquisitionMethod">3</attribute>
+            <attribute name="generalRetentionPolicy">u</attribute>
+            <attribute name="specificRetentionPolicy-PolicyType"></attribute>
+            <attribute name="fundingSource">INST</attribute>
+            <attribute name="purchaseorderconfirmationindicator">true</attribute>
+            <attribute name="requisitionSource">AUTO</attribute>
+            <attribute name="vendorchoice">vendorchoice</attribute>
+            <attribute name="itemType">ITEM</attribute>
+            <attribute name="routeRequester">false</attribute>
+            <attribute name="publicView">true</attribute>
+            <attribute name="percent">100</attribute>
+            <attribute name="poTransmissionMethod">NOPR</attribute>
+            <attribute name="internalPurchasingLimit">2</attribute>
+            <attribute name="highlevelOverlayOption">DONT_IGNORE_GPF</attribute>
+        </profileAttributes>
+        <overlayOptions>
+            <overlayOption>
+                <name>delete</name>
+                <dataFields>
+                    <datafield tag="852" ind1=" " ind2=" ">
+                        <subfield code="*"></subfield>
+                    </datafield>
+                    <datafield tag="670" ind1=" " ind2=" ">
+                        <subfield code="*"></subfield>
+                    </datafield>
+                </dataFields>
+            </overlayOption>
+        </overlayOptions>
+        <actions>
+            <overlayLookupAction id="309">
+                <description>update record with location from table</description>
+                <actionType>oldHolding</actionType>
+                <event>update</event>
+                <mapping>callnumber</mapping>
+                <incomingfield>
+                    <field>049</field>
+                    <subfield>a</subfield>
+                </incomingfield>
+                <existingfield>
+                    <field>item.callNumber</field>
+                </existingfield>
+                <tablelookup>
+                    <table>callnumberTable</table>
+                    <fields>
+                        <field>callNumberPreferenceOne</field>
+                        <field>callNumberPreferenceTwo</field>
+                        <field>callNumberPreferenceThree</field>
+                    </fields>
+                    <nextaction>lookupvalue</nextaction>
+                </tablelookup>
+            </overlayLookupAction>
+            <overlayLookupAction id="310">
+                <description>update record with item status code from table</description>
+                <actionType>item</actionType>
+                <event>update</event>
+                <mapping>itemType</mapping>
+                <incomingfield>
+                    <field>049</field>
+                    <subfield>a</subfield>
+                </incomingfield>
+                <existingfield>
+                    <field>item.itemType</field>
+                </existingfield>
+                <tablelookup>
+                    <table>codeTable</table>
+                    <fields>
+                        <field>itemStatusCode</field>
+                    </fields>
+                    <nextaction>usevalue</nextaction>
+                </tablelookup>
+            </overlayLookupAction>
+        </actions>
+        <rules>
+            <rule>
+                <name>ISBN Validation</name>
+                <oleProposition>
+                    <type>compound</type>
+                    <compoundProposition>
+                        <operator>AND</operator>
+                        <compoundProposition>
+                            <operator>OR</operator>
+                            <simpleProposition>
+                                <function>isbnFunction</function>
+                                <term>
+                                    <type>java.lang.String</type>
+                                    <value>incomingField-020a</value>
+                                </term>
+                                <term>
+                                    <type>java.lang.String</type>
+                                    <value>existingField-020a</value>
+                                </term>
+                            </simpleProposition>
+                            <simpleProposition>
+                                <function>issnFunction</function>
+                                <term>
+                                    <type>java.lang.String</type>
+                                    <value>incomingField-022a</value>
+                                </term>
+                                <term>
+                                    <type>java.lang.String</type>
+                                    <value>existingField-022a</value>
+                                </term>
+                            </simpleProposition>
+                            <simpleProposition>
+                                <function>oclcFunction</function>
+                                <term>
+                                    <type>java.lang.String</type>
+                                    <value>incomingField-035a</value>
+                                </term>
+                                <term>
+                                    <type>java.lang.String</type>
+                                    <value>existingField-035a</value>
+                                </term>
+                            </simpleProposition>
+                        </compoundProposition>
+                        <simpleProposition>
+                            <function>locationFunction</function>
+                            <term>
+                                <type>java.lang.String</type>
+                                <value>incomingField-985c</value>
+                            </term>
+                            <term>
+                                <type>java.lang.String</type>
+                                <value>existingField-985c</value>
+                            </term>
+                        </simpleProposition>
+                        <simpleProposition>
+                            <function>vendorLineItemReferenceFunction</function>
+                            <term>
+                                <type>java.lang.String</type>
+                                <value>incomingField-SLI</value>
+                            </term>
+                            <term>
+                                <type>java.lang.String</type>
+                                <value>existingField-SLI</value>
+                            </term>
+                        </simpleProposition>
+                    </compoundProposition>
+                </oleProposition>
+                <falseActions>
+                    <action>
+                        <name>createBibAction</name>
+                    </action>
+                </falseActions>
+                <trueActions>
+                    <action>
+                        <name>overlayAction</name>
+                    </action>
+                </trueActions>
+            </rule>
+        </rules>
+    </agenda>
+</agendas>

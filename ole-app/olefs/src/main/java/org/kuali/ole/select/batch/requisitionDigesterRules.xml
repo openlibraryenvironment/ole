@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<!--
+   - Copyright 2011 The Kuali Foundation.
+   - 
+   - Licensed under the Educational Community License, Version 2.0 (the "License");
+   - you may not use this file except in compliance with the License.
+   - You may obtain a copy of the License at
+   - 
+   - http://www.opensource.org/licenses/ecl2.php
+   - 
+   - Unless required by applicable law or agreed to in writing, software
+   - distributed under the License is distributed on an "AS IS" BASIS,
+   - WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   - See the License for the specific language governing permissions and
+   - limitations under the License.
+ -->
+<!DOCTYPE digester-rules 
+    PUBLIC "-//Jakarta Apache //DTD digester-rules XML V1.0//EN" 
+    "http://jakarta.apache.org/commons/digester/dtds/digester-rules.dtd">
+      
+<digester-rules>
+    <pattern value="requisitions">
+        <object-create-rule classname="java.util.ArrayList" />
+
+        <pattern value="requisition">
+            <object-create-rule classname="org.kuali.ole.select.businessobject.BibInfoBean" />
+
+            <call-method-rule pattern="isbn" methodname="setIsbn" paramcount="0" />
+            <call-method-rule pattern="author" methodname="setAuthor" paramcount="0" />
+            <call-method-rule pattern="title" methodname="setTitle" paramcount="0" />
+            <call-method-rule pattern="placeofpublication" methodname="setPlaceOfPublication" paramcount="0" />
+            <call-method-rule pattern="publisher" methodname="setPublisher" paramcount="0" />
+            <call-method-rule pattern="yearofpublication" methodname="setYearOfPublication" paramcount="0" />
+            <call-method-rule pattern="fundcode" methodname="setFundcode" paramcount="0" />
+            <call-method-rule pattern="location" methodname="setLocation" paramcount="0" />
+            <call-method-rule pattern="librarynote" methodname="setLibrarynote" paramcount="0" />
+            <call-method-rule pattern="listprice" methodname="setListprice" paramcount="0" />
+            <call-method-rule pattern="quantity" methodname="setQuantity" paramcount="0" />
+            <call-method-rule pattern="ybp" methodname="setYbp" paramcount="0" />
+            <call-method-rule pattern="subAccountNumber" methodname="setSubAccountNumber" paramcount="0" />
+            <call-method-rule pattern="binding" methodname="setBinding" paramcount="0" />
+            <call-method-rule pattern="initials" methodname="setInitials" paramcount="0" />
+            <call-method-rule pattern="dateordered" methodname="setDateOrdered" paramcount="0" />
+            <call-method-rule pattern="vendorcode" methodname="setVendorCode" paramcount="0" />
+            <call-method-rule pattern="ybpuid" methodname="setYbpuid" paramcount="0" />
+            <call-method-rule pattern="financialYear" methodname="setFinancialYear" paramcount="0" />
+            <call-method-rule pattern="fundingSource" methodname="setFundingSource" paramcount="0" />
+            <call-method-rule pattern="deliverycampuscode" methodname="setDeliveryCampusCode" paramcount="0" />
+            <call-method-rule pattern="deliverytoname" methodname="setDeliveryToName" paramcount="0" />
+            <call-method-rule pattern="deliverybuildingline1address" methodname="setDeliveryBuildingLine1Address" paramcount="0" />
+            <call-method-rule pattern="deliverybuildingroomnumber" methodname="setDeliveryBuildingRoomNumber" paramcount="0" />
+            <call-method-rule pattern="deliverycityname" methodname="setDeliveryCityName" paramcount="0" />
+            <call-method-rule pattern="deliverystatecode" methodname="setDeliveryStateCode" paramcount="0" />
+            <call-method-rule pattern="deliverypostalcode" methodname="setDeliveryPostalCode" paramcount="0" />
+            <call-method-rule pattern="deliverycountrycode" methodname="setDeliveryCountryCode" paramcount="0" />
+            <call-method-rule pattern="vendorcustomernumber" methodname="setVendorCustomerNumber" paramcount="0" />
+            <call-method-rule pattern="purchaseordercostsourcecode" methodname="setPurchaseOrderCostSourceCode" paramcount="0" />
+            <call-method-rule pattern="requestorpersonname" methodname="setRequestorPersonName" paramcount="0" />
+            <call-method-rule pattern="requestorpersonemailaddress" methodname="setRequestorPersonEmailAddress" paramcount="0" />
+            <call-method-rule pattern="requestorpersonphonenumber" methodname="setRequestorPersonPhoneNumber" paramcount="0" />
+            <call-method-rule pattern="volumeNumber" methodname="setVolumeNumber" paramcount="0" />
+
+            <set-next-rule methodname="add" />
+        </pattern>
+
+    </pattern>
+</digester-rules>
+ 

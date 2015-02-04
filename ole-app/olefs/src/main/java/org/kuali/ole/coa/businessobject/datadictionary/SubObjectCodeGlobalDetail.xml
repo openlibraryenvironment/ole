@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="SubObjectCodeGlobalDetail" parent="SubObjectCodeGlobalDetail-parentBean"/>
+
+  <bean id="SubObjectCodeGlobalDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.ole.coa.businessobject.SubObjectCodeGlobalDetail"/>
+    <property name="objectLabel" value="Object Code Change Detail"/>
+    <property name="attributes">
+      <list>
+        <bean parent="ObjectCode-universityFiscalYear"/>
+        <bean parent="ObjectCode-chartOfAccountsCode"/>
+        <bean parent="ObjectCode-financialObjectCode"/>
+        <bean parent="GenericAttributes-newCollectionRecord"/>
+      </list>
+    </property>
+  </bean>
+
+</beans>

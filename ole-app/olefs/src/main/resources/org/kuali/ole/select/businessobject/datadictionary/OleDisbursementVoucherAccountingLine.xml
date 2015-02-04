@@ -1,0 +1,454 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   - Copyright 2011 The Kuali Foundation.
+   - 
+   - Licensed under the Educational Community License, Version 2.0 (the "License");
+   - you may not use this file except in compliance with the License.
+   - You may obtain a copy of the License at
+   - 
+   - http://www.opensource.org/licenses/ecl2.php
+   - 
+   - Unless required by applicable law or agreed to in writing, software
+   - distributed under the License is distributed on an "AS IS" BASIS,
+   - WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   - See the License for the specific language governing permissions and
+   - limitations under the License.
+ -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+	
+	
+  <bean id="OleDisbursementVoucherAccountingLine" parent="OleDisbursementVoucherAccountingLine-parentBean"/>
+
+  <bean id="OleDisbursementVoucherAccountingLine-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.ole.select.businessobject.OleDisbursementVoucherAccountingLine"/>
+    <property name="objectLabel" value="Disbursement Voucher Accounting Line"/>
+    <property name="attributes">
+			<list>
+				<ref bean="OleDisbursementVoucherAccountingLine-objectCode.financialObjectTypeCode"/>
+        	    <ref bean="OleDisbursementVoucherAccountingLine-objectCode.financialObjectSubTypeCode"/>
+        		<ref bean="OleDisbursementVoucherAccountingLine-objectCode.financialObjectLevelCode"/>
+        		<ref bean="OleDisbursementVoucherAccountingLine-account.financialHigherEdFunctionCd"/>
+        		<ref bean="OleDisbursementVoucherAccountingLine-account.subFundGroupCode"/>
+        		<ref bean="OleDisbursementVoucherAccountingLine-account.subFundGroup.fundGroupCode"/>
+        		<ref bean="OleDisbursementVoucherAccountingLine-balanceTypeCode"/>
+        		<ref bean="OleDisbursementVoucherAccountingLine-referenceNumber"/>
+        		<ref bean="OleDisbursementVoucherAccountingLine-sequenceNumber"/>
+        		<ref bean="OleDisbursementVoucherAccountingLine-financialObjectCode"/>
+        		<ref bean="OleDisbursementVoucherAccountingLine-accountNumber"/>
+        		<ref bean="OleDisbursementVoucherAccountingLine-organizationReferenceId"/>
+        		<ref bean="OleDisbursementVoucherAccountingLine-chartOfAccountsCode"/>
+        		<ref bean="OleDisbursementVoucherAccountingLine-postingYear"/>
+        		<ref bean="OleDisbursementVoucherAccountingLine-referenceOriginCode"/>
+        		<ref bean="OleDisbursementVoucherAccountingLine-overrideCode"/>
+        		<ref bean="OleDisbursementVoucherAccountingLine-amount"/>
+        		<ref bean="OleDisbursementVoucherAccountingLine-subAccountNumber"/>
+        		<ref bean="OleDisbursementVoucherAccountingLine-referenceTypeCode"/>
+        		<ref bean="OleDisbursementVoucherAccountingLine-projectCode"/>
+       		    <ref bean="OleDisbursementVoucherAccountingLine-financialSubObjectCode"/>
+        		<ref bean="OleDisbursementVoucherAccountingLine-documentNumber"/>
+        		<ref bean="OleDisbursementVoucherAccountingLine-debitCreditCode"/>
+        		<ref bean="OleDisbursementVoucherAccountingLine-encumbranceUpdateCode"/>
+        		<ref bean="OleDisbursementVoucherAccountingLine-objectTypeCode"/>
+       			<ref bean="OleDisbursementVoucherAccountingLine-accountExpiredOverride"/>
+        		<ref bean="OleDisbursementVoucherAccountingLine-nonFringeAccountOverride"/>
+        		<ref bean="OleDisbursementVoucherAccountingLine-objectBudgetOverride"/>
+        		<ref bean="OleDisbursementVoucherAccountingLine-financialDocumentLineDescription"/>
+        		<ref bean="OleDisbursementVoucherAccountingLine-salesTaxRequired"/>
+        		<ref bean="OleDisbursementVoucherAccountingLine-salesTax.chartOfAccountsCode"/>
+       		    <ref bean="OleDisbursementVoucherAccountingLine-salesTax.accountNumber"/>
+        		<ref bean="OleDisbursementVoucherAccountingLine-salesTax.financialDocumentGrossSalesAmount"/>
+        		<ref bean="OleDisbursementVoucherAccountingLine-salesTax.financialDocumentTaxableSalesAmount"/>
+        		<ref bean="OleDisbursementVoucherAccountingLine-salesTax.financialDocumentSaleDate"/>
+        		<ref bean="OleDisbursementVoucherAccountingLine-objectCode.financialObjectLevel.financialConsolidationObjectCode"/>
+        		<ref bean="OleDisbursementVoucherAccountingLine-account.organizationCode"/>
+				<ref bean="OleDisbursementVoucherAccountingLine-accountLinePercent"/>
+		  </list>
+			</property>
+    	    <property name="accessRestrictedAttributes">
+       			<list>
+           			<bean parent="ChartRestriction"><property name="attribute" ref="OleDisbursementVoucherAccountingLine-chartOfAccountsCode"/></bean>
+           			<bean parent="ChartHierarchyRestriction"><property name="attribute" ref="OleDisbursementVoucherAccountingLine-chartOfAccountsCode"/></bean>
+           			<bean parent="AccountRestriction"><property name="attribute" ref="OleDisbursementVoucherAccountingLine-accountNumber"/></bean>
+           			<bean parent="PrincipalInvestigatorRestriction"><property name="attribute" ref="OleDisbursementVoucherAccountingLine-accountNumber"/></bean>
+           			<bean parent="SubAccountRestriction"><property name="attribute" ref="OleDisbursementVoucherAccountingLine-subAccountNumber"/></bean>
+           			<bean parent="OrganizationRestriction"><property name="attribute" ref="OleDisbursementVoucherAccountingLine-account.organizationCode"/></bean>
+           			<bean parent="OrganizationHierarchyRestriction"><property name="attribute" ref="OleDisbursementVoucherAccountingLine-account.organizationCode"/></bean>
+           			<bean parent="ObjectLevelRestriction"><property name="attribute" ref="OleDisbursementVoucherAccountingLine-objectCode.financialObjectLevelCode"/></bean>
+           			<bean parent="ObjectConsolidationRestriction"><property name="attribute" ref="OleDisbursementVoucherAccountingLine-objectCode.financialObjectLevel.financialConsolidationObjectCode"/></bean> 
+           			<bean parent="ProjectCodeRestriction"><property name="attribute" ref="OleDisbursementVoucherAccountingLine-projectCode"/></bean>               
+       	   	   </list>
+    	   </property>    
+    	   <property name="relationships">
+    		<list>
+    			<bean parent="RelationshipDefinition">
+    				<property name="objectAttributeName" value="referenceFinancialSystemDocumentTypeCode"/>
+		        	<property name="primitiveAttributes">
+		        		<list>
+		            		<bean parent="PrimitiveAttributeDefinition" p:sourceName="referenceTypeCode" p:targetName="name"/>
+		            	</list>
+		        	</property>
+    			</bean>
+    	   </list>
+         </property>
+	</bean>
+		
+	<!-- Attribute Definitions -->
+
+  <bean id="OleDisbursementVoucherAccountingLine-objectCode.financialObjectTypeCode" parent="OleDisbursementVoucherAccountingLine-objectCode.financialObjectTypeCode-parentBean"/>
+
+  <bean id="OleDisbursementVoucherAccountingLine-objectCode.financialObjectTypeCode-parentBean" abstract="true" parent="ObjectCode-financialObjectTypeCode">
+    <property name="name" value="objectCode.financialObjectTypeCode"/>
+  </bean>
+  <bean id="OleDisbursementVoucherAccountingLine-objectCode.financialObjectSubTypeCode" parent="OleDisbursementVoucherAccountingLine-objectCode.financialObjectSubTypeCode-parentBean"/>
+
+  <bean id="OleDisbursementVoucherAccountingLine-objectCode.financialObjectSubTypeCode-parentBean" abstract="true" parent="ObjectCode-financialObjectSubTypeCode">
+    <property name="name" value="objectCode.financialObjectSubTypeCode"/>
+  </bean>
+  <bean id="OleDisbursementVoucherAccountingLine-objectCode.financialObjectLevelCode" parent="OleDisbursementVoucherAccountingLine-objectCode.financialObjectLevelCode-parentBean"/>
+
+  <bean id="OleDisbursementVoucherAccountingLine-objectCode.financialObjectLevelCode-parentBean" abstract="true" parent="ObjectCode-financialObjectLevelCode">
+    <property name="name" value="objectCode.financialObjectLevelCode"/>
+  </bean>
+  <bean id="OleDisbursementVoucherAccountingLine-account.financialHigherEdFunctionCd" parent="OleDisbursementVoucherAccountingLine-account.financialHigherEdFunctionCd-parentBean"/>
+
+  <bean id="OleDisbursementVoucherAccountingLine-account.financialHigherEdFunctionCd-parentBean" abstract="true" parent="Account-financialHigherEdFunctionCd">
+    <property name="name" value="account.financialHigherEdFunctionCd"/>
+  </bean>
+  <bean id="OleDisbursementVoucherAccountingLine-account.subFundGroupCode" parent="OleDisbursementVoucherAccountingLine-account.subFundGroupCode-parentBean"/>
+
+  <bean id="OleDisbursementVoucherAccountingLine-account.subFundGroupCode-parentBean" abstract="true" parent="Account-subFundGroupCode">
+    <property name="name" value="account.subFundGroupCode"/>
+  </bean>
+  <bean id="OleDisbursementVoucherAccountingLine-account.subFundGroup.fundGroupCode" parent="OleDisbursementVoucherAccountingLine-account.subFundGroup.fundGroupCode-parentBean"/>
+
+  <bean id="OleDisbursementVoucherAccountingLine-account.subFundGroup.fundGroupCode-parentBean" abstract="true" parent="SubFundGroup-fundGroupCode">
+    <property name="name" value="account.subFundGroup.fundGroupCode"/>
+  </bean>
+  <bean id="OleDisbursementVoucherAccountingLine-balanceTypeCode" parent="OleDisbursementVoucherAccountingLine-balanceTypeCode-parentBean"/>
+
+  <bean id="OleDisbursementVoucherAccountingLine-balanceTypeCode-parentBean" abstract="true" parent="BalanceType-code">
+    <property name="name" value="balanceTypeCode"/>
+    <property name="required" value="false"/>
+  </bean>
+  <bean id="OleDisbursementVoucherAccountingLine-referenceNumber" parent="OleDisbursementVoucherAccountingLine-referenceNumber-parentBean"/>
+
+  <bean id="OleDisbursementVoucherAccountingLine-referenceNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="referenceNumber"/>
+    <property name="label" value="Reference Number"/>
+    <property name="shortLabel" value="Ref Number"/>
+    <property name="maxLength" value="14"/>
+    <property name="validationPattern">
+      <ref bean="AlphaNumericValidation" />
+    </property>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="16"/>
+    </property>
+    
+    
+  </bean>
+  <bean id="OleDisbursementVoucherAccountingLine-sequenceNumber" parent="OleDisbursementVoucherAccountingLine-sequenceNumber-parentBean"/>
+
+  <bean id="OleDisbursementVoucherAccountingLine-sequenceNumber-parentBean" abstract="true" parent="GenericAttributes-sequenceNumber">
+  	<property name="forceUppercase" value="true"/>
+    <property name="name" value="sequenceNumber"/>
+    <property name="required" value="false"/>
+  </bean>
+  <bean id="OleDisbursementVoucherAccountingLine-financialObjectCode" parent="OleDisbursementVoucherAccountingLine-financialObjectCode-parentBean"/>
+
+  <bean id="OleDisbursementVoucherAccountingLine-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode">
+    
+  </bean>
+  <bean id="OleDisbursementVoucherAccountingLine-accountNumber" parent="OleDisbursementVoucherAccountingLine-accountNumber-parentBean"/>
+
+  <bean id="OleDisbursementVoucherAccountingLine-accountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+  </bean>
+  <bean id="OleDisbursementVoucherAccountingLine-organizationReferenceId" parent="OleDisbursementVoucherAccountingLine-organizationReferenceId-parentBean"/>
+
+  <bean id="OleDisbursementVoucherAccountingLine-organizationReferenceId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="organizationReferenceId"/>
+    <property name="label" value="Organization Reference Id"/>
+    <property name="shortLabel" value="Org Ref Id"/>
+    <property name="maxLength" value="8"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
+    </property>
+    <property name="required" value="false"/>
+    <property name="control">
+      <ref bean="TenCharacterTextControl" />
+    </property>
+    
+    
+  </bean>
+  <bean id="OleDisbursementVoucherAccountingLine-chartOfAccountsCode" parent="OleDisbursementVoucherAccountingLine-chartOfAccountsCode-parentBean"/>
+
+  <bean id="OleDisbursementVoucherAccountingLine-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+    <property name="control">
+      <ref bean="ChartSimpleSelectControl" />
+    </property>
+    
+  </bean>
+  <bean id="OleDisbursementVoucherAccountingLine-postingYear" parent="OleDisbursementVoucherAccountingLine-postingYear-parentBean"/>
+
+  <bean id="OleDisbursementVoucherAccountingLine-postingYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
+    <property name="name" value="postingYear"/>
+    <property name="required" value="true"/>
+  </bean>
+  <bean id="OleDisbursementVoucherAccountingLine-referenceOriginCode" parent="OleDisbursementVoucherAccountingLine-referenceOriginCode-parentBean"/>
+
+  <bean id="OleDisbursementVoucherAccountingLine-referenceOriginCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="referenceOriginCode"/>
+    <property name="label" value="Reference Origin Code"/>
+    <property name="shortLabel" value="Ref Origin Code"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterValidation" />
+    </property>
+    <property name="required" value="false"/>
+    <property name="control">
+      <ref bean="FourCharacterTextControl" />
+    </property>
+    
+    
+  </bean>
+  <bean id="OleDisbursementVoucherAccountingLine-overrideCode" parent="OleDisbursementVoucherAccountingLine-overrideCode-parentBean"/>
+
+  <bean id="OleDisbursementVoucherAccountingLine-overrideCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="overrideCode"/>
+    <property name="label" value="Override Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="100"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterValidation" />
+    </property>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.ole.sys.businessobject.options.AccountingLineOverrideOptionFinder" p:includeKeyInLabel="false"/>
+    </property>
+    
+    
+  </bean>
+  
+  <bean id="OleDisbursementVoucherAccountingLine-amount" parent="OleDisbursementVoucherAccountingLine-amount-parentBean"/>
+  <bean id="OleDisbursementVoucherAccountingLine-amount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    	<property name="name" value="amount"/>
+    	<property name="required" value="true"/>
+    	<property name="label" value="Dollar $"/>
+    	<property name="shortLabel" value="Dollar $"/>
+    	<property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
+  </bean>
+  
+  <bean id="OleDisbursementVoucherAccountingLine-subAccountNumber" parent="OleDisbursementVoucherAccountingLine-subAccountNumber-parentBean"/>
+
+  <bean id="OleDisbursementVoucherAccountingLine-subAccountNumber-parentBean" abstract="true" parent="SubAccount-subAccountNumber">
+    <property name="label" value="Sub-Account Code"/>
+    <property name="required" value="false"/>
+    
+    
+  </bean>
+  <bean id="OleDisbursementVoucherAccountingLine-referenceTypeCode" parent="OleDisbursementVoucherAccountingLine-referenceTypeCode-parentBean"/>
+
+  <bean id="OleDisbursementVoucherAccountingLine-referenceTypeCode-parentBean" abstract="true" parent="GenericAttributes-referenceTypeCode"/>
+
+  <bean id="OleDisbursementVoucherAccountingLine-projectCode" parent="OleDisbursementVoucherAccountingLine-projectCode-parentBean"/>
+
+  <bean id="OleDisbursementVoucherAccountingLine-projectCode-parentBean" abstract="true" parent="ProjectCode-code">
+    <property name="name" value="projectCode"/>
+    <property name="required" value="false"/>
+    
+    
+  </bean>
+  <bean id="OleDisbursementVoucherAccountingLine-financialSubObjectCode" parent="OleDisbursementVoucherAccountingLine-financialSubObjectCode-parentBean"/>
+
+  <bean id="OleDisbursementVoucherAccountingLine-financialSubObjectCode-parentBean" abstract="true" parent="SubObjectCode-financialSubObjectCode">
+    <property name="required" value="false"/>
+    
+  </bean>
+  <bean id="OleDisbursementVoucherAccountingLine-documentNumber" parent="OleDisbursementVoucherAccountingLine-documentNumber-parentBean"/>
+
+  <bean id="OleDisbursementVoucherAccountingLine-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+    <property name="forceUppercase" value="true"/>
+    <property name="required" value="false"/>
+  </bean>
+  <bean id="OleDisbursementVoucherAccountingLine-debitCreditCode" parent="OleDisbursementVoucherAccountingLine-debitCreditCode-parentBean"/>
+
+  <bean id="OleDisbursementVoucherAccountingLine-debitCreditCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="debitCreditCode"/>
+    <property name="label" value="Credit or Debit Code"/>
+    <property name="shortLabel" value="Credit/Debit"/>
+    <property name="maxLength" value="1"/>
+    <property name="validationPattern">
+      <bean parent="CharsetValidationPattern" p:validChars="DC"/>
+    </property>
+    <property name="required" value="false"/>
+    <property name="control">
+      <ref bean="TwoCharacterTextControl" />
+    </property>
+    
+    
+  </bean>
+  <bean id="OleDisbursementVoucherAccountingLine-encumbranceUpdateCode" parent="OleDisbursementVoucherAccountingLine-encumbranceUpdateCode-parentBean"/>
+
+  <bean id="OleDisbursementVoucherAccountingLine-encumbranceUpdateCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="encumbranceUpdateCode"/>
+    <property name="label" value="Encumbrance Update Code"/>
+    <property name="shortLabel" value="Encumbrance Update"/>
+    <property name="maxLength" value="1"/>
+    <property name="validationPattern">
+      <bean parent="AlphaValidationPattern"/>
+    </property>
+    <property name="required" value="false"/>
+    <property name="control">
+      <ref bean="TwoCharacterTextControl" />
+    </property>
+    
+    
+  </bean>
+  <bean id="OleDisbursementVoucherAccountingLine-objectTypeCode" parent="OleDisbursementVoucherAccountingLine-objectTypeCode-parentBean"/>
+
+  <bean id="OleDisbursementVoucherAccountingLine-objectTypeCode-parentBean" abstract="true" parent="ObjectType-code">
+    <property name="name" value="objectTypeCode"/>
+    <property name="required" value="false"/>
+  </bean>
+  <bean id="OleDisbursementVoucherAccountingLine-accountExpiredOverride" parent="OleDisbursementVoucherAccountingLine-accountExpiredOverride-parentBean"/>
+
+  <bean id="OleDisbursementVoucherAccountingLine-accountExpiredOverride-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="accountExpiredOverride"/>
+    <property name="label" value="Account Expired Override"/>
+    <property name="shortLabel" value="Expired Override"/>
+    <property name="maxLength" value="1"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
+    </property>
+    
+    
+  </bean>
+  <bean id="OleDisbursementVoucherAccountingLine-nonFringeAccountOverride" parent="OleDisbursementVoucherAccountingLine-nonFringeAccountOverride-parentBean"/>
+
+  <bean id="OleDisbursementVoucherAccountingLine-nonFringeAccountOverride-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="nonFringeAccountOverride"/>
+    <property name="label" value="Non-fringe Account Override"/>
+    <property name="shortLabel" value="Non-fringe Override"/>
+    <property name="maxLength" value="1"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
+    </property>
+    
+    
+  </bean>
+  <bean id="OleDisbursementVoucherAccountingLine-objectBudgetOverride" parent="OleDisbursementVoucherAccountingLine-objectBudgetOverride-parentBean"/>
+
+  <bean id="OleDisbursementVoucherAccountingLine-objectBudgetOverride-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="objectBudgetOverride"/>
+    <property name="label" value="Object Non-Budgeted Override"/>
+    <property name="shortLabel" value="Non-Budgeted Override"/>
+    <property name="maxLength" value="1"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="CheckboxControlDefinition"/>
+    </property>
+    
+    
+  </bean>
+  <bean id="OleDisbursementVoucherAccountingLine-financialDocumentLineDescription" parent="OleDisbursementVoucherAccountingLine-financialDocumentLineDescription-parentBean"/>
+
+  <bean id="OleDisbursementVoucherAccountingLine-financialDocumentLineDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentLineDescription"/>
+    <property name="label" value="Line Description"/>
+    <property name="shortLabel" value="Line Desc"/>
+    <property name="maxLength" value="40"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <ref bean="StandardNameTextControl" />
+    </property>
+    
+    
+  </bean>
+  <bean id="OleDisbursementVoucherAccountingLine-salesTaxRequired" parent="OleDisbursementVoucherAccountingLine-salesTaxRequired-parentBean"/>
+
+  <bean id="OleDisbursementVoucherAccountingLine-salesTaxRequired-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="salesTaxRequired"/>
+    <property name="label" value="Sales Tax Required"/>
+    <property name="shortLabel" value="Sales Tax Reqd"/>
+    <property name="maxLength" value="10"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <ref bean="HiddenControl" />
+    </property>
+    
+    
+  </bean>
+  <bean id="OleDisbursementVoucherAccountingLine-salesTax.chartOfAccountsCode" parent="OleDisbursementVoucherAccountingLine-salesTax.chartOfAccountsCode-parentBean"/>
+
+  <bean id="OleDisbursementVoucherAccountingLine-salesTax.chartOfAccountsCode-parentBean" abstract="true" parent="SalesTax-chartOfAccountsCode">
+    <property name="name" value="salesTax.chartOfAccountsCode"/>
+    <property name="label" value="Sales Tax Chart of Accounts Code"/>
+    <property name="shortLabel" value="Sales Tax Chart"/>
+    
+    
+  </bean>
+  <bean id="OleDisbursementVoucherAccountingLine-salesTax.accountNumber" parent="OleDisbursementVoucherAccountingLine-salesTax.accountNumber-parentBean"/>
+
+  <bean id="OleDisbursementVoucherAccountingLine-salesTax.accountNumber-parentBean" abstract="true" parent="SalesTax-accountNumber">
+    <property name="name" value="salesTax.accountNumber"/>
+    <property name="label" value="Sales Tax Account Number"/>
+    <property name="shortLabel" value="Sales Tax Account"/>
+    
+    
+  </bean>
+  <bean id="OleDisbursementVoucherAccountingLine-salesTax.financialDocumentGrossSalesAmount" parent="OleDisbursementVoucherAccountingLine-salesTax.financialDocumentGrossSalesAmount-parentBean"/>
+
+  <bean id="OleDisbursementVoucherAccountingLine-salesTax.financialDocumentGrossSalesAmount-parentBean" abstract="true" parent="SalesTax-financialDocumentGrossSalesAmount">
+    <property name="name" value="salesTax.financialDocumentGrossSalesAmount"/>
+    <property name="label" value="Gross Sales Amount"/>
+    <property name="shortLabel" value="Gross Sales Amt."/>
+    
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
+  </bean>
+  <bean id="OleDisbursementVoucherAccountingLine-salesTax.financialDocumentTaxableSalesAmount" parent="OleDisbursementVoucherAccountingLine-salesTax.financialDocumentTaxableSalesAmount-parentBean"/>
+
+  <bean id="OleDisbursementVoucherAccountingLine-salesTax.financialDocumentTaxableSalesAmount-parentBean" abstract="true" parent="SalesTax-financialDocumentTaxableSalesAmount">
+    <property name="name" value="salesTax.financialDocumentTaxableSalesAmount"/>
+    <property name="label" value="Taxable Sales Amount"/>
+    <property name="shortLabel" value="Taxable Sales Amt."/>
+    
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
+  </bean>
+  <bean id="OleDisbursementVoucherAccountingLine-salesTax.financialDocumentSaleDate" parent="OleDisbursementVoucherAccountingLine-salesTax.financialDocumentSaleDate-parentBean"/>
+
+  <bean id="OleDisbursementVoucherAccountingLine-salesTax.financialDocumentSaleDate-parentBean" abstract="true" parent="SalesTax-financialDocumentSaleDate">
+    <property name="name" value="salesTax.financialDocumentSaleDate"/>
+    <property name="label" value="Sale Date"/>    
+  </bean>
+
+    <bean id="OleDisbursementVoucherAccountingLine-objectCode.financialObjectLevel.financialConsolidationObjectCode" parent="OleDisbursementVoucherAccountingLine-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean"/>
+    <bean id="OleDisbursementVoucherAccountingLine-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean" abstract="true" parent="ObjectConsolidation-finConsolidationObjectCode">
+         <property name="name" value="objectCode.financialObjectLevel.financialConsolidationObjectCode"/>
+    </bean>
+   
+    <bean id="OleDisbursementVoucherAccountingLine-account.organizationCode" parent="OleDisbursementVoucherAccountingLine-account.organizationCode-parentBean"/>
+    <bean id="OleDisbursementVoucherAccountingLine-account.organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
+         <property name="name" value="account.organizationCode"/>
+    </bean>
+	
+	<bean id="OleDisbursementVoucherAccountingLine-accountLinePercent" parent="OleDisbursementVoucherAccountingLine-accountLinePercent-parentBean"/>
+
+ 	<bean id="OleDisbursementVoucherAccountingLine-accountLinePercent-parentBean" abstract="true" parent="AttributeDefinition">
+    	<property name="name" value="accountLinePercent"/>
+    	<property name="forceUppercase" value="true"/>
+    	<property name="label" value="Account Line Percent"/>
+    	<property name="shortLabel" value="Percent"/>
+    	<property name="maxLength" value="34"/>
+    	<property name="required" value="true"/>
+    	<property name="control">
+      		<bean parent="TextControlDefinition" p:size="12"/>
+    	</property>
+    	<!-- <property name="formatterClass" value="org.kuali.rice.core.web.format.BigDecimalFormatter"/> -->
+  	</bean>
+  
+</beans>

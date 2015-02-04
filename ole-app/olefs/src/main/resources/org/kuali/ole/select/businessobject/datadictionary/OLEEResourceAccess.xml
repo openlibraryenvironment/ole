@@ -1,0 +1,522 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <!--
+
+        Copyright 2005-2012 The Kuali Foundation
+
+        Licensed under the Educational Community License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at
+
+        http://www.opensource.org/licenses/ecl2.php
+
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+
+    -->
+    <bean id="OLEEResourceAccess" parent="OLEEResourceAccess-parentBean"/>
+
+    <bean id="OLEEResourceAccess-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.select.bo.OLEEResourceAccessActivation"/>
+        <property name="titleAttribute" value="oleERSAccessIdentifier"/>
+        <property name="objectLabel" value="EResource Access Activation"/>
+        <property name="attributes">
+            <list>
+                <ref bean="OLEEResourceAccess-oleERSAccessIdentifier"/>
+                <ref bean="OLEEResourceAccess-oleERSIdentifier"/>
+                <ref bean="OLEEResourceAccess-accessStatus"/>
+                <ref bean="OLEEResourceAccess-dateAccessConfirmed"/>
+                <ref bean="OLEEResourceAccess-accessLocationId"/>
+                <ref bean="OLEEResourceAccess-accessTypeId"/>
+                <ref bean="OLEEResourceAccess-accessUserName"/>
+                <ref bean="OLEEResourceAccess-authenticationTypeId"/>
+                <ref bean="OLEEResourceAccess-accessPassword"/>
+                <ref bean="OLEEResourceAccess-numOfSimultaneousUsers"/>
+                <ref bean="OLEEResourceAccess-proxiedURL"/>
+                <ref bean="OLEEResourceAccess-proxiedResource"/>
+                <ref bean="OLEEResourceAccess-mobileAccessId"/>
+                <ref bean="OLEEResourceAccess-mobileAccessNote"/>
+
+                <ref bean="OLEEResourceAccess-brandingComplete"/>
+                <ref bean="OLEEResourceAccess-platformConfigComplete"/>
+                <ref bean="OLEEResourceAccess-techRequirements"/>
+
+                <ref bean="OLEEResourceAccess-marcRecordSourceTypeId"/>
+                <ref bean="OLEEResourceAccess-lastRecordLoadDate"/>               
+                <ref bean="OLEEResourceAccess-marcRecordSource"/>
+                <ref bean="OLEEResourceAccess-marcRecordUpdateFreqId"/>
+                <ref bean="OLEEResourceAccess-marcRecordURL"/>
+                <ref bean="OLEEResourceAccess-marcRecordUserName"/>
+                <ref bean="OLEEResourceAccess-marcRecordNote"/>
+                <ref bean="OLEEResourceAccess-marcRecordPassword"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+    <bean id="OLEEResourceAccess-oleERSAccessIdentifier" parent="OLEEResourceAccess-oleERSAccessIdentifier-parentBean"/>
+    <bean id="OLEEResourceAccess-oleERSAccessIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="10"/>
+        <property name="shortLabel" value="OLE Identifier"/>
+        <property name="description" value="OLE Identifier"/>
+        <property name="name" value="oleERSAccessIdentifier"/>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30" />
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="OLE Identifier"/>
+    </bean>
+
+    <bean id="OLEEResourceAccess-oleERSIdentifier"
+          parent="OLEEResourceAccess-oleERSIdentifier-parentBean"/>
+    <bean id="OLEEResourceAccess-oleERSIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="oleERSIdentifier"/>
+        <property name="label" value="OLE EResource Identifier"/>
+        <property name="maxLength" value="40"/>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceAccess-accessStatus"
+          parent="OLEEResourceAccess-accessStatus-parentBean"/>
+    <bean id="OLEEResourceAccess-accessStatus-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="accessStatus"/>
+        <property name="label" value="Access Status"/>
+        <property name="maxLength" value="40"/>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceAccess-dateAccessConfirmed" parent="OLEEResourceAccess-dateAccessConfirmed-parentBean"/>
+    <bean id="OLEEResourceAccess-dateAccessConfirmed-parentBean" abstract="true"
+          parent="AttributeReferenceDummy-genericDate">
+        <property name="name" value="dateAccessConfirmed"/>
+        <property name="shortLabel" value="Date Access Confirmed"/>
+        <property name="label" value="Date Access Confirmed"/>
+        <property name="maxLength" value="36"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-DateControl" p:size="10"/>
+        </property>
+    </bean>
+
+
+    <bean id="OLEEResourceAccess-accessLocationId" parent="OLEEResourceAccess-accessLocationId-parentBean"/>
+    <bean id="OLEEResourceAccess-accessLocationId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="accessLocationId"/>
+        <property name="label" value="Access Location"/>
+        <property name="maxLength" value="40"/>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceAccess-accessTypeId" parent="OLEEResourceAccess-accessTypeId-parentBean"/>
+    <bean id="OLEEResourceAccess-accessTypeId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="accessTypeId"/>
+        <property name="label" value="Type of Access"/>
+        <property name="maxLength" value="40"/>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceAccess-accessUserName" parent="OLEEResourceAccess-accessUserName-parentBean"/>
+    <bean id="OLEEResourceAccess-accessUserName-parentBean" abstract="true"
+          parent="AttributeDefinition">
+        <property name="name" value="accessUserName"/>
+        <property name="label" value="Access Username"/>
+        <property name="maxLength" value="50"/>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceAccess-authenticationTypeId" parent="OLEEResourceAccess-authenticationTypeId-parentBean"/>
+    <bean id="OLEEResourceAccess-authenticationTypeId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="authenticationTypeId"/>
+        <property name="label" value="Authentication Type"/>
+        <property name="maxLength" value="40"/>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceAccess-accessPassword" parent="OLEEResourceAccess-accessPassword-parentBean"/>
+    <bean id="OLEEResourceAccess-accessPassword-parentBean" abstract="true"
+          parent="AttributeDefinition">
+        <property name="name" value="accessPassword"/>
+        <property name="label" value="Access Password"/>
+        <property name="maxLength" value="50"/>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceAccess-numOfSimultaneousUsers" parent="OLEEResourceAccess-numOfSimultaneousUsers-parentBean"/>
+    <bean id="OLEEResourceAccess-numOfSimultaneousUsers-parentBean" abstract="true"
+          parent="AttributeDefinition">
+        <property name="name" value="numOfSimultaneousUsers"/>
+        <property name="label" value="No.of Simultaneous Users"/>
+        <property name="maxLength" value="40"/>
+        <property name="validationPattern">
+            <bean parent="NumericValidationPattern"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceAccess-proxiedURL" parent="OLEEResourceAccess-proxiedURL-parentBean"/>
+    <bean id="OLEEResourceAccess-proxiedURL-parentBean" abstract="true"
+          parent="AttributeDefinition">
+        <property name="name" value="proxiedURL"/>
+        <property name="label" value="Proxied URL"/>
+        <property name="maxLength" value="200"/>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceAccess-proxiedResource" parent="OLEEResourceAccess-proxiedResource-parentBean"/>
+    <bean id="OLEEResourceAccess-proxiedResource-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="proxiedResource"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Proxied Resource?"/>
+        <property name="maxLength" value="1"/>
+        <property name="validCharactersConstraint">
+            <bean  parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean  parent="Uif-CheckboxControl"/>
+        </property>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+        <property name="label" value="Proxied Resource?"/>
+    </bean>
+
+    <bean id="OLEEResourceAccess-mobileAccessId" parent="OLEEResourceAccess-mobileAccessId-parentBean"/>
+    <bean id="OLEEResourceAccess-mobileAccessId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="mobileAccessId"/>
+        <property name="label" value="Mobile Access"/>
+        <property name="maxLength" value="40"/>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceAccess-mobileAccessNote" parent="OLEEResourceAccess-mobileAccessNote-parentBean"/>
+    <bean id="OLEEResourceAccess-mobileAccessNote-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Mobile Access Note"/>
+        <property name="maxLength" value="800"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextAreaControl" p:cols="50" p:rows="3"/>
+        </property>
+        <property name="name" value="mobileAccessNote"/>
+        <property name="label" value="Mobile Access Note"/>
+    </bean>
+
+    <bean id="OLEEResourceAccess-brandingComplete" parent="OLEEResourceAccess-brandingComplete-parentBean"/>
+    <bean id="OLEEResourceAccess-brandingComplete-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="brandingComplete"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Branding Complete?"/>
+        <property name="maxLength" value="1"/>
+        <property name="validCharactersConstraint">
+            <bean  parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean  parent="Uif-CheckboxControl"/>
+        </property>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+        <property name="label" value="Branding Complete?"/>
+    </bean>
+
+    <bean id="OLEEResourceAccess-platformConfigComplete" parent="OLEEResourceAccess-platformConfigComplete-parentBean"/>
+    <bean id="OLEEResourceAccess-platformConfigComplete-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="platformConfigComplete"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Platform Configuration Complete?"/>
+        <property name="maxLength" value="1"/>
+        <property name="validCharactersConstraint">
+            <bean  parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean  parent="Uif-CheckboxControl"/>
+        </property>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+        <property name="label" value="Platform Configuration Complete?"/>
+    </bean>
+
+    <bean id="OLEEResourceAccess-techRequirements"
+          parent="OLEEResourceAccess-techRequirements-parentBean"/>
+    <bean id="OLEEResourceAccess-techRequirements-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Technical Requirements"/>
+        <property name="maxLength" value="800"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextAreaControl" p:cols="50" p:rows="3"/>
+        </property>
+        <property name="name" value="techRequirements"/>
+        <property name="label" value="Technical Requirements"/>
+    </bean>
+
+    <bean id="OLEEResourceAccess-marcRecordSourceTypeId" parent="OLEEResourceAccess-marcRecordSourceTypeId-parentBean"/>
+    <bean id="OLEEResourceAccess-marcRecordSourceTypeId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="marcRecordSourceTypeId"/>
+        <property name="label" value="MARC Record Source"/>
+        <property name="maxLength" value="40"/>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceAccess-lastRecordLoadDate" parent="OLEEResourceAccess-lastRecordLoadDate-parentBean"/>
+    <bean id="OLEEResourceAccess-lastRecordLoadDate-parentBean" abstract="true"
+          parent="AttributeReferenceDummy-genericDate">
+        <property name="name" value="lastRecordLoadDate"/>
+        <property name="shortLabel" value="Last Record Load Date"/>
+        <property name="label" value="Last Record Load Date"/>
+        <property name="maxLength" value="36"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-DateControl" p:size="10"/>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceAccess-marcRecordSource" parent="OLEEResourceAccess-marcRecordSource-parentBean"/>
+    <bean id="OLEEResourceAccess-marcRecordSource-parentBean" abstract="true"
+          parent="AttributeDefinition">
+        <property name="name" value="marcRecordSource"/>
+        <property name="label" value="MARC Record Source"/>
+        <property name="maxLength" value="40"/>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceAccess-marcRecordUpdateFreqId" parent="OLEEResourceAccess-marcRecordUpdateFreqId-parentBean"/>
+    <bean id="OLEEResourceAccess-marcRecordUpdateFreqId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="marcRecordUpdateFreqId"/>
+        <property name="label" value="MARC Record Update Frequency"/>
+        <property name="maxLength" value="40"/>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceAccess-marcRecordURL" parent="OLEEResourceAccess-marcRecordURL-parentBean"/>
+    <bean id="OLEEResourceAccess-marcRecordURL-parentBean" abstract="true"
+          parent="AttributeDefinition">
+        <property name="name" value="marcRecordURL"/>
+        <property name="label" value="MARC Record URL"/>
+        <property name="maxLength" value="200"/>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceAccess-marcRecordUserName" parent="OLEEResourceAccess-marcRecordUserName-parentBean"/>
+    <bean id="OLEEResourceAccess-marcRecordUserName-parentBean" abstract="true"
+          parent="AttributeDefinition">
+        <property name="name" value="marcRecordUserName"/>
+        <property name="label" value="MARC Record Username"/>
+        <property name="maxLength" value="50"/>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceAccess-marcRecordPassword" parent="OLEEResourceAccess-marcRecordPassword-parentBean"/>
+    <bean id="OLEEResourceAccess-marcRecordPassword-parentBean" abstract="true"
+          parent="AttributeDefinition">
+        <property name="name" value="marcRecordPassword"/>
+        <property name="label" value="MARC Record Password"/>
+        <property name="maxLength" value="50"/>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceAccess-marcRecordNote"  parent="OLEEResourceAccess-marcRecordNote-parentBean"/>
+    <bean id="OLEEResourceAccess-marcRecordNote-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="MARC Record Note"/>
+        <property name="maxLength" value="800"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextAreaControl" p:cols="30" p:rows="3"/>
+        </property>
+        <property name="name" value="marcRecordNote"/>
+        <property name="label" value="MARC Record Note"/>
+    </bean>
+
+    <bean id="OLEEResourceAccess-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="EResource Access Activation Lookup" />
+        <property name="viewHelperServiceClass" value="org.kuali.ole.select.lookup.OLEEResourceAccessLookupableImpl"/>
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/BASICS/content/ch02s04.html#_lookupHelp"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OLEEResourceAccessActivation" />
+        <property name="criteriaFields">
+            <list>
+                <bean id="criteriaFields_oleERSAccessIdentifier" parent="Uif-LookupCriteriaInputField" p:propertyName="oleERSAccessIdentifier"/>
+                <bean id="criteriaFields_oleERSIdentifier" parent="Uif-LookupCriteriaInputField" p:propertyName="oleERSIdentifier"/>
+                <bean id="criteriaFields_accessStatus" parent="Uif-LookupCriteriaInputField" p:propertyName="accessStatus"/>
+                <bean id="criteriaFields_dateAccessConfirmed" parent="Uif-LookupCriteriaInputField" p:propertyName="dateAccessConfirmed"/>
+                <bean id="criteriaFields_proxiedResource" parent="Uif-LookupCriteriaInputField" p:propertyName="proxiedResource"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean id="resultFields_oleERSAccessIdentifier" parent="Uif-DataField" p:propertyName="oleERSAccessIdentifier"/>
+                <bean id="resultFields_oleERSIdentifier" parent="Uif-DataField" p:propertyName="oleERSIdentifier"/>
+                <bean id="resultFields_accessStatus" parent="Uif-DataField" p:propertyName="accessStatus"/>
+                <bean id="resultFields_dateAccessConfirmed" parent="Uif-DataField" p:propertyName="dateAccessConfirmed"/>
+                <bean id="resultFields_proxiedResource" parent="Uif-DataField" p:propertyName="proxiedResource"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+
+    <bean id="OLEEResourceAccess-InquiryView" parent="Uif-OLEInquiryView">
+        <property name="headerText" value="EResource Access Activation Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OLEEResourceAccessActivation"/>
+        <property name="singlePageView" value="true"/>
+        <property name="items">
+            <list>
+                <ref bean="eResourceAccessActivation-InquiryView-accessSection"/>
+                <ref bean="eResourceAccessActivation-InquiryView-configurationSection"/>
+                <ref bean="eResourceAccessActivation-InquiryView-marcRecordsSection"/>
+                <ref bean="eResourceAccessActivation-InquiryView-workflowSection"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="eResourceAccessActivation-InquiryView-accessSection" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="headerText" value="Access" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4">
+                    <property name="items">
+                        <list>
+                            <bean id="inquiry_oleERSIdentifier" parent="Uif-InputField" p:propertyName="oleERSIdentifier"/>
+                            <bean id="inquiry_accessStatus" parent="Uif-InputField" p:propertyName="accessStatus"/>
+                            <bean id="inquiry_dateAccessConfirmed" parent="Uif-InputField" p:propertyName="dateAccessConfirmed"/>
+                            <bean id="inquiry_accessUserName" parent="Uif-InputField" p:propertyName="accessUserName"/>
+                            <bean id="inquiry_accessPassword" parent="Uif-InputField" p:propertyName="accessPassword"/>
+                            <bean id="inquiry_numOfSimultaneousUsers" parent="Uif-InputField" p:propertyName="numOfSimultaneousUsers"/>
+                            <bean id="inquiry_proxiedURL" parent="Uif-InputField" p:propertyName="proxiedURL"/>
+                            <bean id="inquiry_proxiedResource" parent="Uif-InputField" p:propertyName="proxiedResource"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="eResourceAccessActivation-InquiryView-configurationSection" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="headerText" value="Configuration" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridGroup">
+                    <property name="items">
+                        <list>
+                            <bean id="inquiry_brandingComplete" parent="Uif-InputField" p:propertyName="brandingComplete"/>
+                            <bean id="inquiry_platformConfigComplete" parent="Uif-InputField" p:propertyName="platformConfigComplete"/>
+                            <bean id="inquiry_techRequirements" parent="Uif-DataField" p:propertyName="techRequirements"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="eResourceAccessActivation-InquiryView-marcRecordsSection" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="headerText" value="MARC Records" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4">
+                    <property name="items">
+                        <list>
+                            <bean id="inquiry_marcRecordSourceTypeId" parent="Uif-InputField" p:propertyName="marcRecordSourceTypeId"/>
+                            <bean id="inquiry_lastRecordLoadDate" parent="Uif-InputField" p:propertyName="lastRecordLoadDate"/>
+                            <bean id="inquiry_marcRecordSource" parent="Uif-InputField" p:propertyName="marcRecordSource"/>
+                            <bean id="inquiry_marcRecordUpdateFreqId" parent="Uif-InputField" p:propertyName="marcRecordUpdateFreqId"/>
+                            <bean id="inquiry_marcRecordURL" parent="Uif-InputField" p:propertyName="marcRecordURL"/>
+                            <bean id="inquiry_marcRecordUserName" parent="Uif-InputField" p:propertyName="marcRecordUserName"/>
+                            <bean id="inquiry_marcRecordNote" parent="Uif-DataField" p:propertyName="marcRecordNote"/>
+                            <bean id="inquiry_marcRecordPassword" parent="Uif-InputField" p:propertyName="marcRecordPassword"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="eResourceAccessActivation-InquiryView-workflowSection" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="2" >
+        <property name="headerText" value="Workflow" />
+        <property name="collectionObjectClass" value="org.kuali.ole.select.document.OLEEResourceAccessWorkflow" />
+        <property name="propertyName" value="oleERSAccessWorkflows" />
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="description" p:label="Description"/>
+                <bean parent="Uif-DataField" p:propertyName="status" p:label="Status"/>
+                <bean parent="Uif-DataField" p:propertyName="lastApproved" p:label="Last Approved"/>
+                <bean parent="Uif-DataField" p:propertyName="currentOwner" p:label="Current Owner"/>
+            </list>
+        </property>
+        <property name="layoutManager.actionFieldPrototype.group.layoutManager">
+            <bean parent="Uif-HorizontalBoxLayout"/>
+        </property>
+        <property name="lineActions">
+            <list>
+                <!--<bean parent="Uif-InputField" p:propertyName="lineActions">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="1" p:value="Approve"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>-->
+            </list>
+        </property>
+    </bean>
+
+
+</beans>

@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--suppress SpringFacetInspection -->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <!--
+
+        Copyright 2005-2012 The Kuali Foundation
+
+        Licensed under the Educational Community License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at
+
+        http://www.opensource.org/licenses/ecl2.php
+
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+
+    -->
+    <bean id="OleItemAvailableStatus" parent="OleItemAvailableStatus-parentBean"/>
+
+    <bean id="OleItemAvailableStatus-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.describe.bo.OleItemAvailableStatus"/>
+        <property name="titleAttribute" value="itemAvailableStatusCode"/>
+        <property name="objectLabel" value="Ole Item Available Status"/>
+
+        <property name="attributes">
+            <list>
+                <ref bean="OleItemAvailableStatus-itemAvailableStatusId"/>
+                <ref bean="OleItemAvailableStatus-itemAvailableStatusCode"/>
+                <ref bean="OleItemAvailableStatus-itemAvailableStatusName"/>
+                <ref bean="OleItemAvailableStatus-active"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+
+    <bean id="OleItemAvailableStatus-itemAvailableStatusId" parent="OleItemAvailableStatus-itemAvailableStatusId-parentBean"/>
+
+    <bean id="OleItemAvailableStatus-itemAvailableStatusId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Item Availability Status Id"/>
+        <property name="maxLength" value="10"/>
+        <property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+        <property name="name" value="itemAvailableStatusId"/>
+        <property name="label" value="Item Availability Status Id"/>
+        <property name="description" value="Item Availability Status Id"/>
+    </bean>
+
+
+    <bean id="OleItemAvailableStatus-itemAvailableStatusCode" parent="OleItemAvailableStatus-itemAvailableStatusCode-parentBean"/>
+
+    <bean id="OleItemAvailableStatus-itemAvailableStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Item Availability Status Code"/>
+        <property name="maxLength" value="30"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="itemAvailableStatusCode"/>
+        <property name="label" value="Item Availability Status Code"/>
+        <property name="description" value="Item Availability Status Code"/>
+
+    </bean>
+
+
+    <bean id="OleItemAvailableStatus-itemAvailableStatusName" parent="OleItemAvailableStatus-itemAvailableStatusName-parentBean"/>
+
+    <bean id="OleItemAvailableStatus-itemAvailableStatusName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Item Availability Status Name"/>
+        <property name="maxLength" value="100"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="itemAvailableStatusName"/>
+        <property name="label" value="Item Availability Status Name"/>
+        <property name="description" value="Item Availability Status Name"/>
+
+    </bean>
+
+    <!--<bean id="OleItemAvailableStatus-active" parent="OleItemAvailableStatus-active-parentBean"/>
+    <bean id="OleItemAvailableStatus-active-parentBean" abstract="true"
+          parent="AttributeReferenceDummy-activeIndicator">
+        <property name="name" value="active"/>
+    </bean>-->
+    <bean id="OleItemAvailableStatus-active" parent="OleItemAvailableStatus-active-parentBean"/>
+    <bean id="OleItemAvailableStatus-active-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="active"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="active"/>
+        <property name="maxLength" value="1"/>
+        <property name="validCharactersConstraint">
+            <bean  parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean  parent="Uif-CheckboxControl"/>
+        </property>
+        <property name="summary" value="Active Indicator"/>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+        <property name="label" value="Active Indicator"/>
+        <property name="description" value="This attribute is used to describe whether the associated object is active or inactive."/>
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+
+
+    <bean id="OleItemAvailableStatus-InquiryView" parent="Uif-OLEInquiryView">
+        <property name="headerText" value="Item Availability Status Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.describe.bo.OleItemAvailableStatus"/>
+        <property name="singlePageView" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-VerticalBoxSection">
+                    <property name="header.headerText" value="Item Availability Status"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2">
+                                <property name="items">
+                                    <list>
+                                        <bean id="inquiry_itemAvailableStatusId" parent="Uif-InputField" p:propertyName="itemAvailableStatusId"/>
+                                        <bean id="inquiry_itemAvailableStatusCode" parent="Uif-InputField"
+                                              p:propertyName="itemAvailableStatusCode"
+                                              p:enableAutoDirectInquiry="false"/>
+                                        <bean id="inquiry_itemAvailableStatusName" parent="Uif-InputField" p:propertyName="itemAvailableStatusName"/>
+                                        <bean id="inquiry_active" parent="Uif-InputField" p:propertyName="active"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                    <property name="headerText" value="Item Availability Status"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+
+    <!-- Business Object Lookup Definition -->
+
+    <bean id="OleItemAvailableStatus-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="Item Availability Status Lookup"/>
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="${ole.externalizable.help.url}/reference/webhelp/BASICS/content/ch02s04.html#_lookupHelp"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="dataObjectClassName" value="org.kuali.ole.describe.bo.OleItemAvailableStatus"/>
+        <property name="viewHelperServiceClass" value="org.kuali.ole.describe.lookup.OleItemAvailableStatusLookupableImpl"/>
+        <property name="criteriaFields">
+            <list>
+                <bean id="itemAvailableStatusCode" parent="Uif-LookupCriteriaInputField"
+                      p:propertyName="itemAvailableStatusCode" p:enableAutoDirectInquiry="false"/>
+                <bean id="itemAvailableStatusName" parent="Uif-LookupCriteriaInputField" p:propertyName="itemAvailableStatusName"/>
+                <bean id="activeIndicator" parent="Uif-LookupCriteriaInputField" p:propertyName="active"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <!--<bean id="searchResult_itemAvailableStatusId" parent="Uif-DataField" p:propertyName="itemAvailableStatusId"/>-->
+                <bean id="searchResult_itemAvailableStatusCode" parent="Uif-DataField" p:propertyName="itemAvailableStatusCode"/>
+                <bean id="searchResult_itemAvailableStatusName" parent="Uif-DataField" p:propertyName="itemAvailableStatusName"/>
+                <bean id="searchResult_active" parent="Uif-DataField" p:propertyName="active"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

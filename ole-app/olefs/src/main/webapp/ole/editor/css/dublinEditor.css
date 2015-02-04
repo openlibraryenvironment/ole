@@ -1,0 +1,59 @@
+/**
+ * Copyright 2005-2012 The Kuali Foundation
+ *
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.opensource.org/licenses/ecl2.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+#DublinEditorView_div .boxLayoutHorizontalItem {
+    height:0.7em !important;
+    margin-right:7px !important;
+}
+
+#DataFieldSection th, td {
+    padding-right: 0.5em !important;
+}
+
+#DublinEditorViewPage_div .uif-collectionGroup > div:nth-child(2){
+    margin:0em !important;
+    padding:0em !important;
+}
+
+#DublinEditorViewPage_div .uif-tableCollectionLayout{
+    margin-bottom:0px !important;
+}
+
+#DublinEditorView_div table tbody tr.odd {
+    background-color: white;
+}
+
+.messageClass{
+    color: red;
+    font-size: 16px;
+
+}
+
+.uif-sectionHeaderField h3.uif-header {
+    border-bottom: 0 solid #000000;
+}
+
+.dropdown{
+    margin-top: 0.4em;
+}
+
+div.blockOverlay{
+    display:none !important;
+}
+
+div.blockElement{
+    display:none !important;
+}

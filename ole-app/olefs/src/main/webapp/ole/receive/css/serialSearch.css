@@ -1,0 +1,28 @@
+.staffOnlyClass{
+    color: red;
+    font-style: italic;
+}
+
+
+.paginate_disabled_previous {
+    color: #999999;
+}
+.paginate_disabled_previous:focus {
+    color: #999999;
+    text-decoration: none;
+}
+.paginate_disabled_previous:hover {
+    color: #999999;
+    text-decoration: none;
+}
+.paginate_disabled_next {
+    color: #999999;
+}
+.paginate_disabled_next:hover {
+    color: #999999;
+    text-decoration: none;
+}
+.paginate_disabled_next:focus {
+    color: #999999;
+    text-decoration: none;
+}

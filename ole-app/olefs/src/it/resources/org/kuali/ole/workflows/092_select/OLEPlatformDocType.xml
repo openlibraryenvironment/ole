@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="ns:workflow resource:WorkflowData">
+    <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+
+        <documentType>
+            <name>OLE_PLTFRM_DOC</name>
+            <parent>RiceDocument</parent>
+            <description>Platform</description>
+            <label>Platform</label>
+            <docHandler>
+                ${kr.krad.url}/platformRecordController?viewId=OLEPlatformRecordView&amp;methodToCall=docHandler
+            </docHandler>
+            <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+            <attributes>
+                <attribute>
+                    <name>PlatformSearchableAttribute</name>
+                </attribute>
+            </attributes>
+            <active>true</active>
+            <routingVersion>2</routingVersion>
+            <routePaths>
+                <routePath>
+                    <start name="Initiated"/>
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="Initiated">
+                    <activationType>P</activationType>
+                </start>
+            </routeNodes>
+        </documentType>
+
+        <documentType>
+            <name>OLE_PLTFRM_STAT</name>
+            <parent>RiceDocument</parent>
+            <description>Platform Status</description>
+            <label>Platform Status</label>
+            <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+            <superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+            <blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+            <defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+            <docHandler>${kr.krad.url}/maintenance?methodToCall=docHandler</docHandler>
+            <active>true</active>
+            <routingVersion>2</routingVersion>
+            <routePaths>
+                <routePath>
+                    <start name="Initiated"/>
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="Initiated">
+                    <activationType>P</activationType>
+                </start>
+            </routeNodes>
+        </documentType>
+
+        <documentType>
+            <name>OLE_PLTFRM_ADMIN_URL_TYPE</name>
+            <parent>RiceDocument</parent>
+            <description>Platform Admin URL Type</description>
+            <label>Platform Admin URL Type</label>
+            <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+            <superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
+            <blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
+            <defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>
+            <docHandler>${kr.krad.url}/maintenance?methodToCall=docHandler</docHandler>
+            <active>true</active>
+            <routingVersion>2</routingVersion>
+            <routePaths>
+                <routePath>
+                    <start name="Initiated"/>
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="Initiated">
+                    <activationType>P</activationType>
+                </start>
+            </routeNodes>
+        </documentType>
+
+    </documentTypes>
+
+    <ruleAttributes xmlns="ns:workflow/RuleAttribute"
+                    xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+        <ruleAttribute>
+            <name>PlatformSearchableAttribute</name>
+            <className>{OLE}OLESearchableAttribute</className>
+            <label>Test Data Dictionary Searchable Attribute</label>
+            <description>DD searchable attribute for testing purposes</description>
+            <type>SearchableAttribute</type>
+            <applicationId>OLE</applicationId>
+        </ruleAttribute>
+    </ruleAttributes>
+
+</data>

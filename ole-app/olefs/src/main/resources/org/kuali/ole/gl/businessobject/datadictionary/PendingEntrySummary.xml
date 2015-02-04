@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+ Copyright 2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean id="PendingEntrySummary" parent="PendingEntrySummary-parentBean"/>
+
+  <bean id="PendingEntrySummary-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.ole.gl.businessobject.PendingEntrySummary"/>
+    
+    <property name="objectLabel" value="Pending Entry Summary"/>
+    <property name="attributes">
+      <list>
+        <ref bean="PendingEntrySummary-documentTypeCode"/>
+        <ref bean="PendingEntrySummary-documentNumber"/>
+        <ref bean="PendingEntrySummary-chartOfAccountsCode"/>
+        <ref bean="PendingEntrySummary-accountNumber"/>
+        <ref bean="PendingEntrySummary-balanceTypeCode"/>
+        <ref bean="PendingEntrySummary-financialObjectCode"/>
+        <ref bean="PendingEntrySummary-budgetAmount"/>
+        <ref bean="PendingEntrySummary-debitAmount"/>
+        <ref bean="PendingEntrySummary-creditAmount"/>
+      </list>
+    </property>
+  </bean>
+    <bean id="PendingEntrySummary-documentTypeCode" parent="PendingEntrySummary-documentTypeCode-parentBean"/>
+
+  <bean id="PendingEntrySummary-documentTypeCode-parentBean" abstract="true" parent="Entry-financialDocumentTypeCode">
+  	<property name="name" value="documentTypeCode"/>
+  	<property name="maxLength" value="4"/>
+  </bean>
+
+  <bean id="PendingEntrySummary-documentNumber" parent="PendingEntrySummary-documentNumber-parentBean"/>
+
+  <bean id="PendingEntrySummary-documentNumber-parentBean" abstract="true" parent="Entry-financialDocumentTypeCode">
+  	<property name="name" value="documentNumber"/>
+  	<property name="maxLength" value="9"/>
+  </bean>
+
+  <bean id="PendingEntrySummary-chartOfAccountsCode" parent="PendingEntrySummary-chartOfAccountsCode-parentBean"/>
+
+  <bean id="PendingEntrySummary-chartOfAccountsCode-parentBean" abstract="true" parent="Entry-chartOfAccountsCode"/>
+
+  <bean id="PendingEntrySummary-accountNumber" parent="PendingEntrySummary-accountNumber-parentBean"/>
+
+  <bean id="PendingEntrySummary-accountNumber-parentBean" abstract="true" parent="Entry-accountNumber"/>
+
+  <bean id="PendingEntrySummary-balanceTypeCode" parent="PendingEntrySummary-balanceTypeCode-parentBean"/>
+
+  <bean id="PendingEntrySummary-balanceTypeCode-parentBean" abstract="true" parent="Entry-financialBalanceTypeCode">
+  	<property name="name" value="balanceTypeCode"/>
+  </bean>
+
+  <bean id="PendingEntrySummary-financialObjectCode" parent="PendingEntrySummary-financialObjectCode-parentBean"/>
+
+  <bean id="PendingEntrySummary-financialObjectCode-parentBean" abstract="true" parent="Entry-financialObjectCode"/>
+
+  <bean id="PendingEntrySummary-budgetAmount" parent="PendingEntrySummary-budgetAmount-parentBean"/>
+
+  <bean id="PendingEntrySummary-budgetAmount-parentBean" abstract="true" parent="Entry-transactionLedgerEntryAmount">
+  	<property name="name" value="budgetAmount"/>
+  </bean>
+
+  <bean id="PendingEntrySummary-debitAmount" parent="PendingEntrySummary-debitAmount-parentBean"/>
+
+  <bean id="PendingEntrySummary-debitAmount-parentBean" abstract="true" parent="Entry-transactionLedgerEntryAmount">
+  	<property name="name" value="debitAmount"/>
+  </bean>
+
+  <bean id="PendingEntrySummary-creditAmount" parent="PendingEntrySummary-creditAmount-parentBean"/>
+
+  <bean id="PendingEntrySummary-creditAmount-parentBean" abstract="true" parent="Entry-transactionLedgerEntryAmount">
+  	<property name="name" value="creditAmount"/>
+  </bean>
+</beans>

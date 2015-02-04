@@ -1,0 +1,368 @@
+<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<jsp:useBean id="discoveryForm" class="org.kuali.ole.docstore.discovery.web.struts.form.DiscoveryForm" scope="session"/>
+<html>
+<head>
+
+<script type="text/javascript" src="./script/jquery/jquery-1.4.2.js"></script>
+<script type="text/javascript"
+	src="./script/jquery/jquery-ui-1.8.2.custom.min.js"></script>
+
+<link rel="stylesheet" href="./css/discovery.css" />
+
+<script type="text/javascript" src="./script/jquery/jquery-dynamic-form.js"></script>
+
+    <script type="text/javascript" src="./script/blackbird.js"></script>
+    <link type="text/css" rel="Stylesheet" href="./css/blackbird.css" />
+
+</head>
+<body>
+<%System.out.println("in aadvancedSearch.jsp"); %>
+<h3>Demo</h3>
+<div id="busyDiv" align="center">
+	<b> Loading search results. Please wait...</b>
+	<img src="./images/busyImage.gif">
+</div>
+<div id="col1">
+
+<html:form action="discovery.do" method="post">
+<textarea id="searchParamsXml" rows="5" cols="80" style="display:none">
+<c:out value="${discoveryForm.searchParamsXml}" />
+</textarea>
+
+<fieldset>
+<legend class="advanced">Advanced Search</legend>
+
+
+<table>
+	<tr>
+		<td class="doc">Document Category</td>
+		<td><select id="doccategory" name="doccategory" class="category" >
+			<option value="bib">Work</option>
+			<option value="auth">Authority</option>
+			<option value="licenses">Licenses</option>
+			<option value="patrons">Patrons</option>
+		</select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		<td class="doc">Sort By</td>
+		<td ><select id="sortingorder" name="sortingorder" id="sortingorder"  >
+			<option value="titleasc">Title (A-Z)</option>
+			<option value="titledesc">Title (Z-A)</option>
+			<option value="authorasc">Author (A-Z)</option>
+			<option value="authordesc">Author (Z-A)</option>
+			<option value="pubdatedesc">Pub date (new-old)</option>
+			<option value="pubdateasc">Pub date (old-new)</option>
+			<option value="relevance">Relevance</option>	
+		</select></td>
+	</tr>
+	<tr>
+		<td class="doc">Document Type</td>
+		<td><select id="docType" name="docType" class="category" >
+		</select></td>
+		
+	</tr>
+	<tr>
+		<td class="doc">Document Format</td>
+		<td><select id="docFormat" name="docFormat" class="category" >
+		</select></td>
+	</tr>
+
+</table>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="searchText" name="st" size="50" type="text" />
+<select id="searchScope" name="searchScope">	
+	<option value="AND">All of these</option>
+	<option value="OR">Any of these</option>
+	<option value="phrase">As a phrase</option>
+ </select>
+&nbsp;&nbsp;<label for="in">in </label>
+&nbsp;&nbsp;Search Field: <select id="searchField" name="searchField">
+						   </select>
+<br>
+<fieldset id="advancedSearch" style="border:none; padding:0">
+
+&nbsp;&nbsp;
+<input type="radio" name="operator" id="operator" value="AND" checked="checked"> AND 
+<input type="radio" name="operator" id="operator" value="OR"> OR 
+<input type="radio" name="operator" id="operator" value="NOT"> NOT 
+<br>
+
+&nbsp;&nbsp;<input id="searchText" name="st" size="50" type="text" />
+<select id="searchScope" name="searchScope">	
+	<option value="AND">All of these</option>
+	<option value="OR">Any of these</option>
+	<option value="phrase">As a phrase</option>
+ </select>
+&nbsp;&nbsp;<label for="in">in </label>
+&nbsp;&nbsp;Search Field: <select id="searchField" name="searchField" class="searchField">
+						   </select>
+</fieldset>
+<br>
+<span class="addDelete">
+
+<a id="plus" href="#"><b>[+] Add</b></a>&nbsp;&nbsp;
+<a id="minus" href="#"><b>[-] Delete</b></a>
+</span>
+
+</fieldset>
+<br \>
+<br \>
+
+<input type="hidden" name="searchType" id="searchType" value="">
+<input type="hidden" name="sortByTerms" id="sortByTerms" value="${discoveryForm.sortByTerms}">
+<input type="hidden" name="docCat" value="bib">
+<input type="submit" name="Search" value="Search" class="searchButton" onclick="submitSearch('advancedSearch')">
+<input type="button" name="Clear" value="Clear" onclick="submitSearch('newSearch')">
+</html:form>
+</div>
+</body>
+
+<script type="text/javascript">
+ 
+var sortByTerms = "${discoveryForm.sortByTerms}";
+
+function submitSearch(searchType) {
+	//$("#searchScreenDiv").loader('loader', true);
+	var form = document.forms["discoveryForm"];
+	if (searchType != null) {
+		document.getElementById("searchType").value = searchType;
+	}	
+	if (searchType == "advancedSearch") {
+		$("#busyDiv").show();
+	}
+	form.submit();
+}
+
+	$(document).ready(function(){
+        //$("#searchScreenDiv").loader();
+        $("#busyDiv").hide();
+	});
+	
+		function onAddNewField(){
+				var j = 0;
+					while (true) {
+						var name = "#searchField" + j ;
+						var value = $(name).html();
+						if (value == null){
+						var fieldName = "#searchField" + (j-1) ;
+						$(fieldName).append(fieldOptionsText);
+						break;
+						}
+					
+						if(operatorZeroValue!=""){
+							onclickradio = operatorZeroValue;
+						}
+						if(onclickradio == ""){
+							onclickradio ="AND";
+						}
+						var nodePath = JQUERY4U.UTIL.formatVarString('input:radio[id="{1}"]', "operator"+0);
+						var valuePath = JQUERY4U.UTIL.formatVarString('[value="{1}"]', onclickradio);
+						log.debug("nodePath"+nodePath);
+						$(nodePath).filter(valuePath).attr('checked', true);
+						j++;
+					}
+		}
+	var configInfoXml = null;
+	 var operatorZeroValue = "";
+	var onclickradio = "";
+	    $(document).ready(function() {  
+	    	
+	    	
+	    	 $('#sortingorder').val(sortByTerms);
+	    	$("#advancedSearch").dynamicForm("#plus", "#minus",
+	    			{
+	    			createColor: 'white',
+	    			removeColor: 'white'
+	    			}
+	    			);
+	    	$('input:radio[id="operator0"]').click(function(event) { 
+	    		onclickradio = $('input:radio[id="operator0"]:checked').val();
+	    	});
+	    	
+	      	$.ajaxSetup({async:false});
+	    	$.post("./getConfigInfo", { doccategoryID: 'all' }, function(data) {
+			configInfoXml = data;
+		     });
+			onChangeCategory();
+				$("#doccategory").change(function()  {   
+					var doccategoryId = $("#doccategory").val();
+					populateDocTypeDropdown($("#docType"), configInfoXml, doccategoryId);
+				});
+			
+			 function onChangeCategory()  {   
+					var doccategoryId = $("#doccategory").val();
+					populateDocTypeDropdown($("#docType"), configInfoXml, doccategoryId);
+				}
+			setInitialValues(configInfoXml);
+			
+	    });
+	 
+	 
+	 
+	    function populateDocTypeDropdown(select, data, doccategoryId) {
+	        select.html('');
+			var nodePath = JQUERY4U.UTIL.formatVarString("docCategory[id='{1}'] docType", doccategoryId);
+			$(data).find(nodePath).each(function() {
+	            select.append($('<option></option>').val($(this).attr('id')).html($(this).attr('name')));
+			});
+			$("#docType").change(function(){    
+				var doctypeId = $(this).val();
+	                populateFormatDropdown($("#docFormat"), configInfoXml, doccategoryId,doctypeId);
+	        }); 
+			onChangeDocType();
+					 
+			 function onChangeDocType() {    
+				var doctypeId = $("#docType").val();
+	                populateFormatDropdown($("#docFormat"), configInfoXml, doccategoryId,doctypeId);
+	       }
+		}
+		function populateFormatDropdown(select, data, doccategoryId,doctypeId) {
+		    select.html('');
+			var nodePath = JQUERY4U.UTIL.formatVarString("docCategory[id='{1}'] docType[id='{2}'] docFormat", doccategoryId, doctypeId);
+			$(data).find(nodePath).each(function() {
+	            select.append($('<option></option>').val($(this).attr('id')).html($(this).attr('name')));
+			});
+			onChangeDocFormat();
+			$("#docFormat").change(function onChangeDocFormat() {    
+				var  docFormatId = $(this).val();
+					populateFieldDropdowns(configInfoXml, doccategoryId, doctypeId, docFormatId);
+	        });
+			
+			function onChangeDocFormat() {    
+				var  docFormatId = $("#docFormat").val();
+					populateFieldDropdowns(configInfoXml, doccategoryId, doctypeId, docFormatId);
+	        }
+		}
+		
+		
+		function populateFieldDropdown1(select, data,  doccategoryId, doctypeId, docFormatId ) {
+		    select.html('');
+			var nodePath = JQUERY4U.UTIL.formatVarString(" docCategory[id='{1}'] docType[id='{2}'] docFormat[id='{3}'] field", doccategoryId, doctypeId ,docFormatId );
+			$(data).find(nodePath).each(function onChangeDocField() {
+	            select.append($('<option></option>').val($(this).attr('name')).html($(this).attr('displayName')));
+			});
+			onChangeDocField();
+			
+		}
+		
+		function getFieldOptionsText(data,  doccategoryId, doctypeId, docFormatId ) {
+			var fieldOptionsText = [];
+			var i = 0;
+			var nodePath = JQUERY4U.UTIL.formatVarString(" docCategory[id='{1}'] docType[id='{2}'] docFormat[id='{3}'] field", doccategoryId, doctypeId ,docFormatId );
+			fieldOptionsText[i++] = JQUERY4U.UTIL.formatVarString('<option value="{1}">{2}</option>', 'all', 'All');
+			$(data).find(nodePath).each(function() {
+				fieldOptionsText[i++] = JQUERY4U.UTIL.formatVarString('<option value="{1}">{2}</option>', $(this).attr('searchName'), $(this).attr('displayName'));
+			});
+			return fieldOptionsText.join('');
+		}
+		var fieldOptionsText = "" ;
+		function populateFieldDropdowns( data,  doccategoryId, doctypeId, docFormatId ){
+			 fieldOptionsText = getFieldOptionsText(data,  doccategoryId, doctypeId, docFormatId)
+			$("#searchField").html('');
+			$("#searchField").append(fieldOptionsText);
+			$("#searchField0").html('');
+			$("#searchField0").append(fieldOptionsText);
+			var j = 1;
+				while (true) {
+					var name = "#searchField" + j ;
+					$(name).children().remove().end().append(fieldOptionsText);
+					var value = $(name).html();
+					if (value == null){
+					break;
+					}
+					j++;
+			}
+				}
+	
+			
+		
+	var JQUERY4U = {};
+	JQUERY4U.UTIL = {
+	formatVarString: function()
+	    {
+	        var args = [].slice.call(arguments);
+	        if(this.toString() != '[object Object]')
+	        {
+	            args.unshift(this.toString());
+	        }
+	        var pattern = new RegExp('{([1-' + args.length + '])}','g');
+	        return String(args[0]).replace(pattern, function(match, index) { return args[index]; });
+	    }
+	}
+/**
+ * Sets the initial values for all fields, based on whether it is a new search or current search.
+ */
+function setInitialValues(configInfoXml) {
+	var searchParamsXml = document.getElementById("searchParamsXml").value;
+	var searchType = '';
+	var docCategoryVal = '';
+	var docTypeVal = '';
+	var docFormat = '';
+	var sortField = '';
+	var sortOrder = '';
+	
+	$("#doccategory").val($(searchParamsXml).find("docCategory").text());
+	$("#docType").val($(searchParamsXml).find("docType").text());
+	$("#docFormat").val($(searchParamsXml).find("docFormat").text());
+	log.debug("doccategory=" + $("#doccategory").val());
+	log.debug("docType=" + $("#docType").val());
+	log.debug("docFormat=" + $("#docFormat").val());
+	
+	populateFieldDropdowns(configInfoXml, $("#doccategory").val(), $("#docType").val(), $("#docFormat").val());
+	// search fields and search field values
+	var searchConditionCount = $(searchParamsXml).find("searchCondition").length;
+	
+	$("#searchField").val($(searchParamsXml).find("searchCondition").first().attr("fieldName"));
+	$("#searchText").val($(searchParamsXml).find("searchCondition").first().attr("fieldValue"));
+	$("#searchScope").val($(searchParamsXml).find("searchCondition").first().attr("searchScope"));
+	
+	var searchConditions = $(searchParamsXml).find("searchCondition");
+	for (var i=0; i < searchConditionCount-1; i++) {
+		var searchFieldName = "#searchField" + i;
+		var searchTextName = "#searchText" + i;
+		var operatorid = "operator" + i;
+		var searchScope = "#searchScope" + i;
+		if (i > 0) {
+			$('#plus').click();
+		}
+		$(searchFieldName).val($(searchParamsXml).find("searchCondition").eq(i+1).attr("fieldName"));
+		$(searchTextName).val($(searchParamsXml).find("searchCondition").eq(i+1).attr("fieldValue"));
+		$(searchScope).val($(searchParamsXml).find("searchCondition").eq(i+1).attr("searchScope"));
+		operatorZeroValue = $(searchParamsXml).find("searchCondition").eq(1).attr("operator");
+		var preset = $(searchParamsXml).find("searchCondition").eq(i+1).attr("operator");
+		var nodePath = JQUERY4U.UTIL.formatVarString('input:radio[id="{1}"]', operatorid);
+		var valuePath = JQUERY4U.UTIL.formatVarString('[value="{1}"]', preset);
+		log.debug("nodePath"+nodePath);
+		$(nodePath).filter(valuePath).attr('checked', true);
+		log.debug("searchCondition index=" + i);
+		log.debug(searchFieldName + "=" + $(searchFieldName).val());
+		log.debug(searchTextName + "=" + $(searchTextName).val());
+		log.debug(operatorid + "=" + preset);
+		log.debug(preset + "=" + preset);
+		log.debug("operator inside iff" + "=" + operatorZeroValue);
+	}
+	log.debug("operatorZeroValue" + "=" + operatorZeroValue);
+	var nodePath = JQUERY4U.UTIL.formatVarString('input:radio[id="{1}"]', "operator"+0);
+	var valuePath = JQUERY4U.UTIL.formatVarString('[value="{1}"]', operatorZeroValue);
+	log.debug("nodePath"+nodePath);
+	$(nodePath).filter(valuePath).attr('checked', true);
+	
+}	
+	</script>
+
+<!--
+	advancedSearch[advancedSearch][]=bib
+	&advancedSearch[advancedSearch][]=item
+	&advancedSearch[advancedSearch][]=marc
+	&advancedSearch[advancedSearch][st]=aaaa
+	&advancedSearch[advancedSearch][searchField]=ISBN
+	&advancedSearch[advancedSearch][0][st]=dddd
+	&advancedSearch[advancedSearch][1][operator]=AND
+	&advancedSearch[advancedSearch][1][st]=gggg#
+	
+$('select.foo option:selected').val();    // get the value from a dropdown select
+$('select.foo').val();                    // get the value from a dropdown select even easier
+$('input:checkbox:checked').val();        // get the value from a checked checkbox
+$('input:radio[name=bar]:checked').val(); // get the value from a set of radio buttons
+http://api.jquery.com/val/	
+	-->

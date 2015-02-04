@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+<!--
+ Copyright 2008-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean id="RequisitionCapitalAssetLocation" parent="RequisitionCapitalAssetLocation-parentBean"/>
+
+  <bean id="RequisitionCapitalAssetLocation-parentBean" abstract="true" parent="BusinessObjectEntry">
+  	<property name="objectLabel" value="Requisition Capital Asset Location"/>
+    <property name="businessObjectClass" value="org.kuali.ole.module.purap.businessobject.RequisitionCapitalAssetLocation"/>
+    <property name="inquiryDefinition">
+      <ref bean="RequisitionCapitalAssetLocation-inquiryDefinition"/>
+    </property>
+    <property name="lookupDefinition">
+      <ref bean="RequisitionCapitalAssetLocation-lookupDefinition"/>
+    </property>
+    <property name="attributes">
+      <list>
+        <ref bean="RequisitionCapitalAssetLocation-buildingCode"/>
+        <ref bean="RequisitionCapitalAssetLocation-buildingRoomNumber"/>
+        <ref bean="RequisitionCapitalAssetLocation-campusCode"/>
+        <ref bean="RequisitionCapitalAssetLocation-capitalAssetCityName"/>
+        <ref bean="RequisitionCapitalAssetLocation-capitalAssetCountryCode"/>
+        <ref bean="RequisitionCapitalAssetLocation-capitalAssetLine1Address"/>
+        <ref bean="RequisitionCapitalAssetLocation-capitalAssetLocationIdentifier"/>
+        <ref bean="RequisitionCapitalAssetLocation-capitalAssetPostalCode"/>
+        <ref bean="RequisitionCapitalAssetLocation-capitalAssetStateCode"/>
+        <ref bean="RequisitionCapitalAssetLocation-capitalAssetSystemIdentifier"/>
+        <ref bean="RequisitionCapitalAssetLocation-itemQuantity"/>
+        <ref bean="RequisitionCapitalAssetLocation-offCampusIndicator"/>
+      </list>
+    </property>
+	<property name="relationships">
+    	<list>
+			<bean parent="RelationshipDefinition">
+              <property name="objectAttributeName" value="campus"/>
+              <property name="primitiveAttributes">
+                <list>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="campusCode" p:targetName="campusCode"/>
+                </list>
+              </property>
+    		</bean>
+    	</list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="RequisitionCapitalAssetLocation-buildingCode" parent="RequisitionCapitalAssetLocation-buildingCode-parentBean"/>
+
+  <bean id="RequisitionCapitalAssetLocation-buildingCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="buildingCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Building"/>
+    <property name="shortLabel" value="Building"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterValidation" />
+    </property>
+    <property name="control">
+      <ref bean="StandardShortNameTextControl" />
+    </property>
+  </bean>
+  <bean id="RequisitionCapitalAssetLocation-buildingRoomNumber" parent="RequisitionCapitalAssetLocation-buildingRoomNumber-parentBean"/>
+
+  <bean id="RequisitionCapitalAssetLocation-buildingRoomNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="buildingRoomNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Room"/>
+    <property name="shortLabel" value="Room"/>
+    <property name="maxLength" value="8"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterValidation" />
+    </property>
+    <property name="control">
+      <ref bean="TenCharacterTextControl" />
+    </property>
+  </bean>
+  <bean id="RequisitionCapitalAssetLocation-campusCode" parent="RequisitionCapitalAssetLocation-campusCode-parentBean"/>
+
+  <bean id="RequisitionCapitalAssetLocation-campusCode-parentBean" abstract="true" parent="Campus-code">
+    <property name="name" value="campusCode"/>
+    <property name="label" value="Campus"/>
+    <property name="shortLabel" value="Campus"/>
+    <property name="required" value="false"/>
+  </bean>
+
+  <bean id="RequisitionCapitalAssetLocation-capitalAssetCityName" parent="RequisitionCapitalAssetLocation-capitalAssetCityName-parentBean"/>
+  <bean id="RequisitionCapitalAssetLocation-capitalAssetCityName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="capitalAssetCityName"/>
+    <property name="label" value="City"/>
+    <property name="shortLabel" value="City"/>
+    <property name="maxLength" value="45"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="47"/>
+    </property>
+  </bean>
+
+  <bean id="RequisitionCapitalAssetLocation-capitalAssetCountryCode" parent="RequisitionCapitalAssetLocation-capitalAssetCountryCode-parentBean"/>
+  <bean id="RequisitionCapitalAssetLocation-capitalAssetCountryCode-parentBean" abstract="true" parent="Country-code">
+    <property name="name" value="capitalAssetCountryCode"/>
+    <property name="label" value="Country"/>
+    <property name="shortLabel" value="Country"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.location.framework.country.CountryNotRestrictedValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+  </bean>
+
+  <bean id="RequisitionCapitalAssetLocation-capitalAssetLine1Address" parent="RequisitionCapitalAssetLocation-capitalAssetLine1Address-parentBean"/>
+  <bean id="RequisitionCapitalAssetLocation-capitalAssetLine1Address-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="capitalAssetLine1Address"/>
+    <property name="label" value="Address"/>
+    <property name="shortLabel" value="Address"/>
+    <property name="maxLength" value="45"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="47"/>
+    </property>
+  </bean>
+  <bean id="RequisitionCapitalAssetLocation-capitalAssetLocationIdentifier" parent="RequisitionCapitalAssetLocation-capitalAssetLocationIdentifier-parentBean"/>
+
+  <bean id="RequisitionCapitalAssetLocation-capitalAssetLocationIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="capitalAssetLocationIdentifier"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Capital Asset Location Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <ref bean="NumericValidation" />
+    </property>
+    <property name="control">
+      <ref bean="StandardShortNameTextControl" />
+    </property>
+  </bean>
+  
+  <bean id="RequisitionCapitalAssetLocation-capitalAssetPostalCode" parent="RequisitionCapitalAssetLocation-capitalAssetPostalCode-parentBean"/>
+  <bean id="RequisitionCapitalAssetLocation-capitalAssetPostalCode-parentBean" parent="PostalCode-code">
+    <property name="name" value="capitalAssetPostalCode"/>
+    <property name="required" value="false"/>
+  </bean>
+  
+  <bean id="RequisitionCapitalAssetLocation-capitalAssetStateCode" parent="RequisitionCapitalAssetLocation-capitalAssetStateCode-parentBean"/>
+
+  <bean id="RequisitionCapitalAssetLocation-capitalAssetStateCode-parentBean" abstract="true" parent="State-code">
+    <property name="name" value="capitalAssetStateCode"/>
+    <property name="label" value="State"/>
+    <property name="shortLabel" value="State"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.location.framework.state.StateValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+  </bean>
+  <bean id="RequisitionCapitalAssetLocation-capitalAssetSystemIdentifier" parent="RequisitionCapitalAssetLocation-capitalAssetSystemIdentifier-parentBean"/>
+
+  <bean id="RequisitionCapitalAssetLocation-capitalAssetSystemIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="capitalAssetSystemIdentifier"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Capital Asset System Number"/>
+    <property name="shortLabel" value="Number"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <ref bean="NumericValidation" />
+    </property>
+    <property name="control">
+      <ref bean="StandardShortNameTextControl" />
+    </property>
+  </bean>
+  <bean id="RequisitionCapitalAssetLocation-itemQuantity" parent="RequisitionCapitalAssetLocation-itemQuantity-parentBean"/>
+
+  <bean id="RequisitionCapitalAssetLocation-itemQuantity-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="itemQuantity"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Item Quantity"/>
+    <property name="shortLabel" value="Item Quantity"/>
+    <property name="maxLength" value="11"/>
+    <property name="validationPattern">
+      <ref bean="FloatingPointValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="13"/>
+    </property>
+  </bean>
+  
+  <bean id="RequisitionCapitalAssetLocation-offCampusIndicator" parent="RequisitionCapitalAssetLocation-offCampusIndicator-parentBean"/>
+  <bean id="RequisitionCapitalAssetLocation-offCampusIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean" p:name="offCampusIndicator" p:required="false">
+    <property name="label" value="Off Campus"/>
+    <property name="shortLabel" value="Off Campus"/>
+  </bean>
+
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="RequisitionCapitalAssetLocation-inquiryDefinition" parent="RequisitionCapitalAssetLocation-inquiryDefinition-parentBean"/>
+
+  <bean id="RequisitionCapitalAssetLocation-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Requisition Capital Asset Location Inquiry"/>
+    <property name="inquirySections">
+      <list>
+		<ref bean="RequisitionCapitalAssetLocation-inquirySectionDefinition"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="RequisitionCapitalAssetLocation-inquirySectionDefinition" parent="RequisitionCapitalAssetLocation-inquirySectionDefinition-parentBean"/>
+  <bean id="RequisitionCapitalAssetLocation-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="buildingCode"/>
+        <bean parent="FieldDefinition" p:attributeName="buildingRoomNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="campusCode"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetCityName"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetCountryCode"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetLine1Address"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetLocationIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetPostalCode"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetStateCode"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="itemQuantity"/>
+        <bean parent="FieldDefinition" p:attributeName="offCampusIndicator"/>
+      </list>
+    </property>
+  </bean>
+        
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="RequisitionCapitalAssetLocation-lookupDefinition" parent="RequisitionCapitalAssetLocation-lookupDefinition-parentBean"/>
+
+  <bean id="RequisitionCapitalAssetLocation-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Requisition Capital Asset Location Lookup"/>
+    
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="buildingCode"/>
+        <bean parent="FieldDefinition" p:attributeName="buildingRoomNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="campusCode"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetCityName"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetCountryCode"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetLine1Address"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetLocationIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetPostalCode"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetStateCode"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="itemQuantity"/>
+        <bean parent="FieldDefinition" p:attributeName="offCampusIndicator"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="buildingCode"/>
+        <bean parent="FieldDefinition" p:attributeName="buildingRoomNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="campusCode"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetCityName"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetCountryCode"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetLine1Address"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetLocationIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetPostalCode"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetStateCode"/>
+        <bean parent="FieldDefinition" p:attributeName="capitalAssetSystemIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="itemQuantity"/>
+        <bean parent="FieldDefinition" p:attributeName="offCampusIndicator"/>
+      </list>
+    </property>
+  </bean>
+</beans>

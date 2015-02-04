@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<browseParams>
+    <pageSize>0</pageSize>
+    <searchConditions>
+        <searchCondition>
+            <operator>OR</operator>
+            <searchField>
+                <docType>holdings</docType>
+                <fieldName>CallNumber_search</fieldName>
+                <fieldValue>123</fieldValue>
+            </searchField>
+            <searchScope>OR</searchScope>
+        </searchCondition>
+    </searchConditions>
+    <searchResultFields>
+        <searchResultField>
+            <docType>holdings</docType>
+            <fieldName>HOLDINGSIDENTIFIER</fieldName>
+        </searchResultField>
+        <searchResultField>
+            <docType>holdings</docType>
+            <fieldName>CALLNUMBER</fieldName>
+        </searchResultField>
+    </searchResultFields>
+    <sortConditions/>
+    <startIndex>0</startIndex>
+    <totalCount>0</totalCount>
+</browseParams>

@@ -1,0 +1,3 @@
+TYP_ID,NM,NMSPC_CD,SRVC_NM,ACTV,VER_NBR
+"OLE2016","DeliverNotice","OLE","deliverNoticeTypeService","Y","1"
+"OLE2017","NoticeFormat","OLE","noticeFormatTypeService","Y","1"

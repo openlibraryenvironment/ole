@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+    <!--
+
+        Copyright 2005-2012 The Kuali Foundation
+
+        Licensed under the Educational Community License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at
+
+        http://www.opensource.org/licenses/ecl2.php
+
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+
+    -->
+    <bean id="OleReceiptStatus" parent="OleReceiptStatus-parentBean"/>
+
+    <bean id="OleReceiptStatus-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.describe.bo.OleReceiptStatus"/>
+        <property name="titleAttribute" value="receiptStatusId"/>
+        <property name="objectLabel" value="Receipt Status"/>
+
+        <property name="attributes">
+            <list>
+                <ref bean="OleReceiptStatus-receiptStatusId"/>
+                <ref bean="OleReceiptStatus-receiptStatusCode"/>
+                <ref bean="OleReceiptStatus-receiptStatusName"/>
+                <ref bean="OleReceiptStatus-source"/>
+                <ref bean="OleReceiptStatus-sourceDate"/>
+                <ref bean="OleReceiptStatus-active"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+
+    <bean id="OleReceiptStatus-receiptStatusId" parent="OleReceiptStatus-receiptStatusId-parentBean"/>
+
+    <bean id="OleReceiptStatus-receiptStatusId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Receipt Status Id"/>
+        <property name="maxLength" value="10"/>
+        <property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+        <property name="name" value="receiptStatusId"/>
+        <property name="label" value="Receipt Status Id"/>
+        <property name="description" value="Receipt Status Id"/>
+    </bean>
+
+
+    <bean id="OleReceiptStatus-receiptStatusCode" parent="OleReceiptStatus-receiptStatusCode-parentBean"/>
+
+    <bean id="OleReceiptStatus-receiptStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Receipt Status Code"/>
+        <property name="maxLength" value="30"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="receiptStatusCode"/>
+        <property name="label" value="Receipt Status Code"/>
+        <property name="description" value="Receipt Status Code"/>
+
+    </bean>
+
+
+    <bean id="OleReceiptStatus-receiptStatusName" parent="OleReceiptStatus-receiptStatusName-parentBean"/>
+
+    <bean id="OleReceiptStatus-receiptStatusName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Receipt Status Name"/>
+        <property name="maxLength" value="100"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="receiptStatusName"/>
+        <property name="label" value="Receipt Status Name"/>
+        <property name="description" value="Receipt Status Name"/>
+
+    </bean>
+
+
+    <bean id="OleReceiptStatus-source" parent="OleReceiptStatus-source-parentBean"/>
+
+    <bean id="OleReceiptStatus-source-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Source"/>
+        <property name="maxLength" value="100"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="source"/>
+        <property name="label" value="Source"/>
+        <property name="description" value="Source"/>
+
+    </bean>
+
+
+    <bean id="OleReceiptStatus-sourceDate" parent="OleReceiptStatus-sourceDate-parentBean"/>
+    <bean id="OleReceiptStatus-sourceDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+        <property name="shortLabel" value="Source Date"/>
+        <property name="name" value="sourceDate"/>
+        <property name="label" value="Source Date"/>
+        <property name="required" value="true"/>
+    </bean>
+
+
+    <!--<bean id="OleReceiptStatus-active" parent="OleReceiptStatus-active-parentBean"/>-->
+
+    <!--<bean id="OleReceiptStatus-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">-->
+        <!--<property name="name" value="active"/>-->
+    <!--</bean>-->
+    <bean id="OleReceiptStatus-active" parent="OleReceiptStatus-active-parentBean"/>
+
+    <bean id="OleReceiptStatus-active-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="active"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="active"/>
+        <property name="maxLength" value="1"/>
+        <property name="validCharactersConstraint">
+            <bean  parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean  parent="Uif-CheckboxControl"/>
+        </property>
+        <property name="summary" value="Active Indicator"/>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+        <property name="label" value="Active Indicator"/>
+        <property name="description" value="This attribute is used to describe whether the associated object is active or inactive."/>
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+
+
+    <bean id="OleReceiptStatus-InquiryView" parent="Uif-OLEInquiryView">
+        <property name="headerText" value="Receipt Status Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.describe.bo.OleReceiptStatus"/>
+        <property name="singlePageView" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-VerticalBoxSection">
+                    <property name="header.headerText" value="Receipt Status"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2">
+                                <property name="items">
+                                    <list>
+                                        <bean id="inquiry_receiptStatusId" parent="Uif-InputField" p:propertyName="receiptStatusId"/>
+                                        <bean id="inquiry_receiptStatusCode" parent="Uif-InputField" p:propertyName="receiptStatusCode"/>
+                                        <bean id="inquiry_receiptStatusName" parent="Uif-InputField" p:propertyName="receiptStatusName"/>
+                                        <bean id="inquiry_source" parent="Uif-InputField" p:propertyName="source"/>
+                                        <bean id="inquiry_sourceDate" parent="Uif-InputField" p:propertyName="sourceDate"/>
+                                        <bean id="inquiry_active" parent="Uif-InputField" p:propertyName="active"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                    <property name="headerText" value="Receipt Status"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <!-- Business Object Lookup Definition -->
+
+
+    <bean id="OleReceiptStatus-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="Receipt Status Lookup"/>
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="${ole.externalizable.help.url}/reference/webhelp/BASICS/content/ch02s04.html#_lookupHelp"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="dataObjectClassName" value="org.kuali.ole.describe.bo.OleReceiptStatus"/>
+        <property name="criteriaFields">
+            <list>
+                <bean id="receiptStatusCode" parent="Uif-LookupCriteriaInputField" p:propertyName="receiptStatusCode"/>
+                <bean id="receiptStatusName" parent="Uif-LookupCriteriaInputField" p:propertyName="receiptStatusName"/>
+                <bean id="source" parent="Uif-LookupCriteriaInputField" p:propertyName="source"/>
+                <bean id="sourceDate" parent="Uif-LookupCriteriaInputField" p:propertyName="sourceDate">
+                    <property name="control">
+                        <bean id="date" parent="Uif-DateControl" p:size="10"/>
+                    </property>
+                </bean>
+                <bean id="activeIndicator" parent="Uif-LookupCriteriaInputField" p:propertyName="active"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <!--<bean id="searchResult_receiptStatusId" parent="Uif-DataField" p:propertyName="receiptStatusId"/>-->
+                <bean id="searchResult_receiptStatusCode" parent="Uif-DataField" p:propertyName="receiptStatusCode"/>
+                <bean id="searchResult_receiptStatusName" parent="Uif-DataField" p:propertyName="receiptStatusName"/>
+                <bean id="searchResult_source" parent="Uif-DataField" p:propertyName="source"/>
+                <bean id="searchResult_sourceDate" parent="Uif-DataField" p:propertyName="sourceDate"/>
+                <bean id="searchResult_active" parent="Uif-DataField" p:propertyName="active"/>
+            </list>
+        </property>
+    </bean>
+</beans>

@@ -1,0 +1,160 @@
+div.ui-tabs.ui-widget-content {
+    border: medium none;
+    border-radius: 0 0 0 0;
+    width: 1500px;
+}
+
+.dropdown{
+    margin-top: 0.4em;
+    /**width: 450px;**/
+}
+
+div.blockOverlay{
+    display:none !important;
+}
+
+div.blockElement{
+    display:none !important;
+}
+
+.uif-sectionHeaderField h3.uif-header {
+    border-bottom: 1px solid #000000;
+    background : #cccccc;
+}
+
+#DisplayHistorySection_div table tbody tr.odd {
+    background-color: white;
+}
+
+/* For Dialog */
+.ui-widget-header {
+    background : none;
+    border: 0 solid #1E8F4D;
+    color: white;
+    font-weight: bold;
+}
+
+.ui-widget-header .ui-icon {
+    background-image: url("../../../krad/plugins/jqueryUI/images/ui-icons_004b2a_256x240.png");
+}
+
+element.style {
+    autoOpen: false;
+    resizable: false;
+    modal: true;
+    width: auto;
+}
+
+.messageClass{
+    color: red;
+    font-size: 16px;
+}
+
+/*Text color*/
+ul.basic-navigation li.basic-element a {
+    border-style: none;
+    color: black;
+}
+
+/*yellow to white*/
+.jstree-default li.jstree-last {
+    background: white;
+}
+
+/*Adding warning image next to unsaved New Item */
+.newItemWarn {
+    background-image: url("../images/yellow.png");
+    background-repeat: no-repeat;
+    background-position: right;
+
+}
+
+.uif-collectionGroup > div:nth-child(2) {
+    background-color: #FFFFFF;
+    border: 0px solid;
+    margin: 0.5em;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0.5em;
+}
+
+div.ui-tabs.ui-widget-content {
+    border: medium none;
+    border-radius: 0 0 0 0;
+    width: 1000px;
+}
+
+#InstanceEditorView_div table tbody tr.odd {
+    background-color: white;
+}
+
+.uif-collectionGroup .uif-collectionGroup > div:nth-child(2) {
+    margin: 0;
+    padding: 0;
+    width: 650px;
+}
+
+#InstanceEditorView_div .uif-tableCollectionLayout{
+    margin-bottom:0px !important;
+}
+
+.uif-collectionGroup.uif-stackedCollectionGroup {
+    background: none;
+    border: 1px solid;
+}
+
+#InstanceEditorView_div .uif-collectionAddItem, span.uif-collectionAddItem {
+    background-color: white !important;
+    border: none !important;
+}
+
+#DataFieldSection th, td {
+    padding-right: 0.5em !important;
+}
+
+#InstanceEditorView_div .uif-collectionGroup > div:nth-child(2){
+    margin:0em !important;
+    padding:0em !important;
+}
+#rightclickarea{padding:00px 0;width:0px;text-align:center;border:0px solid #ccc;margin-top:0px;}
+
+.add_li{}
+.add_li span{width:100px;display:block;padding:5px 10px;cursor:pointer}
+.inner_li{display:none;margin-left:120px;position:absolute;border:1px solid #aaa;border-left:1px solid #ccc;margin-top:-28px;background:#fff;}
+.sep_li{border-top: 1px ridge #aaa;margin:5px 0}
+.fill_title{font-size:11px;font-weight:bold;/height:15px;/overflow:hidden;word-wrap:break-word;}
+
+.vmenu{border:1px solid #aaa;position:absolute;background:#fff;	display:none;font-size:1em;}
+.vmenu .add_li span{width:100px;display:block;padding:5px 10px;cursor:pointer}
+.vmenu .delete_li span{width:100px;display:block;padding:5px 10px;cursor:pointer}
+
+.delete_li{}
+.delete_li span{width:100px;display:block;padding:5px 10px;cursor:pointer}
+
+.delete_itm{}
+.delete_itm span{width:100px;display:block;padding:5px 10px;cursor:pointer}
+
+.boxLayoutVerticalItem {
+    display: block;
+    margin-bottom: 0;
+}
+
+.boxLayoutHorizontalItem {
+    padding-bottom: 0.25em;
+}
+
+p, fieldset, table, pre {
+    margin-bottom: 0;
+}
+
+.uif-inputField input {
+    margin: 0;
+}
+
+.uif-inputField textarea {
+    margin: 0.3em 0;
+}
+
+.ui-tabs .ui-tabs-panel {
+    padding: 1em 0.5em;
+}

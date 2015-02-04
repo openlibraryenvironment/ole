@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="OLEAnnualStewardshipReportView" parent="Uif-OLEFormView">
+        <property name="headerText" value="Annual Stewardship Report"/>
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="${ole.externalizable.help.url}/reference/webhelp/AG/content/ch14s03.html"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="AnnualStewardshipReportViewPage" parent="Uif-Page">
+                    <property name="items">
+                        <list>
+                            <ref bean="AnnualStewardshipReportSearchPanel"/>
+                            <ref bean="AnnualStewardshipReportSearchPanel-buttons"/>
+                            <ref bean="AnnualStewardshipReportSearchResultsPanel"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="formClass" value="org.kuali.ole.select.form.OLEAnnualStewardshipReportForm"/>
+    </bean>
+
+    <bean id="AnnualStewardshipReportSearchPanel" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2">
+                    <property name="items">
+                        <list>
+                            <bean id="AnnualStewardshipReport_DonorCode" parent="Uif-InputField"
+                                  p:propertyName="donorCode" p:label="Donor Code">
+                                <property name="quickfinder">
+                                    <bean parent="Uif-QuickFinder"
+                                          p:dataObjectClassName="org.kuali.ole.select.bo.OLEDonor"
+                                          p:fieldConversions="donorCode:donorCode"/>
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="10" p:maxLength="10"/>
+                                </property>
+                            </bean>
+                            <bean id="AnnualStewardshipReport_Status" parent="Uif-InputField" p:label="Status"
+                                  p:propertyName="status"
+                                  p:optionsFinderClass="org.kuali.ole.select.keyvalue.OLEAnnualStewardshipStatusFinder">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl"/>
+                                </property>
+                            </bean>
+                            <bean id="AnnualStewardshipReport_FromDate" parent="Uif-InputField"
+                                  p:propertyName="fromDate"
+                                  p:label="From Date">
+                                <property name="control">
+                                    <bean parent="Uif-DateControl" p:size="10"/>
+                                </property>
+                            </bean>
+                            <bean id="AnnualStewardshipReport_ToDate" parent="Uif-InputField" p:propertyName="toDate"
+                                  p:label="To Date">
+                                <property name="control">
+                                    <bean parent="Uif-DateControl" p:size="10"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="AnnualStewardshipReportSearchPanel-buttons" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="search_button" parent="Uif-SecondaryActionButton" p:style="float:left;margin-left:50em"
+                      p:methodToCall="search" p:actionLabel="Search"/>
+                <bean id="clear_button" parent="Uif-SecondaryActionButton" p:style="float:left;margin-left:2em"
+                      p:methodToCall="clearSearch" p:actionLabel="Clear"/>
+                <bean id="close_button" parent="Uif-SecondaryActionButton" p:style="float:left;margin-left:2em"
+                      p:methodToCall="cancel" p:actionLabel="Cancel"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="AnnualStewardshipReportSearchResultsPanel" parent="Uif-TableCollectionSection"
+          p:layoutManager.numberOfColumns="5"
+          p:layoutManager.applyDefaultCellWidths="false">
+        <property name="collectionObjectClass" value="org.kuali.ole.describe.bo.SearchResultDisplayRow"/>
+        <property name="propertyName" value="saerSearchResultDisplayRowList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.generateAutoSequence" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="aaSorting" value="[[1,'asc']]"/>
+                <entry key="bFilter" value="false"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:label="Donor Code" p:propertyName="donorCode"/>
+                <bean parent="Uif-DataField" p:label="Title" p:propertyName="title"/>
+                <bean parent="Uif-DataField" p:label="Author" p:propertyName="author"/>
+                <bean parent="Uif-DataField" p:label="Imprint" p:propertyName="imprint"/>
+                <bean parent="Uif-DataField" p:label="Location" p:propertyName="locationName"/>
+                <bean parent="Uif-DataField" p:label="Prefix+CallNumber" p:propertyName="prefixAndCallnumber"/>
+                <bean parent="Uif-DataField" p:label="Enumeration" p:propertyName="enumeration"/>
+                <bean parent="Uif-DataField" p:label="Chronology" p:propertyName="chronology"/>
+                <bean parent="Uif-DataField" p:label="Copy" p:propertyName="copyNumber"/>
+                <bean parent="Uif-DataField" p:label="Item Status" p:propertyName="itemStatus"/>
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+</beans>

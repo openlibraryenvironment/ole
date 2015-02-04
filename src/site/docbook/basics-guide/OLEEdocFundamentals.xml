@@ -1,0 +1,3176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0"
+    xml:lang="en-US">
+    <title>OLE E-Doc Fundamentals</title>
+    <para role="Body Text"/>
+    <para role="Body Text">  The following sections describe the page layout, common attributes of
+        an e-doc, and basic functions.  </para>
+    <note>
+        <para> NOTE: This information applies to E-Docs and not OLE interfaces (such as loan,
+            transfer, or bound-with).  Each interface is described in the appropriate guide.  Please
+            refer to the <link xlink:href="../../../html/Index.html">OLE Documentation Portal</link>.
+        </para>
+    </note>
+    <section>
+        <title>E-Doc Screen Layout</title>
+        <para role="Normal">  An e-doc consists of a document header and a document body. The
+            document header in the upper right corner of the screen contains system information
+            about the document. The document body is organized in a stack of labeled tabs that are
+            similar to file folders. Based on the type of document, the system displays different
+            sets of tabs. To facilitate the document input process, an initiated document opens with
+            required tabs expanded and optional tabs collapsed. Workflow action buttons appropriate
+            to your role are displayed at the bottom of the screen.  </para>
+        <para role="Normal"/>
+        <para>
+            <screenshot>
+                <mediaobject>
+                    <alt>OLE Document with Features Pointed Out: Document Type Name, Tabs, Show/Hide
+                        Buttons, Document Header, Workflow Action Buttons, Expand All/COllapse All
+                        Buttons</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/basic-oleEDoc.png" width="100%"/>
+                    </imageobject>
+                </mediaobject>
+            </screenshot>
+        </para>
+        <para/>
+        <para> A particular variation to note is that in OLE-built documents (not inherited from
+            KFS) there are not "Show/Hide" buttons but arrows to the left of the tab titles
+            instead:</para>
+        <para role="Normal"/>
+        <para>
+            <screenshot>
+                <mediaobject>
+                    <alt>OLE Document not inherited from KFS</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/basic-oleEDoc2.png" width="100%"/>
+                    </imageobject>
+                </mediaobject>
+            </screenshot>
+        </para>
+        <para/>
+        <para>Additionally, you will notice that several of the OLE screens, such as the Editors and
+            the E-Resource Record, have left pane navigation:</para>
+        <para role="Normal"/>
+        <para>
+            <screenshot>
+                <mediaobject>
+                    <alt>OLE Document with left pane navigation</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/basic-47.png" width="100%"/>
+                    </imageobject>
+                </mediaobject>
+            </screenshot>
+        </para>
+        <para/>
+        <para>For the Editors, the left pane navigation is used to navigate between bibliographic
+            records, Instances and E-Instances.  For the E-Resource, the left pane allows for the
+            large amount of information to be broken down into manageable pieces. </para>
+        <note>
+            <para>The left pane navigation on the different
+                Editors will allow users to delete and add as well as navigate between records.  For
+                additional instructions, see <link xlink:href="../../../webhelp/CG/content/ch01s02.html"
+                    >Editors</link> on the <emphasis role="italic">Guide to the OLE Describe and
+                    Manage Module</emphasis>. </para>
+        </note>
+        <section>
+            <title><anchor xml:id="_documentHeader"/>Document Header</title>
+            <para role="Normal"/>
+            <para>
+                <screenshot>
+                    <mediaobject>
+                        <alt>OLE Document Header</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/basic-oleEDocHeader.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <para role="TableHeading"><emphasis role="bold">Basic information in the document
+                    header</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Document Nbr (Document Number) </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> The unique number used to identify each
+                                    document. OLE assigns a sequential number to each document when
+                                    it is created, regardless of the type of document.  </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Status (Document Status) </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> A code that identifies the status of a
+                                    document within the Workflow process. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Initiator (Initiator Network ID) </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> The user ID of the document initiator. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Created (Creation Time Stamp) </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> The time and date the document was
+                                    created. </para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+            <note>
+                <para role="Normal"> For information about status definitions, see <link
+                        linkend="_routeLog">Route Log</link>. </para>
+            </note>
+            <para role="TableHeading"><emphasis role="bold">Optional information in the document
+                    header</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">  Copied from Document ID </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> OLE allows users to create new documents
+                                    based on previous transactions by way of a copy function. When
+                                    one document is copied from another, the document number of the
+                                    copied document appears here. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">  Correct Document ID </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">  OLE gives you the option of reversing a
+                                    fully approved transaction through the use of an error
+                                    correction function. When one document is a correction of
+                                    another, the document number of the document being corrected
+                                    appears here. This information is displayed only when the
+                                    document was created using the error correction feature in an
+                                    existing document. </para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+            <note>
+                <para> Some documents have information in the header unique to that e-doc. Those are
+                    addressed in the user documentation. </para>
+            </note>
+        </section>
+        <section>
+            <title>Expand All/Collapse All Buttons</title>
+            <para role="Normal"> You may expand or collapse all tabs in a document by clicking
+                    <emphasis role="bold">expand all</emphasis> or <emphasis role="bold">collapse
+                    all</emphasis>. </para>
+            <itemizedlist>
+                <listitem>
+                    <para>Click <inlinemediaobject>
+                            <alt>Expand All</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/basic-expandAll.png"/>
+                            </imageobject>
+                        </inlinemediaobject> to expand all of the e-doc tabs. </para>
+                    <para/>
+                    <para>
+                        <screenshot>
+                            <mediaobject>
+                                <alt>OLE Document displaying Expand All</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/basic-expandAll2.png" width="100%"
+                                    />
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para/>
+                </listitem>
+                <listitem>
+                    <para>Click <inlinemediaobject>
+                            <alt>Collapse All</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/basic-collapseAll.png"/>
+                            </imageobject>
+                        </inlinemediaobject> to collapse all of the e-doc tabs. </para>
+                    <para/>
+                    <para>
+                        <screenshot>
+                            <mediaobject>
+                                <alt>OLE Document displaying Collapse All</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/basic-collapseAll2.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                </listitem>
+            </itemizedlist>
+            <para/>
+        </section>
+        <section>
+            <title>Show/Hide</title>
+            <para>Click <inlinemediaobject>
+                    <alt>Show</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/basic-show.png"/>
+                    </imageobject>
+                </inlinemediaobject> or <inlinemediaobject>
+                    <alt>Hide</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/basic-hide.png"/>
+                    </imageobject>
+                </inlinemediaobject> on tabs to expand or collapse an individual tab. </para>
+            <para> Alternatively, click the arrows on other e-docs: </para>
+            <para/>
+            <para>
+                <screenshot>
+                    <mediaobject>
+                        <alt>OLE Document with arrows to collapse and expand tabs</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/basic-showArrows.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+        </section>
+        <section>
+            <title>Required Fields</title>
+            <para role="Normal"> All required fields in an e-doc are denoted with an asterisk. You
+                cannot submit the document until all required fields contain data. </para>
+            <para>
+                <screenshot>
+                    <mediaobject>
+                        <alt>OLE Document Tab displaying Required Fields</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/basic-requiredFields.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+        </section>
+        <section>
+            <title>Date Fields</title>
+            <para role="Normal"> Dates must be specified in mm/dd/yyyy format. Alternatively, you
+                may select a date by clicking the calendar <inlinemediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/basic-miniCalendar.png"/>
+                    </imageobject>
+                </inlinemediaobject> (<inlinemediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/basic-miniCalendarRice.png"/>
+                    </imageobject>
+                </inlinemediaobject> in OLE built documents) and selecting from the calendar that is
+                subsequently displayed. </para>
+            <para><screenshot>
+                    <mediaobject>
+                        <alt>OLE Calendar on KFS inherited screens</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/basic-calendar.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot> or <screenshot>
+                    <mediaobject>
+                        <alt>OLE Calendar on OLE created screens</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/basic-calendarRice.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot></para>
+            <para/>
+        </section>
+        <section>
+            <title><anchor xml:id="_standardLinksAndIcons"/>Standard Links and Icons</title>
+            <para> Since OLE is a web-based application, hyperlinks and icons are used for
+                navigation. Clicking hyperlinks and icons allows you to drill down into document
+                detail and to obtain additional information. </para>
+            <para/>
+            <para>
+                <screenshot>
+                    <mediaobject>
+                        <alt>Some OLE hyperlinks available: Help links and Lookups</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/basic-linksAndIcons.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <section>
+                <title>Help Icon</title>
+                <para> When you click the <inlinemediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/basic-helpIcon2.png"/>
+                        </imageobject>
+                    </inlinemediaobject> icon by the title in the top left corner of an e-doc or
+                    other screen, the help system will display information about and instructions
+                    for working with the screen.</para>
+                <para/>
+                <para>
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Help Link at the end of an OLE Document Title</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/basic-helpIcon.jpg"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para/>
+            </section>
+            <section>
+                <title><anchor xml:id="_fieldLookup"/>Field Lookup</title>
+                <para> The round magnifying glass or 'lookup' icon <inlinemediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/Lookup.png"/>
+                        </imageobject>
+                    </inlinemediaobject> allows you to look up reference table information so you
+                    avoid data entry errors. </para>
+                <para/>
+                <para>
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Lookup on an OLE Document Field</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/basic-fieldLookup.png"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para/>
+                <para> After you click the icon, the system displays a list of valid values for you
+                    to select from or connects you to a form that allows you to search for the value
+                    you need. </para>
+                <para/>
+                <para>
+                    <screenshot>
+                        <mediaobject>
+                            <alt>OLE Lookup screen redirected from the lookup icon</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/basic-fieldLookup2.png"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para/>
+                <para> To look up valid values in this form: </para>
+                <orderedlist>
+                    <listitem>
+                        <para> Enter one or more search criteria or leave all search criteria fields
+                            blank to retrieve all. To specify search criteria: </para>
+                        <itemizedlist>
+                            <listitem>
+                                <para>Type data into any combination, all, or none of the listed
+                                    search fields. (Most search fields change letters to uppercase
+                                    for the search.)</para>
+                            </listitem>
+                            <listitem>
+                                <para>If you know the exact words or phrase, enter the text wrapped
+                                    in quotes.</para>
+                            </listitem>
+                            <listitem>
+                                <para>Use * only at the end of a word and only when you have entered
+                                    a single word in the field</para>
+                            </listitem>
+                            <listitem>
+                                <para>If desired, to enter a range of numbers or dates, use any of
+                                    these range operators: &gt;, &lt;, &gt;=, &lt;=, and ..Note that
+                                    the .. operator may be used only between two date values. It may
+                                    not be used with a single date. All other operators are used
+                                    before single dates.</para>
+                            </listitem>
+                            <listitem>
+                                <para>Specify dates in the format mm/dd/yyyy. Using logical
+                                    operators &amp; (AND) and | (OR) with multiple search
+                                    parameters.</para>
+                            </listitem>
+                        </itemizedlist>
+                    </listitem>
+                    <listitem>
+                        <para>Click <inlinemediaobject>
+                                <alt>Search</alt>
+                                <imageobject>
+                                    <imagedata
+                                        fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-100.png"
+                                    />
+                                </imageobject>
+                            </inlinemediaobject>.</para>
+                        <para> OLE displays the list of applicable values that you have requested.
+                            After the value list is displayed, you may take one of the following
+                            actions by clicking the hyperlinks labeled a and b below. </para>
+                        <para><emphasis role="bold">In KFS-inherited screens:</emphasis></para>
+                        <para/>
+                        <para>
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Sample List of Search Results from a Lookup Screen</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/basic-lookupList.png"
+                                            width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                        <para/>
+                        <para>
+                            <emphasis role="bold">In OLE-built screens a new pop-up window appears.
+                                Lookup result lists appear like this:</emphasis>
+                        </para>
+                        <para/>
+                        <para>
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Sample List of Search Results from a Lookup Screen</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/basic-lookupList2.png"
+                                            width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                        <para/>
+                        <para>
+                            <emphasis role="bold">(a)</emphasis> Click <emphasis role="bold">return
+                                value</emphasis> to select the code. </para>
+                        <para><emphasis role="bold">(b)</emphasis> Click the name of a column, or
+                            the arrows, to sort the retrieved values by that column. </para>
+                    </listitem>
+                </orderedlist>
+            </section>
+            <section>
+                <title><anchor xml:id="_multipleValueLookup"/>Multiple Value Lookup</title>
+                <para> In global Chart of Account e-docs, documents requiring a list of values come
+                    with a special multiple value lookup screen where you may select multiple values
+                    from the search list. The <emphasis role="bold">Look Up / Add Multiple xxx
+                        Lines</emphasis>
+                    <inlinemediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/Lookup.png"/>
+                        </imageobject>
+                    </inlinemediaobject>  (where xxx is the name of the attributes you are updating)
+                    link is available in the applicable section of the tab where this feature is
+                    available. </para>
+                <para/>
+                <para>
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Multiple Value Lookup on an OLE Document</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/basic-multiplevalueLookup.png"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para/>
+                <para> The <emphasis role="bold">Look Up / Add Multiple xxx Lines</emphasis>
+                    <inlinemediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/Lookup.png"/>
+                        </imageobject>
+                    </inlinemediaobject> takes you to a special search screen where you are given an
+                    opportunity to build a list of values from which you may choose one or more
+                    values by selecting the check boxes in the rightmost column. </para>
+                <para/>
+                <para>
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Multiple Value Lookup with Search Results. Select items by clicking
+                                Checkboxes and click "Return Selected"</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/basic-multiplevalueLookup2.png"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para/>
+                <para>
+                    <itemizedlist>
+                        <listitem>
+                            <para>Click a <emphasis role="bold">select all</emphasis> option to
+                                select all values in the list or on the page. </para>
+                        </listitem>
+                        <listitem>
+                            <para>Click a <emphasis role="bold">deselect all</emphasis> option to
+                                clear the check boxes for all values in the list or on the page.
+                            </para>
+                        </listitem>
+                    </itemizedlist>
+                </para>
+                <para/>
+                <para>
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Returned items on an OLE Document</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/basic-multiplevalueLookup3.png"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para/>
+                <para>Clicking <inlinemediaobject>
+                        <alt>Cancel</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-275.png"
+                            />
+                        </imageobject>
+                    </inlinemediaobject> returns you to the tab you came from without populating the
+                    tab. </para>
+            </section>
+            <section>
+                <title>Export Options Links</title>
+                <para> In the KFS-inherited e-docs, to export the result of the table lookup to your
+                    local computer in CSV, Excel, or XML format: </para>
+                <orderedlist>
+                    <listitem>
+                        <para> Click the <emphasis role="bold">export option</emphasis> link for the
+                            format you want. </para>
+                        <para/>
+                        <para>
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Export Links Available From Some OLE Search Results</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/basic-1.png"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                        <para/>
+                        <para> The system prompts you to click <emphasis role="bold"
+                            >Open</emphasis>, <emphasis role="bold">Save,</emphasis> or <emphasis
+                                role="bold">Cancel</emphasis>. </para>
+                        <para/>
+                        <para>
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>File Download Confirmation Sample</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/basic-2.png"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para> Click one of the buttons and follow the standard prompts. </para>
+                    </listitem>
+                </orderedlist>
+            </section>
+            <section>
+                <title>Drill downs</title>
+                <para> After you perform a search in KFS-inherited, financial documents, the system
+                    displays a link or icon in the list of retrieved data.  You can 'drill down
+                    into' (that is, display) details for any of the linked items. Standard drill down
+                    features in OLE include the following. </para>
+                <para/>
+                <para>
+                    <screenshot>
+                        <mediaobject>
+                            <alt>OLE Document Search Results Displaying Drilldown Hyperlinks:
+                                Document/Notification ID, Initiator, Route Log</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/basic-searchResult.png" width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para/>
+                <itemizedlist>
+                    <listitem>
+                        <para> Document ID drill down: <emphasis role="bold">(a)</emphasis> Clicking
+                            the Document ID link retrieves the specified document so you can view or
+                            edit it. </para>
+                    </listitem>
+                    <listitem>
+                        <para> User drill down: <emphasis role="bold">(b)</emphasis> Clicking a
+                            linked user ID takes you to a Person Impl Inquiry report. </para>
+                        <para/>
+                        <para>
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Sample Person Inquiry Redirected from the Search
+                                        Results</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/basic-3.png" width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para> Route log lookup: <emphasis role="bold">(c)</emphasis> Clicking the
+                                <emphasis role="bold">Route Log</emphasis> icon <inlinemediaobject>
+                                <imageobject>
+                                    <imagedata fileref="../images/basic-routeLogIcon.png"/>
+                                </imageobject>
+                            </inlinemediaobject> takes you to the OLE Route Log for the document in
+                            this row. The Route Log contains two tabs summarizing routing
+                            activities. The <emphasis role="bold">Action Taken</emphasis> tab logs
+                            prior events and the <emphasis role="bold">Pending Action
+                                Requests</emphasis> tab logs known future events, from which you can
+                            see current Workflow action requests. </para>
+                        <para/>
+                        <para>
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Sample Route Log Redirected from the Search Results</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/basic-4.png" width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                        <para/>
+                        <note>
+                            <para> For more information, see <link linkend="_routeLog">Route
+                                    Log</link>
+                            </para>
+                        </note>
+                    </listitem>
+                </itemizedlist>
+                <para> To augment library workflows, search results are not as standard in the
+                    OLE-build documents. However from the search results listed there are links in
+                    blue to 'drill down into'. </para>
+                <para/>
+                <para>
+                    <screenshot>
+                        <mediaobject>
+                            <alt>OLE Document Search Results Displaying Drilldown Hyperlinks</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/basic-106.png" width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para/>
+            </section>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_standardTabs"/>Standard Tabs</title>
+        <para>  While the tabs contained in various e-docs may vary from one document type to
+            another, a set of standard tabs is included in every e-doc. All documents contain
+                <emphasis role="bold">Document Overview</emphasis>, <emphasis role="bold">Notes and
+                Attachments</emphasis>, <emphasis role="bold">Ad Hoc Recipients</emphasis>, and
+                <emphasis role="bold">Route Log</emphasis> tabs. Additionally, financial
+            transactions e-docs contain the <emphasis role="bold">Accounting Lines</emphasis> tab
+            and the <emphasis role="bold">General Ledger Pending Entries</emphasis> tab. </para>
+        <section>
+            <title>Document Overview</title>
+            <para> The <emphasis role="bold">Document Overview</emphasis> tab identifies the
+                document and includes fours fields—<emphasis role="bold">Description</emphasis>,
+                    <emphasis role="bold">Explanation</emphasis>, <emphasis role="bold">Org.
+                    Doc</emphasis> # and <emphasis role="bold">Total Amount</emphasis> (total amount
+                only exists on financial documents only). </para>
+            <para/>
+            <para>
+                <screenshot>
+                    <mediaobject>
+                        <alt>Document Overview Tab</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/basic-5.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <para> The <emphasis role="bold">Description</emphasis> field is a required field on
+                every e-doc because it is used to identify the transaction and is included in the GL
+                inquiry, standard reports, action list, and document search.  Some documents, such
+                as the Requisition, will have the <emphasis role="bold">Description</emphasis> field
+                pre-filled.</para>
+            <para/>
+            <para>
+                <screenshot>
+                    <mediaobject>
+                        <alt>Document Description Field Displayed and Used For Identifcation in
+                            Search Results</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/basic-docDescription.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <para> The <emphasis role="bold">Explanation</emphasis> and <emphasis role="bold">Org
+                    Doc#</emphasis> fields allow you to include additional information about the
+                document. For those in which it applies, the <emphasis role="bold">Total
+                    Amount</emphasis> field is updated when the document is submitted successfully. </para>
+            <para/>
+            <para>
+                <screenshot>
+                    <mediaobject>
+                        <alt>Document successfully submitted dispays confirmation and total amount
+                            updated</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/basic-6.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <para role="TableHeading"><emphasis role="bold">Document Overview Tab
+                    Definitions</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Description</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">  Required. Enter the short description for
+                                    the document. The description appears in the GL Inquiry (for
+                                    financial documents), standard reports, action list and document
+                                    search as a primary identification of the document.  </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Explanation</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">  Optional. Enter a more detailed
+                                    explanation than the information supplied in the description
+                                    field.  </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Total Amount</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">  Display-only on financial documents.
+                                    Displays the total amount of accounting lines when the document
+                                    is submitted successfully. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Org. Doc. #</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Optional. Enter the value that may include
+                                    departmental or organizational information. This number is not
+                                    the same as the Document Number assigned by OLE. </para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+            <note>
+                <para> Other data fields may be available in the document overview of specific
+                    documents. </para>
+            </note>
+        </section>
+        <section>
+            <title><anchor xml:id="_OLEAccountingLines"/>OLE Financial Documents Accounting Lines
+                Tab</title>
+            <para> Accounting information for a financial transaction is entered in the <emphasis
+                    role="bold">Accounting Lines</emphasis> tab. This is where the accounting string
+                data is entered. The required fields and the format of the tab vary slightly by
+                document type. The <emphasis role="bold">Amt</emphasis> field may also look
+                different, depending on the type of document you are creating. </para>
+            <section>
+                <title>Single-Sided Entry</title>
+                <para> A number of documents require you to enter information onto only one side of
+                    the transaction because the balancing side of the transaction is automatically
+                    generated by OLE based on pre-set business rules. An example of a single-sided
+                    entry is the Purchase Order Accounting Lines. </para>
+                <para/>
+                <para>
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Sample of Single-Sided Accounting Lines Entry</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/basic-POAccountingLine.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para/>
+            </section>
+            <section>
+                <title>Double-Sided Entry</title>
+                <para> Several types of documents function by placing accounts, object codes, and
+                    amount combinations in separate sections of the <emphasis role="bold">Accounting
+                        Lines</emphasis> tab. In a document with <emphasis role="bold"
+                        >From/To</emphasis> sections (such as the General Error Correction or GEC
+                    document), the <emphasis role="bold">From</emphasis> section of the transaction
+                    represents a decrease in income, expense, or budget to an account. For example,
+                    when an account is entered in the <emphasis role="bold">From</emphasis> section
+                    of a GEC document and the object code is an expense type, the transaction
+                    reduces (credits) the expense and increases (debits) cash for that account. </para>
+                <para> The <emphasis role="bold">To</emphasis> section of this same type of
+                    transaction represents an increase in income, expense, or budget to an account.
+                    For example, when an account is entered in the <emphasis role="bold"
+                        >To</emphasis> section of a GEC document and the object code is an expense
+                    type, the transaction increases (debits) the expense and decreases (credits)
+                    cash for this account. </para>
+                <para/>
+                <para>
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Sample of Double-Sided Accounting Lines Entry</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/basic-7.png" width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para/>
+                <para role="TableHeading"><emphasis role="bold">Accounting Lines Tab
+                        Definitions</emphasis></para>
+                <informaltable frame="top">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Title</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Description </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Chart</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells"> Required. Select the chart code from
+                                        the <emphasis role="bold">Chart</emphasis> list. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Account</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells"> Required. Enter the account number or
+                                        search for it from the <emphasis role="bold"
+                                            >Account</emphasis> lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Sub-Account</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells"> Optional. Enter the sub-account number
+                                        or search for it from the <emphasis role="bold"
+                                            >Sub-Account</emphasis> lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Object</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells"> Required. Enter the object code or
+                                        search for it from the <emphasis role="bold">Object
+                                            Code</emphasis> lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Sub-Object</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells"> Optional. Enter the sub-object code or
+                                        search for it from the <emphasis role="bold"
+                                            >Sub-Object</emphasis> lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Project</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells"> Optional. Enter the project code or
+                                        search for it from the <emphasis role="bold"
+                                            >Project</emphasis> lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Object Type</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells"> Required only for the Journal Voucher
+                                        document. Enter the object type code or search for it from
+                                        the <emphasis role="bold">Object Type</emphasis> lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>. This value is auto-populated based on
+                                        the object code used in the JV document when you click
+                                            <emphasis role="bold">add</emphasis>. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Organization Reference</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells"> Optional. Enter the appropriate data
+                                        for the transactions. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells"> Amount (Or Dollar in some documents)
+                                    </para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells"> Required. Enter the amount. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Ref Origin Code</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells"> Required only for the General Error
+                                        Correction document. Enter the ref origin code or search for
+                                        it from the <emphasis role="bold">Origination
+                                            Code</emphasis> lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Ref Number</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells"> Required only for the General Error
+                                        Correction document. Enter the ref number. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Line Desc</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells"> Optional in most documents. Enter a
+                                        description of the transaction line. This field is required
+                                        in a few documents and is noted as required in the help
+                                        documentation for these types of documents. </para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+                <note>
+                    <para> Some of the above fields are not included in all documents. Specific
+                        requirements for each document type are noted in the section for the
+                        document type. </para>
+                </note>
+            </section>
+            <section>
+                <title>Displaying Account Details</title>
+                <para> Descriptions for the accounting string data may be hidden or shown by
+                    clicking <emphasis role="bold">show detail</emphasis> and <emphasis role="bold"
+                        >hide detail</emphasis>. </para>
+                <para/>
+                <para>
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Hide Detail Button on an OLE Document Tab</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/basic-hideDetails.png"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para/>
+                <itemizedlist>
+                    <listitem>
+                        <para>Clicking <inlinemediaobject>
+                                <alt>Hide Detail</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/basic-8.png"/>
+                                </imageobject>
+                            </inlinemediaobject> hides the COA titles in the <emphasis role="bold"
+                                >Accounting Lines</emphasis> tab: </para>
+                        <para/>
+                        <para>
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Accounting Lines Sample with Details Hidden</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/basic-9.png"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                        <para/>
+                    </listitem>
+                    <listitem>
+                        <para>Clicking <inlinemediaobject>
+                                <alt>Show Detail</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/basic-10.png"/>
+                                </imageobject>
+                            </inlinemediaobject> displays the COA titles in the <emphasis
+                                role="bold">Accounting Lines</emphasis> tab: </para>
+                        <para/>
+                        <para>
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Accounting Lines Sample with Details Displayed</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/basic-11.png"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                        <para/>
+                    </listitem>
+                </itemizedlist>
+            </section>
+            <section>
+                <title>Accounting Lines Buttons</title>
+                <para> The accounting lines buttons offer the following options. </para>
+                <itemizedlist>
+                    <listitem>
+                        <para> To add an accounting line to the document, click <inlinemediaobject>
+                                <alt>Add</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/VendorNoTitlePage-88.png"/>
+                                </imageobject>
+                            </inlinemediaobject></para>
+                        <para/>
+                        <para>
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>OLE Document: Accounting Lines Add Button</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/basic-12.png"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                        <para/>
+                        <para> The system validates the account number, expiration status and
+                            business rules specific to the document type. </para>
+                        <note>
+                            <para> If the account number is expired, you must check the <emphasis
+                                    role="bold">Expired Override</emphasis> box or enter a different
+                                account in order to add the line. </para>
+                            <para/>
+                            <para>
+                                <screenshot>
+                                    <mediaobject>
+                                        <alt>OLE Document: Accounting Lines Expired Override</alt>
+                                        <imageobject>
+                                            <imagedata fileref="../images/basic-13.png"/>
+                                        </imageobject>
+                                    </mediaobject>
+                                </screenshot>
+                            </para>
+                        </note>
+                    </listitem>
+                    <listitem>
+                        <para> To delete the accounting line, click <inlinemediaobject>
+                                <alt>Delete</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/basic-14.png"/>
+                                </imageobject>
+                            </inlinemediaobject>.</para>
+                        <para/>
+                        <para>
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>OLE Document: Accounting Lines Delete Button</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/basic-15.png"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para> To open the balance inquiry menu, click <inlinemediaobject>
+                                <alt>Bal Inquiry</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/basic-16.png"/>
+                                </imageobject>
+                            </inlinemediaobject>. Then select one of the reports by clicking the
+                            lookup icon <inlinemediaobject>
+                                <imageobject>
+                                    <imagedata fileref="../images/Lookup.png"/>
+                                </imageobject>
+                            </inlinemediaobject> next to the desired report title. .</para>
+                        <para/>
+                        <para>
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Balance Inquiry Menu</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/basic-17.png"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                    </listitem>
+                </itemizedlist>
+            </section>
+            <section>
+                <title>Import Lines</title>
+                <para> If you have a number of accounting lines to enter, you may create a .csv file
+                    containing the transactions and import it into the document. </para>
+                <note>
+                    <para> For information about accessing and using the import templates, see <link
+                            linkend="_importingDataIntoOLE">Importing Data Into OLE</link>. </para>
+                </note>
+            </section>
+            <section>
+                <title>Restrictions</title>
+                <para> Each financial transaction document is governed by business rules for the
+                    document type and the accounting line data. Rules may be derived from specific
+                    attributes associated with the account, object code, or other accounting string
+                    data. The following is a partial list of account and object code attributes that
+                    may cause restrictions on various documents. </para>
+                <para role="TableHeading"><emphasis role="bold">Attributes that may cause
+                        restrictions in entering accounting lines</emphasis></para>
+                <informaltable frame="top">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Attribute</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Cross Edit </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Account</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">  Fund Group, Sub-Fund Group, Budget
+                                        Recording Level, Effective/Expiration Date, Account
+                                        Sufficient Funds, Object Presence Control, Income Stream
+                                        Account  </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Object Code</para>
+                                </entry>
+                                <entry colname="col2" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">  Object Type, Object Sub-Type, Object
+                                        Level, Consolidated Object Code </para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+        </section>
+        <section>
+            <title>General Ledger Pending Entries Tab</title>
+            <para> After a financial transaction document has been submitted, the <emphasis
+                    role="bold">General Ledger Pending Entries</emphasis> tab displays the actual
+                entries that are to be posted to the GL when the document is fully approved and the
+                GL batch process has run. In addition to the entries the user created, the <emphasis
+                    role="bold">General Ledger Pending Entries</emphasis> tab may include
+                system-generated offset transactions. Before you submit the document, this tab
+                contains the message 'There are currently no General Ledger Pending Entries
+                associated with the Transaction Processing document'.  </para>
+            <para/>
+            <para>
+                <screenshot>
+                    <mediaobject>
+                        <alt>OLE Financial Document: General Ledger Pending Entries Tab</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/basic-18.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <para> When the document is submitted into routing for approval, the pending entries are
+                displayed in the <emphasis role="bold">General Ledger Pending Entries</emphasis>
+                tab. After a transaction is fully approved, these entries are posted in a batch
+                process to the General Ledger. After the batch process has been run, the general
+                ledger pending entries are moved from this tab of the document. </para>
+            <para/>
+            <para>
+                <screenshot>
+                    <mediaobject>
+                        <alt>OLE Financial Document: General Ledger Pending Entries Tab with Sample
+                            Data</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/basic-19.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <para>
+                <screenshot>
+                    <mediaobject>
+                        <alt>OLE Financial Document: General Ledger Pending Entries Tab with Sample
+                            Data</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/basic-20.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <section>
+                <title>Balancing Rules</title>
+                <para> Each financial e-doc is governed by a set of balancing rules, some of which
+                    are more complex than others. The balancing rules within a document often
+                    enforce the basic rule that debits must equal credits. Whether or not an
+                    accounting line generates a debit or credit relies on various factors, including
+                    which side of a double-sided document it is in and whether the object code used
+                    represents income, expense, assets, or liabilities, etc. </para>
+                <note>
+                    <para> The Accounting Lines total in some documents may balance to sections in
+                        the document or to entries in the tabs on the document. For example, the
+                        Cash Receipt document's <emphasis role="bold">Accounting Lines</emphasis>
+                        tab balances to the <emphasis role="bold">Reconciliation</emphasis> section
+                        of the document. </para>
+                </note>
+            </section>
+        </section>
+        <section>
+            <title><anchor xml:id="_notesAndAttachmentsTab"/>Notes and Attachments Tab</title>
+            <note>
+                <para>
+                    <emphasis role="bold">Size and File Type Restrictions for
+                        Attachments:</emphasis> The maximum size of attachments is 5 megabytes by
+                    default, but your institution may change that limit. The system imposes no
+                    restrictions on types of files that may be attached. </para>
+            </note>
+            <para> The <emphasis role="bold">Notes and Attachments</emphasis> tab displays user
+                notes, attachments, or system-generated information about the document. The number
+                of notes and/or attachments is indicated on the tab. </para>
+            <para/>
+            <para>
+                <screenshot>
+                    <mediaobject>
+                        <alt>OLE Documents Notes and Attachments Tab</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/basic-21.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <para role="TableHeading"><emphasis role="bold">Notes and Attachments Tab
+                    Definitions</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Posted Timestamp (Posted Date/Time Stamp)
+                                </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Display-only. The time and date when the
+                                    attachment or note was posted. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Author (Principal Name) </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Display-only. The full name of the user
+                                    who has added the notes or attachments. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Note Text</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Required. Enter comments. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Attached File</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Optional. Select the file to attach by
+                                    clicking <emphasis role="bold">Browse</emphasis> and using the
+                                    standard <emphasis role="bold">Choose File</emphasis> dialog
+                                    box. Click <emphasis role="bold">Cancel</emphasis> to clear the
+                                    file name you have selected. </para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+            <note>
+                <para> Other data fields may be available in the Notes and Attachments tabs of
+                    specific documents. </para>
+            </note>
+            <para>Click <inlinemediaobject>
+                    <alt>Add</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/VendorNoTitlePage-88.png"/>
+                    </imageobject>
+                </inlinemediaobject> to add a note.</para>
+        </section>
+        <section>
+            <title>Ad Hoc Recipients Tab</title>
+            <para> The <emphasis role="bold">Ad Hoc Recipients</emphasis> tab allows you to
+                interrupt the normal workflow routing of the document and include individuals or
+                groups in the routing path. Ad hoc routing does not supersede the normal workflow
+                routing of the document but is in addition to the normal routing. The <emphasis
+                    role="bold">Ad Hoc Recipients</emphasis> tab has two sections: <emphasis
+                    role="bold">Person Requests</emphasis> and <emphasis role="bold">Ad Hoc Group
+                    Requests</emphasis>. Use one or both of the sections to route the document to a
+                person, group, or both. </para>
+            <para/>
+            <para>
+                <screenshot>
+                    <mediaobject>
+                        <alt>OLE Documents Ad Hoc Recipients Tab</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/basic-22.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <para role="TableHeading"><emphasis role="bold">Ad Hoc Recipients Tab
+                    Definitions</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Action Requested </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. Select the desired action from
+                                    the <emphasis role="bold">Action Requested</emphasis> list. The
+                                    choices are <emphasis role="bold">APPROVE</emphasis>, <emphasis
+                                        role="bold">ACKNOWLEDGE</emphasis>, and <emphasis
+                                        role="bold">FYI</emphasis>. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Person</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Required when routing the document to an
+                                    individual. Enter a user ID or select it from the lookup <inlinemediaobject>
+                                        <imageobject>
+                                            <imagedata fileref="../images/Lookup.png"/>
+                                        </imageobject>
+                                    </inlinemediaobject>.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Ad Hoc Group Requested</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Required when routing the document to a
+                                    group. Enter a group name or select it from the lookup <inlinemediaobject>
+                                        <imageobject>
+                                            <imagedata fileref="../images/Lookup.png"/>
+                                        </imageobject>
+                                    </inlinemediaobject>.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+            <para>Click <inlinemediaobject>
+                    <alt>Add</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/VendorNoTitlePage-88.png"/>
+                    </imageobject>
+                </inlinemediaobject> in the <emphasis role="bold">Actions</emphasis> column to add
+                the current line. </para>
+            <para>Click <inlinemediaobject>
+                    <alt>Add</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/basic-14.png"/>
+                    </imageobject>
+                </inlinemediaobject> in the <emphasis role="bold">Actions</emphasis> column to
+                delete the current line. </para>
+            <note>
+                <para> For more information about ad hoc routing, see <link linkend="_adHocRouting"
+                        >Ad Hoc Routing</link>. </para>
+            </note>
+        </section>
+        <section>
+            <title>Route Log Tab</title>
+            <para>Most financial documents require one or more approvals before they impact the
+                General Ledger. The process usually begins with Workflow identifying all account
+                numbers used on the document and requesting the approval of the fiscal officers
+                associated with these accounts. The applicable routing information for each e-doc
+                can be found in its <emphasis role="bold">Route Log</emphasis> tab.</para>
+            <para>OLE-built, library documents can be routed also. This allows for audit trail
+                functionality.</para>
+            <para/>
+            <para>
+                <screenshot>
+                    <mediaobject>
+                        <alt>OLE Documents Route Log Tab</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/basic-23.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <note>
+                <para> For more information about the Route Log, see <link linkend="_routeLog">Route
+                        Log</link>. </para>
+            </note>
+        </section>
+    </section>
+    <section>
+        <title>Basic E-Doc Operations</title>
+        <para>  This section describes basic e-doc operations that you perform on many different
+            types of documents. </para>
+        <section>
+            <title>Initiating a Document</title>
+            <orderedlist>
+                <listitem>
+                    <para> Select the document link from the correct menu tab (Deliver, Describe,
+                        Select/Acquire). </para>
+                </listitem>
+                <listitem>
+                    <para> Complete required tabs for the document. </para>
+                    <note>
+                        <para> For information about the requirements for a particular type of
+                            e-doc, see the help documentation for the specific document type in the
+                            <link xlink:href="../../../html/Index.html">OLE Document Portal</link>.
+                        </para>
+                    </note>
+                </listitem>
+                <listitem>
+                    <para>Click <inlinemediaobject>
+                            <alt>Submit</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-82.png"
+                                />
+                            </imageobject>
+                        </inlinemediaobject> to route the document for approval. </para>
+                </listitem>
+            </orderedlist>
+        </section>
+        <section>
+            <title>Copying a Document</title>
+            <para>(initiating a document based on another document)</para>
+            <para>You may initiate a new document based on an existing document.</para>
+            <orderedlist>
+                <listitem>
+                    <para>  Retrieve the document from which you want to copy. </para>
+                    <note>
+                        <para> For information about how to retrieve a document, see <link
+                                linkend="_usingDocSearch">Using Doc Search to Find a
+                            Document</link>.</para>
+                    </note>
+                </listitem>
+                <listitem>
+                    <para>Click <inlinemediaobject>
+                            <alt>Copy</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/basic-24.png"/>
+                            </imageobject>
+                        </inlinemediaobject> to route the document for approval. </para>
+                    <para> The system creates a new document with a new document ID. The document ID
+                        information for the copied-from document is displayed in the document header
+                        and also in the <emphasis role="bold">Notes and Attachments</emphasis> tab
+                        of the new document. </para>
+                    <tip>
+                        <para> Clicking the <emphasis role="bold">Copied from Document Id</emphasis>
+                            takes you to the document you copied from. </para>
+                        <para/>
+                        <para>
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>OLE Document Header with Copied from Document ID</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/basic-25.png"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                    </tip>
+                    <para> A note stating that the document was copied from another document is
+                        attached to the copied-from document. </para>
+                    <para/>
+                    <para>
+                        <screenshot>
+                            <mediaobject>
+                                <alt>OLE Document Notes and Attachment Tab with "Copied from
+                                    Document" Note</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/basic-26.png"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para/>
+                </listitem>
+                <listitem>
+                    <para> Complete required tabs for the document. </para>
+                </listitem>
+                <listitem>
+                    <para>Click <inlinemediaobject>
+                            <alt>Submit</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-82.png"
+                                />
+                            </imageobject>
+                        </inlinemediaobject> to route the document for approval. </para>
+                    <note>
+                        <para> For information about the requirements for a particular type of
+                            e-doc, see the help documentation for the specific document type. For
+                            information about routing the document, see <link
+                                linkend="_routingADocument">Routing a Document</link>. </para>
+                    </note>
+                </listitem>
+            </orderedlist>
+            <tip>
+                <para>
+                    <emphasis role="bold">Lookup and Copy Feature for Maintenance e-docs</emphasis>
+                    To create a Maintenance Doc table code that is similar to one of the existing
+                    codes, click the copy link. The system creates a document with the same values,
+                    except for the values in the identifying fields. This copy feature is not
+                    available from the valid value lookup within the financial transaction
+                    documents. </para>
+                <para/>
+                <para>
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Copy link available in an OLE Lookup</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/basic-copy.png" width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+            </tip>
+        </section>
+        <section>
+            <title>Saving a Document</title>
+            <orderedlist>
+                <listitem>
+                    <para> To save the document to work on later, click <inlinemediaobject>
+                            <alt>Save</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/basic-27.png"/>
+                            </imageobject>
+                        </inlinemediaobject>.</para>
+                </listitem>
+                <listitem>
+                    <para>Verify that the document was successfully saved.   The system displays a
+                        message in the upper left corner. </para>
+                    <para/>
+                    <para>
+                        <screenshot>
+                            <mediaobject>
+                                <alt>"Document was successfully saved" Confirmation Message on an
+                                    OLE Document</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/basic-28.png"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para> Retrieve the document at a later time to continue working. </para>
+                    <note>
+                        <para> For information about how to retrieve a document, see <link
+                                linkend="_usingDocSearch">Using Doc Search to Find a
+                            Document</link>.</para>
+                    </note>
+                </listitem>
+            </orderedlist>
+        </section>
+        <section>
+            <title>Canceling a Document</title>
+            <note>
+                <para> Documents in 'INITIATED' status that are canceled are removed from the
+                    database and cannot be retrieved or viewed. </para>
+            </note>
+            <orderedlist>
+                <listitem>
+                    <para> To cancel a document, click <inlinemediaobject>
+                            <alt>Cancel</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt2-275.png"
+                                />
+                            </imageobject>
+                        </inlinemediaobject> in the array of workflow action buttons.</para>
+                </listitem>
+                <listitem>
+                    <para> When prompted, '<emphasis role="bold">Are you sure you want to
+                            cancel?</emphasis>' click <inlinemediaobject>
+                            <alt>Yes</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-76.png"
+                                />
+                            </imageobject>
+                        </inlinemediaobject>
+                    </para>
+                    <para/>
+                    <para>
+                        <screenshot>
+                            <mediaobject>
+                                <alt>"Are you sure you want to cancel" Pop Up Confirmation</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/basic-29.png"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                </listitem>
+            </orderedlist>
+        </section>
+        <section>
+            <title>Closing a Document</title>
+            <orderedlist>
+                <listitem>
+                    <para> To close a document and return to the menu tab, click <inlinemediaobject>
+                            <alt>Close</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/basic-30.png"/>
+                            </imageobject>
+                        </inlinemediaobject> in the array of workflow action buttons.</para>
+                </listitem>
+                <listitem>
+                    <para> When prompted '<emphasis role="bold">Would you like to save this document
+                            before you close it?</emphasis>' click <inlinemediaobject>
+                            <alt>Yes</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-76.png"
+                                />
+                            </imageobject>
+                        </inlinemediaobject> to proceed. </para>
+                </listitem>
+            </orderedlist>
+            <note>
+                <para> Closing a document in 'INITIATED' status has the same effect as canceling the
+                    document. </para>
+            </note>
+        </section>
+        <section>
+            <title><anchor xml:id="_routingADocument"/>Routing a Document</title>
+            <para> The e-doc process supports both pre-established workflow routing and ad hoc
+                routing. In workflow routing, OLE routes the document to the proper users based on
+                business rules established in Workflow. Ad hoc routing allows a user to route the
+                document to one or more individual users and/or groups for approval, acknowledgment,
+                or FYI. </para>
+            <para> Unless you want to add an ad hoc routing, select one of the action buttons to
+                route the document in the predefined routing hierarchy. </para>
+            <para/>
+            <para>
+                <screenshot>
+                    <mediaobject>
+                        <alt>Workflow option buttons available at the bottom of OLE Documents</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/basic-31.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+        </section>
+        <section>
+            <title>Using the Action List</title>
+            <para> The <emphasis role="bold">action list</emphasis> button is located in the upper
+                left corner of the screen allows you to view and act on documents that require your
+                completion, acknowledgment, approval, and FYI. </para>
+            <para/>
+            <para>
+                <screenshot>
+                    <mediaobject>
+                        <alt>OLE's Action List. Always available under the OLE Logo</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/basic-actionList.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <para>
+                <screenshot>
+                    <mediaobject>
+                        <alt>Sample Display of the Action List</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/basic-32.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para> Documents sent to your action list may request various types of actions from you.
+                The most commonly requested actions are: </para>
+            <itemizedlist>
+                <listitem>
+                    <para>
+                        <emphasis role="italic">Approve:</emphasis> Verify that the transaction is
+                        acceptable. Approved financial documents continue routing to additional
+                        approvers, or if fully approved, are included in the next update to the
+                        General Ledger. </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        <emphasis role="italic">Acknowledge</emphasis>: View and acknowledge a
+                        transaction, without the need for giving formal approval. You must open the
+                        document from your action list to clear it out. This type of action request
+                        is generated to prior approvers and the initiator when a document is
+                        disapproved. </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        <emphasis role="italic">FYI:</emphasis> A courtesy request allowing you to
+                        view the transaction or to clear the request from your action list without
+                        viewing it. You do not need to view the transactions sent for FYI routing.
+                    </para>
+                </listitem>
+            </itemizedlist>
+            <note>
+                <para> For more information about the action list, see <link linkend="_actionList"
+                        >Action List</link>. </para>
+            </note>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_searchingOLE"/>Searching OLE</title>
+        <para> As OLE grows to include more document types (patrons, bibliographic formats,
+            licenses, etc.), OLE continues to integrate Search capabilities, where the search
+            functions provide interoperability instead of some of the localized wildcards, limits on
+            bibliographic fields, or other search-specific criteria below. Library users will be
+            included in future testing and development of OLE Search, building upon our emerging
+            search types for: </para>
+        <itemizedlist>
+            <listitem>
+                <para>Docstore Search / Search Workbench – full Bibliographic searching, edit and
+                    modify bibliographic, instance and e-instance (holdings, items, and e-holdings)
+                    records</para>
+            </listitem>
+            <listitem>
+                <para>Acquisitions Search – includes limited Bibliographic searching</para>
+            </listitem>
+            <listitem>
+                <para>Order Holding Queue – search on requisitions: actions on individual documents,
+                    or Approve/Cancel/Calculate return for further action, group of
+                    requisitions</para>
+            </listitem>
+            <listitem>
+                <para>Receiving and Claiming Queue – complete receiving from search via queue, pay
+                    for the item, or claim</para>
+            </listitem>
+            <listitem>
+                <para>Serials Search and Receive - search for serials and create or modify receiving
+                    records</para>
+            </listitem>
+            <listitem>
+                <para>Fund Lookup – query general ledger for account balances and
+                    availabilities</para>
+            </listitem>
+            <listitem>
+                <para>E-Resource Search and License Request Search</para>
+            </listitem>
+        </itemizedlist>
+        <para> KFS inherited transactional Searches (no Bibliographic fields, only transactional-
+            vendor, dates, etc.) </para>
+        <itemizedlist>
+            <listitem>
+                <para>Payment Request</para>
+            </listitem>
+            <listitem>
+                <para>Purchase Orders</para>
+            </listitem>
+            <listitem>
+                <para>Requisition - search on Title, Author, Publisher etc. added to eDoc
+                    transactional fields (selector, vendor, dates, doc id, delivery info,
+                    account/fund, etc.</para>
+            </listitem>
+            <listitem>
+                <para>Receiving</para>
+            </listitem>
+        </itemizedlist>
+        <para>  Other search functions available in OLE </para>
+        <itemizedlist>
+            <listitem>
+                <para>Lookups (referenced as needed in several sections)</para>
+            </listitem>
+            <listitem>
+                <para>Lookup icon (referenced as needed in several sections; inherited from
+                    KFS)</para>
+            </listitem>
+            <listitem>
+                <para>Custom Document Searches (inherited from KFS)</para>
+            </listitem>
+            <listitem>
+                <para>Doc Search button</para>
+            </listitem>
+            <listitem>
+                <para>Saving Custom (Session) Searches (as applied in OLE)</para>
+            </listitem>
+        </itemizedlist>
+        <section>
+            <title><anchor xml:id="_Describe_Workbench"/>Search Workbench</title>
+            <para><emphasis role="bold">Search Workbench</emphasis> is an OLE search interface, a
+                portal used to locate bibliographic, holdings, eholdings or item records in OLE.
+                From there you can take further actions on records, e.g. viewing or modifying them.
+                The Search Workbench supports a variety of searches and both a title and a call
+                number browse. </para>
+            <para>Access <emphasis role="bold">Search Workbench</emphasis> by clicking on the search
+                workbench button. This button is located in the left corner of the upper menu and is
+                visible at all times in any module.</para>
+            <para role="Body Text">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Search Workbench button always available under the OLE logo</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DescribeNoTitlePage-14.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <section>
+                <title>Process Overview</title>
+                <para role="Body Text">Once you have opened <emphasis role="bold">Search
+                        Workbench</emphasis>, you can perform a search to find a record or set of
+                    records.</para>
+                <para>
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Search Workbench Interface</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DescribeNoTitlePage-40.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <section>
+                    <title>Getting Started</title>
+                    <para>When <emphasis role="bold">Search Workbench</emphasis> is first opened,
+                        the user will see the simple search interface that is pictured above.</para>
+                    <para>On the top portion of the search interface, on the right hand side, the
+                        user is given the option to perform two search types: Search or Browse.
+                        These options are found in the <emphasis role="bold">Select Records
+                            By</emphasis> area.</para>
+                    <para/>
+                    <para>
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Search Workbench: Select Records By Drop down</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/basic-110.png"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para/>
+                    <para>For information on searching, go to the <link linkend="_searching"
+                            >searching</link> section of this document. For information on browsing,
+                        go to either the general <link linkend="_browsing">browsing</link>, <link
+                            linkend="_titleBrowsing">title browsing</link>, or <link
+                            linkend="_callNumberBrowsing">call number browsing</link> sections of
+                        this document.</para>
+                </section>
+                <section>
+                    <title><anchor xml:id="_searching"/>Searching</title>
+                    <para>Select <emphasis role="bold">Search</emphasis> in the “Select Records by:”
+                        drop-down list in order to execute a search in OLE.</para>
+                    <para/>
+                    <para>
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Search Workbench Interface: Select Records by Search</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DescribeNoTitlePage-40.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para/>
+                    <orderedlist>
+                        <listitem>
+                            <para>First select a <emphasis role="bold">Document Type</emphasis> from
+                                the drop down menu provided. Available <emphasis role="bold"
+                                    >Document Types</emphasis> are:</para>
+                            <itemizedlist>
+                                <listitem>
+                                    <para>Bibliographic: This is the default setting.</para>
+                                </listitem>
+                                <listitem>
+                                    <para>EHoldings</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Holdings</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Item</para>
+                                </listitem>
+                                <listitem>
+                                    <para>License (Not available in this release)</para>
+                                </listitem>
+                            </itemizedlist>
+                            <note>
+                                <para>The <emphasis role="bold">Document Type</emphasis> selection
+                                    drives the menu of available seach fields in the <emphasis
+                                        role="bold">In Field</emphasis> menu.</para>
+                            </note>
+                            <para/>
+                            <para>
+                                <screenshot>
+                                    <mediaobject>
+                                        <alt>Search Workbench Interface: Document Type drop
+                                            down</alt>
+                                        <imageobject>
+                                            <imagedata fileref="../images/basic-112.png"/>
+                                        </imageobject>
+                                    </mediaobject>
+                                </screenshot>
+                            </para>
+                            <para/>
+                        </listitem>
+                        <listitem>
+                            <para>The term(s) to be searched are entered in the <emphasis
+                                    role="bold">Search For</emphasis> box.</para>
+                            <para/>
+                            <para>
+                                <screenshot>
+                                    <mediaobject>
+                                        <alt>Search Workbench Interface: Search For field</alt>
+                                        <imageobject>
+                                            <imagedata fileref="../images/basic-113.png"/>
+                                        </imageobject>
+                                    </mediaobject>
+                                </screenshot>
+                            </para>
+                            <para/>
+                        </listitem>
+                        <listitem>
+                            <para>Next, you can select from the drop down list with the following
+                                options:</para>
+                            <itemizedlist>
+                                <listitem>
+                                    <para>All of these: all terms are found in the specified
+                                        field</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Any of these: any of the terms are found in the specified
+                                        field</para>
+                                </listitem>
+                                <listitem>
+                                    <para>As a phrase: all terms must appear in the specified
+                                        order</para>
+                                </listitem>
+                            </itemizedlist>
+                            <note>
+                                <para>You may search for hyphenated text if you choose to search "As
+                                    a phrase". As noted on the interface, the hyphen will be
+                                    ignored.  By searching "As a phrase" the order of the text is
+                                    taken into consideration.</para>
+                            </note>
+                            <para/>
+                            <para>
+                                <screenshot>
+                                    <mediaobject>
+                                        <alt>Search Workbench Interface: All of these, Any of these,
+                                            As a phrase drop down</alt>
+                                        <imageobject>
+                                            <imagedata fileref="../images/basic-114.png"/>
+                                        </imageobject>
+                                    </mediaobject>
+                                </screenshot>
+                            </para>
+                            <para/>
+                        </listitem>
+                        <listitem>
+                            <para>Using the <emphasis role="bold">In Field</emphasis> menu, you can
+                                select a field to be searched from a drop-down list. As mentioned
+                                above, this menu is driven by the <emphasis role="bold">Document
+                                    Type</emphasis> that you selected for your search. You can
+                                include all listed fields in your search by leaving the <emphasis
+                                    role="bold">In Field</emphasis> box blank or by selecting
+                                    <emphasis role="bold">ANY</emphasis> from the drop-down
+                                list.</para>
+                            <para/>
+                            <para>
+                                <screenshot>
+                                    <mediaobject>
+                                        <alt>Search Workbench Interface: In Field drop down</alt>
+                                        <imageobject>
+                                            <imagedata fileref="../images/basic-115.png"/>
+                                        </imageobject>
+                                    </mediaobject>
+                                </screenshot>
+                            </para>
+                            <para/>
+                        </listitem>
+                        <listitem>
+                            <para>You may also select a Boolean operator to apply to your search. To
+                                do this, follow these steps:</para>
+                            <orderedlist>
+                                <listitem>
+                                    <para>Enter a term in the <emphasis role="bold">Search
+                                            For</emphasis> field. It a term is not entered first,
+                                        then the user will not be able to add fields.</para>
+                                </listitem>
+                                <listitem>
+                                    <para role="Body Text">Click the <inlinemediaobject>
+                                            <alt>Add</alt>
+                                            <imageobject>
+                                                <imagedata
+                                                  fileref="../images/DescribeNoTitlePage-88.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject> button, located on the right side of
+                                        the screen, to add an additional search bar. </para>
+                                </listitem>
+                                <listitem>
+                                    <para role="Body Text">Enter a search term in the new <emphasis
+                                            role="bold">Search For</emphasis> field. </para>
+                                </listitem>
+                                <listitem>
+                                    <para role="Body Text">Click <inlinemediaobject>
+                                            <alt>Add</alt>
+                                            <imageobject>
+                                                <imagedata
+                                                  fileref="../images/DescribeNoTitlePage-88.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject> to enter more fields, as needed.</para>
+                                </listitem>
+                                <listitem>
+                                    <para>Adjust the Boolean operators as needed by selecting
+                                        clicking in the radio buttons next to AND, OR, or NOT</para>
+                                    <para/>
+                                    <para>
+                                        <screenshot>
+                                            <mediaobject>
+                                                <alt>Search Workbench Interface: Search For and
+                                                  Boolean operators used to modify searches</alt>
+                                                <imageobject>
+                                                  <imagedata fileref="../images/basic-116.png"
+                                                  width="100%"/>
+                                                </imageobject>
+                                            </mediaobject>
+                                        </screenshot>
+                                    </para>
+                                    <para/>
+                                    <note>
+                                        <para>OLE does not currently support cross-document-type
+                                            searching. You cannot, for example, search for title
+                                            data in bibliographic record and location data in a
+                                            holdings record.</para>
+                                    </note>
+                                </listitem>
+                            </orderedlist>
+                        </listitem>
+                        <listitem>
+                            <para>There are three options at this point:</para>
+                            <itemizedlist>
+                                <listitem>
+                                    <para role="Body Text">Click <inlinemediaobject>
+                                            <alt>Search</alt>
+                                            <imageobject>
+                                                <imagedata
+                                                  fileref="../images/DescribeNoTitlePage-71.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject> to perform the search.</para>
+                                </listitem>
+                                <listitem>
+                                    <para role="Body Text">Click <inlinemediaobject>
+                                            <alt>Clear</alt>
+                                            <imageobject>
+                                                <imagedata
+                                                  fileref="../images/DescribeNoTitlePage-77.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject> to clear search values and start a new
+                                        search.</para>
+                                </listitem>
+                                <listitem>
+                                    <para role="Body Text">Click <inlinemediaobject>
+                                            <alt>New Search</alt>
+                                            <imageobject>
+                                                <imagedata
+                                                  fileref="../images/DescribeNoTitlePage-76.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject> to perform a new search after you have
+                                        performed an initial search.</para>
+                                </listitem>
+                            </itemizedlist>
+                        </listitem>
+                        <listitem>
+                            <para>You can also perform an “open search.” If you do not enter any
+                                search terms, all of the records matching the document type will be
+                                included in the search results when the Search button is
+                                clicked.</para>
+                        </listitem>
+                        <listitem>
+                            <para>Once you clicked on <inlinemediaobject>
+                                    <alt>Search</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DescribeNoTitlePage-71.png"/>
+                                    </imageobject>
+                                </inlinemediaobject> you will see the search results:</para>
+                            <para>
+                                <screenshot>
+                                    <mediaobject>
+                                        <alt>Search Workbench Interface with Sample Search Results
+                                            Displayed</alt>
+                                        <imageobject>
+                                            <imagedata
+                                                fileref="../images/DescribeNoTitlePage-70.png"
+                                                width="100%"/>
+                                        </imageobject>
+                                    </mediaobject>
+                                </screenshot>
+                            </para>
+                            <para/>
+                            <para>All records matching your search will display in the search
+                                results.  There are no maximum record limits to constrain your
+                                searches.</para>
+                            <para>To display a single record in the search results for editing from
+                                the above example, click in the blue title entry. To open multiple
+                                records for editing, put a check in the box to the left of the
+                                titles for the records that you want to edit and click on <emphasis
+                                    role="bold">Open Selected Records</emphasis> below the search
+                                results – each record will open in a separate window.</para>
+                            <para>To the right of the search results, you can click on any blue
+                                facet to narrow the search results. You can click more above any
+                                facet section for additional facet options. Note that facets are
+                                presented only with a bibliographic search.</para>
+                            <para>The search results will provide the title regardless of the
+                                document type selected. What other information that will display for
+                                records in the search results is locally configurable and will vary
+                                from institution-to-institution. The number of entries displayed on
+                                a screen is also locally configurable. In the example above you can
+                                adjust the number of records displayed on a single screen via a
+                                drop-down list. Note that you can see the total number of records in
+                                the search results just below the list.</para>
+                            <para>At the bottom of the list on the right, you can click on <emphasis
+                                    role="bold">Next</emphasis> to go to forward one screen of
+                                results or <emphasis role="bold">Previous</emphasis> to go back one
+                                screen.</para>
+                            <para>Click on any blue facet to narrow your search results. You may
+                                click <emphasis role="bold">more </emphasis>above any facet section
+                                to view additional facet options. </para>
+                            <para>Click <inlinemediaobject>
+                                    <alt>Remove</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DescribeNoTitlePage-123.png"/>
+                                    </imageobject>
+                                </inlinemediaobject> to remove a facet and expand your
+                                search:</para>
+                            <para/>
+                            <para>
+                                <screenshot>
+                                    <mediaobject>
+                                        <alt>Search Workbench Interface: Narrow Search by
+                                            Filters/Facets</alt>
+                                        <imageobject>
+                                            <imagedata
+                                                fileref="../images/DescribeNoTitlePage-198.png"/>
+                                        </imageobject>
+                                    </mediaobject>
+                                </screenshot>
+                            </para>
+                            <para/>
+                            <tip>
+                                <para>At the bottom of the search results screen, there is an
+                                    “Export to XML” button that allows you to open selected records
+                                    (those with a check) in XML in a window below the search
+                                    results.</para>
+                            </tip>
+                        </listitem>
+                    </orderedlist>
+                </section>
+                <section>
+                    <title><anchor xml:id="_browsing"/>Browsing</title>
+                    <para>The search workbench supports browsing by title and by call number. You
+                        can begin browsing by selecting <emphasis role="bold">Browse</emphasis> in
+                        the “Select Records By:” drop-down list.</para>
+                    <para/>
+                    <para>
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Search Workbench Interface: Select Records By Browse</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/basic-111.png" width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para/>
+                    <para>Then select either <emphasis role="bold">Title</emphasis> or <emphasis
+                            role="bold">Call Number</emphasis> from the “Browse by:” drop-down list.
+                        The search interface will differ for title and call number browses.</para>
+                    <section>
+                        <title><anchor xml:id="_titleBrowsing"/>Title Browsing</title>
+                        <para>A title browse results in a view of the title index at the point where
+                            the term(s) that you enter would appear in an alphabetical index of
+                            titles in the database. When searching, it doesn’t matter what order
+                            your search terms are in, unless you are searching as a phrase. For
+                            title browsing, you need to enter your title terms in the order in which
+                            they would appear on the bibliographic record. The exception is initial
+                            articles – these should not be included in your browse terms. Do not
+                            omit non-initial articles, prepositions, etc. when browsing, as these
+                            affect browse indexing. </para>
+                        <para>Enter as much of the title as you care to. If you are entering a
+                            single term, it must be the first word of the title that is not an
+                            initial article.</para>
+                        <para> After selecting <emphasis role="bold">Title</emphasis> in the “Browse
+                            by:” drop-down list, you will see a very simple interface:</para>
+                        <para/>
+                        <para>
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Search Workbench Interface: Browse by Title</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/basic-117.png"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                        <para/>
+                        <para>Enter the beginning word(s) of the title in the <emphasis role="bold"
+                                >Title starting with:</emphasis> box.</para>
+                        <note>
+                            <para>Enter only lower case letters. The title browse functionality does
+                                not currently work with upper case letters.</para>
+                        </note>
+                        <para>Your browse results will display.</para>
+                        <para/>
+                        <para>
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Search Workbench Interface: Browse by Title with Sample
+                                        Search Results</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DescribeNoTitlePage-66.png"
+                                            width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                        <para/>
+                        <para>The information that appears in addition to the title is locally
+                            configurable and will vary from institution-to-institution. To edit the
+                            bibliographic record for a title in the above example, click on the
+                            title. With browse results, you cannot choose multiple records for
+                            editing with a single command. However, when you open a record for
+                            editing, it opens in a new window, so your browse results remain for
+                            selecting additional records for editing if needed.</para>
+                        <para>The number of entries displayed on a screen is also locally
+                            configurable. In the example above you can adjust the number of records
+                            displayed on a single screen via a drop-down list. Note that you can see
+                            the total number of records in the search results just below the list. </para>
+                        <para>At the bottom of the list on the right, you can click on <emphasis
+                                role="bold">Next</emphasis> to go to forward one screen of results
+                            or <emphasis role="bold">Previous</emphasis> to go back one
+                            screen.</para>
+                    </section>
+                    <section>
+                        <title><anchor xml:id="_callNumberBrowsing"/>Call Number Browsing</title>
+                        <para>Call number browsing results are also an index display. Enter as much
+                            of the call number as you want, but be sure that no elements of the call
+                            number are omitted from the string that you enter for your call number
+                            browse.</para>
+                        <para> After selecting <emphasis role="bold">Call Number</emphasis> in the
+                            “Browse by:” drop-down list, you will see this interface:</para>
+                        <para/>
+                        <para>
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Search Workbench Interface: Browse by Call Number</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/basic-118.png" width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                        <para/>
+                        <itemizedlist>
+                            <listitem>
+                                <para>Using <emphasis role="bold">Document Type</emphasis>, the user
+                                    can choose to search a Holdings or Item</para>
+                            </listitem>
+                            <listitem>
+                                <para>Using <emphasis role="bold">Location</emphasis>, the user can
+                                    limit the search by the locations within their library. </para>
+                            </listitem>
+                            <listitem>
+                                <para>Using <emphasis role="bold">Call Number Type</emphasis>, the
+                                    user can select which classification scheme used by their
+                                    library to search.</para>
+                            </listitem>
+                        </itemizedlist>
+                        <para>Enter all or part of a call number in the <emphasis role="bold">Call
+                                Number starting with:</emphasis> box and click <emphasis role="bold"
+                                >browse</emphasis> to produce results.</para>
+                        <note>
+                            <para>There are several glitches in sorting by Dewey Decimal
+                                Classification.  For more information about the issues discovered,
+                                please see <link xlink:href="https://jira.kuali.org/browse/OLE-6632"
+                                    >OLE-6632</link>.</para>
+                        </note>
+                        <para/>
+                        <para>
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Search Workbench Interface: Browse by Call Number with
+                                        Sample Search Results</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DescribeNoTitlePage-199.png"
+                                            width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                        <para/>
+                        <para>With browse results, you cannot choose multiple records for editing
+                            with a single command. However, when you open a record for editing, it
+                            opens in a new window, so your browse results remain for selecting
+                            additional records for editing.</para>
+                        <para>The information that appears in addition to the title is locally
+                            configurable and will vary from institution-to-institution. To edit the
+                            bibliographic record for a title in the example above, click on the
+                            title.</para>
+                        <para>Clicking on the call number in the example above will open either a
+                            holdings record or an item record, depending on which one you selected
+                            for your browse.</para>
+                        <para>The number of entries displayed on a screen is also locally
+                            configurable. In the example above you can adjust the number of records
+                            displayed on a single screen via a drop-down list. Note that you can see
+                            the total number of records in the search results just below the list. </para>
+                        <para>At the bottom of the list on the right, you can click on <emphasis
+                                role="bold">Next</emphasis> to go to forward one screen of results
+                            or <emphasis role="bold">Previous</emphasis> to go back one
+                            screen.</para>
+                    </section>
+                </section>
+                <section>
+                    <title>Actions Available From Search or Browse Results</title>
+                    <orderedlist>
+                        <listitem>
+                            <para role="Body Text">When searching by Document Type <emphasis
+                                    role="bold">Bibliographic</emphasis>, click the title to open
+                                the bibliographic record editor.</para>
+                            <para>
+                                <note>
+                                    <para role="Normal"> For more information about record editors,
+                                        see <link xlink:href="../../../webhelp/CG/content/ch01s02.html">MARC
+                                            Editor</link></para>
+                                </note>
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para role="Body Text">When searching by Document Type <emphasis
+                                    role="bold">EHoldings</emphasis>, click the title to open the
+                                record. Click <emphasis role="bold">edit</emphasis> on the
+                                E-Instance Editor to edit the eholding.</para>
+                            <para>
+                                <note>
+                                    <para role="Normal"> For more information about the E-Instance
+                                        Editors, see the <link
+                                            xlink:href="../../../webhelp/CG/content/ch01s04.html"
+                                            >E-Instance Editor</link></para>
+                                </note>
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para role="Body Text">When searching by Document Type <emphasis
+                                    role="bold">Holdings</emphasis> or <emphasis role="bold"
+                                    >Item</emphasis>, click the title to open the record. Click
+                                    <emphasis role="bold">edit </emphasis>on the Instance Editor to
+                                edit the Holdings or Item.</para>
+                            <para>
+                                <note>
+                                    <para role="Normal"> For more information about the Instance
+                                        Editors, see the <link
+                                            xlink:href="../../../webhelp/CG/content/ch01s03.html">Instance
+                                            Editor</link></para>
+                                </note>
+                            </para>
+                        </listitem>
+                    </orderedlist>
+                </section>
+            </section>
+        </section>
+        <section>
+            <title><anchor xml:id="_usingDocSearch"/>Using Doc Search to Find a Document</title>
+            <para> The <emphasis role="bold">doc search</emphasis> button is located in the upper
+                left corner of the screen. Using this button, you can search for a document you want
+                to view or work with. This button allows you to quickly search for any transactional
+                or acquisitions document by Document type, by Selector/initiator, dates, or document
+                identification number. Click the search button without entering any criteria to view
+                documents created today. </para>
+            <para/>
+            <para>
+                <screenshot>
+                    <mediaobject>
+                        <alt>Doc Search button always available under the OLE logo</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/basic-docSearch.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <orderedlist>
+                <listitem>
+                    <para>Click <inlinemediaobject>
+                            <alt>Doc Search</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/basic-33.png"/>
+                            </imageobject>
+                        </inlinemediaobject></para>
+                </listitem>
+                <listitem>
+                    <para> Enter search criteria. </para>
+                    <para/>
+                    <para>
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Doc Search Screen</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/basic-34.png"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para/>
+                    <note>
+                        <para> For explanations about search criteria fields, see <link
+                                linkend="_standardDataEntry">Standard Data Entry, Selection, Action,
+                                and Navigation Tools</link> and <link
+                                linkend="_standardLinksAndIcons">Standard Links and Icons</link>. </para>
+                    </note>
+                </listitem>
+                <listitem>
+                    <para>Click <inlinemediaobject>
+                            <alt>Search</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DeliverNoTitlePage-157.png"/>
+                            </imageobject>
+                        </inlinemediaobject>.</para>
+                </listitem>
+                <listitem>
+                    <para> Click the<emphasis role="bold"> document ID</emphasis> link to open the
+                        document, the <emphasis role="bold">Initiator ID</emphasis> link to retrieve
+                        a workflow user report, or the <emphasis role="bold">Route Log</emphasis>
+                        icon <inlinemediaobject>
+                            <imageobject>
+                                <imagedata fileref="../images/basic-routeLogIcon.png"/>
+                            </imageobject>
+                        </inlinemediaobject> to view the workflow status. </para>
+                </listitem>
+            </orderedlist>
+            <para/>
+            <para>
+                <screenshot>
+                    <mediaobject>
+                        <alt>Doc Search with Sample Results: Click the Document ID link to open the
+                            document; Click the user link for a workflow user report; Click the
+                            Route Log icon to view workflow status</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/basic-docSearch2.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <para role="TableHeading"><emphasis role="bold">Doc Search Criteria</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Field</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Type</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Document type. Enter the document type or
+                                    select it from the <emphasis role="bold">Document
+                                        Type</emphasis> lookup <inlinemediaobject>
+                                        <imageobject>
+                                            <imagedata fileref="../images/Lookup.png"/>
+                                        </imageobject>
+                                    </inlinemediaobject>. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Initiator</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> User ID of the document initiator. Enter
+                                    the user ID or select it from the <emphasis role="bold"
+                                        >Person</emphasis> lookup  <inlinemediaobject>
+                                        <imageobject>
+                                            <imagedata fileref="../images/Lookup.png"/>
+                                        </imageobject>
+                                    </inlinemediaobject>.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Document/Notification ID</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Enter the numeric document ID assigned by
+                                    the system.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Date Created From/To</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Enter or select from the calendar <inlinemediaobject>
+                                        <imageobject>
+                                            <imagedata fileref="../images/basic-miniCalendar.png"/>
+                                        </imageobject>
+                                    </inlinemediaobject> the range of document creation dates to
+                                    search. You may select the <emphasis role="bold">From</emphasis>
+                                    date only, the <emphasis role="bold">To</emphasis> date only, or
+                                    both. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Name this Search (optional)</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> To save the search criteria for future
+                                    use, enter a name for the search. All saved search are accessed
+                                    via a list at the top of the document search screen. </para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+            <tip>
+                <para>
+                    <emphasis role="bold">Using Wildcards (*) in the Search Criteria:</emphasis> The
+                    use of asterisks in the search criteria allows you to perform pattern matching.
+                    To search for documents containing a string of characters in alphanumeric fields
+                    such as <emphasis role="bold">Document Title</emphasis>, you may enter a
+                    character string in the search criteria accompanied by asterisks. For example,
+                    enter '*test' to search for a document title that ends with the word 'test'.
+                    Enter 'test*' to search for a document title that begins with the word 'test'.
+                    Enter '*test*' to search for a document title that has the word 'test' somewhere
+                    in the document title. </para>
+            </tip>
+            <note>
+                <para> For information about advanced features of the document search, see <link
+                        linkend="_advancedDocumentSearches">Advanced Document Searches</link>. </para>
+            </note>
+        </section>
+        <section>
+            <title><anchor xml:id="_PerformingSearchesOnFinancialDocs"/>Performing Searches on
+                Financial Documents</title>
+            <para> OLE also includes several forms of Search in each of the module tabs: Deliver,
+                Describe, Select/Acquire. Many of these are further discussed in the specific
+                section of this Drivers Manual for each function, and each is still under
+                development. </para>
+            <section>
+                <title>Common Features and Search Options (Financial Docs only)</title>
+                <para> The following example shows the document lookup screen for monograph
+                    receiving. </para>
+                <para/>
+                <para>
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Document Search for Document Type: OLE_RCV</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/basic-docSearch3.png" width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para/>
+                <para> In the example above, the user selected Search from the <emphasis role="bold"
+                        >Receiving</emphasis> menu group on the OLE <emphasis role="bold"
+                        >Select/Acquire</emphasis> tab. This screen includes the document type
+                    OLE_RCV pre-populated in the <emphasis role="bold">Document Type</emphasis>
+                    field. It also contains other fields you may want to use as search criteria in
+                    your search for one or more specific monograph receiving documents. </para>
+                <para> Each search screen gives you options for two search results types. </para>
+                <itemizedlist>
+                    <listitem>
+                        <para>
+                            <emphasis role="italic">Document Specific Data:</emphasis> In the search
+                            results, display information specific to the document(s). </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            <emphasis role="italic">Workflow Data:</emphasis> In the search results,
+                            display information specific to the workflow status of the document(s).
+                        </para>
+                    </listitem>
+                </itemizedlist>
+                <para/>
+                <para>
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Financial Searching: Document Specific Data and Workflow Data are
+                                near the bottom of the search screen</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/basic-docSearch4.png"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para/>
+                <para> To search for specific documents, follow these basic steps: </para>
+                <orderedlist>
+                    <listitem>
+                        <para> To restrict the search to documents that meet criteria of your
+                            choice, enter search data as appropriate. </para>
+                    </listitem>
+                    <listitem>
+                        <para> If desired, save this set of search criteria for reuse later by
+                            entering a descriptive name in the <emphasis role="bold">Name this
+                                search field</emphasis>. Some OLE searches include the option to
+                            name and save your searches, so they can be repeated later by the same
+                            user. Named searches are available for Requisition, Purchase Order,
+                            Receiving and Payment Request searches. </para>
+                        <note>
+                            <para> For information about specific fields, see the help documentation
+                                for the particular type of document you are searching for in the
+                                <link xlink:href="../../../html/Index.html">OLE Documentation
+                                    Portal</link>. </para>
+                        </note>
+                        <note>
+                            <para> For tips about data entry, see <link linkend="dataEntryTips">Data
+                                    Entry Tips</link>. </para>
+                        </note>
+                    </listitem>
+                    <listitem>
+                        <para>Click <inlinemediaobject>
+                                <alt>Search</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/DeliverNoTitlePage-157.png"/>
+                                </imageobject>
+                            </inlinemediaobject>.</para>
+                        <para> The system retrieves a list of items that match your search criteria. </para>
+                        <para/>
+                        <para>
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Search Results: Click any header to sort the list; Click a
+                                        link in the Document/Notification Id column to display the
+                                        document; Click an Initiator to display details about the
+                                        person</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/basic-35.png"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                        <para/>
+                        <para> If you gave your search criteria a name, the system also displays the
+                            name of your saved search in the <emphasis role="bold"
+                                >Searches</emphasis> list at the top of the screen. </para>
+                        <para/>
+                        <para>
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Searching for Saved Searches: Sample drop down</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/basic-36.png"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para> Choose from among these options. </para>
+                        <itemizedlist>
+                            <listitem>
+                                <para>To sort the list, click on the header you want to sort on.
+                                    Click once to sort in ascending order and click again to sort in
+                                    descending order.</para>
+                            </listitem>
+                            <listitem>
+                                <para>Some cells (such as those in the Initiator column in the
+                                    example above) have links to screens that display more detail.
+                                    Click the link to display detail.</para>
+                            </listitem>
+                            <listitem>
+                                <para>Some searches have the option of exporting the list.  To
+                                    export the entire list in .csv, spreadsheet, or .XML format,
+                                    scroll to the bottom of the screen and click a link to choose
+                                    from among these options</para>
+                                <para/>
+                                <para><inlinemediaobject>
+                                        <alt>Export options: CSV, spreadsheet, XML</alt>
+                                        <imageobject>
+                                            <imagedata fileref="../images/basic-37.png"/>
+                                        </imageobject>
+                                    </inlinemediaobject></para>
+                            </listitem>
+                            <listitem>
+                                <para> After finding the document you want, click the link for it in
+                                        <emphasis role="bold">Document/Notification Id</emphasis>
+                                    column. The system displays the document. </para>
+                            </listitem>
+                        </itemizedlist>
+                    </listitem>
+                </orderedlist>
+            </section>
+            <section>
+                <title><anchor xml:id="dataEntryTips"/>Data Entry Tips</title>
+                <para> Keep these points in mind as you enter data: </para>
+                <itemizedlist>
+                    <listitem>
+                        <para> You may enter data in any or all fields on a custom document search
+                            screen. You may also leave all fields blank. </para>
+                    </listitem>
+                    <listitem>
+                        <para> After you select a document type from the any of the <emphasis
+                                role="bold">Select/Acquire Searches</emphasis>, you can easily
+                            change the search to find any other type of document without returning
+                            to the <emphasis role="bold">Select/Acquire</emphasis> tab to select a
+                            different search option. In the Document Lookup screen, simply change
+                            the code in the <emphasis role="bold">Type</emphasis> field to reflect
+                            the type of document you want to look for (for example, PO) and move
+                            your cursor out of the field. The system rebuilds the screen with the
+                            proper search criteria fields for the new document type. </para>
+                    </listitem>
+                    <listitem>
+                        <para> Dates must be specified in mm/dd/yyyy format. You may also click the
+                            calendar icon <inlinemediaobject>
+                                <imageobject>
+                                    <imagedata fileref="../images/basic-miniCalendar.png"/>
+                                </imageobject>
+                            </inlinemediaobject> and then select a date from the calendar. </para>
+                    </listitem>
+                    <listitem>
+                        <para> For many fields, the system provides a handy lookup tool <inlinemediaobject>
+                                <imageobject>
+                                    <imagedata fileref="../images/Lookup.png"/>
+                                </imageobject>
+                            </inlinemediaobject> that can help you retrieve a value (for example, a
+                            customer number) you want to search on but have not memorized. </para>
+                    </listitem>
+                </itemizedlist>
+                <para> To use the lookup tool mentioned above: </para>
+                <orderedlist>
+                    <listitem>
+                        <para> Click the lookup icon <inlinemediaobject>
+                                <imageobject>
+                                    <imagedata fileref="../images/Lookup.png"/>
+                                </imageobject>
+                            </inlinemediaobject> for the field you need a value for (e.g., Customer
+                            Number). </para>
+                        <para> The system displays a form to help you find the specific value you
+                            need: </para>
+                        <para/>
+                        <para>
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Sample Lookup Screen.  Lookup screens will display after
+                                        clicking the lookup icon</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/basic-38.png"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para> Enter identifying information (customer name, etc.) in any of the
+                            fields provided. </para>
+                    </listitem>
+                    <listitem>
+                        <para>Click <inlinemediaobject>
+                                <alt>Search</alt>
+                                <imageobject>
+                                    <imagedata
+                                        fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-100.png"
+                                    />
+                                </imageobject>
+                            </inlinemediaobject> to retrieve a list of records that match your
+                            entries. </para>
+                        <para/>
+                        <para>
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Sample Search Results from a Lookup</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/basic-39.png"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para> When you find the record you need, click the <inlinemediaobject>
+                                <alt>Return Value</alt>
+                                <imageobject>
+                                    <imagedata fileref="../images/basic-40.png"/>
+                                </imageobject>
+                            </inlinemediaobject> link to copy the value (customer number in this
+                            example) into your custom document search screen. </para>
+                    </listitem>
+                </orderedlist>
+                <para> The following table indicates how to use special characters to expand or
+                    limit your searches. </para>
+                <para><emphasis role="bold"><anchor xml:id="_usingSpecialCharactersInSearch"/>Using
+                        special characters in search</emphasis></para>
+                <informaltable border="1" class="MsoNormalTable"
+                    style="border-collapse:collapse;mso-table-layout-alt:fixed;border:none;  mso-border-alt:solid black .5pt;mso-yfti-tbllook:160;mso-padding-alt:0in 5.4pt 0in 5.4pt;  mso-border-insideh:.5pt solid black;mso-border-insidev:.5pt solid black"
+                    width="478">
+                    <tbody><tr>
+                        <td rowspan="1" colspan="1">Character(s)</td>
+                        <td rowspan="1" colspan="1">Function</td>
+                        <td rowspan="1" colspan="1">Use With</td>
+                        <td rowspan="1" colspan="1">Example (Account Field Number)</td>
+                    </tr>
+                        <tr>
+                            <td rowspan="1" colspan="1">!</td>
+                            <td rowspan="1" colspan="1">Not equal to</td>
+                            <td rowspan="1" colspan="1">Alphanumeric characters</td>
+                            <td rowspan="1" colspan="1">
+                                <para>!1031490 </para>
+                                <para> Matches on all account number <emphasis role="bold"
+                                        >except</emphasis> 1031490</para>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td rowspan="1" colspan="1">&amp;&amp;</td>
+                            <td rowspan="1" colspan="1">And</td>
+                            <td rowspan="1" colspan="1">All types of data</td>
+                            <td rowspan="1" colspan="1">
+                                <para>1111500&amp;&amp;1123400 </para>
+                                <para> Matches on records that contain <emphasis role="bold"
+                                        >both</emphasis> of these account numbers: </para>
+                                <para> 1111500 </para>
+                                <para> 1123400</para>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td rowspan="1" colspan="1">*</td>
+                            <td rowspan="1" colspan="1">Match on any character or characters</td>
+                            <td rowspan="1" colspan="1">Alphanumeric characters</td>
+                            <td rowspan="1" colspan="1">
+                                <para>103* </para>
+                                <para> Matches on all account numbers that <emphasis role="bold"
+                                        >start</emphasis>
+                                    <emphasis role="bold">with</emphasis> 103 (1030000, 1039765,
+                                    etc.)</para>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td rowspan="1" colspan="1">..</td>
+                            <td rowspan="1" colspan="1">Between (inclusive range)</td>
+                            <td rowspan="1" colspan="1">Alphanumeric characters, numbers, dates</td>
+                            <td rowspan="1" colspan="1">
+                                <para>1031490..1111500 </para>
+                                <para> Matches on account numbers <emphasis role="bold">equal to or
+                                        greater than</emphasis> 1031490 <emphasis role="bold"
+                                        >and</emphasis> on account numbers <emphasis role="bold"
+                                        >less than or equal to</emphasis> 1111500</para>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td rowspan="1" colspan="1">&lt;</td>
+                            <td rowspan="1" colspan="1">Less than</td>
+                            <td rowspan="1" colspan="1">Alphanumeric characters, numbers, dates</td>
+                            <td rowspan="1" colspan="1">
+                                <para>&lt;1031490 </para>
+                                <para> Matches on all account numbers <emphasis role="bold">less
+                                        than</emphasis> 1031490</para>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td rowspan="1" colspan="1">&lt;=</td>
+                            <td rowspan="1" colspan="1">Less than or equal to</td>
+                            <td rowspan="1" colspan="1">Alphanumeric characters, numbers, dates</td>
+                            <td rowspan="1" colspan="1">
+                                <para>&lt;=1031490 </para>
+                                <para> Matches on all account numbers <emphasis role="bold">less
+                                        than</emphasis>
+                                    <emphasis role="bold">or equal to</emphasis> 1031490</para>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td rowspan="1" colspan="1">&gt;</td>
+                            <td rowspan="1" colspan="1">Greater than</td>
+                            <td rowspan="1" colspan="1">Alphanumeric characters</td>
+                            <td rowspan="1" colspan="1">
+                                <para>&gt;1031490 </para>
+                                <para> Matches on all account numbers <emphasis role="bold">greater
+                                        than</emphasis> 1031490</para>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td rowspan="1" colspan="1">&gt;=</td>
+                            <td rowspan="1" colspan="1">Greater than or equal to</td>
+                            <td rowspan="1" colspan="1">Alphanumeric characters, numbers, dates</td>
+                            <td rowspan="1" colspan="1">
+                                <para>&gt;=1031490 </para>
+                                <para> Matches on all account numbers <emphasis role="bold">greater
+                                        than or equal to</emphasis> 1031490</para>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td rowspan="1" colspan="1">?</td>
+                            <td rowspan="1" colspan="1">Match on any single character</td>
+                            <td rowspan="1" colspan="1">Alphanumeric characters</td>
+                            <td rowspan="1" colspan="1">
+                                <para>103?490 </para>
+                                <para> Matches on all seven-digit account numbers that start with
+                                    103 and end with 490 (1030490, 1031490, etc.)</para>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td rowspan="1" colspan="1">Or</td>
+                            <td rowspan="1" colspan="1">All types of data</td>
+                            <td rowspan="1" colspan="1">1111500</td>
+                            <td rowspan="1" colspan="1">
+                                <para>1123400 </para>
+                                <para> Matches on <emphasis role="bold">either</emphasis> of these
+                                    two account numbers: </para>
+                                <para> 1111500 </para>
+                                <para> 1123400</para>
+                            </td>
+                        </tr>
+                    </tbody>
+                </informaltable>
+                <note>
+                    <para> For more information about searches, see <link linkend="_usingDocSearch"
+                            >Using Doc Search to Find a Document</link> and <link
+                            linkend="_advancedDocumentSearches">Advanced Document Searches</link>. </para>
+                </note>
+            </section>
+        </section>
+        <section>
+            <title><anchor xml:id="_lookupHelp"/>Lookup Help</title>
+            <para><emphasis role="bold">Specifying search criteria:</emphasis></para>
+            <itemizedlist>
+                <listitem>
+                    <para>Most fields will be uppercased for search.</para>
+                </listitem>
+                <listitem>
+                    <para>Dates should be specified as MM/dd/yyyy.</para>
+                </listitem>
+                <listitem>
+                    <para>Some fields have magnifying glass button for a sub lookup on that
+                        field.</para>
+                </listitem>
+                <listitem>
+                    <para>Wildcards allowed on strings are * and % match any number of characters,
+                        while using a ? will match any one character</para>
+                </listitem>
+                <listitem>
+                    <para>Logical operators allowed include &amp;&amp; (And) as well as | (Or) to
+                        join multiple search criteria</para>
+                </listitem>
+                <listitem>
+                    <para>Range operators allowed on numerics and dates are &gt;,&lt;,&gt;=,&lt;=,
+                        or ..</para>
+                    <para> All operators except .. should be before date value. Operator .. should
+                        separate date values.</para>
+                </listitem>
+            </itemizedlist>
+            <para><emphasis role="bold">Result Table:</emphasis></para>
+            <itemizedlist>
+                <listitem>
+                    <para>Each result field has link on header for sorting. Click once to sort
+                        ascending, </para>
+                    <para> and click again to sort descending.</para>
+                </listitem>
+                <listitem>
+                    <para>Some row fields have links to inquiry. The inquiry will be presented in a
+                        new window. </para>
+                </listitem>
+                <listitem>
+                    <para>Click the return value link to select a row and return the key value to
+                        the previous page.</para>
+                    <para> Select 'return with no value' or click the cancel button if you wish to
+                        return without returning a value.</para>
+                </listitem>
+            </itemizedlist>
+            <para><emphasis role="bold">Maintenance Links:</emphasis></para>
+            <itemizedlist>
+                <listitem>
+                    <para>The 'create new' link on the upper left corner of the lookup screen will </para>
+                    <para> go to a maintenance document for creating a new record for this lookup
+                        type.</para>
+                </listitem>
+                <listitem>
+                    <para>For each result row the action column displays edit and copy links. The
+                        'edit' link </para>
+                    <para> will go to a maintenance document for editing the current record. The
+                        'copy' link </para>
+                    <para> will go to a new maintenance document but copy over attributes over the
+                        current record.</para>
+                </listitem>
+            </itemizedlist>
+            <para><emphasis role="bold">Export Functionality:</emphasis></para>
+            <itemizedlist>
+                <listitem>
+                    <para>At the end of each result set, there are links for exporting the data to a
+                        different format.</para>
+                </listitem>
+                <listitem>
+                    <para>Click 'csv' to export the data as a comma delimited file, 'spreadsheet' to
+                        export the data as a spreadsheet,</para>
+                    <para> or 'xml' to export the data as xml.</para>
+                </listitem>
+            </itemizedlist>
+        </section>
+    </section>
+</chapter>

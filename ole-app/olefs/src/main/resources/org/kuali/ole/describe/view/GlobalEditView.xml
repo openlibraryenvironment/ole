@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="GlobalEditView" parent="GlobalEditView-parentBean"/>
+    <bean id="GlobalEditView-parentBean" parent="Uif-OLEFormView">
+        <property name="headerText" value="Global Changes of Holdings Or Items"/>
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="${ole.externalizable.help.url}/reference/webhelp/CG/content/ch01s06.html"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="GlobalEditViewPage" parent="Uif-Page">
+                    <property name="items">
+                        <list>
+                            <ref bean="GlobaEdit_DocumentAndSearchSelectionType"/>
+                            <bean id="Global_SearchAndSearchResultsView_search" parent="SearchAndSearchResultsView"
+                                  p:render="@{!viewGlobalEditFlag and searchType eq 'search'}"/>
+                            <ref bean="GlobalEditView-Import-Section"/>
+                            <ref bean="GlobalEditView_hidden_button"/>
+                            <ref bean="GlobalEditView-ListButton-Section"/>
+                            <ref bean="GlobalEditSearchResultsPanel"/>
+                            <ref bean="GlobalEditView-Edit-Button-Section"/>
+
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>ole/describe/css/search.css</value>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>ole/describe/scripts/workbench.js</value>
+                <value>ole/describe/scripts/globalEdit.js</value>
+            </list>
+        </property>
+        <property name="formClass" value="org.kuali.ole.describe.form.GlobalEditForm"/>
+    </bean>
+
+    <bean id="GlobalEditView_hidden_button" parent="Uif-SecondaryActionButton-Small" p:methodToCall="start"
+          p:hidden="true"/>
+
+
+    <bean id="GlobalEditView-Edit-Button-Section" parent="Uif-HorizontalBoxSection" p:render="@{viewGlobalEditFlag}">
+        <property name="items">
+            <list>
+                <bean id="GlobalEditView-Edit-Button" parent="Uif-SecondaryActionButton"
+                      p:style="float:left;margin-left:20em" p:methodToCall="globalEdit"
+                      p:ajaxSubmit="true" p:successCallback="viewGlobalEdit('@{docType}');" p:actionLabel="Edit"
+                      p:render="@{viewGlobalEditFlag}"/>
+                <bean id="GlobalEditView-Clear-Button" parent="Uif-SecondaryActionButton" p:ajaxSubmit="true"
+                      p:methodToCall="globalClear" p:actionLabel="Clear" p:render="@{viewGlobalEditFlag}"/>
+                <bean id="GlobalEditView-Remove-Button" parent="Uif-SecondaryActionButton" p:ajaxSubmit="true"
+                      p:methodToCall="removeFromList" p:actionLabel="Remove From List" p:render="@{viewGlobalEditFlag}"/>
+                <bean id="GlobalEditView-Close-Button" parent="Uif-SecondaryActionButton" p:ajaxSubmit="true"
+                      p:methodToCall="close" p:actionLabel="Close" p:render="@{viewGlobalEditFlag}"
+                      p:successCallback="searchShowEntries()"/>
+
+            </list>
+        </property>
+    </bean>
+    <bean id="GlobalEditView-ListButton-Section" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <ref bean="GlobalEditView-defaultMessage"/>
+                <ref bean="GlobalEditView-Button-Section"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="GlobalEditView-defaultMessage" parent="Uif-DataField" p:propertyName="globalEditDefaultMessage"
+          p:render="@{!viewGlobalEditFlag}"
+          p:defaultValue="Note:Global edit list will be changed,when the DocType or SearchRecordBy field is changed."/>
+
+    <bean id="GlobalEditView-Button-Section" parent="Uif-HorizontalBoxSection" p:render="@{!viewGlobalEditFlag}"
+          p:componentSecurity.viewAuthz="true">
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:fieldLabel.renderColon="false" p:propertyName="selectAll" p:defaultValue="false" p:style="float:left;margin-left:20em">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" p:checkboxLabel="Select all search results"/>
+                    </property>
+                </bean>
+                <bean id="GlobalEditView-Add-Button" parent="Uif-SecondaryActionButton" p:ajaxSubmit="true"
+                      p:methodToCall="addGlobalEditRecords" p:actionLabel="Add To Global Edit List"
+                      p:successCallback="searchShowEntries()"/>
+                <bean id="GlobalEditView-View-Button" parent="Uif-SecondaryActionButton" p:ajaxSubmit="true"
+                      p:methodToCall="viewGlobalEditRecords" p:actionLabel="View Global Edit List"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="GlobalEditView-Type-Section" parent="Uif-InputField" p:propertyName="type" p:onClickScript="editImport()"
+          p:label="Find By" p:render="@{!viewGlobalEditFlag}">
+        <property name="control">
+            <bean parent="Uif-HorizontalRadioControl">
+                <property name="options">
+                    <list>
+                        <bean parent="Uif-KeyLabelPair" p:key="search" p:value="Search"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="import" p:value="Import"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="GlobalEditView-Search-Section" parent="Uif-HorizontalBoxSection" p:width="500px"
+          p:render="@{searchFlag and !viewGlobalEditFlag}">
+        <property name="items">
+            <list>
+                <ref bean="GlobalEdit-SearchPanel-docType-Section"/>
+                <bean id="GlobalEditView-Search-Search-Button" parent="Uif-SecondaryActionButton-Small"
+                      p:style="float:left;margin-left:25em" p:methodToCall="search" p:actionLabel="Search"/>
+                <bean id="GlobalEditView-Search-Clear-Button" parent="Uif-SecondaryActionButton-Small"
+                      p:style="float:left;margin-left:0em" p:methodToCall="clearSearch" p:actionLabel="Clear"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="GlobalEdit-SearchPanel-docType-Section" parent="Uif-InputField" p:propertyName="docType"
+          p:label="Document Type"
+          p:onClickScript="retrieveComponent('SearchResultsSection','start',null,null), null);">
+        <property name="control">
+            <bean parent="Uif-HorizontalRadioControl">
+                <property name="options">
+                    <list>
+                        <bean parent="Uif-KeyLabelPair" p:key="holdings" p:value="Holdings"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="item" p:value="Item"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="eHoldings" p:value="EHoldings"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="GlobalEditView-Import-Section" parent="Uif-VerticalBoxSection"
+          p:render="@{searchType eq 'import' and !viewGlobalEditFlag}">
+        <property name="items">
+            <list>
+                <ref bean="GlobalEditView-Import-BoxSection"/>
+                <ref bean="GlobalEditView-Import-File"/>
+                <bean id="Globalimport_buttons" parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <ref bean="GlobalEditView-Import-Search-Button"/>
+                            <ref bean="GlobalEditView-Import-Clear-Button"/>
+                        </list>
+                    </property>
+                </bean>
+                <ref bean="GlobalEditView-DisplayMessage-Section"/>
+                <bean id="Global_SearchAndSearchResultsView_import" parent="Uif-VerticalBoxSection">
+                    <property name="items">
+                        <list>
+                            <ref bean="SearchResultsSection"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="GlobalEditView-DisplayMessage-Section" parent="Uif-VerticalBoxSection"
+          p:render="@{searchType eq 'import' and !viewGlobalEditFlag and viewGlobalEditDispMessageFlag}"
+          p:style="float:left;margin-left:10em">
+        <property name="items">
+            <list>
+
+                <bean id="selectedFileName" parent="Uif-DataField" p:propertyName="selectedFileName"
+                      p:label="Selected File Name"></bean>
+                <bean id="globalEditViewTotalRecords" parent="Uif-DataField" p:propertyName="totalRecords"
+                      p:label="Records In File"></bean>
+                <bean id="globalEditViewMatchedRecords" parent="Uif-DataField" p:propertyName="matchedCount"
+                      p:label="Matched Records Count"></bean>
+                <bean id="globalEditViewUnMatchedRecords" parent="Uif-DataField" p:propertyName="unMatchedCount"
+                      p:label="Unmatched Records Count"></bean>
+                <bean id="globalEditViewUnMatchedRecordsAre" parent="Uif-DataField" p:propertyName="unMatchedRecords"
+                      p:label="Unmatched Records are"></bean>
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="GlobalEditView-Import-BoxSection" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <ref bean="GlobalEditView-Import-FieldType_1"/>
+                <ref bean="GlobalEditView-Import-FieldType_2"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="GlobalEditView-Import-FieldType_1" parent="Uif-InputField" p:propertyName="fieldType" p:label="Data" p:render="@{searchType eq 'import' and !viewGlobalEditFlag and docType eq 'item'}">
+        <property name="control">
+            <bean parent="Uif-HorizontalRadioControl">
+                <property name="options">
+                    <list>
+                        <bean parent="Uif-KeyLabelPair" p:key="LocalId" p:value="Local Id"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="Barcode" p:value="Barcode"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+    <bean id="GlobalEditView-Import-FieldType_2" parent="Uif-InputField" p:propertyName="fieldType" p:label="Data"
+          p:render="@{searchType eq 'import' and !viewGlobalEditFlag and docType eq 'eHoldings' or docType eq 'holdings'}">
+        <property name="control">
+            <bean parent="Uif-HorizontalRadioControl">
+                <property name="options">
+                    <list>
+                        <bean parent="Uif-KeyLabelPair" p:key="LocalId" p:value="LocalId"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="GlobalEditView-Import-File" parent="Uif-InputField" p:propertyName="file" p:label="Select File"
+          p:required="true">
+        <property name="control">
+            <bean parent="Uif-FileControl"/>
+        </property>
+    </bean>
+
+    <bean id="GlobalEditView-Import-Search-Button" parent="Uif-SecondaryActionButton-Small"
+          p:style="float:left;margin-left:25em" p:methodToCall="load" p:actionLabel="Search"/>
+    <bean id="GlobalEditView-Import-Clear-Button" parent="Uif-SecondaryActionButton-Small"
+          p:style="float:left;margin-left:0em" p:methodToCall="clear" p:actionLabel="Clear"
+          p:refreshId="GlobalEditView-Import-Section"/>
+
+
+    <bean id="GlobalEditSearchResultsPanel" parent="Uif-Disclosure-VerticalBoxSection" p:render="@{viewGlobalEditFlag}">
+        <property name="headerText" value="Global Edit List:"/>
+        <property name="items">
+            <list>
+
+                <bean id="GlobaEdit_HoldingsSearchResults" parent="HoldingsSearchResults"
+                      p:render="@{docType eq 'holdings'}">
+                    <property name="propertyName" value="globalEditRecords"/>
+                </bean>
+                <bean id="GlobaEdit_ItemSearchResults" parent="ItemSearchResults" p:render="@{docType eq 'item'}">
+                    <property name="propertyName" value="globalEditRecords"/>
+                </bean>
+                <bean id="GlobaEdit_EHoldingsSearchResults" parent="EHoldingsSearchResults"
+                      p:render="@{docType eq 'eHoldings'}">
+                    <property name="propertyName" value="globalEditRecords"/>
+                </bean>
+                <bean id="GlobalEdit_Note" parent="Uif-Message">
+                    <property name="messageText"
+                              value="Note - &lt;ol&gt; &lt;li&gt; 1. All records in this list will be edited when edit button is clicked.  &lt;/li&gt;    &lt;li&gt; 2. To remove records from this list check them and click 'Remove from list' button. &lt;/li&gt; &lt;/ol&gt;"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="GlobalEditMessageSection" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="globaleditmessageSection" parent="Uif-Message" p:messageText="@{message}"
+                      p:cssClasses="messageClass"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="GlobaEdit_DocumentAndSearchSelectionType" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="global_docType" parent="Base-Uif-InputField"
+                      p:propertyName="docType" p:label="Document Type"
+                      p:onChangeScript="submitForm('start', null, null, null);">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="dropdown"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.describe.keyvalue.OLEGlobalDocTypeKeyValueFinder"/>
+                    </property>
+                </bean>
+
+                <bean id="global_searchType" parent="Base-Uif-InputField"
+                      p:propertyName="searchType" p:label="Select Records By" p:style="float:left;margin-left:39.3em"
+                      p:onChangeScript="submitForm('start', null, null, null);">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="search" p:value="Search"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="import" p:value="Import"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+</beans>

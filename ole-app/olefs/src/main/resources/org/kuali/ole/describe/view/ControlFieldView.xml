@@ -1,0 +1,126 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+	<bean id="OleControlFieldGroup" parent="Uif-VerticalFieldGroup" abstract="true"
+			class="org.kuali.ole.describe.bo.marc.structuralfields.OleControlFieldGroup">
+		<property name="group">
+			<bean parent="Uif-VerticalBoxGroup" 
+				class="org.kuali.ole.krad.OleFilteredCopyGroup" />
+		</property>
+	</bean>
+
+    <bean id="Control_Field" parent="Uif-Disclosure-VerticalBoxSection" p:layoutManager.orientation="VERTICAL"
+    		class="org.kuali.ole.krad.OleFilteredCopyGroup">
+        <property name="validationMessages.displayMessages" value="false"/>
+        <property name="headerText" value="Control Fields"/>
+        <property name="items">
+            <list>
+                <bean id="Control_Field_001" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.localId"
+                      p:label="001" p:render="@{editable eq 'true'}"
+                      p:additionalHiddenPropertyNames="documentForm.marcControlFields.value,documentForm.marcControlFields.id006,documentForm.marcControlFields.value008,documentForm.marcControlFields.value007,documentForm.marcControlFields.id007">
+
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="35" p:disabled="true"/>
+                    </property>
+                </bean>
+                <bean id="Control_Field_001ReadOnly" parent="Uif-DataField"
+                      p:propertyName="documentForm.marcControlFields.localId" p:label="001"
+                      p:render="@{editable eq 'false'}"/>
+                <bean id="Control_Field_003" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField003"
+                      p:label="003" p:render="@{editable eq 'true'}" p:readOnly="true">
+
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="35"/>
+                    </property>
+                </bean>
+                <bean id="Control_Field_003ReadOnly" parent="Uif-DataField"
+                      p:propertyName="documentForm.marcControlFields.controlField003" p:label="003"
+                      p:render="@{editable eq 'false'}"/>
+                <bean id="Control_Field_005" parent="Base-Uif-InputField"
+                      p:propertyName="documentForm.marcControlFields.controlField005"
+                      p:label="005" p:render="@{editable eq 'true'}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="20" p:disabled="true"/>
+                    </property>
+                </bean>
+                <bean id="Control_Field_005ReadOnly" parent="Uif-DataField"
+                      p:propertyName="documentForm.marcControlFields.controlField005" p:label="005"
+                      p:render="@{editable eq 'false'}"/>
+                <bean id="Control_Field_006_Section" parent="OleControlFieldGroup"
+                		p:style="font-weight:bold;border:0px;"
+						p:filterModelProperty="filterControlFields"
+						p:displayFieldProperty="displayField006" p:fieldLinkId="006FieldLink"
+						p:controlFieldGroupId="Control_Field_006_Data_Section">
+                    <property name="items">
+                        <list>
+                            <bean id="006load" parent="Uif-SecondaryActionButton-Small"  p:methodToCall="loadControlField006"
+                                  p:ajaxSubmit="true" p:refreshId="Control_Field_006_Section" p:hidden="true"
+                                  p:successCallback="controlField006EditValue();"/>
+
+                            <bean id="006FieldLink" parent="Uif-ActionLink" p:style="font-weight:bold;border:0px;"
+                                  p:actionLabel="Show 006 Structured Data Elements" p:methodToCall="loadControlField006"
+                                  p:ajaxSubmit="true"
+                                  p:refreshId="Control_Field_006_Section"
+                                  p:render="@{editable eq 'true' and displayField006 eq 'false'}"
+                                  p:successCallback="controlField006EditValue();" />
+                            <ref bean="Control_Field_006_Data_Section"/>
+                        </list>
+
+                    </property>
+
+                </bean>
+
+				<ref bean="Control_Field_006_Collection"/>
+				<bean id="Control_Field_007_Section" parent="OleControlFieldGroup"
+						p:style="font-weight:bold;border:0px;"
+						p:filterModelProperty="filterControlFields"
+						p:displayFieldProperty="displayField007" p:fieldLinkId="007FieldLink"
+						p:controlFieldGroupId="Control_Field_007_Data_Section">
+                    <property name="group.validationMessages.displayMessages" value="false"/>
+                    <property name="items">
+                        <list>
+                            <bean id="007load" parent="Uif-SecondaryActionButton-Small"  p:methodToCall="loadControlField007"
+                                  p:ajaxSubmit="true" p:refreshId="Control_Field_007_Section" p:hidden="true"
+                                  p:successCallback="controlField007EditValue();"/>
+
+                            <bean id="007FieldLink" parent="Uif-ActionLink" p:style="font-weight:bold;border:0px;"
+                                  p:actionLabel="Show 007 Structured Data Elements" p:methodToCall="loadControlField007"
+                                  p:ajaxSubmit="true"
+                                  p:refreshId="Control_Field_007_Section"
+                                  p:render="@{editable eq 'true' and displayField007 eq 'false'}"
+                                  p:successCallback="controlField007EditValue();"/>
+                               <ref bean="Control_Field_007_Data_Section"/>
+
+                        </list>
+                    </property>
+                </bean>
+
+                <ref bean="Control_Field_007_Collection"/>
+				<bean id="Control_Field_008_Section" parent="OleControlFieldGroup"
+						p:style="font-weight:bold;border:0px;"
+						p:filterModelProperty="filterControlFields"
+						p:displayFieldProperty="displayField008" p:fieldLinkId="008FieldLink"
+						p:controlFieldGroupId="Control_Field_008_Data_Section">
+                    <property name="group.validationMessages.displayMessages" value="false"/>
+                    <property name="items">
+                        <list>
+                            <bean id="008load" parent="Uif-SecondaryActionButton-Small"
+                                  p:methodToCall="loadControlField008"
+                                  p:ajaxSubmit="true" p:hidden="true" p:refreshId="Control_Field_008_Section"  p:successCallback="controlField008Edit();"/>
+                            <bean id="008FieldLink" parent="Uif-ActionLink" p:style="font-weight:bold;border:0px;"
+                                  p:actionLabel="Show 008 Structured Data Elements"
+                                  p:actionScript="controlField008setDepending06and07();"
+                                  p:render="@{editable eq 'true' and displayField008 eq 'false'}"/>
+                            <ref bean="Control_Field_008_Data_Section"/>
+                        </list>
+                    </property>
+                </bean>
+                <ref bean="ControlField-008"/>
+            </list>
+        </property>
+    </bean>
+</beans>

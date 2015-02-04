@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+<!--
+ Copyright 2007-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean id="ObjectCodeGlobal" parent="ObjectCodeGlobal-parentBean"/>
+
+  <bean id="ObjectCodeGlobal-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.ole.coa.businessobject.ObjectCodeGlobal"/>
+    <property name="objectLabel" value="Object Code Global"/>
+    <property name="attributes">
+      <list>
+        <ref bean="ObjectCodeGlobal-universityFiscalYear"/>
+        <ref bean="ObjectCodeGlobal-chartOfAccountsCode"/>
+        <ref bean="ObjectCodeGlobal-financialObjectCode"/>
+        <ref bean="ObjectCodeGlobal-financialObjectCodeName"/>
+        <ref bean="ObjectCodeGlobal-financialObjectCodeShortName"/>
+        <ref bean="ObjectCodeGlobal-financialObjectLevelCode"/>
+        <ref bean="ObjectCodeGlobal-reportsToFinancialObjectCode"/>
+        <ref bean="ObjectCodeGlobal-financialObjectTypeCode"/>
+        <ref bean="ObjectCodeGlobal-financialObjectSubTypeCode"/>
+        <ref bean="ObjectCodeGlobal-historicalFinancialObjectCode"/>
+        <ref bean="ObjectCodeGlobal-financialObjectActiveIndicator"/>
+        <ref bean="ObjectCodeGlobal-financialBudgetAggregationCd"/>
+        <ref bean="ObjectCodeGlobal-finObjMandatoryTrnfrOrElimCd"/>
+        <ref bean="ObjectCodeGlobal-financialFederalFundedCode"/>
+        <ref bean="ObjectCodeGlobal-nextYearFinancialObjectCode"/>     
+      </list>
+    </property>  
+  </bean>
+
+<!-- Attribute Definitions -->
+  <bean id="ObjectCodeGlobal-universityFiscalYear" parent="ObjectCodeGlobal-universityFiscalYear-parentBean"/>
+  <bean id="ObjectCodeGlobal-universityFiscalYear-parentBean" abstract="true" parent="ObjectCode-universityFiscalYear">
+    <property name="required" value="false"/>
+  </bean>
+
+  <bean id="ObjectCodeGlobal-chartOfAccountsCode" parent="ObjectCodeGlobal-chartOfAccountsCode-parentBean"/>
+  <bean id="ObjectCodeGlobal-chartOfAccountsCode-parentBean" abstract="true" parent="ObjectCode-chartOfAccountsCode">
+    <property name="required" value="false"/>
+  </bean>
+
+  <bean id="ObjectCodeGlobal-financialObjectCode" parent="ObjectCodeGlobal-financialObjectCode-parentBean"/>
+  <bean id="ObjectCodeGlobal-financialObjectCode-parentBean" abstract="true" parent="ObjectCode-financialObjectCode" />
+
+  <bean id="ObjectCodeGlobal-financialObjectCodeName" parent="ObjectCodeGlobal-financialObjectCodeName-parentBean"/>
+  <bean id="ObjectCodeGlobal-financialObjectCodeName-parentBean" abstract="true" parent="ObjectCode-financialObjectCodeName" />
+
+  <bean id="ObjectCodeGlobal-financialObjectCodeShortName" parent="ObjectCodeGlobal-financialObjectCodeShortName-parentBean"/>
+  <bean id="ObjectCodeGlobal-financialObjectCodeShortName-parentBean" abstract="true" parent="ObjectCode-financialObjectCodeShortName" />
+
+  <bean id="ObjectCodeGlobal-financialObjectLevelCode" parent="ObjectCodeGlobal-financialObjectLevelCode-parentBean"/>
+  <bean id="ObjectCodeGlobal-financialObjectLevelCode-parentBean" abstract="true" parent="ObjectCode-financialObjectLevelCode" />
+
+  <bean id="ObjectCodeGlobal-reportsToFinancialObjectCode" parent="ObjectCodeGlobal-reportsToFinancialObjectCode-parentBean"/>
+  <bean id="ObjectCodeGlobal-reportsToFinancialObjectCode-parentBean" abstract="true" parent="ObjectCode-reportsToFinancialObjectCode" />
+
+  <bean id="ObjectCodeGlobal-financialObjectTypeCode" parent="ObjectCodeGlobal-financialObjectTypeCode-parentBean"/>
+  <bean id="ObjectCodeGlobal-financialObjectTypeCode-parentBean" abstract="true" parent="ObjectCode-financialObjectTypeCode" />
+
+  <bean id="ObjectCodeGlobal-financialObjectSubTypeCode" parent="ObjectCodeGlobal-financialObjectSubTypeCode-parentBean"/>
+  <bean id="ObjectCodeGlobal-financialObjectSubTypeCode-parentBean" abstract="true" parent="ObjectCode-financialObjectSubTypeCode" />
+
+  <bean id="ObjectCodeGlobal-historicalFinancialObjectCode" parent="ObjectCodeGlobal-historicalFinancialObjectCode-parentBean"/>
+  <bean id="ObjectCodeGlobal-historicalFinancialObjectCode-parentBean" abstract="true" parent="ObjectCode-historicalFinancialObjectCode" />
+
+  <bean id="ObjectCodeGlobal-financialObjectActiveIndicator" parent="ObjectCodeGlobal-financialObjectActiveIndicator-parentBean"/>
+  <bean id="ObjectCodeGlobal-financialObjectActiveIndicator-parentBean" abstract="true" parent="ObjectCode-active">
+    <property name="name" value="financialObjectActiveIndicator"/>
+  </bean>
+
+  <bean id="ObjectCodeGlobal-financialBudgetAggregationCd" parent="ObjectCodeGlobal-financialBudgetAggregationCd-parentBean"/>
+  <bean id="ObjectCodeGlobal-financialBudgetAggregationCd-parentBean" abstract="true" parent="ObjectCode-financialBudgetAggregationCd" />
+
+  <bean id="ObjectCodeGlobal-finObjMandatoryTrnfrOrElimCd" parent="ObjectCodeGlobal-finObjMandatoryTrnfrOrElimCd-parentBean"/>
+  <bean id="ObjectCodeGlobal-finObjMandatoryTrnfrOrElimCd-parentBean" abstract="true" parent="ObjectCode-finObjMandatoryTrnfrelimCd">
+  	<property name="name" value="finObjMandatoryTrnfrOrElimCd" />
+  </bean>
+
+  <bean id="ObjectCodeGlobal-financialFederalFundedCode" parent="ObjectCodeGlobal-financialFederalFundedCode-parentBean"/>
+  <bean id="ObjectCodeGlobal-financialFederalFundedCode-parentBean" abstract="true" parent="ObjectCode-financialFederalFundedCode" />
+
+  <bean id="ObjectCodeGlobal-nextYearFinancialObjectCode" parent="ObjectCodeGlobal-nextYearFinancialObjectCode-parentBean"/>
+  <bean id="ObjectCodeGlobal-nextYearFinancialObjectCode-parentBean" abstract="true" parent="ObjectCode-nextYearFinancialObjectCode" />
+
+</beans>

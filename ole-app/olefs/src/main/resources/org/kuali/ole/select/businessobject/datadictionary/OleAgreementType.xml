@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <!--
+
+        Copyright 2005-2012 The Kuali Foundation
+
+        Licensed under the Educational Community License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at
+
+        http://www.opensource.org/licenses/ecl2.php
+
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+
+    -->
+    <bean id="OleAgreementType" parent="OleAgreementType-parentBean"/>
+
+    <bean id="OleAgreementType-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.select.bo.OleAgreementType"/>
+        <property name="titleAttribute" value="agreementTypeName"/>
+        <property name="objectLabel" value="Ole Agreement Type"/>
+
+        <property name="attributes">
+            <list>
+                <ref bean="OleAgreementType-agreementTypeId"/>
+                <ref bean="OleAgreementType-agreementTypeName"/>
+                <ref bean="OleAgreementType-agreementTypeDesc"/>
+                <ref bean="OleAgreementType-active"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+
+    <bean id="OleAgreementType-agreementTypeId" parent="OleAgreementType-agreementTypeId-parentBean"/>
+
+    <bean id="OleAgreementType-agreementTypeId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Agreement Type Id"/>
+        <property name="maxLength" value="10"/>
+        <property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+        <property name="name" value="agreementTypeId"/>
+        <property name="label" value="Agreement Type Id"/>
+        <property name="description" value="Agreement Type Id"/>
+    </bean>
+
+
+    <bean id="OleAgreementType-agreementTypeName" parent="OleAgreementType-agreementTypeName-parentBean"/>
+
+    <bean id="OleAgreementType-agreementTypeName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Agreement Type Name"/>
+        <property name="maxLength" value="100"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="agreementTypeName"/>
+        <property name="label" value="Agreement Type Name"/>
+        <property name="description" value="Agreement Type Name"/>
+
+    </bean>
+
+
+
+    <bean id="OleAgreementType-agreementTypeDesc" parent="OleAgreementType-agreementTypeDesc-parentBean"/>
+
+    <bean id="OleAgreementType-agreementTypeDesc-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Agreement Type Description"/>
+        <property name="maxLength" value="100"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="agreementTypeDesc"/>
+        <property name="label" value="Agreement Type Description"/>
+        <property name="description" value="Agreement Type Description"/>
+
+    </bean>
+
+    <bean id="OleAgreementType-active" parent="OleAgreementType-active-parentBean"/>
+
+    <bean id="OleAgreementType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+        <property name="name" value="active"/>
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+
+
+    <bean id="OleAgreementType-InquiryView" parent="Uif-OLEInquiryView">
+        <property name="headerText" value="Agreement Type Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OleAgreementType"/>
+        <property name="singlePageView" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-VerticalBoxSection">
+                    <property name="header.headerText" value="Agreement Type"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2">
+                                <property name="items">
+                                    <list>
+                                        <bean id="inquiry_agreementTypeId" parent="Uif-InputField" p:propertyName="agreementTypeId"/>
+                                        <bean id="inquiry_agreementTypeName" parent="Uif-InputField" p:propertyName="agreementTypeName"/>
+                                        <bean id="inquiry_agreementTypeDesc" parent="Uif-InputField" p:propertyName="agreementTypeDesc"/>
+                                        <bean id="inquiry_active" parent="Uif-InputField" p:propertyName="active"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                    <property name="headerText" value="Agreement Type"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <!-- Business Object Lookup Definition -->
+
+
+    <bean id="OleAgreementType-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="Agreement Type Lookup"/>
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="${ole.externalizable.help.url}/reference/webhelp/BASICS/content/ch02s04.html#_lookupHelp"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OleAgreementType"/>
+        <property name="criteriaFields">
+            <list>
+                <bean id="agreementTypeName" parent="Uif-LookupCriteriaInputField" p:propertyName="agreementTypeName" p:enableAutoDirectInquiry="false"/>
+                <bean id="agreementTypeDesc" parent="Uif-LookupCriteriaInputField" p:propertyName="agreementTypeDesc"/>
+                <bean id="activeIndicator" parent="Uif-LookupCriteriaInputField" p:propertyName="active"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <!--<bean id="searchResult_agreementTypeId" parent="Uif-DataField" p:propertyName="agreementTypeId"/>-->
+                <bean id="searchResult_agreementTypeName" parent="Uif-DataField" p:propertyName="agreementTypeName"/>
+                <bean id="searchResult_agreementTypeDesc" parent="Uif-DataField" p:propertyName="agreementTypeDesc"/>
+                <bean id="searchResult_active" parent="Uif-DataField" p:propertyName="active"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?><oleEditorResponse>
+    <oleBibRecord>
+        <bibAssociatedFieldsValueMap>
+            <entry>
+                <string>author</string>
+                <string>mock_author</string>
+            </entry>
+            <entry>
+                <string>title</string>
+                <string>mock_title</string>
+            </entry>
+        </bibAssociatedFieldsValueMap>
+        <bibUUID>2345-6789</bibUUID>
+        <linkedInstanceId>123-34567</linkedInstanceId>
+    </oleBibRecord>
+    <tokenId>3000_0</tokenId>
+</oleEditorResponse>

@@ -1,0 +1,1907 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0"
+    xml:lang="en-US">
+        <title><anchor xml:id="_VendorMaintenance"/>Vendor Attribute Maintenance E-Docs </title>
+        <para role="Body Text"><inlinemediaobject>
+            <alt>Maintenance</alt>
+            <imageobject>
+                <imagedata fileref="../images/maintenanceMenu.png"/>
+            </imageobject>
+        </inlinemediaobject>
+        <emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+            <alt>Vendor Admin</alt>
+            <imageobject>
+                <imagedata fileref="../images/VendorNoTitlePage-Vendor.png"/>
+            </imageobject>
+        </inlinemediaobject><emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+            <alt>Vendor Admin Links</alt>
+            <imageobject>
+                <imagedata fileref="../images/VendorNoTitlePage-VendorMenu.png"/>
+            </imageobject>
+        </inlinemediaobject></para>
+        <para role="Body Text">The Maintenance Menu provides access to many vendor-related e-docs
+            that allow you to update vendor attributes used by the Vendor document.</para>
+        <section>
+            <title><anchor xml:id="_AddressType"/>Address Type<indexterm significance="normal">
+                <primary>Address Type document</primary>
+            </indexterm></title>
+            <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                <alt>Vendor Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/VendorNoTitlePage-Vendor.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Address Type</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/VendorNoTitlePage-96.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Address Type Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/VendorNoTitlePage-97.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Address Type</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/VendorNoTitlePage-98.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+            <para role="Body Text">The Address Type document is used to establish codes used to
+                categorize various types of vendor addresses. These types can be used to identify
+                different addresses for different purposes, such as defining one address to which
+                purchase orders should be sent and another address to which tax documents should be
+                addressed.</para>
+            <section>
+                <title>Document Layout</title>
+                <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Address Type Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/VendorNoTitlePage-99.jpg" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+                <para role="Body Text">The Address Type document includes the <emphasis role="bold"
+                        >Edit Address Type</emphasis> tab. The system automatically enters data into
+                    both the <emphasis role="bold">Old</emphasis> and <emphasis role="bold"
+                        >New</emphasis> sections in this tab. Selected data fields are available for
+                    editing.</para>
+                <para role="TableHeading"><emphasis role="bold">Edit Address Type tab
+                        definition</emphasis></para>
+                <informaltable frame="topbot">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Address Type Code </para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">The code to identify a type of vendor
+                                        address.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Address Type Description </para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Required. The familiar title of the
+                                        vendor addresses type. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Default Indicator</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Optional. Select the checkbox if an
+                                        address of this type can be marked as the default address
+                                        for a vendor. Clear the checkbox if it should not be used as
+                                        a default.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Active Indicator </para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Indicates whether this vendor address
+                                        is active or inactive. Remove the check mark to
+                                        deactivate.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+        </section>
+        <section>
+            <title><anchor xml:id="_Campus"/>Campus<indexterm significance="normal">
+                    <primary> Campus Parameter document</primary>
+                </indexterm></title>
+            <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                <alt>Vendor Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/VendorNoTitlePage-Vendor.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Campus</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/VendorNoTitlePage-102.jpg"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Campus Parameter Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/VendorNoTitlePage-103.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Campus Parameter</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/VendorNoTitlePage-104.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+            <para role="Body Text">The Campus document defines basic identifying attributes of a
+                campus-level purchasing unit at your institution.</para>
+            <section>
+                <title>Document Layout</title>
+                <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Campus Parameter Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/VendorNoTitlePage-105.jpg" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+                <para role="Body Text">The Campus Parameter document includes the <emphasis
+                        role="bold">Edit Campus Parameter</emphasis> tab. The system automatically
+                    enters data into both the <emphasis role="bold">Old</emphasis> and <emphasis
+                        role="bold">New</emphasis> sections in this tab. Selected data fields are
+                    available for editing.</para>
+                <para role="TableHeading"><emphasis role="bold">Edit Campus Parameter tab
+                        definition</emphasis></para>
+                <informaltable frame="topbot">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Campus Code</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">The campus code for which the
+                                        parameters are used. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Campus Purchasing Director Name</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">The name of the purchasing director
+                                        associated with this campus.</para>
+                                <note>
+                                    <para>If the Director's name and title are supplied, they will
+                                        also appear on the printed pdf version of the Purchase Order
+                                    </para>
+                                </note>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Campus Purchasing Director Title</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">The title of the purchasing director
+                                        for this campus.</para>
+                                <note>
+                                    <para>If the Director's name and title are supplied, they will
+                                        also appear on the printed pdf version of the Purchase Order
+                                    </para>
+                                </note>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Campus Accounts Payable Email
+                                        Address</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">The accounts payable email address for
+                                        this campus.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Purchasing Institution Name</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">The institution's name that is
+                                        associated with this campus code.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Purchasing Department Name</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">The Purchasing Department name for this
+                                        campus.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Address 1</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">The first line of the address for this
+                                        campus office.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Address 2</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">The second line of the address for this
+                                        campus office.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">City</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">The city for this campus office.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">State</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">The state for this campus office.
+                                        Existing state codes may be retrieved from the list or from
+                                        the lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Postal Code</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">The postal code for this campus
+                                        office.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Country</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">The country for this campus office.
+                                        Existing restricted status codes may be retrieved from the
+                                        list or from the lookup <inlinemediaobject>
+                                            <imageobject>
+                                                <imagedata fileref="../images/Lookup.png"/>
+                                            </imageobject>
+                                        </inlinemediaobject>.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Active Indicator </para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Indicates whether this campus parameter
+                                        is active or inactive. Remove the check mark to
+                                        deactivate.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+        </section>
+        <section>
+            <title><anchor xml:id="_ContactType"/>Contact Type<indexterm significance="normal">
+                <primary>Contact Type document</primary>
+            </indexterm></title>
+            <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                <alt>Vendor Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/VendorNoTitlePage-Vendor.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Contact Type</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/VendorNoTitlePage-122.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Contact Type Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/VendorNoTitlePage-123.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Contact Type</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/VendorNoTitlePage-124.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+            <para role="Body Text">The Contact Type document is used to establish various roles of
+                the vendor contact, which may assist in determining how inquiries should be directed
+                to the vendor. Examples of contact types include 'Accounts Receivable,' 'Sales Rep,'
+                and 'Customer Service.'</para>
+            <section>
+                <title>Document Layout</title>
+                <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Contact Type Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/VendorNoTitlePage-125.jpg" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+                <para role="Body Text">The Contact Type document includes the <emphasis role="bold"
+                        >Edit Contact Type</emphasis> tab. The system automatically enters data into
+                    both the <emphasis role="bold">Old</emphasis> and <emphasis role="bold"
+                        >New</emphasis> sections of this tab. Selected data fields are available for
+                    editing.</para>
+                <para role="TableHeading"><emphasis role="bold">Edit Contact Type tab
+                        definition</emphasis></para>
+                <informaltable frame="topbot">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Vendor Contact Type Code </para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">The code used to identify a type of
+                                        vendor contact.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Vendor Contact Type Description </para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Required. The title of the contact
+                                        type. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Active Indicator</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Indicates whether this contact type is
+                                        active or inactive. Remove the check mark to
+                                        deactivate.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+        </section>
+        <section>
+            <title><anchor xml:id="_ContractManager"/>Contract Manager<indexterm
+                significance="normal">
+                <primary>Contract Manager document</primary>
+            </indexterm></title>
+            <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                <alt>Vendor Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/VendorNoTitlePage-Vendor.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Contract Manager</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/VendorNoTitlePage-128.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Contract Manager Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/VendorNoTitlePage-129.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Contract Manager</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/VendorNoTitlePage-130.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+            <para role="Body Text">The Contract Manager document is used to establish the list of
+                individuals at the institution who are responsible for managing contracts for
+                specific vendors. When associating a contract with a vendor in the Vendor document,
+                a Contract Manager must be selected.</para>
+            <section>
+                <title>Document Layout</title>
+                <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Contract Manager Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/VendorNoTitlePage-131.jpg" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+                <para role="Body Text">The Contract Manager document includes the <emphasis
+                        role="bold">Edit Contract Manager</emphasis> tab. The system automatically
+                    enters data into both the <emphasis role="bold">Old</emphasis> and <emphasis
+                        role="bold">New</emphasis> sections in this tab. Selected data fields are
+                    available for editing.</para>
+                <para role="TableHeading"><emphasis role="bold">Edit Contract Manager tab
+                        definition</emphasis></para>
+                <informaltable frame="topbot">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Contract Manager Code </para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">The code used to identify this contract
+                                        manager.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Contract Manager Name</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Required. The contract manager's
+                                        name.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Published Phone Number</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">The published phone number of the
+                                        contract manager, including area code.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Published Fax Number</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Required. The published fax number of
+                                        the contract manager, including area code.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Contract Manager Delegation Dollar
+                                        Limit</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Required. The upper dollar amount for
+                                        which this contract manager is allowed to delegate approval
+                                        authority.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Active Indicator</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Indicates whether this contract manager
+                                        is active or inactive. Remove the check mark to
+                                        deactivate.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+        </section>
+        <section>
+            <title><anchor xml:id="_CostSource"/>Cost Source<indexterm significance="normal">
+                <primary>Purchase Order Cost Source document</primary>
+            </indexterm></title>
+            <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                <alt>Vendor Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/VendorNoTitlePage-Vendor.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Cost Source</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/VendorNoTitlePage-134.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Cost Source Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/VendorNoTitlePage-135.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Cost Source</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/VendorNoTitlePage-136.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+            <para role="Body Text">The Cost Source document is used to establish codes that identify
+                the method used to determine the pricing for a purchase order. Examples might
+                include 'Quote', 'Estimate', 'Pricing Agreement', or the name of an affiliation that
+                has negotiated a contract with one or more vendors.</para>
+            <section>
+                <title>Document Layout</title>
+                <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Cost Source Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/VendorNoTitlePage-137.jpg" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+                <para role="Body Text">The Cost Source document includes the <emphasis role="bold"
+                        >Edit</emphasis>
+                    <emphasis role="bold">Cost Source</emphasis> tab. The system automatically
+                    enters data into both the <emphasis role="bold">Old</emphasis> and <emphasis
+                        role="bold">New</emphasis> sections in this tab. Selected data fields are
+                    available for editing.</para>
+                <para role="TableHeading"><emphasis role="bold">Edit Cost Source tab
+                        definition</emphasis></para>
+                <informaltable frame="topbot">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Cost Source Code </para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">The code used to identify this purchase
+                                        order cost source.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Cost Source Description</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Required. The familiar title of the
+                                        purchase order cost source. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Item Unit Price Lower Variance
+                                        Percent</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Required. Payment will not be made if
+                                        the price variance is lower by this percentage. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Item Unit Price Upper Variance
+                                        Percent</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Required. Payment will not be made if
+                                        the price variance is higher by this percentage. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Active Indicator</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Indicates whether this cost source code
+                                        is active or inactive. Remove the check mark to
+                                        deactivate.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+        </section>
+        <section>
+            <title><anchor xml:id="_PaymentTermsType"/>Payment Terms Type<indexterm
+                significance="normal">
+                <primary>Payment Term Type document</primary>
+            </indexterm></title>
+            <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                <alt>Vendor Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/VendorNoTitlePage-Vendor.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Payment Terms Type</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/VendorNoTitlePage-152.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Payment Terms Type Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/VendorNoTitlePage-153.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Payment Terms Type</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/VendorNoTitlePage-154.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+            <para role="Body Text">The Payment Terms Type document is used to establish codes that
+                define a vendor's payment terms, including the number of days in which a payment is
+                due and if a discount is available for prompt payment.</para>
+            <section>
+                <title>Document Layout</title>
+                <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Payment Terms Type Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/VendorNoTitlePage-155.jpg" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+                <para role="Body Text">The Payment Terms Type document includes the <emphasis
+                        role="bold">Edit Payment Term Type</emphasis> tab. The system automatically
+                    enters data into both the <emphasis role="bold">Old</emphasis> and <emphasis
+                        role="bold">New</emphasis> sections in this tab. Selected data fields are
+                    available for editing.</para>
+                <para role="TableHeading"><emphasis role="bold">Edit Payment Term Type tab
+                        definition</emphasis></para>
+                <informaltable frame="topbot">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Payment Terms Code </para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Required. Enter the code used to
+                                        identify this payment terms type.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Payment Terms Description</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Required. Enter the familiar title of
+                                        the payment terms. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Payment Terms Percent</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Required. Enter the percentage discount
+                                        to be applied if the payment is made by the discount
+                                        date.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Discount Due Number</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Required. Enter a number that reflects
+                                        either the number of days or the date (day of the month) by
+                                        which payment must be made to qualify for the discount
+                                        percentage.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Discount Due Type Description</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Required. Select 'Days' or 'Date' to
+                                    indicate whether the number entered in the <emphasis role="bold"
+                                        >Vendor Discount Due Number</emphasis> field is a number of
+                                    days or a date (defined here as a specific day of the
+                                    month).</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Net Due Number</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Required. Enter a number that reflects
+                                        either the number of days or the date (day of the month) by
+                                        which payment net is due.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Net Due Type Description</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Required. Select 'Days' or 'Date' to
+                                    indicate whether the number entered in the <emphasis role="bold"
+                                        >Vendor Net Due Number </emphasis>field is a number of days
+                                    or a date (defined here as a specific day of the month).</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Active Indicator</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Optional. Select the check box if the
+                                        payment term type is active. Clear the check box to
+                                        inactivate the existing payment terms code.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+        </section>
+        <section>
+            <title><anchor xml:id="_PhoneType"/>Phone Type<indexterm significance="normal">
+                <primary>Phone Type document</primary>
+            </indexterm></title>
+            <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                <alt>Vendor Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/VendorNoTitlePage-Vendor.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Phone Type</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/VendorNoTitlePage-158.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Phone Type Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/VendorNoTitlePage-159.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Phone Type</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/VendorNoTitlePage-160.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+            <para role="Body Text">The Phone Type document is used to establish codes that identify
+                various types of vendor phone or fax numbers. Sample phone types might be 'Phone,'
+                'Fax,' or 'Mobile.</para>
+            <section>
+                <title>Document Layout</title>
+                <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Phone Type Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/VendorNoTitlePage-161.jpg" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+                <para role="Body Text">The Phone Type document includes the <emphasis role="bold"
+                        >Edit Phone Type</emphasis> tab. The system automatically enters data into
+                    both the <emphasis role="bold">Old</emphasis> and <emphasis role="bold"
+                        >New</emphasis> sections in this tab. Selected data fields are available for
+                    editing.</para>
+                <para role="TableHeading"><emphasis role="bold">Edit Phone Type tab
+                        definition</emphasis></para>
+                <informaltable frame="topbot">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Phone Type Code </para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">The code used to identify this phone
+                                        type.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Phone Type Description</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Required. The familiar title of the
+                                        phone type. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Active Indicator</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Indicates whether this phone type code
+                                        is active or inactive. Remove the check mark to
+                                        deactivate.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+        </section>
+        <section>
+            <title><anchor xml:id="_ShippingPaymentTerms"/>Shipping Payment Terms<indexterm
+                significance="normal">
+                <primary>Shipping Payment Terms document</primary>
+            </indexterm></title>
+            <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                <alt>Vendor Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/VendorNoTitlePage-Vendor.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Shipping Payment Terms</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/VendorNoTitlePage-164.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Shipping Payment Terms Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/VendorNoTitlePage-165.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Shipping Payment Terms</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/VendorNoTitlePage-166.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+            <para role="Body Text">The Shipping Payment Terms document establishes codes that define
+                the various terms that specify who is responsible for the payment of shipping
+                charges for purchases from a vendor. Examples might include 'Institute Pays, Part of
+                PO,' 'Paid by 3<superscript>rd</superscript> Party,' or 'Vendor Pays'.</para>
+            <section>
+                <title>Document Layout</title>
+                <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Shipping Payment Terms Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/VendorNoTitlePage-167.jpg" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+                <para role="Body Text">The Shipping Payment Terms document includes the <emphasis
+                        role="bold">Edit Shipping Payment Terms</emphasis> tab. The system
+                    automatically enters data into both the <emphasis role="bold">Old</emphasis> and
+                        <emphasis role="bold">New</emphasis> sections in this tab. Selected data
+                    fields are available for editing.</para>
+                <para role="TableHeading"><emphasis role="bold">Edit Shipping Payment Terms tab
+                        definition</emphasis></para>
+                <informaltable frame="topbot">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Shipping Payment Terms Code </para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">The code used to identify the shipping
+                                        payment terms.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Shipping Payment Terms
+                                        Description</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Required. The title of the shipping
+                                        payment terms. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Shipping Payment Terms Pay
+                                        Indicator</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Indicates if it is permissible for the
+                                        vendor to add shipping charges to an invoice. Remove check
+                                        mark if shipping payment terms does not apply to
+                                        payments.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Active Indicator</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Indicates whether this shipping payment
+                                        terms code is active or inactive. Remove the check mark to
+                                        deactivate.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+        </section>
+        <section>
+            <title><anchor xml:id="_ShippingSpecialConditions"/>Shipping Special
+                Conditions<indexterm significance="normal">
+                <primary>Shipping Special Conditions document</primary>
+            </indexterm></title>
+            <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                <alt>Vendor Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/VendorNoTitlePage-Vendor.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Shipping Special Conditions</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/VendorNoTitlePage-170.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Shipping Special Conditions Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/VendorNoTitlePage-171.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Shipping Special Conditions</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/VendorNoTitlePage-172.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+            <para role="Body Text">The Shipping Special Conditions document establishes various
+                categories of commodities that require special shipping considerations. Examples
+                might include 'Express' or 'Insured'.</para>
+            <section>
+                <title>Document Layout</title>
+                <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Shipping Special Conditions Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/VendorNoTitlePage-173.jpg" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+                <para role="Body Text">The Shipping Special Conditions document includes the
+                        <emphasis role="bold">Edit Shipping Special Condition</emphasis> tab. The
+                    system automatically enters data into both the <emphasis role="bold"
+                        >Old</emphasis> and <emphasis role="bold">New</emphasis> sections in this
+                    tab. Selected data fields are available for editing.</para>
+                <para role="TableHeading"><emphasis role="bold">Edit Shipping Special Condition tab
+                        definition</emphasis></para>
+                <informaltable frame="topbot">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Shipping Special Condition Code </para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">The code used to identify the shipping
+                                        special condition.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Shipping Special Condition
+                                        Description</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Required. The familiar title of the
+                                        shipping special condition. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Active Indicator</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Indicates whether this shipping special
+                                        condition code is active or inactive. Remove the check mark
+                                        to deactivate.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+        </section>
+        <section>
+            <title><anchor xml:id="_ShippingTitle"/>Shipping Title<indexterm significance="normal">
+                <primary>Shipping Title document</primary>
+            </indexterm></title>
+            <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                <alt>Vendor Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/VendorNoTitlePage-Vendor.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Shipping Title</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/VendorNoTitlePage-176.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Shipping Title Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/VendorNoTitlePage-177.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Shipping Title</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/VendorNoTitlePage-178.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+            <para role="Body Text">The Shipping Title document establishes the codes that define the
+                point at which shipping titles are transferred and the institution takes possession
+                of a shipment. Examples might include 'Destination,' 'Origin (Vendor Location),' or
+                'Customs-US Port.</para>
+            <section>
+                <title>Document Layout</title>
+                <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Shipping Title Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/VendorNoTitlePage-179.jpg" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+                <para role="Body Text">The Shipping Title document includes the <emphasis
+                        role="bold">Edit Shipping Title</emphasis> Tab. The system automatically
+                    enters data into both the <emphasis role="bold">Old</emphasis> and <emphasis
+                        role="bold">New</emphasis> sections in this tab. Selected data fields are
+                    available for editing.</para>
+                <para role="TableHeading"><emphasis role="bold">Edit Shipping Title tab
+                        definition</emphasis></para>
+                <informaltable frame="topbot">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Shipping Title Code </para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">The code used to identify this vendor
+                                        shipping title.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Shipping Title Description</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Required. The familiar title of the
+                                        vendor shipping title. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Active Indicator</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Indicates whether this shipping title
+                                        code is active or inactive. Remove the check mark to
+                                        deactivate.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+        </section>
+        <section>
+            <title><anchor xml:id="_SupplierDiversity"/>Supplier Diversity<indexterm
+                significance="normal">
+                <primary>Supplier Diversity document</primary>
+            </indexterm></title>
+            <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                <alt>Vendor Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/VendorNoTitlePage-Vendor.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Supplier Diversity</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/VendorNoTitlePage-182.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Supplier Diversity Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/VendorNoTitlePage-183.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Supplier Diversity</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/VendorNoTitlePage-184.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+            <para role="Body Text">Certain vendors may merit special consideration due to their size
+                (small business), ownership (woman or minority owned), geographical location
+                (local), or other factors. The Supplier Diversity document establishes the codes to
+                identify the categories defined by the Small Business Administration.</para>
+            <section>
+                <title>Document Layout</title>
+                <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Supplier Diversity Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/VendorNoTitlePage-185.jpg" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+                <para role="Body Text">The Supplier Diversity document includes the <emphasis
+                        role="bold">Edit Supplier Diversity</emphasis> tab. The system automatically
+                    enters data into both the <emphasis role="bold">Old</emphasis> and <emphasis
+                        role="bold">New</emphasis> sections in this tab. Selected data fields are
+                    available for editing.</para>
+                <para role="TableHeading"><emphasis role="bold">Edit Supplier Diversity tab
+                        definition</emphasis></para>
+                <informaltable frame="topbot">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Supplier Diversity Code </para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">The code used to identify this supplier
+                                        diversity type.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Supplier Diversity Description</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Required. The title of the supplier
+                                        diversity code. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Active Indicator</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Indicates whether this supplier
+                                        diversity code is active or inactive. Remove the check mark
+                                        to deactivate.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+        </section>
+        <section>
+            <title><anchor xml:id="_VendorInactiveReason"/>Vendor Inactive Reason<indexterm
+                significance="normal">
+                <primary>Vendor Inactive Reason document</primary>
+            </indexterm></title>
+            <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                <alt>Vendor Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/VendorNoTitlePage-Vendor.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Vendor Inactive Reason</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/VendorNoTitlePage-188.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Vendor Inactive Reason Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/VendorNoTitlePage-189.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Vendor Inactive Reason</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/VendorNoTitlePage-190.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+            <para role="Body Text">The Vendor Inactive Reason document establishes codes that
+                indicate why a vendor is being inactivated in the system. Examples of codes might
+                include 'Out of Business' or 'Merged.'</para>
+            <section>
+                <title>Document Layout</title>
+                <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Vendor Inactive Reason Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/VendorNoTitlePage-191.jpg" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+                <para role="Body Text">The Vendor Inactive Reason document includes the <emphasis
+                        role="bold">Edit Vendor Inactive Reason</emphasis> tab. The system
+                    automatically enters data into both the <emphasis role="bold">Old</emphasis> and
+                        <emphasis role="bold">New</emphasis> sections in this tab. Selected data
+                    fields are available for editing.</para>
+                <para role="TableHeading"><emphasis role="bold">Edit Vendor Inactive Reason tab
+                        definition</emphasis></para>
+                <informaltable frame="topbot">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Vendor Inactive Reason Code </para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">The code used to identify this vendor
+                                        inactive reason.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Vendor Inactive Reason
+                                        Description</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Required. The familiar title of the
+                                        vendor inactive reason code. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Active Indicator</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Indicates whether this vendor inactive
+                                        reason code is active or inactive. Remove the check mark to
+                                        deactivate.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+        </section>
+        <section>
+            <title><anchor xml:id="_VendorSearchAliasType"/>Vendor Search Alias Type<indexterm
+                significance="normal">
+                <primary>Vendor Inactive Reason document</primary>
+            </indexterm></title>
+            <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                <alt>Vendor Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/VendorNoTitlePage-Vendor.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Vendor Search Alias Type</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/VendorNoTitlePage-194.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Alias Type Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/VendorNoTitlePage-195.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Alias Type</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/VendorNoTitlePage-196.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+            <para role="Body Text">The Vendor Search Alias Type document establishes codes that
+                indicate what type of vendor alias is used on the Vendor document. Examples of codes
+                might include 'Abbreviation' or 'External Vendor Code.'</para>
+            <section>
+                <title>Document Layout</title>
+                <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Alias Type</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/VendorNoTitlePage-197.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+                <para role="Body Text">The Vendor Alias Type document includes the <emphasis
+                        role="bold">Edit Alias Type</emphasis> tab. The system automatically enters
+                    data into both the <emphasis role="bold">Old</emphasis> and <emphasis
+                        role="bold">New</emphasis> sections in this tab. Selected data fields are
+                    available for editing.</para>
+                <para role="TableHeading"><emphasis role="bold">Edit Alias Type tab
+                        definition</emphasis></para>
+                <informaltable frame="topbot">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Alias Type </para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Required. The name of the alias type
+                                        used to describe aliases.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Definition</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Required. The description of the alias
+                                        type.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Active Indicator</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Indicates whether this alias type is
+                                        active or inactive. Remove the check mark to
+                                        deactivate.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+        </section>
+        <section>
+            <title><anchor xml:id="_Vendor_Transmission_Format"/>Vendor Transmission
+                    Format<indexterm significance="normal">
+                    <primary>Vendor Inactive Reason document</primary>
+                </indexterm></title>
+            <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                <alt>Vendor Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/VendorNoTitlePage-Vendor.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Vendor Transmission Format</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/VendorNoTitlePage-200.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Transmission Format Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/VendorNoTitlePage-201.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Vendor Transmission Format</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/VendorNoTitlePage-202.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+            <para role="Body Text">The Vendor Transmission Format document establishes the file
+                formats that a vendor will use to receive purchase orders. Examples of formats might
+                include ‘EDI’ or 'PDF'.</para>
+            <section>
+                <title>Document Layout</title>
+                <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Vendor Transmission Format Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/VendorNoTitlePage-203.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+                <para role="Body Text">The Vendor Transmission Format document includes the
+                        <emphasis role="bold">Edit Vendor Transmission Format</emphasis> tab. The
+                    system automatically enters data into both the <emphasis role="bold"
+                        >Old</emphasis> and <emphasis role="bold">New</emphasis> sections in this
+                    tab. Selected data fields are available for editing.</para>
+                <para role="TableHeading"><emphasis role="bold">Edit Vendor Transmission Format tab
+                        definition</emphasis></para>
+                <informaltable frame="topbot">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Vendor Transmission Format</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Required. The name of the vendor
+                                        transmission format.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Active Indicator</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Indicates whether this vendor inactive
+                                        reason code is active or inactive. Remove the check mark to
+                                        deactivate.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+        </section>
+        <section>
+            <title><anchor xml:id="_Vendor_Transmission_Type"/>Vendor Transmission Type<indexterm
+                    significance="normal">
+                    <primary>Vendor Inactive Reason document</primary>
+                </indexterm></title>
+            <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                <alt>Vendor Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/VendorNoTitlePage-Vendor.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Vendor Transmission Type</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/VendorNoTitlePage-206.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Transmission Type Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/VendorNoTitlePage-207.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Vendor Transmission Type</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/VendorNoTitlePage-208.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+            <para role="Body Text">The Vendor Transmission Type document establishes how a purchase
+                order will be sent to the vendor. Examples of transmission types might include
+                'FTP', “Email’, or 'Fax'.</para>
+            <section>
+                <title>Document Layout</title>
+                <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Vendor Transmission Type Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/VendorNoTitlePage-209.png" width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+                <para role="Body Text">The Vendor Transmission Type document includes the <emphasis
+                        role="bold">Edit Vendor Transmission Type</emphasis> tab. The system
+                    automatically enters data into both the <emphasis role="bold">Old</emphasis> and
+                        <emphasis role="bold">New</emphasis> sections in this tab. Selected data
+                    fields are available for editing.</para>
+                <para role="TableHeading"><emphasis role="bold">Edit Vendor Transmission Type tab
+                        definition</emphasis></para>
+                <informaltable frame="topbot">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Title </para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Transmission Type </para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Required. The familiar name of the
+                                        transmission type.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Active Indicator</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                   >
+                                    <para role="Table Cells">Indicates whether this vendor inactive
+                                        reason code is active or inactive. Remove the check mark to
+                                        deactivate.</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+        </section>
+    </chapter>

@@ -1,0 +1,2750 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0"
+         xml:lang="en-US">
+    <title>Receiving Materials: Standard Transactional E-docs</title>
+    <para role="Body Text"><inlinemediaobject>
+            <alt>Select/Acquire</alt>
+            <imageobject>
+                <imagedata fileref="../images/SelectAcquire.png"/>
+            </imageobject>
+        </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+                <alt>Receiving</alt>
+                <imageobject>
+                    <imagedata fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-5b.png"
+                    />
+                </imageobject>
+            </inlinemediaobject> &gt;<inlinemediaobject>
+                <alt>Receiving Links</alt>
+                <imageobject>
+                    <imagedata fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-7b.png"
+                    />
+                </imageobject>
+            </inlinemediaobject></emphasis></para>
+    <para role="Body Text">On the Select/Acquire tab, the Receiving submenu provides access to receiving
+        e-documents.</para>
+    <section>
+        <title><anchor xml:id="_Receiving"/>Monograph Receiving Search<indexterm
+                significance="normal">
+                <primary>Receiving (Custom Document Search)</primary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Select/Acquire</alt>
+                <imageobject>
+                    <imagedata fileref="../images/SelectAcquire.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+                    <alt>Receiving</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-5b.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold"> &gt;<inlinemediaobject>
+                    <alt>Monograph Receiving</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-157.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Search</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-158.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">OLE offers a customized document search related to receiving. The
+            search screen contains the standard search fields along with special fields that are
+            unique to this type of e-doc.</para>
+        <section>
+            <title>Lookup Help</title>
+            <para><emphasis role="bold">Specifying search criteria:</emphasis></para>
+            <itemizedlist>
+                <listitem>
+                    <para>Most fields will be uppercased for search.</para>
+                </listitem>
+                <listitem>
+                    <para>Dates should be specified as MM/dd/yyyy.</para>
+                </listitem>
+                <listitem>
+                    <para>Some fields have magnifying glass button for a sub lookup on that
+                        field.</para>
+                </listitem>
+                <listitem>
+                    <para>Wildcards allowed on strings are * and % match any number of characters,
+                        while using a ? will match any one character</para>
+                </listitem>
+                <listitem>
+                    <para>Logical operators allowed include &amp;&amp; (And) as well as | (Or) to
+                        join multiple search criteria</para>
+                </listitem>
+                <listitem>
+                    <para>Range operators allowed on numerics and dates are &gt;,&lt;,&gt;=,&lt;=,
+                        or ..</para>
+                    <para> All operators except .. should be before date value. Operator .. should
+                        separate date values.</para>
+                </listitem>
+            </itemizedlist>
+            <para><emphasis role="bold">Result Table:</emphasis></para>
+            <itemizedlist>
+                <listitem>
+                    <para>Each result field has link on header for sorting. Click once to sort
+                        ascending, </para>
+                    <para> and click again to sort descending.</para>
+                </listitem>
+                <listitem>
+                    <para>Some row fields have links to inquiry. The inquiry will be presented in a
+                        new window. </para>
+                </listitem>
+                <listitem>
+                    <para>Click the return value link to select a row and return the key value to
+                        the previous page.</para>
+                    <para> Select 'return with no value' or click the cancel button if you wish to
+                        return without returning a value.</para>
+                </listitem>
+            </itemizedlist>
+            <para><emphasis role="bold">Maintenance Links:</emphasis></para>
+            <itemizedlist>
+                <listitem>
+                    <para>The 'create new' link on the upper left corner of the lookup screen will </para>
+                    <para> go to a maintenance document for creating a new record for this lookup
+                        type.</para>
+                </listitem>
+                <listitem>
+                    <para>For each result row the action column displays edit and copy links. The
+                        'edit' link </para>
+                    <para> will go to a maintenance document for editing the current record. The
+                        'copy' link </para>
+                    <para> will go to a new maintenance document but copy over attributes over the
+                        current record.</para>
+                </listitem>
+            </itemizedlist>
+            <para><emphasis role="bold">Export Functionality:</emphasis></para>
+            <itemizedlist>
+                <listitem>
+                    <para>At the end of each result set, there are links for exporting the data to a
+                        different format.</para>
+                </listitem>
+                <listitem>
+                    <para>Click 'csv' to export the data as a comma delimited file, 'spreadsheet' to
+                        export the data as a spreadsheet,</para>
+                    <para> or 'xml' to export the data as xml.</para>
+                </listitem>
+            </itemizedlist>
+            <note>
+                <para> For information about performing a search for requisitions, see <link
+                        xlink:href="../../../webhelp/BASICS/content/ch02s04.html#_PerformingSearchesOnFinancialDocs"
+                        >Performing Searches on Financial Docs</link> on the <link
+                        xlink:href="../../../webhelp/BASICS/content/pr01.html"><emphasis>Guide to
+                            OLE Basic Functionality and Key Concepts</emphasis></link>.</para>
+            </note>
+            <note>
+                <para> For information about Document lookup fields that are specific to receiving,
+                    see “Document Layout” under <link linkend="_RECDocumentLayout">Receiving (Line
+                        Item Receiving)</link>. </para>
+            </note>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_Receiving_-Line_Item"/>Monograph Receiving (Line Item
+                Receiving)<indexterm significance="normal">
+                <primary>Line Item Receiving document</primary>
+            </indexterm><indexterm significance="normal">
+                <primary>Purchasing/Accounts Payable</primary>
+                <secondary>Line Item Receiving document</secondary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Select/Acquire</alt>
+                <imageobject>
+                    <imagedata fileref="../images/SelectAcquire.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+                    <alt>Receiving</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-5b.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis><emphasis role="bold">&gt;<inlinemediaobject>
+                    <alt>Monograph Receiving</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-157.png"/>
+                    </imageobject>
+                </inlinemediaobject>&gt;<inlinemediaobject>
+                    <alt>Create</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-106.png"/>
+                    </imageobject>
+                </inlinemediaobject>&gt;<inlinemediaobject>
+                    <alt>Line Item Receiving</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-107.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The Line Item Receiving (RCV) document is used to acknowledge the
+            receipt of goods or services on purchase order line items for which a quantity is given.
+            Line item receiving is used to record the quantities of items received, damaged,
+            returned or unordered on a purchase order. </para>
+        <para role="Body Text">When the purchase order routing is completed and the PO becomes fully
+            approved, if the <emphasis role="bold">Receiving Required </emphasis>flag is not 'Yes,'
+            the attributes of the purchase order are compared to the Receiving Thresholds table. If
+            one of the attributes on the purchase order matches the Thresholds table, then the
+                <emphasis role="bold">Receiving Required </emphasis>flag is set to 'Yes'. Amendments
+            are also evaluated to determine whether the flag should be set if payment requests have
+            not yet been processed against the purchase order.</para>
+        <para role="Body Text">When receiving is required, the Receiving document is processed
+            against a purchase order to satisfy confirmation of satisfactory receipt of the goods. </para>
+        <note>
+            <para role="Body Text">
+                <emphasis role="bold">When receiving is satisfied, the payment request is eligible
+                    for auto approval for payment without regard to dollar amount limits.</emphasis>
+                For this reason, it is important that the fiscal officer (or delegate) understand
+                that the receiving document does not replace the fiscal officer (or delegate's)
+                responsibility to confirm that accounts are properly charged and the proper amount
+                is paid. The receiving document satisfies the receipt of goods only. The fiscal
+                officer or delegate is responsible for ensuring that the amounts to be paid are
+                correct and the correct accounts are charged. </para>
+        </note>
+        <note>
+            <para role="Body Text"> When receiving required is 'Yes', the payment request document
+                does not route for fiscal officer approval until sufficient quantity has been
+                documented as received.</para>
+        </note>
+        <note>
+            <para role="Body Text"> The auto approval process is designed to push payments through
+                so that vendors are paid on time. The fiscal officer is permitted to approve all
+                payments, not just those that require positive approval.</para>
+        </note>
+        <section>
+            <title><anchor xml:id="_RECDocumentLayout"/>Document Layout</title>
+            <para role="Body Text">Line Item Receiving documents may be created in several ways—by
+                selecting the Search or Create link on the <emphasis role="bold"
+                    >Select/Acquire</emphasis> menu or by viewing the purchase order and then
+                clicking the <emphasis role="bold">receiving</emphasis> button. OLE also contains a
+                    <link linkend="_Receiving_Queue">Receiving Queue</link> for quick,
+                straightforward receiving.</para>
+            <section>
+                <title>Line Item Receiving Initiation Tab<indexterm significance="normal">
+                        <primary>Line Item Receiving document</primary>
+                        <secondary>Line Item Receiving Initiation tab</secondary>
+                    </indexterm></title>
+                <para role="Body Text">When you first access the Line Item Receiving document, the
+                    system displays the <emphasis role="bold">Line Item Receiving
+                        Initiation</emphasis> tab. The fields on the initiation screen are used to
+                    detect duplicate entries. Initiating the Line Item Receiving document in this
+                    manner allows the system to provide feedback to you regarding potential
+                    duplicate entries. </para>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Line Item Receiving Initiation Screen</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-111.jpg"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para role="Body Text">Here you enter information to create a new Line Item
+                    Receiving document.</para>
+                <para role="TableHeading"><emphasis role="bold">Line Item Receiving Initiation tab
+                        definition</emphasis></para>
+                <informaltable frame="top">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Purchase Order #</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the PO number
+                                        associated with the goods for which line item receiving is
+                                        being processed.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Date Received</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required. Enter the date of the
+                                        vendor's receiving document.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Packing Slip #</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Enter the packing slip number if
+                                        included on the receiving document.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Bill of Lading #</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Enter the bill of lading number if
+                                        included on the receiving document.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Carrier</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Select from the list to specify the
+                                        freight carrier used by the Purchasing Department. </para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+                <para role="Body Text">Click the <inlinemediaobject>
+                        <alt>Continue</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-112.png"
+                            />
+                        </imageobject>
+                    </inlinemediaobject> button to display tabs of the main Line Item Receiving
+                    document.</para>
+            </section>
+            <section>
+                <title>Line Item Receiving Document</title>
+                <para role="Body Text">This main screen for the Line Item Receiving document
+                    includes unique <emphasis role="bold">Vendor</emphasis>, <emphasis role="bold"
+                        >Titles</emphasis>, and <emphasis role="bold">Delivery </emphasis>tabs in
+                    addition to the standard tabs that display at the bottom of a financial
+                    transaction document.</para>
+                <note>
+                    <para> For more information about the standard tabs, see <link
+                        xlink:href="../../../webhelp/BASICS/content/ch02s02.html">Standard
+                        Tabs</link> on the <link xlink:href="../../../webhelp/BASICS/content/pr01.html"><emphasis>Guide to OLE Basic
+                            Functionality and Key Concepts</emphasis></link>.</para>
+                </note>
+                <para role="Illustration">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Line Item Receiving Document</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-114.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <section>
+                    <title>Document Overview Tab<indexterm significance="normal">
+                            <primary>Line Item Receiving document</primary>
+                            <secondary>Document Overview tab </secondary>
+                        </indexterm></title>
+                    <para role="Table Cells">The <emphasis role="bold">Document Overview</emphasis>
+                        tab is standard except that the <emphasis role="bold">Description
+                        </emphasis>field defaults to the purchase order number and vendor's
+                        name.</para>
+                    <para role="Illustration">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Line Item Receiving Document: Document Overview Tab</alt>
+                                <imageobject>
+                                    <imagedata
+                                        fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-115.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para role="TableHeading"><emphasis role="bold">Document Overview tab
+                            definition</emphasis></para>
+                    <informaltable frame="top">
+                        <tgroup cols="2">
+                            <colspec colname="col1" colnum="1"/>
+                            <colspec colname="col2" colnum="2"/>
+                            <tbody>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Title</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Description</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Description</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Defaults to the purchase order
+                                            number and vendor's name</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Org. Doc. #</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">The organization document number.
+                                            If the organization does not use an internal referencing
+                                            system, this field is left blank.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Explanation</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Allows you to include additional
+                                            information about the document that does not fit into
+                                            the <emphasis role="bold">Description</emphasis> field
+                                            (which is limited to 40 characters). </para>
+                                    </entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </informaltable>
+                </section>
+                <section>
+                    <title>Vendor Tab<indexterm significance="normal">
+                            <primary>Line Item Receiving document</primary>
+                            <secondary>Vendor tab</secondary>
+                        </indexterm></title>
+                    <para role="Body Text">The <emphasis role="bold">Vendor</emphasis> tab contains
+                        vendor details related to the items being received.</para>
+                    <para role="Illustration">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Line Item Receiving Document: Vendor Tab</alt>
+                                <imageobject>
+                                    <imagedata
+                                        fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-116.jpg"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para role="TableHeading"><emphasis role="bold">Vendor tab
+                        definition</emphasis></para>
+                    <informaltable frame="top">
+                        <tgroup cols="2">
+                            <colspec colname="col1" colnum="1"/>
+                            <colspec colname="col2" colnum="2"/>
+                            <tbody>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Title</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Description</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Vendor</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Display-only. The vendor name from
+                                            the Purchase Order document.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Vendor #</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Display-only. The OLE-generated
+                                            identifying number assigned to this vendor.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Address 1</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Display-only. The first line of the
+                                            address for the selected vendor.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Address 2</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Display-only. The second line of
+                                            the address for the selected vendor.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Date Received</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Required. Defaults from the
+                                            initiation tab but can be changed.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Packing Slip #</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Defaults from the <emphasis
+                                                role="bold">Line Item Receiving
+                                                Initiation</emphasis> tab but can be edited.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Bill of Lading #</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Defaults from the <emphasis
+                                                role="bold">Line Item Receiving
+                                                Initiation</emphasis> tab but can be edited.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">City</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Display-only. The city associated
+                                            with this vendor. This entry is required under certain
+                                            circumstances (such as, for a U.S. address).</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">State</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Display-only. The state associated
+                                            with this vendor.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Postal Code</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Display-only. The postal code for
+                                            this vendor address. Postal codes are required under
+                                            certain circumstances (such as, for a U.S.
+                                            address).</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Country</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Display-only. The country
+                                            associated with this vendor.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Reference #</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Allows you to add additional
+                                            information that will assist with document searching.
+                                        </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Carrier</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Defaults from the <emphasis
+                                                role="bold">Line Item Receiving
+                                                Initiation</emphasis> tab but can be edited.</para>
+                                    </entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </informaltable>
+                </section>
+                <section>
+                    <title>Title Tab</title>
+                    <para role="Body Text">The <emphasis role="bold">Titles</emphasis>tab displays
+                        the lines of the PO that this receiving document relates to. On this tab the
+                        quantity received for each line item number is recorded. If known at this
+                        time, quantity returned and quantity damaged are also recorded; otherwise,
+                        this information can be added later by using the Receiving Correction
+                        document. Click <inlinemediaobject>
+                            <alt>Receive</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-123.png"
+                                />
+                            </imageobject>
+                        </inlinemediaobject> to receive the title, click <emphasis role="bold"
+                            >edit</emphasis> to access the Bibliographic Editor and modify the
+                        record.</para>
+                    <para/>
+                    <note>
+                        <para>To receive additional titles on a PO, users must create a purchase
+                            order amendment (POA). A POA is created when a change or addition is
+                            made to an existing PO. If the existing PO is open then the PO can be
+                            amended, if the PO is closed then the PO has to be opened and then amend
+                            the PO. PO amendments allows for changes in number of copies, adding a
+                            copy for a different location or fund or for adding a new title to the
+                            existing PO. To learn more about creating a POA, see <link
+                                linkend="_POA">Purchase Order Amend</link>
+                        </para>
+                    </note>
+                    <para role="Illustration">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Line Item Receiving Document: Titles Tab</alt>
+                                <imageobject>
+                                    <imagedata
+                                        fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-117.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                </section>
+                <section>
+                    <title>Receiving Titles section</title>
+                    <para role="TableHeading"><emphasis role="bold">Titles tab
+                        definition</emphasis></para>
+                    <informaltable frame="top">
+                        <tgroup cols="2">
+                            <colspec colname="col1" colnum="1"/>
+                            <colspec colname="col2" colnum="2"/>
+                            <tbody>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Title</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Description</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Line #</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Display-only. The line number on
+                                            the receiving document. The line number corresponds to
+                                            the line number on the purchase order.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Vendor Item Identifier</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Display-only (optional for new line
+                                            items) Identifies a vendor item identifier if one has
+                                            been provided by a vendor. </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Description</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Concatenated data values from the
+                                            related bibliographic description.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Format</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Display-only (optional for new line
+                                            items). Identifies the Format for this line item.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Qty Ordered</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Display-only. Indicates the
+                                            original quantity ordered from the purchase
+                                            order.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">No. of Parts Ordered</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Display-only. Indicates the
+                                            original number of individual pieces ordered from the
+                                            purchase order.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Prior Qty Received</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Display-only. Indicates the sum of
+                                            total quantity received minus total quantity returned
+                                            from all previously submitted Line Item Receiving
+                                            documents. </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Prior Parts Rcd</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Display-only. Indicates the sum of
+                                            total of parts received minus total parts returned from
+                                            all previously submitted Line Item Receiving
+                                            documents.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Qty to be Received</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Display-only. The <emphasis
+                                                role="bold">Quantity Ordered </emphasis>minus the
+                                                <emphasis role="bold">Prior Quantity
+                                                Received</emphasis>.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Parts to be Rcd</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Display-only. The <emphasis
+                                                role="bold">No. Parts Ordered </emphasis>minus the
+                                                <emphasis role="bold">Prior Parts
+                                                Received</emphasis>.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Item Received Total Quantity</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">The quantity of this item received
+                                            in this shipment.</para>
+                                        <note>
+                                            <para role="Table Cells"> If you receive additional
+                                                copies of an item, you will need to fill in the
+                                                  <emphasis role="bold">Copies</emphasis>
+                                                section.</para>
+                                        </note>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Item Received Total Parts</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">The parts of this item received in
+                                            this shipment.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Item Returned Total Quantity</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">The quantity to be returned to the
+                                            vendor.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Item Returned Total Parts</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">The parts to be returned to the
+                                            vendor.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Item Damaged Total Quantity</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">The quantity received that was
+                                            damaged.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Item Damaged Total Parts</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">The part(s) received that was
+                                            (were) damaged.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Addition Reason</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Required. When adding items,
+                                            indicates the reason this line item is being added
+                                            (i.e., 'substitution' or 'not on order').</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Available to the Public</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Optional. Indicates whether or not
+                                            a bibliographic description shall be exposed to users
+                                            prior to purchase/receipt.  Default is checked for
+                                            yes.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells"><emphasis>Bib
+                                            Info</emphasis></para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">To modify the bibliographic record,
+                                            click <emphasis role="bold">edit</emphasis>. Click
+                                                <emphasis role="bold">receive</emphasis> to receive
+                                            the item.</para>
+                                    </entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </informaltable>
+                    <note>
+                        <para>Users must access the open Purchase Order and amend it to add
+                            additional items.</para>
+                    </note>
+                    <section>
+                        <title>Notes and Instructions</title>
+                        <para role="Normal">OLE provides three forms of receiving line item notes
+                            that are specific to receiving activities:</para>
+                        <itemizedlist mark="disc" spacing="normal">
+                            <listitem>
+                                <para role="Bul-list"><emphasis role="bold">Exception
+                                        Notes</emphasis>: to note damaged, unusual, or other
+                                    exceptions for the line item. Future workflow rules will be tied
+                                    into exception notes.</para>
+                            </listitem>
+                            <listitem>
+                                <para role="Bul-list"><emphasis role="bold">Receipt
+                                    Notes</emphasis>: general notes for recording receipt statements
+                                    on the item in hand</para>
+                            </listitem>
+                            <listitem>
+                                <para role="Bul-list"><emphasis role="bold">Special processing
+                                        instructions</emphasis>: users cannot input these
+                                    instructions during receiving, but are required to check-off, or
+                                    acknowledge any special instructions transferred from the
+                                    Purchase Order for this line item- this must be completed prior
+                                    to submitting the document. </para>
+                            </listitem>
+                        </itemizedlist>
+                        <para role="Normal"/>
+                        <para role="Normal">
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Line Item Receiving Document: Notes and Instructions on the
+                                        Titles Tab</alt>
+                                    <imageobject>
+                                        <imagedata
+                                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-119.png"
+                                            width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                    </section>
+                    <section>
+                        <title>Multiple Copies</title>
+                        <para role="C1H Number">If there are multiple copies ordered, you will need
+                            to receive each one individually from the <emphasis role="bold"
+                                >Copies</emphasis> section. In the <emphasis role="bold"
+                                >Copies</emphasis> section, click the <inlinemediaobject>
+                                <alt>Show</alt>
+                                <imageobject>
+                                    <imagedata
+                                        fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-120.png"
+                                    />
+                                </imageobject>
+                            </inlinemediaobject> button.</para>
+                        <para role="C1H Number">
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Line Item Receiving Document: Copies subtab on the Titles
+                                        Tab</alt>
+                                    <imageobject>
+                                        <imagedata
+                                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-121.png"
+                                            width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                        <para role="Normal"/>
+                        <para role="Normal">The expanded section appears:</para>
+                        <para role="Normal"/>
+                        <para role="Normal">
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Line Item Receiving Document: Copies subtab expanded</alt>
+                                    <imageobject>
+                                        <imagedata
+                                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-103.png"
+                                            width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                        <para role="Normal"/>
+                        <para role="TableHeading"><emphasis role="bold">Copies section
+                                definition</emphasis></para>
+                        <informaltable frame="topbot">
+                            <tgroup cols="2">
+                                <colspec colname="col1" colnum="1"/>
+                                <colspec colname="col2" colnum="2"/>
+                                <tbody>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Title</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                            <para role="Table Cells">Description</para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Enumeration</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                            <para role="Table Cells">Descriptive information for the
+                                                numbering scheme of the item.</para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Location</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                            <para role="Table Cells">The home location of the title
+                                                being requested.</para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Copy Number</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                            <para role="Table Cells">Identifies the number of copies
+                                                a library location has of the same item.</para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                            <para role="Table Cells">Receipt Status</para>
+                                        </entry>
+                                        <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                            <para role="Table Cells">Display only. Identifies the
+                                                receiving status of the item.</para>
+                                        </entry>
+                                    </row>
+                                    <row>
+                                        <entry colname="col1" colsep="1" rowsep="1" valign="top"
+                                            >Action</entry>
+                                        <entry colname="col2" colsep="0" rowsep="1" valign="top"
+                                            >Click <inlinemediaobject>
+                                                <alt>Receive</alt>
+                                                <imageobject>
+                                                  <imagedata
+                                                  fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-123.png"
+                                                  />
+                                                </imageobject>
+                                            </inlinemediaobject> to receive the item and update the
+                                            receipt status.</entry>
+                                    </row>
+                                </tbody>
+                            </tgroup>
+                        </informaltable>
+                        <para role="Normal"/>
+                    </section>
+                </section>
+                <section>
+                    <title>Delivery Tab<indexterm significance="normal">
+                            <primary>Line Item Receiving document</primary>
+                            <secondary>Delivery tab</secondary>
+                        </indexterm></title>
+                    <para role="Body Text">The <emphasis role="bold">Delivery</emphasis> tab
+                        contains information about where goods ordered on this order should be
+                        delivered. It also displays delivery contact information and any special
+                        delivery instructions. All fields in this tab come from the purchase order's
+                            <emphasis role="bold">Delivery</emphasis> tab. </para>
+                    <para role="Illustration">
+                        <screenshot>
+                            <mediaobject>
+                                <alt>Line Item Receiving Document: Delivery Tab</alt>
+                                <imageobject>
+                                    <imagedata
+                                        fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-124.png"
+                                        width="100%"/>
+                                </imageobject>
+                            </mediaobject>
+                        </screenshot>
+                    </para>
+                    <para role="TableHeading"><emphasis role="bold">Delivery tab
+                            definition</emphasis></para>
+                    <informaltable frame="top">
+                        <tgroup cols="2">
+                            <colspec colname="col1" colnum="1"/>
+                            <colspec colname="col2" colnum="2"/>
+                            <tbody>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Title</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Description</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Delivery Campus</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">The campus code where the goods
+                                            were delivered. </para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Building</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">The building where the goods were
+                                            delivered.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Address 1</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells"> Address line 1 where the goods
+                                            were delivered.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Address 2</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Address line 2 where the goods were
+                                            delivered.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Room</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">The room number where the goods
+                                            were delivered.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">City</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">The city where the goods were
+                                            delivered.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">State</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">The state where the goods were
+                                            delivered.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Postal Code</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">The postal code where the goods
+                                            were delivered.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Country</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">The country where the goods were
+                                            delivered.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Delivery To</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">The person to whom the delivery was
+                                            made.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Phone Number</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells"> The phone number of the
+                                            delivery-to person. (Formatted: xxx-xxx-xxxx)</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Email</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">The email address of the
+                                            delivery-to person.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Date Required</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">The date the delivery was
+                                            required.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Date Required Reason</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">If a date required was entered the
+                                            date required reason is displayed here.</para>
+                                    </entry>
+                                </row>
+                                <row>
+                                    <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                        <para role="Table Cells">Delivery Instructions</para>
+                                    </entry>
+                                    <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                        <para role="Table Cells">Displays any special delivery
+                                            instructions for the items.</para>
+                                    </entry>
+                                </row>
+                            </tbody>
+                        </tgroup>
+                    </informaltable>
+                </section>
+            </section>
+        </section>
+        <section>
+            <title>Process Overview</title>
+            <para role="Normal">To receive the item in hand: </para>
+            <orderedlist>
+                <listitem>
+                    <para>Open the <emphasis role="bold">Line Item Receiving</emphasis> edoc.</para>
+                </listitem>
+                <listitem>
+                    <para>In the <emphasis role="bold">Titles</emphasis> tab, click <inlinemediaobject>
+                            <alt>Receive</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-123.png"
+                                />
+                            </imageobject>
+                        </inlinemediaobject> under the <emphasis role="bold">Action</emphasis>
+                        column.</para>
+                </listitem>
+                <listitem>
+                    <para role="Normal">Once you have received all the items you want from this
+                        Purchase Order, click the <inlinemediaobject>
+                            <alt>Blanket Approve</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-128.png"
+                                />
+                            </imageobject>
+                        </inlinemediaobject> button at the bottom of the screen.  This changes the
+                        status of the Receiving e-Doc to “Complete”, and prevents any further
+                        receiving on it.  </para>
+                    <para role="Normal"/>
+                    <tip>
+                        <para role="Normal"> Tip: The <emphasis role="bold">blanket
+                                approve</emphasis> option will only appear if you are logged in as a
+                            member of the OLE_RCV or OLE-Receive-Mgr groups. Otherwise (if you are a
+                            member of OLE-Invoicing), you must click on the <inlinemediaobject>
+                                <alt>Submit</alt>
+                                <imageobject>
+                                    <imagedata
+                                        fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-130.png"
+                                    />
+                                </imageobject>
+                            </inlinemediaobject> button, review the route log by opening the
+                                <emphasis role="bold">Route Log</emphasis> tab and click <inlinemediaobject>
+                                <alt>Show</alt>
+                                <imageobject>
+                                    <imagedata
+                                        fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-131.png"
+                                    />
+                                </imageobject>
+                            </inlinemediaobject> next to <emphasis role="bold">Future Action
+                                Requests</emphasis>.  </para>
+                    </tip>
+                </listitem>
+            </orderedlist>
+            <para role="Normal"/>
+            <para role="Normal">To receive a partial shipment, only receive the items that are in
+                hand.</para>
+            <para role="Normal"/>
+            <para role="Normal">To return items, enter quantities in the <emphasis role="bold">Item
+                    Returned </emphasis>fields or <emphasis role="bold">Item Damaged</emphasis>
+                fields and add an exception note. The Purchase Order will reflect the return.</para>
+            <section>
+                <title><anchor xml:id="_ReceivingDamaged"/>Receiving Damaged Items or
+                    Exceptions</title>
+                <para>To receive damaged items or exceptions, on the <emphasis role="bold"
+                        >Titles</emphasis> tab of the <emphasis role="bold">Receiving</emphasis>
+                    e-document:</para>
+                <orderedlist>
+                    <listitem>
+                        <para> Open the <emphasis role="bold">exception notes</emphasis>
+                            subtab.</para>
+                        <para role="Normal"/>
+                        <para role="Normal">
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Line Item Receiving Document: Exception Notes on the Titles
+                                        Tab</alt>
+                                    <imageobject>
+                                        <imagedata
+                                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-134.png"
+                                            width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                        <para/>
+                    </listitem>
+                    <listitem>
+                        <para>Select the <emphasis role="bold">Exception Type</emphasis> from the
+                            drop down list.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Add an exception note as needed.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Click <inlinemediaobject>
+                                <alt>Add</alt>
+                                <imageobject>
+                                    <imagedata
+                                        fileref="../images/ManagingAndEncumberingFundsNoTitlePagePt1-191.png"
+                                    />
+                                </imageobject>
+                            </inlinemediaobject>.</para>
+                    </listitem>
+                </orderedlist>
+            </section>
+            <section>
+                <title>Receiving Correction</title>
+                <para role="Normal">Receiving corrections are a version of receiving for use after
+                    receiving has been completed and approved. While authorized users may continue
+                    to initiate multiple receiving documents on a single Purchase Order (subject to
+                    quantities ordered), corrections to a single document are accomplished via
+                    Receiving Correction.</para>
+                <para>Search for and open the correct receiving document. At the bottom of the
+                    screen click <emphasis role="bold">correction</emphasis>.</para>
+                <para role="Normal"/>
+                <para role="Normal">
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Line Item Receiving Document: Correction Button displayed at the
+                                bottom of the Document</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-132.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para>A pop-up window will appear allowing users to enter a note. This note is
+                    required to correct the receiving document. Click <emphasis role="bold"
+                        >yes</emphasis> to proceed to the Receiving screen and make modifications or
+                    unreceive items.</para>
+            </section>
+            <section>
+                <title>Business Rules<indexterm significance="normal">
+                        <primary>Line Item Receiving document</primary>
+                        <secondary>business rules</secondary>
+                    </indexterm><indexterm significance="normal">
+                        <primary>business rules</primary>
+                        <secondary>Line Item Receiving document</secondary>
+                    </indexterm></title>
+                <itemizedlist mark="disc" spacing="normal">
+                    <listitem>
+                        <para role="C1H Bullet">When the Receiving document is submitted, the
+                                <emphasis role="bold">No Of Copies Received</emphasis> and <emphasis
+                                role="bold">No Of Parts Received</emphasis> fields are updated on
+                            the purchase order with the <emphasis role="bold">Receipt
+                                Status</emphasis>reflecting the item's Receiving status.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet">Notes in the <emphasis role="bold">Notes and
+                                Attachments</emphasis> tab are used to record any additional detail
+                            about damaged goods.</para>
+                    </listitem>
+                    <listitem>
+                        <para role="C1H Bullet">After the document has been submitted, a correction
+                            document needs to be processed to reduce or increase the quantity
+                            received, returned, and/or damaged if the original entered amounts are
+                            determined to be in error. </para>
+                    </listitem>
+                </itemizedlist>
+            </section>
+            <section>
+                <title>Routing</title>
+                <para role="Normal">If other receiving or payment actions are in progress against
+                    this Purchase Order and receiving document (i.e., and not yet approved), you may
+                    be prohibited from processing additional receiving until completed.</para>
+                <para role="Normal"><inlinemediaobject>
+                        <alt>Line Item Receiving Workflow</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-133.png"
+                            />
+                        </imageobject>
+                    </inlinemediaobject></para>
+            </section>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_ClaimNotices"/>Claim Notices</title>
+        <para role="Normal"><inlinemediaobject>
+                <alt>Select/Acquire</alt>
+                <imageobject>
+                    <imagedata fileref="../images/SelectAcquire.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+                    <alt>Receiving</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-5b.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis> &gt; <inlinemediaobject>
+                <alt>Monograph Receiving</alt>
+                <imageobject>
+                    <imagedata
+                        fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-157.png"/>
+                </imageobject>
+            </inlinemediaobject> &gt; <inlinemediaobject>
+                <alt>Claim Notices</alt>
+                <imageobject>
+                    <imagedata
+                        fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-135.png"/>
+                </imageobject>
+            </inlinemediaobject>&gt; <inlinemediaobject>
+                <alt>Claim Notices</alt>
+                <imageobject>
+                    <imagedata
+                        fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-136.png"/>
+                </imageobject>
+            </inlinemediaobject></para>
+        <para>Claim Notices allows users to download pdf versions of the claims.  The item as it
+            appears in Claim Notice will include any notes to the vendor made at the time the claim
+            was generated. All Claims generated will appear in the PO under the Claim History tab
+            for that item.</para>
+        <para>Claim Notices are stored on a disk or in the cloud.  This location is locally
+            configurable by the parameter PDF_LOCATION (Select Component).</para>
+        <note>
+            <para>For information about Claiming, see <link linkend="_Receiving_Queue">Receiving and
+                    Claiming Queue</link></para>
+        </note>
+        <para/>
+        <para role="Normal">
+            <screenshot>
+                <mediaobject>
+                    <alt>Claim Notices Screen with Sample Notices displayed</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-141.png"/>
+                    </imageobject>
+                </mediaobject>
+            </screenshot>
+        </para>
+    </section>
+    <section>
+        <title><anchor xml:id="_claimResponseUpdate"/>Claim Response Information (Update)</title>
+        <para role="Normal"><inlinemediaobject>
+                <alt>Select/Acquire</alt>
+                <imageobject>
+                    <imagedata fileref="../images/SelectAcquire.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+                    <alt>Receiving</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-5b.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis> &gt; <inlinemediaobject>
+                <alt>Monograph Receiving</alt>
+                <imageobject>
+                    <imagedata
+                        fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-157.png"/>
+                </imageobject>
+            </inlinemediaobject> &gt; <inlinemediaobject>
+                <alt>Claim Response Update</alt>
+                <imageobject>
+                    <imagedata fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-94.png"
+                    />
+                </imageobject>
+            </inlinemediaobject>&gt; <inlinemediaobject>
+                <alt>Claim Response Information</alt>
+                <imageobject>
+                    <imagedata fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-1.png"
+                    />
+                </imageobject>
+            </inlinemediaobject></para>
+        <para>The Claim Response Update allows the user to enter information received from a vendor
+            about an item that has been previously claimed. This information will then be saved in
+            the Claim History tab for that item within the Purchase Order.</para>
+        <note>
+            <para>For information about Claiming, see <link linkend="_Receiving_Queue">Receiving and
+                    Claiming Queue</link></para>
+        </note>
+        <section>
+            <title>Process Overview</title>
+            <para role="Normal">On the <emphasis role="bold">Select/Acquire</emphasis> tab, click on
+                the <emphasis role="bold">Receiving and Claiming Queue</emphasis> link listed under
+                the <emphasis role="bold">Receiving</emphasis> submenu. </para>
+            <para role="Normal">It will bring you to this screen: </para>
+            <para/>
+            <para role="Normal">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Claim Response Information Lookup Screen</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-144.png"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para>The Claim Response Information screen allows users to search for an existing claim
+                by the Vendor Name, Title, and Claim Date.  To search, you may select a vendor from
+                the dropdown list, fill in a partial title, and/or select the Claim Date from the
+                calendar <inlinemediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-27.png"/>
+                    </imageobject>
+                </inlinemediaobject>.</para>
+            <para>Enter the information needed and click <inlinemediaobject>
+                    <alt>Search</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DescribeNoTitlePage-71.png"/>
+                    </imageobject>
+                </inlinemediaobject>.</para>
+            <para>Once the search results display, enter the information into the Claim Response
+                Information box to the right of the title.</para>
+            <para/>
+            <para role="Normal">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Claim Response Information: Updating the Claim Response
+                            Information</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-149.png"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <para>Once all information from the vendor is entered, Click <inlinemediaobject>
+                    <alt>Update Claim Response Info</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-147.png"/>
+                    </imageobject>
+                </inlinemediaobject>. A message noting “Updated Claim Response Information
+                successfully” will appear at the top of the screen:</para>
+            <para/>
+            <para role="Normal">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Claim Response Information: Successful Update of the Claim Response
+                            Information</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-148.png"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_Receiving_Queue"/>Receiving and Claiming Queue</title>
+        <para role="Normal"><inlinemediaobject>
+                <alt>Select/Acquire</alt>
+                <imageobject>
+                    <imagedata fileref="../images/SelectAcquire.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+                    <alt>Receiving</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-5b.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis> &gt; <inlinemediaobject>
+                <alt>Monograph Receiving</alt>
+                <imageobject>
+                    <imagedata
+                        fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-157.png"/>
+                </imageobject>
+            </inlinemediaobject> &gt; <inlinemediaobject>
+                <alt>Receiving and Claiming Queue</alt>
+                <imageobject>
+                    <imagedata fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-95.png"
+                    />
+                </imageobject>
+            </inlinemediaobject>&gt; <inlinemediaobject>
+                <alt>Receiving and Claiming Queue Search</alt>
+                <imageobject>
+                    <imagedata fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-96.png"
+                    />
+                </imageobject>
+            </inlinemediaobject></para>
+        <para role="Normal"/>
+        <para role="Normal">The Receiving and Claiming Queue is intended to be a quicker way to do
+            straightforward receiving, and offers the option to receive and pay, receive or pay
+            without receiving, and claim. </para>
+        <para role="Normal"/>
+        <para role="Normal">Purchase orders with special processing instructions are filtered out of
+            Receiving Queue searches, and must be received via the standard Line Item Receiving document.
+            Additionally, items that have been damaged, returned, or are only part of an order must also be
+            received through the Line Item Receiving document.</para>
+        <note>
+            <para> For information about Line Item Receiving, see <link
+                    linkend="_Receiving_-Line_Item">Receiving (Line Item Receiving)</link>.</para>
+        </note>
+        <para role="Normal"/>
+        <para role="Normal">On the <emphasis role="bold">Select/Acquire</emphasis> tab, click on the
+                <emphasis role="bold">Receiving and Claiming Queue</emphasis> link listed under the
+                <emphasis role="bold">Receiving</emphasis> submenu. </para>
+        <para role="Normal">It will bring you to this screen: </para>
+        <para role="Normal">
+            <screenshot>
+                <mediaobject>
+                    <alt>Receiving and Claiming Queue Search</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-98.png"
+                            width="100%"/>
+                    </imageobject>
+                </mediaobject>
+            </screenshot>
+        </para>
+        <para role="Normal"/>
+        <para role="Normal">The Receiving and Claiming Queue allows users to search by PO, ISXN,
+            Title, Order type, Monograph, Vendor Name, and PO dates.  The user can also filter
+            results to find only those orders eligible for claiming by clicking the check box to the
+            right of Filter by Claim.</para>
+        <para role="Normal"/>
+        <para role="Normal">This search filters for all Purchase Orders with Open statuses that have
+            no Special Processing Instruction Notes that may have been entered on the original
+            Requisition. (Special Processing Instruction Notes require acknowledgment during
+            receiving. Titles with special processing instruction notes therefore cannot be received
+            via the Receiving Queue.) </para>
+        <para role="Normal"/>
+        <note>
+            <para role="Normal"> To learn more about searching, see <link
+                xlink:href="../../../webhelp/BASICS/content/ch02s04.html">Searching OLE</link>
+                on the <emphasis>Guide to OLE Basic Functionality and Key
+                    Concepts</emphasis> on the <link xlink:href="../../../webhelp/BASICS/content/pr01.html"><emphasis>Guide to OLE Basic
+                        Functionality and Key Concepts</emphasis></link>.</para>
+        </note>
+        <para role="Normal"/>
+        <para role="Normal">Click <inlinemediaobject>
+                <alt>Search</alt>
+                <imageobject>
+                    <imagedata
+                        fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-100.png"/>
+                </imageobject>
+            </inlinemediaobject>.</para>
+        <para role="Normal">The PO search results are retrieved and the user can choose to <emphasis
+                role="bold">Receive</emphasis>, <emphasis role="bold">Create Receiving</emphasis>,
+                <emphasis role="bold">Pay</emphasis>, or <emphasis role="bold">Receive and
+                Pay</emphasis>, or <emphasis role="bold">Claim</emphasis>.</para>
+        <para role="Normal"/>
+        <note>
+            <para>To receive additional titles on a PO, users must create a purchase order amendment (POA).  A
+                POA is created when a change or addition is made to an existing PO. If the existing PO is open then
+                the PO can be amended, if the PO is closed then the PO has to be opened and then amend the PO. PO
+                amendments allows for changes in number of copies, adding a copy for a different location or fund or
+                for adding a new title to the existing PO. To learn more about creating a POA, see <link
+                        linkend="_POA">Purchase Order Amend</link>
+            </para>
+        </note>
+        <section>
+            <title>Receive</title>
+            <para>This choice will allow the PO to be received without creating a payment or a general ledger
+                entry. The PO document will move to complete and a Line Item Receiving document id will be available
+                from the <emphasis role="bold">View Related Documents</emphasis> tab.</para>
+            <para role="Normal">Click the <emphasis role="bold">check box</emphasis> to the left of the title(s)
+                you want to receive, and then click the <emphasis role="bold">receive</emphasis> button at the
+                bottom of the page:</para>
+            <para role="Normal"/>
+            <para role="Normal">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Receiving and Claiming Queue Search: Titles selected and ready to
+                            receive (action button at the bottom of the screen)</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/PurchasingAndAccountsPayableNoTitlePageReceive.png"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <para role="Normal"> If this action completes the receiving expected for a given Purchase Order, the
+                system replies in the <emphasis role="bold">Actions</emphasis> tab:</para>
+            <para role="Normal"/>
+            <para role="Normal">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Receiving and Claiming Queue Search: Titles received (Confirmation at
+                            the bottom of the screen)</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-102.png"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+        </section>
+        <section>
+            <title>Create Receiving</title>
+            <para>This choice will allow for changes to be made to the receiving information on the line item.
+                This will also allow you to partially receive, receive exceptions and damaged items.  Once changes
+                are made and item received then the PO moves to the status of received.  </para>
+            <para role="Normal">Click the <emphasis role="bold">check box</emphasis> to the left of the title
+                you want to create a receiving document for, and then click the <emphasis role="bold">create
+                    receiving</emphasis> button at the bottom of the page:</para>
+            <para role="Normal"/>
+            <para role="Normal">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Receiving and Claiming Queue Search: Titles selected and ready to
+                            create receive (action button at the bottom of the screen)</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-101.png"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <para>This will bring up the Line item Receiving e-document.</para>
+            <note>
+                <para> For information about Line Item Receiving see <link linkend="_Receiving_-Line_Item">Receiving
+                    (Line Item Receiving)</link></para>
+            </note>
+        </section>
+        <section>
+            <title>Pay</title>
+            <para>This choice will allow open and received PO documents with no payments to be paid but not
+                received. This option can be used for pre-payments and for expending funds.  Payments are made by
+                creating a new invoice or adding PO to an existing invoice.</para>
+            <para role="Normal">Click the <emphasis role="bold">check box</emphasis> to the left of the title(s)
+                you want to receive, and then click the <emphasis role="bold">pay</emphasis> button at the bottom of
+                the page:</para>
+            <para role="Normal"/>
+            <para role="Normal">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Receiving and Claiming Queue Search: Titles selected and ready to pay
+                            (action button at the bottom of the screen)</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-101a.png"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <para>This will bring up the <emphasis role="bold">Add to Invoice</emphasis>
+                screen.</para>
+            <para/>
+            <para role="Normal">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Add to Invoice Screen: Available from the Receiving and Claiming
+                            Queue</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-104.png"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <para>Users may choose to add titles to a new invoice or to an existing invoice.</para>
+            <section>
+                <title>Add Titles to New Invoice</title>
+                <para>To add titles to a new invoice, enter the <emphasis role="bold">Invoice Date</emphasis> or
+                    search for it from the calendar icon <inlinemediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-27.png"/>
+                        </imageobject>
+                    </inlinemediaobject>. </para>
+                <para>Check the <emphasis role="bold">Vendor Invoice Amount</emphasis></para>
+                <para>Enter a <emphasis role="bold">Vendor Invoice Number</emphasis>, a searchable number assigned
+                    by the library.</para>
+                <para>Select the <emphasis role="bold">Payment Method</emphasis> from the drop down
+                    list.</para>
+                <para>Click <inlinemediaobject>
+                        <alt>Submit</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DescribeNoTitlePage-112.png"/>
+                        </imageobject>
+                    </inlinemediaobject>.</para>
+                <para>The invoice is created. A success message is provided below the <emphasis
+                        role="bold">Add to Invoice</emphasis> title containing the invoice document
+                    ID. Click the hyperlinked document ID to access the invoice.</para>
+            </section>
+            <section>
+                <title>Add Titles to Existing Invoice</title>
+                <para>To add titles to an existing invoice, enter the invoice number in the
+                        <emphasis role="bold">Invoice Document Number</emphasis> or search for it
+                    from the lookup<inlinemediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/Lookup2.png"/>
+                        </imageobject>
+                    </inlinemediaobject>.</para>
+                <para>Click <inlinemediaobject>
+                        <alt>Submit</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DescribeNoTitlePage-112.png"/>
+                        </imageobject>
+                    </inlinemediaobject>.</para>
+                <para>The existing invoice is updated. A success message is provided below the
+                        <emphasis role="bold">Add to Invoice</emphasis> title containing the invoice
+                    document ID. Click the hyperlinked document ID to access the invoice.</para>
+            </section>
+        </section>
+        <section>
+            <title>Receive and Pay</title>
+            <para>This option will allow payment of PO documents while receiving line items. </para>
+            <para role="Normal">Click the <emphasis role="bold">check box</emphasis> to the left of the title(s)
+                you want to receive and pay for, and then click the <emphasis role="bold">receive and pay</emphasis>
+                button at the bottom of the page:</para>
+            <para role="Normal"/>
+            <para role="Normal">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Receiving and Claiming Queue Search: Titles selected and ready to
+                            receive and pay (action button at the bottom of the screen)</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-101b.png"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <para>This will bring up the <emphasis role="bold">Add to Invoice</emphasis>
+                screen.</para>
+            <section>
+                <title>Add Titles to New Invoice</title>
+                <para>To add titles to a new invoice, enter the <emphasis role="bold">Invoice Date</emphasis> or
+                    search for it from the calendar icon <inlinemediaobject>
+                        <imageobject>
+                            <imagedata fileref="../images/DeliverNoTitlePage-27.png"/>
+                        </imageobject>
+                    </inlinemediaobject>. </para>
+                <para>Check the <emphasis role="bold">Vendor Invoice Amount</emphasis></para>
+                <para>Enter a <emphasis role="bold">Vendor Invoice Number</emphasis>, a searchable number assigned
+                    by the library.</para>
+                <para>Select the <emphasis role="bold">Payment Method</emphasis> from the drop down
+                    list.</para>
+                <para>Click <inlinemediaobject>
+                        <alt>Submit</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DescribeNoTitlePage-112.png"/>
+                        </imageobject>
+                    </inlinemediaobject>.</para>
+                <para>The invoice and the receiving document are created. A success message is
+                    provided below the <emphasis role="bold">Add to Invoice</emphasis> title
+                    containing the document IDs. Click the hyperlinked document IDs to access the
+                    documents.</para>
+                <note>
+                    <para>Receiving is not complete until the document is submitted. If the process
+                        is canceled, the items will not be received within OLE.</para>
+                </note>
+            </section>
+            <section>
+                <title>Add Titles to Existing Invoice</title>
+                <para>To add titles to an existing invoice, enter the invoice number in the <emphasis role="bold"
+                        >Invoice Document Number</emphasis> or search for it from the lookup<inlinemediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/Lookup.png"/>
+                    </imageobject>
+                </inlinemediaobject>.</para>
+                <para>Click <inlinemediaobject>
+                        <alt>Submit</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DescribeNoTitlePage-112.png"/>
+                        </imageobject>
+                    </inlinemediaobject>.</para>
+                <para>The existing invoice is updated and a receiving document is created. A success
+                    message is provided below the <emphasis role="bold">Add to Invoice</emphasis>
+                    title containing the invoice document ID. Click the hyperlinked document IDs to
+                    access the documents.</para>
+                <note>
+                    <para>Receiving is not complete until the document is submitted. If the process
+                        is canceled, the items will not be received within OLE.</para>
+                </note>
+            </section>
+        </section>
+        <section>
+            <title>Claim</title>
+            <para>This choice will allow any PO item eligible for a claim to be claimed and
+                generating a Claim Notice which can then be saved locally in PDF or sent to the
+                vendor. The item as it appears in Claim Notice will include any notes to the vendor
+                made at the time the claim was generated. All Claims generated will appear in the PO
+                under the Claim History tab for that item.</para>
+            <para role="Normal">Click the <emphasis role="bold">check box</emphasis> to the right of
+                the title(s) you want to claim, and then click the <emphasis role="bold"
+                    >claim</emphasis> button at the bottom of the page:</para>
+            <para role="Normal"/>
+            <para role="Normal">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Receiving and Claiming Queue Search: Titles selected and ready to claim
+                            (action button at the bottom of the screen)</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-268.png"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <para>This will bring up the <emphasis role="bold">Claim Information</emphasis> screen.
+                If multiple items were selected to claim, OLE will organize them by vendor.</para>
+            <para/>
+            <para role="Normal">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Claiming Information Screen from the Receiving and Claiming Queue</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-362.png"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <para>Enter any notes in the <emphasis role="bold">Claim Note</emphasis> area, and click
+                    <emphasis role="bold">Claim</emphasis>. A success message is displayed in the
+                top left side of the screen below <emphasis role="bold">Claiming
+                    Information</emphasis>.</para>
+            <note>
+                <para>If the user wishes to save or print a list of titles to be claimed rather than
+                    complete the claiming process for those titles at this time, the list can be
+                    saved via the <emphasis role="bold">Claiming Information</emphasis> screen
+                    before claims are generated. Lists can be saved via CSV, XML, or XLS. The user
+                    can then click <emphasis role="bold">Cancel</emphasis> if they wish to not
+                    complete the claiming process.</para>
+            </note>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_serialsReceivingTransaction"/>Serials Receiving Transaction</title>
+        <para role="Normal"><inlinemediaobject>
+                <alt>Select/Acquire</alt>
+                <imageobject>
+                    <imagedata fileref="../images/SelectAcquire.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt;<inlinemediaobject>
+                    <alt>Receiving</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-5b.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis> &gt; <inlinemediaobject>
+                <alt>Serials Receiving</alt>
+                <imageobject>
+                    <imagedata
+                        fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-108.png"/>
+                </imageobject>
+            </inlinemediaobject> &gt; <inlinemediaobject>
+                <alt>Search and Receive</alt>
+                <imageobject>
+                    <imagedata
+                        fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-109.png"/>
+                </imageobject>
+            </inlinemediaobject>&gt; <inlinemediaobject>
+                <alt>Serials Receiving Record Search</alt>
+                <imageobject>
+                    <imagedata
+                        fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-110.png"/>
+                </imageobject>
+            </inlinemediaobject>&gt; <inlinemediaobject>
+                <alt>Serial Receiving Transaction</alt>
+                <imageobject>
+                    <imagedata
+                        fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-110b.png"/>
+                </imageobject>
+            </inlinemediaobject></para>
+        <para> A Serials Receiving Record is used to receive, claim and otherwise manage individual
+            issues of a serial or continuing resource title (in a physical format, e.g., print or
+            microform).</para>
+        <note>
+            <para> You must be a member of the role OLE-SELECT OLE_Serial-Receiving role to receive
+                serials and modify the serial receiving record.</para>
+        </note>
+        <para> Typically, for any currently-received serial or continuing resource, a library will use two
+            records to store holdings and other information about a current subscription: </para>
+        <orderedlist>
+            <listitem>
+                <para> An OLE Instance Record (always linked to a Bibliographic Record and in some cases linked to a
+                    Purchase Order) with Extent of Ownership holdings statements for back issues of the title. Instance
+                    Records may also contain Item Records. Each  Item Record typically represents a bound volume (or
+                    other gathering) of back issues (although Item Records may also represent individual issues). The
+                    OLE Instance Record shows the Location of all the holdings; an individual Item Record may contain
+                    its own Location if it is shelved separately. The OLE Instance Record  and its linked Serials
+                    Receiving Record reflect the holdings of a single active subscription. If a serial ceases
+                    publication or the library cancels a subscription, the Serials Receiving Record can be deleted. </para>
+            </listitem>
+            <listitem>
+                <para> A Serials Receiving Record linked to the OLE Instance Record for the same subscription to
+                    record receipt of individual issues and show a Location for those issues that may differ from the
+                    Location in the OLE Instance Record. </para>
+            </listitem>
+        </orderedlist>
+        <para> The library’s public user interface pulls holdings and location data from both records to
+            present a comprehensive display to end–users. </para>
+        <note>
+            <para>The use of a Serials Receiving Record is completely optional and is not required. For example,
+                some libraries may simply use the OLE Instance Record's Extent of Ownership statements to record
+                holdings information and use the OLE Instance Record’s public notes field to inform users if unbound
+                issues are shelved separately from bound volumes. Use of the Serials Receiving Record is recommended
+                if a library continues to claim serial issues.   If a library no longer has an active subscription,
+                no Serials Receiving Record is needed; retrospective holdings is typically  recorded in the OLE
+                Instance Record's Extent of Ownership statements along with Item Records for each  volume (or other
+                gatherings) of any bound  back  issues. </para>
+        </note>
+        <para/>
+        <section>
+            <title>Getting Started</title>
+            <para>Before proceeding with the creation of Serials Receiving Records, staff should be able to
+                search and display both Bibliographic and Instance Records and understand their purpose and content. </para>
+            <note>
+                <para>For more information about performing DocStore searches, see <link linkend="_DocStoreSearch"
+                        >Document Store Search</link>. </para>
+                <para>For more information about the <link xlink:href="../../../webhelp/CG/content/ch01s02.html">bibliographic
+                    editor</link>, see the <link xlink:href="../../../webhelp/CG/content/pr01.html"
+                        >OLE Guide to Describe and Manage</link>. This and other OLE user guides are
+                    available for download from the <link xlink:href="../../../html/Index.html">OLE
+                        Documentation Portal</link>.</para>
+            </note>
+            <para/>
+            <section>
+                <title>Creating/Updating a Serial Receiving Record</title>
+                <para> A Serials Receiving Record can be created from two places in OLE: (1) an OLE Instance Record
+                    or (2) the Serials Receiving Record Search interface. </para>
+                <section>
+                    <title> Create a Serials Receiving Record Template from an Instance Record </title>
+                    <para role="Body Text"><inlinemediaobject>
+                            <alt>OLE Header with tabs, Action List, Doc Search, and Search
+                                Workbench.</alt>
+                            <imageobject>
+                                <imagedata fileref="../images/DescribeNoTitlePage-14.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </inlinemediaobject></para>
+                    <orderedlist>
+                        <listitem>
+                            <para> From the <emphasis role="bold">Search Workbench</emphasis>,
+                                search for the title for which you wish to create a Serials
+                                Receiving Record.</para>
+                            <note>
+                                <para>For more information about the Search Workbench, see the <link
+                                    xlink:href="../../../webhelp/BASICS/content/ch02s04.html#_Describe_Workbench">Search
+                                        Workbench</link> section in <link
+                                            xlink:href="../../../webhelp/BASICS/content/pr01.html"><emphasis>Guide to the OLE
+                                            Basic Functionality and Key
+                                    Concepts</emphasis></link>.</para>
+                            </note>
+                            <para/>
+                        </listitem>
+                        <listitem>
+                            <para> Click the record title to display the bibliographic record and
+                                then select the desired Holdings Record, i.e., the one used (or will
+                                be used) to record retrospective holdings for this subscription. </para>
+                        </listitem>
+                        <listitem>
+                            <para> At the bottom of the Holdings Record display, click the <inlinemediaobject>
+                                    <alt>Create Serials Receiving Record</alt>
+                                    <imageobject>
+                                        <imagedata
+                                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-135.png"
+                                        />
+                                    </imageobject>
+                                </inlinemediaobject> button. </para>
+                            <para/>
+                            <para>
+                                <screenshot>
+                                    <mediaobject>
+                                        <alt>Create Serials Receiving Button in the Holdings
+                                            Record</alt>
+                                        <imageobject>
+                                            <imagedata
+                                                fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-129.png"
+                                                width="100%"/>
+                                        </imageobject>
+                                    </mediaobject>
+                                </screenshot>
+                            </para>
+                            <para/>
+                        </listitem>
+                    </orderedlist>
+                </section>
+                <section>
+                    <title> Create a Serials Receiving Record Template from the Serials Receiving Record Search
+                        Interface </title>
+                    <orderedlist>
+                        <listitem>
+                            <para>From the <emphasis role="bold">Select/Acquire</emphasis> tab, under the <emphasis role="bold"
+                                    >Receiving</emphasis> menu, and listed below <emphasis role="bold">Serial Receiving</emphasis>,
+                                click <emphasis role="bold">Receive</emphasis> to open the <emphasis role="bold">Serials Receiving
+                                    Record Search</emphasis>.</para>
+                            <para/>
+                            <para><screenshot>
+                                    <mediaobject>
+                                        <alt>Serials Receiving Record Search</alt>
+                                        <imageobject>
+                                            <imagedata
+                                                fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-113.png"
+                                                width="100%"/>
+                                        </imageobject>
+                                    </mediaobject>
+                                </screenshot><inlinemediaobject/></para>
+                            <para/>
+                        </listitem>
+                        <listitem>
+                            <para> Select the search options and type in a search term. Click <inlinemediaobject>
+                                    <alt>Search</alt>
+                                    <imageobject>
+                                        <imagedata fileref="../images/DeliverNoTitlePage-164.png"/>
+                                    </imageobject>
+                                </inlinemediaobject>.</para>
+                        </listitem>
+                        <listitem>
+                            <para>From the results list, click <emphasis role="bold">Create</emphasis> to create a new Serials
+                                Receiving Record.</para>
+                        </listitem>
+                    </orderedlist>
+                    <para> Whether you start with the OLE Instance Record or the Serials Receiving Record Search
+                        interface, the template that displays after clicking the Create button will be the same. </para>
+                </section>
+            </section>
+        </section>
+        <section>
+            <title>Document Overview</title>
+            <para>
+                <screenshot>
+                    <mediaobject>
+                        <alt>Serial Receiving Transaction Document</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-118.png"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <para role="Body Text">The main screen for the Serials Receiving Transaction document includes
+                unique <emphasis role="bold">Serials Receiving Record</emphasis>, and <emphasis role="bold">Receive
+                    Enum/Chron Captions</emphasis> tabs in addition to the standard Route Log tab that display at the
+                bottom of a document.</para>
+            <note>
+                <para> For more information about the route log, see <link
+                    xlink:href="../../../webhelp/BASICS/content/ch04s03.html#_routeLog">Route Log</link> on the
+                    <link xlink:href="../../../webhelp/BASICS/content/pr01.html"><emphasis>Guide to OLE Basic
+                        Functionality and Key Concepts</emphasis></link>. </para>
+            </note>
+            <para/>
+            <section>
+                <title>Serials Receiving Record Tab</title>
+                <para> The Serials Receiving record is a combination of information inherited from its linked
+                    Bibliographic, Instance, and Purchase Order Records as well as data entered by the operator when
+                    creating the record. </para>
+                <note>
+                    <para> OLE 1.0 assumes the use of MARC bibliographic records for describing serial or continuing
+                        resource titles. OLE can store records in other formats but serials receiving features cannot be
+                        applied to records in other formats in this release. </para>
+                </note>
+                <para/>
+                <para>
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Serial Receiving Transaction Document: Serial Receiving Record
+                                Tab</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-126.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para/>
+                <para role="TableHeading"><emphasis role="bold">Serials Receiving Record tab
+                    definition</emphasis></para>
+                <informaltable frame="top">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Display-only. The title of the work, or
+                                        the MARC 245 |ab, is inherited from the Bibliographic
+                                        record. Click the hyperlink to open the record in a new tab
+                                        or window. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Author</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Display-only. The author of the work,
+                                        or the MARC 100 |a, is inherited from the Bibliographic
+                                        record. Alternatively, the field is blank.</para>
+                                    <note>
+                                        <para>There is a bug (OLE-5273) to verify that we ware using MARC 100, 110, or 111 fields.</para>
+                                    </note>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">PO ID</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Display-only.  The purchase order number from the Purchase Order.  If a
+                                        purchase order was not linked to the OLE Instance, the field is blank.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Vendor Alias Name</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">If the vendor is inherited from the OLE
+                                        Instance, the Vendor Alias will display. To add or change a
+                                        vendor, enter the Vendor Alias and click <inlinemediaobject>
+                                            <alt>Select Vendor</alt>
+                                            <imageobject>
+                                                <imagedata
+                                                  fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-146.png"
+                                                />
+                                            </imageobject>
+                                        </inlinemediaobject>. </para>
+                                    <tip>
+                                        <para>Entering a vendor alias will also populate the Vendor Name field.</para>
+                                    </tip>
+                                    <note>
+                                        <para>See OLE-4858 for possible changes.</para>
+                                    </note>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Instance Record</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">The local identifier of the OLE
+                                        Instance record. Click the hyperlink to open the record in a
+                                        new tab or window. Click <inlinemediaobject>
+                                            <alt>Relink</alt>
+                                            <imageobject>
+                                                <imagedata
+                                                  fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-145.png"
+                                                />
+                                            </imageobject>
+                                        </inlinemediaobject> to search for and link to a new OLE
+                                        Instance.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Bound Location</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">The Location of bound materials inherited from the OLE Instance record.
+                                        Alternatively, the field is blank.  This field can be edited for the public display record.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">Subscription Status</entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Select the Subscription Status from the drop down list.</para>
+                                    <note>
+                                        <para> The Serials Receiving Record’s linked Instance Record has a field labeled Receipt Status
+                                            which uses the SAME values as the Subscription Status in the Serials Receiving Record. Assigning or
+                                            changing a Subscription Status does NOT affect the Receipt Status and vice versa. Whether or not it
+                                            should is the subject of OLE-5288 which will not be addressed until OLE 2.0. </para>
+                                    </note>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">Print Label</entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Check the box if you want OLE to print a label each time an issue is
+                                        checked in. (Printers must be designated by operators.)</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">Claim</entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Check the box if you plan to claim missing issues.  If unchecked, the
+                                        record will never appear on the claim alert report.</para>
+                                    <note>
+                                        <para>Claim alert reports are planned for a future release.</para>
+                                    </note>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">Copy Number</entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">The Copy Number inherited from the OLE Instance record.  Alternatively, the
+                                        field is blank.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">General Receiving Note</entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. Free-text note field, which
+                                        displays on the serials receiving record, but does not
+                                        require acknowledgment by the user. This note does not
+                                        display to the public user interface.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">Receiving Record Type</entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Select the Receiving Record Type from the drop down list.  The default is
+                                        "Main."</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">ISSN</entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Display-only. The ISSN of the work, or
+                                        the MARC 022 |a, is inherited from the Bibliographic record.
+                                        Alternatively, the field is blank.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">Publisher</entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Display-only. The Publisher of the
+                                        work, or the MARC 260 |abc, is inherited from the
+                                        Bibliographic record. Alternatively, the field is
+                                        blank.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">Bib Record ID</entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Display-only. The Bibliographic record
+                                        identifier for the work, or the MARC 001 without the prefix,
+                                        is inherited from the Bibliographic record. Alternatively,
+                                        the field is blank.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">Vendor Name (*for a
+                                    claim)</entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required for claims.  If the vendor is inherited from the OLE Instance, the
+                                        Vendor Name will display.  To add or change a vendor, select a vendor from the drop down list.
+                                        Selecting a vendor name will also populate the Vendor Alias field.</para>
+                                    <note>
+                                        <para>See OLE-4858 for possible changes.</para>
+                                    </note>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">Call Number</entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">The call number inherited from the OLE Instance record.  Alternatively, the
+                                        field is blank.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">Unbound Location</entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">The location of unbound material.  Type an asterisk (*) or begin to type
+                                        the location code to produce a drop down menu of Locations.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">Serials Receipt Work
+                                    Unit</entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional.  Enter a work unit for the
+                                        serial.  </para>
+                                    <para role="Table Cells">This is a place holder for future
+                                        development. See OLE-3796 for details.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">Public Display</entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Box is checked, indicating that the serial receiving data will be displayed
+                                        to the discovery layer.  Uncheck the box only if you do NOT want ANY current receipt data to display
+                                        in your public user interface. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">Create Item</entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Check the box if you want to be prompted to create a new Item Record in the
+                                        linked OLE Instance record each time an issue is received.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">Urgent Note</entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. If text is entered in this field, it is displayed as a dialog box
+                                        when the record is displayed. The box must be acknowledged before work can continue.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">Treatment Instruction
+                                    Note</entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Optional. If text is entered in this
+                                        field, it is presented in a dialog box after an issue has
+                                        been received i.e. special processing instructions such as
+                                        "Send to bindery immediately".  The box must be acknowledged
+                                        before the operator can continue.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">Claim Information</entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">Optional. A
+                                    free-text note field for general information about claiming
+                                    which does not require acknowledgment.</entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+            <section>
+                <title>Receive Enum/Chron Captions Tab</title>
+                <para/>
+                <para>
+                    <screenshot>
+                        <mediaobject>
+                            <alt>Serial Receiving Transaction Document: Receive Enum/Chron Captions
+                                Tab</alt>
+                            <imageobject>
+                                <imagedata
+                                    fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-127.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </mediaobject>
+                    </screenshot>
+                </para>
+                <para/>
+                <para role="TableHeading"><emphasis role="bold">Receive Enum/Chron Captions tab
+                    definition</emphasis></para>
+                <informaltable frame="top">
+                    <tgroup cols="2">
+                        <colspec colname="col1" colnum="1"/>
+                        <colspec colname="col2" colnum="2"/>
+                        <tbody>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Title</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Description</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Action Interval (* for claim)</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required for claims.  Enter a number of days based on the frequency of the
+                                        title and local policy that can be used in calculations at the time of receiving. For example, for a
+                                        quarterly, the Action Interval may be 100 days.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Action Date (* for claim)</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Required for claims. A date calculated at the time of any individual issue
+                                        receipt by adding the action interval to today's date.  The date is recalculated for each individual
+                                        receipt action, overwriting the previous action date.  Action Dates can be manually modified to
+                                        overwrite the previous action date.</para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Enumeration L1-L6</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Enter a caption for each applicable level of enumeration, e.g., L1—v.;
+                                        L2—no.  Put brackets ( [    ] ) around  any caption that should NOT be used when displaying an issue
+                                        in the public user interface. If no captions apply, leave blank. </para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                    <para role="Table Cells">Chronology L1-L4</para>
+                                </entry>
+                                <entry colname="col2" colsep="0" rowsep="1" valign="top">
+                                    <para role="Table Cells">Enter a caption for each applicable level of enumeration, e.g., L1—[year];
+                                        L2—[month].  Put brackets ( [    ] ) around  any caption that should NOT be used when displaying an
+                                        issue in the public user interface. If no captions apply, leave blank. </para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+        </section>
+        <section>
+            <title>Process Overview</title>
+            <section>
+                <title>Creating Main, Supplemental and Index Records</title>
+                <para>Libraries may create Serials Receiving Records for regularly published supplements and/or
+                    indexes as well as the main issues. This is entirely optional. [Libraries could, e.g., receive any
+                    supplements or indexes using the “Special Issue” option (see <link linkend="_ReceivingASpecialIssue"
+                            >below</link>).] </para>
+                <para>To create a record for another receiving record type:<orderedlist>
+                    <listitem>
+                        <para>Create a Serials Receiving Record for the first type you want.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Display this record and change the Receiving Record Type to the desired one.</para>
+                    </listitem>
+                    <listitem>
+                        <para>The system will refresh the record and allow you to enter an Action Date and
+                            Enumeration/Chronology captions.</para>
+                    </listitem>
+                    <listitem>
+                        <para> Click Save.</para>
+                    </listitem>
+                </orderedlist></para>
+            </section>
+            <section>
+                <title>Updating an Existing Serials Receiving Record</title>
+                <para>Perform the following steps:</para>
+                <orderedlist>
+                    <listitem>
+                        <para>Use the Serials Receiving Record Search interface to find the Serials
+                            Receiving Record. Or use Search Workbench to find the appropriate
+                            Instance Record from which to display the Serials Receiving
+                            Record.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Select the appropriate Receiving Record Type.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Make whatever changes are required. (Note: Action Date and Enumeration/Chronology are unique
+                            to each receiving record type. Other data applies to all of the types.)</para>
+                    </listitem>
+                    <listitem>
+                        <para>Click the Save button at the bottom of the record.</para>
+                    </listitem>
+                </orderedlist>
+            </section>
+            <section>
+                <title>Receiving an Issue, Supplement, or Index</title>
+                <para> Once you have created a Serials Receiving Record, you are ready to receive individual issues. </para>
+                <orderedlist>
+                    <listitem>
+                        <para>Use the Serials Receiving Record Search interface to find the Serials
+                            Receiving Record. Or use the Search Workbench to find the appropriate
+                            OLE Instance Record from which to display the Serials Receiving
+                            Record.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Select Main, Supplement or Index as required.</para>
+                    </listitem>
+                    <listitem>
+                        <para>If this is the first issue to be received: type in the issue data in the blank field(s)
+                            directly under each level of Enumeration/Chronology with a defined caption.</para>
+                    </listitem>
+                    <listitem>
+                        <para>If this is a subsequent issue to be received: type over any issue data from the last received
+                            issue but leave alone any data that is the same, e.g., for a serial with volume, issue number, year
+                            and month,  a subsequent issue may need only the issue number and month changed; you would  leave
+                            the volume and year the same.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Click <emphasis role="bold">Receive</emphasis>.</para>
+                        <para> The system supplies an Action Date once you receive an issue. The Action Date is today’s date
+                            plus the number of days in the Action Interval.</para>
+                        <note>
+                            <para>In future releases, if no activity occurs in the record by the Action Date, the record will
+                                appear on a claims alert reports (provided that the Claim box is on).</para>
+                        </note>
+                        <para> Receipt Status “Received” and Receipt Date mm/dd/yyyy  (i.e., today’s date) will be updated
+                            automatically.  OLE also records the receipt in the Receipt History that appears below the
+                            Enumeration/Chronology information. The columns labeled “Enumeration” and “Chronology” show the
+                            issue-specific data; notice that captions in brackets ( [ ] ) do NOT appear in the Receipt History. </para>
+                        <para>A Public Receipt Note can be added for any individual issue as needed in the Receipt History.
+                            This displays in the library’s public user interface. </para>
+                        <para> By default, all issues are available for Public Display. Turn off as needed. </para>
+                        <para/>
+                        <para>
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Serial Receiving Transaction Document: Sample Receipt of
+                                        "Main" Serial Records</alt>
+                                    <imageobject>
+                                        <imagedata
+                                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-136.png"
+                                            width="100%"/>
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                    </listitem>
+                </orderedlist>
+            </section>
+            <section>
+                <title><anchor xml:id="_ReceivingASpecialIssue"/>Receiving a Special Issue</title>
+                <para>For any unexpected issue, you may record receipt by using the Special Issue feature.</para>
+                <orderedlist>
+                    <listitem>
+                        <para>Use the Serials Receiving Record Search interface to find the Serials
+                            Receiving Record. Or use the Search Workbench to find the appropriate
+                            OLE Instance Record from which to display the Serials Receiving
+                            Record.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Click the <inlinemediaobject>
+                                <alt>Special Issue</alt>
+                                <imageobject>
+                                    <imagedata
+                                        fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-139.png"
+                                    />
+                                </imageobject>
+                            </inlinemediaobject> button to display a special window.</para>
+                        <para/>
+                        <para>
+                            <screenshot>
+                                <mediaobject>
+                                    <alt>Serial Receiving Transaction Document: Popup note for a
+                                        Special Issue</alt>
+                                    <imageobject>
+                                        <imagedata
+                                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-140.png"
+                                        />
+                                    </imageobject>
+                                </mediaobject>
+                            </screenshot>
+                        </para>
+                        <para/>
+                    </listitem>
+                    <listitem>
+                        <para>Type in descriptive information in the note field.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Click the <emphasis role="bold">Receive</emphasis> button within the window.</para>
+                        <para> Any receipt using the Special Issue button places the issue in the Main Receipt History as
+                            the last-received issue and any descriptive information typed into the Special Issue window is put
+                            into the Enumeration column of the resulting Receipt History.  The system supplies an Action Date
+                            once you receive an issue. The Action Date is today’s date plus the number of days in the Action
+                            Interval. </para>
+                        <note>
+                            <para>In future releases, if no activity occurs in the record by the Action Date, the record will
+                                appear on a claims alert report (provided that the Claim box is on).</para>
+                        </note>
+                        <para> </para>
+                        <para/>
+                        <para>Receipt Status “Received” and Receipt Date mm/dd/yyyy  (i.e., today’s date) will be updated
+                            automatically. </para>
+                        <para>By default, all issues are available for Public Display. Turn off as needed. </para>
+                    </listitem>
+                </orderedlist>
+            </section>
+            <section>
+                <title>Deleting a Serials Receiving Record</title>
+                <para> If a subscription for a serial or continuing resource is canceled or the
+                    title ceases publication, libraries may wish to delete the Serials Receiving
+                    Record as no longer needed. This is not a requirement but a local decision,
+                    Serials Receiving Records could remain in OLE indefinitely. </para>
+                <para>Before deletion, libraries should verify that complete holdings data is entered in the linked
+                    OLE Instance Record’s Extent of Ownership statement(s). Any individual issues would also typically
+                    be bound or otherwise gathered and represented by an Item Record.  Additionally, the library could
+                    suppress the Receipt History information from its public user interface by setting the Serials
+                    Receiving Record’s Public Display option to “no” by unchecking the <emphasis role="bold">Public
+                        Display</emphasis> box. </para>
+                <para>To delete a Serials Receiving Record, perform these steps: </para>
+                <orderedlist>
+                    <listitem>
+                        <para>Use the Serials Receiving Record Search interface to find the Serials
+                            Receiving Record. Or use Search Workbench to find the appropriate
+                            Instance Record from which to display the Serials Receiving
+                            Record.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Click the <inlinemediaobject>
+                                <alt>Delete</alt>
+                                <imageobject>
+                                    <imagedata
+                                        fileref="../images/PurchasingAndAccountsPayableNoTitlePagept1-143.png"
+                                    />
+                                </imageobject>
+                            </inlinemediaobject> button that appears at the bottom of the
+                            record.</para>
+                    </listitem>
+                    <listitem>
+                        <para>The system responds with a message indicating that the record has been successfully
+                            submitted.</para>
+                        <para>In 1.0, clicking <emphasis role="bold">Delete</emphasis> on a Serials Receiving Record sends a
+                            deletion request to a designated staff operator, one with the role of OLE-Select Operator, who can
+                            approve/disapprove the request.  If approved, the Serials Receiving Record remains online but is
+                            locked and cannot be used for receiving.  If disapproved, the system locks the Serials Receiving
+                            Record on which the delete request was made, but makes a second copy which can be used as before. </para>
+                    </listitem>
+                </orderedlist>
+            </section>
+            <section>
+                <title>Business Rules</title>
+                <para> When creating a Serials Receiving Record, required fields are marked with an asterisk ( * ).
+                    In addition, the following logic applies. </para>
+                <itemizedlist>
+                    <listitem>
+                        <para> If the Claim box is checked, you must have a Vendor Name /Vendor Alias AND an Action
+                            Interval. </para>
+                    </listitem>
+                    <listitem>
+                        <para> The system supplies an Action Date once you save the record. The Action Date is today’s date
+                            plus the number of days in the Action Interval.   </para>
+                        <note>
+                            <para>In a future release if no activity occurs in the record by the Action Date, the record will
+                                appear on the No Serials Receipt Activity Report (provided that the Claim box is checked).</para>
+                        </note>
+                    </listitem>
+                    <listitem>
+                        <para> An operator can change the Action Date by typing over the date (or clicking the calendar icon <inlinemediaobject>
+                            <imageobject>
+                                <imagedata fileref="../images/VendorNoTitlePage-27.png"/>
+                            </imageobject>
+                        </inlinemediaobject> and selecting a date) and then clicking the <emphasis role="bold"
+                                >Save</emphasis> button. </para>
+                    </listitem>
+                    <listitem>
+                        <para> A Serials Receiving Record is linked to an OLE Instance Record which in turn is linked to a
+                            bibliographic record of any type; an OLE Instance Record can also be linked to a Purchase Order.
+                            There is no requirement that the bibliographic record must be coded as a “serial” or “continuing
+                            resource”, etc. nor does there have to be an open Purchase Order in order to create a Serials
+                            Receiving Record.</para>
+                        <note>
+                            <para>A Serials Receiving Record cannot be linked to an E-Instance Record.</para>
+                        </note>
+                    </listitem>
+                    <listitem>
+                        <para> An OLE Instance Record can have only one Serials Receiving Record although it can be in three
+                            parts to allow for receiving different issue types of the same serial title: Main run issues,
+                            supplement issues, and index issues.  Creating Serials Receiving Records to receive supplements and
+                            indexes is completely optional.  For example, a library could choose to use the "Special Issue"
+                            receipt option for anything that was not a main-run issue. </para>
+                    </listitem>
+                    <listitem>
+                        <para> If a library has multiple subscriptions to the same title, it must create an OLE Instance
+                            Record and a Serial Receiving Record for each subscription—even if the multiple subscriptions go to
+                            the same location. There is no method for receiving two or more subscriptions on the same Serials
+                            Receiving Record. </para>
+                    </listitem>
+                    <listitem>
+                        <para> Issues as shown in the Receipt History—along with the Unbound Location—are available to be
+                            displayed in a library’s public user interface.  This data, as well as data from the linked OLE
+                            Instance Record’s Extent of Ownership statement(s), Location(s), and Item Record information, is
+                            available for display in a library’s public user interface which controls HOW the data is presented
+                            to public users. </para>
+                    </listitem>
+                </itemizedlist>
+            </section>
+            <section>
+                <title>Routing</title>
+                <para> By opening this tab, operators can see audit trail information regarding the history of the
+                    record. In addition, if an operator has clicked the <emphasis role="bold">Delete</emphasis> button
+                    to delete the entire Serials Receiving Record, the document routes to the role OLE-Select Operator
+                    for approval. </para>
+            </section>
+        </section>
+    </section>
+</chapter>

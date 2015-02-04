@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="oleHoldings" type="oleHoldings"/>
+
+    <xs:complexType name="oleHoldings">
+        <xs:sequence>
+            <xs:element name="holdingsType" type="xs:string"/>
+            <xs:element name="resourceIdentifier" type="xs:string" minOccurs="0"/>
+            <xs:element name="holdingsIdentifier" type="xs:string"/>
+            <xs:element name="extentOfOwnership" type="extentOfOwnership" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="receiptStatus" type="xs:string"/>
+            <xs:element name="uri" type="uri" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="note" type="note" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="location" type="location"/>
+            <xs:element name="extension" type="extension"/>
+            <xs:element name="callNumber" type="callNumber"/>
+            <xs:element name="copyNumber" type="xs:string"/>
+            <xs:element name="publisher" type="xs:string" minOccurs="0"/>
+            <xs:element name="imprint" type="xs:string" minOccurs="0"/>
+            <xs:element name="localPersistentLink" type="xs:anyURI" minOccurs="0"/>
+            <xs:element name="link" type="link" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="interLibraryLoanAllowed" type="xs:boolean"/>
+            <xs:element name="staffOnlyFlag" type="xs:boolean"/>
+            <xs:element name="donorPublicDisplay" type="xs:string" minOccurs="0"/>
+            <xs:element name="donorNote" type="xs:string" minOccurs="0"/>
+            <xs:element name="accessStatus" type="xs:string" minOccurs="0"/>
+            <xs:element name="statusDate" type="xs:string" minOccurs="0"/>
+            <xs:element name="statisticalSearchingCode" type="statisticalSearchingCode" minOccurs="0"/>
+            <xs:element name="eResourceId" type="xs:string" minOccurs="0"/>
+            <xs:element name="holdingsAccessInformation" type="holdingsAccessInformation" minOccurs="0"/>
+            <xs:element name="platform" type="platform"/>
+            <xs:element name="subscriptionStatus" type="xs:string" minOccurs="0"/>
+            <xs:element name="donorInfo" type="donorInfo" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="primary" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="extentOfOwnership">
+        <xs:sequence>
+            <xs:element name="textualHoldings" type="xs:string"/>
+            <xs:element name="note" type="note" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="type" type="xs:string"/>
+            <xs:element name="coverages" type="coverages" minOccurs="0"/>
+            <xs:element name="perpetualAccesses" type="perpetualAccesses" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="note">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="type" type="xs:string"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="coverages">
+        <xs:sequence>
+            <xs:element name="coverage" type="coverage" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="coverage">
+        <xs:sequence>
+            <xs:element name="coverageStartDate" type="xs:string" minOccurs="0"/>
+            <xs:element name="coverageStartVolume" type="xs:string" minOccurs="0"/>
+            <xs:element name="coverageStartIssue" type="xs:string" minOccurs="0"/>
+            <xs:element name="coverageEndDate" type="xs:string" minOccurs="0"/>
+            <xs:element name="coverageEndVolume" type="xs:string" minOccurs="0"/>
+            <xs:element name="coverageEndIssue" type="xs:string" minOccurs="0"/>
+            <xs:element name="coverageStartDateString" type="xs:string" minOccurs="0"/>
+            <xs:element name="coverageStartDateFormat" type="xs:string" minOccurs="0"/>
+            <xs:element name="coverageEndDateString" type="xs:string" minOccurs="0"/>
+            <xs:element name="coverageEndDateFormat" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="uri">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="resolvable" type="xs:string"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="location">
+        <xs:sequence>
+            <xs:element name="locationLevel" type="locationLevel"/>
+        </xs:sequence>
+        <xs:attribute name="status" type="xs:string"/>
+        <xs:attribute name="primary" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="locationLevel">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="level" type="xs:string"/>
+            <xs:element name="code" type="xs:string" minOccurs="0"/>
+            <xs:element name="locationLevel" type="locationLevel" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="extension" mixed="true">
+        <xs:sequence>
+            <xs:any processContents="lax" namespace="##other" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="displayLabel" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="callNumber">
+        <xs:sequence>
+            <xs:element name="type" type="xs:string"/>
+            <xs:element name="prefix" type="xs:string"/>
+            <xs:element name="number" type="xs:string"/>
+            <xs:element name="classificationPart" type="xs:string"/>
+            <xs:element name="itemPart" type="xs:string"/>
+            <xs:element name="shelvingScheme" type="shelvingScheme"/>
+            <xs:element name="shelvingOrder" type="shelvingOrder"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="shelvingScheme">
+        <xs:sequence>
+            <xs:element name="codeValue" type="xs:string"/>
+            <xs:element name="fullValue" type="xs:string"/>
+            <xs:element name="typeOrSource" type="typeOrSource"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="shelvingOrder">
+        <xs:sequence>
+            <xs:element name="codeValue" type="xs:string"/>
+            <xs:element name="fullValue" type="xs:string"/>
+            <xs:element name="typeOrSource" type="typeOrSource"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="link">
+        <xs:sequence>
+            <xs:element name="text" type="xs:string" minOccurs="0"/>
+            <xs:element name="url" type="xs:anyURI" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="statisticalSearchingCode">
+        <xs:sequence>
+            <xs:element name="codeValue" type="xs:string"/>
+            <xs:element name="fullValue" type="xs:string"/>
+            <xs:element name="typeOrSource" type="typeOrSource"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="typeOrSource">
+        <xs:sequence>
+            <xs:element name="pointer" type="xs:string" minOccurs="0"/>
+            <xs:element name="text" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="holdingsAccessInformation">
+        <xs:sequence>
+            <xs:element name="numberOfSimultaneousUser" type="xs:string" minOccurs="0"/>
+            <xs:element name="proxiedResource" type="xs:string" minOccurs="0"/>
+            <xs:element name="accessLocation" type="xs:string" minOccurs="0"/>
+            <xs:element name="authenticationType" type="xs:string" minOccurs="0"/>
+            <xs:element name="accessUsername" type="xs:string" minOccurs="0"/>
+            <xs:element name="accessPassword" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="platform">
+        <xs:sequence>
+            <xs:element name="adminUserName" type="xs:string" minOccurs="0"/>
+            <xs:element name="adminPassword" type="xs:string" minOccurs="0"/>
+            <xs:element name="adminUrl" type="xs:anyURI" minOccurs="0"/>
+            <xs:element name="platformName" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="perpetualAccesses">
+        <xs:sequence>
+            <xs:element name="perpetualAccess" type="perpetualAccess" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="perpetualAccess">
+        <xs:sequence>
+            <xs:element name="perpetualAccessStartDate" type="xs:string" minOccurs="0"/>
+            <xs:element name="perpetualAccessStartVolume" type="xs:string" minOccurs="0"/>
+            <xs:element name="perpetualAccessStartIssue" type="xs:string" minOccurs="0"/>
+            <xs:element name="perpetualAccessEndDate" type="xs:string" minOccurs="0"/>
+            <xs:element name="perpetualAccessEndVolume" type="xs:string" minOccurs="0"/>
+            <xs:element name="perpetualAccessEndIssue" type="xs:string"/>
+            <xs:element name="perpetualAccessStartDateString" type="xs:string" minOccurs="0"/>
+            <xs:element name="perpetualAccessStartDateFormat" type="xs:string" minOccurs="0"/>
+            <xs:element name="perpetualAccessEndDateString" type="xs:string" minOccurs="0"/>
+            <xs:element name="perpetualAccessEndDateFormat" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="donorInfo">
+        <xs:sequence>
+            <xs:element name="donorCode" type="xs:string"/>
+            <xs:element name="donorPublicDisplay" type="xs:string"/>
+            <xs:element name="donorNote" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>

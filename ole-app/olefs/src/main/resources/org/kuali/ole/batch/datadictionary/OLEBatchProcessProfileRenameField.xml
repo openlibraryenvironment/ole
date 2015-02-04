@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="OLEBatchProcessProfileRenameField" parent="OLEBatchProcessProfileRenameField-parentBean"/>
+    <bean id="OLEBatchProcessProfileRenameField-parentBean" abstract="true" parent="BusinessObjectEntry"
+          p:businessObjectClass="org.kuali.ole.batch.bo.OLEBatchProcessProfileRenameField" p:titleAttribute="id"
+          p:objectLabel="Rename Fields">
+        <property name="attributes">
+            <list>
+                <ref bean="OLEBatchProcessProfileRenameField-id"/>
+                <ref bean="OLEBatchProcessProfileRenameField-batchProcessProfileId"/>
+                <ref bean="OLEBatchProcessProfileRenameField-originalTag"/>
+                <ref bean="OLEBatchProcessProfileRenameField-originalFirstIndicator"/>
+                <ref bean="OLEBatchProcessProfileRenameField-originalSecondIndicator"/>
+                <ref bean="OLEBatchProcessProfileRenameField-originalSubField"/>
+                <ref bean="OLEBatchProcessProfileRenameField-originalSubFieldContains"/>
+                <ref bean="OLEBatchProcessProfileRenameField-renamedTag"/>
+                <ref bean="OLEBatchProcessProfileRenameField-renamedFirstIndicator"/>
+                <ref bean="OLEBatchProcessProfileRenameField-renamedSecondIndicator"/>
+                <ref bean="OLEBatchProcessProfileRenameField-renamedSubField"/>
+                <ref bean="OLEBatchProcessProfileRenameField-renamedSubFieldContains"/>
+            </list>
+        </property>
+        <property name="primaryKeys">
+            <list>
+                <value>id</value>
+            </list>
+        </property>
+        <!--<property name="lookupDefinition">
+            <ref bean="OLEBatchProcessFileType-LookupView"/>
+        </property>-->
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+    <bean id="OLEBatchProcessProfileRenameField-id" parent="OLEBatchProcessProfileRenameField-id-parentBean"/>
+    <bean id="OLEBatchProcessProfileRenameField-id-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="id"/>
+        <property name="shortLabel" value="Id"/>
+        <property name="label" value="Id"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchProcessProfileRenameField-batchProcessProfileId" parent="OLEBatchProcessProfileRenameField-batchProcessProfileId-parentBean"/>
+    <bean id="OLEBatchProcessProfileRenameField-batchProcessProfileId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="batchProcessProfileId"/>
+        <property name="shortLabel" value="Batch Process Profile Id"/>
+        <property name="label" value="Batch Process Profile Id"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchProcessProfileRenameField-originalTag" parent="OLEBatchProcessProfileRenameField-originalTag-parentBean"/>
+    <bean id="OLEBatchProcessProfileRenameField-originalTag-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="originalTag"/>
+        <property name="shortLabel" value="Org Tag"/>
+        <property name="label" value="Id"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="4"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="4"/>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchProcessProfileRenameField-originalFirstIndicator" parent="OLEBatchProcessProfileRenameField-originalFirstIndicator-parentBean"/>
+    <bean id="OLEBatchProcessProfileRenameField-originalFirstIndicator-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="originalFirstIndicator"/>
+        <property name="shortLabel" value="Original First Indicator"/>
+        <property name="label" value="original First Indicator"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="4"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="4"/>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchProcessProfileRenameField-originalSecondIndicator" parent="OLEBatchProcessProfileRenameField-originalSecondIndicator-parentBean"/>
+    <bean id="OLEBatchProcessProfileRenameField-originalSecondIndicator-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="originalSecondIndicator"/>
+        <property name="shortLabel" value="original Second Indicator"/>
+        <property name="label" value="Original Second Indicator"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="4"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="4"/>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchProcessProfileRenameField-originalSubField" parent="OLEBatchProcessProfileRenameField-originalSubField-parentBean"/>
+    <bean id="OLEBatchProcessProfileRenameField-originalSubField-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="originalSubField"/>
+        <property name="shortLabel" value="Original SubField"/>
+        <property name="label" value="Id"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="4"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="4"/>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchProcessProfileRenameField-originalSubFieldContains" parent="OLEBatchProcessProfileRenameField-originalSubFieldContains-parentBean"/>
+    <bean id="OLEBatchProcessProfileRenameField-originalSubFieldContains-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="originalSubFieldContains"/>
+        <property name="shortLabel" value="Original SubField Contains"/>
+        <property name="label" value="Original SubField Contains"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchProcessProfileRenameField-renamedTag" parent="OLEBatchProcessProfileRenameField-renamedTag-parentBean"/>
+    <bean id="OLEBatchProcessProfileRenameField-renamedTag-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="renamedTag"/>
+        <property name="shortLabel" value="Renamed Tag"/>
+        <property name="label" value="renamedTag"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="4"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="4"/>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchProcessProfileRenameField-renamedFirstIndicator" parent="OLEBatchProcessProfileRenameField-renamedFirstIndicator-parentBean"/>
+    <bean id="OLEBatchProcessProfileRenameField-renamedFirstIndicator-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="renamedFirstIndicator"/>
+        <property name="shortLabel" value="Renamed First Indicator"/>
+        <property name="label" value="Renamed First Indicator"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="4"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="4"/>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchProcessProfileRenameField-renamedSubField" parent="OLEBatchProcessProfileRenameField-renamedSubField-parentBean"/>
+    <bean id="OLEBatchProcessProfileRenameField-renamedSubField-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="renamedSubField"/>
+        <property name="shortLabel" value="Renamed SubField"/>
+        <property name="label" value="Renamed SubField"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="4"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="4"/>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchProcessProfileRenameField-renamedSecondIndicator" parent="OLEBatchProcessProfileRenameField-renamedSecondIndicator-parentBean"/>
+    <bean id="OLEBatchProcessProfileRenameField-renamedSecondIndicator-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="renamedSecondIndicator"/>
+        <property name="shortLabel" value="Renamed Second Indicator"/>
+        <property name="label" value="Renamed Second Indicator"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="4"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="4"/>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchProcessProfileRenameField-renamedSubFieldContains" parent="OLEBatchProcessProfileRenameField-renamedSubFieldContains-parentBean"/>
+    <bean id="OLEBatchProcessProfileRenameField-renamedSubFieldContains-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="renamedSubFieldContains"/>
+        <property name="shortLabel" value="Renamed SubField Contains"/>
+        <property name="label" value="Renamed SubField Contains"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+
+
+</beans>

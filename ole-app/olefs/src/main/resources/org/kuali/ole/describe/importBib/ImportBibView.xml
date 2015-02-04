@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="ImportBibView" parent="ImportBibView-parentBean"/>
+
+    <bean id="ImportBibView-parentBean" parent="Uif-OLEFormView">
+        <property name="headerText" value="Import Bib"/>
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/CG/content/ch03s01.html"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="SearchBibViewPage" parent="Uif-Page">
+                    <property name="headerText" value="STEP-1 Locate Record"/>
+                    <property name="items">
+                        <list>
+                            <ref bean="SearchBibPanel"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean id="UserPreferenceViewPage" parent="Uif-Page">
+                    <property name="headerText" value="STEP-2 Confirm Settings"/>
+                    <property name="items">
+                        <list>
+                            <ref bean="UserPreferencePanel"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean id="ConfirmReplace" parent="Uif-Page">
+                    <property name="headerText" value="STEP-3 Confirm Replace"/>
+                    <property name="items">
+                        <list>
+                            <ref bean="ConfirmReplacePanel"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean id="ConfirmImport" parent="Uif-Page">
+                    <property name="headerText" value="STEP-5 Import Completion"/>
+                    <property name="items">
+                        <list>
+                            <ref bean="ConfirmImportPanel"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="footer">
+            <ref bean="ClearFooterView-buttons"/>
+        </property>
+        <property name="formClass" value="org.kuali.ole.describe.form.ImportBibForm"/>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>ole/describe/scripts/importBib.js</value>
+            </list>
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>ole/describe/css/importBib.css</value>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="ClearFooterView-buttons" parent="ClearFooterView-buttons-parentBean"/>
+    <bean id="ClearFooterView-buttons-parentBean" parent="Uif-HorizontalBoxSection" p:disclosure.render="false">
+        <property name="items">
+            <list>
+            </list>
+        </property>
+    </bean>
+
+
+</beans>

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="OleAccessLocation" parent="OleAccessLocation-parentBean"/>
+
+    <bean id="OleAccessLocation-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.select.bo.OLEAccessLocation"/>
+        <property name="titleAttribute" value="oleAccessLocationName"/>
+        <property name="objectLabel" value="Access Location"/>
+        <property name="attributes">
+            <list>
+                <ref bean="OleAccessLocation-oleAccessLocationId"/>
+                <ref bean="OleAccessLocation-oleAccessLocationName"/>
+                <ref bean="OleAccessLocation-oleAccessLocationDesc"/>
+                <ref bean="OleAccessLocation-active"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+
+    <bean id="OleAccessLocation-oleAccessLocationId" parent="OleAccessLocation-oleAccessLocationId-parentBean"/>
+
+    <bean id="OleAccessLocation-oleAccessLocationId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Access Location Id"/>
+        <property name="maxLength" value="10"/>
+        <property name="name" value="oleAccessLocationId"/>
+        <property name="label" value="Access Location Id"/>
+        <property name="description" value="Access Location Id"/>
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+    </bean>
+
+
+    <bean id="OleAccessLocation-oleAccessLocationName" parent="OleAccessLocation-oleAccessLocationName-parentBean"/>
+
+    <bean id="OleAccessLocation-oleAccessLocationName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Access Location Name"/>
+        <property name="maxLength" value="40"/>
+        <property name="name" value="oleAccessLocationName"/>
+        <property name="label" value="Access Location Name"/>
+        <property name="description" value="Access Location Name"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean id="TextControlDefinition_oleAccessLocationName" parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean id="Uif-TextControl_oleAccessLocationName" parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+
+    <bean id="OleAccessLocation-oleAccessLocationDesc" parent="OleAccessLocation-oleAccessLocationDesc-parentBean"/>
+
+    <bean id="OleAccessLocation-oleAccessLocationDesc-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Access Location Description"/>
+        <property name="maxLength" value="100"/>
+        <property name="name" value="oleAccessLocationDesc"/>
+        <property name="label" value="Access Location Description"/>
+        <property name="description" value="Access Location Description"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean id="TextControlDefinition_oleAccessLocationDesc" parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean id="Uif-TextControl_oleAccessLocationDesc" parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+
+    <bean id="OleAccessLocation-active" parent="OleAccessLocation-active-parentBean"/>
+
+    <bean id="OleAccessLocation-active-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="active"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="active"/>
+        <property name="maxLength" value="1"/>
+        <property name="summary" value="Active Indicator"/>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+        <property name="label" value="Active Indicator"/>
+        <property name="description" value="This attribute is used to describe whether the associated object is active or inactive."/>
+        <property name="validCharactersConstraint">
+            <bean  parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean  parent="Uif-CheckboxControl"/>
+        </property>
+
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+
+    <bean id="OleAccessLocation-InquiryView" parent="Uif-OLEInquiryView">
+        <property name="headerText" value="Access Location Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OLEAccessLocation" />
+
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-VerticalBoxSection">
+                    <property name="header.headerText" value="Access Location" />
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-GridGroup">
+                                <property name="items">
+                                    <list>
+                                        <bean id="inquiry_oleAccessLocationId" parent="Uif-InputField" p:propertyName="oleAccessLocationId" />
+                                        <bean id="inquiry_oleAccessLocationName" parent="Uif-InputField" p:propertyName="oleAccessLocationName" />
+                                        <bean id="inquiry_oleAccessLocationDesc" parent="Uif-InputField" p:propertyName="oleAccessLocationDesc"/>
+                                        <bean id="inquiry_active" parent="Uif-InputField" p:propertyName="active" />
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <!-- Business Object Lookup Definition -->
+
+
+    <bean id="OleAccessLocation-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="Access Location Lookup" />
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/BASICS/content/ch02s04.html#_lookupHelp"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OLEAccessLocation" />
+        <property name="criteriaFields">
+            <list>
+                <bean id="oleAccessLocationName" parent="Uif-LookupCriteriaInputField" p:propertyName="oleAccessLocationName" p:enableAutoDirectInquiry="false"/>
+                <bean id="oleAccessLocationDesc" parent="Uif-LookupCriteriaInputField" p:propertyName="oleAccessLocationDesc" />
+                <bean id="active" parent="Uif-LookupCriteriaInputField" p:propertyName="active" />
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean id="searchResult_oleAccessLocationName" parent="Uif-DataField" p:propertyName="oleAccessLocationName" />
+                <bean id="searchResult_oleAccessLocationDesc" parent="Uif-DataField" p:propertyName="oleAccessLocationDesc" />
+                <bean id="searchResult_active" parent="Uif-DataField" p:propertyName="active" />
+            </list>
+        </property>
+    </bean>
+
+</beans>

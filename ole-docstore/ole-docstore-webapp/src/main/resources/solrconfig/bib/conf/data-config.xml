@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataConfig>
+
+    <script><![CDATA[
+        function setUniqueIdValues(row){
+            var uniqueBibId = "wbm-" +  row.get('BIB_ID')
+            var uniqueHoldingsId = "who-" + row.get('HOLDINGS_ID')
+            var uniqueItemId = "wio-" + row.get('ITEM_ID')
+
+            var staffOnly = row.get('staffOnlyFlag')
+            if("N".equals(staffOnly)){
+               staffOnly = "false";
+            }
+            else {
+               staffOnly = "true";
+            }
+
+            row.put('staffOnlyFlag',staffOnly);
+            row.put('uniqueBibId',uniqueBibId);
+            row.put('uniqueHoldingsId',uniqueHoldingsId);
+            row.put('uniqueItemId',uniqueItemId);
+
+            return row;
+        }
+
+
+
+
+]]></script>
+    <document>
+        <entity name="holdings" transformer="org.kuali.ole.docstore.engine.service.index.solr.ReindexHoldingsTransformer"
+                query="select HOLDINGS_ID,
+					                              FORMER_HOLDINGS_ID,
+                                                  LOCATION,
+                                                  LOCATION_LEVEL,
+                                                  SOURCE_HOLDINGS_CONTENT AS SOURCE,
+                                                  BIB_ID,
+                                                  CALL_NUMBER_PREFIX,
+                                                  CALL_NUMBER,
+                                                  SHELVING_ORDER,
+                                                  CALL_NUMBER_TYPE_ID,
+                                                  RECEIPT_STATUS_ID,
+                                                  COPY_NUMBER,
+                                                  DATE_CREATED as dateEntered,
+                                                  DATE_UPDATED as dateUpdated,
+                                                  UPDATED_BY as updatedBy,
+                                                  CREATED_BY as createdBy,
+                                                  STAFF_ONLY as staffOnlyFlag,
+                                                  'holdings' as DocType,
+                                                  'work' as DocCategory ,
+                                                  'oleml' as DocFormat
+                                                  FROM OLE_DS_HOLDINGS_T">
+
+
+            <field column="HOLDINGS_ID" name="LocalId_display"/>
+            <field column="HOLDINGS_ID" name="LocalId_search"/>
+
+            <field column="LOCATION" name="Location_display"/>
+            <field column="LOCATION" name="Location_search"/>
+            <field column="LOCATION" name="Location_sort"/>
+
+            <field column="LOCATION_LEVEL" name="LocationLevelName_display"/>
+            <field column="LOCATION_LEVEL" name="LocationLevelName_search"/>
+
+            <field column="CALL_NUMBER_PREFIX" name="CallNumberPrefix_display"/>
+            <field column="CALL_NUMBER_PREFIX" name="CallNumberPrefix_search"/>
+
+            <field column="CALL_NUMBER" name="CallNumber_display"/>
+            <field column="CALL_NUMBER" name="CallNumber_search"/>
+
+            <field column="SHELVING_ORDER" name="ShelvingOrder_display"/>
+            <field column="SHELVING_ORDER" name="ShelvingOrder_search"/>
+            <field column="SHELVING_ORDER" name="ShelvingOrder_sort"/>
+
+            <field column="COPY_NUMBER" name="CopyNumber_display"/>
+            <field column="COPY_NUMBER" name="CopyNumber_search"/>
+            <field column="COPY_NUMBER" name="CopyNumberLabel_display"/>
+            <field column="COPY_NUMBER" name="CopyNumberLabel_search"/>
+
+            <field column="uniqueHoldingsId" name="uniqueId"/>
+            <field column="uniqueHoldingsId" name="holdingsIdentifier"/>
+            <field column="uniqueHoldingsId" name="id"/>
+
+            <field column="uniqueBibId" name="bibIdentifier"/>
+
+            <entity name="items" transformer="script:setUniqueIdValues" query="select ITEM_ID from OLE_DS_ITEM_T where holdings_id ='${holdings.HOLDINGS_ID}'">
+                <field column="uniqueItemId" name="itemIdentifier"/>
+            </entity>
+            <entity name="callNumber" query="SELECT * FROM ole_cat_shvlg_schm_t  where SHVLG_SCHM_ID ='${holdings.CALL_NUMBER_TYPE_ID}'">
+                <field column="SHVLG_SCHM_CD" name="ShelvingSchemeCode_search"/>
+                <field column="SHVLG_SCHM_CD" name="ShelvingSchemeCode_display"/>
+                <field column="SHVLG_SCHM_NM" name="ShelvingSchemeValue_display"/>
+                <field column="SHVLG_SCHM_NM" name="ShelvingSchemeValue_search"/>
+            </entity>
+
+            <entity name="receiptStatus" query="SELECT * FROM ole_cat_rcpt_stat_t  where RCPT_STAT_ID ='${holdings.RECEIPT_STATUS_ID}'">
+                <field column="RCPT_STAT_CD" name="ReceiptStatus_display"/>
+                <field column="RCPT_STAT_CD" name="ReceiptStatus_search"/>
+            </entity>
+
+            <entity name="accessUri" query="SELECT * FROM ole_ds_holdings_uri_t  where HOLDINGS_ID ='${holdings.HOLDINGS_ID}'">
+                <field column="TEXT" name="Uri_display"/>
+                <field column="TEXT" name="Uri_search"/>
+            </entity>
+
+            <entity name="holdingsNote" query="SELECT * FROM ole_ds_holdings_note_t  where HOLDINGS_ID ='${holdings.HOLDINGS_ID}'">
+                <field column="NOTE" name="HoldingsNote_display"/>
+                <field column="NOTE" name="HoldingsNote_search"/>
+            </entity>
+
+        </entity>
+
+        <entity name="item" transformer="org.kuali.ole.docstore.engine.service.index.solr.ReindexItemsTransformer" query="SELECT ITEM_ID,
+                                          STAFF_ONLY as staffOnlyFlag,
+                                          BARCODE ,
+                                          BARCODE_ARSL,
+                                          TEMP_ITEM_TYPE_ID,
+                                          ENUMERATION ,
+                                          CHRONOLOGY ,
+                                          COPY_NUMBER ,
+                                          URI ,
+                                          ITEM_TYPE_ID,
+                                          NUM_PIECES,
+                                          UNIQUE_ID_PREFIX,
+                                          HOLDINGS_ID,
+                                          PURCHASE_ORDER_LINE_ITEM_ID,
+                                          VENDOR_LINE_ITEM_ID,
+                                          FUND ,
+                                          PRICE,
+                                          ITEM_STATUS_ID,
+                                          CHECK_IN_NOTE,
+                                          ITEM_STATUS_DATE_UPDATED,
+                                          FAST_ADD,
+                                          LOCATION,
+                                          LOCATION_LEVEL,
+                                          CALL_NUMBER_PREFIX,
+                                          CALL_NUMBER,
+                                          SHELVING_ORDER,
+                                          CALL_NUMBER_TYPE_ID,
+                                          HIGH_DENSITY_STORAGE_ID,
+                                          CLAIMS_RETURNED,
+                                          CLAIMS_RETURNED_DATE_CREATED ,
+                                          CLAIMS_RETURNED_NOTE,
+                                          CURRENT_BORROWER,
+                                          PROXY_BORROWER,
+                                          DUE_DATE_TIME ,
+                                          date_created as dateEntered,
+                                          date_updated as dateUpdated,
+                                          UPDATED_BY as updatedBy,
+                                          CREATED_BY as createdBy,
+                                          'item' as DocType,
+                                          'work' as DocCategory ,
+                                          'oleml' as DocFormat from OLE_DS_ITEM_T">
+
+
+            <field column="ITEM_ID" name="LocalId_display"/>
+            <field column="ITEM_ID" name="LocalId_search"/>
+
+            <field column="BARCODE" name="ItemBarcode_display"/>
+            <field column="BARCODE" name="ItemBarcode_search"/>
+            <field column="BARCODE" name="ItemBarcode_sort"/>
+
+            <field column="BARCODE_ARSL" name="BarcodeARSL_display"/>
+            <field column="BARCODE_ARSL" name="BarcodeARSL_search"/>
+
+            <field column="ENUMERATION" name="Enumeration_display"/>
+            <field column="ENUMERATION" name="Enumeration_search"/>
+            <field column="ENUMERATION" name="Enumeration_sort"/>
+
+            <field column="CHRONOLOGY" name="Chronology_display"/>
+            <field column="CHRONOLOGY" name="Chronology_search"/>
+            <field column="CHRONOLOGY" name="Chronology_sort"/>
+
+            <field column="COPY_NUMBER" name="CopyNumber_display"/>
+            <field column="COPY_NUMBER" name="CopyNumber_search"/>
+            <field column="COPY_NUMBER" name="CopyNumber_sort"/>
+            <field column="URI" name="ItemUri_display"/>
+            <field column="URI" name="ItemUri_search"/>
+
+            <field column="PURCHASE_ORDER_LINE_ITEM_ID" name="PurchaseOrderLineItemIdentifier_display"/>
+            <field column="PURCHASE_ORDER_LINE_ITEM_ID" name="PurchaseOrderLineItemIdentifier_search"/>
+
+
+
+            <field column="LOCATION" name="Location_display"/>
+            <field column="LOCATION" name="Location_search"/>
+            <field column="LOCATION" name="Location_sort"/>
+
+            <field column="LOCATION_LEVEL" name="LocationLevelName_display"/>
+            <field column="LOCATION_LEVEL" name="LocationLevelName_search"/>
+
+            <field column="CALL_NUMBER_PREFIX" name="CallNumberPrefix_display"/>
+            <field column="CALL_NUMBER_PREFIX" name="CallNumberPrefix_search"/>
+            <field column="CALL_NUMBER_PREFIX" name="CallNumberPrefix_sort"/>
+
+            <field column="CALL_NUMBER" name="CallNumber_display"/>
+            <field column="CALL_NUMBER" name="CallNumber_search"/>
+            <field column="CALL_NUMBER" name="CallNumber_sort"/>
+
+            <field column="SHELVING_ORDER" name="ShelvingOrder_display"/>
+            <field column="SHELVING_ORDER" name="ShelvingOrder_search"/>
+            <field column="SHELVING_ORDER" name="ShelvingOrder_sort"/>
+
+            <field column="CLAIMS_RETURNED" name="claimsReturnedFlag"/>
+
+            <field column="CLAIMS_RETURNED_DATE_CREATED" name="claimsReturnedFlagCreateDate"/>
+
+            <field column="CLAIMS_RETURNED_NOTE" name="claimsReturnedNote"/>
+
+            <field column="CURRENT_BORROWER" name="currentBorrower"/>
+
+            <field column="PROXY_BORROWER" name="proxyBorrower"/>
+
+            <field column="uniqueItemId" name="ItemIdentifier_display"/>
+            <field column="uniqueItemId" name="ItemIdentifier_search"/>
+            <field column="uniqueItemId" name="itemIdentifier"/>
+            <field column="uniqueItemId" name="uniqueId"/>
+            <field column="uniqueItemId" name="id"/>
+
+            <field column="uniqueHoldingsId" name="holdingsIdentifier"/>
+
+            <entity name="itemType" query="SELECT * FROM ole_cat_itm_typ_t  where ITM_TYP_CD_ID ='${item.ITEM_TYPE_ID}'">
+                <field column="ITM_TYP_CD" name="ItemTypeCodeValue_display"/>
+                <field column="ITM_TYP_CD" name="ItemTypeCodeValue_search"/>
+                <field column="ITM_TYP_NM" name="ItemTypeFullValue_display"/>
+                <field column="ITM_TYP_NM" name="ItemTypeFullValue_search"/>
+            </entity>
+
+            <entity name="itemStatus" query="SELECT * FROM ole_dlvr_item_avail_stat_t where ITEM_AVAIL_STAT_ID ='${item.ITEM_STATUS_ID}'">
+                <field column="ITEM_AVAIL_STAT_CD" name="ItemStatus_search"/>
+                <field column="ITEM_AVAIL_STAT_CD" name="ItemStatus_display"/>
+            </entity>
+
+
+            <entity name="callNumber" query="SELECT * FROM  ole_cat_shvlg_schm_t where SHVLG_SCHM_ID ='${item.CALL_NUMBER_TYPE_ID}'">
+                <field column="SHVLG_SCHM_CD" name="ShelvingSchemeCode_search"/>
+                <field column="SHVLG_SCHM_CD" name="ShelvingSchemeCode_display"/>
+                <field column="SHVLG_SCHM_NM" name="ShelvingSchemeValue_display"/>
+                <field column="SHVLG_SCHM_NM" name="ShelvingSchemeValue_search"/>
+            </entity>
+
+        </entity>
+
+    </document>
+</dataConfig>

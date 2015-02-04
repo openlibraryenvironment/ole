@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<dublin_core schema="dc">
+  <dcvalue element="contributor" qualifier="author">Hackman, Tim</dcvalue>
+  <dcvalue element="date" qualifier="accessioned">2009-10-19T16:42:12Z</dcvalue>
+  <dcvalue element="date" qualifier="available">2009-10-19T16:42:12Z</dcvalue>
+  <dcvalue element="date" qualifier="issued">2009-10</dcvalue>
+  <dcvalue element="identifier" qualifier="citation">Hackman, Tim. &quot;What's the Opposite of a Pyrrhic Victory? Lessons Learned from an Open Access Defeat.&quot; College and Research Libraries News. 70:9 (October 2009), 518-521, 538.</dcvalue>
+  <dcvalue element="identifier" qualifier="issn">0099-0086</dcvalue>
+  <dcvalue element="identifier" qualifier="uri">http://hdl.handle.net/1903/9688</dcvalue>
+  <dcvalue element="description" qualifier="abstract">A recent failed attempt to pass a resolution in support of open access at the University of Maryland (UM), while disappointing to the librarians involved and to many observers, nevertheless provides some important lessons for working with teaching faculty to address the scholarly communication crisis. This article provides a brief history of the efforts in support of open access at UM, analyzes what went wrong with the failed resolution, and offers some suggestions for working with faculty to educate them on the importance of open access to their research.</dcvalue>
+  <dcvalue element="description" qualifier="provenance">Submitted by Timothy Hackman (thackman@umd.edu) on 2009-10-15T20:04:44Z
+No. of bitstreams: 1
+Hackman-CRL News-Oct2009-Final.pdf: 112327 bytes, checksum: a73d154951b27c286d41dff39c115336 (MD5)</dcvalue>
+  <dcvalue element="description" qualifier="provenance">Approved for entry into archive by Manager for faculty self-deposit collections(drum-help@umd.edu) on 2009-10-19T16:42:11Z (GMT) No. of bitstreams: 1
+Hackman-CRL News-Oct2009-Final.pdf: 112327 bytes, checksum: a73d154951b27c286d41dff39c115336 (MD5)</dcvalue>
+  <dcvalue element="description" qualifier="provenance">Made available in DSpace on 2009-10-19T16:42:12Z (GMT). No. of bitstreams: 1
+Hackman-CRL News-Oct2009-Final.pdf: 112327 bytes, checksum: a73d154951b27c286d41dff39c115336 (MD5)
+  Previous issue date: 2009-10</dcvalue>
+  <dcvalue element="format" qualifier="extent">112327 bytes</dcvalue>
+  <dcvalue element="format" qualifier="mimetype">application/pdf</dcvalue>
+  <dcvalue element="language" qualifier="iso">en_US</dcvalue>
+  <dcvalue element="publisher" qualifier="none">Association of College and Research Libraries</dcvalue>
+  <dcvalue element="subject" qualifier="none">Open Access</dcvalue>
+  <dcvalue element="subject" qualifier="none">Scholarly Communication</dcvalue>
+  <dcvalue element="subject" qualifier="none">Faculty Outreach</dcvalue>
+  <dcvalue element="subject" qualifier="none">Academic Libraries</dcvalue>
+  <dcvalue element="title" qualifier="none">What's the Opposite of a Pyrrhic Victory? Lessons Learned from an Open Access Defeat</dcvalue>
+  <dcvalue element="type" qualifier="none">Article</dcvalue>
+  <dcvalue element="relation" qualifier="isAvailableAt">Digital Repository at the University of Maryland</dcvalue>
+  <dcvalue element="relation" qualifier="isAvailableAt">University of Maryland Libraries</dcvalue>
+  <dcvalue element="relation" qualifier="isAvailableAt">University of Maryland (College Park, MD)</dcvalue>
+</dublin_core>

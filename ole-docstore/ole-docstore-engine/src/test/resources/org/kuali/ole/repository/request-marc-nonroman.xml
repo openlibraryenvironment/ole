@@ -1,0 +1,158 @@
+<request>
+    <user>ole-khuntley</user>
+    <operation>batchIngest</operation>
+    <requestDocuments>
+        <ingestDocument id="1" category="work" type="bibliographic" format="marc">
+            <content><![CDATA[
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+<record>
+<leader>00000cam a2200000 I 45 0</leader>
+<controlfield tag="001">e18f8ae1-c1ff-4cb5-a6b0-0c4c3c070be0</controlfield>
+<controlfield tag="008">990128s1965 cc 000 0 chi d</controlfield>
+<datafield tag="019" ind1=" " ind2=" ">
+<subfield code="a">122877779</subfield>
+</datafield>
+<datafield tag="035" ind1=" " ind2=" ">
+<subfield code="a">(Sirsi) 1291795</subfield>
+</datafield>
+<datafield tag="035" ind1=" " ind2=" ">
+<subfield code="a">(OCoLC)ocm40692119</subfield>
+</datafield>
+<datafield tag="035" ind1=" " ind2=" ">
+<subfield code="a">(OCoLC)40692119</subfield>
+</datafield>
+<datafield tag="035" ind1=" " ind2=" ">
+<subfield code="a">(OCoLC)ocm40692119</subfield>
+</datafield>
+<datafield tag="035" ind1=" " ind2=" ">
+<subfield code="a">(OCoLC)40692119</subfield>
+</datafield>
+<datafield tag="035" ind1=" " ind2=" ">
+<subfield code="a">(OCoLC)ocm40692119</subfield>
+</datafield>
+<datafield tag="035" ind1=" " ind2=" ">
+<subfield code="a">(InU)AKY6364BB</subfield>
+</datafield>
+<datafield tag="040" ind1=" " ind2=" ">
+<subfield code="a">IUL</subfield>
+<subfield code="c">IUL</subfield>
+<subfield code="d">OCLCG</subfield>
+</datafield>
+<datafield tag="049" ind1=" " ind2=" ">
+<subfield code="a">IULA</subfield>
+</datafield>
+<datafield tag="090" ind1=" " ind2=" ">
+<subfield code="a">PL2754.S5</subfield>
+<subfield code="b">A74 1965</subfield>
+</datafield>
+<datafield tag="090" ind1=" " ind2=" ">
+<subfield code="a">049 IULA</subfield>
+</datafield>
+<datafield tag="100" ind1="1" ind2=" ">
+<subfield code="a"/>
+<subfield code="6">880-01</subfield>
+<subfield code="a">Lu, Xun,</subfield>
+<subfield code="d">1881-1936.</subfield>
+<subfield code="=">^A1730013</subfield>
+</datafield>
+<datafield tag="245" ind1="1" ind2="0">
+<subfield code="a"/>
+<subfield code="6">880-02</subfield>
+<subfield code="a">A Q zheng chuan =</subfield>
+<subfield code="b">The true story of Ah Q /</subfield>
+<subfield code="c">Zhou Shuren zhu ; Hu Ming yi.</subfield>
+</datafield>
+<datafield tag="260" ind1=" " ind2=" ">
+<subfield code="a"/>
+<subfield code="6">880-03</subfield>
+<subfield code="a">Xianggang :</subfield>
+<subfield code="b">Qiao guang shu dian,</subfield>
+<subfield code="c">1965.</subfield>
+</datafield>
+<datafield tag="300" ind1=" " ind2=" ">
+<subfield code="a">209 p.</subfield>
+</datafield>
+<datafield tag="500" ind1=" " ind2=" ">
+<subfield code="a">Fiction.</subfield>
+</datafield>
+<datafield tag="500" ind1=" " ind2=" ">
+<subfield code="a"/>
+<subfield code="6">880-04</subfield>
+<subfield code="a">At top of title: Ying Han tui chao.</subfield>
+</datafield>
+<datafield tag="591" ind1=" " ind2=" ">
+<subfield code="a">BB: I051</subfield>
+</datafield>
+<datafield tag="596" ind1=" " ind2=" ">
+<subfield code="a">1</subfield>
+</datafield>
+<datafield tag="650" ind1=" " ind2="0">
+<subfield code="a">Chinese fiction</subfield>
+<subfield code="y">20th century.</subfield>
+<subfield code="=">^A520942</subfield>
+</datafield>
+<datafield tag="650" ind1=" " ind2="0">
+<subfield code="a">Chinese fiction</subfield>
+<subfield code="y">20th century</subfield>
+<subfield code="x">Translations into English.</subfield>
+<subfield code="=">^A520942</subfield>
+</datafield>
+<datafield tag="700" ind1="1" ind2=" ">
+<subfield code="a"/>
+<subfield code="6">880-05</subfield>
+<subfield code="a">Hu, Ming,</subfield>
+<subfield code="d">1947-</subfield>
+<subfield code="=">^A771032</subfield>
+</datafield>
+<datafield tag="740" ind1="0" ind2="1">
+<subfield code="a">A Q zheng zhuan.</subfield>
+</datafield>
+<datafield tag="740" ind1="4" ind2="1">
+<subfield code="a">The true story of Ah Q.</subfield>
+</datafield>
+<datafield tag="880" ind1=" " ind2=" ">
+<subfield code="a"/>
+<subfield code="6">260-03/$1</subfield>
+<subfield code="a">香港 :</subfield>
+<subfield code="b">僑光書店,</subfield>
+<subfield code="c">1965.</subfield>
+</datafield>
+<datafield tag="880" ind1=" " ind2=" ">
+<subfield code="a"/>
+<subfield code="6">500-04/$1</subfield>
+<subfield code="a">At top of title: 英漢對照.</subfield>
+</datafield>
+<datafield tag="880" ind1="1" ind2=" ">
+<subfield code="a"/>
+<subfield code="6">700-05/$1</subfield>
+<subfield code="a">胡明,</subfield>
+<subfield code="d">1947-</subfield>
+</datafield>
+<datafield tag="880" ind1="1" ind2=" ">
+<subfield code="a"/>
+<subfield code="6">100-01/$1</subfield>
+<subfield code="a">魯迅,</subfield>
+<subfield code="d">1881-1936.</subfield>
+</datafield>
+<datafield tag="880" ind1="1" ind2="0">
+<subfield code="a"/>
+<subfield code="6">245-02/$1</subfield>
+<subfield code="a">阿Q正傳 =</subfield>
+<subfield code="b">The true story of Ah Q /</subfield>
+<subfield code="c">周樹人著 ; 胡明譯.</subfield>
+</datafield>
+<datafield tag="987" ind1=" " ind2=" ">
+<subfield code="a">PINYIN</subfield>
+<subfield code="b">OCoLC</subfield>
+<subfield code="c">20010531</subfield>
+<subfield code="d">r</subfield>
+<subfield code="e">04.15.2001</subfield>
+<subfield code="f">500-a /</subfield>
+</datafield>
+</record>
+</collection>
+                ]]>
+            </content>
+        </ingestDocument>
+    </requestDocuments>
+</request>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<dublin_core schema="dc">
+  <dcvalue element="contributor" qualifier="author">O'Reilly, Carey</dcvalue>
+  <dcvalue element="contributor" qualifier="author">Shackel, Paul A.</dcvalue>
+  <dcvalue element="contributor" qualifier="author">Leone, Mark P.</dcvalue>
+  <dcvalue element="contributor" qualifier="author">Beavan, Michele</dcvalue>
+  <dcvalue element="contributor" qualifier="author">Fernandez, Robert</dcvalue>
+  <dcvalue element="contributor" qualifier="author">Graminski, John</dcvalue>
+  <dcvalue element="contributor" qualifier="author">Gryder, Dennis</dcvalue>
+  <dcvalue element="contributor" qualifier="author">Jastrab, Marcey</dcvalue>
+  <dcvalue element="contributor" qualifier="author">Lev-Tov, Justin</dcvalue>
+  <dcvalue element="contributor" qualifier="author">Mullins, Paul R.</dcvalue>
+  <dcvalue element="date" qualifier="accessioned">2010-12-13T20:02:02Z</dcvalue>
+  <dcvalue element="date" qualifier="available">2010-12-13T20:02:02Z</dcvalue>
+  <dcvalue element="date" qualifier="issued">1994</dcvalue>
+  <dcvalue element="identifier" qualifier="uri">http://hdl.handle.net/1903/11033</dcvalue>
+  <dcvalue element="description" qualifier="abstract">193 Main Street (18AP44) is located between Main Street and Duke of Gloucester Street. The property was used ass a yard related to residential and commercial buildings during the 18th and 19th centuries. In the 1930's a movie theatre and parking lot were built on the property. That structure was torn down in the 1980's and a three-story commercial building was constructed. Archaeological excavations were conducted on the property from 1985-1987. A preliminary report was written in 1986 by Paul A. Shackel. This report is the final report on the archaeological investigations at 193 Main Street.</dcvalue>
+  <dcvalue element="description" qualifier="provenance">Submitted by Terry Owen (towen@umd.edu) on 2010-12-13T20:00:41Z
+No. of bitstreams: 2
+ap44 1994 vol 1.pdf: 18077954 bytes, checksum: ed8587ea51516290ba0a3315dde4232d (MD5)
+ap44 1994 vol 2.pdf: 16810988 bytes, checksum: c1ac94cbd7a7119d68e406789920d6ba (MD5)</dcvalue>
+  <dcvalue element="description" qualifier="provenance">Approved for entry into archive by Manager for faculty self-deposit collections(drum-help@umd.edu) on 2010-12-13T20:02:02Z (GMT) No. of bitstreams: 2
+ap44 1994 vol 1.pdf: 18077954 bytes, checksum: ed8587ea51516290ba0a3315dde4232d (MD5)
+ap44 1994 vol 2.pdf: 16810988 bytes, checksum: c1ac94cbd7a7119d68e406789920d6ba (MD5)</dcvalue>
+  <dcvalue element="description" qualifier="provenance">Made available in DSpace on 2010-12-13T20:02:02Z (GMT). No. of bitstreams: 2
+ap44 1994 vol 1.pdf: 18077954 bytes, checksum: ed8587ea51516290ba0a3315dde4232d (MD5)
+ap44 1994 vol 2.pdf: 16810988 bytes, checksum: c1ac94cbd7a7119d68e406789920d6ba (MD5)
+  Previous issue date: 1994</dcvalue>
+  <dcvalue element="language" qualifier="iso">en_US</dcvalue>
+  <dcvalue element="subject" qualifier="none">Archaeology</dcvalue>
+  <dcvalue element="subject" qualifier="none">Annapolis, Maryland</dcvalue>
+  <dcvalue element="subject" qualifier="none">Main Street</dcvalue>
+  <dcvalue element="subject" qualifier="none">18AP44</dcvalue>
+  <dcvalue element="title" qualifier="none">Archaeological Excavations at 18AP44: 193 Main Street, Annapolis, Maryland, 1985-1987</dcvalue>
+  <dcvalue element="type" qualifier="none">Technical Report</dcvalue>
+  <dcvalue element="relation" qualifier="isAvailableAt">University of Maryland (College Park, Md)</dcvalue>
+  <dcvalue element="relation" qualifier="isAvailableAt">Digital Repository at the University of Maryland</dcvalue>
+</dublin_core>

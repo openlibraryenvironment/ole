@@ -1,0 +1,529 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="EResourcePOView" parent="EResourcePOView-parentBean" />
+    <bean id="EResourcePOView-parentBean" parent="Uif-OLEFormView">
+        <property name="items">
+            <list>
+                <bean id="EResourcePOViewPage" parent="Uif-Page">
+                    <property name="items">
+                        <list>
+                            <bean id="poErrorMessage" parent="Uif-MessageField" p:messageText="@{poErrorMessage}" p:cssClasses="messageClass"/>
+                            <bean id="poSuccessMessage" parent="Uif-MessageField" p:messageText="@{poSuccessMessage}" p:cssClasses="successMessageClass"/>
+                            <ref bean="Uif-E-Res-CreatePO-DocumentPageHeader"/>
+                            <ref bean="EResourcePOSection"/>
+                            <ref bean="InstancePOSection"/>
+                            <ref bean="Uif-E-Res-CreatePO-DocumentPageFooter"/>
+                            <bean id="hiddenIndex" parent="Uif-InputField" p:hidden="true" p:propertyName="index"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>ole/eresource/css/eresource.css</value>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>ole/eresource/scripts/eresource.js</value>
+            </list>
+        </property>
+
+        <property name="dialogs">
+            <list>
+                <ref bean="confirmationForInstance"/>
+                <ref bean="confirmationForEResource"/>
+            </list>
+        </property>
+        <property name="formClass" value="org.kuali.ole.select.document.OLEEResourceRecordDocument"/>
+    </bean>
+
+    <bean id="Uif-E-Res-CreatePO-DocumentPageHeader" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <ref bean="Uif-E-Res-CreatePO-DocumentPageFooter"/>
+                <ref bean="POTypeSelection"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="POTypeSelection" parent="Uif-InputField" p:propertyName="selectedPOType" p:style="float: right;">
+        <property name="control">
+            <bean parent="Uif-VerticalRadioControl">
+                <property name="options">
+                    <list>
+                        <bean parent="Uif-KeyLabelPair" p:key="One PO With All Titles" p:value="All Selected Titles on one PO"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="One PO Per Title" p:value="Each Selected Titles on its own PO"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="EResourcePOSection" parent="Uif-TableCollectionSection">
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.select.bo.OLECreatePO"/>
+        <property name="propertyName" value="eResourcePOs"/>
+        <property name="headerText" value="Create PO for E-Resource"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.generateAutoSequence" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.applyDefaultCellWidths" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="layoutManager.rowDetailsGroup">
+            <bean parent="Uif-VerticalBoxSection">
+                <property name="items">
+                    <list>
+                        <ref bean="EResourcePOView-EResourceFund"/>
+                        <ref bean="EResourcePOView-EResourceAccountingLines"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:label="Select" p:propertyName="selectFlag" p:defaultValue="false" p:width="50px"
+                      p:render="@{#line.poId eq null}">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-LinkField" p:linkText="@{#line.poId}" p:target="_blank" p:render="@{#line.poId ne null}"
+                      p:label="PO No" p:href="@{#line.redirectUrl}"/>
+                <bean parent="Uif-DataField" p:label="GOKb ID" p:propertyName="gokbId"/>
+                <bean parent="Uif-DataField" p:label="EResource Name" p:propertyName="title"
+                      p:onMouseOverScript="showLightBox('@{#index}' , 'eResource');" p:render="@{#line.poId ne null}"/>
+                <bean parent="Uif-DataField" p:label="EResource Name" p:propertyName="title" p:render="@{#line.poId eq null}"/>
+                <bean parent="Uif-DataField" p:label="ISSN/ISBN" p:propertyName="isbnNIssn"/>
+                <bean parent="Uif-DataField" p:label="Estimated Price" p:propertyName="price"/>
+                <bean parent="Uif-InputField"
+                      p:propertyName="vendorId" p:label="Vendor">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="dropdown" p:disabled="@{#line.poId ne null}"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.select.businessobject.options.OLEInvoiceVendorTypeFinder"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField"
+                      p:propertyName="purposeId" p:label="Purpose">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="dropdown" p:disabled="@{#line.poId ne null}"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.module.purap.businessobject.options.OLEPurchaseOrderPurposeKeyValueFinder"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField"
+                      p:propertyName="orderTypeId" p:label="Order Type">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="dropdown" p:disabled="@{#line.poId ne null}"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.module.purap.businessobject.options.PurchaseOrderTypeValuesFinder"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="InstancePOSection" parent="Uif-TableCollectionSection">
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.select.bo.OLECreatePO"/>
+        <property name="propertyName" value="instancePOs"/>
+        <property name="headerText" value="Create PO for Instances"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.generateAutoSequence" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.applyDefaultCellWidths" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="layoutManager.rowDetailsGroup">
+            <bean parent="Uif-VerticalBoxSection">
+                <property name="items">
+                    <list>
+                        <ref bean="EResourcePOView-InstanceFund"/>
+                        <ref bean="EResourcePOView-InstanceAccountingLines"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:label="Select" p:propertyName="selectFlag" p:defaultValue="false" p:width="50px"
+                      p:render="@{#line.poId eq null}">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-LinkField" p:linkText="@{#line.poId}" p:target="_blank" p:render="@{#line.poId ne null}"
+                      p:label="PO No" p:href="@{#line.redirectUrl}"/>
+
+                <bean parent="Uif-DataField" p:label="GOKb ID" p:propertyName="gokbId"/>
+                <bean parent="Uif-DataField" p:label="Instance Name" p:propertyName="title"
+                      p:onMouseOverScript="showLightBox('@{#index}', 'instance')"
+                      p:render="@{#line.poId ne null}"/>
+                <bean parent="Uif-DataField" p:label="Instance Name" p:propertyName="title"
+                      p:render="@{#line.poId eq null}"/>
+                <bean parent="Uif-DataField" p:label="ISSN/ISBN" p:propertyName="isbnNIssn"/>
+                <bean parent="Uif-InputField" p:label="Estimated Price" p:propertyName="price">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:disabled="@{#line.poId ne null}"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField"
+                      p:propertyName="vendorId" p:label="Vendor">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="dropdown" p:disabled="@{#line.poId ne null}"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.select.businessobject.options.OLEInvoiceVendorTypeFinder"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField"
+                      p:propertyName="purposeId" p:label="Purpose">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="dropdown" p:disabled="@{#line.poId ne null}"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.module.purap.businessobject.options.OLEPurchaseOrderPurposeKeyValueFinder"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField"
+                      p:propertyName="orderTypeId" p:label="Order Type">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="dropdown" p:disabled="@{#line.poId ne null}"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.module.purap.businessobject.options.PurchaseOrderTypeValuesFinder"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Uif-E-Res-CreatePO-DocumentPageFooter" parent="Uif-HorizontalFieldGroup">
+        <property name="items">
+            <list>
+                <bean id="createPOs" parent="Uif-SecondaryActionButton-Small" p:methodToCall="createPOs" p:actionLabel="Create POs" p:style="float:left;margin-left:50em"/>
+                <bean id="savePoChanges" parent="Uif-SecondaryActionButton-Small" p:methodToCall="savePoChanges" p:actionLabel="Save Changes"/>
+                <bean id="cancel" parent="Uif-SecondaryActionButton-Small" p:actionScript="cancel();" p:actionLabel="Cancel"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="confirmationForInstance" parent="Uif-VerticalBoxSection" p:style="width:275px;height:100px;">
+        <property name="hidden" value="true"/>
+        <property name="items">
+            <list>
+                <ref bean="showHoldingsMessage"/>
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean id="createAnotherPOForInstance" parent="Uif-SecondaryActionButton-Small" p:methodToCall="addPOForInstance" p:actionLabel="Yes" p:successCallback="closeLightbox();" p:style="float:left;margin-left:7em"/>
+                            <ref bean="createPONoButton"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="confirmationForEResource" parent="Uif-VerticalBoxSection" p:style="width:275px;height:100px;">
+        <property name="hidden" value="true"/>
+        <property name="items">
+            <list>
+                <ref bean="showEResourceMessage"/>
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean id="createAnotherPOEResource" parent="Uif-SecondaryActionButton-Small" p:methodToCall="addPOForEResource" p:actionLabel="Yes" p:successCallback="closeLightbox();" p:style="float:left;margin-left:7em"/>
+                            <ref bean="createPONoButton"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="createPONoButton" parent="Uif-SecondaryActionButton-Small" p:actionLabel="No" p:successCallback="closeLightbox()" />
+    <bean id="showHoldingsMessage" parent="Uif-MessageField" p:messageText="@{confirmationMessageForHoldings}"/>
+    <bean id="showEResourceMessage" parent="Uif-MessageField" p:messageText="@{confirmationMessageForEResource}"/>
+
+    <bean id="EResourcePOView-InstanceFund" parent="Uif-Disclosure-TableSubCollection-WithinSection"
+          p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto;" p:disclosure.defaultOpen="true">
+        <property name="headerText" value="Fund"/>
+        <property name="collectionObjectClass" value="org.kuali.ole.coa.businessobject.OleFundCode"/>
+        <property name="propertyName" value="fundCodes"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.richTable.templateOptions" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderAddLine" value="true"/>
+        <property name="renderLineActions" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="fundCode" p:label="Fund Code" p:required="true" p:enableAutoDirectInquiry="false">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.coa.businessobject.OleFundCode"
+                              p:fieldConversions="fundCode:fundCode"
+                              p:lookupParameters="fundCode:fundCode"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="15" p:maxLength="15"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="addLineActions">
+            <list>
+                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="populateAccountingLinesToInstance" p:actionLabel="Populate Accounting Lines" p:successCallback="refresh();"/>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-DeleteLineAction"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="EResourcePOView-EResourceFund" parent="Uif-Disclosure-TableSubCollection-WithinSection"
+          p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto;" p:disclosure.defaultOpen="true">
+        <property name="headerText" value="Fund"/>
+        <property name="collectionObjectClass" value="org.kuali.ole.coa.businessobject.OleFundCode"/>
+        <property name="propertyName" value="fundCodes"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.richTable.templateOptions" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderAddLine" value="true"/>
+        <property name="renderLineActions" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="fundCode" p:label="Fund Code" p:required="true" p:enableAutoDirectInquiry="false">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.coa.businessobject.OleFundCode"
+                              p:fieldConversions="fundCode:fundCode"
+                              p:lookupParameters="fundCode:fundCode"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="15" p:maxLength="15"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="addLineActions">
+            <list>
+                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="populateAccountingLinesToEResource" p:actionLabel="Populate Accounting Lines" p:successCallback="refresh();"/>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-DeleteLineAction"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="EResourcePOView-EResourceAccountingLines" parent="Uif-Disclosure-TableSubCollection-WithinSection"
+          p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto;" p:disclosure.defaultOpen="false">
+        <property name="headerText" value="Accounting Lines"/>
+        <property name="collectionObjectClass" value="org.kuali.ole.coa.businessobject.OLECretePOAccountingLine"/>
+        <property name="propertyName" value="accountingLines"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.richTable.templateOptions" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderAddLine" value="true"/>
+        <property name="renderLineActions" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="chartOfAccountsCode" p:label="Chart Code" p:required="true">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.coa.businessobject.Chart"
+                              p:fieldConversions="chartOfAccountsCode:chartOfAccountsCode"
+                              p:lookupParameters="chartOfAccountsCode:chartOfAccountsCode"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="2" p:maxLength="2"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="accountNumber" p:label="Account Number" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" p:maxLength="7"/>
+                    </property>
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.coa.businessobject.Account"
+                              p:fieldConversions="chartOfAccountsCode:chartOfAccountsCode,accountNumber:accountNumber"
+                              p:lookupParameters="chartOfAccountsCode:chartOfAccountsCode"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="subAccountNumber" p:label="Sub Account Number">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder"
+                              p:dataObjectClassName="org.kuali.ole.coa.businessobject.SubAccount"
+                              p:fieldConversions="chartOfAccountsCode:chartOfAccountsCode,accountNumber:accountNumber,subAccountNumber:subAccountNumber"
+                              p:lookupParameters="chartOfAccountsCode:chartOfAccountsCode,accountNumber:accountNumber"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="5" p:maxLength="5"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="financialObjectCode" p:label="Object Code" p:required="true">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder"
+                              p:dataObjectClassName="org.kuali.ole.coa.businessobject.ObjectCode"
+                              p:fieldConversions="financialObjectCode:financialObjectCode"
+                              p:lookupParameters="chartOfAccountsCode:chartOfAccountsCode"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="4" p:maxLength="4"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="financialSubObjectCode" p:label="Sub ObjectCode">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder"
+                              p:dataObjectClassName="org.kuali.ole.coa.businessobject.SubObjectCode"
+                              p:fieldConversions="chartOfAccountsCode:chartOfAccountsCode,accountNumber:accountNumber,financialObjectCode:financialObjectCode,financialSubObjectCode:financialSubObjectCode"
+                              p:lookupParameters="financialObjectCode:financialObjectCode"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="3" p:maxLength="3"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="projectCode" p:label="Project">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder"
+                              p:dataObjectClassName="org.kuali.ole.coa.businessobject.ProjectCode"
+                              p:fieldConversions="code:projectCode"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" p:maxLength="10"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:label="Org Ref Id" p:propertyName="organizationReferenceId">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="8" p:maxLength="8"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:label="Percentage" p:propertyName="accountLinePercent" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="3" p:maxLength="36"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="addLineActions">
+            <list>
+                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="addAccountingLine" p:actionLabel="Add" p:successCallback="refresh();"/>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-DeleteLineAction"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="EResourcePOView-InstanceAccountingLines" parent="Uif-Disclosure-TableSubCollection-WithinSection"
+          p:layoutManager.applyDefaultCellWidths="false" p:style="width:auto;" p:disclosure.defaultOpen="false">
+        <property name="headerText" value="Accounting Lines"/>
+        <property name="collectionObjectClass" value="org.kuali.ole.coa.businessobject.OLECretePOAccountingLine"/>
+        <property name="propertyName" value="accountingLines"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.richTable.templateOptions" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderAddLine" value="true"/>
+        <property name="renderLineActions" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="chartOfAccountsCode" p:label="Chart Codde" p:required="true">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.coa.businessobject.Chart"
+                              p:fieldConversions="chartOfAccountsCode:chartOfAccountsCode"
+                              p:lookupParameters="chartOfAccountsCode:chartOfAccountsCode"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="2" p:maxLength="2"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="accountNumber" p:label="Account Number" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" p:maxLength="7"/>
+                    </property>
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.coa.businessobject.Account"
+                              p:fieldConversions="chartOfAccountsCode:chartOfAccountsCode,accountNumber:accountNumber"
+                              p:lookupParameters="chartOfAccountsCode:chartOfAccountsCode"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="subAccountNumber" p:label="Sub Account Number">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder"
+                              p:dataObjectClassName="org.kuali.ole.coa.businessobject.SubAccount"
+                              p:fieldConversions="chartOfAccountsCode:chartOfAccountsCode,accountNumber:accountNumber,subAccountNumber:subAccountNumber"
+                              p:lookupParameters="chartOfAccountsCode:chartOfAccountsCode,accountNumber:accountNumber"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="5" p:maxLength="5"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="financialObjectCode" p:label="Object Code" p:required="true">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder"
+                              p:dataObjectClassName="org.kuali.ole.coa.businessobject.ObjectCode"
+                              p:fieldConversions="financialObjectCode:financialObjectCode"
+                              p:lookupParameters="chartOfAccountsCode:chartOfAccountsCode"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="4" p:maxLength="4"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="financialSubObjectCode" p:label="Sub ObjectCode">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder"
+                              p:dataObjectClassName="org.kuali.ole.coa.businessobject.SubObjectCode"
+                              p:fieldConversions="chartOfAccountsCode:chartOfAccountsCode,accountNumber:accountNumber,financialObjectCode:financialObjectCode,financialSubObjectCode:financialSubObjectCode"
+                              p:lookupParameters="financialObjectCode:financialObjectCode"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="3" p:maxLength="3"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="projectCode" p:label="Project">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder"
+                              p:dataObjectClassName="org.kuali.ole.coa.businessobject.ProjectCode"
+                              p:fieldConversions="code:projectCode"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" p:maxLength="10"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:label="Org Ref Id" p:propertyName="organizationReferenceId">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="8" p:maxLength="8"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:label="Percentage" p:propertyName="accountLinePercent" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="3" p:maxLength="36"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="addLineActions">
+            <list>
+                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="addAccountingLine" p:actionLabel="Add" p:successCallback="refresh();"/>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-DeleteLineAction"/>
+            </list>
+        </property>
+    </bean>
+
+
+</beans>

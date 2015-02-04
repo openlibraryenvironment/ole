@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="OLEDescribeWorkBenchView" parent="OLEDescribeWorkBenchView-parentBean" />
+    <bean id="OLEDescribeWorkBenchView-parentBean" parent="Uif-OLEFormView">
+        <property name="headerText" value="Search Workbench"/>
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="@{#ConfigProperties['externalizable.help.url']}/reference/html/BASICS.html#_Describe_Workbench"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="OLEDescribeWorkBenchViewPage" parent="Uif-Page" >
+                    <property name="items">
+                        <list>
+                            <ref bean="OLESearchPanel"/>
+                            <ref bean="OLESearchAndSearchResultsView"/>
+                            <ref bean="MessagePopupSectionForLinkToOrder"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>ole/describe/css/search.css</value>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>ole/describe/scripts/workbench.js</value>
+                <value>ole/describe/scripts/callNumberBrowse.js</value>
+            </list>
+        </property>
+        <property name="footer">
+            <ref bean="ClearFooterView-buttons" />
+        </property>
+        <property name="formClass" value="org.kuali.ole.describe.form.OLESearchForm"/>
+    </bean>
+
+    <bean id="OLESearchPanel" parent="OLEDescribeSearchPanel-parentBean"/>
+    <bean id="OLEDescribeSearchPanel-parentBean" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="headerText" value="Search Conditions:"/>
+        <property name="items">
+            <list>
+                <bean id="success_message" parent="Uif-MessageField" p:messageText="@{successMessage}" />
+                <ref bean="OLESearchPanel-docType-Section"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="OLESearchAndSearchResultsView" parent="Uif-VerticalBoxSection" p:render="@{searchType eq 'search'}">
+        <property name="items">
+            <list>
+                <ref bean="SearchConditionsSection"/>
+                <ref bean="SearchFooterSection"/>
+                <ref bean="OLESearchResultsSection"/>
+                <ref bean="hidden_refresh_button"/>
+                <ref bean="hidden_search_button"/>
+                <ref bean="hidden_NextFlag_button"/>
+                <ref bean="hidden_PreviousFlag_button"/>
+                <ref bean="hiddenStart"/>
+                <ref bean="hiddenRows"/>
+                <ref bean="hiddenSortOrder"/>
+                <ref bean="hiddenSortField"/>
+                <ref bean="hiddenSortFlag"/>
+                <ref bean="searchNextFlag"/>
+                <ref bean="searchPreviousFlag"/>
+                <ref bean="searchPageShowEntries"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLESearchPanel-docType-Section" parent="Uif-InputField" p:propertyName="docType"
+          p:label="Document Type">
+        <property name="control">
+            <bean parent="Uif-HorizontalRadioControl">
+                <property name="options">
+                    <list>
+                        <bean parent="Uif-KeyLabelPair" p:key="bibliographic" p:value="Bib"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+    <bean id="OLESearchResultsSection" parent="Uif-GridGroup" p:layoutManager.numberOfColumns="3">
+        <property name="headerText" value="Search Results"/>
+        <property name="items">
+            <list>
+                <ref bean="OLESearchFieldResultSection"/>
+                <ref bean="OLEFacetFieldResultSection"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLESearchFieldResultSection" parent="Uif-VerticalBoxSection" p:colSpan="2">
+        <property name="headerText" value="Search Results"/>
+        <property name="items">
+            <list>
+                <ref bean="OLEBibSearchResults"/>
+                <ref bean="LinkToOrderButtons"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="OLEBibSearchResults" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="5" p:render="@{docType eq 'bibliographic'}">
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.describe.bo.SearchResultDisplayRow" />
+        <property name="propertyName" value="searchResultDisplayRowList" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.generateAutoSequence" value="false" />
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true" />
+        <property name="layoutManager.applyDefaultCellWidths" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="iDisplayLength" value="@{pageSize}"/>
+                <entry key="aLengthMenu" value="@{showPageSize}"/>
+                <entry key="aoColumns"  value="@{showFieldSort}"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:label="" p:propertyName="select" p:defaultValue="false" p:width="50px">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" p:cssClasses="defaultClass" p:onClickScript="validateCheckBoxes();"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-DataField" p:label="Local Identifier" p:propertyName="localId" p:render="@{searchResultDisplayFields.localId}" p:width="150px"/>
+                <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
+                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=@{#line.DocFormat}&amp;docId=@{#line.localId}&amp;bibId=@{#line.bibIdentifier}&amp;editable=true"
+                      p:label="Title" p:linkText="@{#line.title}" p:target="_blank" p:width="400px" p:render="@{searchResultDisplayFields.title and #line.staffOnly eq 'false'}"/>
+                <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
+                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=marc&amp;docId=@{#line.localId}&amp;bibId=@{#line.bibIdentifier}&amp;editable=true"
+                      p:label="Title" p:linkText="@{#line.title}" p:target="_blank" p:width="400px" p:render="@{searchResultDisplayFields.title and #line.staffOnly eq 'true'}" p:cssClasses="staffOnlyForHiperlink"/>
+                <bean parent="Uif-DataField" p:label="Journal Title" p:propertyName="journalTitle" p:width="400px" p:render="@{searchResultDisplayFields.journalTitle}"/>
+                <bean parent="Uif-DataField" p:label="Author" p:propertyName="author" p:width="200px" p:render="@{searchResultDisplayFields.author}"/>
+                <bean parent="Uif-DataField" p:label="Publisher" p:propertyName="publisher" p:width="200px" p:render="@{searchResultDisplayFields.publisher}"/>
+                <bean parent="Uif-DataField" p:label="Isbn" p:propertyName="isbn" p:render="@{searchResultDisplayFields.isbn}"/>
+                <bean parent="Uif-DataField" p:label="Issn" p:propertyName="issn" p:render="@{searchResultDisplayFields.issn}"/>
+                <bean parent="Uif-DataField" p:label="Subject" p:propertyName="subject" p:render="@{searchResultDisplayFields.subject}"/>
+                <bean parent="Uif-DataField" p:label="Publication Place" p:propertyName="publicationPlace" p:render="@{searchResultDisplayFields.publicationPlace}"/>
+                <bean parent="Uif-DataField" p:label="Edition" p:propertyName="edition" p:render="@{searchResultDisplayFields.edition}"/>
+                <bean parent="Uif-DataField" p:label="Format" p:propertyName="format" p:render="@{searchResultDisplayFields.format}"/>
+                <bean parent="Uif-DataField" p:label="FormGenre" p:propertyName="formGenre" p:render="@{searchResultDisplayFields.formGenre}"/>
+                <bean parent="Uif-DataField" p:label="Language" p:propertyName="language" p:render="@{searchResultDisplayFields.language}"/>
+                <bean parent="Uif-DataField" p:label="Description" p:propertyName="description" p:render="@{searchResultDisplayFields.description}"/>
+                <bean parent="Uif-DataField" p:label="Pub Date" p:propertyName="publicationDate" p:render="@{searchResultDisplayFields.publicationDate}"/>
+                <bean parent="Uif-DataField" p:label="Barcode" p:propertyName="barcode" p:render="@{searchResultDisplayFields.barcode}"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="LinkToOrderButtons"  parent="Uif-HorizontalBoxSection" p:render="@{searchResultDisplayRowList ne null}">
+        <property name="items">
+            <list>
+                <bean id="submit_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em" p:methodToCall="submit" p:actionLabel="Link To Order" p:ajaxSubmit="true"  p:successCallback="validLinkToOrder();"/>
+                <bean id="cancel_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em" p:actionScript="parent.window.close();" p:actionLabel="Close"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="OLEFacetFieldResultSection" parent="Uif-VerticalBoxSection" p:render="@{docType eq 'bibliographic'}">
+        <property name="headerText" value="Narrow Search"/>
+        <property name="items">
+            <list>
+                <ref bean="OLEFacetFieldSelectedSection"/>
+                <ref bean="OLEFacetFieldResultTableSection"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEFacetFieldSelectedSection" parent="Uif-TableCollectionSection">
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.docstore.common.search.FacetCondition"/>
+        <property name="propertyName" value="searchParams.facetConditions"/>
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="layoutManager.generateAutoSequence" value="false" />
+        <property name="renderAddLine" value="false"/>
+        <property name="items">
+            <list>
+                <bean id="facetField1" parent="Uif-DataField" p:propertyName="shortValue" p:label="Remove filter"/>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="deleteFacetConditions" parent="Uif-SecondaryActionButton-Small"
+                      p:methodToCall="removeFacet" p:actionLabel="Remove" p:ajaxSubmit="false"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEFacetFieldResultTableSection" parent="Uif-TableCollectionSection" p:colSpan="1">
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.docstore.common.search.FacetResultField" />
+        <property name="propertyName" value="facetResultFields" />
+        <property name="renderLineActions" value="false"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="items">
+            <list>
+                <bean id="OleFacetFieldResult-FacetField" parent="Uif-DataField" p:propertyName="fieldLabel"/>
+                <bean  id="OleFacetFieldResult-MoreFacet" parent="Uif-LinkField" p:href="ole-kr-krad/olesearchcontroller?viewId=MoreFacetView&amp;methodToCall=moreFacets&amp;facetPrefix=ALL&amp;facetField=@{#line.fieldName}&amp;docType=@{docType}" p:linkText="more" p:render="@{#line.valueCounts.size() gt facetLimit}">
+                    <property name="lightBox">
+                        <bean parent="Uif-LightBox"/>
+                    </property>
+                </bean>
+                <bean  id="OleFacetFieldResult-MoreFacet1" parent="Uif-LinkField" p:href="ole-kr-krad/olesearchcontroller?viewId=MoreFacetView&amp;methodToCall=moreFacets&amp;facetPrefix=ALL&amp;facetField=@{#line.fieldName}&amp;docType=@{docType}" p:linkText="more" p:hidden="true" p:render="@{#line.valueCounts.size() le facetLimit}">
+                    <property name="lightBox">
+                        <bean parent="Uif-LightBox"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="subCollections">
+            <list>
+                <ref bean="OLEFacetFieldSections"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="OLEFacetFieldSections" parent="Uif-TableSubCollection-WithinSection" p:layoutManager.numberOfColumns="1" p:layoutManager.style="border:1px solid;">
+        <property name="collectionObjectClass" value="org.kuali.ole.docstore.common.search.ValueCount"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="propertyName" value="valueCounts"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;" p:label="@{#parentLine.fieldName}" p:href="olesearchcontroller?viewId=OLEDescribeWorkBenchView&amp;methodToCall=facetSearch&amp;selectedFacet=@{#line.fullValue}&amp;docType=@{docType}&amp;selectedFacetName=@{#parentLine.fieldName}"
+                      p:linkText="@{#line.facetLabel}"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="ClearFooterView-buttons" parent="ClearFooterView-buttons-parentBean"/>
+    <bean id="ClearFooterView-buttons-parentBean" parent="Uif-HorizontalBoxSection" p:disclosure.render="false">
+        <property name="items">
+            <list>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="MessagePopupSectionForLinkToOrder" parent="Uif-VerticalBoxSection" p:render="@{message ne null and message ne ''}" >
+        <property name="headerText" value=""/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean id="link_message" parent="Uif-MessageField" p:messageText="@{message}" />
+                            <ref bean="MessagePopupSectionForLinkToOrderButtons-HorizontalBoxSection"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="MessagePopupSectionForLinkToOrderButtons-HorizontalBoxSection" parent="MessagePopupSectionForLinkToOrderButtons-HorizontalBoxSection-parentBean" />
+    <bean id="MessagePopupSectionForLinkToOrderButtons-HorizontalBoxSection-parentBean" parent="Uif-HorizontalBoxSection" p:disclosure.render="false">
+        <property name="items">
+            <list>
+                <bean id="continueBtn" parent="Uif-SecondaryActionButton-Small" p:methodToCall="submit" p:actionLabel="Continue" p:ajaxSubmit="true"  p:successCallback="closeMessagePopUp();"/>
+                <bean id="cancelBtn" parent="Uif-SecondaryActionButton-Small" p:actionScript="parent.window.close();" p:actionLabel="Cancel"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

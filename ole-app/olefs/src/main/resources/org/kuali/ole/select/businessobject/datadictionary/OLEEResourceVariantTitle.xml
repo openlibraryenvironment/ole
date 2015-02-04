@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="OleEResourceVariantTitle" parent="OleEResourceVariantTitle-parentBean"/>
+    <bean id="OleEResourceVariantTitle-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.select.bo.OLEEResourceVariantTitle"/>
+        <property name="objectLabel" value="E-Resource Variant Title"/>
+        <property name="attributes">
+            <list>
+                <ref bean="OleEResourceVariantTitle-oleVariantTitleId"/>
+                <ref bean="OleEResourceVariantTitle-oleERSIdentifier"/>
+                <ref bean="OleEResourceVariantTitle-oleVariantTitle"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+    <bean id="OleEResourceVariantTitle-oleVariantTitleId"
+          parent="OleEResourceVariantTitle-oleVariantTitleId-parentBean"/>
+    <bean id="OleEResourceVariantTitle-oleVariantTitleId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="E-Resource Variant Title Id"/>
+        <property name="maxLength" value="10"/>
+        <property name="name" value="oleVariantTitleId"/>
+        <property name="label" value="E-Resource Variant Title Id"/>
+        <property name="description" value="E-Resource Variant Title Id"/>
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+    </bean>
+
+    <bean id="OleEResourceVariantTitle-oleERSIdentifier"
+          parent="OleEResourceVariantTitle-oleERSIdentifier-parentBean"/>
+    <bean id="OleEResourceVariantTitle-oleERSIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="E-Resource Id"/>
+        <property name="maxLength" value=""/>
+        <property name="name" value="oleERSIdentifier"/>
+        <property name="label" value="E-Resource Id"/>
+        <property name="description" value="E-Resource Id"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="10"/>
+        </property>
+    </bean>
+
+    <bean id="OleEResourceVariantTitle-oleVariantTitle"
+          parent="OleEResourceVariantTitle-oleVariantTitle-parentBean"/>
+    <bean id="OleEResourceVariantTitle-oleVariantTitle-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="E-Resource Variant Title"/>
+        <property name="maxLength" value="800"/>
+        <property name="name" value="oleVariantTitle"/>
+        <property name="label" value="Variant Title"/>
+        <property name="description" value="E-Resource Variant Title"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+</beans>

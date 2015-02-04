@@ -1,0 +1,84 @@
+<ingestDocument id="1" category="work" type="bibliographic" format="marc">
+            <content><![CDATA[
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+<record>
+  <leader>01264cam a2200217   4500</leader>
+  <controlfield tag="001">5929601</controlfield>
+  <controlfield tag="003">InU</controlfield>
+  <controlfield tag="006">m    |   j |      </controlfield>
+  <controlfield tag="007">cr||n||||||||n</controlfield>
+  <controlfield tag="008">791208s1714    ie      s     00    eng d</controlfield>
+  <datafield tag="035" ind1=" " ind2=" ">
+    <subfield code="a">(ICU)10001</subfield>
+  </datafield>
+  <datafield tag="040" ind1=" " ind2=" ">
+    <subfield code="a">Uk-ES</subfield>
+    <subfield code="c">Uk-ES</subfield>
+    <subfield code="d">CStRLIN</subfield>
+    <subfield code="d">Thomson Gale</subfield>
+  </datafield>
+  <datafield tag="245" ind1="0" ind2="4">
+    <subfield code="a">The old snugg Presbyterian charter of conscience: or, a recital of their solemn league and covenant. With the decent equipage of a preface and a postscript</subfield>
+    <subfield code="h">[electronic resource].</subfield>
+  </datafield>
+  <datafield tag="260" ind1=" " ind2=" ">
+    <subfield code="a">Dublin :</subfield>
+    <subfield code="b">printed by E. Waters,</subfield>
+    <subfield code="c">1714.</subfield>
+  </datafield>
+  <datafield tag="300" ind1=" " ind2=" ">
+    <subfield code="a">8p. ;</subfield>
+    <subfield code="c">4⁰.</subfield>
+  </datafield>
+  <datafield tag="500" ind1=" " ind2=" ">
+    <subfield code="a">Reproduction of original from the British Library.</subfield>
+  </datafield>
+  <datafield tag="510" ind1="4" ind2=" ">
+    <subfield code="a">English Short Title Catalog,</subfield>
+    <subfield code="c">ESTCT73947.</subfield>
+  </datafield>
+  <datafield tag="533" ind1=" " ind2=" ">
+    <subfield code="a">Electronic reproduction.</subfield>
+    <subfield code="b">Farmington Hills, Mich. :</subfield>
+    <subfield code="c">Thomson Gale,</subfield>
+    <subfield code="d">2003.</subfield>
+    <subfield code="n">Available via the World Wide Web.</subfield>
+    <subfield code="n">Access limited by licensing agreements</subfield>
+    <subfield code="f">(Eighteenth century collections online)</subfield>
+    <subfield code="7">s2003    miunns</subfield>
+  </datafield>
+  <datafield tag="830" ind1=" " ind2="0">
+    <subfield code="a">Eighteenth century collections online</subfield>
+  </datafield>
+  <datafield tag="856" ind1="4" ind2="0">
+    <subfield code="u">http://galenet.galegroup.com/servlet/ECCO?c=1&amp;stp=Author&amp;ste=11&amp;af=BN&amp;ae=T073947&amp;tiPG=1&amp;dd=0&amp;dc=flc&amp;docNum=CW119601402&amp;vrsn=1.0&amp;srchtp=a&amp;d4=0.33&amp;n=10&amp;SU=0LRF&amp;locID=iuclassb</subfield>
+    <subfield code="z">Available on campus and off-campus with authorized logon</subfield>
+  </datafield>
+  <datafield tag="596" ind1=" " ind2=" ">
+    <subfield code="a">4</subfield>
+  </datafield>
+  <datafield tag="999" ind1=" " ind2=" ">
+    <subfield code="a">XX(5929601.1)</subfield>
+    <subfield code="w">AUTO</subfield>
+    <subfield code="c">1</subfield>
+    <subfield code="i">5929601-1001</subfield>
+    <subfield code="l">WWW</subfield>
+    <subfield code="m">ONLINE</subfield>
+    <subfield code="r">Y</subfield>
+    <subfield code="s">Y</subfield>
+    <subfield code="t">NONCIRC</subfield>
+    <subfield code="u">8/30/2004</subfield>
+  </datafield>
+</record>
+ </collection>]]>
+            </content>
+            <additionalAttributes>
+                <dateEntered>12-12-2-2010</dateEntered>
+                <lastUpdated>12-11-2011</lastUpdated>
+                <fastAddFlag>true</fastAddFlag>
+                <supressFromPublic>false</supressFromPublic>
+                <harvestable>false</harvestable>
+                <status>n</status>
+            </additionalAttributes>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>

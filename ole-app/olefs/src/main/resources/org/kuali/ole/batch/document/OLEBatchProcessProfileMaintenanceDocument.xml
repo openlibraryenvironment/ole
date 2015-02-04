@@ -1,0 +1,1840 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="OLEBatchProcessProfileMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+        <property name="workflowPropertyGroups">
+            <list>
+                <bean parent="WorkflowPropertyGroup">
+                    <property name="workflowProperties">
+                        <list>
+                            <bean parent="WorkflowProperty" p:path="oldMaintainableObject.businessObject"/>
+                            <bean parent="WorkflowProperty" p:path="newMaintainableObject.businessObject"/>
+                        </list>
+                    </property>
+                </bean>
+
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="OLEBatchProcessProfileMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
+        <property name="dataObjectClass" value="org.kuali.ole.batch.bo.OLEBatchProcessProfileBo"/>
+        <property name="documentTypeName" value="OLE_BTCH_PRCS_PRFL"/>
+        <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+        <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+        <property name="businessRulesClass" value="org.kuali.ole.batch.rule.OleBatchProcessProfileRule"/>
+        <property name="lockingKeys">
+            <list>
+                <value>batchProcessProfileId</value>
+            </list>
+        </property>
+        <!--<property name="allowsRecordDeletion" value="true"/>-->
+    </bean>
+
+    <bean id="OLEBatchProcessProfileBo-MaintenanceView" parent="Uif-OLEMaintenanceView">
+        <property name="dataObjectClassName" value="org.kuali.ole.batch.bo.OLEBatchProcessProfileBo"/>
+        <property name="headerText" value="Batch Process Profile"/>
+
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="${ole.externalizable.help.url}/reference/webhelp/ADMIN/content/ch01s05.html"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>ole/batch/script/batch.js</value>
+            </list>
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>ole/batch/css/batch.css</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <ref bean="OLEBatchProcessProfileBo-MaintenanceView-mainSection"/>
+                <ref bean="OLEBatchProcessProfileBo-MaintenanceView-filterCriteriaSection"/>
+                <ref bean="OLEBatchProcessProfileBo-MaintenanceView-MatchPointSection"/>
+                <ref bean="OLEBatchProcessProfileBo-MaintenanceView-matchingAddOverlaySection"/>
+                <ref bean="OLEBatchProcessProfileBo-MaintenanceView-bibMatchPointSection"/>
+                <ref bean="OLEBatchProcessProfileBo-MaintenanceView-instanceMatchPointSection"/>
+                <ref bean="OLEBatchProcessProfileBo-MaintenanceView-bibAddOverlaySection"/>
+                <ref bean="OLEBatchProcessProfileBo-MaintenanceView-instanceAddOverlaySection"/>
+                <ref bean="OLEBatchProcessProfileBo-MaintenanceView-bibStatusSection"/>
+                <ref bean="OLEBatchProcessProfileBo-MaintenanceView-staffOnlySection"/>
+                <ref bean="OLEBatchProcessProfileBo-MaintenanceView-changesToImport"/>
+                <ref bean="OLEBatchProcessProfileBo-MaintenanceView-profileConstantsSection"/>
+                <ref bean="OLEBatchProcessProfileBo-MaintenanceView-bibDataMappingNew"/>
+                <ref bean="OLEBatchProcessProfileBo-MaintenanceView-bibDataMappingOverlay"/>
+                <ref bean="OLEBatchProcessProfileBo-MaintenanceView-dataMappingSection"/>
+                <ref bean="OLEBatchProcessProfileBo-MaintenanceView-protectedFieldSection"/>
+                <ref bean="OLEBatchProcessProfileBo-MaintenanceView-deleteFieldSection"/>
+                <ref bean="OLEBatchProcessProfileBo-MaintenanceView-renameFieldSection"/>
+                <ref bean="hiddenButtonRefresh"/>
+                <ref bean="hiddenButtonForBibOverlay"/>
+                <ref bean="hiddenButtonForInstanceOverlay"/>
+                <ref bean="hiddenButtonForSetStatus"/>
+                <ref bean="hiddenButtonForSetStaffOnly"/>
+                <ref bean="hiddenButtonForChangeToImport"/>
+                <ref bean="hiddenButtonExchangeRate"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchProcessProfileBo-MaintenanceView-mainSection" parent="Uif-Disclosure-VerticalBoxSection" >
+        <property name="headerText" value="Main Section" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4" >
+                    <property name="items">
+                        <list>
+                            <bean id="mainSection-MaintenanceView-batchProcessProfileName" parent="Uif-InputField" p:propertyName="batchProcessProfileName" p:required="true"/>
+                            <bean id="mainSection-MaintenanceView-batchProcessProfileDesc" parent="Uif-InputField" p:propertyName="batchProcessProfileDesc" />
+                            <bean id="mainSection-MaintenanceView-batchProcessProfileType" parent="Uif-InputField" p:propertyName="batchProcessProfileType" p:required="true" p:colSpan="3" p:fieldLabel.colSpan="1">
+                                <property name="quickfinder">
+                                    <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.batch.bo.OLEBatchProcessTypeBo"
+                                          p:fieldConversions="batchProcessTypeName:batchProcessProfileType"/>
+                                </property>
+                                <!-- <property name="control">
+                                     <bean parent="Uif-TextControl" p:size="30" p:maxLength="40"/>
+                                 </property>-->
+                            </bean>
+                            <bean id="mainSection-MaintenanceView-dataToImport" parent="Uif-InputField" p:propertyName="dataToImport" p:label="Data To Import" p:colSpan="3" p:fieldLabel.colSpan="1" p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Bib Import' or document.newMaintainableObject.dataObject.batchProcessProfileType eq 'GOKB Import'}" p:readOnly="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'GOKB Import'}">
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessDataToImportValuesFinder" />
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                                </property>
+                            </bean>
+                            <bean id="mainSection-MaintenanceView-requisitionsforTitle" parent="Uif-InputField" p:propertyName="requisitionsforTitle" p:colSpan="3" p:fieldLabel.colSpan="1" p:label="Requisitions For Titles" p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Order Record Import'}">
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessReqsForItemValuesFinder" />
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                                </property>
+                            </bean>
+                            <bean id="mainSection-MaintenanceView-dataToExport" parent="Uif-InputField" p:propertyName="dataToExport" p:label="Data To Export" p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Batch Export'}">
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessDataToExportValuesFinder" />
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                                </property>
+                            </bean>
+                            <bean id="mainSection-MaintenanceView-exportScope" parent="Uif-InputField" p:propertyName="exportScope" p:label="Export Scope" p:onChangeScript="exportFilter();" p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Batch Export'}">
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessExportScopeValuesFinder" />
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                                </property>
+                            </bean>
+                            <bean id="mainSection-MaintenanceView-marcOnly" parent="Uif-CheckboxInputField" p:propertyName="marcOnly" p:label="Marc Only"  p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Order Record Import'}">
+                            </bean>
+                            <bean id="mainSection-MaintenanceView-bibImportProfileForOrderRecord" parent="Uif-InputField" p:propertyName="bibImportProfileForOrderRecord" p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Order Record Import'}" >
+                                <property name="quickfinder">
+                                    <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.batch.bo.OLEBatchProcessProfileBo"
+                                          p:fieldConversions="batchProcessProfileName:bibImportProfileForOrderRecord" p:lookupParameters="bibImportProfileType:batchProcessProfileType"/>
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="30" p:maxLength="40" p:disabled="true"/>
+                                </property>
+                            </bean>
+                            <bean id="mainSection-MaintenanceView-bibImportProfileForInvoiceImport" parent="Uif-InputField" p:propertyName="bibImportProfileForOrderRecord" p:colSpan="3" p:fieldLabel.colSpan="1" p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Invoice Import'}" >
+                                <property name="quickfinder">
+                                    <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.batch.bo.OLEBatchProcessProfileBo"
+                                          p:fieldConversions="batchProcessProfileName:bibImportProfileForOrderRecord" p:lookupParameters="bibImportProfileType:batchProcessProfileType"/>
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="30" p:maxLength="40" p:disabled="true"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchProcessProfileBo-MaintenanceView-MatchPointSection" parent="Uif-Disclosure-VerticalBoxSection" p:disclosure.defaultOpen="false"
+          p:instructionalText="Note: If an incoming record matches with more than one existing record, the incoming record will be discarded." p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Bib Import' or document.newMaintainableObject.dataObject.batchProcessProfileType eq 'GOKB Import'   or document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Batch Delete'}">
+    <property name="headerText" value="Match Point" />
+        <property name="items">
+            <list>
+                <ref bean="OLEBatchProcessProfileBo-MaintenanceView-bib-MatchPointSection"/>
+                <ref bean="OLEBatchProcessProfileBo-MaintenanceView-holdingMatchPointSection"/>
+                <ref bean="OLEBatchProcessProfileBo-MaintenanceView-itemMatchPointSection"/>
+                <ref bean="OLEBatchProcessProfileBo-MaintenanceView-eHoldingMatchPointSection"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="OLEBatchProcessProfileBo-MaintenanceView-bib-MatchPointSection" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="2" p:disclosure.defaultOpen="false" p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Bib Import' or document.newMaintainableObject.dataObject.batchProcessProfileType eq 'GOKB Import'   or document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Batch Delete'}">
+        <property name="headerText" value="Bib Match Points" />
+        <!--<property name="instructionalText" value="For ex : 001 ,245 $a, 245 ## $a, 245 04 $a, 245 #4 $a, 245 0# $a"/>-->
+        <property name="collectionObjectClass" value="org.kuali.ole.batch.bo.OLEBatchProcessProfileMatchPoint" />
+        <property name="propertyName" value="oleBatchProcessProfileBibliographicMatchPointList" />
+        <property name="layoutManager.richTable.disableTableSort" value="true" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean id="MatchPoint_Bib" parent="Uif-InputField" p:propertyName="matchPoint" p:constraintText="For ex : 001 ,245 $a, 245 ## $a, 245 04 $a, 245 #4 $a, 245 0# $a" p:label="Bib Match Point" p:readOnly="@{!#isAddLine}" />
+                <bean id="bibMatchPoint-oleBibMatchPointType" parent="Uif-InputField" p:propertyName="matchPointType" p:defaultValue="bibliographic" p:hidden="true" p:readOnly="@{!#isAddLine}"/>
+            </list>
+        </property>
+        <property name="addLineActions">
+            <list>
+                <bean id="bibMatchPoint_add" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addBibMatch" p:actionLabel="Add" p:title="Add Bib MatchPoint" />
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="bibMatchPoint_delete" parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteBibMatch" p:actionLabel="Delete"  />
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="OLEBatchProcessProfileBo-MaintenanceView-holdingMatchPointSection" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="2" p:disclosure.defaultOpen="false" p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Bib Import'}">
+        <property name="headerText" value="Holding Match Points" />
+        <!--<property name="instructionalText" value="For ex : 001 ,245 $a, 245 ## $a, 245 04 $a, 245 #4 $a, 245 0# $a"/>-->
+        <property name="collectionObjectClass" value="org.kuali.ole.batch.bo.OLEBatchProcessProfileMatchPoint" />
+        <property name="propertyName" value="oleBatchProcessProfileHoldingMatchPointList" />
+        <property name="layoutManager.richTable.disableTableSort" value="true" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="items">
+            <list>
+                <!--<bean id="MatchPoint-oleHoldingMatchPoint-sourceField" parent="Uif-InputField" p:propertyName="matchPoint" p:readOnly="@{!#isAddLine}" />-->
+
+
+                <bean id="MatchPoint-oleHoldingMatchPoint-destinationField" parent="Uif-InputField" p:propertyName="matchPoint" p:label="Match Point Field" p:readOnly="@{!#isAddLine}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.batch.keyvalue.OLEBibImportHoldingSourceFieldValueFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="horizontalLayOutField" />
+                    </property>
+                </bean>
+                <bean id="holdingMatchPoint-oleHoldingMatchPointType" parent="Uif-InputField" p:propertyName="matchPointType" p:defaultValue="holdings" p:hidden="true" p:readOnly="@{!#isAddLine}"/>
+
+
+            </list>
+        </property>
+        <property name="addLineActions">
+            <list>
+                <bean id="holdingMatchPoint_add" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addHoldingMatch" p:actionLabel="Add" p:title="Add Holding MatchPoint" />
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="holdingMatchPoint_delete" parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteHoldingMatch" p:actionLabel="Delete"  />
+            </list>
+        </property>
+    </bean>
+    <bean id="OLEBatchProcessProfileBo-MaintenanceView-itemMatchPointSection" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="2" p:disclosure.defaultOpen="false" p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Bib Import'}">
+        <property name="headerText" value="Item Match Points" />
+        <!--<property name="instructionalText" value="For ex : 001 ,245 $a, 245 ## $a, 245 04 $a, 245 #4 $a, 245 0# $a"/>-->
+        <property name="collectionObjectClass" value="org.kuali.ole.batch.bo.OLEBatchProcessProfileMatchPoint" />
+        <property name="propertyName" value="oleBatchProcessProfileItemMatchPointList" />
+        <property name="layoutManager.richTable.disableTableSort" value="true" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="items">
+            <list>
+                <!--<bean id="MatchPoint-oleItemMatchPoint-sourceField" parent="Uif-InputField" p:propertyName="matchPoint" p:readOnly="@{!#isAddLine}" />-->
+
+
+                <bean id="MatchPoint-oleItemMatchPoint-destinationField" parent="Uif-InputField" p:propertyName="matchPoint" p:label="Match Point Field" p:readOnly="@{!#isAddLine}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessItemSourceFieldKeyValueFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="horizontalLayOutField" />
+                    </property>
+                </bean>
+                <bean id="itemMatchPoint-oleItemMatchPointType" parent="Uif-InputField" p:propertyName="matchPointType" p:defaultValue="item" p:hidden="true" p:readOnly="@{!#isAddLine}"/>
+            </list>
+        </property>
+        <property name="addLineActions">
+            <list>
+                <bean id="itemMatchPoint_add" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addItemMatch" p:actionLabel="Add" p:title="Add Item MatchPoint" />
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="itemMatchPoint_delete" parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteItemMatch" p:actionLabel="Delete"  />
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="OLEBatchProcessProfileBo-MaintenanceView-eHoldingMatchPointSection" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="2" p:disclosure.defaultOpen="false" p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Bib Import'}">
+        <property name="headerText" value="Eholding Match Points" />
+        <!--<property name="instructionalText" value="For ex : 001 ,245 $a, 245 ## $a, 245 04 $a, 245 #4 $a, 245 0# $a"/>-->
+        <property name="collectionObjectClass" value="org.kuali.ole.batch.bo.OLEBatchProcessProfileMatchPoint" />
+        <property name="propertyName" value="oleBatchProcessProfileEholdingMatchPointList" />
+        <property name="layoutManager.richTable.disableTableSort" value="true" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="items">
+            <list>
+                <!--<bean id="MatchPoint-oleItemMatchPoint-sourceField" parent="Uif-InputField" p:propertyName="matchPoint" p:readOnly="@{!#isAddLine}" />-->
+
+
+                <bean id="MatchPoint-oleEholdingMatchPoint-destinationField" parent="Uif-InputField" p:propertyName="matchPoint" p:label="Match Point Field" p:readOnly="@{!#isAddLine}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessEholdingsSourceFieldKeyValueFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="horizontalLayOutField" />
+                    </property>
+                </bean>
+                <bean id="itemMatchPoint-oleEholdingMatchPointType" parent="Uif-InputField" p:propertyName="matchPointType" p:defaultValue="eHoldings" p:hidden="true" p:readOnly="@{!#isAddLine}"/>
+            </list>
+        </property>
+        <property name="addLineActions">
+            <list>
+                <bean id="eHoldingMatchPoint_add" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addEholdingMatch" p:actionLabel="Add" p:title="Add Item MatchPoint" />
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="eHoldingMatchPoint_delete" parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteEholdingMatch" p:actionLabel="Delete"  />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchProcessProfileBo-MaintenanceView-matchingAddOverlaySection" parent="Uif-Disclosure-VerticalBoxSection" p:disclosure.defaultOpen="false" p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Bib Import' or document.newMaintainableObject.dataObject.batchProcessProfileType eq 'GOKB Import'  }">
+        <property name="headerText" value="Matching, Add and Overlay Section" />
+        <property name="items">
+            <list>
+                <bean id="matchingAddOverlaySection-bibNotMatch" parent="Uif-InputField" p:propertyName="matchingProfileObj.matchIncomingExistBib">
+                    <property name="control">
+                        <bean parent="Uif-VerticalRadioControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="notPerformMatching" p:value="Do not perform matching of incoming Bib with existing Bibs."/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="matchingAddOverlaySection-bibNotMatch-addBibs" parent="Uif-InputField" p:propertyName="matchingProfileObj.bibsNotMatchAddIncomingBibs" p:defaultValue="noMatchBibs_addBibs" p:style = "margin-left:20px">
+                    <property name="control">
+                        <bean parent="Uif-VerticalRadioControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="noMatchBibs_addBibs" p:value="Add Incoming Bibs."/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="matchingAddOverlaySection-bibMatch" parent="Uif-InputField" p:propertyName="matchingProfileObj.matchIncomingExistBib" p:defaultValue="performMatching" >
+                    <property name="control">
+                        <bean parent="Uif-VerticalRadioControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="performMatching" p:value="Perform matching of incoming Bib with existing Bibs."/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="matchingAddOverlaySection-bibNotMatched-discardBib" parent="Uif-InputField-LabelTop" p:propertyName="matchingProfileObj.bibNotMatchedDiscardOrAdd" p:defaultValue = "bibNotMatched_addBib" p:style = "margin-left:50px"  p:label="If incoming Bib does not match with any existing Bibs">
+                    <property name="control">
+                        <bean parent="Uif-VerticalRadioControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="bibNotMatched_discardBib" p:value="Discard Incoming Bib."/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="bibNotMatched_addBib" p:value="Add Incoming Bib."/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="matchingAddOverlaySection-bibMatched-discardBib" parent="Uif-InputField-LabelTop" p:propertyName="matchingProfileObj.bibMatchedDiscardOrAddOrUpdate" p:defaultValue = "processBibHoldingsItems" p:style = "margin-left:50px" p:label="If incoming Bib matches with existing Bib">
+                    <property name="control">
+                        <bean parent="Uif-VerticalRadioControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="bibMatched_addBib" p:value="Add Incoming Bib."/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="processBibHoldingsItems" p:value="Process Bib, Holdings and Items."/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="matchingAddOverlaySection-bibMatched-discardOrUpdate" parent="Uif-InputField-LabelTop" p:propertyName="matchingProfileObj.bibMatchedDiscardOrUpdate" p:defaultValue = "bibMatched_updateBib" p:style = "margin-left:100px" p:label="Process Bib">
+                    <property name="control">
+                        <bean parent="Uif-VerticalRadioControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="bibMatched_discardBib" p:value="Discard incoming Bib."/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="bibMatched_updateBib" p:value="Overlay existing Bib with incoming Bib."/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+
+                <bean id="matchingAddOverlaySection-bibStatus" parent="Uif-HorizontalBoxSection" p:render="@{document.newMaintainableObject.dataObject.matchingProfileObj.bibMatchedDiscardOrUpdate eq 'bibMatched_updateBib'}">
+                    <property name="items">
+                        <list>
+                            <ref bean="bibAddOverlaySection-bibStatus"/>
+                            <!--<ref bean="bibAddOverlaySection-bibWorkUnit"/>-->
+                        </list>
+                    </property>
+                </bean>
+
+
+                <bean id="OLEBatchProcessProfileBo-MaintenanceView-holdingsAndItemProcessOverlaySection" p:style = "margin-left:100px" parent="Uif-Disclosure-VerticalBoxSection" p:disclosure.defaultOpen="false" p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Bib Import'}">
+                    <property name="headerText" value="Process Holdings and Items" />
+                    <property name="items">
+                        <list>
+                            <bean id="matchingAddOverlaySection-notPerformHoldingMatched" parent="Uif-InputField-LabelTop" p:propertyName="matchingProfileObj.matchIncomingHoldings">
+                                <property name="control">
+                                    <bean parent="Uif-VerticalRadioControl">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="notPerformHodingMatch" p:value="Do not perform matching of Holdings."/>
+
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                            <bean id="matchingAddOverlaySection-notPerformHoldingMatched-processHoldingAndItem" parent="Uif-InputField" p:propertyName="matchingProfileObj.discardDeleteKeepHoldingItem" p:defaultValue = "noMatchHoldings_discardHoldingsItems" p:style = "margin-left:50px">
+                                <property name="control">
+                                    <bean parent="Uif-VerticalRadioControl">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="noMatchHoldings_discardHoldingsItems" p:value="Discard incoming Holdings and Items."/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="noMatchHoldings_deleteAddHoldingsItems" p:value="Delete all existing Holdings and Items, and add incoming Holdings and Items."/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="noMatchHoldings_retainAddHoldingsItems" p:value="Keep all existing Holdings and Items, and add incoming Holdings and Items."/>
+
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                            <bean id="matchingAddOverlaySection-performHoldingMatched" parent="Uif-InputField" p:propertyName="matchingProfileObj.matchIncomingHoldings" p:defaultValue = "performHoldingMatch">
+                                <property name="control">
+                                    <bean parent="Uif-VerticalRadioControl">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="performHoldingMatch" p:value="Perform matching of Holdings."/>
+
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                            <bean id="matchingAddOverlaySection-incomingHoldingNotMatched-header" parent="Uif-MessageField" p:messageText="[b]If an incoming Holdings does not match with any existing Holdings[/b]" p:style="float:left;margin-left:4em"/>
+                            <bean id="matchingAddOverlaySection-incomingHoldingNotMatched" parent="Uif-InputField" p:propertyName="matchingProfileObj.incomingHoldingNotMatched" p:style = "margin-left:50px; margin-top:25px">
+                                <property name="control">
+                                    <bean parent="Uif-VerticalRadioControl">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="holdingsNotMatched_discardHoldings" p:value="Discard incoming Holdings and its Items."/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-HorizontalBoxSection">
+                                <property name="items">
+                                    <list>
+                                        <bean id="matchingAddOverlaySection-incomingHoldingNotMatched-addHolding" parent="Uif-InputField-LabelTop" p:propertyName="matchingProfileObj.incomingHoldingNotMatched" p:defaultValue = "holdingsNotMatched_addHoldings" p:style = "margin-left:50px" >
+                                            <property name="control">
+                                                <bean parent="Uif-VerticalRadioControl">
+                                                    <property name="options">
+                                                        <list>
+                                                            <bean parent="Uif-KeyLabelPair" p:key="holdingsNotMatched_addHoldings" p:value="Add incoming Holdings "/>
+
+                                                        </list>
+                                                    </property>
+                                                </bean>
+                                            </property>
+                                        </bean>
+
+                                        <bean id="matchingAddOverlaySection-incomingHoldingNotMatched-addItem" parent="Uif-CheckboxInputField" p:label="" p:propertyName="matchingProfileObj.holdingsNotMatched_addItems"/>
+                                        <bean id="matchingAddOverlaySection-incomingHoldingNotMatched-addItem1" parent="Uif-MessageField" p:messageText="and its Items."/>
+
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean id="matchingAddOverlaySection-incomingHoldingMatched-header" parent="Uif-MessageField" p:messageText="[b]If an incoming Holdings matches with any existing Holdings[/b]" p:style="float:left;margin-left:4em"/>
+                            <bean parent="Uif-HorizontalBoxSection">
+                                <property name="items">
+                                    <list>
+                                        <bean id="matchingAddOverlaySection-incomingHoldingMatched-addHolding" parent="Uif-InputField" p:propertyName="matchingProfileObj.incomingHoldingMatched" p:style = "margin-left:50px">
+                                            <property name="control">
+                                                <bean parent="Uif-VerticalRadioControl">
+                                                    <property name="options">
+                                                        <list>
+                                                            <bean parent="Uif-KeyLabelPair" p:key="holdingsMatched_addHoldings" p:value="Add incoming Holdings "/>
+                                                        </list>
+                                                    </property>
+                                                </bean>
+                                            </property>
+                                        </bean>
+                                        <bean id="matchingAddOverlaySection-incomingHoldingNotMatched-addItsItem" parent="Uif-CheckboxInputField" p:label="" p:propertyName="matchingProfileObj.holdingsMatched_addItems"/>
+                                        <bean id="ofEveryFieldSection" parent="Uif-MessageField" p:messageText="and its Items."/>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean id="matchingAddOverlaySection-incomingHoldingMatched" parent="Uif-InputField" p:propertyName="matchingProfileObj.incomingHoldingMatched" p:defaultValue = "processHoldingAndItem" p:style = "margin-left:50px">
+                                <property name="control">
+                                    <bean parent="Uif-VerticalRadioControl">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="processHoldingAndItem" p:value="Process Holdings and Items"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                            <bean id="matchingAddOverlaySection-incomingHoldingMatched-processHolding" parent="Uif-InputField-LabelTop" p:propertyName="matchingProfileObj.incomingHoldingMatchedProcessHolding" p:defaultValue = "holdingsMatched_updateHoldings" p:style = "margin-left:100px" p:label="Process Holdings">
+                                <property name="control">
+                                    <bean parent="Uif-VerticalRadioControl">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="holdingsMatched_discardHoldings" p:value="Discard incoming Holdings."/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="holdingsMatched_updateHoldings" p:value="Overlay existing Holdings with incoming Holdings."/>
+
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                            <bean id="OLEBatchProcessProfileBo-MaintenanceView-itemProcessOverlaySection" p:style = "margin-left:100px;" p:disclosure.defaultOpen="false" parent="Uif-Disclosure-VerticalBoxSection" p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Bib Import' or document.newMaintainableObject.dataObject.batchProcessProfileType eq 'GOKB Import'  }">
+                                <property name="headerText" value="Process Items" />
+                                <property name="items">
+                                    <list>
+                                        <bean id="matchingAddOverlaySection-incomingHoldingNotMatched-notMatchProcessItem" parent="Uif-InputField-LabelTop" p:propertyName="matchingProfileObj.matchIncomingItems">
+                                            <property name="control">
+                                                <bean parent="Uif-VerticalRadioControl">
+                                                    <property name="options">
+                                                        <list>
+                                                            <bean parent="Uif-KeyLabelPair" p:key="notPerformMatchingOfItem" p:value="Do not perform matching of Items."/>
+
+                                                        </list>
+                                                    </property>
+                                                </bean>
+                                            </property>
+                                        </bean>
+                                        <bean id="matchingAddOverlaySection-incomingHoldingNotMatched-discardDeleteKeepItem" parent="Uif-InputField" p:propertyName="matchingProfileObj.discardDeleteKeepItem" p:defaultValue = "noMatchItem_discardItems" p:style = "margin-left:50px">
+                                            <property name="control">
+                                                <bean parent="Uif-VerticalRadioControl">
+                                                    <property name="options">
+                                                        <list>
+                                                            <bean parent="Uif-KeyLabelPair" p:key="noMatchItem_discardItems" p:value="Discard incoming Items."/>
+                                                            <bean parent="Uif-KeyLabelPair" p:key="noMatchItem_deleteAddItems" p:value="Delete all existing Items and, add incoming Items."/>
+                                                            <bean parent="Uif-KeyLabelPair" p:key="noMatchItem_retainAddItems" p:value="Keep all existing Items and, add incoming Items."/>
+
+                                                        </list>
+                                                    </property>
+                                                </bean>
+                                            </property>
+                                        </bean>
+                                        <bean id="matchingAddOverlaySection-incomingHoldingMatched-matchProcessItem" parent="Uif-InputField" p:propertyName="matchingProfileObj.matchIncomingItems" p:defaultValue = "performMatchingOfItem">
+                                            <property name="control">
+                                                <bean parent="Uif-VerticalRadioControl">
+                                                    <property name="options">
+                                                        <list>
+                                                            <bean parent="Uif-KeyLabelPair" p:key="performMatchingOfItem" p:value="Perform matching of Items."/>
+
+                                                        </list>
+                                                    </property>
+                                                </bean>
+                                            </property>
+                                        </bean>
+                                        <bean id="matchingAddOverlaySection-incomingItemNotMatched-ProcessItem" parent="Uif-InputField-LabelTop" p:propertyName="matchingProfileObj.incomingItemNotMatchedProcessItem" p:defaultValue = "itemNotMatched_addItem" p:style = "margin-left:50px" p:label="If incoming Item does not match with any existing Items.">
+                                            <property name="control">
+                                                <bean parent="Uif-VerticalRadioControl">
+                                                    <property name="options">
+                                                        <list>
+                                                            <bean parent="Uif-KeyLabelPair" p:key="itemNotMatched_discardItem" p:value="Discard Incoming Items."/>
+                                                            <bean parent="Uif-KeyLabelPair" p:key="itemNotMatched_addItem" p:value="Add Incoming Items."/>
+
+                                                        </list>
+                                                    </property>
+                                                </bean>
+                                            </property>
+                                        </bean>
+                                        <bean id="matchingAddOverlaySection-incomingItemMatched-ProcessItem" parent="Uif-InputField-LabelTop" p:propertyName="matchingProfileObj.incomingItemMatchedProcessItem" p:defaultValue = "itemMatched_updateItem" p:style = "margin-left:50px" p:label="If incoming Item match with an existing Items.">
+                                            <property name="control">
+                                                <bean parent="Uif-VerticalRadioControl">
+                                                    <property name="options">
+                                                        <list>
+                                                            <bean parent="Uif-KeyLabelPair" p:key="itemMatched_addItem" p:value="Add Incoming Items."/>
+                                                            <bean parent="Uif-KeyLabelPair" p:key="itemMatched_updateItem" p:value="Overlay existing Items with Incoming Items."/>
+
+
+                                                        </list>
+                                                    </property>
+                                                </bean>
+                                            </property>
+                                        </bean>
+
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchProcessProfileBo-MaintenanceView-bibMatchPointSection" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="2" p:disclosure.defaultOpen="false" p:render="false">
+        <property name="headerText" value="Bib Match Point" />
+        <!--<property name="instructionalText" value="For ex : 001 ,245 $a, 245 ## $a, 245 04 $a, 245 #4 $a, 245 0# $a"/>-->
+        <property name="collectionObjectClass" value="org.kuali.ole.batch.bo.OLEBatchProcessProfileBibMatchPoint" />
+        <property name="propertyName" value="oleBatchProcessProfileBibMatchPointList" />
+        <property name="layoutManager.richTable.disableTableSort" value="true" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean id="bibMatchPoint-oleBibMatchPoint" parent="Uif-InputField" p:propertyName="oleBibMatchPoint" p:constraintText="For ex : 001 ,245 $a, 245 ## $a, 245 04 $a, 245 #4 $a, 245 0# $a" p:label="Match Point" p:readOnly="@{!#isAddLine}" />
+            </list>
+        </property>
+        <property name="addLineActions">
+            <list>
+                <bean id="addProfileConstant" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addLineConstant" p:actionLabel="Add" p:title="Add Constant" />
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="bibMatchPoint-delete" parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteBibMatchPoint" p:actionLabel="Delete"  />
+            </list>
+        </property>
+    </bean>
+
+    <!--<bean id="OLEBatchProcessProfileBo-MaintenanceView-instanceMatchPointSection" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="2" p:disclosure.defaultOpen="false" p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Bib Import'}">-->
+    <bean id="OLEBatchProcessProfileBo-MaintenanceView-instanceMatchPointSection" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="2" p:disclosure.defaultOpen="false" p:render="false">
+        <property name="headerText" value="Instance Match Point" />
+        <property name="collectionObjectClass" value="org.kuali.ole.batch.bo.OLEBatchProcessProfileInstanceMatchPoint" />
+        <property name="propertyName" value="oleBatchProcessProfileInstanceMatchPointList" />
+        <property name="layoutManager.richTable.disableTableSort" value="true" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean id="instanceMatchPoint-oleInstanceMatchPointName" parent="Uif-InputField" p:propertyName="oleInstanceMatchPointName" p:label="Match Point" p:readOnly="@{!#isAddLine}"/>
+            </list>
+        </property>
+        <property name="addLineActions">
+            <list>
+                <bean id="addLineInstance" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addLineInstance" p:actionLabel="Add" p:title="Add Instance" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchProcessProfileBo-MaintenanceView-bibAddOverlaySection" parent="Uif-Disclosure-VerticalBoxSection" p:disclosure.defaultOpen="false" p:render="false">
+        <property name="headerText" value="Bib Overlay/Add" />
+        <property name="items">
+            <list>
+                <bean id="bibAddOverlaySectionMatch-bibMatch" parent="Uif-InputField" p:propertyName="bibMatch" p:label="If there is a match perform this operation" p:readOnly="true"/>
+                <bean id="bibAddOverlaySectionMatch-bibOverlayOrAddOrNone" parent="Uif-InputField" p:propertyName="bibOverlayOrAddOrNone" p:defaultValue="add">
+                    <property name="control">
+                        <bean parent="Uif-HorizontalRadioControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="none" p:value="None"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="overlay" p:value=" * Overlay"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="add" p:value="Add"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean parent="Uif-Disclosure-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <ref bean="bibAddOverlaySection-bibStatus"/>
+                            <!--<ref bean="bibAddOverlaySection-bibWorkUnit"/>-->
+                        </list>
+                    </property>
+                </bean>
+                <bean id="bibAddOverlaySectionNoMatch-noMatch" parent="Uif-InputField" p:propertyName="bibNoMatch" p:label="If there is no match perform this operation" p:readOnly="true"/>
+                <bean id="bibAddOverlaySectionNoMatch-noMatchAction" parent="Uif-InputField" p:propertyName="bibNoMatchAction" p:defaultValue="add">
+                    <property name="control">
+                        <bean parent="Uif-HorizontalRadioControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="none" p:value="None"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="add" p:value="Add"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="bibAddOverlaySectionNoMatch-multiplematches" parent="Uif-DataField" p:propertyName="bibMultipleMatch" p:defaultValue="* If multiple matches found the incoming record is rejected and an error is reported"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchProcessProfileBo-MaintenanceView-instanceAddOverlaySection" parent="Uif-Disclosure-VerticalBoxSection" p:disclosure.defaultOpen="false" p:render="false">
+        <property name="headerText" value="Instance Overlay/Add" />
+        <property name="items">
+            <list>
+                <!--<bean id="bibAddOverlaySectionMatch-instanceMatch" parent="Uif-InputField" p:propertyName="instanceMatch" p:label="If there is a match perform this operation" p:readOnly="true"/>
+                <bean id="bibAddOverlaySectionMatch-instanceOverlayOrAddOrNone" parent="Uif-InputField" p:propertyName="instanceOverlayOrAddOrNone" >
+                    <property name="control">
+                        <bean parent="Uif-HorizontalRadioControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="none" p:value="None"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="overlay" p:value=" * Overlay"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="add" p:value="Add"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>-->
+                <bean id="bibAddOverlaySectionMatch-instanceMatch" parent="Uif-InputField" p:propertyName="instanceMatch" p:label="When overlaying a bib" p:readOnly="true"/>
+                <bean id="bibAddOverlaySectionMatch-instanceOverlayOrAddOrNone" parent="Uif-InputField" p:propertyName="instanceOverlayOrAddOrNone" p:defaultValue="keepOldAddNew">
+                    <property name="control">
+                        <bean parent="Uif-VerticalRadioControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="deleteAllAddNew" p:value="Delete all existing instances and add new incoming ones"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="keepOldAddNew" p:value="Keep all existing instances and add new incoming ones"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="keepOldDontAddNew" p:value="Keep all existing instances and do not add new incoming ones"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <!-- <bean parent="Uif-Disclosure-HorizontalBoxSection">
+                     <property name="items">
+                         <list>
+                             <ref bean="instanceAddOverlaySection-instanceWorkUnit"/>
+                         </list>
+                     </property>
+                 </bean>-->
+                <bean id="bibAddOverlaySectionNoMatch-instanceMatch" parent="Uif-InputField" p:propertyName="instanceNoMatch" p:label="When adding a new bib" p:readOnly="true"/>
+                <bean id="bibAddOverlaySectionNoMatch-instanceNoMatch" parent="Uif-InputField" p:propertyName="instanceNoMatchAction" p:defaultValue="add">
+                    <property name="control">
+                        <bean parent="Uif-HorizontalRadioControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="none" p:value="None"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="add" p:value="Add new Instance"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <!--<bean id="instanceAddOverlaySectionNoMatch-multiplematches" parent="Uif-DataField" p:propertyName="instanceMultipleMatch" p:defaultValue="* If multiple matches found the incoming record is rejected and an error is reported"/>-->
+            </list>
+        </property>
+    </bean>
+
+
+    <!--<bean id="bibAddOverlaySection-bibStatus" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="1" p:progressiveRenderAndRefresh="true" p:progressiveRender="@{document.newMaintainableObject.dataObject.bibOverlayOrAddOrNone eq 'overlay'}">-->
+    <bean id="bibAddOverlaySection-bibStatus" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="1" p:style = "margin-left:150px"  p:progressiveRenderAndRefresh="true"
+          p:progressiveRender="@{document.newMaintainableObject.dataObject.matchingProfileObj.bibMatchedDiscardOrUpdate eq 'bibMatched_updateBib'}">
+        <property name="headerText" value="Overlay Bib Status" />
+        <property name="collectionObjectClass" value="org.kuali.ole.batch.bo.OLEBatchProcessProfileBibStatus" />
+        <property name="propertyName" value="oleBatchProcessProfileBibStatusList" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean id="bibAddOverlaySectionBibStatus-batchProcessBibStatus" parent="Uif-InputField" p:propertyName="batchProcessBibStatus" p:label="Bib Status Not In" p:readOnly="@{!#isAddLine}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessProfileBibStatusValuesFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="bibStatus-delete" parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteBibStatus" p:actionLabel="Delete"  />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="bibAddOverlaySection-bibWorkUnit" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="1" p:render="@{document.newMaintainableObject.dataObject.bibOverlayOrAddOrNone eq 'overlay'}">
+        <property name="headerText" value="Bib Overlay Work Unit" />
+        <property name="collectionObjectClass" value="org.kuali.ole.batch.bo.OLEBatchProcessProfileBibWorkUnit" />
+        <property name="propertyName" value="oleBatchProcessProfileBibWorkUnitList" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean id="bibAddOverlaySectionWorkUnit-batchProcessBibWorkUnit" parent="Uif-InputField" p:propertyName="batchProcessBibWorkUnit" p:label="Bib Owned By Work Units" p:readOnly="@{!#isAddLine}" >
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessProfileWorkUnitValuesFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="instanceAddOverlaySection-instanceWorkUnit" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="1" p:render="@{document.newMaintainableObject.dataObject.instanceOverlayOrAddOrNone eq 'keepOldAddNew'}">
+        <property name="headerText" value="Instance Overlay Work Unit" />
+        <property name="collectionObjectClass" value="org.kuali.ole.batch.bo.OLEBatchProcessProfileInstanceWorkUnit" />
+        <property name="propertyName" value="oleBatchProcessProfileInstanceWorkUnitList" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean id="instanceAddOverlaySectionWorkUnit-batchProcessInstanceWorkUnit" parent="Uif-InputField" p:propertyName="batchProcessInstanceWorkUnit" p:label="Instance Owned By Work Units" p:readOnly="@{!#isAddLine}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessProfileWorkUnitValuesFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchProcessProfileBo-MaintenanceView-bibStatusSection" parent="Uif-Disclosure-VerticalBoxSection" p:disclosure.defaultOpen="false" p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Bib Import' or document.newMaintainableObject.dataObject.batchProcessProfileType eq 'GOKB Import'  }">
+        <property name="headerText" value="Set Bib Status" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4">
+                    <property name="items">
+                        <list>
+                            <bean id="bibStatus-newBibStaus" parent="Uif-InputField" p:propertyName="newBibStaus" p:label="For new records set Bib status as ">
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessProfileBibStatusValuesFinder" />
+                                </property>
+
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                                </property>
+                            </bean>
+                            <bean id="bibStatus-noChangeOrSet" parent="Uif-InputField" p:propertyName="noChangeOrSet" p:defaultValue="doNotChange" p:label="For Overlaid Bibs">
+                                <property name="control">
+                                    <bean parent="Uif-VerticalRadioControl">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="doNotChange" p:value="Do not change Status"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="change" p:value="Set Status as"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                            <bean id="bibStatus-existedBibStatus" parent="Uif-InputField" p:propertyName="existedBibStatus" p:label="Change Status To" p:colSpan="3" p:fieldLabel.colSpan="1" p:render="@{document.newMaintainableObject.dataObject.noChangeOrSet eq 'change'}">
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessProfileBibStatusValuesFinder" />
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchProcessProfileBo-MaintenanceView-staffOnlySection" parent="Uif-Disclosure-VerticalBoxSection" p:disclosure.defaultOpen="false" p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Bib Import' or document.newMaintainableObject.dataObject.batchProcessProfileType eq 'GOKB Import'  }">
+        <property name="headerText" value="Staff Only Treatment" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2">
+                    <property name="items">
+                        <list>
+                            <bean id="bibSetStaffOnly-bibStaffOnly" parent="Uif-CheckboxInputField" p:label="For new Bib set Staff Only" p:propertyName="bibStaffOnly"/>
+                            <bean id="instanceSetStaffOnly-instanceStaffOnly" parent="Uif-CheckboxInputField" p:label="For new Instance set Staff Only" p:propertyName="instanceStaffOnly"/>
+                            <bean id="itemSetStaffOnly-itemStaffOnly" parent="Uif-CheckboxInputField" p:label="For new Item set Staff Only" p:propertyName="itemStaffOnly"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2">
+                    <property name="items">
+                        <list>
+                            <bean id="bibStaffonly-noChangeOrSet" parent="Uif-InputField" p:propertyName="overlayNoChangeOrSet" p:defaultValue="doNotChange" p:label="For Overlaid Bibs">
+                                <property name="control">
+                                    <bean parent="Uif-VerticalRadioControl">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="doNotChange" p:value="Do not change Staffonly"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="change" p:value="Set Staffonly as"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                            <bean id="bibOverlaySetStaffOnly-bibStaffOnly" parent="Uif-CheckboxInputField" p:label="For Overlaid Bib set Staff Only" p:propertyName="overlayBibStaffOnly" p:render="@{document.newMaintainableObject.dataObject.overlayNoChangeOrSet eq 'change'}"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchProcessProfileBo-MaintenanceView-changesToImport" parent="Uif-Disclosure-VerticalBoxSection" p:disclosure.defaultOpen="false" p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Bib Import' or document.newMaintainableObject.dataObject.batchProcessProfileType eq 'GOKB Import'  }">
+        <property name="headerText" value="Changes to Imported Bibliographic Record" />
+        <property name="items">
+            <list>
+                <bean id="changesToImport-dontChange001" parent="Uif-InputField" p:propertyName="dontChange001" p:label="Tag 001" p:defaultValue="delete001">
+                    <property name="control">
+                        <bean parent="Uif-VerticalRadioControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="delete001" p:value="Delete 001"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="changeTo035" p:value="Change to 035"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <ref bean="OLEBatchProcessProfileBo-MaintenanceView-changesToImportRemove"/>
+                <ref bean="OLEBatchProcessProfileBo-MaintenanceView-changesToImport035"/>
+
+                <!--<bean id="changesToImport-prepend003To035" parent="Uif-CheckboxInputField" p:propertyName="prepend003To035" p:label="Prepend value in 003 to value in 035" p:render="@{document.newMaintainableObject.dataObject.dontChange001 eq 'changeTo035'}"/>
+                <bean parent="Uif-Disclosure-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean id="changesToImport-prependvalueto035" parent="Uif-CheckboxInputField" p:propertyName="prependvalueto035" p:label="If 003 is not there" p:render="@{document.newMaintainableObject.dataObject.dontChange001 eq 'changeTo035'}" p:onChangeScript="refreshPageUser()"/>
+                            <bean id="changesToImport-valueToPrepend" parent="Uif-InputField" p:propertyName="valueToPrepend" p:label="set this value To Prepend" p:progressiveRenderAndRefresh="true" p:progressiveRender="@{document.newMaintainableObject.dataObject.prependvalueto035 eq 'changeTo035'}"/>
+
+                        </list>
+                    </property>
+                </bean>-->
+
+                </list>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchProcessProfileBo-MaintenanceView-filterCriteriaSection" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="2" p:disclosure.defaultOpen="false" p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Batch Export'}">
+        <property name="headerText" value="Filter Criteria" />
+        <property name="instructionalText" value="Note : A filter field can be specified in one of two ways:[br]1. Selecting an option from the drop-down &quot;Select Field Name&quot;.[br]2. Entering a MARC field like in the text box &quot;Enter Field Name&quot; : e.g. 001, 245 $a, 245 $a$b, 245 ## $a, 245 04 $a, 245 ## $a$b" />
+        <property name="collectionObjectClass" value="org.kuali.ole.batch.bo.OLEBatchProcessProfileFilterCriteriaBo" />
+        <property name="propertyName" value="oleBatchProcessProfileFilterCriteriaList" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="items">
+            <list>
+                <!--<bean id="filterCriteria_dataType" parent="Uif-InputField" p:propertyName="dataType" p:label="Data Type" p:readOnly="@{!#isAddLine}" p:required="true">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessFileDataTypeValuesFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                </bean>-->
+                <bean id="filterCriteria_filterFieldName_select" parent="Uif-InputField" p:propertyName="filterFieldName" p:label="Select field Name" p:readOnly="@{!#isAddLine}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.batch.keyvalue.OLEBatchFilterDisplayNameValuesFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                </bean>
+                <bean id="filterCriteria_filterFieldName_text" parent="Uif-InputField" p:propertyName="filterFieldNameText" p:label="Enter Field Name" p:readOnly="@{!#isAddLine}" />
+                <bean id="filterCriteria_filterFieldValue" parent="Uif-InputField" p:propertyName="filterFieldValue" p:label="Field Value" p:readOnly="@{!#isAddLine}"/>
+                <bean id="filterCriteria_filterRangeFrom" parent="Uif-InputField" p:propertyName="filterRangeFrom" p:label="Field Range From" p:readOnly="@{!#isAddLine}"/>
+                <bean id="filterCriteria_filterRangeTo" parent="Uif-InputField" p:propertyName="filterRangeTo" p:label="Field Range To" p:readOnly="@{!#isAddLine}"/>
+            </list>
+        </property>
+        <property name="addLineActions">
+            <list>
+                <bean id="addFilterMapping" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addFilterCriteriaMapping" p:actionLabel="Add" p:title="Add Filter Mapping" />
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="filterCriteria-delete" parent="Uif-PrimaryActionButton-Small" p:methodToCall="filterCriteriaDelete" p:actionLabel="Delete"  />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchProcessProfileBo-MaintenanceView-bibDataMappingNew" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="2" p:disclosure.defaultOpen="false"
+          p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'GOKB Import'}">
+        <property name="headerText" value="Bib Data Mapping" />
+        <property name="collectionObjectClass" value="org.kuali.ole.batch.bo.OLEBatchProcessBibDataMappingNew" />
+        <property name="propertyName" value="oleBatchProcessBibDataMappingNewList" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <!--<property name="layoutManager.richTable.disableTableSort" value="true" />-->
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean id="bibDataFields_tag" parent="Uif-InputField" p:label="Field Name" p:propertyName="tag" p:readOnly="@{!#isAddLine}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="3" p:maxLength="3"/>
+                    </property>
+                </bean>
+
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="bibDataMapping-delete" parent="Uif-PrimaryActionButton-Small" p:methodToCall="dataMappingDelete" p:actionLabel="Delete"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchProcessProfileBo-MaintenanceView-bibDataMappingOverlay" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="2" p:disclosure.defaultOpen="false"
+          p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'GOKB Import'}">
+        <property name="headerText" value="Bib Data Mapping Overlay" />
+        <property name="collectionObjectClass" value="org.kuali.ole.batch.bo.OLEBatchProcessBibDataMappingOverlay" />
+        <property name="propertyName" value="oleBatchProcessBibDataMappingOverlayList" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <!--<property name="layoutManager.richTable.disableTableSort" value="true" />-->
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="items">
+            <list>
+
+                <bean id="bibDataFieldsOverlay_tag" parent="Uif-InputField" p:label="Field Name" p:propertyName="tag" p:readOnly="@{!#isAddLine}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="3" p:maxLength="3"/>
+                    </property>
+                </bean>
+
+                <bean id="bibDataFieldsOverlay_addorReplace" parent="Uif-InputField"
+                      p:propertyName="addOrReplace" p:label="Add or Replace">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="add" p:value="Add"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="replace" p:value="Replace"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="bibDataMappingOverlay-delete" parent="Uif-PrimaryActionButton-Small" p:methodToCall="dataMappingDelete" p:actionLabel="Delete"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="OLEBatchProcessProfileBo-MaintenanceView-dataMappingSection" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="2" p:disclosure.defaultOpen="false"
+          p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Batch Export' or document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Bib Import' or document.newMaintainableObject.dataObject.batchProcessProfileType eq 'GOKB Import' or document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Order Record Import' or document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Invoice Import'}" p:readOnly="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'GOKB Import'}" >
+        <property name="headerText" value="Data Mapping" />
+        <property name="collectionObjectClass" value="org.kuali.ole.batch.bo.OLEBatchProcessProfileMappingOptionsBo" />
+        <property name="propertyName" value="oleBatchProcessProfileMappingOptionsList" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <!--<property name="layoutManager.richTable.disableTableSort" value="true" />-->
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean id="oleBatchProcessDataMapOptionNum" parent="Uif-DataField" p:propertyName="oleBatchProcessDataMapOptionNum" p:hidden="true"/>
+            </list>
+        </property>
+        <property name="subCollections">
+            <list>
+                <ref bean="OLEBatchProcessProfileBo-MaintenanceView-optionSection"/>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="dataMapping-delete" parent="Uif-PrimaryActionButton-Small" p:methodToCall="dataMappingDelete" p:actionLabel="Delete"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="OLEBatchProcessProfileBo-MaintenanceView-optionSection" parent="Uif-TableSubCollection-WithinSection" p:layoutManager.numberOfColumns="2" p:disclosure.defaultOpen="false" >
+        <property name="headerText" value="Data Mapping Option" />
+        <property name="instructionalText" value="Note : For Bibmarc datatype the field value can be like 001, 245 $a, 245 $a$b, 245 ## $a, 245 04 $a, 245 ## $a$b" />
+        <property name="collectionObjectClass" value="org.kuali.ole.batch.bo.OLEBatchProcessProfileDataMappingOptionsBo" />
+        <property name="propertyName" value="oleBatchProcessProfileDataMappingOptionsBoList" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="false" />
+        <!--<property name="addLinePlacement" value="BOTTOM" />-->
+        <property name="items">
+            <list>
+                <bean id="bibImportDataTypeField" parent="Uif-InputField" p:propertyName="dataType" p:label="Data Type" p:required="true" p:readOnly="@{!#isAddLine}" p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Bib Import' or document.newMaintainableObject.dataObject.batchProcessProfileType eq 'GOKB Import'  }">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessBibDataTypeValuesFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="horizontalLayOutDataType" />
+                    </property>
+                </bean>
+                <bean id="batchExportDataTypeField" parent="Uif-InputField" p:propertyName="dataType" p:label="Data Type" p:required="true" p:readOnly="@{!#isAddLine}" p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Batch Export'}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessDataTypeValuesFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="horizontalLayOutDataType" />
+                    </property>
+                </bean>
+                <!--<bean id="dataMappingOptions_sourceField" parent="Uif-InputField" p:propertyName="sourceField" p:label="Select Source Field" >
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.batch.keyvalue.OLEBatchDataMappingSourceFieldValuesFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                </bean>-->
+                <ref bean="bibmarc-sourcefield"/>
+                <ref bean="holding-sourcefield"/>
+                <ref bean="item-sourcefield"/>
+                <ref bean="einstance-sourcefield"/>
+                <ref bean="remaining-sourcefield"/>
+                <bean id="dataMappingOptions_sourceField1" parent="Uif-InputField" p:propertyName="sourceFieldText" p:label="Enter Source Field" p:style="width:80px" p:readOnly="@{!#isAddLine}"/>
+                <bean id="dataMappingOptions_sourceFieldValue" parent="Uif-InputField" p:propertyName="sourceFieldValue" p:label="Source field Value" p:style="width:80px" p:readOnly="@{!#isAddLine}"/>
+
+                <bean id="bibImportDataType-destinationfield" parent="Uif-InputField" p:propertyName="dataTypeDestinationField" p:label="Destination Data Type" p:readOnly="@{!#isAddLine}" p:required="true" p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Bib Import' or document.newMaintainableObject.dataObject.batchProcessProfileType eq 'GOKB Import'  }">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessDataTypeValuesFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="horizontalLayOutDataType" />
+                    </property>
+                </bean>
+                <bean id="batchExportDataType-destinationfield" parent="Uif-InputField" p:propertyName="dataTypeDestinationField" p:label="Destination Data Type" p:readOnly="@{!#isAddLine}" p:required="true" p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Batch Export'}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessBibDataTypeValuesFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="horizontalLayOutDataType" />
+                    </property>
+                </bean>
+                <bean id="batchOrderImportDataType-destinationfield" parent="Uif-InputField" p:propertyName="dataTypeDestinationField" p:label="Destination Data Type" p:readOnly="@{!#isAddLine}" p:required="true" p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Order Record Import'}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessImportDataTypeValuesFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="horizontalLayOutDataType" />
+                    </property>
+                </bean>
+                <bean id="batchInvoiceImportDataType-destinationfield" parent="Uif-InputField" p:propertyName="dataTypeDestinationField" p:label="Destination Data Type" p:readOnly="@{!#isAddLine}" p:required="true" p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Invoice Import'}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.batch.keyvalue.OLEInvoiceImportDataTypeValuesFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="horizontalLayOutDataType" />
+                    </property>
+                </bean>
+
+                <ref bean="bibmarc_destinationField"/>
+                <ref bean="bibImportHolding_destinationField"/>
+                <!--<ref bean="batchExportHolding_destinationField"/>-->
+                <ref bean="item_destinationField"/>
+                <ref bean="einstance_destinationField"/>
+                <ref bean="remaining-destinationField"/>
+                <ref bean="batchOrderRecord_destinationField"/>
+                <ref bean="batchInvoiceRecord_destinationField"/>
+                <bean id="dataMappingOptions_destinationField1" parent="Uif-InputField" p:propertyName="destinationFieldText" p:label="Enter Destination Field" p:style="width:80px" p:readOnly="@{!#isAddLine}"/>
+                <bean id="dataMappingOptions_destinationFieldValue" parent="Uif-InputField" p:propertyName="destinationFieldValue" p:label="Destination Field Value" p:style="width:80px" p:readOnly="@{!#isAddLine}"/>
+                <bean id="dataMappingOptions_priority" parent="Uif-InputField" p:propertyName="priority" p:style="width:25px" p:label="Priority" p:readOnly="@{!#isAddLine}"/>
+            </list>
+        </property>
+        <!-- <property name="addLineActions">
+             <list>
+                 <bean id="addDataMapping" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addLineDataMapping" p:actionLabel="Add" p:title="Add Data Mapping" />
+             </list>
+         </property>-->
+        <property name="addLineActions">
+            <list>
+                <bean id="addDataMapping" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addLineDataMapping" p:actionLabel="Add" p:title="Add Data Mapping" />
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="addLineDataMapping-delete" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addLineDataMappingDelete" p:actionLabel="Delete" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchProcessProfileBo-MaintenanceView-protectedFieldSection" parent="Uif-Disclosure-VerticalBoxSection" p:disclosure.defaultOpen="false" p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Bib Import' or document.newMaintainableObject.dataObject.batchProcessProfileType eq 'GOKB Import'  }">
+        <property name="headerText" value="Protected Field" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridSection" p:layoutManager.numberOfColumns="1"  p:style="width:800px">
+                    <property name="items">
+                        <list>
+                            <ref bean="OLEBatchProcessProfile-globallyProtectedFields"/>
+                            <ref bean="OLEBatchProcessProfile-profileProtectedFields"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchProcessProfile-globallyProtectedFields" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="2" p:disclosure.defaultOpen="false">
+        <property name="headerText" value="Globally Protected Fields" />
+        <property name="collectionObjectClass" value="org.kuali.ole.batch.bo.OLEBatchGloballyProtectedField"/>
+        <property name="propertyName" value="oleBatchGloballyProtectedFieldList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.disableTableSort" value="false" />
+        <property name="layoutManager.richTable.render" value="false"/>
+        <!--<property name="collectionLookup.render" value="false"/>-->
+        <property name="items">
+            <list>
+                <bean id="batchGloballyProtectedFields_tag" parent="Uif-InputField" p:label="Field Name" p:propertyName="tag" p:readOnly="@{!#isAddLine}" />
+                <bean id="batchGloballyProtectedFields_firstIndicator" parent="Uif-InputField" p:label="First Indicator" p:propertyName="firstIndicator" p:readOnly="@{!#isAddLine}"  />
+                <bean id="batchGloballyProtectedFields_secondIndicator" parent="Uif-InputField" p:label="Second Indicator" p:propertyName="secondIndicator" p:readOnly="@{!#isAddLine}"/>
+                <bean id="batchGloballyProtectedFields_subField" parent="Uif-InputField" p:label="Sub Field" p:propertyName="subField" p:readOnly="@{!#isAddLine}" />
+                <bean id="batchGloballyProtectedFields_ignoreValue" parent="Uif-CheckboxInputField" p:label="Ignore GPF" p:propertyName="ignoreValue"/>
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+    <bean id="OLEBatchProcessProfile-profileProtectedFields" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="2" p:disclosure.defaultOpen="false">
+        <property name="headerText" value="Profile Protected Fields" />
+        <property name="collectionObjectClass" value="org.kuali.ole.batch.bo.OLEBatchProcessProfileProtectedField" />
+        <property name="propertyName" value="oleBatchProcessProfileProtectedFieldList" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="items">
+            <list>
+                <!-- <bean id="dataType3" parent="Uif-InputField" p:propertyName="dataType" p:label="Select Data Type" p:readOnly="@{!#isAddLine}">
+                     <property name="optionsFinder">
+                         <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessFileDataTypeValuesFinder" />
+                     </property>
+                    <property name="control">
+                         <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                     </property>
+                 </bean>-->
+                <bean id="profileProtectedFields_tag" parent="Uif-InputField" p:label="Field Name" p:propertyName="tag" p:readOnly="@{!#isAddLine}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="3" p:maxLength="3"/>
+                    </property>
+                </bean>
+                <bean id="profileProtectedFields_firstIndicator" parent="Uif-InputField" p:label="First Indicator" p:propertyName="firstIndicator" p:readOnly="@{!#isAddLine}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="2" p:maxLength="2"/>
+                    </property>
+                </bean>
+                <bean id="profileProtectedFields_secondIndicator" parent="Uif-InputField" p:label="Second Indicator" p:propertyName="secondIndicator" p:readOnly="@{!#isAddLine}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="2" p:maxLength="2"/>
+                    </property>
+                </bean>
+                <bean id="profileProtectedFields_subField" parent="Uif-InputField" p:label="Sub Field" p:propertyName="subField" p:readOnly="@{!#isAddLine}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="2" p:maxLength="2"/>
+                    </property>
+                </bean>
+                <bean id="profileProtectedFields_subFieldContains" parent="Uif-InputField" p:label="Sub Field Contains" p:propertyName="subFieldContains" p:readOnly="@{!#isAddLine}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="20" p:maxLength="480"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="ProfileProtectedField-delete" parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteProfileProtectedField" p:actionLabel="Delete"  />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchProcessProfileBo-MaintenanceView-profileConstantsSection" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="2" p:disclosure.defaultOpen="false"
+          p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Bib Import' or document.newMaintainableObject.dataObject.batchProcessProfileType eq 'GOKB Import'   or document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Order Record Import' or document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Invoice Import'}">
+        <property name="headerText" value="Constant and Default Values" />
+        <property name="collectionObjectClass" value="org.kuali.ole.batch.bo.OLEBatchProcessProfileConstantsBo" />
+        <property name="propertyName" value="oleBatchProcessProfileConstantsList" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean id="profileConstants_dataType" parent="Uif-InputField" p:propertyName="dataType" p:label="Data Type" p:readOnly="@{!#isAddLine}" p:required="true" p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType ne 'Order Record Import' and document.newMaintainableObject.dataObject.batchProcessProfileType ne 'Invoice Import'}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessFileDataTypeValuesFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                </bean>
+                <bean id="orderImport_dataType" parent="Uif-InputField" p:propertyName="dataType" p:label="Data Type" p:readOnly="@{!#isAddLine}" p:required="true" p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Order Record Import'}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.batch.keyvalue.OLEOrderImportDataTypeValuesFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                </bean>
+                <bean id="invoiceImport_dataType" parent="Uif-InputField" p:propertyName="dataType" p:label="Data Type" p:readOnly="@{!#isAddLine}" p:required="true" p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Invoice Import'}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.batch.keyvalue.OLEInvoiceImportDataTypeValuesFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                </bean>
+                <bean id="orderImport_oldAttributeName" parent="Uif-InputField" p:propertyName="oldAttributeName">
+                    <property name="control">
+                        <bean parent="Uif-HiddenControl"/>
+                    </property>
+                </bean>
+
+                <ref bean="constant-datatype-bibmarc"/>
+                <ref bean="constant-datatype-holdings"/>
+                <ref bean="constant-datatype-item"/>
+                <ref bean="constant-datatype-eHoldings"/>
+                <ref bean="constant-datatype-orderImport"/>
+                <ref bean="constant-datatype-invoiceImport"/>
+                <ref bean="constant-datatype-remaining"/>
+
+                <!--<bean id="profileConstants_attributeName" parent="Uif-InputField" p:propertyName="attributeName" p:label="Select Field Name"  p:readOnly="@{!#isAddLine}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProfileConstantsAttributeValueFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                </bean>-->
+                <bean id="profileConstants_attributeName1" parent="Uif-InputField" p:propertyName="attributeNameText" p:label="Enter Field Name" p:readOnly="@{!#isAddLine}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:disabled="@{!#empty(#line?.attributeName)}"/>
+                    </property>
+                </bean>
+                <ref bean="constant-attributeNames-StatisticalCode"/>
+                <ref bean="constant-attributeNames-callNumberType"/>
+                <ref bean="constant-attributeNames-ItemType"/>
+                <ref bean="constant-attributeNames-ItemStatus"/>
+                <ref bean="constant-attributeNames-AccessStatus"/>
+                <ref bean="constant-attributeNames-LocationLevel1"/>
+                <ref bean="constant-attributeNames-LocationLevel2"/>
+                <ref bean="constant-attributeNames-LocationLevel3"/>
+                <ref bean="constant-attributeNames-LocationLevel4"/>
+                <ref bean="constant-attributeNames-LocationLevel5"/>
+                <ref bean="constant-attributeNames-Donor"/>
+                <ref bean="constant-attributeNames-EResource"/>
+                <ref bean="constant-attributeNames-Platform"/>
+                <ref bean="constant-attributeNames-remaining"/>
+                <ref bean="constant-attributeNames-orderImport" />
+                <bean id="profileConstants_attributeValue" parent="Uif-InputField" p:propertyName="attributeValueText" p:label="Enter Field Value" p:readOnly="@{!#isAddLine}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:disabled="@{#line.attributeName eq 'Platform' or #line.attributeName eq 'EResource Name' or #line.attributeName eq 'Statistical Code' or #line.attributeName eq 'Call Number Type' or #line.attributeName eq 'Location Level1' or #line.attributeName eq 'Location Level2' or #line.attributeName eq 'Location Level3' or #line.attributeName eq 'Location Level4' or #line.attributeName eq 'Location Level5' or #line.attributeName eq 'Item Type' or #line.attributeName eq 'Item Status' or #line.attributeName eq 'Access Status' or #line.attributeName eq 'Holdings Location Level1' or #line.attributeName eq 'Holdings Location Level2' or #line.attributeName eq 'Holdings Location Level3' or #line.attributeName eq 'Holdings Location Level4' or #line.attributeName eq 'Holdings Location Level5' or #line.attributeName eq 'Holdings Call Number Type' or #line.attributeName eq 'Donor Code' or #line.attributeName eq 'Donor Note' or #line.attributeName eq 'Donor Public Display' or #line.attributeName eq 'chartCode' or #line.attributeName eq 'itemChartCode' or #line.attributeName eq 'orgCode' or #line.attributeName eq 'receivingRequired' or #line.attributeName eq 'contractManager' or #line.attributeName eq 'assignToUser' or #line.attributeName eq 'useTaxIndicator' or #line.attributeName eq 'orderType' or #line.attributeName eq 'fundingSource' or #line.attributeName eq 'payReqPositiveApprovalReq' or #line.attributeName eq 'purchaseOrderConfirmationIndicator' or #line.attributeName eq 'deliveryCampusCode' or #line.attributeName eq 'buildingCode'
+                            or #line.attributeName eq 'vendorChoice' or #line.attributeName eq 'routeToRequestor' or #line.attributeName eq 'methodOfPOTransmission' or #line.attributeName eq 'costSource' or #line.attributeName eq 'defaultLocation' or #line.attributeName eq 'vendorNumber' or #line.attributeName eq 'requestorName' or #line.attributeName eq 'itemStatus' or #line.attributeName eq 'discountType' or #line.attributeName eq 'accountNumber' or #line.attributeName eq 'financialObjectCode' or #line.attributeName eq 'vendorCustomerNumber' or #line.attributeName eq 'requestSourceType' or #line.attributeName eq 'currencyType' or #line.attributeName eq 'deliveryBuildingRoomNumber'}"/>
+                    </property>
+                </bean>
+                <!-- Two Radio buttons-->
+                <!--<bean id="profileConstants_defaultValue" parent="Uif-InputField" p:propertyName="defaultValue" p:label="Default/Constant" p:readOnly="@{!#isAddLine}"/>-->
+                <bean id="profileConstants_defaultValue" parent="Uif-InputField" p:propertyName="defaultValue" p:label="Default/Constant" p:readOnly="@{!#isAddLine}" p:defaultValue="constant"/>
+            </list>
+        </property>
+        <property name="addLineActions">
+            <list>
+                <bean id="addProfileConstants" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addLineForProfileConstants" p:actionLabel="Add"  />
+            </list>
+        </property>
+
+
+        <property name="lineActions">
+            <list>
+                <bean id="ProfileConstant-delete" parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteProfileConstant" p:actionLabel="Delete"  />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchProcessProfileBo-MaintenanceView-deleteFieldSection" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="1" p:disclosure.defaultOpen="false" p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Batch Export' or document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Bib Import' or document.newMaintainableObject.dataObject.batchProcessProfileType eq 'GOKB Import'  }">
+        <property name="headerText" value="Delete Field" />
+        <property name="collectionObjectClass" value="org.kuali.ole.batch.bo.OLEBatchProcessProfileDeleteField" />
+        <property name="propertyName" value="oleBatchProcessProfileDeleteFieldsList" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean id="deleteField_tag" parent="Uif-InputField" p:propertyName="tag" p:label="Field Name" p:readOnly="@{!#isAddLine}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="3" p:maxLength="3"/>
+                    </property>
+                </bean>
+                <bean id="deleteField_indicator1" parent="Uif-InputField" p:propertyName="firstIndicator" p:label="First Indicator" p:readOnly="@{!#isAddLine}" >
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="2" p:maxLength="2"/>
+                    </property>
+                </bean>
+                <bean id="deleteField_indicator2" parent="Uif-InputField" p:propertyName="secondIndicator" p:label="Second Indicator" p:readOnly="@{!#isAddLine}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="2" p:maxLength="2"/>
+                    </property>
+                </bean>
+                <bean id="deleteField_subField" parent="Uif-InputField" p:propertyName="subField" p:label="SubField" p:readOnly="@{!#isAddLine}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="2" p:maxLength="2"/>
+                    </property>
+                </bean>
+                <bean id="deleteField_subFieldContains" parent="Uif-InputField" p:propertyName="subFieldContains" p:label="SubField Contains" p:readOnly="@{!#isAddLine}"/>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="deleteField-delete" parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteDeleteField" p:actionLabel="Delete"  />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchProcessProfileBo-MaintenanceView-renameFieldSection" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="2" p:disclosure.defaultOpen="false" p:render="@{document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Batch Export' or document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Bib Import' or document.newMaintainableObject.dataObject.batchProcessProfileType eq 'GOKB Import'  }">
+        <property name="headerText" value="Rename Field" />
+        <property name="collectionObjectClass" value="org.kuali.ole.batch.bo.OLEBatchProcessProfileRenameField" />
+        <property name="propertyName" value="oleBatchProcessProfileRenameFieldsList" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="false"/>
+
+        <property name="items">
+            <list>
+                <bean id="originalField_originalTag" parent="Uif-InputField" p:propertyName="originalTag" p:label="Original Tag" p:readOnly="@{!#isAddLine}"/>
+                <bean id="originalField_originalIndicator1" parent="Uif-InputField" p:propertyName="originalFirstIndicator" p:label="Ind 1" p:readOnly="@{!#isAddLine}"/>
+                <bean id="originalField_originalIndicator2" parent="Uif-InputField" p:propertyName="originalSecondIndicator" p:label="Ind 2" p:readOnly="@{!#isAddLine}"/>
+                <bean id="originalField_originalSubField" parent="Uif-InputField" p:propertyName="originalSubField" p:label="Subfield" p:readOnly="@{!#isAddLine}"/>
+                <bean id="originalField_originalSubFieldContains" parent="Uif-InputField" p:propertyName="originalSubFieldContains" p:label="Subfield contains" p:readOnly="@{!#isAddLine}"/>
+                <bean id="renameField_renamedTag" parent="Uif-InputField" p:propertyName="renamedTag" p:label="Rename Tag" p:readOnly="@{!#isAddLine}"/>
+                <bean id="renameField_renamedIndicator1" parent="Uif-InputField" p:propertyName="renamedFirstIndicator" p:label="Ind 1"  p:readOnly="@{!#isAddLine}"/>
+                <bean id="renameField_renamedIndicator2" parent="Uif-InputField" p:propertyName="renamedSecondIndicator" p:label="Ind 2" p:readOnly="@{!#isAddLine}"/>
+                <bean id="renameField_renamedSubField" parent="Uif-InputField" p:propertyName="renamedSubField"  p:label="Subfield" p:readOnly="@{!#isAddLine}"/>
+                <bean id="renameField_renamedSubFieldContains" parent="Uif-InputField" p:propertyName="renamedSubFieldContains" p:label="Subfield contains" p:readOnly="@{!#isAddLine}"/>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="renameField-delete" parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteRenameField" p:actionLabel="Delete"  />
+            </list>
+        </property>
+    </bean>
+
+    <!--<bean id="OLEBatchProcessProfileBo-overlay" parent="Uif-InputField" p:propertyName="overlay">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>-->
+
+    <!-- <bean id="ConfigurationTestView-ProgressiveRender-DropDown" parent="GenericTextField"
+           p:propertyName="field88" p:label="Field 1">
+         <property name="control">
+             <bean parent="Uif-DropdownControl">
+                 <property name="options">
+                     <list>
+                         <bean parent="Uif-KeyLabelPair" p:key="Fruits" p:value="Fruits"/>
+                         <bean parent="Uif-KeyLabelPair" p:key="Vegetables" p:value="Vegetables"/>
+                         <bean parent="Uif-KeyLabelPair" p:key="None" p:value="None"/>
+                     </list>
+                 </property>
+             </bean>
+         </property>
+     </bean>
+     <bean id="ConfigurationTestView-ProgressiveRender-RefreshTextField" parent="GenericTextField" p:propertyName="field3"
+           p:label="Field 2" p:optionsFinderClass="edu.sampleu.travel.options.FoodKeyValuesFinder"
+           p:refreshWhenChangedPropertyNames="field88">
+         <property name="control">
+             <bean parent="Uif-DropdownControl"  p:disabled="@{#form.field88 eq 'None'}"/>
+         </property>
+     </bean>-->
+    <!--
+
+        <bean id="bibmarc-sourcefield"  parent="Uif-InputField" p:propertyName="sourceField" p:label="" p:render="@{#line.dataType eq 'Bibmarc'}">
+            <property name="optionsFinder">
+                <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessBibmarcSourceFieldValueFinder" />
+            </property>
+            <property name="control">
+                <bean parent="Uif-DropdownControl" >
+
+                </bean>
+            </property>
+        </bean>
+        <bean id="holding-sourcefield"  parent="Uif-InputField" p:propertyName="sourceField" p:label="" p:render="@{#line.dataType eq 'Holdings'}">
+            <property name="optionsFinder">
+                <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessHoldingSourceFieldValueFinder" />
+            </property>
+            <property name="control">
+                <bean parent="Uif-DropdownControl" >
+
+                </bean>
+            </property>
+        </bean>
+        <bean id="item_sourcefield"  parent="Uif-InputField" p:propertyName="sourceField" p:label="" p:render="@{#line.dataType eq 'Item'}">
+            <property name="optionsFinder">
+                <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessItemSourceFieldKeyValueFinder" />
+            </property>
+            <property name="control">
+                <bean parent="Uif-DropdownControl">
+                </bean>
+            </property>
+        </bean>
+        <bean id="dataMappingOptions_sourceField" parent="Uif-InputField" p:propertyName="sourceField" p:label="" p:render="@{(#line.dataType ne 'Bibmarc') or (#line.dataType eq 'Holdings') or (#line.dataType eq 'Item')}">
+            <property name="optionsFinder">
+                <bean class="org.kuali.ole.batch.keyvalue.OLEBatchDataMappingSourceFieldValuesFinder" />
+            </property>
+            <property name="control">
+                <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+            </property>
+        </bean>
+        &lt;!&ndash;<bean id="datatype-hidden-button" parent="Uif-SecondaryActionButton-Small" p:methodToCall="refreshDiv"  p:actionLabel="OK" p:hidden="true" />&ndash;&gt;
+        <bean id ="hiddenButtonRefresh" parent="Uif-SecondaryActionButton" p:methodToCall="refreshPageView" p:hidden="true" />
+
+    -->
+
+    <bean id="bibmarc-sourcefield"  parent="Uif-InputField" p:propertyName="sourceField" p:label="" p:render="@{#line.dataType eq 'Bibmarc'}" p:readOnly="@{!#isAddLine}">
+        <property name="optionsFinder">
+            <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessBibmarcSourceFieldValueFinder" />
+        </property>
+        <property name="control">
+            <bean parent="Uif-DropdownControl" p:cssClasses="horizontalLayOutField" p:disabled="true"/>
+        </property>
+    </bean>
+    <bean id="holding-sourcefield"  parent="Uif-InputField" p:propertyName="sourceField" p:label="" p:render="@{#line.dataType eq 'Holdings'}" p:readOnly="@{!#isAddLine}">
+        <property name="optionsFinder">
+            <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessHoldingSourceFieldValueFinder" />
+        </property>
+        <property name="control">
+            <bean parent="Uif-DropdownControl" p:cssClasses="horizontalLayOutField" />
+        </property>
+    </bean>
+    <bean id="item-sourcefield"  parent="Uif-InputField" p:propertyName="sourceField" p:label="" p:render="@{#line.dataType eq 'Item'}" p:readOnly="@{!#isAddLine}">
+        <property name="optionsFinder">
+            <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessItemSourceFieldKeyValueFinder" />
+        </property>
+        <property name="control">
+            <bean parent="Uif-DropdownControl" p:cssClasses="horizontalLayOutField" />
+        </property>
+    </bean>
+    <bean id="einstance-sourcefield"  parent="Uif-InputField" p:propertyName="sourceField" p:label="" p:render="@{#line.dataType eq 'EHoldings'}" p:readOnly="@{!#isAddLine}">
+        <property name="optionsFinder">
+            <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessEholdingsSourceFieldKeyValueFinder" />
+        </property>
+        <property name="control">
+            <bean parent="Uif-DropdownControl" p:cssClasses="horizontalLayOutField" />
+        </property>
+    </bean>
+    <bean id="remaining-sourcefield"  parent="Uif-InputField" p:propertyName="sourceField" p:label="" p:render="@{#line.dataType ne 'Item' and #line.dataType ne 'Bibmarc' and #line.dataType ne 'Holdings' and #line.dataType ne 'EHoldings'}" p:readOnly="@{!#isAddLine}">
+        <property name="optionsFinder">
+            <bean class="org.kuali.ole.batch.keyvalue.OLEBatchDataMappingSourceFieldValuesFinder" />
+        </property>
+        <property name="control">
+            <bean parent="Uif-DropdownControl" p:cssClasses="horizontalLayOutField" p:disabled="true"/>
+        </property>
+    </bean>
+
+
+    <bean id="bibmarc_destinationField" parent="Uif-InputField" p:propertyName="destinationField" p:label="" p:render="@{#line.dataTypeDestinationField eq 'Bibmarc'}" p:readOnly="@{!#isAddLine}">
+        <property name="optionsFinder">
+            <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessBibmarcSourceFieldValueFinder" />
+        </property>
+        <property name="control">
+            <bean parent="Uif-DropdownControl" p:cssClasses="horizontalLayOutField" p:disabled="true"/>
+        </property>
+    </bean>
+    <bean id="bibImportHolding_destinationField" parent="Uif-InputField" p:propertyName="destinationField" p:label="" p:render="@{#line.dataTypeDestinationField eq 'Holdings' and document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Bib Import'}" p:readOnly="@{!#isAddLine}">
+        <property name="optionsFinder">
+            <bean class="org.kuali.ole.batch.keyvalue.OLEBibImportHoldingSourceFieldValueFinder" />
+        </property>
+        <property name="control">
+            <bean parent="Uif-DropdownControl" p:cssClasses="horizontalLayOutField" />
+        </property>
+    </bean>
+    <bean id="batchOrderRecord_destinationField" parent="Uif-InputField" p:propertyName="destinationField" p:label="" p:render="@{#line.dataTypeDestinationField eq 'OrderImport' and document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Order Record Import'}" p:readOnly="@{!#isAddLine}">
+        <property name="optionsFinder">
+            <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessOrderImportDataTypeValuesFinder" />
+        </property>
+        <property name="control">
+            <bean parent="Uif-DropdownControl" p:cssClasses="horizontalLayOutField" />
+        </property>
+    </bean>
+    <bean id="batchInvoiceRecord_destinationField" parent="Uif-InputField" p:propertyName="destinationField" p:label="" p:render="@{#line.dataTypeDestinationField eq 'InvoiceImport' and document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Invoice Import'}" p:readOnly="@{!#isAddLine}">
+        <property name="optionsFinder">
+            <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessInvoiceImportDataTypeValuesFinder" />
+        </property>
+        <property name="control">
+            <bean parent="Uif-DropdownControl" p:cssClasses="horizontalLayOutField" />
+        </property>
+    </bean>
+    <bean id="batchExportHolding_destinationField" parent="Uif-InputField" p:propertyName="destinationField" p:label="" p:render="@{#line.dataTypeDestinationField eq 'Holdings' and document.newMaintainableObject.dataObject.batchProcessProfileType eq 'Batch Export'}" p:readOnly="@{!#isAddLine}">
+        <property name="optionsFinder">
+            <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessHoldingSourceFieldValueFinder" />
+        </property>
+        <property name="control">
+            <bean parent="Uif-DropdownControl" p:cssClasses="horizontalLayOutField" />
+        </property>
+    </bean>
+    <bean id="item_destinationField" parent="Uif-InputField" p:propertyName="destinationField" p:label="" p:render="@{#line.dataTypeDestinationField eq 'Item'}" p:readOnly="@{!#isAddLine}">
+        <property name="optionsFinder">
+            <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessItemSourceFieldKeyValueFinder" />
+        </property>
+        <property name="control">
+            <bean parent="Uif-DropdownControl" p:cssClasses="horizontalLayOutField" />
+        </property>
+    </bean>
+    <bean id="einstance_destinationField" parent="Uif-InputField" p:propertyName="destinationField" p:label="" p:render="@{#line.dataTypeDestinationField eq 'EHoldings'}" p:readOnly="@{!#isAddLine}">
+        <property name="optionsFinder">
+            <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessEholdingsSourceFieldKeyValueFinder" />
+        </property>
+        <property name="control">
+            <bean parent="Uif-DropdownControl" p:cssClasses="horizontalLayOutField" />
+        </property>
+    </bean>
+    <bean id="remaining-destinationField"  parent="Uif-InputField" p:propertyName="destinationField" p:label="" p:render="@{#line.dataTypeDestinationField ne 'Item' and #line.dataTypeDestinationField ne 'Bibmarc' and #line.dataTypeDestinationField ne 'Holdings' and #line.dataTypeDestinationField ne 'EHoldings' and #line.dataTypeDestinationField ne 'OrderImport' and #line.dataTypeDestinationField ne 'InvoiceImport'}" p:readOnly="@{!#isAddLine}">
+        <property name="optionsFinder">
+            <bean class="org.kuali.ole.batch.keyvalue.OLEBatchDataMappingSourceFieldValuesFinder" />
+        </property>
+        <property name="control">
+            <bean parent="Uif-DropdownControl" p:cssClasses="horizontalLayOutField" p:disabled="true"/>
+        </property>
+    </bean>
+
+    <bean id="constant-datatype-bibmarc" parent="Uif-InputField" p:propertyName="attributeName" p:label="Select Field Name" p:render="@{#line.dataType eq 'Bibmarc'}" p:readOnly="@{!#isAddLine}">
+        <property name="optionsFinder">
+            <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessBibmarcSourceFieldValueFinder" />
+        </property>
+        <property name="control">
+            <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+        </property>
+    </bean>
+
+    <bean id="constant-datatype-orderImport" parent="Uif-InputField" p:propertyName="attributeName" p:label="Select Field Name" p:render="@{#line.dataType eq 'OrderImport'}" p:readOnly="@{!#isAddLine}">
+        <property name="optionsFinder">
+            <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessOrderImportSourceFieldValueFinder" />
+        </property>
+        <property name="control">
+            <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+        </property>
+    </bean>
+
+    <bean id="constant-datatype-invoiceImport" parent="Uif-InputField" p:propertyName="attributeName" p:label="Select Field Name" p:render="@{#line.dataType eq 'InvoiceImport'}" p:readOnly="@{!#isAddLine}">
+        <property name="optionsFinder">
+            <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessInvoiceImportSourceFieldValueFinder" />
+        </property>
+        <property name="control">
+            <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+        </property>
+    </bean>
+
+    <bean id="constant-datatype-holdings" parent="Uif-InputField" p:propertyName="attributeName" p:label="Select Field Name" p:render="@{#line.dataType eq 'Holdings'}" p:readOnly="@{!#isAddLine}">
+        <property name="optionsFinder">
+            <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessHoldingSourceFieldValueFinder" />
+        </property>
+        <property name="control">
+            <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+        </property>
+    </bean>
+    <bean id="constant-datatype-item" parent="Uif-InputField" p:propertyName="attributeName" p:label="Select Field Name" p:render="@{#line.dataType eq 'Item'}" p:readOnly="@{!#isAddLine}">
+        <property name="optionsFinder">
+            <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessItemSourceFieldKeyValueFinder" />
+        </property>
+        <property name="control">
+            <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+        </property>
+    </bean>
+    <bean id="constant-datatype-eHoldings" parent="Uif-InputField" p:propertyName="attributeName" p:label="Select Field Name" p:render="@{#line.dataType eq 'EHoldings'}" p:readOnly="@{!#isAddLine}">
+        <property name="optionsFinder">
+            <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessEholdingsSourceFieldKeyValueFinder" />
+        </property>
+        <property name="control">
+            <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+        </property>
+    </bean>
+    <bean id="constant-datatype-remaining"  parent="Uif-InputField" p:propertyName="attributeName" p:label="Select Field Name" p:render="@{#line.dataType ne 'Item' and #line.dataType ne 'Bibmarc' and #line.dataType ne 'Holdings' and #line.dataType ne 'EHoldings' and #line.dataType ne 'OrderImport' and #line.dataType ne 'InvoiceImport'}" p:readOnly="@{!#isAddLine}">
+        <property name="optionsFinder">
+            <bean class="org.kuali.ole.batch.keyvalue.OLEBatchDataMappingSourceFieldValuesFinder" />
+        </property>
+        <property name="control">
+            <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+        </property>
+    </bean>
+    <bean id="constant-attributeNames-StatisticalCode"  parent="Uif-InputField" p:propertyName="attributeValue" p:label="Select Field Value" p:render="@{#line.attributeName eq 'Statistical Code'}" p:readOnly="@{!#isAddLine}">
+        <property name="optionsFinder">
+            <bean class="org.kuali.ole.describe.keyvalue.StatisticalSearchingCodes" />
+        </property>
+        <property name="control">
+            <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+        </property>
+    </bean>
+    <bean id="constant-attributeNames-callNumberType"  parent="Uif-InputField" p:propertyName="attributeValue" p:label="Select Field Value" p:render="@{#line.attributeName eq 'Call Number Type' or #line.attributeName eq 'Holdings Call Number Type'}" p:readOnly="@{!#isAddLine}">
+        <property name="optionsFinder">
+            <bean class="org.kuali.ole.describe.keyvalue.ShelvingScheme" />
+        </property>
+        <property name="control">
+            <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+        </property>
+    </bean>
+    <bean id="constant-attributeNames-ItemType"  parent="Uif-InputField" p:propertyName="attributeValue" p:label="Select Field Value" p:render="@{#line.attributeName eq 'Item Type'}" p:readOnly="@{!#isAddLine}">
+        <property name="optionsFinder">
+            <bean class="org.kuali.ole.describe.keyvalue.ItemType" />
+        </property>
+        <property name="control">
+            <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+        </property>
+    </bean>
+    <bean id="constant-attributeNames-ItemStatus"  parent="Uif-InputField" p:propertyName="attributeValue" p:label="Select Field Value" p:render="@{#line.attributeName eq 'Item Status'}" p:readOnly="@{!#isAddLine}">
+        <property name="optionsFinder">
+            <bean class="org.kuali.ole.describe.keyvalue.ItemStatusForEditor" />
+        </property>
+        <property name="control">
+            <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+        </property>
+    </bean>
+    <bean id="constant-attributeNames-AccessStatus"  parent="Uif-InputField" p:propertyName="attributeValue" p:label="Select Field Value" p:render="@{#line.attributeName eq 'Access Status'}" p:readOnly="@{!#isAddLine}">
+        <property name="optionsFinder">
+            <bean class="org.kuali.ole.batch.keyvalue.OLEBatchConstantsAccessStatusKeyValues" />
+        </property>
+        <property name="control">
+            <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+        </property>
+    </bean>
+    <bean id="constant-attributeNames-LocationLevel1"  parent="Uif-InputField" p:propertyName="attributeValue" p:label="Select Field Value" p:render="@{#line.attributeName eq 'Location Level1' or #line.attributeName eq 'Holdings Location Level1'}" p:readOnly="@{!#isAddLine}">
+        <property name="optionsFinder">
+            <bean class="org.kuali.ole.batch.keyvalue.OLEBatchConstantsLocationLevel1KeyValues" />
+        </property>
+        <property name="control">
+            <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+        </property>
+    </bean>
+    <bean id="constant-attributeNames-LocationLevel2"  parent="Uif-InputField" p:propertyName="attributeValue" p:label="Select Field Value" p:render="@{#line.attributeName eq 'Location Level2' or #line.attributeName eq 'Holdings Location Level2'}" p:readOnly="@{!#isAddLine}">
+        <property name="optionsFinder">
+            <bean class="org.kuali.ole.batch.keyvalue.OLEBatchConstantsLocationLevel2KeyValues" />
+        </property>
+        <property name="control">
+            <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+        </property>
+    </bean>
+    <bean id="constant-attributeNames-LocationLevel3"  parent="Uif-InputField" p:propertyName="attributeValue" p:label="Select Field Value" p:render="@{#line.attributeName eq 'Location Level3' or #line.attributeName eq 'Holdings Location Level3'}" p:readOnly="@{!#isAddLine}">
+        <property name="optionsFinder">
+            <bean class="org.kuali.ole.batch.keyvalue.OLEBatchConstantsLocationLevel3KeyValues" />
+        </property>
+        <property name="control">
+            <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+        </property>
+    </bean>
+    <bean id="constant-attributeNames-LocationLevel4"  parent="Uif-InputField" p:propertyName="attributeValue" p:label="Select Field Value" p:render="@{#line.attributeName eq 'Location Level4' or #line.attributeName eq 'Holdings Location Level4'}" p:readOnly="@{!#isAddLine}">
+        <property name="optionsFinder">
+            <bean class="org.kuali.ole.batch.keyvalue.OLEBatchConstantsLocationLevel4KeyValues" />
+        </property>
+        <property name="control">
+            <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+        </property>
+    </bean>
+    <bean id="constant-attributeNames-LocationLevel5"  parent="Uif-InputField" p:propertyName="attributeValue" p:label="Select Field Value" p:render="@{#line.attributeName eq 'Location Level5' or #line.attributeName eq 'Holdings Location Level5'}" p:readOnly="@{!#isAddLine}">
+        <property name="optionsFinder">
+            <bean class="org.kuali.ole.batch.keyvalue.OLEBatchConstantsLocationLevel5KeyValues" />
+        </property>
+        <property name="control">
+            <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+        </property>
+    </bean>
+    <bean id="constant-attributeNames-Donor"  parent="Uif-InputField" p:propertyName="attributeValue" p:label="Select Field Value" p:render="@{#line.attributeName eq 'Donor Code' or #line.attributeName eq 'Donor Note' or #line.attributeName eq 'Donor Public Display'}" p:readOnly="@{!#isAddLine}">
+        <property name="optionsFinder">
+            <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessDonorKeyValueFinder" />
+        </property>
+        <property name="control">
+            <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+        </property>
+    </bean>
+    <bean id="constant-attributeNames-EResource"  parent="Uif-InputField" p:propertyName="attributeValue" p:label="Select Field Value" p:render="@{#line.attributeName eq 'EResource Name'}" p:readOnly="@{!#isAddLine}">
+        <property name="optionsFinder">
+            <bean class="org.kuali.ole.select.keyvalue.OLEEResourceRecordDocumentKeyValues" />
+        </property>
+        <property name="control">
+            <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+        </property>
+    </bean>
+    <bean id="constant-attributeNames-Platform"  parent="Uif-InputField" p:propertyName="attributeValue" p:label="Select Field Value" p:render="@{#line.attributeName eq 'Platform'}" p:readOnly="@{!#isAddLine}">
+        <property name="optionsFinder">
+            <bean class="org.kuali.ole.select.keyvalue.OLEPlatformRecordDocumentKeyValues" />
+        </property>
+        <property name="control">
+            <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+        </property>
+    </bean>
+    <bean id="constant-attributeNames-remaining" parent="Uif-InputField" p:propertyName="attributeValue"
+          p:label="Select Field Value"
+          p:render="@{#line.attributeName ne 'Platform' and #line.attributeName ne 'EResource Name' and #line.attributeName ne 'Call Number Type' and #line.attributeName ne 'Statistical Code' and #line.attributeName ne 'Item Type' and #line.attributeName ne 'Item Status' and #line.attributeName ne 'Access Status' and #line.attributeName ne 'Location Level1' and #line.attributeName ne 'Location Level2' and #line.attributeName ne 'Location Level3' and #line.attributeName ne 'Location Level4' and #line.attributeName ne 'Location Level5' and #line.attributeName ne 'Holdings Location Level1' and #line.attributeName ne 'Holdings Location Level2' and #line.attributeName ne 'Holdings Location Level3' and #line.attributeName ne 'Holdings Location Level4' and #line.attributeName ne 'Holdings Location Level5' and #line.attributeName ne 'Holdings Call Number Type' and #line.attributeName ne 'Donor Code' and #line.attributeName ne 'Donor Note' and #line.attributeName ne 'Donor Public Display' and #line.attributeName ne 'chartCode' and #line.attributeName ne 'itemChartCode' and #line.attributeName ne 'orgCode' and #line.attributeName ne 'receivingRequired' and #line.attributeName ne 'contractManager' and #line.attributeName ne 'assignToUser' and #line.attributeName ne 'useTaxIndicator' and #line.attributeName ne 'orderType' and #line.attributeName ne 'fundingSource' and #line.attributeName ne 'payReqPositiveApprovalReq' and #line.attributeName ne 'purchaseOrderConfirmationIndicator' and #line.attributeName ne 'deliveryCampusCode' and #line.attributeName ne 'buildingCode' and #line.attributeName ne 'vendorChoice' and #line.attributeName ne 'routeToRequestor' and #line.attributeName ne 'methodOfPOTransmission' and #line.attributeName ne 'costSource' and #line.attributeName ne 'defaultLocation' and #line.attributeName ne 'vendorNumber' and #line.attributeName ne 'requestorName' and #line.attributeName ne 'itemStatus' and #line.attributeName ne 'discountType' and #line.attributeName ne 'accountNumber' and #line.attributeName ne 'financialObjectCode' and #line.attributeName ne 'vendorCustomerNumber' and #line.attributeName ne 'requestSourceType' and #line.attributeName ne 'currencyType' and #line.attributeName ne 'deliveryBuildingRoomNumber'}"
+          p:readOnly="@{!#isAddLine}">
+        <property name="optionsFinder">
+            <bean class="org.kuali.ole.batch.keyvalue.OLEBatchDataMappingSourceFieldValuesFinder"/>
+        </property>
+        <property name="control">
+            <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"
+                  p:disabled="@{#line.attributeName ne 'Call Number Type' and #line.attributeName ne 'Statistical Code' and #line.attributeName ne 'Item Type' and #line.attributeName ne 'Item Status' and #line.attributeName ne 'Access Status' and #line.attributeName ne 'Location Level1' and #line.attributeName ne 'Location Level2' and #line.attributeName ne 'Location Level3' and #line.attributeName ne 'Location Level4' and #line.attributeName ne 'Location Level5' and #line.attributeName ne 'Holdings Location Level1' and #line.attributeName ne 'Holdings Location Level2' and #line.attributeName ne 'Holdings Location Level3' and #line.attributeName ne 'Holdings Location Level4' and #line.attributeName ne 'Holdings Location Level5' and #line.attributeName ne 'Holdings Call Number Type' and #line.attributeName ne 'Donor Code' and #line.attributeName ne 'Donor Note' and #line.attributeName ne 'Donor Public Display' and #line.attributeName ne 'chartCode' and #line.attributeName ne 'itemChartCode' and #line.attributeName ne 'orgCode' and #line.attributeName ne 'receivingRequired' and #line.attributeName ne 'contractManager' and #line.attributeName ne 'assignToUser' and #line.attributeName ne 'useTaxIndicator' and #line.attributeName ne 'orderType' and #line.attributeName ne 'fundingSource' and #line.attributeName ne 'payReqPositiveApprovalReq' and #line.attributeName ne 'purchaseOrderConfirmationIndicator' and #line.attributeName ne 'deliveryCampusCode' and #line.attributeName ne 'buildingCode' and #line.attributeName ne 'vendorChoice' and #line.attributeName ne 'routeToRequestor' and #line.attributeName ne 'methodOfPOTransmission' and #line.attributeName ne 'costSource' and #line.attributeName ne 'defaultLocation' and #line.attributeName ne 'vendorNumber' and #line.attributeName ne 'requestorName' and #line.attributeName ne 'itemStatus' and #line.attributeName ne 'discountType' and #line.attributeName ne 'accountNumber' and #line.attributeName ne 'financialObjectCode' and #line.attributeName ne 'vendorCustomerNumber' and #line.attributeName ne 'requestSourceType' and #line.attributeName ne 'currencyType' and #line.attributeName ne 'deliveryBuildingRoomNumber'}"/>
+        </property>
+    </bean>
+    <bean id="constant-attributeNames-orderImport"  parent="Uif-InputField" p:propertyName="attributeValue" p:label="Select Field Value" p:render="@{#line.attributeName eq 'chartCode' or #line.attributeName eq 'itemChartCode' or #line.attributeName eq 'orgCode' or #line.attributeName eq 'receivingRequired' or #line.attributeName eq 'contractManager' or #line.attributeName eq 'assignToUser' or #line.attributeName eq 'useTaxIndicator' or #line.attributeName eq 'orderType' or #line.attributeName eq 'fundingSource' or #line.attributeName eq 'payReqPositiveApprovalReq' or #line.attributeName eq 'purchaseOrderConfirmationIndicator' or #line.attributeName eq 'deliveryCampusCode' or #line.attributeName eq 'buildingCode'
+                 or #line.attributeName eq 'vendorChoice' or #line.attributeName eq 'routeToRequestor' or #line.attributeName eq 'methodOfPOTransmission' or #line.attributeName eq 'costSource' or #line.attributeName eq 'defaultLocation' or #line.attributeName eq 'vendorNumber' or #line.attributeName eq 'requestorName' or #line.attributeName eq 'itemStatus' or #line.attributeName eq 'discountType' or #line.attributeName eq 'accountNumber' or #line.attributeName eq 'financialObjectCode' or #line.attributeName eq 'vendorCustomerNumber' or #line.attributeName eq 'requestSourceType' or #line.attributeName eq 'currencyType' or #line.attributeName eq 'deliveryBuildingRoomNumber'}" p:readOnly="@{!#isAddLine}">
+        <property name="optionsFinder">
+            <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessOrderImportValuesFinder" />
+        </property>
+        <property name="control">
+            <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchProcessProfileBo-MaintenanceView-changesToImportRemove" parent="Uif-Disclosure-HorizontalBoxSubSection" p:render="@{document.newMaintainableObject.dataObject.dontChange001 eq 'changeTo035'}">
+        <property name="items">
+            <list>
+                <!--<bean id="value_to_remove" parent="Uif-InputField" p:propertyName="removeValueFrom001" p:label="Remove value from 001 " p:labelPlacement="RIGHT" p:fieldLabel.renderColon="false">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>-->
+                <bean id="value_to_remove" parent="Uif-CheckboxInputField" p:label="Remove from 001" p:propertyName="removeValueFrom001" p:labelPlacement="RIGHT" p:fieldLabel.renderColon="false" p:progressiveRenderAndRefresh="true"
+                      p:progressiveRender="@{document.newMaintainableObject.dataObject.dontChange001 eq 'changeTo035'}"/>
+                <bean id="changesToImport-valueToRemove" parent="Uif-InputField" p:propertyName="valueToRemove"  p:progressiveRenderAndRefresh="true"
+                      p:progressiveRender="@{document.newMaintainableObject.dataObject.removeValueFrom001}"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="OLEBatchProcessProfileBo-MaintenanceView-changesToImport035" parent="Uif-Disclosure-HorizontalBoxSubSection" p:render="@{document.newMaintainableObject.dataObject.dontChange001 eq 'changeTo035'}">
+        <property name="items">
+            <list>
+                <bean id="changesToImport-ChangeTo035" parent="Uif-InputField" p:propertyName="prepend003To035" p:render="@{document.newMaintainableObject.dataObject.dontChange001 eq 'changeTo035'}" p:defaultValue="prepend003To035">
+                    <property name="control">
+                        <bean parent="Uif-VerticalRadioControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="prepend003To035" p:value="Prepend contents of tag 003, enclosed in parentheses"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="prependvalueto035" p:value="Always prepend this value :"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="OLEBatchProcessProfileBo-MaintenanceView-changesToImport035TextField" parent="Uif-Disclosure-VerticalBoxSubSection" p:render="@{document.newMaintainableObject.dataObject.dontChange001 eq 'changeTo035'}">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-SpaceField"/>
+                            <bean id="changesToImport-valueToPrepend" parent="Uif-InputField" p:propertyName="valueToPrepend"  p:render="@{document.newMaintainableObject.dataObject.dontChange001 eq 'changeTo035'}" p:readOnly="@{document.newMaintainableObject.dataObject.prepend003To035 ne 'prependvalueto035'}"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+
+
+
+    <!--<bean id="datatype-hidden-button" parent="Uif-SecondaryActionButton-Small" p:methodToCall="refreshDiv"  p:actionLabel="OK" p:hidden="true" />-->
+    <bean id ="hiddenButtonRefresh" parent="Uif-SecondaryActionButton" p:methodToCall="refreshPageView" p:hidden="true" />
+    <bean id ="hiddenButtonForBibOverlay" parent="Uif-SecondaryActionButton" p:methodToCall="refreshBeanId" p:hidden="true" p:refreshId="OLEBatchProcessProfileBo-MaintenanceView-bibAddOverlaySection"/>
+    <bean id ="hiddenButtonForInstanceOverlay" parent="Uif-SecondaryActionButton" p:methodToCall="refreshBeanId" p:hidden="true" p:refreshId="OLEBatchProcessProfileBo-MaintenanceView-instanceAddOverlaySection"/>
+    <bean id ="hiddenButtonForSetStatus" parent="Uif-SecondaryActionButton" p:methodToCall="refreshBeanId" p:hidden="true" p:refreshId="OLEBatchProcessProfileBo-MaintenanceView-bibStatusSection"/>
+    <bean id ="hiddenButtonForSetStaffOnly" parent="Uif-SecondaryActionButton" p:methodToCall="refreshBeanId" p:hidden="true" p:refreshId="OLEBatchProcessProfileBo-MaintenanceView-staffOnlySection"/>
+    <bean id ="hiddenButtonForChangeToImport" parent="Uif-SecondaryActionButton" p:methodToCall="refreshBeanId" p:hidden="true"  p:refreshId="OLEBatchProcessProfileBo-MaintenanceView-changesToImport"/>
+    <!--<bean id ="hiddenButtonForConstantsAndDefault" parent="Uif-SecondaryActionButton" p:methodToCall="refreshBeanId" p:hidden="true"  p:refreshId="OLEBatchProcessProfileBo-MaintenanceView-profileConstantsSection"/>-->
+    <bean id ="hiddenButtonExchangeRate" parent="Uif-SecondaryActionButton" p:methodToCall="populateExchangeRate" p:hidden="true" />
+
+
+
+</beans>

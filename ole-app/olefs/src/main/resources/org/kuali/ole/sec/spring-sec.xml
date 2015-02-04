@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<!--
+		Copyright 2005-2007 The Kuali Foundation. Licensed under the
+		Educational Community License, Version 1.0 (the "License"); you may
+		not use this file except in compliance with the License. You may
+		obtain a copy of the License at
+		http://www.opensource.org/licenses/ecl1.php Unless required by
+		applicable law or agreed to in writing, software distributed under the
+		License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+		CONDITIONS OF ANY KIND, either express or implied. See the License for
+		the specific language governing permissions and limitations under the
+		License.
+	-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        
+	<bean id="secModule" parent="secModule-parentBean" />
+
+	<bean id="secModule-parentBean" parent="secModule-coreOnly-parentBean" abstract="true" />
+
+	<bean id="secModule-coreOnly-parentBean" class="org.kuali.ole.sys.FinancialSystemModuleConfiguration" abstract="true">
+		<property name="namespaceCode" value="OLE-SEC"/>
+		<property name="initializeDataDictionary" value="true" />
+        <property name="packagePrefixes">
+            <list>
+                <value>org.kuali.ole.sec</value>
+            </list>
+        </property>
+		<property name="dataDictionaryPackages">
+			<list>
+				<value>org/kuali/ole/sec/businessobject/datadictionary</value>
+				<value>org/kuali/ole/sec/document/datadictionary</value>
+				<value>org/kuali/ole/sec/datadictionary</value>
+			</list>
+		</property>
+		<property name="databaseRepositoryFilePaths">
+			<list>
+				<value>org/kuali/ole/sec/ojb-sec.xml</value>
+			</list>
+		</property>
+	</bean>
+
+    <bean id="secModuleService" parent="secModuleService-parentBean"/>
+
+    <bean id="secModuleService-parentBean" abstract="true" class="org.kuali.ole.sys.service.impl.OleModuleServiceImpl">
+    	<property name="moduleConfiguration" ref="secModule"/>
+    </bean>
+	
+	<bean id="SecConstants" class="org.kuali.rice.core.api.util.collect.ConstantsMap">
+		<property name="constantClass" value="org.kuali.ole.sec.SecConstants" />
+ 	</bean>
+
+	<bean class="org.springframework.web.context.support.ServletContextAttributeExporter">
+		<property name="attributes">
+			<map>
+				<entry key="SecConstants" value-ref="SecConstants" />
+			</map>
+ 	  </property>
+ 	</bean>
+	
+	<bean id="accessSecurityService" parent="accessSecurityService-parentBean"/>	
+	<bean id="accessSecurityService-parentBean" class="org.kuali.ole.sec.service.impl.AccessSecurityServiceImpl" abstract="true">
+		<property name="dataDictionaryService" ref="dataDictionaryService" />
+		<property name="parameterService" ref="parameterService" />
+		<property name="configurationService" ref="configurationService" />
+		<property name="contractsAndGrantsModuleService" ref="contractsAndGrantsModuleService" />
+	</bean>
+
+    <bean id="securityAttributePermissionTypeService" parent="securityAttributePermissionTypeService-parentBean"/>
+	<bean id="securityAttributePermissionTypeService-parentBean" class="org.kuali.ole.sec.identity.SecurityAttributePermissionTypeServiceImpl" abstract="true" />
+	
+    <bean id="securityAttributeDocTypePermissionTypeService" parent="securityAttributeDocTypePermissionTypeService-parentBean"/>	
+	<bean id="securityAttributeDocTypePermissionTypeService-parentBean" class="org.kuali.ole.sec.identity.SecurityAttributeDocTypePermissionTypeServiceImpl" abstract="true" />
+
+    <bean id="securityAttributeNamespacePermissionTypeService" parent="securityAttributeNamespacePermissionTypeService-parentBean"/>	
+	<bean id="securityAttributeNamespacePermissionTypeService-parentBean" class="org.kuali.ole.sec.identity.SecurityAttributeNamespacePermissionTypeServiceImpl" abstract="true" />
+	
+    <bean id="securityAttributeRoleTypeService" parent="securityAttributeRoleTypeService-parentBean"/>	
+	<bean id="securityAttributeRoleTypeService-parentBean" class="org.kuali.ole.sec.identity.SecurityAttributeRoleTypeServiceImpl" abstract="true" />
+	
+	<!-- security lookupables -->
+    <bean id="securityAccountLookupableHelperService" parent="securityAccountLookupableHelperService-parentBean" scope="prototype"/>	
+	<bean id="securityAccountLookupableHelperService-parentBean" class="org.kuali.ole.sec.businessobject.lookup.AccessSecurityAccountLookupableHelperServiceImpl" scope="prototype" parent="accountLookupableHelperService" abstract="true">
+		<property name="accessSecurityService" ref="accessSecurityService" />
+	</bean>	
+
+    <bean id="securityAccountLookupable" parent="securityAccountLookupable-parentBean" scope="prototype"/>	
+	<bean id="securityAccountLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
+		<property name="lookupableHelperService" ref="securityAccountLookupableHelperService" />
+	</bean>
+
+    <bean id="securityLookupableHelperService" parent="securityLookupableHelperService-parentBean" scope="prototype"/>	
+	<bean id="securityLookupableHelperService-parentBean" class="org.kuali.ole.sec.businessobject.lookup.AccessSecurityLookupableHelperServiceImpl" parent="lookupableHelperService" abstract="true">
+		<property name="accessSecurityService" ref="accessSecurityService" />
+	</bean>		
+	
+    <bean id="securityLookupable" parent="securityLookupable-parentBean" scope="prototype"/>		
+	<bean id="securityLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
+		<property name="lookupableHelperService" ref="securityLookupableHelperService" />
+	</bean>
+
+    <bean id="modelMemberLookupableHelperService" parent="modelMemberLookupableHelperService-parentBean" scope="prototype"/>	
+	<bean id="modelMemberLookupableHelperService-parentBean" abstract="true" class="org.kuali.ole.sec.businessobject.lookup.ModelMemberLookupableHelperServiceImpl" parent="lookupableHelperService" />
+
+    <bean id="modelMemberLookupable" parent="modelMemberLookupable-parentBean" scope="prototype"/>
+	<bean id="modelMemberLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
+		<property name="lookupableHelperService" ref="modelMemberLookupableHelperService" />
+	</bean>
+
+    <bean id="accessSecuritySimulationLookupableHelperService" parent="accessSecuritySimulationLookupableHelperService-parentBean" scope="prototype"/>	
+	<bean id="accessSecuritySimulationLookupableHelperService-parentBean" abstract="true" class="org.kuali.ole.sec.businessobject.lookup.AccessSecuritySimulationLookupableHelperServiceImpl" parent="lookupableHelperService">
+		<property name="accessSecurityService" ref="accessSecurityService" />
+		<property name="universityDateService" ref="universityDateService" />
+	</bean>
+
+    <bean id="accessSecuritySimulationLookupable" parent="accessSecuritySimulationLookupable-parentBean" scope="prototype"/>
+	<bean id="accessSecuritySimulationLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
+		<property name="lookupableHelperService" ref="accessSecuritySimulationLookupableHelperService" />
+	</bean>	
+
+    <bean id="securityAccountDelegateModelLookupableHelperService" parent="securityAccountDelegateModelLookupableHelperService-parentBean" scope="prototype"/>	
+	<bean id="securityAccountDelegateModelLookupableHelperService-parentBean" class="org.kuali.ole.sec.businessobject.lookup.AccessSecurityAccountDelegateModelLookupableHelperServiceImpl" parent="lookupableHelperService" abstract="true">
+		<property name="accessSecurityService" ref="accessSecurityService" />
+	</bean>	
+
+    <bean id="securityAccountDelegateModelLookupable" parent="securityAccountDelegateModelLookupable-parentBean" scope="prototype"/>
+	<bean id="securityAccountDelegateModelLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" abstract="true">
+		<property name="lookupableHelperService" ref="securityAccountDelegateModelLookupableHelperService" />
+	</bean>
+
+<!-- 
+    <bean id="securityOrgReviewRoleLookupableHelperService" parent="securityOrgReviewRoleLookupableHelperService-parentBean" scope="prototype"/>    
+    <bean id="securityOrgReviewRoleLookupableHelperService-parentBean" class="org.kuali.ole.sec.businessobject.lookup.AccountSecurityOrgReviewRoleLookupableHelperServiceImpl" parent="orgReviewRoleLookupableHelperService" abstract="true">
+		<property name="accessSecurityService" ref="accessSecurityService" />
+    </bean> 
+
+    <bean id="securityOrgReviewRoleLookupable" parent="securityOrgReviewRoleLookupable-parentBean" scope="prototype"/>    
+    <bean id="securityOrgReviewRoleLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" abstract="true">
+        <property name="lookupableHelperService" ref="securityOrgReviewRoleLookupableHelperService" />       
+    </bean>    
+ -->
+    <import resource="spring-sec-bus-exports.xml"/>    
+</beans>	

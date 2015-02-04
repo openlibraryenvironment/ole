@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bibDocTree>
+    <active>false</active>
+    <fastAdd>false</fastAdd>
+    <public>false</public>
+    <staffOnly>false</staffOnly>
+    <holdingsTrees>
+        <holdingsTree>
+            <active>false</active>
+            <fastAdd>false</fastAdd>
+            <public>false</public>
+            <staffOnly>false</staffOnly>
+            <items>
+                <active>false</active>
+                <category>work</category>
+                <content>&lt;item&gt;
+                    &lt;barcodeARSL&gt;bararsl&lt;/barcodeARSL&gt;
+                    &lt;volumeNumber&gt;123&lt;/volumeNumber&gt;
+                    &lt;enumeration&gt;en&lt;/enumeration&gt;
+                    &lt;chronology&gt;123&lt;/chronology&gt;
+                    &lt;callNumber&gt;
+                    &lt;number&gt;123&lt;/number&gt;
+                    &lt;shelvingScheme&gt;
+                    &lt;codeValue&gt;LCC&lt;/codeValue&gt;
+                    &lt;/shelvingScheme&gt;
+                    &lt;/callNumber&gt;
+                    &lt;staffOnlyFlag&gt;false&lt;/staffOnlyFlag&gt;
+                    &lt;fastAddFlag&gt;false&lt;/fastAddFlag&gt;
+                    &lt;claimsReturnedFlag&gt;false&lt;/claimsReturnedFlag&gt;
+                    &lt;/item&gt;</content>
+                <fastAdd>false</fastAdd>
+                <format>oleml</format>
+                <public>false</public>
+                <staffOnly>false</staffOnly>
+                <type>item</type>
+            </items>
+            <holdings>
+                <active>false</active>
+                <category>work</category>
+                <content>&lt;oleHoldings&gt;
+                    &lt;callNumber&gt;
+                    &lt;number&gt;1234&lt;/number&gt;
+                    &lt;shelvingScheme&gt;
+                    &lt;codeValue&gt;LCC&lt;/codeValue&gt;
+                    &lt;/shelvingScheme&gt;
+                    &lt;/callNumber&gt;
+                    &lt;interLibraryLoanAllowed&gt;false&lt;/interLibraryLoanAllowed&gt;
+                    &lt;staffOnlyFlag&gt;false&lt;/staffOnlyFlag&gt;
+                    &lt;/oleHoldings&gt;</content>
+                <fastAdd>false</fastAdd>
+                <format>oleml</format>
+                <public>false</public>
+                <staffOnly>false</staffOnly>
+                <type>holdings</type>
+                <holdingsType>print</holdingsType>
+            </holdings>
+        </holdingsTree>
+        <holdingsTree>
+            <active>false</active>
+            <fastAdd>false</fastAdd>
+            <public>false</public>
+            <staffOnly>false</staffOnly>
+            <items>
+                <active>false</active>
+                <category>work</category>
+                <content>&lt;item&gt;
+                    &lt;barcodeARSL&gt;bararsl&lt;/barcodeARSL&gt;
+                    &lt;volumeNumber&gt;1234&lt;/volumeNumber&gt;
+                    &lt;enumeration&gt;en&lt;/enumeration&gt;
+                    &lt;chronology&gt;1234&lt;/chronology&gt;
+                    &lt;callNumber&gt;
+                    &lt;number&gt;1234&lt;/number&gt;
+                    &lt;shelvingScheme&gt;
+                    &lt;codeValue&gt;LCC&lt;/codeValue&gt;
+                    &lt;/shelvingScheme&gt;
+                    &lt;/callNumber&gt;
+                    &lt;staffOnlyFlag&gt;false&lt;/staffOnlyFlag&gt;
+                    &lt;fastAddFlag&gt;false&lt;/fastAddFlag&gt;
+                    &lt;claimsReturnedFlag&gt;false&lt;/claimsReturnedFlag&gt;
+                    &lt;/item&gt;</content>
+                <fastAdd>false</fastAdd>
+                <format>oleml</format>
+                <public>false</public>
+                <staffOnly>false</staffOnly>
+                <type>item</type>
+            </items>
+            <holdings>
+                <active>false</active>
+                <category>work</category>
+                <content>&lt;oleHoldings&gt;
+                    &lt;callNumber&gt;
+                    &lt;number&gt;12345&lt;/number&gt;
+                    &lt;shelvingScheme&gt;
+                    &lt;codeValue&gt;LCC&lt;/codeValue&gt;
+                    &lt;/shelvingScheme&gt;
+                    &lt;/callNumber&gt;
+                    &lt;interLibraryLoanAllowed&gt;false&lt;/interLibraryLoanAllowed&gt;
+                    &lt;staffOnlyFlag&gt;false&lt;/staffOnlyFlag&gt;
+                    &lt;/oleHoldings&gt;</content>
+                <fastAdd>false</fastAdd>
+                <format>oleml</format>
+                <public>false</public>
+                <staffOnly>false</staffOnly>
+                <type>holdings</type>
+                <holdingsType>print</holdingsType>
+            </holdings>
+        </holdingsTree>
+    </holdingsTrees>
+    <bibDoc>
+        <active>false</active>
+        <category>work</category>
+        <content>&lt;collection xmlns="http://www.loc.gov/MARC21/slim"&gt;
+            &lt;record&gt;
+            &lt;leader&gt;#####nam#a22######a#4500&lt;/leader&gt;
+            &lt;controlfield tag="001"&gt;&lt;/controlfield&gt;
+            &lt;controlfield tag="003"&gt;OCoLC&lt;/controlfield&gt;
+            &lt;controlfield tag="005"&gt;20090213152530.7&lt;/controlfield&gt;
+            &lt;controlfield tag="008"&gt;131031s########xxu###########000#0#eng#d&lt;/controlfield&gt;
+            &lt;datafield tag="035" ind1=" " ind2=" "&gt;
+            &lt;subfield code="a"&gt;(OCoLC)ocm62378465&lt;/subfield&gt;
+            &lt;/datafield&gt;
+            &lt;datafield tag="040" ind1=" " ind2=" "&gt;
+            &lt;subfield code="a"&gt;DLC&lt;/subfield&gt;
+            &lt;subfield code="c"&gt;DLC&lt;/subfield&gt;
+            &lt;subfield code="d"&gt;DLC&lt;/subfield&gt;
+            &lt;subfield code="d"&gt;HLS&lt;/subfield&gt;
+            &lt;subfield code="d"&gt;IUL&lt;/subfield&gt;
+            &lt;/datafield&gt;
+            &lt;datafield tag="022" ind1=" " ind2=" "&gt;
+            &lt;subfield code="a"&gt;1729-1070|20&lt;/subfield&gt;
+            &lt;/datafield&gt;
+            &lt;datafield tag="029" ind1="1" ind2=" "&gt;
+            &lt;subfield code="a"&gt;AU@|b000040176476&lt;/subfield&gt;
+            &lt;subfield code="b"&gt;000040176476&lt;/subfield&gt;
+            &lt;/datafield&gt;
+            &lt;datafield tag="037" ind1=" " ind2=" "&gt;
+            &lt;subfield code="b"&gt;The Managing Editor, BIAC Journal, P.O. Box 10026, Gaborone, Botswana&lt;/subfield&gt;
+            &lt;/datafield&gt;
+            &lt;datafield tag="042" ind1=" " ind2=" "&gt;
+            &lt;subfield code="a"&gt;lc&lt;/subfield&gt;
+            &lt;/datafield&gt;
+            &lt;datafield tag="043" ind1="1" ind2="0"&gt;
+            &lt;subfield code="a"&gt;f-bs---&lt;/subfield&gt;
+            &lt;/datafield&gt;
+            &lt;datafield tag="050" ind1="0" ind2="0"&gt;
+            &lt;subfield code="a"&gt;HD70.B55|bB53&lt;/subfield&gt;
+            &lt;/datafield&gt;
+            &lt;datafield tag="049" ind1=" " ind2=" "&gt;
+            &lt;subfield code="a"&gt;IULA&lt;/subfield&gt;
+            &lt;/datafield&gt;
+            &lt;datafield tag="210" ind1="1" ind2=" "&gt;
+            &lt;subfield code="a"&gt;BIAC j.&lt;/subfield&gt;
+            &lt;/datafield&gt;
+            &lt;datafield tag="222" ind1=" " ind2="0"&gt;
+            &lt;subfield code="a"&gt;BIAC journal&lt;/subfield&gt;
+            &lt;/datafield&gt;
+            &lt;datafield tag="245" ind1="0" ind2="0"&gt;
+            &lt;subfield code="a"&gt;BIAC journal&lt;/subfield&gt;
+            &lt;/datafield&gt;
+            &lt;datafield tag="246" ind1="1" ind2="3"&gt;
+            &lt;subfield code="a"&gt;Botswana Institute of Administration and Commerce journal&lt;/subfield&gt;
+            &lt;/datafield&gt;
+            &lt;datafield tag="260" ind1=" " ind2=" "&gt;
+            &lt;subfield code="a"&gt;Gaborone, Botswana :|bBotswana Institute of Administration and Commerce&lt;/subfield&gt;
+            &lt;subfield code="b"&gt;Botswana Institute of Administration and Commerce&lt;/subfield&gt;
+            &lt;/datafield&gt;
+            &lt;datafield tag="300" ind1=" " ind2=" "&gt;
+            &lt;subfield code="a"&gt;v. ;&lt;/subfield&gt;
+            &lt;subfield code="c"&gt;24 cm.&lt;/subfield&gt;
+            &lt;/datafield&gt;
+            &lt;datafield tag="300" ind1=" " ind2=" "&gt;
+            &lt;subfield code="a"&gt;v. ;&lt;/subfield&gt;
+            &lt;subfield code="c"&gt;24 cm.&lt;/subfield&gt;
+            &lt;/datafield&gt;
+            &lt;datafield tag="300" ind1=" " ind2=" "&gt;
+            &lt;subfield code="a"&gt;v. ;&lt;/subfield&gt;
+            &lt;subfield code="c"&gt;24 cm.&lt;/subfield&gt;
+            &lt;/datafield&gt;
+            &lt;datafield tag="310" ind1=" " ind2=" "&gt;
+            &lt;subfield code="a"&gt;Semiannual&lt;/subfield&gt;
+            &lt;/datafield&gt;
+            &lt;datafield tag="362" ind1="1" ind2=" "&gt;
+            &lt;subfield code="a"&gt;Began in 2004.&lt;/subfield&gt;
+            &lt;/datafield&gt;
+            &lt;datafield tag="500" ind1=" " ind2=" "&gt;
+            &lt;subfield code="a"&gt;Description based on: Vol. 1, no. 1 (May. 2004); title from cover.&lt;/subfield&gt;
+            &lt;/datafield&gt;
+            &lt;datafield tag="500" ind1=" " ind2=" "&gt;
+            &lt;subfield code="a"&gt;Latest issue consulted: Vol. 3, no. 1 (May 2006).&lt;/subfield&gt;
+            &lt;/datafield&gt;
+            &lt;datafield tag="650" ind1="0" ind2=" "&gt;
+            &lt;subfield code="a"&gt;Industrial management&lt;/subfield&gt;
+            &lt;subfield code="z"&gt;Botswana&lt;/subfield&gt;
+            &lt;subfield code="v"&gt;Periodicals.&lt;/subfield&gt;
+            &lt;/datafield&gt;
+            &lt;datafield tag="650" ind1="0" ind2=" "&gt;
+            &lt;subfield code="a"&gt;Occupational training&lt;/subfield&gt;
+            &lt;subfield code="z"&gt;Botswana&lt;/subfield&gt;
+            &lt;subfield code="v"&gt;Periodicals.&lt;/subfield&gt;
+            &lt;/datafield&gt;
+            &lt;datafield tag="710" ind1="2" ind2=" "&gt;
+            &lt;subfield code="a"&gt;Botswana Institute of Administration and Commerce.&lt;/subfield&gt;
+            &lt;/datafield&gt;
+            &lt;datafield tag="850" ind1=" " ind2=" "&gt;
+            &lt;subfield code="a"&gt;DLC&lt;/subfield&gt;
+            &lt;/datafield&gt;
+            &lt;datafield tag="891" ind1="2" ind2="0"&gt;
+            &lt;subfield code="a"&gt;9853|81.1&lt;/subfield&gt;
+            &lt;subfield code="a"&gt;v.&lt;/subfield&gt;
+            &lt;subfield code="b"&gt;no&lt;/subfield&gt;
+            &lt;subfield code="u"&gt;2&lt;/subfield&gt;
+            &lt;subfield code="v"&gt;r&lt;/subfield&gt;
+            &lt;subfield code="i"&gt;(year)&lt;/subfield&gt;
+            &lt;subfield code="j"&gt;(month)&lt;/subfield&gt;
+            &lt;subfield code="w"&gt;f&lt;/subfield&gt;
+            &lt;subfield code="x"&gt;05&lt;/subfield&gt;
+            &lt;/datafield&gt;
+            &lt;datafield tag="891" ind1="4" ind2="1"&gt;
+            &lt;subfield code="a"&gt;9863|81.1&lt;/subfield&gt;
+            &lt;subfield code="a"&gt;1&lt;/subfield&gt;
+            &lt;subfield code="b"&gt;1&lt;/subfield&gt;
+            &lt;subfield code="i"&gt;2004&lt;/subfield&gt;
+            &lt;subfield code="j"&gt;05&lt;/subfield&gt;
+            &lt;/datafield&gt;
+            &lt;datafield tag="596" ind1=" " ind2=" "&gt;
+            &lt;subfield code="a"&gt;1&lt;/subfield&gt;
+            &lt;/datafield&gt;
+            &lt;/record&gt;
+            &lt;/collection&gt;</content>
+        <fastAdd>false</fastAdd>
+        <format>marc</format>
+        <public>false</public>
+        <staffOnly>false</staffOnly>
+        <type>bibliographic</type>
+    </bibDoc>
+</bibDocTree>

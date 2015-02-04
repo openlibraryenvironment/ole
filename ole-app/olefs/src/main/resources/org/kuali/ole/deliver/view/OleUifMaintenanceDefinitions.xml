@@ -1,0 +1,252 @@
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <bean id="Uif-OleMaintenanceView" abstract="true" parent="Uif-OleMaintenanceView-parentBean"/>
+  <bean id="Uif-OleMaintenanceView-parentBean" abstract="true"
+        class="org.kuali.rice.krad.uif.view.MaintenanceDocumentView" parent="Uif-OleDocumentView">
+    <property name="cssClasses">
+      <list merge="true">
+        <value>uif-maintenanceView</value>
+      </list>
+    </property>
+    <property name="viewTypeName" value="MAINTENANCE"/>
+    <property name="viewName" value="default"/>
+    <property name="viewHelperServiceClass" value="org.kuali.rice.krad.maintenance.MaintainableImpl"/>
+    <property name="presentationControllerClass"
+              value="org.kuali.rice.krad.maintenance.MaintenanceViewPresentationControllerBase"/>
+    <property name="authorizerClass" value="org.kuali.rice.krad.maintenance.MaintenanceViewAuthorizerBase"/>
+    <property name="formClass" value="org.kuali.rice.krad.web.form.MaintenanceDocumentForm"/>
+    <property name="defaultBindingObjectPath" value="document.newMaintainableObject.dataObject"/>
+    <property name="oldObjectBindingPath" value="document.oldMaintainableObject.dataObject"/>
+    <property name="singlePageView" value="true"/>
+    <property name="page">
+      <bean parent="Uif-OleMaintenancePage"/>
+    </property>
+      <property name="breadcrumbOptions.homewardPathBreadcrumbs">
+          <list>
+              <bean parent="Uif-BreadcrumbItem">
+                  <property name="label" value="Home"/>
+                  <property name="url.href" value="@{#ConfigProperties['application.url']}"/>
+              </bean>
+          </list>
+      </property>
+  </bean>
+
+  <bean id="Uif-OleMaintenancePage" abstract="true" parent="Uif-OleMaintenancePage-parentBean"/>
+  <bean id="Uif-OleMaintenancePage-parentBean" parent="Uif-OleDocumentPage">
+    <property name="cssClasses">
+      <list merge="true">
+        <value>uif-maintenancePage</value>
+      </list>
+    </property>
+  </bean>
+
+    <!--Changes Start-->
+
+  <bean id="Uif-OleMaintenanceGridGroup" abstract="true" parent="Uif-OleMaintenanceGridGroup-parentBean"/>
+  <bean id="Uif-OleMaintenanceGridGroup-parentBean" parent="Uif-GridGroup">
+    <property name="layoutManager.numberOfColumns" value="@{maintenanceAction eq 'Edit' ? 3 : 2}"/>
+    <property name="layoutManager.renderFirstRowHeader" value="@{maintenanceAction eq 'Edit'}"/>
+    <property name="componentModifiers">
+      <list merge="true">
+        <bean parent="Uif-OleMaintenanceCompare-Modifier" p:runPhase="APPLY_MODEL"
+              p:runCondition="maintenanceAction eq 'Edit'"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-OleMaintenanceHorizontalBoxGroup" abstract="true" parent="Uif-OleMaintenanceHorizontalBoxGroup-parentBean"/>
+  <bean id="Uif-OleMaintenanceHorizontalBoxGroup-parentBean" parent="Uif-HorizontalBoxGroup">
+    <property name="componentModifiers">
+      <list merge="true">
+        <bean parent="Uif-OleMaintenanceCompare-Modifier" p:runPhase="APPLY_MODEL"
+              p:runCondition="maintenanceAction eq 'Edit'"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-OleMaintenanceVerticalBoxGroup" abstract="true" parent="Uif-OleMaintenanceVerticalBoxGroup-parentBean"/>
+  <bean id="Uif-OleMaintenanceVerticalBoxGroup-parentBean" parent="Uif-VerticalBoxGroup">
+    <property name="componentModifiers">
+      <list merge="true">
+        <bean parent="Uif-OleMaintenanceCompare-Modifier" p:runPhase="APPLY_MODEL"
+              p:runCondition="maintenanceAction eq 'Edit'"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-OleMaintenanceGridSection" abstract="true" parent="Uif-OleMaintenanceGridSection-parentBean"/>
+  <bean id="Uif-OleMaintenanceGridSection-parentBean" parent="Uif-Disclosure-GridSection">
+    <property name="layoutManager.numberOfColumns" value="@{maintenanceAction eq 'Edit' ? 3 : 2}"/>
+    <property name="layoutManager.renderFirstRowHeader" value="@{maintenanceAction eq 'Edit'}"/>
+    <property name="layoutManager.renderRowFirstCellHeader" value="@{maintenanceAction eq 'Edit'}"/>
+    <property name="layoutManager.renderAlternatingHeaderColumns" value="@{!(maintenanceAction eq 'Edit')}"/>
+    <property name="componentModifiers">
+      <list merge="true">
+        <bean parent="Uif-OleMaintenanceCompare-Modifier" p:runPhase="APPLY_MODEL"
+              p:runCondition="maintenanceAction eq 'Edit'"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-OleMaintenanceGridSubSection" abstract="true" parent="Uif-OleMaintenanceGridSubSection-parentBean"/>
+  <bean id="Uif-OleMaintenanceGridSubSection-parentBean" parent="Uif-Disclosure-GridSubSection">
+    <property name="layoutManager.numberOfColumns" value="@{maintenanceAction eq 'Edit' ? 3 : 2}"/>
+    <property name="layoutManager.renderFirstRowHeader" value="@{maintenanceAction eq 'Edit'}"/>
+    <property name="layoutManager.renderRowFirstCellHeader" value="@{maintenanceAction eq 'Edit'}"/>
+    <property name="layoutManager.renderAlternatingHeaderColumns" value="@{!(maintenanceAction eq 'Edit')}"/>
+    <property name="componentModifiers">
+      <list merge="true">
+        <bean parent="Uif-OleMaintenanceCompare-Modifier" p:runPhase="APPLY_MODEL"
+              p:runCondition="maintenanceAction eq 'Edit'"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-OleMaintenanceHorizontalBoxSection" abstract="true"
+        parent="Uif-OleMaintenanceHorizontalBoxSection-parentBean"/>
+  <bean id="Uif-OleMaintenanceHorizontalBoxSection-parentBean" parent="Uif-Disclosure-HorizontalBoxSection">
+    <property name="componentModifiers">
+      <list merge="true">
+        <bean parent="Uif-OleMaintenanceCompare-Modifier" p:runPhase="APPLY_MODEL"
+              p:runCondition="maintenanceAction eq 'Edit'"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-OleMaintenanceVerticalBoxSection" abstract="true" parent="Uif-OleMaintenanceVerticalBoxSection-parentBean"/>
+  <bean id="Uif-OleMaintenanceVerticalBoxSection-parentBean" parent="Uif-Disclosure-VerticalBoxSection">
+    <property name="componentModifiers">
+      <list merge="true">
+        <bean parent="Uif-OleMaintenanceCompare-Modifier" p:runPhase="APPLY_MODEL"
+              p:runCondition="maintenanceAction eq 'Edit'"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-OleMaintenanceHorizontalBoxSubSection" abstract="true"
+        parent="Uif-OleMaintenanceHorizontalBoxSubSection-parentBean"/>
+  <bean id="Uif-OleMaintenanceHorizontalBoxSubSection-parentBean" parent="Uif-Disclosure-HorizontalBoxSubSection">
+    <property name="componentModifiers">
+      <list merge="true">
+        <bean parent="Uif-OleMaintenanceCompare-Modifier" p:runPhase="APPLY_MODEL"
+              p:runCondition="maintenanceAction eq 'Edit'"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-OleMaintenanceVerticalBoxSubSection" abstract="true"
+        parent="Uif-OleMaintenanceVerticalBoxSubSection-parentBean"/>
+  <bean id="Uif-OleMaintenanceVerticalBoxSubSection-parentBean" parent="Uif-Disclosure-VerticalBoxSubSection">
+    <property name="componentModifiers">
+      <list merge="true">
+        <bean parent="Uif-OleMaintenanceCompare-Modifier" p:runPhase="APPLY_MODEL"
+              p:runCondition="maintenanceAction eq 'Edit'"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Uif-OleMaintenanceStackedCollectionSection" abstract="true"
+        parent="Uif-OleMaintenanceStackedCollectionSection-parentBean"/>
+  <bean id="Uif-OleMaintenanceStackedCollectionSection-parentBean" parent="Uif-Disclosure-StackedCollectionSection">
+    <property name="layoutManager.lineGroupPrototype">
+      <bean parent="Uif-CollectionGridItem">
+        <property name="layoutManager.numberOfColumns" value="@{maintenanceAction eq 'Edit' ? 3 : 2}"/>
+        <property name="layoutManager.renderFirstRowHeader" value="@{maintenanceAction eq 'Edit'}"/>
+        <property name="layoutManager.renderRowFirstCellHeader" value="@{maintenanceAction eq 'Edit'}"/>
+        <property name="layoutManager.renderAlternatingHeaderColumns" value="@{!(maintenanceAction eq 'Edit')}"/>
+        <property name="componentModifiers">
+          <list merge="true">
+            <bean parent="Uif-OleMaintenanceCompare-Modifier" p:runPhase="APPLY_MODEL"
+                  p:runCondition="maintenanceAction eq 'Edit'"/>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="activeCollectionFilter">
+      <bean class="org.kuali.rice.krad.uif.container.MaintenanceActiveCollectionFilter"
+            p:oldBindingObjectPath="document.oldMaintainableObject.dataObject"/>
+    </property>
+  </bean>
+
+  <bean id="Uif-OleMaintenanceStackedSubCollection-WithinSection" abstract="true"
+        parent="Uif-OleMaintenanceStackedSubCollection-WithinSection-parentBean"/>
+  <bean id="Uif-OleMaintenanceStackedSubCollection-WithinSection-parentBean"
+        parent="Uif-Disclosure-StackedSubCollection-WithinSection">
+    <property name="layoutManager.lineGroupPrototype">
+      <bean parent="Uif-CollectionGridItem">
+        <property name="layoutManager.numberOfColumns" value="@{maintenanceAction eq 'Edit' ? 3 : 2}"/>
+        <property name="layoutManager.renderFirstRowHeader" value="@{maintenanceAction eq 'Edit'}"/>
+        <property name="layoutManager.renderRowFirstCellHeader" value="@{maintenanceAction eq 'Edit'}"/>
+        <property name="layoutManager.renderAlternatingHeaderColumns" value="@{!(maintenanceAction eq 'Edit')}"/>
+        <property name="componentModifiers">
+          <list merge="true">
+            <bean parent="Uif-MaintenanceCompare-Modifier" p:runPhase="APPLY_MODEL"
+                  p:runCondition="maintenanceAction eq 'Edit'"/>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="activeCollectionFilter">
+      <bean class="org.kuali.rice.krad.uif.container.MaintenanceActiveCollectionFilter"
+            p:oldBindingObjectPath="document.oldMaintainableObject.dataObject"/>
+    </property>
+  </bean>
+
+  <bean id="Uif-OleMaintenanceTableCollectionSection" abstract="true"
+        parent="Uif-OleMaintenanceTableCollectionSection-parentBean"/>
+  <bean id="Uif-OleMaintenanceTableCollectionSection-parentBean" parent="Uif-Disclosure-TableCollectionSection">
+    <property name="activeCollectionFilter">
+      <bean class="org.kuali.rice.krad.uif.container.MaintenanceActiveCollectionFilter"
+            p:oldBindingObjectPath="document.oldMaintainableObject.dataObject"/>
+    </property>
+  </bean>
+
+  <bean id="Uif-OleMaintenanceTableSubCollection-withinSection" abstract="true"
+        parent="Uif-OleMaintenanceTableSubCollection-withinSection-parentBean"/>
+  <bean id="Uif-OleMaintenanceTableSubCollection-withinSection-parentBean"
+        parent="Uif-Disclosure-TableSubCollection-WithinSection">
+    <property name="activeCollectionFilter">
+      <bean class="org.kuali.rice.krad.uif.container.MaintenanceActiveCollectionFilter"
+            p:oldBindingObjectPath="document.oldMaintainableObject.dataObject"/>
+    </property>
+  </bean>
+
+  <bean id="Uif-OleMaintenanceCompare-Modifier" parent="Uif-OleMaintenanceCompare-Modifier-parentBean"/>
+  <bean id="Uif-OleMaintenanceCompare-Modifier-parentBean" abstract="true" parent="Uif-CompareFieldCreate-Modifier">
+    <property name="headerFieldPrototype">
+      <bean parent="Uif-HeaderFour"/>
+    </property>
+    <property name="comparables">
+      <list>
+        <bean parent="Uif-CompareConfig" p:readOnly="true" p:headerText="Old" p:compareToForValueChange="true"
+              p:bindingObjectPath="document.oldMaintainableObject.dataObject"/>
+        <bean parent="Uif-CompareConfig" p:headerText="New"
+              p:bindingObjectPath="document.newMaintainableObject.dataObject"/>
+      </list>
+    </property>
+    <property name="generateCompareHeaders" value="true"/>
+  </bean>
+
+    <!--Changes end-->
+
+</beans>

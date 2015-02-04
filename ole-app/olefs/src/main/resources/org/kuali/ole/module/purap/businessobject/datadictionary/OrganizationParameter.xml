@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+<!--
+ Copyright 2006-2008 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean id="OrganizationParameter" parent="OrganizationParameter-parentBean"/>
+
+  <bean id="OrganizationParameter-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.ole.module.purap.businessobject.OrganizationParameter"/>
+    <property name="inquiryDefinition">
+      <ref bean="OrganizationParameter-inquiryDefinition"/>
+    </property>
+    <property name="lookupDefinition">
+      <ref bean="OrganizationParameter-lookupDefinition"/>
+    </property>
+    <property name="titleAttribute" value="organizationAutomaticPurchaseOrderLimit"/>
+    <property name="objectLabel" value="Organization Parameter"/>
+    <property name="attributes">
+      <list>
+        <ref bean="OrganizationParameter-chartOfAccountsCode"/>
+        <ref bean="OrganizationParameter-organizationCode"/>
+        <ref bean="OrganizationParameter-organizationAutomaticPurchaseOrderLimit"/>
+        <ref bean="OrganizationParameter-activeIndicator"/>
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="OrganizationParameter-chartOfAccountsCode" parent="OrganizationParameter-chartOfAccountsCode-parentBean"/>
+
+  <bean id="OrganizationParameter-chartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+  </bean>
+  <bean id="OrganizationParameter-organizationCode" parent="OrganizationParameter-organizationCode-parentBean"/>
+
+  <bean id="OrganizationParameter-organizationCode-parentBean" abstract="true" parent="Organization-organizationCode">
+  </bean>
+  <bean id="OrganizationParameter-organizationAutomaticPurchaseOrderLimit" parent="OrganizationParameter-organizationAutomaticPurchaseOrderLimit-parentBean"/>
+
+  <bean id="OrganizationParameter-organizationAutomaticPurchaseOrderLimit-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    <property name="name" value="organizationAutomaticPurchaseOrderLimit"/>
+    <property name="label" value="Organization APO Limit"/>
+    <property name="shortLabel" value="Organization APO Limit"/>
+    <property name="required" value="false"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
+  </bean>
+
+  <bean id="OrganizationParameter-activeIndicator" parent="OrganizationParameter-activeIndicator-parentBean"/>
+  
+  <bean id="OrganizationParameter-activeIndicator-parentBean" abstract="true" parent="GenericAttributes-activeIndicator"/>
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="OrganizationParameter-inquiryDefinition" parent="OrganizationParameter-inquiryDefinition-parentBean"/>
+
+  <bean id="OrganizationParameter-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Organization Parameter Inquiry"/>
+    <property name="inquirySections">
+      <list>
+		<ref bean="OrganizationParameter-inquirySectionDefinition"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="OrganizationParameter-inquirySectionDefinition" parent="OrganizationParameter-inquirySectionDefinition-parentBean"/>
+  <bean id="OrganizationParameter-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationCode"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationAutomaticPurchaseOrderLimit"/>
+        <bean parent="FieldDefinition" p:attributeName="activeIndicator"/>
+      </list>
+    </property>
+  </bean>
+        
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="OrganizationParameter-lookupDefinition" parent="OrganizationParameter-lookupDefinition-parentBean"/>
+
+  <bean id="OrganizationParameter-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Organization Parameter Lookup"/>
+    
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationCode"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationAutomaticPurchaseOrderLimit"/>
+        <bean parent="FieldDefinition" p:attributeName="activeIndicator"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationCode"/>
+        <bean parent="FieldDefinition" p:attributeName="organizationAutomaticPurchaseOrderLimit"/>
+        <bean parent="FieldDefinition" p:attributeName="activeIndicator"/>
+      </list>
+    </property>
+  </bean>
+</beans>

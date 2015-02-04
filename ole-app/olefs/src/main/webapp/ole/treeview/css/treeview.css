@@ -1,0 +1,52 @@
+.treeview, .treeview ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.treeview ul {
+    background-color: white;
+    margin-top: 4px;
+}
+
+.treeview .hitarea {
+    background: url(../images/treeview-default.gif) -64px -25px no-repeat !important;
+    height: 16px;
+    width: 16px;
+    margin-left: -16px;
+    float: left;
+    cursor: pointer;
+}
+
+* html .hitarea {
+    display: inline;
+    float:none;
+}
+
+.treeview li {
+    margin: 0;
+    padding: 3px 0pt 3px 16px !important;
+}
+
+.treeview a.selected {
+    background-color: #eee;
+}
+
+.treeview .hover { color: red !important; cursor: pointer !important; }
+.treeview li { background: url(../images/treeview-default-line.gif) 0 0 no-repeat !important; }
+.treeview li.collapsable, .treeview li.expandable { background-position: 0 -176px!important; }
+.treeview .expandable-hitarea { background-position: -80px -3px !important; }
+.treeview li.last { background-position: 0 -1766px !important; }
+.treeview li.lastCollapsable, .treeview li.lastExpandable { background-image: url(../images/treeview-default.gif)!important; }
+.treeview li.lastCollapsable { background-position: 0 -111px !important; }
+.treeview li.lastExpandable { background-position: -32px -67px !important; }
+.treeview div.lastCollapsable-hitarea, .treeview div.lastExpandable-hitarea { background-position: 0 !important; }
+
+.kr-breadcrumbs ol, li{
+    display: block !important;
+}
+
+ul.basic-navigation li.basic-element a{
+    display: block !important;
+    padding: 0px 21px 5px 3px;
+}

@@ -1,0 +1,660 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="OLEBatchProcessDefinitionView" parent="BP-Uif-TransactionalDocumentView">
+        <property name="headerText" value="Batch Process"/>
+        <property name="formClass" value="org.kuali.ole.batch.form.OLEBatchProcessDefinitionForm"/>
+        <property name="documentClass" value="org.kuali.ole.batch.document.OLEBatchProcessDefinitionDocument"/>
+        <property name="items">
+            <list>
+                <ref bean="OLEBatchProcessDefinition-MainPage"/>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>ole/batch/script/batch.js</value>
+            </list>
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>ole/batch/css/batch.css</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="BP-Uif-TransactionalDocumentView" abstract="true" parent="BP-Uif-TransactionalDocumentView-parentBean"/>
+    <bean id="BP-Uif-TransactionalDocumentView-parentBean" abstract="true"
+          class="org.kuali.rice.krad.uif.view.TransactionalDocumentView" parent="BP-Uif-DocumentView">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-transactionalView</value>
+            </list>
+        </property>
+        <property name="viewTypeName" value="TRANSACTIONAL"/>
+        <property name="viewName" value="default"/>
+        <property name="presentationControllerClass"
+                  value="org.kuali.rice.krad.document.TransactionalDocumentViewPresentationControllerBase"/>
+        <property name="authorizerClass" value="org.kuali.rice.krad.document.TransactionalDocumentViewAuthorizerBase"/>
+        <property name="formClass" value="org.kuali.rice.krad.web.form.TransactionalDocumentFormBase"/>
+    </bean>
+
+    <bean id="BP-Uif-DocumentView" abstract="true" parent="BP-Uif-DocumentView-parentBean"/>
+    <!--<bean id="BP-Uif-DocumentView-parentBean" abstract="true"
+          class="org.kuali.rice.krad.uif.view.DocumentView" parent="Uif-FormView-KnsTheme">-->
+    <bean id="BP-Uif-DocumentView-parentBean" abstract="true"
+          class="org.kuali.rice.krad.uif.view.DocumentView" parent="Uif-OLEFormView">
+    <property name="help">
+        <bean parent="Uif-Help">
+            <property name="externalHelpUrl"
+                      value="${ole.externalizable.help.url}/reference/webhelp/ADMIN/content/ch01s02.html"/>
+            <property name="tooltipHelpContent" value="[Help] help"/>
+        </bean>
+    </property>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-documentView</value>
+            </list>
+        </property>
+        <property name="viewTypeName" value="DOCUMENT"/>
+        <property name="formClass" value="org.kuali.rice.krad.web.form.DocumentFormBase"/>
+        <property name="defaultBindingObjectPath" value="document"/>
+        <property name="presentationControllerClass"
+                  value="org.kuali.rice.krad.document.DocumentViewPresentationControllerBase"/>
+        <property name="authorizerClass" value="org.kuali.rice.krad.document.DocumentViewAuthorizerBase"/>
+        <property name="viewHelperServiceClass"
+                  value="org.kuali.rice.krad.uif.service.impl.DocumentViewHelperServiceImpl"/>
+        <property name="header">
+            <bean parent="Uif-DocumentViewHeader"/>
+        </property>
+    </bean>
+
+    <bean id="BP-Uif-DocumentPage" parent="Uif-Disclosure-Page">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-documentPage</value>
+            </list>
+        </property>
+        <property name="defaultItemPosition" value="11"/>
+        <property name="items">
+            <list>
+            </list>
+        </property>
+        <property name="footer">
+            <bean parent="BP-Uif-DocumentPageFooter"/>
+        </property>
+    </bean>
+
+    <bean id="BP-Uif-DocumentPageFooter" parent="Uif-FooterBase">
+        <property name="items">
+            <list>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchProcessDefinition-MainPage" parent="BP-Uif-DocumentPage">
+        <property name="items">
+            <list merge="true">
+                <ref bean="BatchMessageSection"/>
+                <ref bean="OLEBatchProcessDefinition-batchProcessView"/>
+                <ref bean="OLEBatchProcessDefinitionView-Buttons"/>
+                <ref bean="OLEBatchProcessDefinitionView-CloseButton"/>
+                <ref bean="MessagePopupSectionForInvoiceImport-HorizontalBoxSection"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="BatchMessageSection" parent="Uif-VerticalBoxSection"
+          p:render="@{document.message ne null and document.message ne ''}">
+        <property name="items">
+            <list>
+                <bean id="BatchMessageFieldSection" parent="Uif-MessageField" p:messageText="@{document.message}"
+                      p:cssClasses="messageClass"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchProcessDefinition-batchProcessView"
+          parent="OLEBatchProcessDefinition-batchProcessView-parentBean"/>
+    <bean id="OLEBatchProcessDefinition-batchProcessView-parentBean" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <ref bean="BatchProcessDefinitionView-batchProcessMainSection"/>
+                <ref bean="BatchProcessDefinition-output"/>
+                <ref bean="RunNow_Schedule_Button"/>
+                <ref bean="BatchProcessDefinition-Buttons"/>
+                <ref bean="BatchProcessDefinition-close"/>
+                <ref bean="BatchProcessDefinition-schedule"/>
+                <ref bean="BatchProcessDefinition-input"/>
+                <ref bean="BatchProcessDefinition-inputForSerialImport"/>
+                <ref bean="BatchProcessDefinition-inputForOrderRecord"/>
+                <ref bean="SerialImport-InputXMLFile"/>
+                <ref bean="SerialImport-InputCSVFile"/>
+                <ref bean="MaximumPageSizeWindow-HorizontalBoxSection"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="BatchProcessDefinitionView-batchProcessMainSection" parent="Uif-VerticalBoxSection">
+        <property name="headerText" value="Batch Process Section"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2">
+                    <property name="items">
+                        <list>
+                            <bean id="BatchProcessDefinition-batchProcessName" parent="Uif-InputField"
+                                  p:propertyName="batchProcessName" p:label="Batch Process Name" p:readOnly="@{document.batchProcessId ne null}">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="30" p:maxLength="40"/>
+                                </property>
+                            </bean>
+                            <bean id="BatchProcessDefinition-batchProcessProfileName" parent="Uif-InputField"
+                                  p:propertyName="batchProcessProfileName" p:label="Batch Process Profile Name" p:readOnly="@{document.batchProcessId ne null}" p:render="@{permissionFlag}">
+                                <property name="quickfinder">
+                                    <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.batch.bo.OLEBatchProcessProfileBo"
+                                          p:fieldConversions="batchProcessProfileId:batchProcessProfileId,batchProcessProfileName:batchProcessProfileName,batchProcessProfileType:batchProcessType,krmsProfileName:batchProcessKRMSProfile,marcOnly:marcOnly"/>
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="30" p:maxLength="40" p:disabled="true"/>
+                                </property>
+                            </bean>
+                            <bean id="BatchProcessDefinition-batchProcessType" parent="Uif-InputField"
+                                  p:propertyName="batchProcessType" p:label="Batch Process Type" p:readOnly="true">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="30" p:maxLength="40"/>
+                                </property>
+                            </bean>
+                            <bean id="BatchProcessDefinition-batchProcessKRMSProfile" parent="Uif-InputField"
+                                  p:propertyName="batchProcessKRMSProfile" p:label="Batch Process KRMS Profile"
+                                  p:readOnly="true" p:render="@{document.batchProcessType eq 'Order Record Import'}">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="30" p:maxLength="40"/>
+                                </property>
+                            </bean>
+
+                            <bean id="chunkSizeField" parent="Uif-InputField" p:propertyName="chunkSize"
+                                  p:defaultValue="1000" p:readOnly="@{document.batchProcessId ne null}"/>
+
+                            <bean id="emailField" parent="Uif-InputField" p:propertyName="emailIds" p:readOnly="@{document.batchProcessId ne null}" p:constraintText="Please enter multiple email id's separated by comma (,)"/>
+                            <bean id="BatchProcessDefinition-patron-input" parent="Uif-InputField"  p:label="Add unmatched patrons" p:propertyName="addUnmatchedPatron" p:readOnly="@{document.batchProcessId ne null}" p:render="@{document.batchProcessType eq 'Patron Import'}">
+                                <property name="control">
+                                    <bean parent="Uif-CheckboxControl"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="BatchProcessDefinition-input" parent="Uif-VerticalBoxSection"
+          p:render="@{(document.batchProcessType eq 'Bib Import' or document.batchProcessType eq 'GOKB Import' or document.batchProcessType eq 'Patron Import' or document.batchProcessType eq 'Location Import' or document.batchProcessType eq 'Batch Delete' or document.batchProcessType eq 'Invoice Import' or document.loadIdFromFile eq 'true')}" p:layoutManager.style="border:1px solid;"
+          p:layoutManager.cssClasses="fl-container-flex">
+        <property name="headerText" value="Input Section"/>
+        <property name="items">
+            <list>
+                <bean id="ingestInputFile" parent="Uif-InputField" p:style="float:left;margin-left:45em"
+                      p:propertyName="ingestedFile" p:label="Upload File" p:render="@{document.batchProcessId eq null}" p:readOnly="@{document.batchProcessId ne null}">
+                    <property name="control">
+                        <bean parent="Uif-FileControl" p:size="40"/>
+                    </property>
+                </bean>
+
+                <bean id="ingestInputFileName" p:style="float:left;margin-left:50em" p:label="Upload File"  parent="Uif-InputField" p:propertyName="uploadFileName" p:render="@{document.batchProcessId ne null}" p:readOnly="true"/>
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="BatchProcessDefinition-inputForOrderRecord" parent="Uif-VerticalBoxSection"
+          p:render="@{(document.batchProcessType eq 'Order Record Import')}"
+          p:layoutManager.style="border:1px solid;" p:layoutManager.cssClasses="fl-container-flex">
+        <property name="headerText" value="Input Section"/>
+        <property name="items">
+            <list>
+                <bean id="marcFileField" parent="Uif-InputField" p:style="float:left;margin-left:45em"
+                      p:propertyName="marcFile" p:label="Upload Marc File" p:render="@{document.batchProcessId eq null}" p:readOnly="@{document.batchProcessId ne null}">
+                    <property name="control">
+                        <bean parent="Uif-FileControl" p:size="40"/>
+                    </property>
+                </bean>
+
+                <bean id="mrcInputFileName" p:style="float:left;margin-left:50em" p:label="Upload Marc File"  parent="Uif-InputField" p:propertyName="marcFileName" p:render="@{document.batchProcessId ne null}" p:readOnly="true"/>
+
+                <bean id="ediFileField" parent="Uif-InputField" p:style="float:left;margin-left:45em"
+                      p:propertyName="ediFile" p:label="Upload Edi File" p:render="@{document.batchProcessId eq null and !marcOnly}" p:readOnly="@{document.batchProcessId ne null}">
+                    <property name="control">
+                        <bean parent="Uif-FileControl" p:size="40"/>
+                    </property>
+                </bean>
+
+                <bean id="ediInputFileName" p:style="float:left;margin-left:50em" p:label="Upload Edi File"  parent="Uif-InputField" p:propertyName="ediFileName" p:render="@{document.batchProcessId ne null and !marcOnly}" p:readOnly="true"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="BatchProcessDefinition-output" parent="Uif-VerticalBoxSection"
+          p:render="@{document.batchProcessType eq 'Batch Export'}" p:layoutManager.style="border:1px solid;"
+          p:layoutManager.cssClasses="fl-container-flex">
+        <property name="headerText" value="Output Section"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2">
+                    <property name="items">
+                        <list>
+                            <bean id="outputField" parent="Uif-InputField" p:propertyName="outputFormat" p:render="@{document.batchProcessId eq null}" p:readOnly="@{document.batchProcessId ne null}">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="Marc" p:value="Marc"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="MarcXml" p:value="MarcXML"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+
+               <!--             <bean id="maxNumberOfThreads" parent="Uif-InputField" p:propertyName="maxNumberOfThreads"
+                                  p:defaultValue="10" p:readOnly="@{document.batchProcessId ne null}"/>   -->
+
+                            <bean id="maxRecordsInFileField" parent="Uif-InputField" p:propertyName="maxRecordsInFile"
+                                  p:defaultValue="100000" p:readOnly="@{document.batchProcessId ne null}"/>
+
+
+                            <bean id="outputFormatField" parent="Uif-InputField" p:propertyName="outputFormat" p:render="@{document.batchProcessId ne null}" p:readOnly="true"/>
+
+                            <bean id="outputFileField" parent="Uif-InputField"
+                                  p:propertyName="destinationDirectoryPath" p:render="@{document.batchProcessId eq null}" p:readOnly="@{document.batchProcessId ne null}"/>
+
+                            <bean id="outputFilePath" parent="Uif-InputField" p:propertyName="destinationDirectoryPath" p:render="@{document.batchProcessId ne null}" p:readOnly="true"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="BatchProcessDefinition-inputForSerialImport" parent="Uif-VerticalBoxSection"
+          p:render="@{(document.batchProcessType eq 'Serial Record Import')}" p:layoutManager.style="border:1px solid;"
+          p:layoutManager.cssClasses="fl-container-flex">
+        <property name="headerText" value="Input Section"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2">
+                    <property name="items">
+                        <list>
+                            <bean id="inputField" parent="Uif-InputField" p:propertyName="inputFormat" p:label="Input Format" p:render="@{document.batchProcessId eq null}" p:readOnly="@{document.batchProcessId ne null}">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="" p:value=""/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="XML" p:value="XML"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="CSV" p:value="CSV"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="SerialImport-InputXMLFile" parent="Uif-VerticalBoxSection" p:progressiveRenderAndRefresh="true"
+          p:progressiveRender="@{#form.document.inputFormat eq 'XML'}">
+        <property name="items">
+            <list>
+                            <bean id="inputXMLFile" parent="Uif-InputField" p:style="float:left;margin-left:45em"
+                                  p:propertyName="ingestedFile" p:label="Upload Xml File" p:render="@{document.batchProcessId eq null}" p:readOnly="@{document.batchProcessId ne null}">
+                                <property name="control">
+                                    <bean parent="Uif-FileControl" p:size="40"/>
+                                </property>
+                            </bean>
+
+                            <bean id="inputXMLFileName" p:style="float:left;margin-left:50em" p:label="Upload Xml File"  parent="Uif-InputField" p:propertyName="uploadFileName" p:render="@{document.batchProcessId ne null}" p:readOnly="true"/>
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="SerialImport-InputCSVFile" parent="Uif-VerticalBoxSection" p:progressiveRenderAndRefresh="true"
+          p:progressiveRender="@{#form.document.inputFormat eq 'CSV'}">
+        <property name="items">
+            <list>
+
+                            <bean id="inputCSVFile1" parent="Uif-InputField" p:style="float:left;margin-left:45em" p:required="true"
+                                  p:propertyName="serialRecordDocumentFile" p:label="Upload Serial Receiving Record Csv File" p:render="@{document.batchProcessId eq null}" p:readOnly="@{document.batchProcessId ne null}">
+                                <property name="control">
+                                    <bean parent="Uif-FileControl" p:size="40"/>
+                                </property>
+                            </bean>
+
+                            <bean id="ingestInputFileName1" p:style="float:left;margin-left:50em" p:label="Upload Serial Receiving Record Csv File"  parent="Uif-InputField" p:propertyName="serialRecordDocumentFileName" p:render="@{document.batchProcessId ne null}" p:readOnly="true"/>
+
+                            <bean id="inputCSVFile2" parent="Uif-InputField" p:style="float:left;margin-left:45em"
+                                  p:propertyName="serialRecordTypeFile" p:label="Upload Serial Receiving Type Csv File" p:render="@{document.batchProcessId eq null}" p:readOnly="@{document.batchProcessId ne null}">
+                                <property name="control">
+                                    <bean parent="Uif-FileControl" p:size="40"/>
+                                </property>
+                            </bean>
+
+                            <bean id="ingestInputFileName2" p:style="float:left;margin-left:50em" p:label="Upload Serial Receiving Type Csv File"  parent="Uif-InputField" p:propertyName="serialRecordTypeFileName" p:render="@{document.batchProcessId ne null}" p:readOnly="true"/>
+
+                            <bean id="inputCSVFile3" parent="Uif-InputField" p:style="float:left;margin-left:45em"
+                                  p:propertyName="serialRecordHistoryFile" p:label="Upload Serial Record History Csv File" p:render="@{document.batchProcessId eq null}" p:readOnly="@{document.batchProcessId ne null}">
+                                <property name="control">
+                                    <bean parent="Uif-FileControl" p:size="40"/>
+                                </property>
+                            </bean>
+
+                            <bean id="ingestInputFileName3" p:style="float:left;margin-left:50em" p:label="Upload Serial Record History Csv File"  parent="Uif-InputField" p:propertyName="serialRecordHistoryFileName" p:render="@{document.batchProcessId ne null}" p:readOnly="true"/>
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="BatchProcessDefinition-Buttons" parent="Uif-HorizontalBoxSection" p:render="@{permissionFlag}">
+        <property name="items">
+            <list>
+                <!--<bean id="runNowButton" parent="Uif-PrimaryActionButton" p:style="float:left;margin-left:50em" p:methodToCall="runNow" p:actionLabel="Run Now"/>
+                <bean id="scheduleButton" parent="Uif-PrimaryActionButton" p:style="float:left;margin-left:2em"
+                      p:methodToCall="schedule" p:actionLabel="Schedule"/>-->
+                <bean id="hdnScheduleFlag" parent="Uif-InputField" p:propertyName="scheduleFlag" p:hidden="true"/>
+                <bean id="hdnRescheduleFlag" parent="Uif-InputField" p:propertyName="rescheduleFlag" p:hidden="true"/>
+                <bean id="hdnRunNowFlag" parent="Uif-InputField" p:propertyName="runNowFlag" p:hidden="true"/>
+                <bean id="hdnAfterSubmitFlag" parent="Uif-InputField" p:propertyName="afterSubmitFlag" p:hidden="true"/>
+                <bean id="hdnJobDetails" parent="Uif-InputField" p:propertyName="linkToJob" p:hidden="true"/>
+                <bean id="hdn" parent="Uif-InputField" p:propertyName="fileFlag" p:hidden="true"/>
+                <bean id="hdnfla" parent="Uif-InputField" p:propertyName="continueImportFlag" p:hidden="true"/>
+
+                <bean id="hdn_runNow_button" parent="Uif-SecondaryActionButton-Small" p:methodToCall="runNowRoute" p:hidden="true" p:ajaxSubmit="true" p:successCallback="openJobDetails()"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="BatchProcessDefinition-close"  parent="Uif-HorizontalBoxSection" p:render="@{!permissionFlag}">
+        <property name="items">
+            <list>
+                <bean parent="Uif-PrimaryActionButton" p:style="float:left;margin-left:50em" p:methodToCall="close" p:actionLabel="close"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="RunNow_Schedule_Button" parent="Uif-VerticalBoxSection" >
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2">
+                    <property name="items">
+                        <list>
+                            <bean id="RunNow_Schedule" parent="Uif-InputField"
+                                  p:propertyName="document.runNowOrSchedule" p:onClickScript="selectRunNowOrSchedule()" >
+                                <property name="bindingInfo.bindToForm" value="true"/>
+                                <property name="control">
+                                    <bean parent="Uif-HorizontalRadioControl">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="RunNow" p:value="Run Now" />
+                                                <bean parent="Uif-KeyLabelPair" p:key="Scheduled" p:value="Schedule"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="BatchProcessDefinition-schedule" parent="Uif-VerticalBoxSection" p:render="@{document.scheduleFlag}"  p:readOnly="@{document.rescheduleFlag}"
+          p:layoutManager.cssClasses="fl-container-flex"
+          p:layoutManager.style="border:1px solid;" p:progressiveRenderViaAJAX="true" p:progressiveRender="@{#form.document.runNowOrSchedule eq 'Scheduled'}" >
+        <property name="headerText" value="Schedule"/>
+        <property name="items">
+            <list>
+                <ref bean="Schedule-provideCronExp"/>
+                <ref bean="Schedule-oneTimeOrRecurring"/>
+                <ref bean="Schedule-cronExpField"/>
+                <ref bean="Schedule-DateField"/>
+                <ref bean="Schedule-timeField"/>
+                <ref bean="Schedule-RadioButtons"/>
+                <ref bean="Schedule-startTimeField"/>
+                <ref bean="Schedule-WeeklyOption"/>
+                <ref bean="Schedule-MonthlyOption"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Schedule-provideCronExp" parent="Uif-InputField" p:propertyName="document.cronOrSchedule" p:style="float:left;margin-left:50em">
+        <property name="bindingInfo.bindToForm" value="true"/>
+        <property name="control">
+            <bean parent="Uif-HorizontalRadioControl">
+                <property name="options">
+                    <list>
+                        <bean parent="Uif-KeyLabelPair" p:key="ProvidedCron" p:value="Provide Cron Expression"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="Scheduled" p:value="Schedule"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="Schedule-cronExpField" parent="Uif-InputField" p:propertyName="enteredCronExp"
+          p:label="Enter Cron Expression" p:progressiveRenderAndRefresh="true"
+          p:progressiveRender="@{#form.document.cronOrSchedule eq 'ProvidedCron'}" p:style="float:left;margin-left:50em"/>
+
+    <bean id="Schedule-oneTimeOrRecurring" parent="Uif-InputField" p:propertyName="document.oneTimeOrRecurring"
+          p:progressiveRenderAndRefresh="true" p:progressiveRender="@{#form.document.cronOrSchedule eq 'Scheduled'}" p:style="float:left;margin-left:50em">
+        <property name="bindingInfo.bindToForm" value="true"/>
+        <property name="control">
+            <bean parent="Uif-HorizontalRadioControl">
+                <property name="options">
+                    <list>
+                        <bean parent="Uif-KeyLabelPair" p:key="onetime" p:value="One Time"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="recurring" p:value="Recurring"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="Schedule-DateField" parent="Uif-InputField" p:propertyName="oleBatchProcessScheduleBo.oneTimeDate"
+          p:label="Date" p:progressiveRenderAndRefresh="true"
+          p:progressiveRender="@{#form.document.cronOrSchedule eq 'Scheduled' and #form.document.oneTimeOrRecurring eq 'onetime'}"
+          p:style="float:left;margin-left:50em"  >
+        <property name="control">
+            <bean parent="Uif-DateControl" p:size="10"/>
+        </property>
+    </bean>
+    <bean id="Schedule-timeField" parent="Uif-InputField" p:propertyName="oleBatchProcessScheduleBo.oneTimeStartTime"
+          p:instructionalText="Enter Time in 24HR Format" p:progressiveRenderAndRefresh="true"
+          p:progressiveRender="@{#form.document.cronOrSchedule eq 'Scheduled' and #form.document.oneTimeOrRecurring eq 'onetime'}"
+          p:style="float:left;margin-left:50em">
+        <property name="control">
+            <bean parent="Uif-TextControl" p:size="12" p:watermarkText="HH:MM"/>
+        </property>
+    </bean>
+
+    <bean id="Schedule-RadioButtons" parent="Uif-InputField" p:propertyName="document.scheduleType" p:label="Schedule Type"
+          p:progressiveRenderAndRefresh="true"
+          p:progressiveRender="@{#form.document.cronOrSchedule eq 'Scheduled' and #form.document.oneTimeOrRecurring eq 'recurring'}"
+          p:style="float:left;margin-left:50em">
+        <property name="bindingInfo.bindToForm" value="true"/>
+        <property name="control">
+            <bean parent="Uif-HorizontalRadioControl">
+                <property name="options">
+                    <list>
+                        <bean parent="Uif-KeyLabelPair" p:key="Daily" p:value="Daily"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="Weekly" p:value="Weekly"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="Monthly" p:value="Monthly"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="Schedule-startTimeField" parent="Uif-InputField" p:propertyName="oleBatchProcessScheduleBo.startTime"
+          p:instructionalText="Enter Time in 24HR Format" p:progressiveRenderAndRefresh="true"
+          p:progressiveRender="@{#form.document.cronOrSchedule eq 'Scheduled' and #form.document.oneTimeOrRecurring eq 'recurring'
+          and (#form.document.scheduleType eq 'Daily' or #form.document.scheduleType eq 'Weekly'
+          or #form.document.scheduleType eq 'Monthly')}" p:style="float:left;margin-left:50em">
+        <property name="control">
+            <bean parent="Uif-TextControl" p:size="12" p:watermarkText="HH:MM"/>
+        </property>
+    </bean>
+
+    <bean id="Schedule-WeeklyOption" parent="Uif-HorizontalBoxSection" p:style="float:left;margin-left:45em;width:300px"
+          p:layoutManager.cssClasses="fl-container-flex"
+          p:layoutManager.style="border:1px solid;" p:progressiveRenderAndRefresh="true"
+          p:progressiveRender="@{#form.document.cronOrSchedule eq 'Scheduled' and #form.document.oneTimeOrRecurring eq 'recurring'
+          and #form.document.scheduleType eq 'Weekly'}" >
+        <property name="headerText" value="Select Days of Week"/>
+        <property name="items">
+            <list>
+                <ref bean="weekDaysField"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="weekDaysField" parent="Uif-InputField-LabelTop" p:propertyName="oleBatchProcessScheduleBo.weekDaysList"
+          p:label="Week days" p:style="float:left;margin-left:9em">
+        <property name="control">
+            <bean parent="Uif-VerticalCheckboxesControl">
+                <property name="options">
+                    <list>
+                        <bean parent="Uif-KeyLabelPair" p:key="MON" p:value="Monday"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="TUE" p:value="Tuesday"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="WED" p:value="Wednesday"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="THU" p:value="Thursday"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="FRI" p:value="Friday"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="SAT" p:value="Saturday"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="SUN" p:value="Sunday"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="Schedule-MonthlyOption" parent="Uif-HorizontalBoxSection" p:style="float:left;margin-left:40em;width:650px"
+          p:layoutManager.cssClasses="fl-container-flex"
+          p:layoutManager.style="border:1px solid;" p:progressiveRenderAndRefresh="true"
+          p:progressiveRender="@{#form.document.cronOrSchedule eq 'Scheduled' and #form.document.oneTimeOrRecurring eq 'recurring'
+          and #form.document.scheduleType eq 'Monthly'}">
+        <property name="headerText" value="Select Day of Month"/>
+        <property name="items">
+            <list>
+                <bean id="dayFieldSection" parent="Uif-MessageField" p:messageText="Day " />
+                <bean id="weekNumberField" parent="Uif-InputField" p:propertyName="oleBatchProcessScheduleBo.dayNumber"
+                      p:defaultValue="">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessMonthValuesFinder"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-11-select"/>
+                    </property>
+                </bean>
+
+                <bean id="ofEveryFieldSection" parent="Uif-MessageField" p:messageText="of every"
+                        />
+                <bean id="monthNumberField" parent="Uif-InputField"
+                      p:propertyName="oleBatchProcessScheduleBo.monthNumber">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="2" p:maxLength="5"/>
+                    </property>
+                </bean>
+                <bean id="monthsFieldSection" parent="Uif-MessageField" p:messageText="Month(s)."
+                        />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchProcessDefinitionView-Buttons" parent="Uif-HorizontalBoxSection"
+          p:render="@{!(document.batchProcessType eq null or document.batchProcessType eq '' or document.afterSubmitFlag)}"
+          p:progressiveRenderViaAJAX="true" >
+        <property name="items">
+            <list>
+                <bean id="BP-Uif-SubmitAction" parent="Uif-PrimaryActionButton" p:style="float:left;margin-left:45em"
+                     p:actionLabel="Submit" p:actionScript="validateUploadFileSize('@{document.batchProcessType}');"/>
+                <bean id="Hdn_BP-Uif-SubmitAction" parent="Uif-PrimaryActionButton"
+                      p:ajaxSubmit="false" p:methodToCall="route" p:actionLabel="Submit"
+                      p:performClientSideValidation="true" p:hidden="true"/>
+                <bean id="BP-Uif-SaveAction" parent="Uif-PrimaryActionButton" p:style="float:left;margin-left:0em"
+                      p:ajaxSubmit="false" p:methodToCall="save" p:actionLabel="Save"
+                      p:performClientSideValidation="true"
+                      p:loadingMessageText="Saving..." p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}"
+                      p:progressiveRender="@{#form.document.runNowOrSchedule eq 'Scheduled'}" />
+                <bean id="BP-Uif-CloseAction" parent="Uif-PrimaryActionButton" p:methodToCall="close"
+                      p:actionLabel="Close" p:performDirtyValidation="true" p:id="uclose"/>
+                <bean parent="Uif-PrimaryActionButton" p:style="float:left;margin-left:0em" p:methodToCall="clear"
+                      p:actionLabel="Clear"/>
+                <bean id="Uif-CancelAction" parent="Uif-PrimaryActionButton" p:methodToCall="cancel"
+                      p:actionLabel="Cancel" p:performDirtyValidation="true" p:id="ucancel"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchProcessDefinitionView-CloseButton" parent="Uif-HorizontalBoxSection"
+          p:render="@{document.afterSubmitFlag}"
+          p:progressiveRenderViaAJAX="true" >
+        <property name="items">
+            <list>
+                <bean id="BP-Uif-CloseAction_AfterSubmit" parent="Uif-PrimaryActionButton" p:methodToCall="close"
+                      p:actionLabel="Close" p:performDirtyValidation="true" p:id="uclose" p:style="float:left;margin-left:55em" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="MaximumPageSizeWindow-HorizontalBoxSection" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean id="maxFileSize" parent="Uif-MessageField" p:messageText="Maximum upload size of 500000 bytes exceeded. Please upload a file below 500000 bytes."/>
+                            <bean id="maxFileSizeCloseBtn" parent="Uif-SecondaryActionButton-Small" p:actionScript="closeMaximumPageSizeWindow();" p:actionLabel="Close" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+
+    <bean id="MessagePopupSectionForInvoiceImport-HorizontalBoxSection" parent="MessagePopupSectionForInvoiceImport-HorizontalBoxSection-parentBean" />
+
+    <bean id="MessagePopupSectionForInvoiceImport-HorizontalBoxSection-parentBean" parent="Uif-VerticalBoxSection" p:render="@{document.fileFlag}">
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean id="invoice_import_validation_message" parent="Uif-MessageField" p:messageText="Warning: This EDIFACT invoice file has already been loaded.  Are you sure you want to load it again?"/>
+                            <ref bean="InvoiceImportPopup"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="InvoiceImportPopup" parent="InvoiceImportPopup-parentBean" />
+    <bean id="InvoiceImportPopup-parentBean" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="continue_invoice_import" parent="Uif-SecondaryActionButton-Small"  p:hidden="true" p:methodToCall="runNowRoute" p:ajaxSubmit="true" p:successCallback="openJobDetails()"/>
+                <bean id="yes_invoice_import" parent="Uif-SecondaryActionButton-Small" p:actionScript="continueImport();" p:actionLabel="Yes"/>
+                <bean id="cancel_invoice_import" parent="Uif-SecondaryActionButton-Small"   p:actionLabel="No" />
+            </list>
+        </property>
+    </bean>
+
+
+
+</beans>

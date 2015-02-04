@@ -1,0 +1,671 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<locationGroup xmlns="http://ole.kuali.org/standards/ole-location">
+    <location>
+        <locationCode>LEHIGH</locationCode>
+        <locationName>Lehigh University</locationName>
+        <locationLevelCode>INSTITUTION</locationLevelCode>
+        <parentLocationCode/>
+    </location>
+    <location>
+        <locationCode>CHANDLER</locationCode>
+        <locationName>Chandler-Ullmann Hall</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode>LEHIGH</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>DROWN</locationCode>
+        <locationName>Drown Hall</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode>LEHIGH</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>FM</locationCode>
+        <locationName>Fairchild Martindale Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode>LEHIGH</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>CURRICULUM</locationCode>
+        <locationName>Curriculum Collection</locationName>
+        <locationLevelCode>COLLECTION</locationLevelCode>
+        <parentLocationCode>FM</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>FM-1-NORTH</locationCode>
+        <locationName>FM-1-N Cirriculum Coll.</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>CURRICULUM</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>GOVDOCS</locationCode>
+        <locationName>Government Documents</locationName>
+        <locationLevelCode>COLLECTION</locationLevelCode>
+        <parentLocationCode>FM</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>FM-2-DOC</locationCode>
+        <locationName>FM-2-S Government Doc.</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>GOVDOCS</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>FM-2-DOC-M</locationCode>
+        <locationName>FM-2-S Government Doc. Microform</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>GOVDOCS</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PALCI</locationCode>
+        <locationName>PALCI</locationName>
+        <locationLevelCode>COLLECTION</locationLevelCode>
+        <parentLocationCode>FM</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>FM-0-MEDIA</locationCode>
+        <locationName>Media Center Lower Level</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>FM</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>FM-185</locationCode>
+        <locationName>Software Library FM 8B</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>FM</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>FM-1-ANNEX</locationCode>
+        <locationName>FM-1 Annex Room 430</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>FM</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>FM1DISPLAY</locationCode>
+        <locationName>FM-1 Display area</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>FM</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>FM-1-ILL</locationCode>
+        <locationName>FM Interlibrary Loan Office</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>FM</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>FM-1-INDEX</locationCode>
+        <locationName>FM-1-N Indexes</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>FM</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>FM1LEISURE</locationCode>
+        <locationName>FM-1-S Leisure Reading</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>FM</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>FM-1-LOBBY</locationCode>
+        <locationName>FM-1-N Temp. Lind. Coll</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>FM</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>FM-1-REF</locationCode>
+        <locationName>FM-1-N Reference</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>FM</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>FM-1-R-REF</locationCode>
+        <locationName>FM-1-N Ready Ref.</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>FM</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>FM-1-S-ANX</locationCode>
+        <locationName>FM-1-S Digital Media Studio</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>FM</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>FM-1-SOUTH</locationCode>
+        <locationName>FM-1-S Leisure Reading</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>FM</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>FM-2-ATLAS</locationCode>
+        <locationName>FM-2-S Government Doc. Atlas Cases</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>FM</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>FM-2-DOC-R</locationCode>
+        <locationName>FM-2-S Government Doc. Reference</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>FM</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>FM-2-MFORM</locationCode>
+        <locationName>FM-2-S Microform</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>FM</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>FM-2-OVER</locationCode>
+        <locationName>FM-2-N Oversize</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>FM</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>FM-2-SOUTH</locationCode>
+        <locationName>FM-2-S</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>FM</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>FM-3-MAP</locationCode>
+        <locationName>FM-3 Maps</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>FM</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>FM-3-NO-OV</locationCode>
+        <locationName>FM-3-N Oversize</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>FM</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>FM-3-NORTH</locationCode>
+        <locationName>FM-3-N</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>FM</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>FM3-RM-625</locationCode>
+        <locationName>FM-3-S Special Collections Rm 625</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>FM</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>FM-3-SOUTH</locationCode>
+        <locationName>FM-3-S Special Collections</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>FM</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>FM-4-NORTH</locationCode>
+        <locationName>FM-4-N</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>FM</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>FM-4-OVER</locationCode>
+        <locationName>FM-4-N Oversize</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>FM</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>FM-OFFICE</locationCode>
+        <locationName>FM Office</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>FM</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>FM-RESERVE</locationCode>
+        <locationName>FM Reserves</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>FM</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>HOLDS</locationCode>
+        <locationName>FM Holds Shelf</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>FM</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>ILL</locationCode>
+        <locationName>FM Interlibrary Loan Office</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>FM</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>NET-SERVER</locationCode>
+        <locationName>Net-Server</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>FM</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>NEWBOOKS_F</locationCode>
+        <locationName>FM New Books</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>FM</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>REFERENCE</locationCode>
+        <locationName>Reference</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>FM</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>STACKS</locationCode>
+        <locationName>Stacks</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>FM</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>STORAGE</locationCode>
+        <locationName>Storage</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>FM</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>STORAGE-3</locationCode>
+        <locationName>Storage-3</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>FM</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>STORCOMPCT</locationCode>
+        <locationName>Storage Compact</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>FM</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>UNKNOWN</locationCode>
+        <locationName>Unknown</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>FM</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LEWIS</locationCode>
+        <locationName>Lewis Lab</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode>LEHIGH</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LIND</locationCode>
+        <locationName>Linderman Library</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode>LEHIGH</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>SPCOLL</locationCode>
+        <locationName>Lehigh University Special Collections</locationName>
+        <locationLevelCode>COLLECTION</locationLevelCode>
+        <parentLocationCode>LIND</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>L-SPCOLL-A</locationCode>
+        <locationName>LIND Special Collections A</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SPCOLL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>L-SPCOLL-B</locationCode>
+        <locationName>LIND Special Collections B</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SPCOLL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>L-SPCOLL-C</locationCode>
+        <locationName>LIND Special Collections C</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SPCOLL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>L-SPCOLL-D</locationCode>
+        <locationName>LIND Special Collections D</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SPCOLL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>L-SPCOLL-E</locationCode>
+        <locationName>LIND Special Collections E</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SPCOLL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>L-SPCOLL-F</locationCode>
+        <locationName>LIND Special Collections F</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SPCOLL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>L-SPCOLL-G</locationCode>
+        <locationName>LIND Special Collections G, Room 341</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>SPCOLL</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>ANNUAL</locationCode>
+        <locationName>Annual</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LIND</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LIND-1 Current Journals</locationCode>
+        <locationName>L-1-CURRNT</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LIND</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LIND-1 Reference Reading Room</locationCode>
+        <locationName>L-1-REF</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LIND</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LIND-1 Rotunda</locationCode>
+        <locationName>L-1-ROTNDA</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LIND</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>L-2-ROTNDA</locationCode>
+        <locationName>LIND-2 Rotunda</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LIND</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>L-3-ROTNDA</locationCode>
+        <locationName>LIND-3 Rotunda</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LIND</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>L-3ROTND-O</locationCode>
+        <locationName>LIND-3 Rotunda Oversize West</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LIND</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>L-3-STACKS</locationCode>
+        <locationName>LIND-3 Stacks</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LIND</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>L-4-ATLAS</locationCode>
+        <locationName>LIND-4 Atlas Case - East Wall</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LIND</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>L-4STACK-O</locationCode>
+        <locationName>LIND-4 Stacks Oversize East Wall</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LIND</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>L-4-STACKS</locationCode>
+        <locationName>LIND-4 Stacks</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LIND</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>L-BAYER</locationCode>
+        <locationName>LIND Bayer Galleria</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LIND</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>L-EXHIBIT</locationCode>
+        <locationName>LIND Exhibit</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LIND</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>L-G-CAFE</locationCode>
+        <locationName>LIND-G Lucy's Cafe</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LIND</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>L-GIFTS</locationCode>
+        <locationName>LIND Gifts Office</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LIND</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>L-G-LOWER</locationCode>
+        <locationName>LIND-G Lower Level</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LIND</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>L-G-UPPER</locationCode>
+        <locationName>LIND-G Upper Level</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LIND</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>L-G-UPPERO</locationCode>
+        <locationName>LIND-G Upper Level Oversize</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LIND</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>L-MED-PROD</locationCode>
+        <locationName>LIND Media Production</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LIND</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>L-OFFICE</locationCode>
+        <locationName>LIND Office</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LIND</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>L-ORDER</locationCode>
+        <locationName>LIND Acquisitions Office</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LIND</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>L-RESERVE</locationCode>
+        <locationName>LIND Reserves</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LIND</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LMCLU</locationCode>
+        <locationName>Library Media Center (LMC)</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode>LEHIGH</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>BINDERY</locationCode>
+        <locationName>Bindery</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LMCLU</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LMC_BKOVER</locationCode>
+        <locationName>LLMC</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LMCLU</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LMC_BOOKS</locationCode>
+        <locationName>LMC Stacks</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LMCLU</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LMC_FLAT</locationCode>
+        <locationName>LMC Flat</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LMCLU</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LMC_GOVDOC</locationCode>
+        <locationName>LMC Government Documents</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LMCLU</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LMC_JRNL_2</locationCode>
+        <locationName>LMC Journals 2</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LMCLU</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LMC_MEZZ</locationCode>
+        <locationName>LMC Mezzanine</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LMCLU</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LMC_OVRSIZ</locationCode>
+        <locationName>LMC Oversize</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LMCLU</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LMC1ALCOVE</locationCode>
+        <locationName>LMC-1 Alcove</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LMCLU</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LMC1CMPCT1</locationCode>
+        <locationName>LMC-1 Compact Shelving 1</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LMCLU</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LMC1CMPCT2</locationCode>
+        <locationName>LMC-1 Compact Shelving 2</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LMCLU</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LMC1STNARY</locationCode>
+        <locationName>LMC-1 Stationary</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LMCLU</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LMCJOURNAL</locationCode>
+        <locationName>LMC Journals</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LMCLU</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LMCJRNLOVR</locationCode>
+        <locationName>LMC Journals Oversize</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>LMCLU</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>LUCC</locationCode>
+        <locationName>LUCC</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode>LEHIGH</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>MAGINNES</locationCode>
+        <locationName>Maginnes Hall</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode>LEHIGH</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>IMRC</locationCode>
+        <locationName>Maginnes Hall - Int'l Multimedia Res. Ctr.</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>MAGINNES</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>MATH</locationCode>
+        <locationName>Math</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode>LEHIGH</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>MT-LIB</locationCode>
+        <locationName>MT-LIB</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode>LEHIGH</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>OFFCMPS</locationCode>
+        <locationName>Off Campus</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode>LEHIGH</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>OFFCAMPBKS</locationCode>
+        <locationName>Off Campus Storage - Books</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>OFFCMPS</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>OFFCAMPJNL</locationCode>
+        <locationName>Off Campus Storage - Journals</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>OFFCMPS</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>PACKARD</locationCode>
+        <locationName>Packard Lab</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode>LEHIGH</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>RAUCH</locationCode>
+        <locationName>Rauch Business Center
+        </locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode>LEHIGH</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>SINCLAIR</locationCode>
+        <locationName>Sinclair
+        </locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode>LEHIGH</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>WHITAKER</locationCode>
+        <locationName>Whitaker Lab</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode>LEHIGH</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>WILLIAMS</locationCode>
+        <locationName>Williams Hall</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode>LEHIGH</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>WWW</locationCode>
+        <locationName>Available Online</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode>LEHIGH</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>XMASSAUCON</locationCode>
+        <locationName>Christmas-Saucon Hall</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode>LEHIGH</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>ZOELLNER</locationCode>
+        <locationName>Zoellner Music Library ZAC Room 341</locationName>
+        <locationLevelCode>LIBRARY</locationLevelCode>
+        <parentLocationCode>LEHIGH</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>MUSIC-DEPT</locationCode>
+        <locationName>Music Department</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>ZOELLNER</parentLocationCode>
+    </location>
+    <location>
+        <locationCode>ZAC_TEMP</locationCode>
+        <locationName>Zoellner Music Library Circulating Collection</locationName>
+        <locationLevelCode>SHELVING</locationLevelCode>
+        <parentLocationCode>ZOELLNER</parentLocationCode>
+    </location>
+</locationGroup>

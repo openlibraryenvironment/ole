@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright 2008-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+    
+<xsd:schema elementFormDefault="qualified"
+		    targetNamespace="http://www.kuali.org/kfs/purap/b2bPunchOutResponse"
+		    xmlns="http://www.kuali.org/kfs/purap/b2bPunchOutResponse" 
+		    xmlns:purap="http://www.kuali.org/kfs/purap/types"
+		    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+<xsd:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://localhost:8080/olefs/static/xsd/sys/xml.xsd"/>
+<xsd:import namespace="http://www.kuali.org/kfs/purap/types" schemaLocation="http://localhost:8080/olefs/static/xsd/purap/purapTypes.xsd" />
+	
+	<xsd:element name="cXML">
+	    <xsd:complexType>
+	      <xsd:sequence>
+	        <xsd:element name="Response">		    
+	        	<xsd:complexType>
+		            <xsd:sequence>
+		            
+       		      		<xsd:element name="Status">
+						  <xsd:complexType>
+						  	<xsd:simpleContent>
+						  		<xsd:extension base="xsd:string">
+						  			<xsd:attribute name="code" type="purap:statusCodeType" />
+						  			<xsd:attribute name="text" type="purap:statusTextType" />
+						  		</xsd:extension>
+						  	</xsd:simpleContent>
+						  </xsd:complexType>
+						</xsd:element>
+						
+						<xsd:element name="PunchOutSetupResponse">
+							  <xsd:complexType>
+									<xsd:sequence>
+										<xsd:element name="StartPage">
+											<xsd:complexType>
+												<xsd:sequence>
+													<xsd:element name="URL" type="xsd:string"/>
+												</xsd:sequence>
+					       		      		</xsd:complexType>	
+					       		      	 </xsd:element>
+	       		      				</xsd:sequence>
+	       		      		</xsd:complexType>	
+        		      	</xsd:element>
+        		      	
+        		    </xsd:sequence>
+        		</xsd:complexType>
+        	</xsd:element> <!-- Response -->
+        </xsd:sequence>
+        <xsd:attribute name="version" type="xsd:string" use="optional"/>
+        <xsd:attribute ref="xml:lang" use="optional" />
+        <xsd:attribute name="timestamp" type="xsd:string" use="required" />
+        <xsd:attribute name="payloadID" type="xsd:string" use="required" />
+       </xsd:complexType>
+    </xsd:element>    		      		
+
+</xsd:schema>		    

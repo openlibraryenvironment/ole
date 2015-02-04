@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2007-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<xsd:schema elementFormDefault="qualified"
+    targetNamespace="http://www.kuali.org/kfs/ar/customer"
+    xmlns:kfs="http://www.kuali.org/kfs/sys/types"
+    xmlns:dd="http://www.kuali.org/kfs/sys/ddTypes"
+    xmlns="http://www.kuali.org/kfs/ar/customer" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <xsd:import namespace="http://www.kuali.org/kfs/sys/types" schemaLocation="http://localhost:8080/olefs/static/xsd/sys/types.xsd" />
+    <xsd:import namespace="http://www.kuali.org/kfs/sys/ddTypes" schemaLocation="http://localhost:8080/olefs/static/xsd/sys/ddTypes.xsd" />
+  
+	<!--  elements -->
+	<xsd:element name="customers" type="customersType" />
+	<xsd:element name="customer" type="customerType" />
+	<xsd:element name="addresses" type="addressesType" />
+	<xsd:element name="address" type="addressType" />
+	
+	<xsd:element name="customerNumber"                type="xsd:normalizedString" />
+	<xsd:element name="customerName"                  type="xsd:normalizedString" />
+	<xsd:element name="customerParentCompanyNumber"   type="xsd:normalizedString" />
+	<xsd:element name="customerTypeCode"              type="xsd:normalizedString" />
+	<xsd:element name="customerAddressChangeDate"     type="xsd:date" />
+	<xsd:element name="customerRecordAddDate"         type="xsd:date" />
+	<xsd:element name="customerLastActivityDate"      type="xsd:date" />
+	<xsd:element name="customerTaxTypeCode"           type="xsd:normalizedString" />
+	<xsd:element name="customerTaxNbr"                type="xsd:normalizedString" />
+	<xsd:element name="customerActiveIndicator"       type="xsd:normalizedString" />
+	<xsd:element name="customerPhoneNumber"           type="xsd:normalizedString" />
+	<xsd:element name="customer800PhoneNumber"        type="xsd:normalizedString" />
+	<xsd:element name="customerContactName"           type="xsd:normalizedString" />
+	<xsd:element name="customerContactPhoneNumber"    type="xsd:normalizedString" />
+	<xsd:element name="customerFaxNumber"             type="xsd:normalizedString" />
+	<xsd:element name="customerBirthDate"             type="xsd:date" />
+	<xsd:element name="customerTaxExemptIndicator"    type="xsd:normalizedString" />
+	<xsd:element name="customerCreditLimitAmount"     type="xsd:decimal" />
+	<xsd:element name="customerCreditApprovedByName"  type="xsd:normalizedString" />
+	<xsd:element name="customerEmailAddress"          type="xsd:normalizedString" />
+	<xsd:element name="customerAddressIdentifier"     type="xsd:normalizedString" />
+	<xsd:element name="customerAddressName"           type="xsd:normalizedString" />
+	<xsd:element name="customerLine1StreetAddress"    type="xsd:normalizedString" />
+	<xsd:element name="customerLine2StreetAddress"    type="xsd:normalizedString" />
+	<xsd:element name="customerCityName"              type="xsd:normalizedString" />
+	<xsd:element name="customerStateCode"             type="xsd:normalizedString" />
+	<xsd:element name="customerZipCode"               type="xsd:normalizedString" />
+	<xsd:element name="customerCountryCode"           type="xsd:normalizedString" />
+	<xsd:element name="customerAddressInternationalProvinceName" type="xsd:normalizedString" />
+	<xsd:element name="customerInternationalMailCode" type="xsd:normalizedString" />
+	<xsd:element name="customerAddressTypeCode"       type="xsd:normalizedString" />
+	<xsd:element name="customerAddressEndDate"        type="xsd:date" />
+
+    
+    
+    <!-- definition of complex type elements -->
+    <xsd:complexType name="addressType">
+	    <xsd:sequence>
+	       <xsd:element maxOccurs="1" minOccurs="1" ref="customerAddressName" />
+	       <xsd:element maxOccurs="1" minOccurs="1" ref="customerLine1StreetAddress" />
+	       <xsd:element maxOccurs="1" minOccurs="0" ref="customerLine2StreetAddress" />
+	       <xsd:element maxOccurs="1" minOccurs="1" ref="customerCityName" />
+	       <xsd:element maxOccurs="1" minOccurs="0" ref="customerStateCode" />
+	       <xsd:element maxOccurs="1" minOccurs="0" ref="customerZipCode" />
+	       <xsd:element maxOccurs="1" minOccurs="1" ref="customerCountryCode" />
+	       <xsd:element maxOccurs="1" minOccurs="0" ref="customerAddressInternationalProvinceName" />
+	       <xsd:element maxOccurs="1" minOccurs="0" ref="customerInternationalMailCode" />
+	       <xsd:element maxOccurs="1" minOccurs="0" ref="customerEmailAddress" />
+	       <xsd:element maxOccurs="1" minOccurs="1" ref="customerAddressTypeCode" />
+	       <xsd:element maxOccurs="1" minOccurs="0" ref="customerAddressEndDate" />
+	     </xsd:sequence>  
+    </xsd:complexType>
+
+    <xsd:complexType name="addressesType">
+		<xsd:sequence>
+		    <xsd:element maxOccurs="unbounded" minOccurs="1" ref="address"/>
+		</xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:complexType name="customerType">
+	   <xsd:sequence>
+	      <xsd:element maxOccurs="1" minOccurs="0" ref="customerNumber" />
+	      <xsd:element maxOccurs="1" minOccurs="1" ref="customerName" />
+	      <xsd:element maxOccurs="1" minOccurs="0" ref="customerParentCompanyNumber" />
+	      <xsd:element maxOccurs="1" minOccurs="1" ref="customerTypeCode" />
+	      <xsd:element maxOccurs="1" minOccurs="0" ref="customerLastActivityDate" />
+	      <xsd:element maxOccurs="1" minOccurs="0" ref="customerTaxTypeCode" />
+	      <xsd:element maxOccurs="1" minOccurs="0" ref="customerTaxNbr" />
+	      <xsd:element maxOccurs="1" minOccurs="1" ref="customerActiveIndicator" />
+	      <xsd:element maxOccurs="1" minOccurs="0" ref="customerPhoneNumber" />
+	      <xsd:element maxOccurs="1" minOccurs="0" ref="customer800PhoneNumber" />
+	      <xsd:element maxOccurs="1" minOccurs="0" ref="customerContactName" />
+	      <xsd:element maxOccurs="1" minOccurs="0" ref="customerContactPhoneNumber" />
+	      <xsd:element maxOccurs="1" minOccurs="0" ref="customerFaxNumber" />
+	      <xsd:element maxOccurs="1" minOccurs="0" ref="customerBirthDate" />
+	      <xsd:element maxOccurs="1" minOccurs="0" ref="customerTaxExemptIndicator" />
+	      <xsd:element maxOccurs="1" minOccurs="0" ref="customerCreditLimitAmount" />
+	      <xsd:element maxOccurs="1" minOccurs="0" ref="customerCreditApprovedByName" />
+	      <xsd:element maxOccurs="1" minOccurs="0" ref="customerEmailAddress" />
+	      <xsd:element maxOccurs="unbounded" minOccurs="1" ref="addresses" />
+	    </xsd:sequence>  
+    </xsd:complexType>
+
+    <xsd:complexType name="customersType">
+	    <xsd:sequence>
+	        <xsd:element maxOccurs="unbounded" minOccurs="1" ref="customer"/>
+	    </xsd:sequence>
+    </xsd:complexType>
+    
+</xsd:schema>

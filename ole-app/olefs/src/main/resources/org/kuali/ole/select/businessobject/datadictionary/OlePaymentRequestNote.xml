@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   - Copyright 2011 The Kuali Foundation.
+   - 
+   - Licensed under the Educational Community License, Version 2.0 (the "License");
+   - you may not use this file except in compliance with the License.
+   - You may obtain a copy of the License at
+   - 
+   - http://www.opensource.org/licenses/ecl2.php
+   - 
+   - Unless required by applicable law or agreed to in writing, software
+   - distributed under the License is distributed on an "AS IS" BASIS,
+   - WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   - See the License for the specific language governing permissions and
+   - limitations under the License.
+ -->
+<beans xmlns="http://www.springframework.org/schema/beans" 
+			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+			xmlns:p="http://www.springframework.org/schema/p" 
+			xmlns:dd="http://rice.kuali.org/dd" 
+			xsi:schemaLocation="http://www.springframework.org/schema/beans           
+			http://www.springframework.org/schema/beans/spring-beans-2.0.xsd       
+			http://rice.kuali.org/dd     http://rice.kuali.org/dd/dd.xsd">
+
+	 <bean id="OlePaymentRequestNote" parent="OlePaymentRequestNote-parentBean"/>
+
+	 <bean id="OlePaymentRequestNote-parentBean" abstract="true" parent="BusinessObjectEntry">
+	    <property name="businessObjectClass" value="org.kuali.ole.select.businessobject.OlePaymentRequestNote"/>    
+	    <property name="titleAttribute" value="itemNoteIdentifier"/>
+	    <property name="objectLabel" value="PaymentRequest Note"/>
+ 	    <property name="attributes">
+ 	      <list>
+  	      	  <ref bean="OlePaymentRequestNote-itemNoteIdentifier"/>
+ 	       	  <ref bean="OlePaymentRequestNote-itemIdentifier"/>
+ 	       	  <ref bean="OlePaymentRequestNote-note"/>     
+  	     </list>
+  	   </property>	
+ 	 </bean>
+ 	 
+ 	 <bean id="OlePaymentRequestNote-itemNoteIdentifier" parent="OlePaymentRequestNote-itemNoteIdentifier-parentBean"/>
+ 	 <bean id="OlePaymentRequestNote-itemNoteIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+ 	 	<property name="name" value="itemNoteIdentifier"/>
+    	<property name="forceUppercase" value="true"/>
+    	<property name="label" value="PaymentRequest Item Note Code"/>
+    	<property name="shortLabel" value="Payment Note Code"/>
+    	<property name="maxLength" value="8"/>
+    	<property name="validationPattern">
+      		<ref bean="NumericValidation" />
+    	</property>
+     	<property name="control">
+      		<ref bean="HiddenControl" />
+    	</property>
+	 </bean>
+	 
+	 <bean id="OlePaymentRequestNote-itemIdentifier" parent="OlePaymentRequestNote-itemIdentifier-parentBean"/>
+ 	 <bean id="OlePaymentRequestNote-itemIdentifier-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemIdentifier">
+ 	 	<property name="name" value="itemIdentifier"/>
+   		<property name="label" value="Item Identifier"/>
+	 </bean>
+	 
+	 <bean id="OlePaymentRequestNote-note" parent="OlePaymentRequestNote-note-parentBean"/>
+ 	 <bean id="OlePaymentRequestNote-note-parentBean" abstract="true" parent="AttributeDefinition">
+ 	 	<property name="name" value="note"/>
+    	<property name="forceUppercase" value="true"/>
+    	<property name="label" value="PO Notes"/>
+    	<property name="shortLabel" value="Text"/>
+    	<property name="maxLength" value="2000"/>
+    	<property name="validationPattern">
+      		<ref bean="AnyCharacterWithWhitespaceValidation" />
+    	</property>
+    	<property name="control">
+      		<bean parent="TextareaControlDefinition" p:rows="3" p:cols="50"/>
+    	</property>   
+	 </bean>
+</beans>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0"
+    xml:lang="en-US">
+    <title>Accessing Purchasing and Accounts Payable Functions</title>
+    <para role="Body Text">The Kuali OLE Purchasing and Accounts Payable module includes several e-docs
+        to help your institution manage its procurement processes. Kuali OLE users may initiate Requisition
+        e-docs to request that orders be placed for goods or services. Fully approved Requisition e-docs are
+        then processed by departmental staff and then become purchase orders (POs). Under certain conditions
+        (specified by your institution's business rules in Kuali OLE), fully approved requisitions may
+        become POs automatically without any additional processing.</para>
+    <para role="Body Text">Each PO is an official request for goods or services to a specified vendor
+        for an agreed-upon cost. After goods are delivered or services rendered, Kuali OLE allows for the
+        processing of vendor invoices through the Payment Request e-doc, which applies full or partial
+        payment against a PO. Credits received from vendors may also be processed on a Credit Memo e-doc.
+        Both payments and credit memos may then be applied to outstanding invoices when payment is
+        due.</para>
+    <para role="Body Text">Purchasing and Accounts Payable e-docs are accessible from the Select/Acquire
+        tab. </para>
+</chapter>

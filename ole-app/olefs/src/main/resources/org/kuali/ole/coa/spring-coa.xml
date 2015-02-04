@@ -1,0 +1,650 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2007-2009 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+    <bean id="coaModuleConfiguration" parent="coaModuleConfiguration-parentBean" />
+	
+	
+	<bean id="coaModuleConfiguration-parentBean" class="org.kuali.ole.sys.FinancialSystemModuleConfiguration"
+		abstract="true">
+    	<property name="namespaceCode" value="OLE-COA" />
+		<property name="initializeDataDictionary" value="true" />
+        <property name="packagePrefixes">
+            <list>
+                <value>org.kuali.ole.coa</value>
+            </list>
+        </property>
+		<property name="dataDictionaryPackages">
+			<list>
+                <value>org/kuali/ole/coa/businessobject/datadictionary</value>
+                <value>org/kuali/ole/coa/document/datadictionary</value>
+			</list>
+		</property>
+		<property name="databaseRepositoryFilePaths">
+			<list>
+				<value>org/kuali/ole/coa/ojb-coa.xml</value>
+			</list>
+		</property>
+		<property name="scriptConfigurationFilePaths">
+			<list>
+				<value>org/kuali/ole/coa/dwr-coa.xml</value>
+			</list>
+		</property>
+		<property name="jobNames">
+			<list>
+				<value>populatePriorYearDataJob</value>
+				<value>addPriorYearAccountsJob</value>
+				<value>cfdaJob</value>
+			</list>
+		</property>
+		<property name="triggerNames">
+			<list>
+				<!--<value>cfdaJobTrigger</value>-->
+			</list>
+		</property>
+        <property name="fiscalYearMakers">
+          <list>
+            <ref bean="organizationReversionFiscalYearMaker" />
+            <ref bean="organizationReversionDetailFiscalYearMaker" />
+            <ref bean="subObjectCodeFiscalYearMaker" />
+            <ref bean="objectCodeFiscalYearMaker" />
+            <ref bean="offsetDefinitionFiscalYearMaker" />
+            <ref bean="accountingPeriodFiscalYearMaker" />
+            <ref bean="indirectCostRecoveryRateDetailFiscalYearMaker" />
+            <ref bean="indirectCostRecoveryRateFiscalYearMaker" />
+          </list>	
+        </property>
+        <property name="batchFileDirectories">
+          	<list>
+            	<value>${reports.directory}/coa</value>
+         	</list>
+        </property>
+	</bean>
+
+    <bean id="coaModuleService" parent="coaModuleService-parentBean"/>
+
+	<bean id="coaModuleService-parentBean" class="org.kuali.ole.sys.service.impl.OleModuleServiceImpl"
+		abstract="true">
+    	<property name="moduleConfiguration" ref="coaModuleConfiguration"/>
+    </bean>
+
+	<bean id="accountService"  parent="accountService-parentBean"/>
+	<bean id="accountService-parentBean" class="org.kuali.ole.coa.service.impl.AccountServiceImpl" abstract="true">
+		<property name="accountDao" ref="accountDao" />
+		<property name="dateTimeService" ref="dateTimeService" />
+		<property name="parameterService" ref="parameterService" />
+		<property name="documentTypeService" ref="rice.kew.documentTypeService" />
+		<property name="businessObjectService" ref="businessObjectService" />
+	</bean>
+
+	<bean id="AccountReferenceExemption" abstract="true" parent="AccountReferenceExemption-parentBean"/>
+	<bean id="AccountReferenceExemption-parentBean" abstract="true" class="org.kuali.ole.coa.service.impl.AccountReferencePersistenceExemption">
+		<property name="chartOfAccountsCodePropertyName" value="chartOfAccountsCode"/>
+		<property name="accountNumberPropertyName" value="accountNumber"/>
+	</bean>
+
+	<bean id="AccountPersistenceStructureService" parent="AccountPersistenceStructureService-parentBean" />
+	
+	<bean id="AccountPersistenceStructureService-parentBean" abstract="true" class="org.kuali.ole.coa.service.impl.AccountPersistenceStructureServiceImpl">
+		<property name="persistenceStructureServiceJpa" ref="persistenceStructureServiceJpa" />
+    	<property name="persistenceStructureServiceOjb" ref="persistenceStructureServiceOjb" />
+    	<property name="maintenanceDocumentDictionaryService" ref="maintenanceDocumentDictionaryService" />
+    	<property name="accountReferencePersistenceExemptions">
+    		<list>
+    			<bean parent="AccountReferenceExemption" p:parentBusinessObjectClass="org.kuali.ole.coa.businessobject.Organization" p:accountNumberPropertyName="organizationDefaultAccountNumber"/> 
+    		</list>
+    	</property>
+	</bean>
+
+	<bean id="projectCodeService"  parent="projectCodeService-parentBean"/>
+	<bean id="projectCodeService-parentBean" class="org.kuali.ole.coa.service.impl.ProjectCodeServiceImpl" abstract="true" />
+
+	<bean id="subAccountService"  parent="subAccountService-parentBean"/>
+	<bean id="subAccountService-parentBean" class="org.kuali.ole.coa.service.impl.SubAccountServiceImpl" abstract="true">
+		<property name="businessObjectService" ref="businessObjectService" />
+	</bean>
+
+	<bean id="subObjectCodeService"  parent="subObjectCodeService-parentBean"/>
+	<bean id="subObjectCodeService-parentBean" class="org.kuali.ole.coa.service.impl.SubObjectCodeServiceImpl" abstract="true">
+
+		<property name="universityDateService">
+			<ref bean="universityDateService" />
+		</property>
+	</bean>
+
+	<bean id="objectCodeService"  parent="objectCodeService-parentBean"/>
+	<bean id="objectCodeService-parentBean" class="org.kuali.ole.coa.service.impl.ObjectCodeServiceImpl" abstract="true">
+		<property name="objectCodeDao">
+			<ref bean="objectCodeDao" />
+		</property>
+		<property name="universityDateService">
+			<ref bean="universityDateService" />
+		</property>
+	</bean>
+	
+	<bean id="objectLevelService"  parent="objectLevelService-parentBean"/>
+	<bean id="objectLevelService-parentBean" class="org.kuali.ole.coa.service.impl.ObjectLevelServiceImpl" abstract="true"/>
+	
+	<bean id="objectConsService"  parent="objectConsService-parentBean"/>
+	<bean id="objectConsService-parentBean" class="org.kuali.ole.coa.service.impl.ObjectConsServiceImpl" abstract="true"/>
+		
+	<bean id="chartService"  parent="chartService-parentBean"/>
+	<bean id="chartService-parentBean" class="org.kuali.ole.coa.service.impl.ChartServiceImpl" abstract="true">
+		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="parameterService" ref="parameterService" />
+	</bean>
+
+	<bean id="organizationService"  parent="organizationService-parentBean"/>
+	<bean id="organizationService-parentBean" class="org.kuali.ole.coa.service.impl.OrganizationServiceImpl" abstract="true">
+        <property name="parameterService" ref="parameterService" />
+        <property name="chartService" ref="chartService" />
+        <property name="businessObjectService" ref="businessObjectService" />
+	</bean>
+
+	<bean id="priorYearAccountService"  parent="priorYearAccountService-parentBean"/>
+	<bean id="priorYearAccountService-parentBean" class="org.kuali.ole.coa.service.impl.PriorYearAccountServiceImpl" abstract="true">
+		<property name="priorYearAccountDao" ref="priorYearAccountDao" />
+		<property name="accountService" ref="accountService" />
+		<property name="reportWriterService" ref="addPriorYearAccountsReportWriterService" />
+		<property name="persistenceStructureService" ref="persistenceStructureService" />
+		<property name="persistenceServiceOjb" ref="persistenceServiceOjb" />
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="parameterService" ref="parameterService" />
+	</bean>
+
+	<bean id="priorYearOrganizationService"  parent="priorYearOrganizationService-parentBean"/>
+	<bean id="priorYearOrganizationService-parentBean"
+		class="org.kuali.ole.coa.service.impl.PriorYearOrganizationServiceImpl" abstract="true">
+		<property name="priorYearOrganizationDao">
+			<ref bean="priorYearOrganizationDao" />
+		</property>
+	</bean>
+	
+	<bean id="offsetDefinitionService"  parent="offsetDefinitionService-parentBean"/>
+	<bean id="offsetDefinitionService-parentBean" class="org.kuali.ole.coa.service.impl.OffsetDefinitionServiceImpl" abstract="true"/>
+		
+	<bean id="balanceTypService"  parent="balanceTypService-parentBean"/>
+	<bean id="balanceTypService-parentBean" class="org.kuali.ole.coa.service.impl.BalanceTypeServiceImpl" abstract="true">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="balanceTypeDao">
+			<ref bean="balanceTypeDao" />
+		</property>
+        <property name="universityDateService">
+            <ref bean="universityDateService" />
+        </property>
+	</bean>
+
+	<bean id="accountingPeriodService" parent="accountingPeriodService-parentBean"/>
+	<bean id="accountingPeriodService-parentBean"
+		class="org.kuali.ole.coa.service.impl.AccountingPeriodServiceImpl" abstract="true">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService"/>
+		</property>
+	</bean>
+
+	<bean id="subFundGroupService"  parent="subFundGroupService-parentBean"/>
+	<bean id="subFundGroupService-parentBean" class="org.kuali.ole.coa.service.impl.SubFundGroupServiceImpl" abstract="true">
+		<property name="parameterService" ref="parameterService" />
+		<property name="dataDictionaryService" ref="dataDictionaryService" />
+		<property name="subFundGroupDao" ref="subFundGroupDao" />
+	</bean>
+
+	<bean id="objectTypeService"  parent="objectTypeService-parentBean"/>
+	<bean id="objectTypeService-parentBean" class="org.kuali.ole.coa.service.impl.ObjectTypeServiceImpl" abstract="true">
+        <property name="universityDateService" ref="universityDateService" />
+		<property name="businessObjectService" ref="businessObjectService" />
+	</bean>
+
+	<bean id="a21SubAccountService"  parent="a21SubAccountService-parentBean"/>
+	<bean id="a21SubAccountService-parentBean" class="org.kuali.ole.coa.service.impl.A21SubAccountServiceImpl" abstract="true">
+		<property name="a21SubAccountDao">
+			<ref bean="a21SubAccountDao" />
+		</property>
+        <property name="accountService">
+            <ref bean="accountService" />
+        </property>
+	</bean>
+
+	<bean id="organizationReversionService" parent="organizationReversionService-parentBean"/>
+	<bean id="organizationReversionService-parentBean" class="org.kuali.ole.coa.service.impl.OrganizationReversionServiceImpl" abstract="true">
+		<property name="parameterService" ref="parameterService" />
+		<property name="businessObjectService" ref="businessObjectService" />
+	</bean>
+
+	<bean id="accountDao" parent="platformAwareDao"
+		class="org.kuali.ole.coa.dataaccess.impl.AccountDaoOjb"/>
+	
+	<bean id="accountDelegateDao" parent="platformAwareDao"
+		class="org.kuali.ole.coa.dataaccess.impl.AccountDelegateDaoOjb"/>
+		
+	<bean id="accountDelegateGlobalDao" parent="platformAwareDao"
+		class="org.kuali.ole.coa.dataaccess.impl.AccountDelegateGlobalDaoOjb" />
+
+	<bean id="objectCodeDao" parent="platformAwareDao"
+		class="org.kuali.ole.coa.dataaccess.impl.ObjectCodeDaoOjb" />
+
+	<bean id="balanceTypeDao" parent="platformAwareDao"
+		class="org.kuali.ole.coa.dataaccess.impl.BalanceTypeDaoOjb" />
+
+	<bean id="priorYearAccountDao" parent="platformAwareDaoJdbc"
+		class="org.kuali.ole.coa.dataaccess.impl.PriorYearAccountDaoJdbcImpl"/>
+
+	<bean id="priorYearOrganizationDao" parent="platformAwareDaoJdbc"
+		class="org.kuali.ole.coa.dataaccess.impl.PriorYearOrganizationDaoJdbc" />
+
+	<bean id="subFundGroupDao" parent="platformAwareDao"
+		class="org.kuali.ole.coa.dataaccess.impl.SubFundGroupDaoOjb" />
+
+	<bean id="indirectCostRecoveryRateDetailDao" parent="platformAwareDao"
+		class="org.kuali.ole.coa.dataaccess.impl.IndirectCostRecoveryRateDetailDaoOjb" />
+
+	<bean id="indirectCostRecoveryExclusionAccountDao" parent="platformAwareDao"
+		class="org.kuali.ole.coa.dataaccess.impl.IndirectCostRecoveryExclusionAccountDaoOjb" />
+
+	<bean id="indirectCostRecoveryExclusionTypeDao" parent="platformAwareDao"
+		class="org.kuali.ole.coa.dataaccess.impl.IndirectCostRecoveryExclusionTypeDaoOjb" />
+
+	<bean id="a21SubAccountDao" parent="platformAwareDao"
+		class="org.kuali.ole.coa.dataaccess.impl.A21SubAccountDaoOjb" />
+		
+	<bean id="accountLookupableHelperService" parent="accountLookupableHelperService-parentBean" scope="prototype" />		
+	<bean id="accountLookupableHelperService-parentBean" abstract="true" 
+		class="org.kuali.ole.coa.businessobject.lookup.KualiAccountLookupableHelperServiceImpl"
+		scope="prototype" parent="lookupableHelperService" />
+
+	<bean id="accountLookupable"  parent="accountLookupable-parentBean" scope="prototype"/>
+	<bean id="accountLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"
+		 abstract="true">
+		<property name="lookupableHelperService">
+			<ref bean="accountLookupableHelperService" />
+		</property>
+	</bean>
+
+	<bean id="organizationRoutingModelLookupableHelperService" parent="organizationRoutingModelLookupableHelperService-parentBean" scope="prototype" />
+	<bean id="organizationRoutingModelLookupableHelperService-parentBean" abstract="true" 
+		class="org.kuali.ole.coa.businessobject.lookup.OrganizationRoutingModelNameLookupableHelperServiceImpl"
+		scope="prototype" parent="lookupableHelperService" />
+
+	<bean id="organizationRoutingModelLookupable"  parent="organizationRoutingModelLookupable-parentBean" scope="prototype"/>
+	<bean id="organizationRoutingModelLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"
+		 abstract="true">
+		<property name="lookupableHelperService">
+			<ref bean="organizationRoutingModelLookupableHelperService" />
+		</property>
+	</bean>
+	
+	<bean id="indirectCostRecoveryExclusionByTypeLookupableHelperService" parent="indirectCostRecoveryExclusionByTypeLookupableHelperService-parentBean" scope="prototype" />
+	<bean id="indirectCostRecoveryExclusionByTypeLookupableHelperService-parentBean" abstract="true" 
+		class="org.kuali.ole.coa.businessobject.lookup.IndirectCostRecoveryExclusionTypeLookupableHelperServiceImpl"
+		scope="prototype" parent="lookupableHelperService" />
+
+	<bean id="indirectCostRecoveryExclusionByTypeLookupable"  parent="indirectCostRecoveryExclusionByTypeLookupable-parentBean" scope="prototype"/>
+	<bean id="indirectCostRecoveryExclusionByTypeLookupable-parentBean" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"
+		 abstract="true">
+		<property name="lookupableHelperService">
+			<ref bean="indirectCostRecoveryExclusionByTypeLookupableHelperService" />
+		</property>
+	</bean>
+	
+	<bean id="updatePriorYearDataStep" class="org.kuali.ole.coa.batch.UpdatePriorYearDataStep" parent="step">
+		<property name="priorYearOrganizationService">
+			<ref bean="priorYearOrganizationService" />
+		</property>
+		<property name="priorYearAccountService">
+			<ref bean="priorYearAccountService" />
+		</property>
+	</bean>
+	
+	<bean id="populatePriorYearDataJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="updatePriorYearDataStep" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="addPriorYearAccountsJob" parent="unscheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="addPriorYearAccountsStep" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="addPriorYearAccountsStep" class="org.kuali.ole.coa.batch.AddPriorYearAccountsStep" parent="wrappedStep">
+		<property name="wrappingBatchServices">
+			<list>
+				<ref bean="addPriorYearAccountsReportWriterService" />
+			</list>
+		</property>    	
+		<property name="priorYearAccountService">
+			<ref bean="priorYearAccountService" />
+		</property>
+	</bean>
+
+	<bean id="addPriorYearAccountsReportWriterService" parent="reportWriterService">
+		<property name="filePath" value="${reports.directory}/coa"/>
+		<property name="fileNamePrefix" value="add_prior_year_accounts_"/>
+        <property name="title" value="Accounts Added (and not Added) For Prior Year"/>
+        <property name="classToBusinessObjectReportHelperBeanNames">
+        	<map>
+        		<entry key="org.kuali.ole.coa.businessobject.PriorYearAccount" value="addPriorYearAccountsReportHelper" />
+        	</map>
+        </property>
+	</bean>	
+	
+	<bean id="addPriorYearAccountsReportHelper" parent="businessObjectReportHelper">
+		<property name="dataDictionaryBusinessObjectClass" value="org.kuali.ole.coa.businessobject.PriorYearAccount" />
+		<property name="orderedPropertyNameToHeaderLabelMap">
+			<map>
+				<entry key="chartOfAccountsCode" value="Chart Of Accounts Code" />
+				<entry key="accountNumber" value="Account Number" />
+			</map>
+		</property>
+		<property name="columnCount" value="2" />
+	</bean>			
+	
+	<bean name="subAccountTrickleDownInactivationService" parent="subAccountTrickleDownInactivationService-parentBean" />
+	<bean name="subAccountTrickleDownInactivationService-parentBean" abstract="true" 
+		class="org.kuali.ole.coa.service.impl.SubAccountTrickleDownInactivationServiceImpl">
+		<property name="maintenanceDocumentDictionaryService">
+			<ref bean="maintenanceDocumentDictionaryService" />
+		</property>
+		<property name="maintenanceDocumentDao">
+			<ref bean="maintenanceDocumentDao" />
+		</property>
+		<property name="noteService">
+			<ref bean="noteService" />
+		</property>
+		<property name="configurationService">
+			<ref bean="kualiConfigurationService" />
+		</property>
+		<property name="documentHeaderService">
+			<ref bean="documentHeaderService" />
+		</property>
+    </bean>
+    
+    <bean name="subObjectTrickleDownInactivationService" parent="subObjectTrickleDownInactivationService-parentBean" />
+	<bean name="subObjectTrickleDownInactivationService-parentBean" abstract="true" 
+		class="org.kuali.ole.coa.service.impl.SubObjectTrickleDownInactivationServiceImpl">
+    	<property name="businessObjectService">
+    		<ref bean="businessObjectService"/>
+    	</property>
+    	<property name="maintenanceDocumentDictionaryService">
+    		<ref bean="maintenanceDocumentDictionaryService"/>
+    	</property>
+    	<property name="maintenanceDocumentDao">
+    		<ref bean="maintenanceDocumentDao"/>
+    	</property>
+    	<property name="noteService">
+    		<ref bean="noteService"/>
+    	</property>
+    	<property name="universityDateService">
+			<ref bean="universityDateService" />
+		</property>
+		<property name="documentHeaderService">
+			<ref bean="documentHeaderService" />
+		</property>
+    	<property name="configurationService">
+    		<ref bean="kualiConfigurationService"/>
+    	</property>
+    </bean>
+    
+    <bean name="organizationReversionDetailTrickleDownInactivationService" parent="organizationReversionDetailTrickleDownInactivationService-parentBean"/>
+    <bean name="organizationReversionDetailTrickleDownInactivationService-parentBean" abstract="true" 
+		class="org.kuali.ole.coa.service.impl.OrganizationReversionDetailTrickleDownInactivationServiceImpl">
+    	<property name="businessObjectService">
+    		<ref bean="businessObjectService"/>
+    	</property>
+    	<property name="noteService">
+    		<ref bean="noteService"/>
+    	</property>
+		<property name="documentHeaderService">
+			<ref bean="documentHeaderService" />
+		</property>
+    	<property name="configurationService">
+    		<ref bean="kualiConfigurationService"/>
+    	</property>
+    </bean>
+    
+    <bean name="indirectCostRecoveryRateDetailInactivationBlockingDetectionService" parent="indirectCostRecoveryRateDetailInactivationBlockingDetectionService-parentBean"/>
+	<bean
+		name="indirectCostRecoveryRateDetailInactivationBlockingDetectionService-parentBean" abstract="true" 
+		class="org.kuali.ole.coa.service.impl.IndirectCostRecoveryRateDetailInactivationBlockingDetectionServiceImpl">
+        <property name="businessObjectService">
+    		<ref bean="businessObjectService"/>
+    	</property>
+    	<property name="dataObjectMetaDataService">
+    		<ref bean="businessObjectMetaDataService"/>
+    	</property>
+    	<property name="persistenceService">
+            <ref bean="persistenceService" />
+        </property>
+    </bean>
+    
+    <bean name="objectCodeCurrentInactivationBlockingDetectionService" parent="objectCodeCurrentInactivationBlockingDetectionService-parentBean"/>
+	<bean name="objectCodeCurrentInactivationBlockingDetectionService-parentBean" abstract="true" 
+		class="org.kuali.ole.coa.service.impl.ObjectCodeCurrentInactivationBlockingDetectionServiceImpl">
+        <property name="businessObjectService">
+    		<ref bean="businessObjectService"/>
+    	</property>
+    	<property name="dataObjectMetaDataService">
+    		<ref bean="businessObjectMetaDataService"/>
+    	</property>
+    	<property name="universityDateService">
+			<ref bean="universityDateService" />
+		</property>
+    </bean>
+    
+    <bean name="offsetDefinitionInactivationBlockingDetectionService" parent="offsetDefinitionInactivationBlockingDetectionService-parentBean"/>
+    <bean name="offsetDefinitionInactivationBlockingDetectionService-parentBean" abstract="true" 
+    	class="org.kuali.ole.coa.service.impl.OffsetDefinitionInactivationBlockingDetectionServiceImpl">
+        <property name="businessObjectService">
+    		<ref bean="businessObjectService"/>
+    	</property>
+    	<property name="dataObjectMetaDataService">
+    		<ref bean="businessObjectMetaDataService"/>
+    	</property>
+    </bean>
+
+    <bean name="chartRoleTypeService" parent="chartRoleTypeService-parentBean"/>
+	<bean name="chartRoleTypeService-parentBean" abstract="true"  class="org.kuali.ole.coa.identity.ChartRoleTypeServiceImpl" />
+
+	<bean name="organizationRoleTypeService" parent="organizationRoleTypeService-parentBean"/>
+	<bean name="organizationRoleTypeService-parentBean" abstract="true" 
+		class="org.kuali.ole.coa.identity.OrganizationRoleTypeServiceImpl" />
+    
+	<bean id="organizationHierarchyAwareRoleTypeService" abstract="true">
+		<property name="chartService" ref="chartService" />
+    	<property name="organizationService" ref="organizationService" />
+    </bean>
+	<bean id="organizationOptionalHierarchyQualifierRoleTypeService" parent="organizationOptionalHierarchyQualifierRoleTypeService-parentBean"/>
+	<bean id="organizationOptionalHierarchyQualifierRoleTypeService-parentBean" abstract="true" 
+		class="org.kuali.ole.coa.identity.OrganizationOptionalHierarchyRoleTypeServiceImpl"
+		parent="organizationHierarchyAwareRoleTypeService" />
+
+	<bean id="organizationHierarchyReviewRoleTypeService" parent="organizationHierarchyReviewRoleTypeService-parentBean"/>
+	<bean id="organizationHierarchyReviewRoleTypeService-parentBean" abstract="true" 
+		class="org.kuali.ole.coa.identity.OrganizationHierarchyReviewRoleTypeServiceImpl"
+		parent="organizationHierarchyAwareRoleTypeService" />
+    
+    <bean id="accountingOrganizationHierarchyReviewRoleTypeService" parent="accountingOrganizationHierarchyReviewRoleTypeService-parentBean"/>
+	<bean id="accountingOrganizationHierarchyReviewRoleTypeService-parentBean" abstract="true" 
+		class="org.kuali.ole.coa.identity.AccountingOrganizationHierarchyReviewRoleTypeServiceImpl"
+		parent="organizationHierarchyAwareRoleTypeService" />
+	
+    <bean id="accountRoleTypeService" parent="accountRoleTypeService-parentBean"/>	
+    <bean id="accountRoleTypeService-parentBean" abstract="true"  class="org.kuali.ole.coa.identity.AccountRoleTypeServiceImpl"/>
+	
+	<bean id="accountDerivedRoleTypeService" parent="accountDerivedRoleTypeService-parentBean"/>
+	<bean id="accountDerivedRoleTypeService-parentBean"
+		class="org.kuali.ole.coa.identity.AccountDerivedRoleTypeServiceImpl" abstract="true">
+		<property name="accountService">
+			<ref bean="accountService" />
+		</property>
+		<property name="accountDelegateService" ref="accountDelegateService" />
+	</bean>
+
+	<bean id="subAccountReviewRoleTypeService" parent="subAccountReviewRoleTypeService-parentBean"/>
+	<bean id="subAccountReviewRoleTypeService-parentBean"
+		class="org.kuali.ole.coa.identity.SubAccountReviewRoleTypeServiceImpl" abstract="true" />
+
+	<bean id="subFundReviewRoleTypeService" parent="subFundReviewRoleTypeService-parentBean"/>
+	<bean id="subFundReviewRoleTypeService-parentBean"
+		class="org.kuali.ole.coa.identity.SubFundReviewRoleTypeServiceImpl" abstract="true" />
+
+	<bean id="chartDerivedRoleTypeService" parent="chartDerivedRoleTypeService-parentBean"/>
+	<bean id="chartDerivedRoleTypeService-parentBean"
+		class="org.kuali.ole.coa.identity.ChartDerivedRoleTypeServiceImpl" abstract="true">
+		<property name="organizationService">
+			<ref bean="organizationService" />
+		</property>
+	</bean>
+    	
+	<bean id="organizationGroupTypeService" parent="organizationGroupTypeService-parentBean"/>
+	<bean id="organizationGroupTypeService-parentBean"
+		class="org.kuali.ole.coa.identity.OrganizationGroupTypeServiceImpl" abstract="true" />
+	
+	<bean id="contractsAndGrantsResponsibilityRoleTypeService"  parent="contractsAndGrantsResponsibilityRoleTypeService-parentBean"/>
+	<bean id="contractsAndGrantsResponsibilityRoleTypeService-parentBean" class="org.kuali.ole.coa.identity.ContractsAndGrantsResponsibilityRoleTypeServiceImpl" abstract="true" />
+
+	<bean id="organizationReversionFiscalYearMaker" parent="FiscalYearMaker">
+		<property name="businessObjectClass" value="org.kuali.ole.coa.businessobject.OrganizationReversion" /> 
+		<property name="fiscalYearOneBehind" value="true" />
+	</bean>
+	
+	<bean id="organizationReversionDetailFiscalYearMaker" parent="FiscalYearMaker">
+		<property name="businessObjectClass" value="org.kuali.ole.coa.businessobject.OrganizationReversionDetail" /> 
+		<property name="parentClasses">
+		  <set>
+		    <value>org.kuali.ole.coa.businessobject.ObjectCode</value>
+		    <value>org.kuali.ole.coa.businessobject.OrganizationReversion</value>
+		  </set>
+		</property>	
+		<property name="fiscalYearOneBehind" value="true" />
+	</bean>	
+	
+	<bean id="subObjectCodeFiscalYearMaker" parent="FiscalYearMaker">
+		<property name="businessObjectClass" value="org.kuali.ole.coa.businessobject.SubObjectCode" /> 
+		<property name="parentClasses">
+		  <set>
+		    <value>org.kuali.ole.coa.businessobject.ObjectCode</value>
+		  </set>
+		</property>	
+	</bean>	
+	
+	<bean id="objectCodeFiscalYearMaker" class="org.kuali.ole.coa.batch.dataaccess.impl.ObjectCodeFiscalYearMakerImpl" parent="FiscalYearMaker">
+		<property name="businessObjectClass" value="org.kuali.ole.coa.businessobject.ObjectCode" /> 
+	</bean>		
+	
+	<bean id="offsetDefinitionFiscalYearMaker" parent="FiscalYearMaker">
+		<property name="businessObjectClass" value="org.kuali.ole.coa.businessobject.OffsetDefinition" /> 
+		<property name="parentClasses">
+		  <set>
+		    <value>org.kuali.ole.coa.businessobject.ObjectCode</value>
+		  </set>
+		</property>	
+	</bean>	
+	
+	<bean id="accountingPeriodFiscalYearMaker" class="org.kuali.ole.coa.batch.dataaccess.impl.AccountingPeriodFiscalYearMakerImpl" parent="FiscalYearMaker">
+		<property name="businessObjectClass" value="org.kuali.ole.coa.businessobject.AccountingPeriod" /> 
+        <property name="twoYearCopy" value="true" />
+	</bean>	
+	
+	<bean id="indirectCostRecoveryRateDetailFiscalYearMaker" parent="FiscalYearMaker">
+		<property name="businessObjectClass" value="org.kuali.ole.coa.businessobject.IndirectCostRecoveryRateDetail" /> 
+		<property name="parentClasses">
+		  <set>
+		    <value>org.kuali.ole.coa.businessobject.IndirectCostRecoveryRate</value>
+		  </set>
+		</property>	
+	</bean>	
+	
+	<bean id="indirectCostRecoveryRateFiscalYearMaker" parent="FiscalYearMaker">
+		<property name="businessObjectClass" value="org.kuali.ole.coa.businessobject.IndirectCostRecoveryRate" /> 
+	</bean>	
+	
+    <bean id="orgReviewRoleLookupableHelperService" class="org.kuali.ole.coa.identity.OrgReviewRoleLookupableHelperServiceImpl" parent="lookupableHelperService">
+		<property name="orgReviewRoleService" ref="orgReviewRoleService" />
+            </bean>
+
+	<bean id="orgReviewRoleLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" parent="kualiLookupable" scope="prototype">
+        <property name="lookupableHelperService" ref="orgReviewRoleLookupableHelperService" />
+    </bean>
+    
+    <bean id="accountDelegateService"  parent="accountDelegateService-parentBean"/>
+    <bean id="accountDelegateService-parentBean" class="org.kuali.ole.coa.service.impl.AccountDelegateServiceImpl" abstract="true">
+    	<property name="accountDelegateDao">
+            <ref bean="accountDelegateDao" />
+        </property>
+        <property name="accountDelegateGlobalDao">
+            <ref bean="accountDelegateGlobalDao" />
+        </property>
+        <property name="dataDictionaryService" ref="dataDictionaryService" />
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="dateTimeService" ref="dateTimeService" />
+    </bean>
+    	
+	<bean id="chartLedgerReferenceValuePreparedStatementCachingDao" parent="preparedStatementCachingDao" class="org.kuali.ole.coa.batch.dataaccess.impl.LedgerReferenceValuePreparedStatementCachingDaoJdbc" />
+
+	<bean id="orgReviewRoleService" class="org.kuali.ole.coa.service.impl.OrgReviewRoleServiceImpl" />
+	
+	<bean id="cfdaService" class="org.kuali.ole.coa.service.impl.CfdaServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+    </bean>
+	
+    <bean id="cfdaBatchStep" class="org.kuali.ole.coa.batch.CfdaBatchStep" parent="step">
+        <property name="cfdaService">
+            <ref bean="cfdaService" />
+        </property>
+        <property name="mailService">
+            <ref bean="mailService" />
+        </property>
+        <property name="parameterService">
+            <ref bean="parameterService" />
+        </property>
+        <property name="configurationService" ref="kualiConfigurationService" />
+    </bean>
+
+    <bean id="cfdaJob" parent="unscheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="cfdaBatchStep" />
+			</list>
+		</property>
+	</bean>
+
+	<!--<bean id="cfdaJobTrigger" parent="cronTrigger">
+		<property name="jobName" value="cfdaJob" />
+		<property name="cronExpression" value="00 00 00 1 1,4,7,10  ?" />
+	</bean>-->
+	 
+	 <import resource="spring-coa-bus-exports.xml"/>
+</beans>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://ole.kuali.org/standards/ole-location" targetNamespace="http://ole.kuali.org/standards/ole-location" elementFormDefault="qualified">
+    <xs:element name="locationGroup" type="locationGroup"/>
+    <xs:complexType name="locationGroup">
+        <xs:sequence>
+            <xs:element name="location" type="location" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="location">
+        <xs:sequence>
+            <xs:element name="locationCode" type="xs:string" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="locationName" type="xs:string" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="locationLevelCode" type="xs:string" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="parentLocationCode" type="xs:string" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

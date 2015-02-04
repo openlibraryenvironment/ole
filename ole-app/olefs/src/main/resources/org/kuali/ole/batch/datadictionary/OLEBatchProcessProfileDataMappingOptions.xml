@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="OLEBatchProcessProfileDataMappingOptions" parent="OLEBatchProcessProfileDataMappingOptions-parentBean"/>
+    <bean id="OLEBatchProcessProfileDataMappingOptions-parentBean" abstract="true" parent="BusinessObjectEntry"
+          p:businessObjectClass="org.kuali.ole.batch.bo.OLEBatchProcessProfileDataMappingOptionsBo" p:titleAttribute="OLEBatchProcessProfileDataMappingOptionsId"
+          p:objectLabel="OLEBatchProcessProfileDataMappingOptions">
+        <property name="attributes">
+            <list>
+                <ref bean="OLEBatchProcessProfileDataMappingOptions-oleBatchProcessProfileDataMappingOptionId"/>
+                <ref bean="OLEBatchProcessProfileDataMappingOptions-oleBatchProcessDataMapId"/>
+                <ref bean="OLEBatchProcessProfileDataMappingOptions-fileType"/>
+                <ref bean="OLEBatchProcessProfileDataMappingOptions-dataType"/>
+                <ref bean="OLEBatchProcessProfileDataMappingOptions-dataTypeDestinationField"/>
+                <ref bean="OLEBatchProcessProfileDataMappingOptions-sourceField"/>
+                <ref bean="OLEBatchProcessProfileDataMappingOptions-sourceFieldValue"/>
+                <ref bean="OLEBatchProcessProfileDataMappingOptions-destinationField"/>
+                <ref bean="OLEBatchProcessProfileDataMappingOptions-destinationFieldValue"/>
+                <ref bean="OLEBatchProcessProfileDataMappingOptions-priority"/>
+                <ref bean="OLEBatchProcessProfileDataMappingOptions-LookUp"/>
+
+            </list>
+        </property>
+        <property name="primaryKeys">
+            <list>
+                <value>OLEBatchProcessProfileDataMappingOptionsId</value>
+            </list>
+        </property>
+        <!--<property name="lookupDefinition">
+            <ref bean="OLEBatchProcessProfileDataMappingOptions-LookupView"/>
+        </property>-->
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+    <bean id="OLEBatchProcessProfileDataMappingOptions-oleBatchProcessProfileDataMappingOptionId" parent="OLEBatchProcessProfileDataMappingOptions-oleBatchProcessProfileDataMappingOptionId-parentBean"/>
+    <bean id="OLEBatchProcessProfileDataMappingOptions-oleBatchProcessProfileDataMappingOptionId-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="oleBatchProcessProfileDataMappingOptionId"/>
+        <property name="shortLabel" value="OleBatchProcessProfile DataMapping OptionId"/>
+        <property name="label" value="OleBatchProcessProfile DataMapping OptionId"/>
+
+
+        <!--<property name="maxLength" value="40"/>-->
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+    <bean id="OLEBatchProcessProfileDataMappingOptions-fileType" parent="OLEBatchProcessProfileDataMappingOptions-fileType-parentBean"/>
+    <bean id="OLEBatchProcessProfileDataMappingOptions-fileType-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="fileType"/>
+        <property name="shortLabel" value="fileType"/>
+        <property name="label" value="fileType"/>
+        <!--<property name="maxLength" value="40"/>-->
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchProcessProfileDataMappingOptions-oleBatchProcessDataMapId" parent="OLEBatchProcessProfileDataMappingOptions-oleBatchProcessDataMapId-parentBean"/>
+    <bean id="OLEBatchProcessProfileDataMappingOptions-oleBatchProcessDataMapId-parentBean" parent="AttributeDefinition" abstract="true">
+        <property name="name" value="oleBatchProcessDataMapId"/>
+        <property name="shortLabel" value="OleBatchProcess DataMapId"/>
+        <property name="label" value="OleBatchProcess DataMapId"/>
+        <!--<property name="maxLength" value="40"/>
+        <property name="optionsFinder">
+            <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessFieldNameValuesFinder" />
+        </property>-->
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+
+
+    <bean id="OLEBatchProcessProfileDataMappingOptions-sourceField" parent="OLEBatchProcessProfileDataMappingOptions-sourceField-parentBean"/>
+    <bean id="OLEBatchProcessProfileDataMappingOptions-sourceField-parentBean" parent="AttributeDefinition" abstract="true">
+        <property name="name" value="sourceField"/>
+        <property name="shortLabel" value="Source Field"/>
+        <property name="label" value="Source Field"/>
+        <property name="maxLength" value="40"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchProcessProfileDataMappingOptions-destinationField" parent="OLEBatchProcessProfileDataMappingOptions-destinationField-parentBean"/>
+    <bean id="OLEBatchProcessProfileDataMappingOptions-destinationField-parentBean" parent="AttributeDefinition" abstract="true">
+        <property name="name" value="destinationField"/>
+        <property name="shortLabel" value="Destination Field"/>
+        <property name="label" value="Destination Field"/>
+        <property name="maxLength" value="40"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchProcessProfileDataMappingOptions-destinationFieldValue" parent="OLEBatchProcessProfileDataMappingOptions-destinationFieldValue-parentBean"/>
+    <bean id="OLEBatchProcessProfileDataMappingOptions-destinationFieldValue-parentBean" parent="AttributeDefinition" abstract="true">
+        <property name="name" value="destinationFieldValue"/>
+        <property name="shortLabel" value="Destination Field Value"/>
+        <property name="label" value="Destination Field Value"/>
+        <property name="maxLength" value="40"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchProcessProfileDataMappingOptions-priority" parent="OLEBatchProcessProfileDataMappingOptions-priority-parentBean"/>
+    <bean id="OLEBatchProcessProfileDataMappingOptions-priority-parentBean" parent="AttributeDefinition" abstract="true">
+        <property name="name" value="priority"/>
+        <property name="shortLabel" value="priority"/>
+        <property name="label" value="priority"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="5"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="5"/>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchProcessProfileDataMappingOptions-sourceFieldValue" parent="OLEBatchProcessProfileDataMappingOptions-sourceFieldValue-parentBean"/>
+    <bean id="OLEBatchProcessProfileDataMappingOptions-sourceFieldValue-parentBean" parent="AttributeDefinition" abstract="true">
+        <property name="name" value="sourceFieldValue"/>
+        <property name="shortLabel" value="sourceFieldValue"/>
+        <property name="label" value="sourceFieldValue"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+    <bean id="OLEBatchProcessProfileDataMappingOptions-dataType" parent="OLEBatchProcessProfileDataMappingOptions-dataType-parentBean"/>
+    <bean id="OLEBatchProcessProfileDataMappingOptions-dataType-parentBean" parent="AttributeDefinition" abstract="true">
+        <property name="name" value="dataType"/>
+        <property name="shortLabel" value="Data Type"/>
+        <property name="label" value="Data Type"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+    <bean id="OLEBatchProcessProfileDataMappingOptions-dataTypeDestinationField" parent="OLEBatchProcessProfileDataMappingOptions-dataTypeDestinationField-parentBean"/>
+    <bean id="OLEBatchProcessProfileDataMappingOptions-dataTypeDestinationField-parentBean" parent="AttributeDefinition" abstract="true">
+        <property name="name" value="dataTypeDestinationField"/>
+        <property name="shortLabel" value="Data Type Destination Field"/>
+        <property name="label" value="Data Type"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+    <bean id="OLEBatchProcessProfileDataMappingOptions-LookUp" parent="OLEBatchProcessProfileDataMappingOptions-LookUp-parentBean"/>
+    <bean id="OLEBatchProcessProfileDataMappingOptions-LookUp-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+        <property name="name" value="lookUp"/>
+    </bean>
+</beans>

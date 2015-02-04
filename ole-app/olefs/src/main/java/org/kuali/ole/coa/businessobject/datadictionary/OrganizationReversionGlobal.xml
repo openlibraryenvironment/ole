@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+ Copyright 2007-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean id="OrganizationReversionGlobal" parent="OrganizationReversionGlobal-parentBean"/>
+
+  <bean id="OrganizationReversionGlobal-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.ole.coa.businessobject.OrganizationReversionGlobal"/>
+    <property name="objectLabel" value="Organization Reversion Global"/>
+    <property name="attributes">
+      <list>
+        <ref bean="OrganizationReversionGlobal-documentNumber"/>
+        <ref bean="OrganizationReversionGlobal-universityFiscalYear"/>
+        <ref bean="OrganizationReversionGlobal-budgetReversionChartOfAccountsCode"/>
+        <ref bean="OrganizationReversionGlobal-budgetReversionAccountNumber"/>
+        <ref bean="OrganizationReversionGlobal-cashReversionFinancialChartOfAccountsCode"/>
+        <ref bean="OrganizationReversionGlobal-cashReversionAccountNumber"/>
+        <ref bean="OrganizationReversionGlobal-carryForwardByObjectCodeIndicator"/>
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="OrganizationReversionGlobal-documentNumber" parent="OrganizationReversionGlobal-documentNumber-parentBean"/>
+  <bean id="OrganizationReversionGlobal-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber" />
+
+  <bean id="OrganizationReversionGlobal-universityFiscalYear" parent="OrganizationReversionGlobal-universityFiscalYear-parentBean"/>
+  <bean id="OrganizationReversionGlobal-universityFiscalYear-parentBean" abstract="true" parent="GenericAttributes-genericFiscalYear">
+    <property name="name" value="universityFiscalYear"/>
+    <property name="required" value="true"/>
+  </bean>
+  
+  <bean id="OrganizationReversionGlobal-budgetReversionChartOfAccountsCode" parent="OrganizationReversionGlobal-budgetReversionChartOfAccountsCode-parentBean"/>
+  <bean id="OrganizationReversionGlobal-budgetReversionChartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+    <property name="name" value="budgetReversionChartOfAccountsCode"/>
+    <property name="label" value="Budget Reversion Chart"/>
+    <property name="shortLabel" value="Budget Reversion Chart"/>
+    <property name="required" value="false"/>
+  </bean>
+
+  <bean id="OrganizationReversionGlobal-budgetReversionAccountNumber" parent="OrganizationReversionGlobal-budgetReversionAccountNumber-parentBean"/>
+  <bean id="OrganizationReversionGlobal-budgetReversionAccountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+    <property name="name" value="budgetReversionAccountNumber"/>
+    <property name="label" value="Budget Reversion Account"/>
+    <property name="shortLabel" value="Budget Reversion Account"/>
+    <property name="required" value="false"/>
+  </bean>
+
+  <bean id="OrganizationReversionGlobal-cashReversionFinancialChartOfAccountsCode" parent="OrganizationReversionGlobal-cashReversionFinancialChartOfAccountsCode-parentBean"/>
+  <bean id="OrganizationReversionGlobal-cashReversionFinancialChartOfAccountsCode-parentBean" abstract="true" parent="Chart-chartOfAccountsCode">
+    <property name="name" value="cashReversionFinancialChartOfAccountsCode"/>
+    <property name="label" value="Cash Reversion Chart"/>
+    <property name="shortLabel" value="Cash Reversion Chart"/>
+    <property name="required" value="false"/>
+  </bean>
+
+  <bean id="OrganizationReversionGlobal-cashReversionAccountNumber" parent="OrganizationReversionGlobal-cashReversionAccountNumber-parentBean"/>
+  <bean id="OrganizationReversionGlobal-cashReversionAccountNumber-parentBean" abstract="true" parent="Account-accountNumber">
+    <property name="name" value="cashReversionAccountNumber"/>
+    <property name="label" value="Cash Reversion Account"/>
+    <property name="shortLabel" value="Cash Reversion Account"/>
+    <property name="required" value="false"/>
+  </bean>
+
+  <bean id="OrganizationReversionGlobal-carryForwardByObjectCodeIndicator" parent="OrganizationReversionGlobal-carryForwardByObjectCodeIndicator-parentBean"/>
+  <bean id="OrganizationReversionGlobal-carryForwardByObjectCodeIndicator-parentBean" abstract="true" parent="GenericAttributes-genericBoolean">
+    <property name="name" value="carryForwardByObjectCodeIndicator"/>
+    <property name="label" value="Carry Forward by Object Code Indicator"/>
+    <property name="shortLabel" value="CF by Object Code"/>
+    <property name="control" ref="IndicatorYNNullSelectControl" />
+  </bean>
+</beans>

@@ -1,0 +1,45 @@
+NMSPC_CD,CMPNT_CD,OBJ_ID,VER_NBR,NM,ACTV_IND
+OLE-CG,All,OLE17,1,All,Y
+OLE-CG,Batch,OLE18,1,Batch,Y
+OLE-CG,Document,OLE19,1,Document,Y
+OLE-CG,Lookup,OLE20,1,Lookup,Y
+OLE-COA,All,OLE21,1,All,Y
+OLE-COA,Batch,OLE22,1,Batch,Y
+OLE-COA,Document,OLE23,1,Document,Y
+OLE-COA,Lookup,OLE24,1,Lookup,Y
+OLE-FP,All,OLE33,1,All,Y
+OLE-FP,Batch,OLE34,1,Batch,Y
+OLE-FP,Document,OLE35,1,Document,Y
+OLE-FP,Lookup,OLE36,1,Lookup,Y
+OLE-GL,All,OLE37,1,All,Y
+OLE-GL,Batch,OLE38,1,Batch,Y
+OLE-GL,Document,OLE39,1,Document,Y
+OLE-GL,Lookup,OLE40,1,Lookup,Y
+OLE-PDP,All,OLE45,1,All,Y
+OLE-PDP,Batch,OLE46,1,Batch,Y
+OLE-PDP,Document,OLE47,1,Document,Y
+OLE-PDP,Lookup,OLE48,1,Lookup,Y
+OLE-PURAP,All,OLE49,1,All,Y
+OLE-PURAP,Batch,OLE50,1,Batch,Y
+OLE-PURAP,Document,OLE51,1,Document,Y
+OLE-PURAP,Lookup,OLE52,1,Lookup,Y
+OLE-SEC,All,OLESEC1,1,All,Y
+OLE-SEC,Batch,OLESEC2,1,Batch,Y
+OLE-SEC,Document,OLESEC3,1,Document,Y
+OLE-SEC,Lookup,OLESEC4,1,Lookup,Y
+OLE-SYS,All,OLE53,1,All,Y
+OLE-SYS,Batch,OLE54,1,Batch,Y
+OLE-SYS,Document,OLE55,1,Document,Y
+OLE-SYS,Lookup,OLE56,1,Lookup,Y
+OLE-VND,All,OLE57,1,All,Y
+OLE-VND,Batch,OLE58,1,Batch,Y
+OLE-VND,Document,OLE59,1,Document,Y
+OLE-VND,Lookup,OLE60,1,Lookup,Y
+OLE-PRNT,Print Template,1,1,Print Template,Y
+OLE-PRNT,Patron Bill Color,2,1,Bill Color,Y
+OLE-PRNT,Patron Bill Font,3,1,Bill Font,Y
+OLE-PTRN,Patron,5,1,Patron,Y
+OLE-DLVR,Deliver,4,1,Deliver,Y
+OLE-SELECT,Select,6,1,Select,Y
+OLE-DESC,Describe,7,1,Describe,Y
+OLE-SELECT,E-Resource,8,1,E-Resource,Y

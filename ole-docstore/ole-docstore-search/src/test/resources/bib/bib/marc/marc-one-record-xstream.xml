@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?><collection xmlns="http://www.loc.gov/MARC21/slim">
+<record>
+  <leader>01168ccm a2200265   45 0</leader>
+  <controlfield tag="001">a246794</controlfield>
+  <controlfield tag="003">InU</controlfield>
+  <controlfield tag="008">750321s1962    gw   a         n  -verticalbar--verticalbar-    u</controlfield>
+  <datafield tag="028" ind1="3" ind2="0">
+    <subfield code="a">3312</subfield>
+    <subfield code="b">Edition Schott</subfield>
+  </datafield>
+  <datafield tag="035" ind1=" " ind2=" ">
+    <subfield code="a">(InU)ACJ8747BM</subfield>
+  </datafield>
+  <datafield tag="035" ind1=" " ind2=" ">
+    <subfield code="a">(OCoLC)ocm01227440</subfield>
+  </datafield>
+  <datafield tag="040" ind1=" " ind2=" ">
+    <subfield code="c">CIN</subfield>
+    <subfield code="d">m.c.</subfield>
+    <subfield code="d">OCL</subfield>
+  </datafield>
+  <datafield tag="048" ind1=" " ind2=" ">
+    <subfield code="a">ka01</subfield>
+    <subfield code="a">wc01</subfield>
+    <subfield code="a">bb01</subfield>
+    <subfield code="a">sa01</subfield>
+    <subfield code="a">sd01</subfield>
+  </datafield>
+  <datafield tag="049" ind1=" " ind2=" ">
+    <subfield code="a">IULA</subfield>
+  </datafield>
+  <datafield tag="090" ind1=" " ind2=" ">
+    <subfield code="a">M522.H55</subfield>
+    <subfield code="b">S8 1962</subfield>
+  </datafield>
+  <datafield tag="100" ind1="1" ind2="0">
+    <subfield code="a">Hindemith, Paul,</subfield>
+    <subfield code="d">1895-1963.</subfield>
+  </datafield>
+  <datafield tag="240" ind1="1" ind2="0">
+    <subfield code="a">Scke,</subfield>
+    <subfield code="m">piano, winds, string</subfield>
+  </datafield>
+  <datafield tag="245" ind1="0" ind2="0">
+    <subfield code="a">Drei Sxfbcke,</subfield>
+    <subfield code="b">fxfcr fxfcnf Instrumente (Klarinette in B, Trompete in C, Violine, Kontrabass [und] Klavier) 1925.</subfield>
+  </datafield>
+  <datafield tag="260" ind1="0" ind2=" ">
+    <subfield code="a">Mainz,</subfield>
+    <subfield code="b">B. Schott's Scdfhne;</subfield>
+    <subfield code="a">New York,</subfield>
+    <subfield code="b">Schott Music Corp. (Associated Music Publishers),</subfield>
+    <subfield code="c">c1962.</subfield>
+  </datafield>
+  <datafield tag="300" ind1=" " ind2=" ">
+    <subfield code="a">score (20 p.) and 4 parts.</subfield>
+    <subfield code="c">30 cm.</subfield>
+  </datafield>
+  <datafield tag="500" ind1=" " ind2=" ">
+    <subfield code="a">"Edition Schott, 3312."</subfield>
+  </datafield>
+  <datafield tag="650" ind1=" " ind2="0">
+    <subfield code="a">Quintets (Piano, clarinet, trumpet, violin, double bass)</subfield>
+  </datafield>
+  <datafield tag="998" ind1=" " ind2=" ">
+    <subfield code="a">3/19/1992</subfield>
+    <subfield code="b">3/19/1992</subfield>
+    <subfield code="c">3/19/1992</subfield>
+  </datafield>
+  <datafield tag="596" ind1=" " ind2=" ">
+    <subfield code="a">20</subfield>
+  </datafield>
+  <datafield tag="999" ind1=" " ind2=" ">
+    <subfield code="a">ACJ8747</subfield>
+    <subfield code="w">ASIS</subfield>
+    <subfield code="c">1</subfield>
+    <subfield code="i">30000038431064</subfield>
+    <subfield code="d">1/16/2009</subfield>
+    <subfield code="e">1/16/2009</subfield>
+    <subfield code="j">4</subfield>
+    <subfield code="l">_MUFRSCOR</subfield>
+    <subfield code="m">B-MUSIC</subfield>
+    <subfield code="n">7</subfield>
+    <subfield code="q">1</subfield>
+    <subfield code="r">Y</subfield>
+    <subfield code="s">Y</subfield>
+    <subfield code="t">NORMAL</subfield>
+    <subfield code="u">11/5/2000</subfield>
+    <subfield code="o">.STAFF.  "TO HAVE PREPARED FOR YOUR USE, ASK LIBRARY STAFF"</subfield>
+    <subfield code="o">.STAFF. Trumpet part missing 1/16/09 - WDH</subfield>
+  </datafield>
+  </record>
+  </collection>

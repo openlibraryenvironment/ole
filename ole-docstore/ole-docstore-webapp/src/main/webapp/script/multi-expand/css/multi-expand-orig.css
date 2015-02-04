@@ -1,0 +1,77 @@
+#wrapper{
+  margin:0 auto;
+  padding:15px 15% 8em;
+  text-align:left
+}
+#content {
+  max-width:70em;
+  width:100%;
+  margin:0 auto;
+  padding-bottom:20px;
+  overflow:hidden
+}
+.demo {
+  margin:1.5em 0;
+  padding:1.5em 1.5em 0.75em;
+  border:1px solid #ccc;
+  position:relative;
+  overflow:hidden
+}
+.collapse p {padding:0 10px 1em}
+
+.switch {position:absolute; top:1.5em; right: 1.5em; padding:3px}
+
+.post .switch {position:static; text-align:right}
+
+.post .main{margin-bottom:.3em; padding-bottom:0}
+
+.other ul, .summary {margin-bottom:.3em; padding:1em; border:1px solid #e8e7e8; background-color:#f8f7f8}
+
+.other ul {margin-bottom:1em; list-style-type:none; text-align:center}
+
+
+/* --- Headings  --- */
+h1 {
+  margin-bottom:1em; 
+  font-family:georgia,'times new roman',times,serif; 
+  font-size:2.5em; 
+  font-weight:normal; 
+  color:#c30
+}
+h2 {margin-bottom:1em; padding:3px; background-color:#eee}
+h2, h3{font-size:1em}
+
+.expand{padding-bottom:.75em}
+
+/* --- Links  --- */
+a:link, a:visited {
+  border:1px dotted #ccc;
+  border-width:0;
+  text-decoration:none;
+  color:blue
+}
+a:hover, a:active, a:focus {
+  border-style:solid;
+  background-color:#f0f0f0;
+  text-decoration:underline;
+  outline:0 none
+}
+a:active, a:focus {
+  color:red;
+}
+.expand a {
+  display:block;
+  padding:3px 10px
+}
+.expand a:link, .expand a:visited {
+  border-width:1px;
+  background-image:url(img/arrow-down.gif);
+  background-repeat:no-repeat;
+  background-position:98% 50%;
+}
+.expand a:hover, .expand a:active, .expand a:focus {
+}
+.expand a.open:link, .expand a.open:visited {
+  border-style:solid;
+  background:#eee url(img/arrow-up.gif) no-repeat 98% 50%
+}

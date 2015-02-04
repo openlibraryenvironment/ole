@@ -1,0 +1,477 @@
+<config>
+
+  <param name="app.context.name">olefs</param>
+  <param name="environment">local</param>
+  <param name="build.environment">${environment}</param>
+  <param name="dev.mode">false</param>
+  <param name="rice.dev.mode">${dev.mode}</param>
+  <param name="xml.pipeline.lifecycle.enabled">true</param>
+
+  <param name="config.location">classpath:${project.groupId.path}/url-rice-properties.xml</param>
+  <param name="config.location">classpath:${project.groupId.path}/jdbc-rice-properties.xml</param>
+
+  <!--Additional Spring files -->
+  <param name="spring.source.files" override="false">classpath:org/kuali/ole/spring-ole-imported-rice-beans.xml,classpath:org/kuali/ole/spring-additional-rice-beans.xml,classpath:org/kuali/rice/core/CommonSpringBeans.xml,classpath:org/kuali/ole/KRMSLocalSpringBeans.xml,classpath:org/kuali/ole/ole-cache-config.xml,classpath:org/kuali/ole/sys/spring-sys.xml,classpath:org/kuali/ole/coa/spring-coa.xml,classpath:org/kuali/ole/fp/spring-fp.xml,classpath:org/kuali/ole/gl/spring-gl.xml,classpath:org/kuali/ole/pdp/spring-pdp.xml,classpath:org/kuali/ole/vnd/spring-vnd.xml,classpath:org/kuali/ole/spring-ole-batch.xml,classpath:org/kuali/ole/integration/spring-integration.xml,classpath:org/kuali/ole/module/cg/spring-cg.xml,classpath:org/kuali/ole/module/purap/spring-purap.xml,classpath:org/kuali/ole/select/spring-select.xml,classpath:org/kuali/ole/ole-SpringBeans.xml,classpath:org/kuali/ole/deliver/spring-deliver.xml,classpath:org/kuali/ole/describe/spring-describe.xml,classpath:org/kuali/ole/batch/spring-batch.xml,classpath:org/kuali/ole/ncip/spring-ncip.xml,classpath:org/kuali/ole/olekrad/spring-olekrad.xml</param>
+  <param name="rice.core.additionalSpringFiles" override="false"></param>
+  <param name="rice.coreservice.additionalSpringFiles" override="false"></param>
+  <param name="rice.kr.additionalSpringFiles" override="false">classpath:org/kuali/ole/spring-rice-krad-overrides.xml</param>
+  <param name="rice.kim.additionalSpringFiles" override="false"></param>
+  <param name="rice.ksb.additionalSpringFiles" override="false"></param>
+  <param name="rice.location.additionalSpringFiles" override="false"></param>
+  <param name="rice.kew.additionalSpringFiles" override="false">classpath:org/kuali/ole/OleKewLocalSpringBeans.xml</param>
+
+  <!-- This defaults to http://localhost:8080 -->
+  <param name="application.url">${ole.fs.url.base}</param>
+  <param name="appserver.url">${application.url}</param>
+
+  <!-- General Properties -->
+  <param name="app.namespace" override="false">OLE</param>
+  <param name="kfs.version" override="false">5.0.1</param>
+  <param name="ole.version" override="false">${project.version}</param>
+  <param name="application.id" override="false">OLE</param>
+  <param name="app.code" override="false">ole</param>
+  <param name="app.context.name" override="false">ole-local</param>
+  <param name="header.text" override="false">${project.name} ::</param>
+  <param name="production.environment.code" override="false">prd</param>
+  <param name="ole.locale" override="false">en_US</param>
+
+  <!--Rice Urls -->
+  <param name="rice.server.url">${application.url}</param>
+  <param name="rice.url">${application.url}</param>
+  <param name="core.url">${application.url}/core</param>
+  <param name="kcb.url">${application.url}/kcb</param>
+  <param name="ken.url">${application.url}/ken</param>
+  <param name="kew.url">${application.url}/kew</param>
+  <param name="kr.krad.url">${application.url}/ole-kr-krad</param>
+  <param name="krad.inquiry.url">${application.url}/ole-kr-krad/inquiry</param>
+  <param name="krad.lookup.url">${application.url}/ole-kr-krad/lookup</param>
+  <param name="krad.url">${application.url}/ole-kr-krad</param>
+  <param name="krms.url">${application.url}/krms</param>
+  <param name="ksb.server.url">${application.url}/ksb</param>
+  <param name="rice.ksb.registry.serviceUrl">${application.url}/remoting/soap/ksb/v2_0/serviceRegistry</param>
+  <param name="serviceServletUrl">${application.url}/remoting</param>
+  <param name="externalizable.static.content.url">${application.url}/static</param>
+  <param name="krad.externalizable.images.url">${application.url}/krad/images/</param>
+  <param name="kr.externalizable.images.url">${application.url}/kr/static/images/</param>
+  <param name="externalizable.help.url">http://site.kuali.org/ole/${project.version}</param>
+  <param name="externalizable.images.url">${externalizable.static.content.url}/images/</param>
+  <param name="travel.externalizable.images.url">${kr.externalizable.images.url}</param>
+  <param name="kr.url">${application.url}/kr</param>
+  <param name="ksb.url">${application.url}/ksb</param>
+  <param name="kim.url">${application.url}/kim</param>
+  <param name="ksb.client.url" override="false">${application.url}/ksb</param>
+  <param name="rice.portal.logout.redirectUrl">${application.url}/portal.do</param>
+  <param name="rice.server.krad.lookup.url">${application.url}/ole-kr-krad/lookup</param>
+  <param name="rice.server.krad.url">${application.url}/ole-kr-krad</param>
+  <param name="http.service.url">${application.url}/remoting/</param>
+  <param name="documentation.url">http://site.origin.kuali.org/ole/1.5.0-M2-SNAPSHOT/reference/html/Index.html</param>
+
+
+  <!--KFS B2B Urls -->
+  <param name="b2b.punch.back.url">${application.url}/b2b.do?methodToCall=returnFromShopping</param>
+   <!-- <param name="ole.url">${ole.fs.url.base}/portal.jsp</param>-->
+    <param name="images.url">${ole.fs.url.base}/rice-portal/images/</param>
+    <!--OLE Urls -->
+  <param name="ole.url" override="false">${application.url}</param>
+  <param name="ole.fs.portal.url">${application.url}</param>
+
+  <param name="PREORDER_NAMESPACE" override="false">http://service.select.ole.kuali.org/</param>
+  <param name="PREORDER_URL">${application.url}/remoting/preOrderService</param>
+
+    <param name="oleRequisitionWebService.url">${ole.fs.url.base}/remoting/oleRequisitionWebService</param>
+
+    <param name="license.document.initiator">fred</param>
+    <param name="license.document.status">LN</param>
+    <param name="homeDirectory">${project.home}</param>
+
+  <!--KFS Business Transaction info -->
+  <param name="b2b.user.agent">ole</param>
+  <param name="b2b.purchase.order.identity">${b2b.test.purchase.order.identity}</param>
+  <param name="b2b.purchase.order.password">p01mport</param>
+  <param name="b2b.shopping.identity">${b2b.test.shopping.identity}</param>
+  <param name="b2b.shopping.password">c#m1</param>
+
+  <!--local mode enables use and consumption of services locally as in the case of bundled rice -->
+  <param name="dev.mode" override="false">false</param>
+  <param name="ole.mode">LOCAL</param>
+  <param name="core.mode">LOCAL</param>
+  <param name="krad.mode">LOCAL</param>
+  <param name="kim.mode">LOCAL</param>
+  <param name="kew.mode">LOCAL</param>
+  <param name="coreservice.mode">LOCAL</param>
+  <param name="ksb.mode">LOCAL</param>
+  <param name="location.mode">LOCAL</param>
+
+  <!--Datasource -->
+  <param name="jdbc.username">OLE</param>
+  <param name="rice.datasource.validating.query">${datasource.pool.validationQuery}</param>
+  <param name="kfs.datasource.validating.query">${datasource.pool.validationQuery}</param>
+
+  <param name="rice.server.datasource.driver.class">${datasource.driver.class}</param>
+  <param name="rice.server.datasource.url">${datasource.url}</param>
+  <param name="rice.server.datasource.username">${datasource.username}</param>
+  <param name="rice.server.datasource.password">${datasource.password}</param>
+  <param name="rice.server.datasource.validating.query">${datasource.validating.query}</param>
+  <param name="rice.server.datasource.pool.size">${datasource.pool.size}</param>
+  <param name="rice.server.datasource.connection.timeout">${datasource.connection.timeout}</param>
+  <param name="rice.server.datasource.maximum.cached.preparedstatements">${datasource.maximum.cached.preparedstatements}</param>
+
+  <param name="rice.datasource.pool.maxActive">${datasource.pool.maxActive}</param>
+  <param name="rice.datasource.pool.minIdle">${datasource.pool.minIdle}</param>
+  <param name="rice.datasource.pool.initialSize">${datasource.pool.initialSize}</param>
+  <param name="rice.datasource.pool.maxSize">${datasource.pool.maxSize}</param>
+  <param name="rice.datasource.pool.minSize">${datasource.pool.minSize}</param>
+  <param name="rice.datasource.pool.maxWait">${datasource.pool.maxWait}</param>
+  <param name="rice.datasource.driver.name">${datasource.driver.name}</param>
+  <param name="kfs.datasource.driver.name">${datasource.driver.name}</param>
+  <param name="rice.datasource.url">${datasource.url}</param>
+  <param name="kfs.datasource.url">${datasource.url}</param>
+  <param name="rice.datasource.username">${datasource.username}</param>
+  <param name="kfs.datasource.username">${datasource.username}</param>
+  <param name="rice.datasource.password">${datasource.password}</param>
+  <param name="kfs.datasource.password">${datasource.password}</param>
+
+  <param name="kfs.datasource.pool.maxActive">${datasource.pool.maxActive}</param>
+  <param name="kfs.datasource.pool.minIdle">${datasource.pool.minIdle}</param>
+  <param name="kfs.datasource.pool.initialSize">${datasource.pool.initialSize}</param>
+  <param name="kfs.datasource.pool.maxSize">${datasource.pool.maxSize}</param>
+  <param name="kfs.datasource.pool.minSize">${datasource.pool.minSize}</param>
+  <param name="kfs.datasource.pool.maxWait">${datasource.pool.maxWait}</param>
+  <param name="kfs.datasource.pool.accessToUnderlyingConnectionAllowed">true</param>
+
+  <!--Datasource logging -->
+  <param name="p6spy.driver.class">com.p6spy.engine.spy.P6SpyDriver</param>
+
+  <!--Email settings -->
+  <param name="mail.transport.protocol" override="false">smtp</param>
+  <param name="ole.fs.mail.server"></param>
+  <param name="ole.fs.email"></param>
+  <param name="ole.fs.exception.email">ole.devops@kuali.org</param>
+  <param name="mail.relay.server">${ole.fs.mail.server}</param>
+  <param name="mail.smtp.host">${ole.fs.mail.server}</param>
+  <param name="kcb.smtp.host">${ole.fs.mail.server}</param>
+  <param name="mailing.list.batch">${ole.fs.email}</param>
+  <param name="kr.incident.mailing.list">${ole.fs.exception.email}</param>
+  <param name="nonproduction.notification.mailing.list">${ole.fs.email}</param>
+  <param name="KualiExceptionIncidentServiceImpl.REPORT_MAIL_LIST">${ole.fs.exception.email}</param>
+  <!-- email options: no, daily, weekly, immediate -->
+  <param name="userOptions.default.email" override="false">immediate</param>
+  <param name="userOptions.default.notifyPrimary" override="false">yes</param>
+  <param name="userOptions.default.notifySecondary" override="false">no</param>
+  <param name="userOptions.default.openNewWindow" override="false">yes</param>
+  <param name="userOptions.default.actionListSize" override="false">10</param>
+  <param name="userOptions.default.refreshRate" override="false">15</param>
+  <param name="userOptions.default.showActionRequired" override="false">yes</param>
+  <param name="userOptions.default.showDateCreated" override="false">yes</param>
+  <param name="userOptions.default.showDocumentType" override="false">yes</param>
+  <param name="userOptions.default.showDocumentStatus" override="false">yes</param>
+  <param name="userOptions.default.showInitiator" override="false">yes</param>
+  <param name="userOptions.default.showDelegator" override="false">yes</param>
+  <param name="userOptions.default.showTitle" override="false">yes</param>
+  <param name="userOptions.default.showWorkgroupRequest" override="false">yes</param>
+  <param name="userOptions.default.showClearFYI" override="false">yes</param>
+  <param name="userOptions.default.showLastApprovedDate" override="false">no</param>
+  <param name="userOptions.default.showCurrentNode" override="false">no</param>
+  <param name="userOptions.default.useOutBox" override="false">yes</param>
+
+  <!--security -->
+  <param name="keystore.file">${project.home}/rice.keystore</param>
+  <param name="keystore.file.default">classpath:rice.keystore</param>
+  <param name="security.property.file">classpath:empty.properties</param>
+  <param name="keystore.alias">rice</param>
+  <param name="keystore.password">r1c3pw</param>
+  <param name="encryption.key">7IC64w6kAAAA</param>
+
+  <!--log settings -->
+  <param name="ole.fs.log4j.override">false</param>
+  <param name="ole.fs.log4j">classpath:log4j.xml</param>
+  <param name="log4j.settings.file">${ole.fs.log4j}</param>
+  <param name="log4j.settings.path">${ole.fs.log4j}</param>
+  <param name="logs.directory">${project.home}/logs</param>
+
+  <!--Workflows -->
+  <param name="data.xml.root.location">${project.home}/workflow</param>
+  <param name="data.xml.pending.location">${data.xml.root.location}/pending</param>
+  <param name="data.xml.loaded.location">${data.xml.root.location}/loaded</param>
+  <param name="data.xml.problem.location">${data.xml.root.location}/problem</param>
+  <param name="workflow.url">${application.url}/kew</param>
+  <param name="workflow.documentsearch.base.url">${application.url}/kew/DocumentSearch.do?docFormKey=88888888&amp;returnLocation=${application.url}/portal.do&amp;hideReturnLink=true</param>
+
+  <!--What are these for? -->
+  <param name="work.directory">${project.home}/work</param>
+  <param name="attachments.directory">${work.directory}/attachments</param>
+  <param name="staging.directory">${work.directory}/staging</param>
+  <param name="temp.directory">${work.directory}/temp</param>
+  <param name="attachments.pending.directory">${attachments.directory}/pending</param>
+  <param name="reports.directory">${work.directory}/reports</param>
+  <param name="attachment.dir.location">${attachments.directory}</param>
+  <param name="staging.directory.sys.batchContainer">${staging.directory}/sys/batchContainer</param>
+
+  <!--OLE specific -->
+  <param name="batch.file.lookup.root.directories">${staging.directory};${reports.directory}</param>
+  <param name="ole.bibmarcxml.directory">${staging.directory}/select/bibInfo/</param>
+  <param name="ole.externalizable.help.url">${externalizable.help.url}</param>
+
+  <param name="rice.portal.allowed.regex">^${application.url}(/.*|)</param>
+  <param name="cas.rice.server.name">${application.url}</param>
+
+
+  <param name="module.access.security.enabled" override="false">false</param>
+  <param name="module.contracts.and.grants.enabled" override="false">true</param>
+  <param name="module.accounts.receivable.enabled" override="false">false</param>
+  <param name="module.purchasing.enabled" override="false">true</param>
+  <param name="module.capital.asset.enabled" override="false">false</param>
+
+
+  <param name="rice.ksb.web.forceEnable" override="false">true</param>
+
+    <!-- Vendor Transmission file Directory -->
+    <param name="vendor.transmission.directory">${staging.directory}/select/vendortransmissionfiles/</param>
+
+  <!-- Scheduler properties -->
+  <param name="use.quartz.scheduling" override="false">true</param>
+  <param name="use.quartz.jdbc.jobstore" override="false">false</param>
+  <param name="batch.schedule.cron.expression" override="false">00 00 23 ? * *</param>
+  <param name="batch.quartz.thread.pool.size" override="false">8</param>
+  <param name="batch.quartz.trigger.check.interval" override="false">30000</param>
+
+  <!-- Web File Configuration -->
+    <param name="kns.javascript.files" override="false">plugins/jquery/jquery-1.8.3.js,plugins/cookie/jquery.cookie.js,kr/scripts/core.js,kr/scripts/dhtml.js,kr/scripts/my_common.js,kr/scripts/jscalendar-1.0/calendar.js,kr/scripts/jscalendar-1.0/lang/calendar-en.js,kr/scripts/jscalendar-1.0/calendar-setup.js,dwr/engine.js,dwr/util.js,dwr/interface/PersonService.js,kr/scripts/objectInfo.js</param>
+    <param name="kns.css.files" override="false">kr/css/kuali.css,kr/scripts/jscalendar-1.0/calendar-win2k-1.css</param>
+
+    <param name="portal.css.files" override="false">rice-portal/css/portal.css,plugins/fancybox/jquery.fancybox.css,plugins/textpopout/popoutTextarea.css,plugins/jgrowl/jquery.jgrowl.css</param>
+    <param name="portal.javascript.files" override="false">plugins/jquery/jquery-1.8.3.js,plugins/cookie/jquery.cookie.js,plugins/scrollto/jquery.scrollTo-1.4.6.js,plugins/blockUI/jquery.blockUI.js,kr/scripts/my_common.js,plugins/fancybox/jquery.fancybox.pack.js,plugins/easing/jquery.easing-1.3.pack.js,plugins/jgrowl/jquery.jgrowl.js,rice-portal/scripts/portal.initialize.js,rice-portal/scripts/easyXDM/easyXDM.js</param>
+    <param name="olePortal.css.files" override="false">css/olePortal.css,plugins/jgrowl/jquery.jgrowl.css,plugins/textpopout/popoutTextarea.css,plugins/fancybox/jquery.fancybox.css,rice-portal/css/portal.css</param>
+
+   <!-- <param name="olePortal.css.files" override="false">css/olePortal.css,krad/plugins/jgrowl/jquery.jgrowl.css,krad/plugins/rice/textpopout/popoutTextarea.css,krad/plugins/fancybox/jquery.fancybox.css,rice-portal/css/portal.css</param>-->
+
+
+  <!-- Struts Configuration -->
+  <param name="rice.struts.message.resources" override="false">org.kuali.rice.krad.ApplicationResources,org.kuali.rice.krad.KRADApplicationResources,org.kuali.rice.kew.ApplicationResources,org.kuali.rice.ksb.ApplicationResources,org.kuali.rice.kim.ApplicationResources,org.kuali.rice.krms.ApplicationResources,org.kuali.rice.core.web.cache.CacheApplicationResources,org.kuali.ole.coa.coa-resources,org.kuali.ole.fp.fp-resources,org.kuali.ole.pdp.pdp-resources,org.kuali.ole.sys.sys-resources,org.kuali.ole.vnd.vnd-resources,org.kuali.ole.sec.sec-resources,org.kuali.ole.OleApplicationResources,org.kuali.ole.module.purap.purap-resources,org.kuali.ole.gl.gl-resources,org.kuali.ole.module.cg.cg-resources</param>
+
+  <!-- the files that define the struts context for the struts module -->
+  <param name="rice.kfs.struts.config.files" override="false">/WEB-INF/struts-config.xml</param>
+
+  <!-- properties for Action List notification -->
+  <param name="email.reminder.lifecycle.enabled" override="false">false</param>
+  <param name="enable.nonproduction.data.unmasking" override="false">true</param>
+
+  <!-- KSB Properties -->
+  <param name="message.persistence" override="false">true</param>
+  <param name="message.delivery" override="false">async</param>
+  <param name="useQuartzDatabase" override="false">false</param>
+  <param name="threadPool.size" override="false">20</param>
+  <param name="RouteQueue.maxRetryAttempts" override="false">3</param>
+  <param name="RouteQueue.timeIncrement" override="false">1000</param>
+
+  <param name="rice.ksb.batch.mode" override="false">false</param>
+  <param name="bus.refresh.rate" override="false">120</param>
+  <param name="rice.cxf.client.connectionTimeout" override="false">30000</param>
+  <param name="rice.cxf.client.receiveTimeout" override="false">120000</param>
+  <param name="rice.cxf.client.allowChunking" override="false">false</param>
+
+  <!-- KEW Properties -->
+  <param name="rice.kew.enableKENNotification" override="false">false</param>
+  <param name="actionlist.outbox" override="false">false</param>
+  <param name="data.xml.pollIntervalSecs" override="false">30</param>
+  <param name="initialDelaySecs" override="false">60</param>
+  <param name="secure.workflowdocument.javaservice.endpoint" override="false">true</param>
+  <param name="secure.workflowutility.javaservice.endpoint" override="false">true</param>
+  <param name="secure.workflowutility.soapservice.endpoint" override="false">true</param>
+  <param name="simpleDocumentActionsService.security" override="false">true</param>
+  <param name="Routing.ImmediateExceptionRouting" override="false">false</param>
+
+  <param name="dailyEmail.active" override="false">false</param>
+  <param name="weeklyEmail.active" override="false">false</param>
+  <param name="dailyEmail.cronExpression" override="false">0 0 1 * * ?</param>
+  <param name="weeklyEmail.cronExpression" override="false">0 0 2 ? * 2</param>
+
+  <!--KCB Propertie -->
+  <param name="kcb.messageprocessing.startDelayMS" override="false">1000</param>
+  <param name="kcb.messageprocessing.repeatIntervalMS" override="false">10000</param>
+  <param name="kcb.messaging.synchronous" override="false">false</param>
+  <param name="kcb.quartz.group" override="false">KCB-Delivery</param>
+  <param name="kcb.quartz.job.name" override="false">MessageProcessingJobDetail</param>
+  <param name="kcb.maxProcessAttempts" override="false">3</param>
+  <param name="kcb.transport.protocol" override="false">smtp</param>
+
+  <!-- the files that define the struts context for the ken struts module -->
+  <param name="notification.concurrent.jobs" override="false">true</param>
+  <param name="notification.resolveMessageDeliveriesJob.startDelayMS" override="false">1000</param>
+  <param name="notification.resolveMessageDeliveriesJob.intervalMS" override="false">10000</param>
+  <param name="notification.processUndeliveredJob.startDelayMS" override="false">10000</param>
+  <param name="notification.processUndeliveredJob.intervalMS" override="false">10000</param>
+  <param name="notification.processAutoRemovalJob.startDelayMS" override="false">60000</param>
+  <param name="notification.processAutoRemovalJob.intervalMS" override="false">60000</param>
+  <param name="notification.quartz.autostartup" override="false">true</param>
+
+  <param name="rice.kew.ignoreUnknownPrincipalIds" override="false">true</param>
+
+  <!-- KIM Properties -->
+  <param name="kim.soapExposedService.jaxws.security" override="false">true</param>
+
+  <param name="kim.identityArchiveServiceImpl.executionIntervalSeconds" override="false">600</param>
+  <param name="kim.identityArchiveServiceImpl.maxWriteQueueSize" override="false">300</param>
+  <param name="org.kuali.rice.kim.bo.ui.PersonDocumentEmploymentInfo.hidden" override="false">${rice.org.kuali.rice.kim.bo.ui.PersonDocumentEmploymentInfo.hidden}</param>
+  <param name="kim.hide.PersonDocumentAddress.type" override="false">${rice.kim.hide.PersonDocumentAddress.type}</param>
+  <param name="kim.hide.PersonDocumentPhone.type" override="false">${rice.kim.hide.PersonDocumentPhone.type}</param>
+  <param name="kim.show.blank.qualifiers" override="false">${rice.kim.show.blank.qualifiers}</param>
+
+  <param name="session.document.cache.size " override="false">1000</param>
+  <param name="ole.ehcache.config.location" override="false">classpath:org/kuali/ole/ole.ehcache.xml</param>
+
+  <!-- Logging/Debugging Properties -->
+  <param name="periodic.thread.dump" override="false">true</param>
+  <param name="periodic.thread.dump.seconds" override="false">300</param>
+  <param name="log4j.reload.minutes" override="false">5</param>
+  <param name="memory.monitor.threshold" override="false">.85</param>
+
+
+  <!-- Misc OLE Properties -->
+  <param name="current.year" override="false">2013</param>
+  <param name="licensing.contact.email" override="false">license@kuali.org</param>
+  <param name="report.writer.service.new.line.characters" override="false">\n</param>
+  <param name="encrypt.attributes.properties.file" override="false">work/db/fieldsToEncrypt.properties</param>
+  <param name="property.files" override="false">classpath:org/kuali/rice/krad/ApplicationResources.properties,classpath:org/kuali/rice/krad/KRADApplicationResources.properties,classpath:org/kuali/rice/kew/ApplicationResources.properties,classpath:org/kuali/rice/ksb/ApplicationResources.properties,classpath:org/kuali/rice/kim/ApplicationResources.properties,classpath:org/kuali/rice/krms/ApplicationResources.properties,classpath:org/kuali/rice/core/web/cache/CacheApplicationResources.properties,classpath:org/kuali/ole/coa/coa-resources.properties,classpath:org/kuali/ole/fp/fp-resources.properties,classpath:org/kuali/ole/gl/gl-resources.properties,classpath:org/kuali/ole/pdp/pdp-resources.properties,classpath:org/kuali/ole/sys/sys-resources.properties,classpath:org/kuali/ole/sec/sec-resources.properties,classpath:org/kuali/ole/vnd/vnd-resources.properties,classpath:org/kuali/ole/module/purap/purap-resources.properties,classpath:OleApplicationResources.properties,classpath:org/kuali/ole/module/cg/cg-resources.properties</param>
+  <param name="resourceBundleNames">org.kuali.rice.krad.KRADApplicationResources,org.kuali.rice.krad.ApplicationResources,org.kuali.rice.kew.ApplicationResources,org.kuali.rice.ksb.ApplicationResources,org.kuali.rice.kim.ApplicationResources,org.kuali.rice.krms.ApplicationResources,org.kuali.rice.core.web.cache.CacheApplicationResources,org.kuali.ole.coa.coa-resources,org.kuali.ole.fp.fp-resources,org.kuali.ole.pdp.pdp-resources,org.kuali.ole.sys.sys-resources,org.kuali.ole.vnd.vnd-resources,org.kuali.ole.sec.sec-resources,org.kuali.ole.OleApplicationResources,org.kuali.ole.module.purap.purap-resources,org.kuali.ole.gl.gl-resources,org.kuali.ole.module.cg.cg-resources</param>
+
+  <!-- Misc Rice Properties -->
+  <param name="message.queue.url" override="false">MessageQueue.do</param>
+  <param name="service.registry.url" override="false">ServiceRegistry.do</param>
+  <param name="thread.pool.url" override="false">ThreadPool.do</param>
+  <param name="data.dictionary.validate" override="false">true</param>
+  <param name="validate.ebo.references" override="false">true</param>
+  <param name="classpath.resource.prefix" override="false">/WEB-INF/classes/</param>
+
+  <!-- Default Option for Action List User Perferences. -->
+  <param name="userOptions.default.color" override="false">white</param>
+
+  <!-- delegatorFilterOnActionList: "Secondary Delegators on Action List Page" or "Secondary Delegators only on Filter Page" -->
+  <param name="userOptions.default.delegatorFilterOnActionList" override="false">Secondary Delegators on Action List Page</param>
+  <!-- primaryDelegatorFilterOnActionList: "Primary Delegates on Action List Page" or "Primary Delegates only on Filter Page" -->
+  <param name="userOptions.default.primaryDelegatorFilterOnActionList" override="false">Primary Delegates on Action List Page</param>
+
+
+
+  <!--Requisition Max No of Parts -->
+  <param name="requisition.max.parts" override="false">1000</param>
+
+  <!-- batch container -->
+  <param name="step.status.check.interval" override="false">10</param>
+
+  <!-- date time formatters -->
+  <param name="STRING_TO_DATE_FORMATS" override="false">yyyy-MM-dd;MM/dd/yyyy hh:mm a;MM/dd/yy;MM/dd/yyyy;MM-dd-yy;MM-dd-yyyy;MMddyy;MMMM dd;yyyy;MM/dd/yy HH:mm:ss;MM/dd/yyyy HH:mm:ss;MM-dd-yy HH:mm:ss;MMddyy HH:mm:ss;MMMM dd HH:mm:ss;yyyy HH:mm:ss</param>
+
+  <param name="ole.partEnumeration.copy">C</param>
+  <param name="ole.partEnumeration.volume">V</param>
+
+  <!--############################################################################################################ -->
+  <!--# Property values for Requisition creation through Webservice -->
+  <!--############################################################################################################ -->
+  <param name="userName" override="false">admin</param>
+
+    <!--Default values used for soap -->
+
+  <param name="requestorType" override="false">BATCHINGEST</param>
+  <param name="PREORDER_SERVICENAME" override="false">preOrderService</param>
+  <param name="PREORDER_PORTNAME" override="false">preOrderService</param>
+  <param name="PREORDER_CITATION_OPR" override="false">createPreOrderForCitation</param>
+  <param name="PREORDER_WFRM_OPR" override="false">createPreOrderForForm</param>
+  <param name="PREORDER_OPENURL_OPR" override="false">createPreOrderForOpenURL</param>
+  <param name="dateFrom" override="false">01/01/1001</param>
+  <param name="account.document.initiator" override="false">ole-quickstart</param>
+
+    <!-- Default Value for SRR -->
+    <param name="save.action.usr" override="false">OLE10002</param>
+
+    <!--Directory for library location xml files-->
+    <param name="locations.xml.root.location">${project.home}/locations</param>
+    <param name="locations.xml.pending.location">${locations.xml.root.location}/pending</param>
+    <param name="locations.xml.loaded.location">${locations.xml.root.location}/loaded</param>
+    <param name="locations.xml.problem.location">${locations.xml.root.location}/problem</param>
+
+    <!--Directory for circulation policies xml files-->
+    <param name="circ.xml.root.location">${project.home}/circulation-policies</param>
+    <param name="circ.xml.pending.location">${circ.xml.root.location}/pending</param>
+    <param name="circ.xml.loaded.location">${circ.xml.root.location}/loaded</param>
+    <param name="circ.xml.problem.location">${circ.xml.root.location}/problem</param>
+
+    <!--Directory for staff upload profile xml files-->
+    <param name="staffupload.xml.root.location">${project.home}/staff-upload</param>
+    <param name="staffupload.xml.pending.location">${staffupload.xml.root.location}/pending</param>
+    <param name="staffupload.xml.loaded.location">${staffupload.xml.root.location}/loaded</param>
+    <param name="staffupload.xml.problem.location">${staffupload.xml.root.location}/problem</param>
+
+    <param name="patrons.xml.root.location">${project.home}/patrons</param>
+    <param name="patrons.xml.pending.location">${patrons.xml.root.location}/pending</param>
+    <param name="patrons.xml.loaded.location">${patrons.xml.root.location}/loaded</param>
+    <param name="patrons.xml.problem.location">${patrons.xml.root.location}/problem</param>
+
+    <param name="autoIngestDefaults">true</param>
+
+
+
+    <!--OLE Feedback Link-->
+    <param name="ole.provide.feedback.link.text">Provide Feedback</param>
+    <param name="ole.provide.feedback.link">https://jira.kuali.org/secure/CreateIssue.jspa?pid=10792</param>
+
+    <!--Describe related params-->
+    <param name="ole.docstore.url">${ole.docstore.url.base}/discovery</param>
+    <param name="discovery.url">${ole.docstore.url.base}/bib</param>
+    <param name="ole.docstoreapp.url">${ole.fs.url.base}/ole-kr-krad/editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=marc&amp;editable=true&amp;</param>
+    <param name="ole.docstoreviewapp.url">${ole.fs.url.base}/ole-kr-krad/editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=dublinunq&amp;editable=false&amp;</param>
+    <param name="ole.search.url">${ole.fs.url.base}/portal.do?channelTitle=OLE Search&amp;channelUrl=${ole.fs.url.base}/ole-kr-krad/</param>
+    <param name="ole.editor.url">${ole.fs.url.base}/portal.do?channelTitle=Editor&amp;channelUrl=${ole.fs.url.base}/ole-kr-krad/</param>
+    <param name="ole.platform.url">${ole.fs.url.base}/portal.do?channelTitle=Platform&amp;channelUrl=${ole.fs.url.base}/ole-kr-krad/</param>
+    <param name="ole.docsearch.url">${ole.docstore.url.base}/bib/select</param>
+    <param name="docSearchURL">${ole.docstore.url.base}</param>
+    <param name="ole.docsearch.app.url">${ole.docstore.url.base}/</param>
+    <param name="ole.bibeditor.url">${ole.fs.url.base}/portal.do?channelTitle=Editor&amp;channelUrl=${ole.fs.url.base}/ole-kr-krad/editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=marc&amp;editable=true</param>
+    <param name="ole.dublineditor.url">${ole.fs.url.base}/portal.do?channelTitle=Editor&amp;channelUrl=${ole.fs.url.base}/ole-kr-krad/editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=dublinunq&amp;editable=true</param>
+    <param name="ole.bibeditor.create.url">${ole.fs.url.base}/portal.do?channelTitle=Editor&amp;channelUrl=${ole.fs.url.base}/ole-kr-krad/editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=marc&amp;editable=true</param>
+    <param name="ole.bibsearch.url">${ole.fs.url.base}/portal.do?channelTitle=Describe%20Workbench&amp;channelUrl=${ole.fs.url.base}/ole-kr-krad/olesearchcontroller?viewId=OLEDescribeWorkBenchView&amp;methodToCall=start</param>
+    <param name="ole.instanceEditor.url">${ole.fs.url.base}/portal.do?channelTitle=Instance%20Editor&amp;channelUrl=${ole.fs.url.base}/ole-kr-krad/instanceeditor?viewId=InstanceEditorView&amp;methodToCall=loadInstanceRecord</param>
+    <param name="ole.docstore.restful.url">${ole.docstore.url.base}/rest/documents</param>
+    <param name="ole.docstore.Documentrest.url">${ole.docstore.url.base}/documentrest/</param>
+
+    <!-- Document Store Properties -->
+    <param name="ole.docstore.result.pagesize" override="false">10</param>
+    <param name="ole.docstore.document.pageSize" override="false">1</param>
+    <param name="ole.docstoreapp.contenttype" override="false">application/x-www-form-urlencoded</param>
+    <param name="orderqueue.docsearch.maxLimit" override="false">500</param>
+    <param name="docsearch.noOfRows" override="false">200</param>
+    <param name="ole.docstoreapp.postdata" override="false">docAction=ingestContent&amp;docCategory=bibliographic&amp;docType=marc&amp;stringContent=</param>
+    <param name="ole.docstoreapp.edit.postdata" override="false">docAction=checkIn</param>
+    <param name="ole.docstoreapp.delete.postdata" override="false">docAction=deleteWithLinkedDocs&amp;requestContent=</param>
+    <param name="ole.docstore.file" override="false">/select/bibInfo/DocStore.xml</param>
+    <param name="organization.marc.code">OLE</param>
+
+    <!--Batch related params-->
+    <param name="transaction.timeout" override="false">100000</param>
+    <param name="batch.transaction.timeout" override="false">500000</param>
+    <param name="batch.delete.directory">${staging.directory}/batchDelete</param>
+    <param name="batch.invoice.directory">${staging.directory}/batchInvoice</param>
+    <param name="batch.bibImport.directory">${staging.directory}/batchBibImport</param>
+    <param name="batch.gokbImport.directory">${staging.directory}/batchGOKbImport</param>
+    <param name="batch.patron.directory">${staging.directory}/batchPatron</param>
+    <param name="batch.location.directory">${staging.directory}/batchLocation</param>
+    <param name="batch.orderRecord.directory">${staging.directory}/batchOrderRecord</param>
+    <param name="batch.export.directory">${staging.directory}/export</param>
+    <param name="batch.serial.import.directory">${staging.directory}/batchSerialImport</param>
+
+
+    <!-- Locaion ingest Directory -->
+    <param name="location.directory">${staging.directory}/location/</param>
+
+    <param name="mail.transport.protocol">smtp</param>
+
+    <!-- Left padding size to sort left Pane -->
+    <param name="editor.left.padding.size">8</param>
+
+    <!-- services and links-->
+    <param name="ole.fs.discovery.url">${ole.docstore.url.base}/discovery</param>
+    <param name="ole.fs.docstore.services.tab.url">${ole.docstore.url.base}?tab=services</param>
+
+
+
+</config>

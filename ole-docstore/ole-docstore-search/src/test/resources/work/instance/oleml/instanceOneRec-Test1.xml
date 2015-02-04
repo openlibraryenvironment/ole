@@ -1,0 +1,199 @@
+<request>
+    <user>ole-khuntley</user>
+    <operation>ingest</operation>
+    <requestDocuments>
+        <ingestDocument id="1" category="work" type="instance" format="oleml">
+            <content><![CDATA[<ole:instanceCollection xmlns:ole="http://ole.kuali.org/standards/ole-instance">
+  <!--1 or more repetitions:-->
+  <ole:instance>
+    <ole:instanceIdentifier>string</ole:instanceIdentifier>
+    <!--Zero or more repetitions:-->
+    <ole:resourceIdentifier>string</ole:resourceIdentifier>
+    <!--Zero or more repetitions:-->
+    <ole:formerResourceIdentifier>
+      <ole:identifier source="string">
+        <ole:identifierValue>(Sirsi) 429067</ole:identifierValue>
+      </ole:identifier>
+      <ole:identifierType>string</ole:identifierType>
+    </ole:formerResourceIdentifier>
+    <ole:oleHoldings primary="string">
+      <ole:holdingsIdentifier>string</ole:holdingsIdentifier>
+      <!--Zero or more repetitions:-->
+      <ole:extentOfOwnership>
+        <ole:textualHoldings>string</ole:textualHoldings>
+        <!--Zero or more repetitions:-->
+        <ole:note type="string">string</ole:note>
+        <ole:type>string</ole:type>
+      </ole:extentOfOwnership>
+      <ole:receiptStatus>string</ole:receiptStatus>
+      <!--Zero or more repetitions:-->
+      <ole:uri resolvable="string">string</ole:uri>
+      <!--Zero or more repetitions:-->
+      <ole:note type="string">string</ole:note>
+      <ole:location>
+        <ole:locationLevel>
+          <ole:name>string</ole:name>
+          <ole:level>string</ole:level>
+          <!--Optional:-->
+          <ole:locationLevel/>
+        </ole:locationLevel>
+      </ole:location>
+      <ole:extension displayLabel="string">
+        e
+        <!--You may enter ANY elements at this point-->
+        <AnyElement/>
+        gero
+      </ole:extension>
+      <ole:callNumber>
+        <ole:type>string</ole:type>
+        <ole:prefix>string</ole:prefix>
+        <ole:number>string</ole:number>
+        <ole:classificationPart>string</ole:classificationPart>
+        <ole:itemPart>string</ole:itemPart>
+        <ole:shelvingScheme>
+          <ole:codeValue>string</ole:codeValue>
+          <ole:fullValue>string</ole:fullValue>
+          <ole:typeOrSource>
+            <ole:pointer>http://www.your.com/tempestatesque/e</ole:pointer>
+            <ole:text>string</ole:text>
+          </ole:typeOrSource>
+        </ole:shelvingScheme>
+        <ole:shelvingOrder>
+          <ole:codeValue>string</ole:codeValue>
+          <ole:fullValue>string</ole:fullValue>
+          <ole:typeOrSource>
+            <ole:pointer>http://www.your.com/tempestatesque/e</ole:pointer>
+            <ole:text>string</ole:text>
+          </ole:typeOrSource>
+        </ole:shelvingOrder>
+      </ole:callNumber>
+    </ole:oleHoldings>
+    <ole:sourceHoldings primary="string">
+      <ole:holdingsIdentifier>string</ole:holdingsIdentifier>
+      <ole:name>string</ole:name>
+      <ole:holdings>string</ole:holdings>
+      <ole:extension displayLabel="string">
+        aeoliam
+        <!--You may enter ANY elements at this point-->
+        <AnyElement/>
+        quae
+      </ole:extension>
+    </ole:sourceHoldings>
+    <ole:items>
+      <!--1 or more repetitions:-->
+      <ole:item analytic="string" resourceIdentifier="string">
+        <ole:itemIdentifier>string</ole:itemIdentifier>
+        <ole:purchaseOrderLineItemIdentifier>string</ole:purchaseOrderLineItemIdentifier>
+        <ole:vendorLineItemIdentifier>string</ole:vendorLineItemIdentifier>
+        <ole:accessInformation>
+          <ole:barcode>string</ole:barcode>
+          <ole:uri resolvable="string">string</ole:uri>
+        </ole:accessInformation>
+        <ole:barcodeARSL>string</ole:barcodeARSL>
+        <!--Zero or more repetitions:-->
+        <ole:formerIdentifier>
+          <ole:identifier source="string">
+            <ole:identifierValue>string</ole:identifierValue>
+          </ole:identifier>
+          <ole:identifierType>string</ole:identifierType>
+        </ole:formerIdentifier>
+        <!--Zero or more repetitions:-->
+        <ole:statisticalSearchingCode>
+          <ole:codeValue>string</ole:codeValue>
+          <ole:fullValue>string</ole:fullValue>
+          <ole:typeOrSource>
+            <ole:pointer>http://www.your.com/tempestatesque/e</ole:pointer>
+            <ole:text>string</ole:text>
+          </ole:typeOrSource>
+        </ole:statisticalSearchingCode>
+        <ole:itemType>
+          <ole:codeValue>string</ole:codeValue>
+          <ole:fullValue>string</ole:fullValue>
+          <ole:typeOrSource>
+            <ole:pointer>http://www.test.com/gero/nimborum</ole:pointer>
+            <ole:text>string</ole:text>
+          </ole:typeOrSource>
+        </ole:itemType>
+        <!--Optional:-->
+        <ole:location>
+          <ole:locationLevel>
+            <ole:name>string</ole:name>
+            <ole:level>string</ole:level>
+            <!--Optional:-->
+            <ole:locationLevel/>
+          </ole:locationLevel>
+        </ole:location>
+        <ole:copyNumber>string</ole:copyNumber>
+        <ole:copyNumberLabel>string</ole:copyNumberLabel>
+        <ole:volumeNumber>string</ole:volumeNumber>
+        <ole:volumeNumberLabel>string</ole:volumeNumberLabel>
+        <ole:note type="string">string</ole:note>
+        <ole:enumeration>string</ole:enumeration>
+        <ole:chronology>string</ole:chronology>
+        <ole:highDensityStorage>
+          <ole:row>string</ole:row>
+          <ole:module>string</ole:module>
+          <ole:shelf>string</ole:shelf>
+          <ole:tray>string</ole:tray>
+        </ole:highDensityStorage>
+        <ole:temporaryItemType>
+          <ole:codeValue>string</ole:codeValue>
+          <ole:fullValue>string</ole:fullValue>
+          <ole:typeOrSource>
+            <ole:pointer>http://www.test.org/montis/flammato</ole:pointer>
+            <ole:text>string</ole:text>
+          </ole:typeOrSource>
+        </ole:temporaryItemType>
+        <ole:fund>string</ole:fund>
+        <ole:donorPublicDisplay>string</ole:donorPublicDisplay>
+        <ole:donorNote>string</ole:donorNote>
+        <ole:callNumber>
+          <ole:type>string</ole:type>
+          <ole:prefix>string</ole:prefix>
+          <ole:number>string</ole:number>
+          <ole:classificationPart>string</ole:classificationPart>
+          <ole:itemPart>string</ole:itemPart>
+          <ole:shelvingScheme>
+            <ole:codeValue>string</ole:codeValue>
+            <ole:fullValue>string</ole:fullValue>
+            <ole:typeOrSource>
+              <ole:pointer>http://www.test.com/gero/nimborum</ole:pointer>
+              <ole:text>string</ole:text>
+            </ole:typeOrSource>
+          </ole:shelvingScheme>
+          <ole:shelvingOrder>
+            <ole:codeValue>string</ole:codeValue>
+            <ole:fullValue>string</ole:fullValue>
+            <ole:typeOrSource>
+              <ole:pointer>http://www.test.com/metuens/montis</ole:pointer>
+              <ole:text>string</ole:text>
+            </ole:typeOrSource>
+          </ole:shelvingOrder>
+        </ole:callNumber>
+        <ole:price>string</ole:price>
+        <ole:numberOfPieces>string</ole:numberOfPieces>
+        <ole:itemStatus>string</ole:itemStatus>
+        <ole:itemStatusEffectiveDate>string</ole:itemStatusEffectiveDate>
+        <ole:checkinNote>string</ole:checkinNote>
+        <ole:staffOnlyFlag>true</ole:staffOnlyFlag>
+        <ole:fastAddFlag>false</ole:fastAddFlag>
+        <ole:extension displayLabel="string">
+          nimborum
+          <!--You may enter ANY elements at this point-->
+          <AnyElement/>
+          fremunt
+        </ole:extension>
+      </ole:item>
+    </ole:items>
+    <ole:extension displayLabel="string">
+      foedere
+      <!--You may enter ANY elements at this point-->
+      <AnyElement/>
+      ferant
+    </ole:extension>
+  </ole:instance>
+</ole:instanceCollection>				]]>
+            </content>
+        </ingestDocument>
+    </requestDocuments>
+</request>

@@ -1,0 +1,15 @@
+<request>
+	<user>khuntley</user>
+	<operation>delete</operation>
+	<requestDocuments>
+		<ingestDocument id="1" category="work" type="license" format="pdf">
+			<uuid>18d9c4c3-e29f-479f-aaa3-234dd2dad45d</uuid>
+		</ingestDocument>
+		<ingestDocument id="2" category="work" type="license" format="doc">
+			<uuid>b0a27d06-4a4d-42f1-a6e4-4a461815d2bf</uuid>
+		</ingestDocument>
+		<ingestDocument id="3" category="work" type="license" format="onixpl">
+			<uuid>9aea0f58-3609-4773-b77d-8575cfa1830d</uuid>
+		</ingestDocument>
+	</requestDocuments>
+</request>

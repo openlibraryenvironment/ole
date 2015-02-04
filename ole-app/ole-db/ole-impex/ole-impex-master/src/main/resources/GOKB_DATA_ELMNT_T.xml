@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <GOKB_DATA_ELMNT_T DATA_ELMNT_ID="1"
+                       DATA_ELMNT_NM="coverageStartDate"
+                       REC_TYP="E-Instance"
+                        OBJ_ID="1" VER_NBR="1"/>
+    <GOKB_DATA_ELMNT_T DATA_ELMNT_ID="2"
+                       DATA_ELMNT_NM="coverageStartIssue"
+                       REC_TYP="E-Instance"
+                        OBJ_ID="2" VER_NBR="1"/>
+    <GOKB_DATA_ELMNT_T DATA_ELMNT_ID="3"
+                       DATA_ELMNT_NM="coverageStartVolume"
+                       REC_TYP="E-Instance"
+                        OBJ_ID="3" VER_NBR="1"/>
+    <GOKB_DATA_ELMNT_T DATA_ELMNT_ID="4"
+                       DATA_ELMNT_NM="coverageEndDate"
+                       REC_TYP="E-Instance"
+                        OBJ_ID="4" VER_NBR="1"/>
+    <GOKB_DATA_ELMNT_T DATA_ELMNT_ID="5"
+                       DATA_ELMNT_NM="coverageEndIssue"
+                       REC_TYP="E-Instance"
+                        OBJ_ID="5" VER_NBR="1"/>
+    <GOKB_DATA_ELMNT_T DATA_ELMNT_ID="6"
+                       DATA_ELMNT_NM="coverageEndVolume"
+                       REC_TYP="E-Instance"
+                        OBJ_ID="6" VER_NBR="1"/>
+    <GOKB_DATA_ELMNT_T DATA_ELMNT_ID="7"
+                       DATA_ELMNT_NM="url"
+                       REC_TYP="E-Instance"
+                        OBJ_ID="7" VER_NBR="1"/>
+    <GOKB_DATA_ELMNT_T DATA_ELMNT_ID="8"
+                       DATA_ELMNT_NM="gokbId"
+                       REC_TYP="E-Instance"
+                        OBJ_ID="8" VER_NBR="1"/>
+    <GOKB_DATA_ELMNT_T DATA_ELMNT_ID="9"
+                       DATA_ELMNT_NM="title"
+                       REC_TYP="E-Resource"
+                        OBJ_ID="9" VER_NBR="1"/>
+    <GOKB_DATA_ELMNT_T DATA_ELMNT_ID="10"
+                       DATA_ELMNT_NM="Publisher"
+                       REC_TYP="E-Resource"
+                        OBJ_ID="10" VER_NBR="1"/>
+    <GOKB_DATA_ELMNT_T DATA_ELMNT_ID="11"
+                       DATA_ELMNT_NM="PackageScope"
+                       REC_TYP="E-Resource"
+                        OBJ_ID="11" VER_NBR="1"/>
+    <GOKB_DATA_ELMNT_T DATA_ELMNT_ID="12"
+                       DATA_ELMNT_NM="Breakable"
+                       REC_TYP="E-Resource"
+                        OBJ_ID="12" VER_NBR="1"/>
+    <GOKB_DATA_ELMNT_T DATA_ELMNT_ID="13"
+                       DATA_ELMNT_NM="FixedTitleList"
+                       REC_TYP="E-Resource"
+                        OBJ_ID="13" VER_NBR="1"/>
+    <GOKB_DATA_ELMNT_T DATA_ELMNT_ID="14"
+                       DATA_ELMNT_NM="PackageType"
+                       REC_TYP="E-Resource"
+                        OBJ_ID="14" VER_NBR="1"/>
+    <GOKB_DATA_ELMNT_T DATA_ELMNT_ID="15"
+                       DATA_ELMNT_NM="eResourceGokbId"
+                       REC_TYP="E-Resource"
+                        OBJ_ID="15" VER_NBR="1"/>
+    <GOKB_DATA_ELMNT_T DATA_ELMNT_ID="16"
+                       DATA_ELMNT_NM="VariantName"
+                       REC_TYP="E-Resource"
+                       OBJ_ID="16" VER_NBR="1"/>
+
+</dataset>

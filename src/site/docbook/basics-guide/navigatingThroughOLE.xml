@@ -1,0 +1,1364 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"
+    version="5.0" xml:lang="en-US">
+    <title><anchor xml:id="_navigatingThroughOLE"/>Navigating Through OLE</title>
+    <para role="Body Text"/>
+    <para role="Body Text"> After you access OLE by typing or pasting the URL for it into your
+        browser's address bar, you need to know where to find information and how to navigate. This
+        section covers these topics. </para>
+    <section>
+        <title>OLE's Menus</title>
+        <para role="Normal"> The OLE portal is divided into modules. When entering the portal,you
+            will see five menu tabs: </para>
+        <para role="Normal"/>
+        <para>
+            <screenshot>
+                <mediaobject>
+                    <alt>OLE's Menu Tabs at the Top Left of the Screen</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/basic-OLETabs.png"/>
+                    </imageobject>
+                </mediaobject>
+            </screenshot>
+        </para>
+        <para/>
+        <para> The <emphasis role="bold">Deliver tab</emphasis> displays e-docs and interfaces for
+            circulation and patron management.  The <emphasis role="bold">Describe</emphasis> tab
+            displays e-docs and interfaces for cataloging processes.  The<emphasis role="bold"
+                >Select/Acquire</emphasis> tab displays the list of transactions and functions that
+            are associated with the financial processes and purchases as well as the E-Resources and
+            Licensing, the beginning feature of electronic resource management. The <emphasis
+                role="bold">Maintenance</emphasis> tab includes the related maintenance documents
+            for the four other tabs.  The <emphasis role="bold">Administration</emphasis> menu tab
+            displays the list of functions that only technical staff or super users in the
+            functional area are likely to use. </para>
+        <tip>
+            <para> Bookmark any page within OLE.  This will allow you to easily navigate back to an
+                interface or e-doc in one click, just log in. </para>
+        </tip>
+        <section>
+            <title>OLE Deliver Menu</title>
+            <para role="Normal"/>
+            <para>
+                <screenshot>
+                    <mediaobject>
+                        <alt>OLE's Menus at the Top Left of the Screen: Deliver Selected</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/basic-OLETabs.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <para> The Deliver menu lists interfaces and electronic documents that persons with
+                circulation permissions may access. </para>
+            <para role="TableHeading"><emphasis role="bold">Deliver Menu Submenus</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Category </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Circulation</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Allows for the loan, return, and request
+                                    of library materials as well as viewing the bill of a particular
+                                    item. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Patron</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Allows for the management of patron
+                                    records and patron bills. </para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+            <para>Each of these submenus are further divided. </para>
+            <note>
+                <para role="Normal"> For information on working with the Deliver functions listed on
+                    this tab, see the <link xlink:href="../../../webhelp/CIRC/index.html"><emphasis>Guide to the
+                            OLE Deliver Module.</emphasis></link> This and other OLE user guides are
+                    available from <link xlink:href="../../../html/Index.html">OLE Documentation
+                        Portal</link>.</para>
+            </note>
+        </section>
+        <section>
+            <title>OLE Describe Menu</title>
+            <para role="Normal"/>
+            <para>
+                <screenshot>
+                    <mediaobject>
+                        <alt>OLE's Menus at the Top Left of the Screen: Describe Selected</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/basic-OLETabsDescribe.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <para> The Describe menu lists interfaces and electronic documents that persons with
+                cataloging permissions may access. </para>
+            <para role="TableHeading"><emphasis role="bold">Describe Menu Submenus</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Category </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Create/Edit Titles, Holdings or
+                                    Items</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Allows for the management of library
+                                    records: editors, bound-withs, transfers, import. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Link Titles, Holdings or Items </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Allows users to link records: create
+                                    boundwiths, transfer, and analytics</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Singe Record Export/Import </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Allows user to import and export single
+                                    records</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Reports</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Under Development</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+            <para>Each of these submenus are further divided. </para>
+            <note>
+                <para role="Normal"> For information on working with the Describe functions listed
+                    on this tab, see the <link xlink:href="../../../webhelp/CG/index.html"><emphasis>Guide to the
+                            OLE Describe Module.</emphasis></link> This and other OLE user guides
+                    are available from <link xlink:href="../../../html/Index.html">OLE Documentation
+                        Portal</link>.</para>
+            </note>
+        </section>
+        <section>
+            <title>OLE Select/Acquire Menu</title>
+            <para role="Normal"/>
+            <para>
+                <screenshot>
+                    <mediaobject>
+                        <alt>OLE's Menus at the Top Left of the Screen: Select/Acquire
+                            Selected</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/basic-OLETabsSA.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <para> The Select/Acquire menu lists electronic documents and functions that
+                departmental users are usually allowed to initiate. </para>
+            <para role="TableHeading"><emphasis role="bold">Select/Acquire Menu
+                Submenus</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Category </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Ordering</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Allows for the requisitions, or ordering,
+                                    of library materials. Transactions are recorded in e-docs that
+                                    are then posted to the General Ledger and affect the financial
+                                    statements of the organization. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Fund</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Allows the financial representation of a
+                                    basic business activity. Transactions are recorded in e-docs
+                                    that are then posted to the General Ledger and affect the
+                                    financial statements of the organization. Examples of
+                                    transactions are budget adjustments and transfer of funds.
+                                    Additionally, users can review fund balances from the Fund
+                                    Balances lookup.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Licensing</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Allows for the management of License
+                                    Requests.  License Requests must be initiated through E-Resource
+                                    Records. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Paying</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Allows for invoicing, creating credit
+                                    memos and claiming library materials. Transactions are recorded
+                                    in e-docs that are then posted to the General Ledger and affect
+                                    the financial statements of the organization. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Vendor</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Allows access to vendor records. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Electronic Resources</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">Allows users to
+                                create and search E-Resource Records.</entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Receiving</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Allows for the receiving of monographs and
+                                    serials into OLE. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Import</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Allows access to view various types of
+                                    loaded records. Imports are done from the <emphasis role="bold"
+                                        >Batch Processes</emphasis> submenu on the <emphasis
+                                        role="bold">Admin</emphasis>menu tab.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">All Acquisitions Records</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Acquisitions Search searches all financial
+                                    documents. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Reports</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Allows access to review fund balances:
+                                    available balances displays the culminating account balance
+                                    while cash balances displays the bottom line snapshot of your
+                                    account.</para>
+                                <para>Organization Review is also listed here.  It allows users to
+                                    create additional reviewers to watch account or departmental
+                                    activities.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Others</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Allows access to Donor reports, General
+                                    ledger and Year End documents</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+            <para>Each of these submenus are further divided. </para>
+            <note>
+                <para role="Normal"> For information on working with the Select and Acquire
+                    functions listed on this tab, see the <link xlink:href="../../../webhelp/AG/index.html"
+                            ><emphasis>Guide to the OLE Select and Acquire Module.</emphasis></link>
+                    This and other OLE user guides are available from <link
+                        xlink:href="../../../html/Index.html">OLE Documentation Portal</link>.</para>
+            </note>
+        </section>
+        <section>
+            <title>OLE Maintenance Menu</title>
+            <para role="Normal"/>
+            <para>
+                <screenshot>
+                    <mediaobject>
+                        <alt>OLE's Menus at the Top Left of the Screen: Maintenance Selected</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/basic-OLETabsLicensing.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <para> The Maintenance menu lists electronic documents that allows users to view and/or
+                edit the maintenance tables. </para>
+            <para role="TableHeading"><emphasis role="bold">Maintenance Menu
+                Submenus</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Category </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Cataloging Admin </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Allows central maintenance of documents
+                                    that support Describe documents. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Chart of Accounts</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Allows central maintenance of COA
+                                    documents. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Circulation Admin</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Allows central maintenance of documents
+                                    that support circulation. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Patron Admin</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Allows central maintenance of documents
+                                    that support the patron documents. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Vendor Admin</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Allows central maintenance of documents
+                                    that support the Vendor document. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Lookup</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Allows users to assign delegates to
+                                    accounts</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">E-Resource Admin</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Allows central maintenance of documents
+                                    that support Electronic Resouces, Licenses, and
+                                    Agreements</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Select &amp; Acquire Admin</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Allows central maintenance of documents
+                                    that support ordering, paying and receiving. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">System Admin</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Allows central maintenance of documents
+                                    that support KIM System documents on the <emphasis role="bold"
+                                        >Admin</emphasis> menu tab: roles, permissions, person, etc. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Pre-Disbursement Processor</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Allows central maintence for sending fiscal
+                                    documents to university financial systems.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+            <para>Each of these submenus are further divided. </para>
+            <note>
+                <para role="Normal"> For information on working with these maintenance documents,
+                    see the corresponding Module Guides available from <link
+                        xlink:href="../../../html/Index.html">OLE Documentation Portal</link>.</para>
+            </note>
+            <section>
+                <title>A note on Admin Submenus/Maintenance Documents</title>
+                <para>The Admin submenu, often noted as "xxx Admin" where xxx is the name of another
+                    submenu, provides access to a variety of user-defined reference tables that are
+                    essential to OLE. These tables define attributes the system uses to validate
+                    transactions and allow users to look up values as necessary. The tables also
+                    control the often-complex relationship between elements for internal and
+                    external reporting. For example, OLE relies on maintenance tables for basic
+                    information such as the sub-fund groups to which new accounts may be assigned
+                    and the calendar month that correlates to the first month of your institution's
+                    fiscal year. This table-controlled flexibility is one of the features that make
+                    OLE a highly configurable application.</para>
+                <para>These important reference tables are maintained by electronic documents called
+                    maintenance documents or e-docs. Each of the OLE reference tables is maintained
+                    by a specific maintenance e-doc that is routed for approval before the table is
+                    updated</para>
+                <tip>
+                    <para> All users can look up values in the OLE reference tables via the lookup
+                        screens on the maintenance menu, but only members of manager-type roles may
+                        initiate most maintenance documents. </para>
+                </tip>
+                <note>
+                    <para> Your institution may choose to add attributes to maintenance tables for
+                        reporting purposes. For information on adding these 'extended' attributes,
+                        see <link linkend="_extendedAttributes">Extended Attributes</link>. </para>
+                </note>
+                <note>
+                    <para> For information about initiating maintenance documents, see <link
+                            linkend="_performingCommonMaintenance">Performing Common Maintenance
+                            E-Doc Operations</link>. </para>
+                </note>
+            </section>
+        </section>
+        <section>
+            <title>OLE Admin Menu</title>
+            <para role="Normal"/>
+            <para>
+                <screenshot>
+                    <mediaobject>
+                        <alt>OLE's Menus at the Top Left of the Screen: Admin Selected</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/basic-OLETabsAdmin.png"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <para> Kuali OLE enables users with proper permissions to perform a number of
+                administrative functions that affect the entire system. These functions, which are
+                accessible via the <emphasis role="bold">Admin</emphasis> menu tab, allow authorized
+                users to: </para>
+            <itemizedlist>
+                <listitem>
+                    <para>Support the Kuali Identity Management (KIM) module</para>
+                </listitem>
+                <listitem>
+                    <para>Define basic types of location and reference information</para>
+                </listitem>
+                <listitem>
+                    <para>Control the running of batch jobs</para>
+                </listitem>
+                <listitem>
+                    <para>Support the Kuali Enterprise Workflow (KEW) module and</para>
+                </listitem>
+                <listitem>
+                    <para>Enable authorized users to perform a variety of other functional and
+                        technical activities.</para>
+                </listitem>
+            </itemizedlist>
+            <note>
+                <para> Only members of OLE-SYS Manager and KR-SYS Technical Administrator roles may
+                    initiate most documents in the Admin Menu. Other users may look up values from
+                    the lookup screens but may not be able to access other options at all. </para>
+            </note>
+            <para role="TableHeading"><emphasis role="bold">Admin Menu Submenus</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Category </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Batch Processes</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Allows for the creation of batch profiles,
+                                    accessing and managing maintenance tables for batch profiles,
+                                    and batch importing of various types of OLE records. </para>
+                                <para role="Table Cells"> Allows you to view job schedules and
+                                    manage key OLE FS batch processes. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Monitoring</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Allows users to monitor messages that are
+                                    flowing through the service bus, view the Service Registry for
+                                    it, and change the size of its thread pool. Also allows users to
+                                    access any document in order to perform operations on it and
+                                    generate statistics reports. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Testing</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Provides access to the data dictionary
+                                    configuration key as well as the web service proof-of-concept
+                                    request form. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Documentation</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Provides links to user documentation and
+                                    OLE resources. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Services &amp; Functions</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Allows access to test the RESTful API,
+                                    SOLR queries, and administrate over the OLE DocStore (check-in,
+                                    check-out, delete items, etc).  Also allows users to merge
+                                    patron records.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">System Configuration</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Provides access to a variety of functional
+                                    and technical configuration options that affect the entire OLE.
+                                </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Workflow Admin</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Allows users to access documents associated
+                                    with KEW workflows. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">KRMS Admin</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Allows users to create and modify KRMS
+                                    rules for OLE.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Identity Admin</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Provides a means of viewing and updating
+                                    OLE user identification information; defining valid values for
+                                    various types of location information; and defining valid types
+                                    of personal information collected for the Identity module.
+                                </para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+            <para>Each of these submenus are further divided. </para>
+            <note>
+                <para role="Normal"> For information on working with the Administrative functions
+                    listed on this tab, see the <link xlink:href="../../../webhelp/ADMIN/index.html"
+                            ><emphasis>Guide to the OLE System Administration
+                        Module.</emphasis></link> This and other OLE user guides are available from
+                    <link xlink:href="../../../html/Index.html">OLE Documentation
+                    Portal</link>.</para>
+            </note>
+        </section>
+    </section>
+    <section>
+        <title>Screen Elements</title>
+        <para> Each menu tab is organized into multiple submenus that group similar types of
+            functions. Each menu tab also has these standard features: </para>
+        <itemizedlist>
+            <listitem>
+                <para>Workflow functionality is accessible from <emphasis role="bold">action
+                        list</emphasis> and <emphasis role="bold">doc search</emphasis> buttons in
+                    the upper-left corner of the screen.</para>
+            </listitem>
+            <listitem>
+                <para>A <emphasis role="bold">Message of the Day</emphasis> can be displayed on the
+                    top of the screen.</para>
+            </listitem>
+            <listitem>
+                <para>The current user is displayed on the upper right corner of the screen.</para>
+            </listitem>
+            <listitem>
+                <para>A <emphasis role="bold">Provide Feedback</emphasis> link on the upper right
+                    corner of the screen allows anyone to report bugs, issues, and
+                    suggestions.</para>
+            </listitem>
+        </itemizedlist>
+        <para/>
+        <para><inlinemediaobject>
+                <alt>OLE Interface with Features Pointed Out: Workflow Menu buttons, Search the
+                    Catalog, Module Menus, Sub-menu group, Feedback Link and Current User</alt>
+                <imageobject>
+                    <imagedata fileref="../images/basic-olePortal.png" width="100%"/>
+                </imageobject>
+            </inlinemediaobject></para>
+        <para/>
+        <section>
+            <title>Message of the Day</title>
+            <para> All tabs include the <emphasis role="bold">Message of the Day</emphasis> at the
+                top of the screen to quickly distribute messages to all OLE users on-line. </para>
+            <tip>
+                <para>
+                    <emphasis role="bold">Updating the Message of the Day:</emphasis> If no message
+                    of the day is defined in the system, the <emphasis role="bold">Message of the
+                        Day</emphasis> area is not displayed on the screen. To define the message of
+                    the day, initiate the Message of the Day e-doc from the <emphasis role="bold"
+                        >Admin</emphasis> menu tab. </para>
+                <para>For more information, see <link
+                    xlink:href="../../../webhelp/ADMIN/content/ch04s04.html">Message of the Day</link>
+                    in the <emphasis role="italic">Guide to the OLE System Administration
+                        Module</emphasis>.</para>
+            </tip>
+        </section>
+        <section>
+            <title><anchor xml:id="_standardDataEntry"/>Standard Data Entry, Selection, Action, and
+                Navigation Tools</title>
+            <para> Online forms within this web-based software application allow you to enter and
+                select information and to perform actions and navigate, both within and outside the
+                system. The following table briefly outlines the basic tools. </para>
+            <para/>
+            <para role="TableHeading"><emphasis role="bold">Basic OLE Tools</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Element</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"><inlinemediaobject>
+                                        <imageobject>
+                                            <imagedata fileref="../images/basic-box.png"/>
+                                        </imageobject>
+                                    </inlinemediaobject></para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">
+                                    <emphasis role="bold">Box</emphasis> (a.k.a. edit box, text box,
+                                    or entry field): A rectangular box in which you can type text.
+                                    If the box already contains text, you can select that default
+                                    text or delete it and type new text. Use a keyboard to type or
+                                    clipboard to paste text and numbers into the field. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"><inlinemediaobject>
+                                        <imageobject>
+                                            <imagedata fileref="../images/basic-checkbox.png"/>
+                                        </imageobject>
+                                    </inlinemediaobject></para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">
+                                    <emphasis role="bold">Check box</emphasis> (a.k.a. selection
+                                    box): A square box that is selected or cleared to turn on or off
+                                    an option. More than one check box can be selected. Use a mouse
+                                    to click within the box to place a check mark symbol to indicate
+                                    the option is selected. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"><inlinemediaobject>
+                                        <imageobject>
+                                            <imagedata fileref="../images/basic-radio.png"/>
+                                        </imageobject>
+                                    </inlinemediaobject></para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">
+                                    <emphasis role="bold">Option</emphasis> (a.k.a. radio button,
+                                    option button): A round button used to select one of a group of
+                                    mutually exclusive options. Use a mouse to click within the
+                                    circle. The dot symbol indicates that the option is selected.
+                                </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"><inlinemediaobject>
+                                        <imageobject>
+                                            <imagedata fileref="../images/basic-list.png"/>
+                                        </imageobject>
+                                    </inlinemediaobject></para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">
+                                    <emphasis role="bold">List</emphasis> (a.k.a. drop-down menu,
+                                    combo box, or list box): A box with an arrow indicating a list
+                                    that drops (expands) downward for viewing (may expand upward to
+                                    take advantage of available screen real estate). Click the down
+                                    arrow icon to list menu options, and then click the text to
+                                    highlight and select an option. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"><inlinemediaobject>
+                                        <alt>Sample Button: Add</alt>
+                                        <imageobject>
+                                            <imagedata fileref="../images/basic-button.png"/>
+                                        </imageobject>
+                                    </inlinemediaobject></para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">
+                                    <emphasis role="bold">Button</emphasis> (a.k.a. command button,
+                                    action button): A rectangular button with a text label that
+                                    indicates the action to be performed. Use a mouse to click the
+                                    button to initiate the action. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"><inlinemediaobject>
+                                        <alt>Sample Hyperlink: Return Value</alt>
+                                        <imageobject>
+                                            <imagedata fileref="../images/basic-link.png"/>
+                                        </imageobject>
+                                    </inlinemediaobject></para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">
+                                    <emphasis role="bold">Link</emphasis>: An internal hyperlink to
+                                    a different place on the current page, a different screen within
+                                    the current application, or a related system. Use your mouse to
+                                    click on the underlined text to cause the desired information to
+                                    appear. </para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+    <section>
+        <title>Logging On and Off OLE</title>
+        <para> When launching OLE's demo and test environment, you will be automatically logged in
+            with the default user id: ole-quickstart. </para>
+        <para/>
+        <para>
+            <screenshot>
+                <mediaobject>
+                    <alt>Header of the OLE Interface, displaying the logged in user</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/basic-logIn.png" width="100%"/>
+                    </imageobject>
+                </mediaobject>
+            </screenshot>
+        </para>
+        <para/>
+        <para> To log off from OLE, simply close the Web browser by clicking the standard browser's
+                <emphasis role="bold">Close</emphasis> (X) button located in the upper right
+            corner.  Clicking <emphasis role="bold">Logout</emphasis> simply returns you to the
+            default user, ole-quickstart. </para>
+    </section>
+    <section>
+        <title><anchor xml:id="switchingUsers"/>Switching Users</title>
+        <para> In OLE's demo and test environment, you have the ability to simulate being logged in
+            as various users (sample users noted below). To accomplish this, type the user id you
+            wish to login as into the text entry box next to the Login button and click Login. </para>
+        <para/>
+        <para>
+            <screenshot>
+                <mediaobject>
+                    <alt>Login from the OLE Interface</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/basic-logIn2.png"/>
+                    </imageobject>
+                </mediaobject>
+            </screenshot>
+        </para>
+        <para/>
+        <para> The ability in this demo environment to simulate being logged in as various users
+            gives you the permissions required to try out each stage of specific workflows where
+            approvals or actions are required by multiple user types. (Since this functionality is
+            only meant for testing purposes, it will not be included in later releases.) </para>
+        <tip>
+            <para> When logged in as ole-quickstart and impersonating another user, you may switch
+                the user you are impersonating by again entering the user id into the text entry box
+                next to the Login button and clicking <emphasis role="bold">Login</emphasis>:</para>
+            <para/>
+            <para>
+                <screenshot>
+                    <mediaobject>
+                        <alt>Click Login</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/basic-logInImpersonating.png" width="100%"
+                            />
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para/>
+            <para> To return to the original state - logged in only as ole-quickstart - click the
+                    <emphasis role="bold">Logout</emphasis> button: </para>
+            <para/>
+            <para>
+                <screenshot>
+                    <mediaobject>
+                        <alt>Click Logout</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/basic-logInImpersonating2.png"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+        </tip>
+        <section>
+            <title>User IDs and Roles</title>
+            <note>
+                <para>These roles are set up for OLE's Test Drive and may not apply to local
+                    environments.</para>
+            </note>
+            <para/>
+            <informaltable border="1" class="MsoNormalTable"
+                style="border-collapse:collapse;mso-table-layout-alt:fixed;border:none;  mso-border-alt:solid black .5pt;mso-yfti-tbllook:160;mso-padding-alt:0in 5.4pt 0in 5.4pt;  mso-border-insideh:.5pt solid black;mso-border-insidev:.5pt solid black">
+                <tbody>
+                    <tr>
+                        <th rowspan="1" colspan="1">Module</th>
+                        <th rowspan="1" colspan="1">Role Name</th>
+                        <th rowspan="1" colspan="1">User ID</th>
+                        <th rowspan="1" colspan="1">Description</th>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Describe</td>
+                        <td rowspan="1" colspan="1">Batch Cataloging</td>
+                        <td rowspan="1" colspan="1">catbatch</td>
+                        <td rowspan="1" colspan="1">Authorized to do batch imports and exports</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Describe</td>
+                        <td rowspan="1" colspan="1">Cataloger 1</td>
+                        <td rowspan="1" colspan="1">cat1</td>
+                        <td rowspan="1" colspan="1">Authorized for all Describe functions;
+                            permission to administer cataloging within assigned work unit</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Describe</td>
+                        <td rowspan="1" colspan="1">Cataloger 2</td>
+                        <td rowspan="1" colspan="1">cat2</td>
+                        <td rowspan="1" colspan="1">Authorized for all Describe functions except
+                            batch imports and bound-withs; permission to administer cataloging
+                            within assigned work unit</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Describe</td>
+                        <td rowspan="1" colspan="1">Cataloger Supervisor</td>
+                        <td rowspan="1" colspan="1">catsup</td>
+                        <td rowspan="1" colspan="1">Authorized for all Describe functions;
+                            permission to administer cataloging within assigned work unit(s)</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Describe</td>
+                        <td rowspan="1" colspan="1">Cataloging Super User</td>
+                        <td rowspan="1" colspan="1">admin; supercat</td>
+                        <td rowspan="1" colspan="1">Authorized for all Describe functions;
+                            permission to administer cataloging in all work units</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Describe</td>
+                        <td rowspan="1" colspan="1">Describe Read only</td>
+                        <td rowspan="1" colspan="1">describereadonly</td>
+                        <td rowspan="1" colspan="1">Authorized only to view records in Describe</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Describe</td>
+                        <td rowspan="1" colspan="1">Full Cataloging</td>
+                        <td rowspan="1" colspan="1">catfull</td>
+                        <td rowspan="1" colspan="1">Authorized for all Describe functions without
+                            limitation by ownership,work unit, bibliographic status or any other
+                            field-level permission restriction</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Describe</td>
+                        <td rowspan="1" colspan="1">OLE_Cataloging_Admin</td>
+                        <td rowspan="1" colspan="1">admin; admin1</td>
+                        <td rowspan="1" colspan="1">Initiate Catalogue Document</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Describe</td>
+                        <td rowspan="1" colspan="1">Temporary (Student) Staff Cataloger  1</td>
+                        <td rowspan="1" colspan="1">tempcat1</td>
+                        <td rowspan="1" colspan="1">Authorized to create and edit holdings/items
+                            within assigned work unit</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Deliver</td>
+                        <td rowspan="1" colspan="1">Operator</td>
+                        <td rowspan="1" colspan="1">edna</td>
+                        <td rowspan="1" colspan="1">Operator</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Select/Acquire</td>
+                        <td rowspan="1" colspan="1">OLE_LicenseAssignee</td>
+                        <td rowspan="1" colspan="1">OLE_LicenseManager</td>
+                        <td rowspan="1" colspan="1">This role will have the persons who can assign
+                            the License Request Document.</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Select/Acquire</td>
+                        <td rowspan="1" colspan="1">OLE_LicenseConfiguration</td>
+                        <td rowspan="1" colspan="1">admin</td>
+                        <td rowspan="1" colspan="1">This is a licensing superuser with authority to
+                            set default system configuration VALUES, such as the default
+                            notification period after inactivity.</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Select/Acquire</td>
+                        <td rowspan="1" colspan="1">OLE_LicenseManager</td>
+                        <td rowspan="1" colspan="1">frank</td>
+                        <td rowspan="1" colspan="1">Group of users who actually do the work of
+                            license negotiation used for routing purposes.</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Select/Acquire</td>
+                        <td rowspan="1" colspan="1">OLE_LicenseReviewer</td>
+                        <td rowspan="1" colspan="1">edna</td>
+                        <td rowspan="1" colspan="1">This role is a person with the authority to sign
+                            a license.</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Select/Acquire</td>
+                        <td rowspan="1" colspan="1">OLE_Licenses</td>
+                        <td rowspan="1" colspan="1">fred</td>
+                        <td rowspan="1" colspan="1">OLE_Licenses are the assignees for Requisitions
+                            requiring licenses or license negotiations. This role is the ?owner? of
+                            the license agreement, and has full edit, attachment, routing, and
+                            status change permissions.</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Select/Acquire</td>
+                        <td rowspan="1" colspan="1">OLE_LicenseViewer</td>
+                        <td rowspan="1" colspan="1">&lt;any Kuali user&gt;</td>
+                        <td rowspan="1" colspan="1">License documents and Search on Licenses have
+                            very limited permissons. This role can \"view only\" Agreements,
+                            Agreement docs, License Requests.</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Select/Acquire</td>
+                        <td rowspan="1" colspan="1">OLE_Licensing_Approver</td>
+                        <td rowspan="1" colspan="1">supervisr</td>
+                        <td rowspan="1" colspan="1">OLE_Licensing_Approver will receive License
+                            Requests in status ?Complete? as final step in workflow.</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Select/Acquire</td>
+                        <td rowspan="1" colspan="1">OLE_Signatory</td>
+                        <td rowspan="1" colspan="1">eric</td>
+                        <td rowspan="1" colspan="1">This role is a person with the authority to sign
+                            a license. Note: this role may not be used within OLE if license must be
+                            signed by an external party (outside of OLE).</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Deliver</td>
+                        <td rowspan="1" colspan="1">Circ Desk Attendant I</td>
+                        <td rowspan="1" colspan="1">tester; tester1; testrole; user1</td>
+                        <td rowspan="1" colspan="1">Circ Desk Attendant I</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Deliver</td>
+                        <td rowspan="1" colspan="1">Circ Desk Attendant II</td>
+                        <td rowspan="1" colspan="1">edna; eric</td>
+                        <td rowspan="1" colspan="1">Circ Desk Attendant II</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Deliver</td>
+                        <td rowspan="1" colspan="1">Circulation Supervisor</td>
+                        <td rowspan="1" colspan="1">dev1; dev2</td>
+                        <td rowspan="1" colspan="1">Circulation Supervisor</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Deliver</td>
+                        <td rowspan="1" colspan="1">Deliver Admin</td>
+                        <td rowspan="1" colspan="1">admin; admin1</td>
+                        <td rowspan="1" colspan="1">Deliver Admin</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Deliver</td>
+                        <td rowspan="1" colspan="1">Full Circulation Attendant</td>
+                        <td rowspan="1" colspan="1">dev1; dev2</td>
+                        <td rowspan="1" colspan="1">Edit Patron Document</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Deliver</td>
+                        <td rowspan="1" colspan="1">Limited Circulation Attendant</td>
+                        <td rowspan="1" colspan="1">testuser1; testuser 2</td>
+                        <td rowspan="1" colspan="1">View Patron Document,no access to
+                            borrowerType</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Deliver</td>
+                        <td rowspan="1" colspan="1">Location Administrator</td>
+                        <td rowspan="1" colspan="1">admin; admin1</td>
+                        <td rowspan="1" colspan="1">Edit and View the Location Level Document</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Deliver</td>
+                        <td rowspan="1" colspan="1">Operator</td>
+                        <td rowspan="1" colspan="1">API; dev2; edna; eric; PALCI</td>
+                        <td rowspan="1" colspan="1">Operator</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Deliver</td>
+                        <td rowspan="1" colspan="1">Patron Manager</td>
+                        <td rowspan="1" colspan="1">admin; admin1</td>
+                        <td rowspan="1" colspan="1">All the Permissions of Patron and
+                            BorrowerType</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Deliver</td>
+                        <td rowspan="1" colspan="1">Shelving Location Administrator</td>
+                        <td rowspan="1" colspan="1">dev1; dev2</td>
+                        <td rowspan="1" colspan="1">View Location Level Document</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Deliver</td>
+                        <td rowspan="1" colspan="1">Super Circulation Supervisor</td>
+                        <td rowspan="1" colspan="1">admin; admin1</td>
+                        <td rowspan="1" colspan="1">Super Circulation Supervisor</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Deliver</td>
+                        <td rowspan="1" colspan="1">Unit Manager</td>
+                        <td rowspan="1" colspan="1">dev1; dev2</td>
+                        <td rowspan="1" colspan="1">UnitManager</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Select/Acquire</td>
+                        <td rowspan="1" colspan="1">Accounts Payable Processor</td>
+                        <td rowspan="1" colspan="1">ole-aatwood; ole-jxlinder</td>
+                        <td rowspan="1" colspan="1">Accounts Payable users who can initiate Payment
+                            Requests and Credit Memo documents. They also have several permissions
+                            related to processing these document types and receive workflow action
+                            requests for them.</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Select/Acquire</td>
+                        <td rowspan="1" colspan="1">Accounting-AQ1</td>
+                        <td rowspan="1" colspan="1">ole-brunelle</td>
+                        <td rowspan="1" colspan="1">This Role is for View only document(Not for
+                            edit)</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Select/Acquire</td>
+                        <td rowspan="1" colspan="1">Accounting-AQ2</td>
+                        <td rowspan="1" colspan="1">ole-cphovis</td>
+                        <td rowspan="1" colspan="1">This Role is for low-level staff with specific
+                            needs only. This role is able to create and edit selected functions:
+                            payment requests, credit memos, disbursement vouchers, invoices)</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Select/Acquire</td>
+                        <td rowspan="1" colspan="1">Accounting-AQ3</td>
+                        <td rowspan="1" colspan="1">ole-cstan; ole durbin</td>
+                        <td rowspan="1" colspan="1">This Role is for staff performing function. This
+                            role is able to create and edit all functions (payment requests,
+                            purchase orders, credit memos, disbursement vouchers, invoices).</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Select/Acquire</td>
+                        <td rowspan="1" colspan="1">Accounting-AQ4</td>
+                        <td rowspan="1" colspan="1">ole-earley; ole-ejacob</td>
+                        <td rowspan="1" colspan="1">This Role is for when you want to restrict
+                            deletion to high-level staff. This role is able to create edit or delete
+                            all functions (payment requests, purchase orders, credit memos,
+                            disbursement vouchers, invoices, COA maintenance).</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Select/Acquire</td>
+                        <td rowspan="1" colspan="1">Acquisitions-AQ1</td>
+                        <td rowspan="1" colspan="1">ole-brunelle</td>
+                        <td rowspan="1" colspan="1">This Role is for View only document(Not for
+                            edit)</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Select/Acquire</td>
+                        <td rowspan="1" colspan="1">Acquisitions-AQ2</td>
+                        <td rowspan="1" colspan="1">ole-cphovis; ole-ejacob</td>
+                        <td rowspan="1" colspan="1">This Role is for low-level staff with specific
+                            needs only. This role is able to create and edit selected functions
+                            (receiving, purchase orders, requistions, payment requests).</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Select/Acquire</td>
+                        <td rowspan="1" colspan="1">Acquisitions-AQ3</td>
+                        <td rowspan="1" colspan="1">ole-cstan; ole-durbin</td>
+                        <td rowspan="1" colspan="1">This Role is for staff performing function. This
+                            role is able to create and edit all functions (receiving, purchase
+                            orders, requisitions, payment requests, vendors).</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Select/Acquire</td>
+                        <td rowspan="1" colspan="1">Acquisitions-AQ4</td>
+                        <td rowspan="1" colspan="1">ole-cstan; ole-earley</td>
+                        <td rowspan="1" colspan="1">This Role is for when you want to restrict
+                            deletion to high-level staff. This role is able to create edit or delete
+                            all functions (receiving, purchase orders, requisitions, payment
+                            requests, vendors, PURAP maintenance).</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Select/Acquire</td>
+                        <td rowspan="1" colspan="1">Acquisitions-AQ5</td>
+                        <td rowspan="1" colspan="1">ole-ejacob; ole-fermat; ole-flaherty</td>
+                        <td rowspan="1" colspan="1">This role can perform functions and assign
+                            appropriate security level to others (receiving, purchase orders,
+                            requisitions, payment requests, vendors, PURAP maintenance).</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Select/Acquire</td>
+                        <td rowspan="1" colspan="1">Collection Management</td>
+                        <td rowspan="1" colspan="1">admin</td>
+                        <td rowspan="1" colspan="1">This Role can close/cancel E-Resource Record if
+                            it is currently assigned to this group and Can approve/route to
+                            Acquisitions for purchase.</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Select/Acquire</td>
+                        <td rowspan="1" colspan="1">Financial-AQ1</td>
+                        <td rowspan="1" colspan="1">ole-brunelle</td>
+                        <td rowspan="1" colspan="1">This Role is for View only document(Not for
+                            edit)</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Select/Acquire</td>
+                        <td rowspan="1" colspan="1">Financial-AQ2</td>
+                        <td rowspan="1" colspan="1">ole-cphovis</td>
+                        <td rowspan="1" colspan="1">This Role is for low-level staff with specific
+                            needs only. This role is able to create and edit selected functions
+                            (purchase orders, payment requests).</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Select/Acquire</td>
+                        <td rowspan="1" colspan="1">Financial-AQ3</td>
+                        <td rowspan="1" colspan="1">ole-durbin; ole-fermat</td>
+                        <td rowspan="1" colspan="1">This Role is for staff performing function. This
+                            role is able to create and edit all functions (purchase orders, payment
+                            requests, invoices).</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Select/Acquire</td>
+                        <td rowspan="1" colspan="1">Financial-AQ4</td>
+                        <td rowspan="1" colspan="1">ole-earley; ole-ejacob</td>
+                        <td rowspan="1" colspan="1">This Role is for when you want to restrict
+                            deletion to high-level staff. This role is able to create edit or delete
+                            all functions (budget documents, transfer funds, deposit documents, COA
+                            maintenance, purchase orders, payment requests, edit sufficient fund
+                            checks and restrictions).</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Select/Acquire</td>
+                        <td rowspan="1" colspan="1">Financial-AQ5</td>
+                        <td rowspan="1" colspan="1">ole-cstan; ole-flaherty</td>
+                        <td rowspan="1" colspan="1">This role can perform functions and assign
+                            appropriate security level to others (budget documents, transfer funds,
+                            deposit documents, COA maintenance, , purchase orders, payment requests,
+                            edit sufficient fund checks and restrictions).</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Select/Acquire</td>
+                        <td rowspan="1" colspan="1">OLE_Acquisitions-select</td>
+                        <td rowspan="1" colspan="1">admin; admin1</td>
+                        <td rowspan="1" colspan="1">This Role performs can create edit view but not
+                            delete E-Resource Records.</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Select/Acquire</td>
+                        <td rowspan="1" colspan="1">OLE_Cataloger</td>
+                        <td rowspan="1" colspan="1">admin1</td>
+                        <td rowspan="1" colspan="1">This role can only view E-Resource Record.</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Select/Acquire</td>
+                        <td rowspan="1" colspan="1">OLE_E-Resource</td>
+                        <td rowspan="1" colspan="1">admin</td>
+                        <td rowspan="1" colspan="1">This role Can create edit delete E-Resource
+                            Record start any sub-workflow link to GOKb particular focus is on
+                            Activation and using the Access Dashboard.</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Select/Acquire</td>
+                        <td rowspan="1" colspan="1">OLE_E-ResourceManager</td>
+                        <td rowspan="1" colspan="1"> </td>
+                        <td rowspan="1" colspan="1">This role manages site-wide configurations like
+                            values for the E-Resource status and time periods for alerts.</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Select/Acquire</td>
+                        <td rowspan="1" colspan="1">OLE_Head</td>
+                        <td rowspan="1" colspan="1">admin</td>
+                        <td rowspan="1" colspan="1">This Role performs can create edit view but not
+                            delete E-Resource Records.</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Select/Acquire</td>
+                        <td rowspan="1" colspan="1">OLE_Load</td>
+                        <td rowspan="1" colspan="1">ole-ejacob; ole-jpaul</td>
+                        <td rowspan="1" colspan="1">This Role is assigned to admin for Loading</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Select/Acquire</td>
+                        <td rowspan="1" colspan="1">OLE_Selector</td>
+                        <td rowspan="1" colspan="1">admin</td>
+                        <td rowspan="1" colspan="1">This Role edits, creates and close/cancel the
+                            E-Resource records if it is currently assigned to this group and also
+                            can begin the Trial</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Select/Acquire</td>
+                        <td rowspan="1" colspan="1">Operator</td>
+                        <td rowspan="1" colspan="1">dev2</td>
+                        <td rowspan="1" colspan="1">Operator for Serial Receiving</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Select/Acquire</td>
+                        <td rowspan="1" colspan="1">Receiving-AQ1</td>
+                        <td rowspan="1" colspan="1">ole-brunelle</td>
+                        <td rowspan="1" colspan="1">This Role is for View only document(Not for
+                            edit)</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Select/Acquire</td>
+                        <td rowspan="1" colspan="1">Receiving-AQ2</td>
+                        <td rowspan="1" colspan="1">ole-cphovis; ole-ejacob</td>
+                        <td rowspan="1" colspan="1">This Role is for low-level staff with specific
+                            needs only. This role is able to create and edit selected functions
+                            (receiving).</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Select/Acquire</td>
+                        <td rowspan="1" colspan="1">Receiving-AQ3</td>
+                        <td rowspan="1" colspan="1">ole-durbin</td>
+                        <td rowspan="1" colspan="1">This Role is for staff performing function. This
+                            role is able to create and edit all functions (receiving, payment
+                            requests, purchase orders, invoices).</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Select/Acquire</td>
+                        <td rowspan="1" colspan="1">Receiving-AQ4</td>
+                        <td rowspan="1" colspan="1">ole-cstan; ole-earley</td>
+                        <td rowspan="1" colspan="1">This Role is for when you want to restrict
+                            deletion to high-level staff. This role is able to create edit or delete
+                            all functions (receiving, payment request,purchase orders, invoices,
+                            receiving maintenance).</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">Select/Acquire</td>
+                        <td rowspan="1" colspan="1">Reviewer</td>
+                        <td rowspan="1" colspan="1">ole-cofya; ole-eurainer; ole-jtlieb</td>
+                        <td rowspan="1" colspan="1">This role receives workflow action requests for
+                            the Vendor document.</td>
+                    </tr>
+                </tbody>
+            </informaltable>
+        </section>
+    </section>
+</chapter>

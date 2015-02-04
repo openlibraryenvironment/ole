@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"
+    version="5.0" xml:lang="en-US">
+    <title><anchor xml:id="_Location_Maintenance_Documents"/>Import</title>
+    <para role="Body Text"/>
+    <para role="Body Text"><inlinemediaobject>
+            <imageobject>
+                <imagedata fileref="../images/DeliverNoTitlePage-DeliverTab.png"/>
+            </imageobject>
+        </inlinemediaobject>
+        <emphasis role="bold">&gt;<inlinemediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/admin-275.png"/>
+                </imageobject>
+            </inlinemediaobject> &gt; <inlinemediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/DescribeNoTitlePage-173.png"/>
+                </imageobject>
+            </inlinemediaobject></emphasis></para>
+    <para role="Body Text">While Batch Importing is done from the <emphasis role="bold"
+            >Admin</emphasis> tab, the <emphasis role="bold">Deliver </emphasis>tab contains
+        functions to import locations and to view reports of imported location and patron records. </para>
+    <para role="Normal"/>
+    <section>
+        <title><anchor xml:id="_Location_Ingest"/>Location Import</title>
+        <para role="Body Text"><emphasis role="bold"><inlinemediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-DeliverTab.png"/>
+                    </imageobject>
+                </inlinemediaobject>&gt;<inlinemediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-275.png"/>
+                    </imageobject>
+                </inlinemediaobject>&gt;<inlinemediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/DescribeNoTitlePage-188.png"/>
+                    </imageobject>
+                </inlinemediaobject>&gt;<inlinemediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/DescribeNoTitlePage-189.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">As an alternative to inputting locations manually, OLE allows users
+            to load locations using an XML file conforming to a simple schema. The upload will
+            collect data from a single XML file, parse it, and load the locations. The upload will
+            match on location codes and create new locations for entries without a code, and update
+            existing locations with a code.</para>
+        <note>
+            <para role="Body Text"> Location Import would most likely be used only during system
+                setup or refresh or any time you need to batch load locations.</para>
+        </note>
+        <para role="Body Text">Once Locations are loaded, you may access them in OLE
+            Locations.</para>
+        <note>
+            <para role="Body Text"> For more information about OLE Locations, see <link
+                    linkend="_Location">Locations in the Circulation Admin Maintenance
+                    Documents</link>. </para>
+        </note>
+        <para role="Normal"/>
+        <para role="Normal">A sample location file that validates to our current coded schema is
+            found at the OLE demo Web site: </para>
+        <para role="Normal"><link
+                xlink:href="https://wiki.kuali.org/display/OLE/OLE%2BSample%2BFiles%2Bfor%2B0.8"
+                >https://wiki.kuali.org/display/OLE/OLE+Sample+Files+for+0.8</link></para>
+        <section>
+            <title>Process Overview</title>
+            <orderedlist numeration="arabic" spacing="normal">
+                <listitem>
+                    <para role="List Paragraph">From the <emphasis role="bold">Location
+                            Import</emphasis> screen, select a file to upload.  </para>
+                    <para role="Normal"/>
+                    <para role="Normal"><inlinemediaobject>
+                            <imageobject>
+                                <imagedata fileref="../images/DescribeNoTitlePage-192.png"/>
+                            </imageobject>
+                        </inlinemediaobject></para>
+                    <para role="Normal"/>
+                    <note>
+                        <para role="Normal"> You may need to pre-process files to match the
+                            schema.</para>
+                    </note>
+                </listitem>
+                <listitem>
+                    <para role="List Paragraph">Click the <inlinemediaobject>
+                            <imageobject>
+                                <imagedata fileref="../images/DescribeNoTitlePage-194.png"/>
+                            </imageobject>
+                        </inlinemediaobject> button to process the file.</para>
+                    <para role="Normal">A success or failure message will appear above the upload
+                        field:</para>
+                    <para role="Normal"/>
+                    <para role="Normal"><inlinemediaobject>
+                            <imageobject>
+                                <imagedata fileref="../images/DescribeNoTitlePage-195.png"/>
+                            </imageobject>
+                        </inlinemediaobject></para>
+                </listitem>
+                <listitem>
+                    <para role="Normal">To review the summary, return to the <emphasis role="bold"
+                            >Admin</emphasis> menu and click on the <emphasis role="bold">Location
+                            Summary</emphasis> located on the <emphasis role="bold"
+                            >Location</emphasis> submenu.</para>
+                    <note>
+                        <para role="Normal"> For more information about the Location Summary, see
+                                <link linkend="_Location_Summary">below</link>. </para>
+                    </note>
+                    <para role="Normal">You may also view locations from <emphasis role="bold"
+                            >Location </emphasis>(also on the <emphasis role="bold">Location
+                        </emphasis>submenu).</para>
+                    <note>
+                        <para role="Normal"> For more information about locations, see <link
+                                linkend="_Location">Locations in the Circulation Admin Maintenance
+                                Documents</link>. </para>
+                    </note>
+                </listitem>
+            </orderedlist>
+        </section>
+        <section>
+            <title>Business Rules</title>
+            <para role="Normal">Locations will be rejected if:</para>
+            <itemizedlist>
+                <listitem>
+                    <para role="Normal">A location’s parent location references a location that does
+                        not exist. </para>
+                </listitem>
+                <listitem>
+                    <para role="Normal">A location’s parent location matches a location at a lower
+                        level of the location hierarchy. </para>
+                </listitem>
+                <listitem>
+                    <para role="Normal">A location’s level code does not match a level code in the
+                        system. </para>
+                </listitem>
+            </itemizedlist>
+            <para role="Normal">Note that when loading locations that reference parent locations,
+                the parent locations must already be in the system for the child locations to be
+                created. If you try to load the child locations first, they will be rejected because
+                OLE will not find their location codes. Users need to order the load file so that
+                the parent locations come before the child locations, or load the higher-level
+                locations before the lower-level locations.</para>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_Location_Summary"/>Location Summary</title>
+        <para role="Body Text"><emphasis role="bold"><inlinemediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-DeliverTab.png"/>
+                    </imageobject>
+                </inlinemediaobject>&gt;<inlinemediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-275.png"/>
+                    </imageobject>
+                </inlinemediaobject>&gt;<inlinemediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/DescribeNoTitlePage-201.png"/>
+                    </imageobject>
+                </inlinemediaobject>&gt;<inlinemediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/DescribeNoTitlePage-202.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The Location Summary stores uploaded files and allows users to review
+            the XML files uploaded to OLE. It will also give basic information as to record
+            creation, deletion and modification.</para>
+        <section>
+            <title>Process Overview</title>
+            <orderedlist>
+                <listitem>
+                    <para role="Normal">From the lookup screen, click <inlinemediaobject>
+                            <imageobject>
+                                <imagedata fileref="../images/DescribeNoTitlePage-203.png"/>
+                            </imageobject>
+                        </inlinemediaobject> to perform a blank search:</para>
+                    <para/>
+                    <para role="Normal"><inlinemediaobject>
+                            <imageobject>
+                                <imagedata fileref="../images/DescribeNoTitlePage-204.png"
+                                    width="100%"/>
+                            </imageobject>
+                        </inlinemediaobject></para>
+                    <para role="Normal"/>
+                    <para role="Normal">The location summary search results will present users with
+                        the <emphasis role="bold">Location Summary ID</emphasis>, <emphasis
+                            role="bold">File Name</emphasis>, <emphasis role="bold">No of Total
+                            Records</emphasis>, <emphasis role="bold">No. of Created
+                            Records</emphasis>, <emphasis role="bold">No of Updated
+                            Records</emphasis>, <emphasis role="bold">No. of Failed
+                            Records</emphasis>.</para>
+                </listitem>
+                <listitem>
+                    <para role="Normal">You may now view locations from <emphasis role="bold"
+                            >Location</emphasis>.</para>
+                    <note>
+                        <para role="Normal"> For more information about locations, see <link
+                                linkend="_Location">Locations in the Circulation Admin Maintenance
+                                Documents</link>.</para>
+                    </note>
+                </listitem>
+            </orderedlist>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_Patron_Load_Reports"/>Patron Load Reports</title>
+        <para role="Body Text"><emphasis role="bold"><inlinemediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-DeliverTab.png"/>
+                    </imageobject>
+                </inlinemediaobject>&gt;<inlinemediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-275.png"/>
+                    </imageobject>
+                </inlinemediaobject>&gt;<inlinemediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/admin-53.png"/>
+                    </imageobject>
+                </inlinemediaobject>&gt; <inlinemediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-156.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The Patron Load Report stores uploaded files and allows users to
+            review the XML files uploaded to OLE. It will also give basic information as to record
+            creation, deletion and modification.</para>
+        <note>
+            <para role="Normal"> For more information about importing batch records, see the <link
+                xlink:href="../../../webhelp/ADMIN/content/ch01s01.html#_BatchFramework">Batch Framework</link> section
+                of the <link xlink:href="../../../webhelp/ADMIN/index.html"><emphasis>OLE Guide to System
+                        Administration Functions</emphasis></link>.</para>
+        </note>
+        <section>
+            <title role="Heading 4circ">Process Overview</title>
+            <para role="Normal">From the lookup screen, click <inlinemediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-157.png"/>
+                    </imageobject>
+                </inlinemediaobject> to perform a blank search:</para>
+            <para role="Normal"/>
+            <para role="Normal"><inlinemediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/DeliverNoTitlePage-158.png"
+                            width="100%"/>
+                    </imageobject>
+                </inlinemediaobject></para>
+            <para role="Normal"/>
+            <para role="Normal">The patron load report search results will present users with the
+                    <emphasis role="bold">Patron Load ID</emphasis>, <emphasis role="bold">File
+                    Name</emphasis>, <emphasis role="bold">No of Total Records</emphasis>, <emphasis
+                    role="bold">No. of Created Records</emphasis>, <emphasis role="bold">No of
+                    Updated Records</emphasis>, <emphasis role="bold">No. of Failed
+                    Records</emphasis>.</para>
+            <para role="Normal"/>
+            <para role="Normal">View the patron records from <emphasis role="bold">Patron</emphasis>
+                on the <emphasis role="bold">Describe</emphasis> tab.</para>
+        </section>
+    </section>
+</chapter>

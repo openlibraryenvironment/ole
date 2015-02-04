@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+<!--
+ Copyright 2008-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean id="CapitalAssetInformation" parent="CapitalAssetInformation-parentBean"/>
+
+  <bean id="CapitalAssetInformation-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.ole.fp.businessobject.CapitalAssetInformation"/>
+    <property name="objectLabel" value="Capital Asset Information"/>
+    <property name="attributes">
+      <list>
+        <ref bean="CapitalAssetInformation-documentNumber"/>
+        <ref bean="CapitalAssetInformation-capitalAssetLineNumber"/>
+    	<ref bean="CapitalAssetInformation-vendorHeaderGeneratedIdentifier"/>
+    	<ref bean="CapitalAssetInformation-vendorDetailAssignedIdentifier"/>
+    	<ref bean="CapitalAssetInformation-vendorName"/>
+    	<ref bean="CapitalAssetInformation-capitalAssetNumber"/>
+    	<ref bean="CapitalAssetInformation-capitalAssetTypeCode"/>
+    	<ref bean="CapitalAssetInformation-capitalAssetManufacturerName"/>
+    	<ref bean="CapitalAssetInformation-capitalAssetDescription"/>
+    	<ref bean="CapitalAssetInformation-capitalAssetManufacturerModelNumber"/>
+    	<ref bean="CapitalAssetInformation-capitalAssetQuantity"/>
+        <ref bean="CapitalAssetInformation-capitalAssetLineAmount"/>
+        <ref bean="CapitalAssetInformation-capitalAssetActionIndicator"/>
+        <ref bean="CapitalAssetInformation-capitalAssetProcessedIndicator"/>
+        <ref bean="CapitalAssetInformation-distributionAmountCode"/>
+      </list>
+    </property>
+    <property name="relationships">
+      <list>
+        <dd:relationship objectAttribute="capitalAssetManagementAsset">
+            <dd:primitiveAttribute source="capitalAssetNumber" target="capitalAssetNumber"/>
+        </dd:relationship>
+        <dd:relationship objectAttribute="capitalAssetManagementAssetType">
+            <dd:primitiveAttribute source="capitalAssetTypeCode" target="capitalAssetTypeCode"/>
+        </dd:relationship>        
+      </list>
+    </property>
+  </bean>
+  
+  <!-- Attributes -->
+  
+  <bean id="CapitalAssetInformation-documentNumber" parent="CapitalAssetInformation-documentNumber-parentBean"/>
+  
+  <bean id="CapitalAssetInformation-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
+  	<property name="forceUppercase" value="true"/>
+  </bean>
+  
+  <bean id="CapitalAssetInformation-vendorHeaderGeneratedIdentifier" parent="CapitalAssetInformation-vendorHeaderGeneratedIdentifier-parentBean"/>
+  
+  <bean id="CapitalAssetInformation-vendorHeaderGeneratedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorHeaderGeneratedIdentifier"/>
+  
+  <bean id="CapitalAssetInformation-vendorDetailAssignedIdentifier" parent="CapitalAssetInformation-vendorDetailAssignedIdentifier-parentBean"/>
+  
+  <bean id="CapitalAssetInformation-vendorDetailAssignedIdentifier-parentBean" abstract="true" parent="VendorDetail-vendorDetailAssignedIdentifier"/>
+  
+  <bean id="CapitalAssetInformation-vendorName" parent="CapitalAssetInformation-vendorName-parentBean"/> 
+  <bean id="CapitalAssetInformation-vendorName-parentBean" abstract="true" parent="VendorDetail-vendorName">
+    <property name="shortLabel" value="Vendor Name"/> 
+  </bean>  
+  
+  <bean id="CapitalAssetInformation-capitalAssetNumber" parent="CapitalAssetInformation-capitalAssetNumber-parentBean"/>  
+  <bean id="CapitalAssetInformation-capitalAssetNumber-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.ole.integration.cam.CapitalAssetManagementAsset" p:sourceAttributeName="capitalAssetNumber">
+	<property name="name" value="capitalAssetNumber"/>
+	<property name="shortLabel" value="Asset Number"/>
+    <property name="label" value="Capital Asset Number"/>
+  </bean> 
+  
+  <bean id="CapitalAssetInformation-capitalAssetQuantity" parent="CapitalAssetInformation-capitalAssetQuantity-parentBean"/>  
+  <bean id="CapitalAssetInformation-capitalAssetQuantity-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.ole.integration.cam.CapitalAssetManagementAsset" p:sourceAttributeName="quantity">
+		<property name="shortLabel" value="Asset Quantity"/>
+      <property name="name" value="capitalAssetQuantity"/>
+  </bean>
+  
+  <bean id="CapitalAssetInformation-capitalAssetTypeCode" parent="CapitalAssetInformation-capitalAssetTypeCode-parentBean"/>
+  <bean id="CapitalAssetInformation-capitalAssetTypeCode-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.ole.integration.cam.CapitalAssetManagementAsset" p:sourceAttributeName="capitalAssetTypeCode">
+      <property name="name" value="capitalAssetTypeCode"/>
+  </bean>
+  
+  <bean id="CapitalAssetInformation-capitalAssetManufacturerName" parent="CapitalAssetInformation-capitalAssetManufacturerName-parentBean"/>
+  <bean id="CapitalAssetInformation-capitalAssetManufacturerName-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.ole.integration.cam.CapitalAssetManagementAsset" p:sourceAttributeName="manufacturerName">
+     <property name="name" value="capitalAssetManufacturerName"/>
+  </bean>
+  
+  <bean id="CapitalAssetInformation-capitalAssetDescription" parent="CapitalAssetInformation-capitalAssetDescription-parentBean"/>
+  <bean id="CapitalAssetInformation-capitalAssetDescription-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.ole.integration.cam.CapitalAssetManagementAsset" p:sourceAttributeName="capitalAssetDescription">
+     <property name="name" value="capitalAssetDescription"/>
+     <property name="control">
+      	<bean parent="TextareaControlDefinition" p:rows="5" p:cols="80"/>
+    </property>
+  </bean> 
+  
+  <bean id="CapitalAssetInformation-capitalAssetManufacturerModelNumber" parent="CapitalAssetInformation-capitalAssetManufacturerModelNumber-parentBean"/>  
+  <bean id="CapitalAssetInformation-capitalAssetManufacturerModelNumber-parentBean" abstract="true" parent="ExternalizableAttributeDefinitionProxy" p:sourceExternalizableBusinessObjectInterface="org.kuali.ole.integration.cam.CapitalAssetManagementAsset" p:sourceAttributeName="manufacturerModelNumber">
+     <property name="name" value="capitalAssetManufacturerModelNumber"/>
+  </bean>  
+  <bean id="CapitalAssetInformation-capitalAssetLineAmount" parent="CapitalAssetInformation-capitalAssetLineAmount-parentBean"/>
+
+  <bean id="CapitalAssetInformation-capitalAssetLineAmount-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+    <property name="name" value="capitalAssetLineAmount"/>
+
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
+  </bean>
+  <bean id="CapitalAssetInformation-capitalAssetLineNumber" parent="CapitalAssetInformation-capitalAssetLineNumber-parentBean"/>
+
+  <bean id="CapitalAssetInformation-capitalAssetLineNumber-parentBean" abstract="true" parent="GenericAttributes-sequenceNumber">
+	<property name="name" value="capitalAssetLineNumber"/>
+    <property name="label" value="Capital Asset Sequence Number"/>
+    <property name="shortLabel" value="Asset Seq. Nbr"/>
+	<property name="maxLength" value="7"/>
+  	<property name="forceUppercase" value="true"/>
+  </bean>
+  <bean id="CapitalAssetInformation-capitalAssetActionIndicator" parent="CapitalAssetInformation-capitalAssetActionIndicator-parentBean"/>
+
+  <bean id="CapitalAssetInformation-capitalAssetActionIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="capitalAssetActionIndicator"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Capital Asset Action Indicator"/>
+    <property name="shortLabel" value="Actn Ind"/>
+    <property name="maxLength" value="1"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <ref bean="HiddenControl" />
+    </property>
+  </bean>
+  <bean id="CapitalAssetInformation-capitalAssetProcessedIndicator" parent="CapitalAssetInformation-capitalAssetProcessedIndicator-parentBean"/>
+
+  <bean id="CapitalAssetInformation-capitalAssetProcessedIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="capitalAssetProcessedIndicator"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Capital Asset Processed Indicator"/>
+    <property name="shortLabel" value="Processed Ind"/>
+    <property name="maxLength" value="1"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <ref bean="HiddenControl" />
+    </property>
+  </bean>
+  <bean id="CapitalAssetInformation-distributionAmountCode" parent="CapitalAssetInformation-distributionAmountCode-parentBean"/>
+
+  <bean id="CapitalAssetInformation-distributionAmountCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="distributionAmountCode"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Amount Distribution Method"/>
+    <property name="shortLabel" value="Amt Dist Method"/>
+    <property name="maxLength" value="1"/>
+    <property name="required" value="false"/>
+    <property name="control">
+      <ref bean="HiddenControl" />
+    </property>
+  </bean>
+  
+</beans>

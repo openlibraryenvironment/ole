@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="OLEClaimNoticeView" parent="OLEClaimNoticeView-parentBean" />
+    <bean id="OLEClaimNoticeView-parentBean" parent="Uif-OLEFormView">
+        <property name="headerText" value="Claim Notices"/>
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/AG/content/ch05s03.html"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="OLEClaimNoticeViewPage" parent="Uif-Page" >
+                    <property name="items">
+                        <list>
+                            <ref bean="ClaimNotice-HorizontalBoxSection"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="footer">
+            <ref bean="ClearFooterView-buttons" />
+        </property>
+        <property name="formClass" value="org.kuali.ole.batch.form.OLEClaimNoticeForm"/>
+    </bean>
+
+
+    <bean id="ClaimNotice-HorizontalBoxSection" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="6" p:style="width:700px" p:render="@{oleClaimNoticeList.size() > 0}">
+        <property name="headerText" value="Claim Notices"/>
+        <property name="collectionObjectClass" value="org.kuali.ole.batch.bo.OLEClaimNotice"/>
+        <property name="propertyName" value="oleClaimNoticeList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.richTable.disableTableSort" value="true" />
+        <!--<property name="collectionLookup.render" value="false"/>-->
+        <property name="items">
+            <list>
+                <bean id="oleClaimNotice" parent="Uif-LinkField"  p:width="10%" p:linkText="@{#line.fileName}" p:target="_blank" p:href="oleClaimNoticeController?viewId=OLEClaimNoticeView&amp;methodToCall=downloadAttachment&amp;filePath=@{#line.fileLocation}&amp;fileName=@{#line.fileName}" />
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+</beans>

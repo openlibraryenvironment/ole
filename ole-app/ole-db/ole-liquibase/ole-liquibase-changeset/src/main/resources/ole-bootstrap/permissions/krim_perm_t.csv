@@ -1,0 +1,211 @@
+PERM_ID,OBJ_ID,VER_NBR,PERM_TMPL_ID,NMSPC_CD,NM,DESC_TXT,ACTV_IND
+OLE55,OLE55,1,10,OLE-COA,Initiate Document GOBJ,Authorizes the initiation of the Global Object Code Document.,Y
+OLE56,OLE56,1,10,OLE-COA,Initiate Document ORGR,Authorizes the initiation of the Organization Reversion Document.,Y
+OLE58,OLE58,1,1,OLE-COA,Edit Inactive Account,Users who can edit Accounts that are inactive.,Y
+OLE59,OLE59,1,1,OLE-COA,Serve As Account Manager,Identifies users that can be Account Managers,Y
+OLE60,OLE60,1,26,OLE-COA,Modify Maintenance Document Field SubAccount a21SubAccount,Authorizes users to edit the Sub-Account Type Code on the Sub-Account document.,Y
+OLE61,OLE61,1,26,OLE-COA,Modify Maintenance Document Field Organization organizationPlantChartCode,Users who can edit the Organization Plant Chart Code on the Organization document.,Y
+OLE62,OLE62,1,26,OLE-COA,Modify Maintenance Document Field Organization organizationPlantAccountNumber,Users who can edit the Organization Plant Account Number on the Organization document.,Y
+OLE63,OLE63,1,26,OLE-COA,Modify Maintenance Document Field Organization campusPlantChartCode,Users who can edit the Campus Plant Chart Code on the Organization document.,Y
+OLE64,OLE64,1,26,OLE-COA,Modify Maintenance Document Field Organization campusPlantAccountNumber,Users who can edit the Campus Plant Account Number on the Organization document.,Y
+OLE66,OLE66,1,OLE7,OLE-FP,Claim Electronic Payment DI,Users who can use a Distribution of Income and Expense document to claim Electronic Payments.,Y
+OLE67,OLE67,1,OLE7,OLE-FP,Claim Electronic Payment YEDI,Users who can use a Year End Distribution of Income and Expense document to claim Electronic Payments.,Y
+OLE69,OLE69,1,10,OLE-FP,Initiate Document CMD,Authorizes the initiation of the Cash Management Document.,Y
+OLE70,OLE70,1,10,OLE-FP,Initiate Document SB,Authorizes the initiation of the Service Billing Document.,Y
+OLE71,OLE71,1,10,OLE-FP,Initiate Document JV,Authorizes the initiation of the Journal Voucher Document.,Y
+OLE72,OLE72,1,10,OLE-FP,Initiate Document PCDO,Authorizes the initiation of the  Procurement Card Document.,Y
+OLE73,OLE73,1,27,OLE-FP,Full Unmask Field ProcurementCardHolder transactionCreditCardNumber,Authorizes users to view the entire Credit Card number on the Procurement Card document and Inquiry.,Y
+OLE74,OLE74,1,33,OLE-FP,Upload Batch Input File(s) procurementCardInputFileType,Authorizes users to access the Procurement Card Upload page.,Y
+OLE75,OLE75,1,10,OLE-GL,Initiate Document GLCP,Authorizes the initiation of the  General Ledger Correction Process Document.,Y
+OLE76,OLE76,1,33,OLE-GL,Upload Batch Input File(s) collectorXmlInputFileType,Authorizes user to access the Collector XML Upload page.,Y
+OLE77,OLE77,1,33,OLE-GL,Upload Batch Input File(s) enterpriseFeederFileSetType,Authorizes user to access the Enterprise Feed Upload page.,Y
+OLE80,OLE80,1,1,OLE-PDP,Set as Immmediate Pay,Authorizes users to set and remove immediate status on payments in PDP.,Y
+OLE81,OLE81,1,10,OLE-PDP,Initiate Document PDSM,Authorizes the initiation of Pre-Disbursement Processor Simple Maintenance Documents.,Y
+OLE82,OLE82,1,1,OLE-PDP,Cancel Payment,Authorizes users to take the Cancel action on payments in PDP.,Y
+OLE83,OLE83,1,1,OLE-PDP,Format,Authorizes users to access and run the Format Checks /ACH screen in PDP,Y
+OLE84,OLE84,1,1,OLE-PDP,Hold Payment / Remove Non-Tax Payment Hold,Authorizes users to hold payments and remove non-tax related holds on payments in PDP.,Y
+OLE86,OLE86,1,1,OLE-PDP,Remove Format Lock,Users who can reset a format process in PDP.,Y
+OLE87,OLE87,1,1,OLE-PDP,Remove Payment Tax Hold,Authorizes users to remove payments held for tax review in PDP.,Y
+OLE88,OLE88,1,24,OLE-PDP,Inquire Into Records KFS-PDP,Allows users to access Pre Disbursement Processor inquiries.,Y
+OLE89,OLE89,1,23,OLE-PDP,Look Up Records KFS-PDP,Allow users to access Pre Disbursement Processor lookups.,Y
+OLE90,OLE90,1,33,OLE-PDP,Upload Batch Input File(s) paymentInputFileType,Allows access to the Manually Upload Payment File screen in PDP.,Y
+OLE91,OLE91,1,4,OLE-PURAP,Blanket Approve Document PREQ,Allows access to the Blanket Approval button on the Payment Request Document.,Y
+OLE92,OLE92,1,10,OLE-PURAP,Initiate Document REQS,Authorizes the initiation of the Requisition Document.,Y
+OLE93,OLE93,1,10,OLE-PURAP,Initiate Document PUR,Authorizes the initiation of Purchasing Transactional Documents.,Y
+OLE94,OLE94,1,10,OLE-PURAP,Initiate Document PO,Authorizes the initiation of the Purchase Order Document.,Y
+OLE95,OLE95,1,10,OLE-PURAP,Initiate Document POC,Authorizes the initiation of the Purchase Order Close Document.,Y
+OLE96,OLE96,1,10,OLE-PURAP,Initiate Document PORT,Authorizes the initiation of the Purchase Order Retransmit Document.,Y
+OLE97,OLE97,1,10,OLE-PURAP,Initiate Document PREQ,Authorizes the initiation of the Payment Request Document.,Y
+OLE98,OLE98,1,10,OLE-PURAP,Initiate Document RCV,Authorizes the initiation of Receiving Transactional Documents.,Y
+OLE99,OLE99,1,10,OLE-PURAP,Initiate Document EIRT,Authorizes the initiation of the Electronic Invoice Reject Document.,Y
+OLE100,OLE100,1,16,OLE-PURAP,Edit Document REQS PreRoute,Edit permission for the Requisition document prior to the document being submitted.,Y
+OLE101,OLE101,1,16,OLE-PURAP,Edit Document PO PreRoute,Edit permission for the Purchase Order document prior to the document being submitted.,Y
+OLE102,OLE102,1,16,OLE-PURAP,Edit Document AP PreRoute,Edit permission for Accounts Payable Transactional documents prior to the document being submitted.,Y
+OLE103,OLE103,1,16,OLE-PURAP,Edit Document RCV PreRoute,Edit permission for Receiving Transactional documents prior to the document being submitted.,Y
+OLE107,OLE107,1,OLE7,OLE-SYS,Claim Electronic Payment,Allows access to the Electronic Fund Transfer interface for the claiming of electronic funds.,Y
+OLE108,OLE108,1,OLE6,OLE-SYS,Error Correct Document KFST,Allows access to the Error Correction button on OLE Transactional documents.,Y
+OLE113,OLE113,1,3,OLE-SYS,Administer Routing for Document KFS,Allows users to open OLE documents via the Super search option in Document Search and take Administrative workflow actions on them (such as approving the document  approving individual requests  or sending the document to a specified route node).,Y
+OLE114,OLE114,1,4,OLE-SYS,Blanket Approve Document KFS,Allows access to the Blanket Approval button on OLE Financial System Documents.,Y
+OLE115,OLE115,1,10,OLE-SYS,Initiate Document KFS,Authorizes the initiation of Financial System Documents.,Y
+OLE116,OLE116,1,10,OLE-SYS,Initiate Document FSSM,Authorizes the initiation of Financial System Simple Maintenance documents.,Y
+OLE117,OLE117,1,10,OLE-SYS,Initiate Document BANK,Authorizes the initiation of the Bank Maintenance Document.,Y
+OLE119,OLE119,1,35,OLE-SYS,Assign Role KFS*,Authorizes users to modify the information on the Assignees Tab of the Role Document and the Roles section of the Membership Tab on the Person Document for roles with a Module Code beginning with OLE.,Y
+OLE120,OLE120,1,36,OLE-SYS,Grant Permission KFS*,Authorizes users to modify the information on the Permissions tab of the Role Document for roles with a module code beginning with OLE.,Y
+OLE121,OLE121,1,37,OLE-SYS,Grant Responsibility KFS*,Authorizes users to modify the information on the Responsibility tab of the Role Document for roles with a Module Code that begins with OLE.,Y
+OLE122,OLE122,1,38,OLE-SYS,Populate Group KFS*,Authorizes users to modify the information on the Assignees Tab of the Group Document and the Group section of the Membership Tab on the Person Document for groups with namespaces beginning with OLE.,Y
+OLE128,OLE128,1,27,OLE-SYS,Full Unmask Field Bank bankAccountNumber,Authorizes users to view the entire bank account number on the Bank document and Inquiry.,Y
+OLE129,OLE129,1,24,OLE-SYS,Inquire Into Records KFS*,Allows users to access OLE inquiries.,Y
+OLE130,OLE130,1,23,OLE-SYS,Look Up Records KFS*,Allow users to access OLE lookups.,Y
+OLE131,OLE131,1,34,OLE-SYS,Maintain System Parameter KFS*,Authorizes users to initiate and edit the Parameter document for pameters with a module code beginning with OLE.,Y
+OLE132,OLE132,1,32,OLE-SYS,Modify Batch Job KFS*,Allows users to access and run Batch Jobs associated with OLE modules via the Schedule link.,Y
+OLE133,OLE133,1,40,OLE-SYS,Open Document KFS,Authorizes users to open OLE Financial System Documents.,Y
+OLE134,OLE134,1,28,OLE-SYS,Partial Unmask Field Bank bankAccountNumber,Authorizes users to view the last four-digits of the bank account number on the Bank document and Inquiry.,Y
+OLE135,OLE135,1,29,OLE-SYS,Use Screen KFS*,Allows users access to screens in the OLE that are not documents  lookups  inquiries  or batch uploads.,Y
+OLE136,OLE136,1,10,OLE-VND,Initiate Document PVEN,Authorizes users to initiate the Vendor Maintenance Document.,Y
+OLE137,OLE137,1,27,OLE-VND,Full Unmask Field VendorDetail vendorHeader.vendorTaxNumber,Authorizes users to view the entire Tax Number on the Vendor Maintenance Document and Inquiry.,Y
+OLE138,OLE138,1,26,OLE-VND,Modify Maintenance Document Field VendorDetail vendorHeader.vendorTaxNumber,Authorizes users to modify the Tax Number on a Vendor Maintenance Document.,Y
+OLE139,OLE139,1,44,OLE-VND,Modify Maintenance Document Section VendorDetail vendorContracts,Authorizes users to see and edit the Contracts Tab on the Vendor Maintenance Document.,Y
+OLE169,OLE169,1,15,OLE-SYS,Save Document KFS,Authorizes user to save documents answering to the FinancialSystemDocument parent document Type.,Y
+OLE184,OLE184,1,44,OLE-VND,Modify Maintenance Document Section VendorDetail vendorCommodities,Allows users to modify the Vendor Commodity Codes tab on the Vendor document. ,Y
+OLE185,OLE185,1,16,OLE-FP,Edit Document CMD PreRoute,Authorizes users who can edit the Cash Management Document prior to it being submitted for routing.,Y
+OLE187,OLE187,1,27,OLE-FP,Full Unmask Field DisbursementPayee taxNumber,Allows users to view the tax id in the Disbursement Voucher.,Y
+OLE189,OLE189,1,OLE41,OLE-FP,Modify Accounting Lines SB PreRoute sourceAccountingLines,Allows users to modify the Target accounting lines on a Procurement Card Document that is at the Account Full Entry Node of routing.,Y
+OLE190,OLE190,1,OLE41,OLE-FP,Modify Accounting Lines FP Account sourceAccountingLines,Allows users to modify the Source accounting lines on documents answering to the parent document Financial Processing Transactional Document when a document is at the Account Node of routing.,Y
+OLE191,OLE191,1,OLE41,OLE-FP,Modify Accounting Lines FP Account targetAccountingLines,Allows users to modify the Target accounting lines on documents answering to the parent document Financial Processing Transactional Document when a document is at the Account Node of routing.,Y
+OLE192,OLE192,1,OLE41,OLE-FP,Modify Accounting Lines DV Campus sourceAccountingLines.financialObjectCode,Allows users to modify the object code of Source accounting lines on a Disbursement Voucher document that is at the Campus Node of routing.,Y
+OLE193,OLE193,1,OLE41,OLE-FP,Modify Accounting Lines DV Tax sourceAccountingLines.amount,Allows users to modify the amount of Source accounting lines on a Disbursement Voucher document that is at the Tax Node of routing.,Y
+OLE194,OLE194,1,OLE41,OLE-FP,Modify Accounting Lines DV Travel sourceAccountingLines.amount,Allows users to modify the amount of Source accounting lines on a Disbursement Voucher document that is at the Travel Node of routing.,Y
+OLE195,OLE195,1,OLE41,OLE-FP,Modify Accounting Lines DV PaymentMethod sourceAccountingLines.amount,Allows users to modify the amount of Source accounting lines on a Disbursement Voucher document that is at the Payment Method Node of routing.,Y
+OLE198,OLE198,1,OLE41,OLE-PURAP,Modify Accounting Lines PUR Account items.sourceAccountingLines,Allows users to modify the Source accounting lines on documents answering to the parent document Purchasing Transactional Document when a document is at the Account Node of routing.,Y
+OLE199,OLE199,1,OLE41,OLE-PURAP,Modify Accounting Lines AP Account items.sourceAccountingLines,Allows users to modify the Source accounting lines on documents answering to the parent document Accounts PayableTransactional Document when a document is at the Account Node of routing.,Y
+OLE209,OLE209,1,31,OLE-FP,Use Transactional Document DV taxEntry,Users who can complete the Nonresident Alien Tax Tab on the Disbursement Voucher document.,Y
+OLE210,OLE210,1,31,OLE-FP,Use Transactional Document DV frnEntry,Users who can modify the Foreign Draft tab and disbursement amount on Disbursement Voucher documents.,Y
+OLE211,OLE211,1,31,OLE-FP,Use Transactional Document DV wireEntry,Users who can modify Wire Transfer tab and disbursement amount on Disbursement Voucher documents.,Y
+OLE212,OLE212,1,31,OLE-FP,Use Transactional Document DV travelEntry,Users who can modify Non-Employee Travel Expense tab  disbursement amount on Disbursement Voucher documents.,Y
+OLE217,OLE217,1,31,OLE-PURAP,Use Transactional Document AP editPreExtract,Users who can edit specific data on a Payment Request or Credit Memo before the document is extracted to PDP.,Y
+OLE220,OLE220,1,OLE48,OLE-SYS,Edit Bank Code OpenLibraryEnvironmentTransactionalDocument,Users who can edit the Bank Code field on documents answering to the parent document Financial System Transactional Document.,Y
+OLE233,OLE233,1,28,OLE-PDP,Partial Unmask Field PayeeACHAccount bankAccountNumber,Authorizes users to view the last four-digits of the bank account number on the Payee ACH document and Inquiry.,Y
+OLE234,OLE234,1,27,OLE-PDP,Full Unmask Field ACHBank bankRoutingNumber,Authorizes users to view the entire bank routing number on the ACH Bank document and Inquiry.,Y
+OLE235,OLE235,1,27,OLE-PDP,Full Unmask Field PayeeACHAccount bankAccountNumber,Authorizes users to view the entire bank account number on the Payee ACH document and Inquiry.,Y
+OLE236,OLE236,1,27,OLE-PDP,Full Unmask Field PayeeACHAccount bankRoutingNumber,Authorizes users to view the entire bank routing number on the Payee ACH document and Inquiry.,Y
+OLE238,OLE238,1,OLE41,OLE-FP,Modify Accounting Lines FP PreRoute sourceAccountingLines,Allows users to modify the Source accounting lines on documents answering to the parent document Accounts Financial Processing Transactional Document when a document has not yet been submitted for routing.,Y
+OLE239,OLE239,1,OLE41,OLE-FP,Modify Accounting Lines FP PreRoute targetAccountingLines,Allows users to modify the Target accounting lines on documents answering to the parent document Financial Processing Transactional Document when a document has not yet been submitted for routing.,Y
+OLE241,OLE241,1,OLE41,OLE-PURAP,Modify Accounting Lines PUR PreRoute items.sourceAccountingLines,Allows users to modify the Source accounting lines on documents answering to the parent document Purchasing Transactional Document when a document has not yet been submitted for routing.,Y
+OLE242,OLE242,1,OLE41,OLE-PURAP,Modify Accounting Lines AP PreRoute items.sourceAccountingLines,Allows users to modify the Source accounting lines on documents answering to the parent document Accounts PayableTransactional Document when a document has not yet been submitted for routing.,Y
+OLE256,OLE256,1,23,OLE-SYS,Look Up Records BatchJobStatus,Allow users to access the Batch File lookup.,Y
+OLE257,OLE257,1,29,OLE-PURAP,Use Screen org.kuali.ole.module.purap.web.struts.B2BAction,Authorizes users to take the Shop Catalogs (or B2B) action.,Y
+OLE258,OLE258,1,45,OLE-PURAP,Add Note / Attachment PREQ Invoice Image,Users who can add notes and attachments to the Payment Request document when it is at the Invoice Attachment route node.,Y
+OLE260,OLE260,1,46,OLE-PURAP,View Note / Attachment PREQ Invoice Image,"Authorizes users to view attachments with a type of ""Invoice Image"" on Payment Request documents.",Y
+OLE263,OLE263,1,47,OLE-SYS,Delete Note / Attachment OLE FALSE,Authorizes users to delete notes and attachments created by any user on documents answering to the Financial System Document parent document type.,Y
+OLE268,OLE268,1,16,OLE-PURAP,Edit Document PREQ R,Authorizes users who can edit Payment Request Documents that are in ENROUTE status.,Y
+OLE269,OLE269,1,40,OLE-PURAP,Open Document PRAP,Authorizes users to open Purchasing Accounts Payable Transactional documents.,Y
+OLE270,OLE270,1,29,OLE-PURAP,Use Screen org.kuali.kfs.module.purap.document.web.struts.PrintAction,Authorizes users to take the Print action on a Purchase Order.,Y
+OLE271,OLE271,1,29,OLE-SYS,Use Screen org.kuali.kfs.sys.web.struts.ElectronicFundTransferAction,Allows users to access the Electronic Funds Transfer screen.,Y
+OLE272,OLE272,1,31,OLE-PURAP,Use Transactional Document PO printPurchaseOrder,Users who can print a Purchase Order document.,Y
+OLE273,OLE273,1,31,OLE-PURAP,Use Transactional Document PO previewPrintPurchaseOrder,Users who can preview a Purchase Order document before printing it.,Y
+OLE274,OLE274,1,31,OLE-PURAP,Use Transactional Document PO assignSensitiveData,Users who can assign sensitive data to a Purchase Order document which locks down who is allowed to view the PO and its related documents.,Y
+OLE275,OLE275,1,31,OLE-PURAP,Use Transactional Document PO resendPurchaseOrder,Users who can resend Purchase Order cxml to the B2B integrator.,Y
+OLE276,OLE276,1,31,OLE-PURAP,Use Transactional Document PREQ requestPaymentRequestCancel,Users authorized to take the Request Cancel action on Payment Request documents.,Y
+OLE277,OLE277,1,31,OLE-PURAP,Use Transactional Document PREQ paymentRequestHoldCancelRemoval,Authorizes users to remove Holds or Cancels on Payment Request documents.,Y
+OLE280,OLE280,1,OLE41,OLE-FP,Modify Accounting Lines PCDO AccountFullEdit sourceAccountingLines,Allows users to modify the Source accounting lines on a Procurement Card Document that is at the Account Full Entry Node of routing.,Y
+OLE281,OLE281,1,OLE41,OLE-FP,Modify Accounting Lines PCDO AccountFullEdit targetAccountingLines,Allows users to modify the Target accounting lines on a Procurement Card Document that is at the Account Full Entry Node of routing.,Y
+OLE282,OLE282,1,31,OLE-PURAP,Use Transactional Document AP managerCancel,Users who can cancel Payment Request or Credit Memo documents at a manager level.,Y
+OLE283,OLE283,1,31,OLE-PURAP,Use Transactional Document AP processorCancel,Users who can cancel Payment Request or Credit Memo documents at a processor level.,Y
+OLE284,OLE284,1,40,OLE-PURAP,Open Document ACM,Authorizes users to open the Contract Manager Assignment Document.,Y
+OLE285,OLE285,1,29,OLE-PDP,Use Screen KFS-PDP,Allows users to access all Pre-Disbursement Processor screens.,Y
+OLE286,OLE286,1,31,OLE-PURAP,Use Transactional Document PREQ requestPaymentRequestHold,Authorizes users to put Payment Request documents on Hold.,Y
+OLE287,OLE287,1,29,OLE-GL,Use Screen org.kuali.kfs.gl.web.struts.BalanceInquiryAction,Allows users to access Balance Inquiry screens. ,Y
+OLE291,OLE291,1,40,OLE-PURAP,Open Document EIRT,Authorizes users to open the Electronic Invoice Reject Document.,Y
+OLE292,OLE292,1,33,OLE-PURAP,Upload Batch Input File(s) electronicInvoiceInputFileType,Authorizes users to upload eInvoice files.,Y
+OLE293,OLE293,1,31,OLE-PURAP,Use Transactional Document CM requestVendorCreditMemoHold,Authorizes users to put Credit Memo documents on Hold.,Y
+OLE294,OLE294,1,31,OLE-PURAP,Use Transactional Document CM vendorCreditMemoHoldRemoval,Authorizes users to remove a Hold from Credit Memo documents.,Y
+OLE301,OLE301,1,29,OLE-GL,Use Screen org.kuali.kfs.sys.web.struts.KualiBalanceInquiryReportMenuAction,"Allows users to see menu of balance inquiries after hitting ""balance inquiry"" button on an accounting line in an accounting document.",Y
+OLE308,OLE308,1,OLE41,OLE-PURAP,Modify Accounting Lines REQS Initiator items.sourceAccountingLines,Allows users to modify the Source accounting lines on a Requisition Document that is at the Initiator Node of routing.,Y
+OLE313,OLE313,1,45,OLE-PURAP,Add Note / Attachment PO Contracts,"Authorizes users to add notes and attachments with a type of ""Contracts"" to the Purchase Order document. ",Y
+OLE314,OLE314,1,46,OLE-PURAP,View Note / Attachment PO Contracts,"Authorizes users to view attachments with a type of ""Contract"" on Purchase Order documents and documents answering to that document type.",Y
+OLE315,OLE315,1,45,OLE-PURAP,Add Note / Attachment PO Contract Ammendments,"Authorizes users to add notes and attachments with a type of ""Contract"" on Purchase Order documents and documents answering to that document type.",Y
+OLE316,OLE316,1,46,OLE-PURAP,View Note / Attachment PO Contract Ammendments,"Authorizes users to view attachments with a type of ""Contract Amendments"" on Purchase Order documents and documents answering to that document type.",Y
+OLE317,OLE317,1,45,OLE-PURAP,Add Note / Attachment PO Quotes,"Authorizes users to add notes and attachments with a type of ""Quotes"" on Purchase Order documents and documents answering to that document type.",Y
+OLE318,OLE318,1,46,OLE-PURAP,View Note / Attachment PO Quotes,"Authorizes users to view attachments with a type of ""Quotes"" on Purchase Order documents and documents answering to that document type.",Y
+OLE319,OLE319,1,45,OLE-PURAP,Add Note / Attachment PO RFPs,"Authorizes users to add notes and attachments with a type of ""RFPs"" on Purchase Order documents and documents answering to that document type.",Y
+OLE320,OLE320,1,46,OLE-PURAP,View Note / Attachment PO RFPs,"Authorizes users to view attachments with a type of ""RFPs"" on Purchase Order documents and documents answering to that document type.",Y
+OLE321,OLE321,1,45,OLE-PURAP,Add Note / Attachment PO RFP Responses,"Authorizes users to add notes and attachments with a type of ""RFP"" on Purchase Order documents and documents answering to that document type.",Y
+OLE322,OLE322,1,46,OLE-PURAP,View Note / Attachment PO RFP Responses,"Authorizes users to view attachments with a type of ""RFP"" on Purchase Order documents and documents answering to that document type.",Y
+OLE323,OLE323,1,45,OLE-PURAP,Add Note / Attachment PO Other - Restricted,"Authorizes users to add notes or attachments with a type of ""Other-Restricted"" on Purchase Order documents and documents answering to that document type.",Y
+OLE324,OLE324,1,46,OLE-PURAP,View Note / Attachment PO Other - Restricted,"Authorizes users to view attachments with a type of ""Other-Restricted"" on Purchase Order documents and documents answering to that document type.",Y
+OLE325,OLE325,1,45,OLE-PURAP,Add Note / Attachment CM Credit Memo Image,"Authorizes users to add notes or attachments with a type of ""Credit Memo Image"" on Credit Memo documents.",Y
+OLE326,OLE326,1,46,OLE-PURAP,View Note / Attachment CM Credit Memo Image,"Authorizes users to view attachments with a type of ""Credit Memo Image"" on Credit Memo documents.",Y
+OLE328,OLE328,1,OLE41,OLE-PURAP,Modify Accounting Lines REQS Organization items.sourceAccountingLines,Allows users to modify the Source accounting lines on a Requisition Document that is at the Organization Node of routing.,Y
+OLE329,OLE329,1,29,OLE-FP,Use Screen org.kuali.kfs.fp.document.web.struts.CashManagementStatusAction,Allows access to the Cash Management Document screen that a user sees when they try to initiate and a document is already open for their campus. The screen provides them a link to the existing document for their campus.,Y
+OLE330,OLE330,1,29,OLE-FP,Use Screen org.kuali.kfs.fp.document.web.struts.DepositWizardAction,Allows access to the Cash Management Document screen from which a user can create new deposits.,Y
+OLE331,OLE331,1,29,OLE-FP,Use Screen org.kuali.kfs.fp.web.struts.CashDrawerCorrectionAction,Allows access to the Cash Management Document screen from which a user can correct amounts on a closed cash drawer.,Y
+OLE335,OLE335,1,26,OLE-VND,Modify Maintenance Document Field VendorDetail vendorHeader.vendorTaxTypeCode,Authorizes users to modify the Tax Type Code on a Vendor Maintenance Document.,Y
+OLE350,OLE350,1,10,OLE-FP,Initiate Document CR,Authorizes the initiation of the Cash Receipt Document.,Y
+OLE351,OLE351,1,1,OLE-COA,Serve As Account Supervisor,Identifies users that can be Account Supervisors.,Y
+OLE352,OLE352,1,1,OLE-COA,Serve As Fiscal Officer,Identifies users that can be Account Fiscal Officers.,Y
+OLE353,OLE353,1,1,OLE-COA,Serve As Fiscal Officer Delegate,Identifies users that can be Account Fiscal Officer Delegates.,Y
+OLE354,OLE354,1,29,OLE-FP,Use Screen org.kuali.kfs.fp.document.web.struts.DisbursementVoucherHelpAction,???,Y
+OLE355,OLE355,1,OLE41,OLE-PURAP,Modify Accounting Lines POA NewUnorderedItems items.sourceAccountingLines,Allows users to modify the Source accounting lines on a Purchase Order Amendment Document that is at the New Unordered Items Node of routing.,Y
+OLE356,OLE356,1,10,OLE-PURAP,Initiate Document CM,Authorizes the initiation of the Credit Memo Document.,Y
+OLE358,OLE358,1,OLE41,OLE-FP,Modify Accounting Lines DV Travel sourceAccountingLines.financialObjectCode,Allows users to modify the object code of Source accounting lines on a Disbursement Voucher Document that is at the Travel Node of routing.,Y
+OLE361,OLE361,1,10,OLE-FP,Initiate Document CDS,Authorizes the initiation of the Cash Drawer Document.,Y
+OLE362,OLE362,1,OLE50,OLE-SYS,View Batch File(s) KFS*,Authorizes users to view batch files using the Batch File lookup screen.,Y
+OLE363,OLE363,1,23,OLE-PDP,Look Up Records KFS-PDP PurchasingPaymentDetail,Allow users to access Pre Disbursement Processor lookups.,Y
+OLE364,OLE364,1,27,OLE-VND,Full Unmask Field VendorDetail vendorHeader.vendorTaxTypeCode,Authorizes users to view the entire Tax Number on the Vendor Maintenance Document and Inquiry.,Y
+OLE365,OLE365,1,16,OLE-PURAP,Edit Document PREQ P,Authorizes users who can edit Payment Request Documents that are in ENROUTE status.,Y
+OLE366,OLE366,1,16,OLE-PURAP,Edit Document PREQ F,Authorizes users who can edit Payment Request Documents that are in ENROUTE status.,Y
+OLE367,OLE367,1,16,OLE-PURAP,Edit Document CM P,Authorizes users who can edit Credit Memo Documents that are in PROCESSED status.,Y
+OLE368,OLE368,1,16,OLE-PURAP,Edit Document CM F,Authorizes users who can edit Credit Memo Documents that are in FINAL status.,Y
+OLE372,OLE372,1,OLE48,OLE-FP,Edit Bank Code CMD,Users who can edit the Bank Code field on the Cash Management Document.,Y
+OLE373,OLE373,1,OLE48,OLE-PURAP,Edit Bank Code PREQ,Users who can edit the Bank Code field on the Payment Request Document.,Y
+OLE374,OLE374,1,OLE48,OLE-FP,Edit Bank Code DV,Users who can edit the Bank Code field on the Disbursement Voucher Document.,Y
+OLE379,OLE379,1,10,OLE-SYS,Initiate Document IdentityManagementGroupDocument,Authorizes the initiation of the KIM Group document.,Y
+OLE380,OLE380,1,10,OLE-COA,Initiate Document GORV,Authorizes the initiation of the Organization Reversion Global Document.,Y
+OLE381,OLE381,1,27,OLE-FP,Full Unmask Field DisbursementVoucherWireTransfer disbVchrPayeeAccountNumber,Authorizes users to view the entire bank account number on the Wire Transfer tab of the Disbursement Voucher document.,Y
+OLE382,OLE382,1,16,OLE-SYS,Edit Document FSSM AdHoc R,Authorizes users to edit Simple Maintenance document at the AdHoc route node.,Y
+OLE383,OLE383,1,16,OLE-SYS,Edit Document KFSM AdHoc R,Authorizes users to edit Complex Maintenance document at the AdHoc route node.,Y
+OLE385,OLE385,1,33,OLE-GL,Upload Batch Input File(s) collectorFlatFileInputFileType,Authorizes user to access the Collector Flat File Upload page.,Y
+OLE386,OLE386,1,27,OLE-PDP,Full Unmask Field PaymentGroup achBankRoutingNbr,Authorizes users to view the entire bank routing number on the Payment Detail Inquiry.,Y
+OLE387,OLE387,1,27,OLE-PDP,Full Unmask Field AchAccountNumber achBankAccountNbr,Authorizes users to view the entire bank account number on the Payment Detail Inquiry.,Y
+OLE390,OLE390,1,9,OLE-SYS,Ad Hoc Review Document KFS A,Authorizes users to take the Approve action on OLE documents Ad Hoc routed to them.,Y
+OLE391,OLE391,1,9,OLE-SYS,Ad Hoc Review Document KFS F,Authorizes users to take the FYI action on OLE documents Ad Hoc routed to them.,Y
+OLE392,OLE392,1,9,OLE-SYS,Ad Hoc Review Document KFS K,Authorizes users to take the Acknowledge action on OLE documents Ad Hoc routed to them.,Y
+OLE1100,OLE1100,1,3,OLE-SYS,Administer Routing for Document KFST,Allows users to open Financial System Documents via the Super search option in Document Search and take Administrative workflow actions on them (such as approving the document  approving individual requests  or sending the document to a specified route node).,Y
+OLE1101,OLE1101,1,2,OLE-SYS,Copy Document KFS,Allows access to the Copy button on OLE Financial System Documents.,Y
+OLE1103,OLE1103,1,51,OLE-SYS,Add Message to Route Log KFS,Allows user to enter a message on the route log,Y
+OLE1500,OLE1500,1,33,OLE-PURAP,Upload Batch Input File(s) ,Authorizes users to access the Marc File Upload page.,Y
+OLE1501,OLE1501,1,1,OLE-VND,Inactivate Vendor,Authorizes users to inactivate the present vendor.,Y
+OLESEC6001,OLESEC6001,1,10,OLE-SEC,Initiate Document AccessSecuritySimpleMaintenanceDocument,Authorizes the initiation of Access Security Simple Maintenance Documents.,Y
+OLESEC6002,OLESEC6002,1,23,OLE-SEC,Look Up Records KFS-SEC,Authorizes the lookup of Access Security records.,Y
+OLESEC6003,OLESEC6003,1,24,OLE-SEC,Inquire Into Records KFS-SEC,Authorizes inquiry of Access Security records.,Y
+OLESEC6004,OLESEC6004,1,16,OLE-SEC,Edit Document AccessSecuritySimpleMaintenanceDocument PreRoute,Authorizes edit of Access Security Simple Maintenance Documents.,Y
+OLEPURAP6940,OLEPURAP6940,1,27,OLE-PURAP,Unmask PO # On PO Document,Authorizes users to view the entire Purchase Order Number on the PO Document and Inquiry,Y
+OLESYS7145a,OLESYS7145a,1,1,OLE-SYS,View Accounting Period,Users who can view the accounting period field when enabled for year end processing.,Y
+OLESYS7145b,OLESYS7145b,1,1,OLE-SYS,Edit Accounting Period,Users who can edit the accounting period field when enabled for year end processing.,Y
+OLESYS6007,OLESYS6007,1,31,OLE-FP,Allow DV Immediate Disbursement,Allow Disbursement Voucher to be marked for immediate disbursement by the Pre-Disbursement Processor.,Y
+OLEMI6886-PRM1,OLEMI6886-PRM1,1,42,OLE-PDP,Maintain ACH Accounts,Allows to view and update Payee ACH Accounts of a certain transaction type.,Y
+OLEMI6886-PRM2,OLEMI6886-PRM2,1,23,OLE-PDP,Lookup ACH Accounts,Allows the lookup of Payee ACH Account records of certain transaction type(s).,Y
+OLEMI6886-PRM3,OLEMI6886-PRM3,1,10,OLE-PDP,Initiate ACH Account Document,Allows initiation the PDP Payee ACH Account maintenance document.,Y
+OLECNTRB162-PRM,OLECNTRB162-PRM,1,33,OLE-VND,Use Vendor Exclude File Upload Screen,Authorizes users to access the Vendor Exclude File Upload page.,Y
+OLECNTRB199-P1,OLECNTRB199-P1,1,33,OLE-SYS,Upload semaphoreInputFileTypeError,Authorizes users to access the Batch Semaphore File Upload page.,Y
+OLECNTRB199-P2,OLECNTRB199-P2,1,OLE50,OLE-SYS,Administer Batch File OLE-SYS batchContainer,Authorizes users to view the batch files using the Batch File lookup screen,Y
+OLEMI8342-PRM,OLEMI8342-PRM,1,44,OLE-COA,Modify Maintenance Document Section SubAccount indirectCostRecoveryAccounts,Authorizes users to edit the IndirectCostRecoveryAccounts section on the Sub-Account document.,Y
+OLEMI8944-PRM,OLEMI8944-PRM,1,OLE41,OLE-PURAP,Modify Accounting Lines OLE_PUR Tax itemsourceAccountingLines,Allows users to modify the Source accounting lines on documents answering to the parent document Purchasing Transactional Document when a document is at the Tax Node of routing.,Y
+OLEMI8893-PRM1,OLEMI8893-PRM1,1,68,OLE-FP,Recall Document OLEFinancialProcessingTransactionalDocument,Enable Recall Document functionality for OLEFinancialProcessingTransactionalDocument documents.,Y
+OLEMI8893-PRM2,OLEMI8893-PRM2,1,68,OLE-SYS,Recall Document OLE,Recall Document functionality for OLE documents.,Y
+OLEMI9071-PRM1,OLEMI9071-PRM1,1,49,OLE-SYS,Send Complete Request OLE,Authorizes users to send Complete ad hoc requests for OLE Documents,Y
+OLECNTRB65-PRM1,OLECNTRB65-PRM1,1,1,KR-SYS,Access Locked Module,Allow access to modules  even when locked.,Y
+OLEMI9598-PRM1,OLEMI9598-PRM1,1,KR1000,OLE-SYS,Super User Approve Single Action Request OLE,Allows users to super user approve single action requests on the super user tab for OLE Documents.,Y
+OLEMI9598-PRM2,OLEMI9598-PRM2,1,KR1001,OLE-SYS,Super User Approve Document OLE,Allows users to super user approve documents on the super user tab for OLE Documents.,Y
+OLEMI9598-PRM3,OLEMI9598-PRM3,1,KR1002,OLE-SYS,Super User Disapprove Document OLE,Allows users to super user disapprove documents on the super user tab for OLE Documents.,Y
+OLE393,OLE393,1,4,OLE-PURAP,Blanket Approve Document PRQS,Allows access to the Blanket Approval button on the Invoice Document.,Y
+OLE394,OLE394,1,10,OLE-PURAP,Initiate Document PRQS,Authorizes the initiation of the Invoice Document.,Y
+OLE395,OLE395,1,45,OLE-PURAP,Add Note / Attachment PRQS Invoice Image,Users who can add notes and attachments to the Invoice document when it is at the Invoice Attachment route node.,Y
+OLE396,OLE396,1,46,OLE-PURAP,View Note / Attachment PRQS Invoice Image,"Authorizes users to view attachments with a type of ""Invoice Image"" on Invoice documents.",Y
+OLE397,OLE397,1,16,OLE-PURAP,Edit Document PRQS R,Authorizes users who can edit Invoice Documents that are in ENROUTE status.,Y
+OLE398,OLE398,1,31,OLE-PURAP,Use Transactional Document PRQS requestInvoiceCancel,Users authorized to take the Request Cancel action on Invoice Documents.,Y
+OLE399,OLE399,1,31,OLE-PURAP,Use Transactional Document PRQS InvoiceHoldCancelRemoval,Authorizes users to remove Holds or Cancels on Invoice Documents.,Y
+OLE400,OLE400,1,31,OLE-PURAP,Use Transactional Document PRQS requestInvoiceHold,Authorizes users to put Invoice Documents on Hold.,Y
+OLE401,OLE401,1,16,OLE-PURAP,Edit Document PRQS P,Authorizes users who can edit Invoice Documents that are in ENROUTE status.,Y
+OLE402,OLE402,1,16,OLE-PURAP,Edit Document PRQS F,Authorizes users who can edit Invoice Documents that are in ENROUTE status.,Y
+OLE403,OLE403,1,OLE48,OLE-PURAP,Edit Bank Code PRQS,Users who can edit the Bank Code field on the Invoice Document.,Y

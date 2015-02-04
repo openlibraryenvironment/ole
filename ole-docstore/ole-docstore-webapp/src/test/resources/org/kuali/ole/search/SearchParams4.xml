@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<searchParams>
+    <pageSize>25</pageSize>
+    <searchConditions>
+        <searchCondition>
+            <operator>AND</operator>
+            <searchField>
+                <docType>item</docType>
+                <fieldName>enumeration</fieldName>
+                <fieldValue>ENUM Item Test4</fieldValue>
+            </searchField>
+            <searchScope>OR</searchScope>
+        </searchCondition>
+    </searchConditions>
+    <searchResultFields>
+        <searchResultField>
+            <docType>holdings</docType>
+            <fieldName>CallNumber</fieldName>
+        </searchResultField>
+        <searchResultField>
+            <docType>item</docType>
+            <fieldName>CallNumber</fieldName>
+        </searchResultField>
+        <searchResultField>
+            <docType>item</docType>
+            <fieldName>chronology</fieldName>
+        </searchResultField>
+        <searchResultField>
+            <docType>item</docType>
+            <fieldName>enumeration</fieldName>
+        </searchResultField>
+        <searchResultField>
+            <docType>bibliographic</docType>
+            <fieldName>Title</fieldName>
+        </searchResultField>
+    </searchResultFields>
+    <startIndex>0</startIndex>
+</searchParams>

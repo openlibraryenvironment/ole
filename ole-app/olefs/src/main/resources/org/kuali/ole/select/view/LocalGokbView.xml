@@ -1,0 +1,99 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+
+    <bean id="LocalGokbView" parent="LocalGokbView-parentBean" />
+    <bean id="LocalGokbView-parentBean" parent="Uif-OLEFormView">
+        <property name="headerText" value="Local GOKb"/>
+        <!--<property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="@{#ConfigProperties['externalizable.help.url']}/reference/html/BASICS.html#_Describe_Workbench"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>-->
+        <property name="items">
+            <list>
+                <bean id="LocalGokbViewPage" parent="Uif-Page" >
+                    <property name="items">
+                        <list>
+                            <ref bean="LocalGokbButtons"/>
+                            <ref bean="LocalGokbResultsView"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+
+        <property name="formClass" value="org.kuali.ole.select.form.LocalGokbForm"/>
+    </bean>
+    <bean id="LocalGokbButtons" parent="LocalGokbButtons-parentBean" />
+    <bean id="LocalGokbButtons-parentBean" parent="Uif-HorizontalFieldGroup">
+        <property name="items">
+            <list>
+                <bean id="initOrUpdateGokbBtn" parent="Uif-PrimaryActionButton" p:methodToCall="initOrUpdateLocalGokb" p:ajaxSubmit="false" p:actionLabel="Init Or Update Local GOKb"/>
+                <bean id="refreshStatusBtn" parent="Uif-PrimaryActionButton" p:methodToCall="refreshStatus" p:actionLabel="Refresh Status"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="LocalGokbResultsView" parent="LocalGokbResultsView-parentBean" />
+    <bean id="LocalGokbResultsView-parentBean" parent="Uif-VerticalBoxSection">
+        <property name="headerText" value="Current/Last Update Status" />
+        <property name="items">
+            <list>
+                <bean id="Current_GokbStatus" parent="Uif-GridGroup" p:layoutManager.numberOfColumns="6">
+                    <property name="items">
+                        <list>
+                            <bean id="Current_GokbStatus_id" parent="Uif-DataField" p:label="ID" p:propertyName="id"/>
+                            <bean id="Current_GokbStatus_noOfPackages" parent="Uif-DataField" p:label="No Of Packages" p:propertyName="noOfPackages"/>
+                            <bean id="Current_GokbStatus_noOfTipps" parent="Uif-DataField" p:label="No Of Tipps" p:propertyName="noOfTipps"/>
+                            <bean id="Current_GokbStatus_noOfTitles" parent="Uif-DataField" p:label="No Of Titles" p:propertyName="noOfTitles"/>
+                            <bean id="Current_GokbStatus_noOfOrganization" parent="Uif-DataField" p:label="No Of Organization" p:propertyName="noOfOrganization"/>
+                            <bean id="Current_GokbStatus_noOfPlatforms" parent="Uif-DataField" p:label="No Of Platforms" p:propertyName="noOfPlatforms"/>
+                            <bean id="Current_GokbStatus_status" parent="Uif-DataField" p:label="Status" p:propertyName="status"/>
+                            <bean id="Current_GokbStatus_startTime" parent="Uif-DataField" p:label="Start Time" p:propertyName="startTime"/>
+                            <bean id="Current_GokbStatus_endTime" parent="Uif-DataField" p:label="End Time" p:propertyName="endTime"/>
+                        </list>
+                    </property>
+                </bean>
+                <ref bean="All_GokbStatus"/>
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="All_GokbStatus" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="9" p:disclosure.defaultOpen="false">
+        <property name="headerText" value="Log Status" />
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.select.gokb.OleGokbUpdateLog" />
+        <property name="propertyName" value="oleGokbUpdateLogList" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.richTable.disableTableSort" value="true" />
+        <property name="layoutManager.richTable.templateOptions">
+            <map>
+                <entry key="bFilter" value="false"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="All_GokbStatus_id" parent="Uif-DataField" p:label="ID" p:propertyName="id"/>
+                <bean id="All_GokbStatus_noOfPackages" parent="Uif-DataField" p:label="No Of Packages" p:propertyName="noOfPackages"/>
+                <bean id="All_GokbStatus_noOfTipps" parent="Uif-DataField" p:label="No Of Tipps" p:propertyName="noOfTipps"/>
+                <bean id="All_GokbStatus_noOfTitles" parent="Uif-DataField" p:label="No Of Titles" p:propertyName="noOfTitles"/>
+                <bean id="All_GokbStatus_noOfOrganization" parent="Uif-DataField" p:label="No Of Organization" p:propertyName="noOfOrganization"/>
+                <bean id="All_GokbStatus_noOfPlatforms" parent="Uif-DataField" p:label="No Of Platforms" p:propertyName="noOfPlatforms"/>
+                <bean id="All_GokbStatus_status" parent="Uif-DataField" p:label="Status" p:propertyName="status"/>
+                <bean id="All_GokbStatus_startTime" parent="Uif-DataField" p:label="Start Time" p:propertyName="startTime"/>
+                <bean id="All_GokbStatus_endTime" parent="Uif-DataField" p:label="End Time" p:propertyName="endTime"/>
+            </list>
+        </property>
+    </bean>
+
+
+</beans>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:dd="http://rice.kuali.org/dd"
+	xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://rice.kuali.org/dd http://rice.kuali.org/dd/dd.xsd">
+
+    <bean id="OleConstraintType" parent="OleConstraintType-parentBean"></bean>
+    
+    <bean id="OleConstraintType-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="objectLabel" value="OleConstraintType"></property>
+        <property name="businessObjectClass"
+			value="org.kuali.ole.select.businessobject.OleConstraintType"></property>
+		<property name="inquiryDefinition">
+            <ref bean="OleConstraintType-inquiryDefinition"/>
+        </property>
+        <property name="lookupDefinition">
+            <ref bean="OleConstraintType-lookupDefinition"/>
+        </property>
+        <property name="titleAttribute" value="constraintTypeId"/>
+        <property name="attributes">
+			<list>
+			    <ref bean="OleConstraintType-constraintTypeId"/>
+			    <ref bean="OleConstraintType-constraintType"/>
+			    <ref bean="OleConstraintType-active"/>
+			</list>
+		</property>
+    </bean>	
+    
+    <!-- Attribute Definitions -->
+    
+    <bean id="OleConstraintType-constraintTypeId" parent="OleConstraintType-constraintTypeId-parentBean"/>
+    
+    <bean id="OleConstraintType-constraintTypeId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="constraintTypeId"/>
+        <property name="label" value="Constraint Type Id"></property>
+        <property name="shortLabel" value="Constraint Type Id"></property>
+        <property name="maxLength" value="9"/>
+	    <property name="validationPattern">
+	        <ref bean="NumericValidation" />
+	    </property>
+	    <property name="control">
+	        <bean parent="TextControlDefinition" p:size="11"/>
+	    </property>
+    </bean>
+    
+    <bean id="OleConstraintType-constraintType" parent="OleConstraintType-constraintType-parentBean"></bean>
+    
+    <bean id="OleConstraintType-constraintType-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="constraintType"/>
+        <property name="label" value="Constraint Type"></property>
+        <property name="shortLabel" value="Constraint Type"></property>
+        <property name="maxLength" value="50" />
+		<property name="required" value="false" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="50" />
+		</property>
+    </bean>
+    
+    <bean id="OleConstraintType-active" parent="OleConstraintType-active-parentBean"/>
+    
+    <bean id="OleConstraintType-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+        <property name="name" value="active"/>
+    </bean>
+    
+    
+    <bean id="OleConstraintType-inquiryDefinition" parent="OleConstraintType-inquiryDefinition-parentBean"></bean>
+    
+    <bean id="OleConstraintType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Constraint Type Inquiry"/>
+        <property name="inquirySections">
+             <list>
+                 <bean parent="InquirySectionDefinition">
+                     <property name="title" value="Constraint Type"/>
+                     <property name="numberOfColumns" value="1"/>
+                     <property name="inquiryFields">
+                         <list>
+                             <bean parent="FieldDefinition" p:attributeName="constraintTypeId"/>
+                             <bean parent="FieldDefinition" p:attributeName="constraintType"></bean>
+                             <bean parent="FieldDefinition" p:attributeName="active"/>
+                         </list>
+                     </property>
+                 </bean>
+             </list>
+        </property>
+    </bean>
+    
+    <bean id="OleConstraintType-lookupDefinition" parent="OleConstraintType-lookupDefinition-parentBean"/>
+    
+    <bean id="OleConstraintType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        
+        <property name="title" value="Constraint Type LookUp"/>
+        <property name="defaultSort">
+            <bean parent="SortDefinition">
+            </bean>
+        </property>
+        <property name="lookupFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="constraintTypeId"/>
+                <bean parent="FieldDefinition" p:attributeName="constraintType"></bean>
+                <bean parent="FieldDefinition" p:attributeName="active"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="constraintTypeId"/>
+                <bean parent="FieldDefinition" p:attributeName="constraintType"></bean>
+                <bean parent="FieldDefinition" p:attributeName="active"/>
+            </list>
+        </property>
+    </bean>
+	
+</beans>

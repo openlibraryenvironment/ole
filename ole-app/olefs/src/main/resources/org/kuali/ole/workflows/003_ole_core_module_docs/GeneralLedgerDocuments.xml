@@ -1,0 +1,37 @@
+<data xmlns="ns:workflow" xsi:schemaLocation="ns:workflow resource:WorkflowData" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>OLE_GLCP</name>
+      <parent>OLEGeneralLedgerTransactionalDocument</parent>
+      <label>
+        General Ledger Correction Process
+      </label>
+      <docHandler>
+        ${ole.url}/generalLedgerCorrection.do?methodToCall=docHandler
+      </docHandler>
+      <helpDefinitionURL>
+        ${ole.externalizable.help.url}/reference/webhelp/AG/content/ch14s08.html
+      </helpDefinitionURL>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="autoApproveForAsynchronousProcessing"/>
+          <simple name="autoApproveForAsynchronousProcessing"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <simple name="autoApproveForAsynchronousProcessing">
+          <type>
+            org.kuali.rice.kew.engine.node.NoOpNode
+          </type>
+        </simple>
+      </routeNodes>
+    </documentType>
+  </documentTypes>
+</data>

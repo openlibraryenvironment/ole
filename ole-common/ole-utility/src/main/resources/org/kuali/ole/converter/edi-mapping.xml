@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<medi:edimap xmlns:medi="http://www.milyn.org/schema/edi-message-mapping-1.3.xsd">
+
+    <medi:description name="Transactional Order" version="1.0" />
+
+    <medi:delimiters segment="'" field="+" component=":" sub-component="~" escape="?"/>
+
+    <medi:segments xmltag="order">
+
+      <!--<medi:segmentGroup xmltag="order">-->
+          <medi:segment xmltag="seperators" minOccurs="0" maxOccurs="1" segcode="UNA:" truncatable="true">
+              <medi:field xmltag="CHARS" required="false" truncatable="true"/>
+          </medi:segment>
+          <medi:segment segcode="UNB" xmltag="sendersandreceiversidentification"  truncatable="true" >
+
+            <medi:field xmltag="sendersandreceiversconstant">
+                <medi:component xmltag="code" />
+                <medi:component xmltag="value" />
+            </medi:field>
+            <medi:field xmltag="senderinformation">
+                <medi:component xmltag="senderid" />
+                <medi:component xmltag="senderidtype" />
+            </medi:field>
+            <medi:field xmltag="receiverinformation">
+                <medi:component xmltag="receiverid" />
+                <medi:component xmltag="receiveridtype" />
+            </medi:field>
+            <medi:field xmltag="schedule">
+                <medi:component xmltag="preparationdate" />
+                <medi:component xmltag="preparationtime" />
+            </medi:field>
+            <medi:field xmltag="interchangecontrolref" />
+        </medi:segment>
+
+        <medi:segment segcode="UNH" xmltag="messageheader">
+            <medi:field xmltag="interchangecontrolref" />
+
+            <medi:field xmltag="messagetypeinformation">
+                <medi:component xmltag="messagetypeid" />
+                <medi:component xmltag="constant1" />
+                <medi:component xmltag="constant2" />
+                <medi:component xmltag="constant3" />
+                <medi:component xmltag="constant4" />
+            </medi:field>
+        </medi:segment>
+
+        <medi:segmentGroup xmltag="message">
+
+            <medi:segment segcode="BGM" xmltag="messagebeginning" minOccurs="0" truncatable="true">
+                <medi:field xmltag="order" />
+                <medi:field xmltag="interchangecontrolref" />
+                <medi:field xmltag="codelistagency" />
+            </medi:segment>
+
+            <medi:segment segcode="DTM" xmltag="messagecreationinfo" minOccurs="0" truncatable="true">
+                <medi:field xmltag="details">
+                    <medi:component xmltag="constant" />
+                    <medi:component xmltag="date" />
+                    <medi:component xmltag="dateformat" />
+                </medi:field>
+            </medi:segment>
+
+            <medi:segment segcode="NAD" xmltag="buyerpartyqualifier" minOccurs="0" truncatable="true">
+                <medi:field xmltag="buyer" />
+                <medi:field xmltag="buyerinfo">
+                    <medi:component xmltag="codedidentification" />
+                    <medi:component xmltag="partyidentificationcode" />
+                    <medi:component xmltag="codelistagency" />
+                </medi:field>
+            </medi:segment>
+
+            <medi:segment segcode="RFF" xmltag="reference" minOccurs="0" truncatable="true">
+                <medi:field xmltag="partydetails" truncatable="true" required="false">
+                    <medi:component xmltag="additionalpartyidentification" />
+                    <medi:component xmltag="partyname" />
+                </medi:field>
+            </medi:segment>
+
+            <medi:segment segcode="NAD" xmltag="supplierpartyqualifier" minOccurs="0" truncatable="true">
+                <medi:field xmltag="supplier" truncatable="true" required="false"/>
+                <medi:field xmltag="supplierinfo" truncatable="true" required="false">
+                    <medi:component xmltag="codedidentification" />
+                    <medi:component xmltag="partyidentificationcode" />
+                    <medi:component xmltag="codelistagency" />
+                </medi:field>
+            </medi:segment>
+
+            <medi:segment segcode="CUX" xmltag="currencydetails" minOccurs="0" truncatable="true">
+                <medi:field xmltag="supplierinfo" truncatable="true" required="false">
+                    <medi:component xmltag="defaultcurrency" truncatable="true" required="false"/>
+                    <medi:component xmltag="currencytype" truncatable="true" required="false"/>
+                    <medi:component xmltag="ordercurrency" truncatable="true" required="false"/>
+                </medi:field>
+            </medi:segment>
+
+            <medi:segment segcode="ALC" xmltag="allowanceorcharge" minOccurs="0" truncatable="true">
+                <medi:field xmltag="allowanceorchargequalifier" truncatable="true" required="false"/>
+                <medi:field xmltag="freetext" truncatable="true" required="false"/>
+                <medi:field xmltag="settlement" truncatable="true" required="false"/>
+                <medi:field xmltag="calculationsequenceindicator" truncatable="true" required="false"/>
+                <medi:field xmltag="specialserviceidentification" truncatable="true" required="false">
+                    <medi:component xmltag="specialservicecode" truncatable="true" required="false"/>
+                    <medi:component xmltag="codelistqualifier" truncatable="true" required="false"/>
+                    <medi:component xmltag="codelistqualifieragency" truncatable="true" required="false"/>
+                    <medi:component xmltag="specialservice" truncatable="true" required="false"/>
+                </medi:field>
+            </medi:segment>
+
+            <medi:segment segcode="MOA" xmltag="monetary" minOccurs="0" truncatable="true">
+                <medi:field xmltag="monetaryinfo" truncatable="true" required="false">
+                    <medi:component xmltag="monetaryamounttype" truncatable="true" required="false"/>
+                    <medi:component xmltag="monetaryamount" truncatable="true" required="false"/>
+                </medi:field>
+            </medi:segment>
+
+        </medi:segmentGroup>
+
+        <medi:segmentGroup xmltag="lineitemOrder" maxOccurs="-1">
+
+            <medi:segment segcode="LIN" xmltag="lineitem" truncatable="true">
+                <medi:field xmltag="sequencenumber" />
+                <medi:field xmltag="itemnumberid" truncatable="true" required="false" />
+                <medi:field xmltag="articlenumber" truncatable="true" required="false">
+                    <medi:component xmltag="isbn" />
+                    <medi:component xmltag="itemnumbertype" />
+                </medi:field>
+            </medi:segment>
+
+            <medi:segment segcode="PIA" xmltag="productfunction" minOccurs="0" truncatable="true" >
+                <medi:field xmltag="productid" truncatable="true" required="false"/>
+                <medi:field xmltag="articlenumber" truncatable="true" required="false">
+                    <medi:component xmltag="isbn" />
+                    <medi:component xmltag="itemnumbertype" />
+                </medi:field>
+            </medi:segment>
+
+            <medi:segment segcode="IMD" xmltag="itemdescription" maxOccurs="-1" minOccurs="0" truncatable="true">
+                <medi:field xmltag="text" />
+                <medi:field xmltag="itemcharacteristiccode" />
+                <medi:field xmltag="data" />
+            </medi:segment>
+
+            <medi:segment segcode="QTY" xmltag="quantityinformation">
+                <medi:field xmltag="quantity">
+                    <medi:component xmltag="constant" />
+                    <medi:component xmltag="quantity" />
+                </medi:field>
+            </medi:segment>
+
+            <medi:segment segcode="PRI" xmltag="priceinformation">
+                <medi:field xmltag="price">
+                    <medi:component xmltag="grossprice" />
+                    <medi:component xmltag="price" />
+                </medi:field>
+            </medi:segment>
+
+            <medi:segment segcode="RFF" xmltag="referenceinformation" minOccurs="0" truncatable="true">
+                <medi:field xmltag="reference">
+                    <medi:component xmltag="buyersorderline" />
+                    <medi:component xmltag="orderlinenumber" />
+                </medi:field>
+            </medi:segment>
+
+            <medi:segment segcode="RFF" xmltag="suppliersreferenceinformation" minOccurs="0" truncatable="true">
+                <medi:field xmltag="suppliersreference">
+                    <medi:component xmltag="suppliersorderline" />
+                    <medi:component xmltag="vendorreferencenumber" />
+                </medi:field>
+            </medi:segment>
+
+            <medi:segment segcode="RFF" xmltag="fundnumberreference" minOccurs="0" truncatable="true">
+                <medi:field xmltag="buyers">
+                    <medi:component xmltag="buyersfundnumber" />
+                    <medi:component xmltag="budgetnumber" />
+                </medi:field>
+            </medi:segment>
+
+            <medi:segment segcode="TDT" xmltag="transportstagequalifier" minOccurs="0" truncatable="true">
+                <medi:field xmltag="transportstagequalifierconstant" />
+                <medi:field xmltag="empty1" />
+                <medi:field xmltag="empty2" />
+                <medi:field xmltag="surfacemail" />
+            </medi:segment>
+
+            <medi:segment segcode="FTX" xmltag="note" minOccurs="0" truncatable="true">
+              <medi:field xmltag="notelineitem" />
+              <medi:field xmltag="noteempty1" truncatable="true" required="false"/>
+              <medi:field xmltag="noteempty2" truncatable="true" required="false"/>
+              <medi:field xmltag="noteempty3" truncatable="true" required="false"/>
+            </medi:segment>
+
+            <medi:segment segcode="NAD" xmltag="transportstagequalifier" minOccurs="0" truncatable="true">
+                <medi:field xmltag="transportstagequalifierconstant" />
+                <medi:field xmltag="empty1" />
+                <medi:field xmltag="empty2" />
+                <medi:field xmltag="surfacemail" />
+            </medi:segment>
+
+        </medi:segmentGroup>
+
+        <medi:segmentGroup xmltag="summary">
+            <medi:segment segcode="UNS" xmltag="summarysection" minOccurs="0" truncatable="true">
+                <medi:field xmltag="separatorinfo" truncatable="true" required="false"/>
+            </medi:segment>
+            <medi:segment segcode="CNT" xmltag="controlinfomation" maxOccurs="-1" minOccurs="0" truncatable="true">
+                <medi:field xmltag="control">
+                    <medi:component xmltag="controlqualifier" />
+                    <medi:component xmltag="totalqtysegments" />
+                </medi:field>
+            </medi:segment>
+            <medi:segment segcode="UNT" xmltag="unt" minOccurs="0" truncatable="true">
+                <medi:field xmltag="messagesegmentsnumber" />
+                <medi:field xmltag="linsegmentstotal" />
+            </medi:segment>
+
+        </medi:segmentGroup>
+
+        <medi:segment segcode="UNZ" xmltag="trailer" minOccurs="0" truncatable="true">
+                <medi:field xmltag="unknown1" />
+                <medi:field xmltag="unknown2" />
+            </medi:segment>
+        <!--</medi:segmentGroup>-->
+
+    </medi:segments>
+
+</medi:edimap>

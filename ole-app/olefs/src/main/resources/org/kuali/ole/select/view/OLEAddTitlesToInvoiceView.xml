@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="OLEAddTitlesToInvoiceView" parent="OLEAddTitlesToInvoiceView-parentBean" />
+    <bean id="OLEAddTitlesToInvoiceView-parentBean" parent="Uif-OLEFormView">
+        <property name="headerText" value=""/>
+        <property name="items">
+            <list>
+                <bean id="OLEAddTitlesToInvoiceView" parent="Uif-Page" >
+                    <property name="items">
+                        <list>
+                            <ref bean="OLEAddTitlesToInvoiceView-header"/>
+                            <ref bean="OLEAddTitlesToInvoiceView-Errors"/>
+                            <ref bean="OLEAddTitlesToInvoiceView-success"/>
+                            <ref bean="OLEAddTitlesToInvoiceView-listPoItems"/>
+                            <ref bean="OLEAddTitlesToInvoiceView-newToInvoiceSection" />
+                            <ref bean="OLEAddTitlesToInvoiceView-existingInvoiceSection" />
+                            <ref bean="OLEAddTitlesToInvoiceView-buttons" />
+                            <ref bean="OLEAddTitlesToInvoiceView-cancelSection" />
+                            <ref bean="showCancelDialog" />
+                            <ref bean="skipValidation" />
+                            <ref bean="continueReceiveAndPayDialog" />
+                            <ref bean="OLEAddTitlesToInvoiceView-continueReceiveAndPayDialog" />
+
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>ole/select/css/addTitlesToInvoice.css</value>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>ole/select/scripts/addTitlesToInvoice.js</value>
+            </list>
+        </property>
+        <property name="formClass" value="org.kuali.ole.select.form.OLEAddTitlesToInvoiceForm"/>
+    </bean>
+
+    <bean id="OLEAddTitlesToInvoiceView-header" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="OLEAddTitlesToInvoiceView-header-receiveAndPay" parent="Uif-MessageField" p:messageText="Receive Titles and Add to Invoice" p:cssClasses="receiveAndPayHeader" p:render="@{payAndReceive}"/>
+                <bean id="OLEAddTitlesToInvoiceView-header-pay" parent="Uif-MessageField" p:messageText="Add to invoice" p:cssClasses="receiveAndPayHeader" p:render="@{!payAndReceive}"/>
+            </list>
+        </property>
+    </bean>
+    <!--Errors -->
+    <bean id="OLEAddTitlesToInvoiceView-Errors" parent="Uif-VerticalBoxSection" p:render="@{errorMsg ne null}">
+        <property name="items">
+            <list>
+                <bean id="OLEAddTitlesToInvoiceView-errorMsg" parent="Uif-MessageField" p:messageText="@{errorMsg}" p:cssClasses="messageClass"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="OLEAddTitlesToInvoiceView-success" parent="Uif-VerticalBoxSection" p:render="@{successMsg ne null}">
+        <property name="items">
+            <list>
+                <bean id="OLEAddTitlesToInvoiceView-successMsg" parent="Uif-MessageField" p:messageText="@{successMsg}" p:cssClasses="messageClass_success"/>
+            </list>
+        </property>
+    </bean>
+    <!-- New Invoice Section-->
+
+    <bean id="OLEAddTitlesToInvoiceView-newToInvoiceSection" parent="Uif-HorizontalBoxSection">
+        <!-- <property name="headerText" value="Add Titels To New invoice " />-->
+        <property name="headerText" value="Add Titles To New Invoice"/>
+        <property name="items">
+            <list>
+                <bean id="OLEAddTitlesToInvoiceView-newInvoice-date" parent="Uif-InputField" p:propertyName="invoiceDate" p:label="Invoice Date" >
+                    <property name="control">
+                        <bean parent="Uif-DateControl" p:size="15"/>
+                    </property>
+                </bean>
+                <bean id="OLEAddTitlesToInvoiceView-newInvoice-invoiceAmount" parent="Uif-InputField" p:propertyName="invoiceAmount" p:label="Vendor Invoice amount" >
+
+                </bean>
+                <bean id="OLEAddTitlesToInvoiceView-newInvoice-invoiceNumber" parent="Uif-InputField" p:propertyName="invoiceNumber" p:label="Vendor Invoice Number" >
+
+                </bean>
+                <bean id="OLEAddTitlesToInvoiceView-newInvoice-paymentMethod" parent="Uif-InputField" p:propertyName="paymentMethod" p:label="Payment Method" >
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:disabled="false"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.fp.businessobject.options.PaymentMethodValuesFinder"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="OLEAddTitlesToInvoiceView-listPoItems"  parent="Uif-TableCollectionSection"   p:style="width:1000px" p:layoutManager.numberOfColumns="7" >
+        <property name="headerText" value="Titles " />
+        <property name="collectionObjectClass" value="org.kuali.ole.select.businessobject.OlePurchaseOrderItem" />
+        <property name="propertyName" value="olePurchaseOrderItems" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="renderAddLine" value="false"/>
+        <!--<property name="addLineLabel" value="false"/>-->
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.richTable.disableTableSort" value="false" />
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="iDisplayLength" value="5"/>
+                <entry key="bFilter" value="false"/>
+                <!--<entry key="bInfo" value="false"/>
+                <entry key="bLengthChange" value="false"/>-->
+            </map>
+        </property>
+        <property name="renderLineActions" value="false"/>
+        <property name="items">
+            <list>
+                <bean id="OLEAddTitlesToInvoiceView_selected" parent="Uif-InputField" p:propertyName="selected" p:label="" >
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" />
+                    </property>
+                </bean>
+                <bean id="OLEAddTitlesToInvoiceView_purchaseOrderId" parent="Uif-LinkField" p:style="font-weight:bold;" p:href="../kew/DocHandler.do?command=displayDocSearchView&amp;docId=@{#line?.olePurchaseOrderDocument.documentNumber}" p:linkText="@{#line?.olePurchaseOrderDocument.purapDocumentIdentifier}" p:target="_blank" p:label="PurchaseOrder Id#" p:readOnly="true" />
+                <!--<bean id="OLEAddTitlesToInvoiceView_purchaseOrderId" parent="Uif-DataField" p:propertyName="olePurchaseOrderDocument.purapDocumentIdentifier" p:label="PurchaseOrder Id#" p:readOnly="true"/>-->
+                <bean id="OLEAddTitlesToInvoiceView_vendorName" parent="Uif-DataField" p:propertyName="olePurchaseOrderDocument.vendorName" p:label="Vendor Name" p:readOnly="true"/>
+                <bean id="OLEAddTitlesToInvoiceView_itemDescription" parent="Uif-DataField" p:propertyName="itemDescription" p:label="Item Description" p:readOnly="true"/>
+                <bean id="OLEAddTitlesToInvoiceView_itemTitle" parent="Uif-DataField" p:propertyName="itemTitle" p:label="Item Title" p:readOnly="true"/>
+                <bean id="OLEAddTitlesToInvoiceView_itemAuthor" parent="Uif-DataField" p:propertyName="itemAuthor" p:label="Item Author" p:readOnly="true"/>
+                <bean id="OLEAddTitlesToInvoiceView_noOfCopiesReceived" parent="Uif-DataField" p:propertyName="noOfCopiesReceived" p:label="No of Copy Received" p:readOnly="true"/>
+                <bean id="OLEAddTitlesToInvoiceView_noOfPartsReceived" parent="Uif-DataField" p:propertyName="noOfPartsReceived" p:label="No of Part Received" p:readOnly="true"/>
+                <bean id="OLEAddTitlesToInvoiceView_itemUnitPrice" parent="Uif-DataField" p:propertyName="itemUnitPrice" p:label="Item Unit Price" p:readOnly="true"/>
+                <bean id="OLEAddTitlesToInvoiceView_invoicedPrice" parent="Uif-DataField" p:propertyName="invoiceItemListPrice" p:label="Invoiced Price" p:readOnly="true"/>
+
+                <!--<bean id="OLEAddTitlesToInvoiceView_vendorItemPoNumber" parent="Uif-DataField" p:propertyName="vendorItemPoNumber" p:label="VendorItem PoNumber" p:readOnly="true"/>-->
+            </list>
+        </property>
+
+    </bean>
+
+
+
+
+
+    <!-- existed  Invoice Section-->
+
+
+    <bean id="OLEAddTitlesToInvoiceView-existingInvoiceSection" parent="Uif-HorizontalBoxSection">
+        <property name="headerText" value="Add Titles To Existing invoice " />
+        <property name="items">
+            <list>
+                <ref bean="OLEAddTitlesToInvoiceView-existedInvoice"/>
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEAddTitlesToInvoiceView-existedInvoice" parent="Uif-InputField" p:propertyName="documentNumber" p:label="Invoice Document Number" p:style="float:left;margin-left:1em" >
+        <property name="quickfinder">
+            <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.select.bo.OLEInvoiceBo"
+                  p:fieldConversions="documentNumber:documentNumber" p:lookupParameters="documentNumber:documentNumber" />
+        </property>
+    </bean>
+   <!-- <bean id="OLEAddTitlesToInvoiceView-existedInvoice" parent="Uif-InputField" p:propertyName="invoiceNbr" p:label="Invoice Document Number" p:style="float:left;margin-left:1em" >
+        <property name="quickfinder.dataObjectClassName" value="org.kuali.ole.select.bo.OLEInvoiceSearchDocument" />
+        <property name="quickfinder.fieldConversions">
+            <map>
+                <entry key="invoiceNbr" value="invoiceNbr"/>
+            </map>
+        </property>
+        <property name="quickfinder.lookupParameters">
+            <map>
+                <entry key="invoiceNbr" value="invoiceNbr"/>
+            </map>
+        </property>
+    </bean>-->
+
+
+
+    <!-- Buttons -->
+
+    <bean id="OLEAddTitlesToInvoiceView-buttons" parent="Uif-FooterBase">
+        <property name="items">
+            <list>
+                <bean parent="Uif-SecondaryActionButton" p:methodToCall="route" p:actionLabel="submit" p:actionEvent="submit" p:ajaxSubmit="true" p:successCallback="showReceiveAndPayDialog();" />
+                <bean parent="Uif-SecondaryActionButton" p:methodToCall="cancelProcess" p:actionLabel="cancel" p:ajaxSubmit="true"  p:successCallback="showCancelDialog();" />
+            </list>
+        </property>
+    </bean>
+    <bean id="OLEAddTitlesToInvoiceView-cancelSection" parent="Uif-VerticalBoxSection" p:render="@{cancelBox}">
+        <property name="items">
+            <list>
+                <bean id="OLEAddTitlesToInvoiceView-CancelMessage" parent="Uif-MessageField" p:messageText="Do you want to Cancel"/>
+                <ref bean="OLEAddTitlesToInvoiceView-cancelButtonSection"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="OLEAddTitlesToInvoiceView-cancelButtonSection" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-SecondaryActionButton"  p:actionLabel="yes" p:actionScript="redirect();" />
+                <bean parent="Uif-SecondaryActionButton"  p:actionLabel="no" p:actionScript="closeCancelDialog();"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="showCancelDialog" parent="Uif-InputField" p:propertyName="cancelBox">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
+    <bean id="skipValidation" parent="Uif-InputField" p:propertyName="skipValidation">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
+    <bean id="OLEAddTitlesToInvoiceView-continueReceiveAndPayDialog" parent="Uif-VerticalBoxSection" p:render="@{continueReceiveAndPay}">
+        <property name="items">
+            <list>
+                <bean id="OLEAddTitlesToInvoiceView-continueReceiveAndPayDialog-msg" parent="Uif-MessageField" p:messageText="PO line has already been invoiced ,Do you want to continue ."/>
+                <ref bean="OLEAddTitlesToInvoiceView-continueReceiveAndPayDialog-button"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="OLEAddTitlesToInvoiceView-continueReceiveAndPayDialog-button" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-SecondaryActionButton"  p:actionLabel="yes" p:methodToCall="route" p:successCallback="showReceiveAndPayDialog();" />
+                <bean parent="Uif-SecondaryActionButton"  p:actionLabel="no" p:actionScript="closeReceiveAndPayDialog();"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="continueReceiveAndPayDialog" parent="Uif-InputField" p:propertyName="continueReceiveAndPay">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+</beans>

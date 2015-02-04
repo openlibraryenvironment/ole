@@ -1,0 +1,1157 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+<!--
+   - Copyright 2011 The Kuali Foundation.
+   - 
+   - Licensed under the Educational Community License, Version 2.0 (the "License");
+   - you may not use this file except in compliance with the License.
+   - You may obtain a copy of the License at
+   - 
+   - http://www.opensource.org/licenses/ecl2.php
+   - 
+   - Unless required by applicable law or agreed to in writing, software
+   - distributed under the License is distributed on an "AS IS" BASIS,
+   - WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   - See the License for the specific language governing permissions and
+   - limitations under the License.
+ -->
+
+    <bean id="RequisitionItem" parent="OleRequisitionItem-parentBean"/>
+
+    <bean id="OleRequisitionItem-parentBean" abstract="true" parent="RequisitionItem-parentBean">
+        <property name="businessObjectClass" value="org.kuali.ole.select.businessobject.OleRequisitionItem"/>
+        <property name="baseBusinessObjectClass"	value="org.kuali.ole.module.purap.businessobject.RequisitionItem" />
+        <property name="lookupDefinition">
+            <ref bean="OleRequisitionItem-lookupDefinition"/>
+        </property>
+
+        <property name="attributes">
+            <list merge="true">
+                <ref bean="RequisitionItem-selector"/>
+                <ref bean="RequisitionItem-statusCode"/>
+                <ref bean="RequisitionItem-itemNoOfParts"/>
+                <ref bean="RequisitionItem-singleCopyNumber"/>
+                <ref bean="RequisitionItem-itemTitleId"/>
+                <ref bean="RequisitionItem-bibUUID"/>
+                <ref bean="RequisitionItem-requestorFirstName"/>
+                <ref bean="RequisitionItem-docData.publisher"/>
+                <ref bean="RequisitionItem-docData.title"/>
+                <ref bean="RequisitionItem-docData.author"/>
+                <ref bean="RequisitionItem-docData.placeOfPublication"/>
+                <ref bean="RequisitionItem-docData.publicationDate"/>
+                <ref bean="RequisitionItem-docData.format"/>
+                <ref bean="RequisitionItem-requestorId"/>
+                <ref bean="RequisitionItem-internalRequestorId"/>
+                <ref bean="RequisitionItem-OleRequestor-FirstName"/>
+                <ref bean="RequisitionItem-isItemAdded"/>
+                <ref bean="RequisitionItem-requisition.purapDocumentIdentifier"/>
+                <ref bean="RequisitionItem-requisition.documentNumber"/>
+                <ref bean="RequisitionItem-fromDateLastModified"/>
+                <ref bean="RequisitionItem-dateModified"/>
+                <ref bean="RequisitionItem-itemPrice"/>
+                <ref bean="RequisitionItem-requestorName"/>
+                <ref bean="RequisitionItem-internalRequestorName"/>
+                <ref bean="RequisitionItem-externalRequestorName"/>
+                <ref bean="RequisitionItem-requestSourceTypeId"/>
+                <ref bean="RequisitionItem-receiptStatusId"/>
+                <ref bean="RequisitionItem-itemListPrice"/>
+                <ref bean="RequisitionItem-itemDiscount"/>
+                <ref bean="RequisitionItem-itemDiscountType"/>
+                <ref bean="RequisitionItem-itemCurrencyType"/>
+                <ref bean="RequisitionItem-itemForeignListPrice"/>
+                <ref bean="RequisitionItem-itemForeignDiscount"/>
+                <ref bean="RequisitionItem-itemForeignDiscountType"/>
+                <ref bean="RequisitionItem-itemForeignDiscountAmt"/>
+                <ref bean="RequisitionItem-itemForeignUnitCost"/>
+                <ref bean="RequisitionItem-itemExchangeRate"/>
+                <ref bean="RequisitionItem-itemUnitCostUSD"/>
+                <ref bean="RequisitionItem-categoryId"/>
+                <ref bean="RequisitionItem-formatTypeId"/>
+                <ref bean="RequisitionItem-noteTypeId"/>
+                <ref bean="RequisitionItem-note"/>
+                <ref bean="RequisitionItem-localTitleId"/>
+                <ref bean="RequisitionItem-itemRouteToRequestorIndicator"/>
+                <ref bean="RequisitionItem-itemPublicViewIndicator"/>
+
+                <ref bean="RequisitionItem-itemPriceSourceId"/>
+                <!-- Added for OLE-1976 Order Queue Search Enhancements -->
+                <ref bean="RequisitionItem-requisition.vendorName"/>
+                <ref bean="RequisitionItem-docData.isbn"/>
+                <ref bean="RequisitionItem-requisition.organizationCode"/>
+                <ref bean="RequisitionItem-sourceAccountingLines.accountNumber"/>
+                <ref bean="RequisitionItem-sourceAccountingLines.chartOfAccountsCode"/>
+                <ref bean="RequisitionItem-sourceAccountingLines.financialObjectCode"/>
+
+                <!-- Added for OLE-1976 Order Queue Search Enhancements Ends-->
+
+                <ref bean="RequisitionItem-itemForiegnExtendedPrice"/>
+                <ref bean="RequisitionItem-parts"/>
+                <ref bean="RequisitionItem-partEnumeration"/>
+                <ref bean="RequisitionItem-locationCopies"/>
+                <ref bean="RequisitionItem-startingCopyNumber"/>
+                <ref bean="RequisitionItem-itemCopies"/>
+                <ref bean="RequisitionItem-itemLocation"/>
+                <ref bean="RequisitionItem-paymentHistory"/>
+                <ref bean="RequisitionItem-noOfCopiesReceived"/>
+                <ref bean="RequisitionItem-noOfPartsReceived"/>
+                <ref bean="RequisitionItem-itemTypeDescription"/>
+                <ref bean="RequisitionItem-oleRequisitionCopy.parts"/>
+                <ref bean="RequisitionItem-oleItemQuantity"/>
+                <ref bean="RequisitionItem-caption"/>
+                <ref bean="RequisitionItem-volumeNumber"/>
+                <ref bean="RequisitionItem-enumeration"/>
+                <ref bean="RequisitionItem-location"/>
+                <ref bean="RequisitionItem-copyNumber"/>
+                <ref bean="RequisitionItem-receiptStatus"/>
+                <ref bean="RequisitionItem-itemStatus"/>
+                <ref bean="RequisitionItem-purposeId"/>
+                <ref bean="RequisitionItem-donorCode"/>
+                <ref bean="RequisitionItem-fundCode"/>
+                <ref bean="RequisitionItem-doNotClaim"/>
+                <ref bean="RequisitionItem-claimDate"/>
+
+            </list>
+        </property>
+        <property name="relationships">
+            <list>
+                <bean parent="RelationshipDefinition"  p:objectAttributeName="docData">
+                    <property name="primitiveAttributes">
+                        <list>
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="itemTitleId"
+                                  p:targetName="titleId" />
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="RelationshipDefinition" p:objectAttributeName="oleRequestor">
+                    <property name="primitiveAttributes">
+                        <list>
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="requestorId"
+                                  p:targetName="requestorId" />
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="externalRequestorName"
+                                  p:targetName="requestorName" />
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="RelationshipDefinition" p:objectAttributeName="internalRequestor">
+                    <property name="primitiveAttributes">
+                        <list>
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="internalRequestorId"
+                                  p:targetName="principalId" />
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="internalRequestorName"
+                                  p:targetName="name" />
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="RelationshipDefinition" p:objectAttributeName="bibInfoBean">
+                    <property name="primitiveAttributes">
+                        <list>
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="itemTitleId"
+                                  p:targetName="titleId" />
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="RelationshipDefinition" p:objectAttributeName="personImpl">
+                    <property name="primitiveAttributes">
+                        <list>
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="selector"
+                                  p:targetName="principalName" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="RequisitionItem-itemCatalogNumber-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="vendorItemPoNumber"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Vendor Item Identifier"/>
+        <property name="shortLabel" value="Vendor Item Identifier"/>
+        <property name="maxLength" value="30"/>
+        <property name="validationPattern">
+            <ref bean="AnyCharacterWithWhitespaceValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="15"/>
+        </property>
+    </bean>
+
+    <bean id="RequisitionItem-isItemAdded" parent="RequisitionItem-isItemAdded-parentBean" />
+    <bean id="RequisitionItem-isItemAdded-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="itemAdded"/>
+        <property name="label" value="itemAdded"/>
+        <property name="shortLabel" value="Item Added"/>
+        <property name="maxLength" value="10"/>
+        <property name="control">
+            <bean parent="CheckboxControlDefinition"/>
+        </property>
+    </bean>
+
+    <bean id="RequisitionItem-selector" parent="RequisitionItem-selector-parentBean" />
+    <bean id="RequisitionItem-selector-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="selector"/>
+        <property name="label" value="Selector"/>
+        <property name="shortLabel" value="Selector"/>
+        <property name="maxLength" value="200"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="RequisitionItem-itemNoOfParts" parent="RequisitionItem-itemNoOfParts-parentBean"/>
+    <bean id="RequisitionItem-itemNoOfParts-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="itemNoOfParts"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="No Of Parts Ordered"/>
+        <property name="shortLabel" value="No of Parts Ordered"/>
+        <property name="maxLength" value="3"/>
+        <property name="required" value="true"/>
+        <property name="validationPattern">
+            <ref bean="NumericValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="3" />
+        </property>
+    </bean>
+
+    <bean id="RequisitionItem-singleCopyNumber" parent="RequisitionItem-singleCopyNumber-parentBean"/>
+    <bean id="RequisitionItem-singleCopyNumber-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="singleCopyNumber"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Copy #"/>
+        <property name="shortLabel" value="Copy #"/>
+        <property name="maxLength" value="4"/>
+        <property name="required" value="false"/>
+        <property name="validationPattern">
+            <ref bean="NumericValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="3" />
+        </property>
+    </bean>
+
+    <bean id="RequisitionItem-itemListPrice" parent="RequisitionItem-itemListPrice-parentBean"/>
+    <bean id="RequisitionItem-itemListPrice-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemUnitPrice">
+        <property name="name" value="itemListPrice"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="List Price"/>
+        <property name="shortLabel" value="List Price"/>
+        <property name="control">
+            <bean parent="CurrencyControlDefinition" p:formattedMaxLength="26" p:size="5"/>
+        </property>
+    </bean>
+
+    <bean id="RequisitionItem-itemDiscount" parent="RequisitionItem-itemDiscount-parentBean"/>
+    <bean id="RequisitionItem-itemDiscount-parentBean" abstract="true" parent="GenericAttributes-percent">
+        <property name="name" value="itemDiscount"/>
+        <property name="label" value="Discount"/>
+        <property name="shortLabel" value="Discount"/>
+        <property name="control">
+            <ref bean="FourCharacterTextControl" />
+        </property>
+
+        <property name="validationPattern">
+            <bean parent="FixedPointValidationPattern" p:precision="19" p:scale="4" p:allowNegative="false"/>
+        </property>
+    </bean>
+
+    <bean id="RequisitionItem-itemDiscountType" parent="RequisitionItem-itemDiscountType-parentBean"/>
+
+    <bean id="RequisitionItem-itemDiscountType-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="itemDiscountType"/>
+        <property name="label" value="Discount Type"/>
+        <property name="shortLabel" value="Discount Type"/>
+        <property name="maxLength" value="1"/>
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.ole.module.purap.businessobject.options.DiscountTypeValuesFinder" p:includeKeyInLabel="false"/>
+        </property>
+    </bean>
+
+    <bean id="RequisitionItem-statusCode" parent="RequisitionItem-statusCode-parentBean"/>
+    <bean id="RequisitionItem-statusCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="requisition.statusCode"/>
+        <property name="label" value="Requisition Status"/>
+        <property name="shortLabel" value="Status"/>
+        <property name="maxLength" value="200"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+    <bean id="RequisitionItem-docData.title" parent="RequisitionItem-docData.title-parentBean" />
+    <bean id="RequisitionItem-docData.title-parentBean" abstract="true" parent="DocData-title">
+        <property name="name" value="docData.title"/>
+        <property name="label" value="Title"/>
+        <property name="shortLabel" value="Title"/>
+        <property name="maxLength" value="200"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="55"/>
+        </property>
+    </bean>
+    <bean id="RequisitionItem-OleRequestor-FirstName" parent="RequisitionItem-OleRequestor-FirstName-parentBean" />
+    <bean id="RequisitionItem-OleRequestor-FirstName-parentBean" abstract="true"
+          parent="AttributeDefinition">
+        <property name="name" value="oleRequestor.requestorFirstName" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Requestor FirstName" />
+        <property name="shortLabel" value="Requestor FirstName" />
+        <property name="maxLength" value="50" />
+        <property name="required" value="false" />
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="50" />
+        </property>
+    </bean>
+    <bean id="RequisitionItem-docData.author" parent="RequisitionItem-docData.author-parentBean" />
+    <bean id="RequisitionItem-docData.author-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="docData.author"/>
+        <property name="label" value="Author"/>
+        <property name="shortLabel" value="Author"/>
+        <property name="maxLength" value="200"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="RequisitionItem-docData.publisher" parent="RequisitionItem-docData.publisher-parentBean" />
+    <bean id="RequisitionItem-docData.publisher-parentBean" parent="DocData-publisher" abstract="true"
+          p:name="docData.publisher"
+          p:forceUppercase="false"
+          p:label="Publisher"
+          p:shortLabel="Publisher"
+          p:required="false" >
+    </bean>
+
+
+    <bean id="RequisitionItem-docData.placeOfPublication" parent="RequisitionItem-docData.placeOfPublication-parentBean" />
+    <bean id="RequisitionItem-docData.placeOfPublication-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="docData.placeOfPublication"/>
+        <property name="label" value="Place Of Publication"/>
+        <property name="shortLabel" value="Place Of Publication"/>
+        <property name="maxLength" value="200"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="RequisitionItem-docData.publicationDate" parent="RequisitionItem-docData.publicationDate-parentBean" />
+    <bean id="RequisitionItem-docData.publicationDate-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="docData.publicationDate"/>
+        <property name="label" value="Publication Date"/>
+        <property name="shortLabel" value="Publication Date"/>
+        <property name="maxLength" value="200"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="RequisitionItem-docData.format" parent="RequisitionItem-docData.format-parentBean" />
+    <bean id="RequisitionItem-docData.format-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="docData.format"/>
+        <property name="label" value="Format"/>
+        <property name="shortLabel" value="Format"/>
+        <property name="maxLength" value="200"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="RequisitionItem-localTitleId" parent="RequisitionItem-localTitleId-parentBean"/>
+    <bean id="RequisitionItem-localTitleId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="localTitleId"/>
+        <property name="label" value="Title ID"/>
+        <property name="shortLabel" value="Title ID"/>
+        <property name="maxLength" value="200"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="RequisitionItem-itemTitleId" parent="RequisitionItem-itemTitleId-parentBean"/>
+    <bean id="RequisitionItem-itemTitleId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="itemTitleId"/>
+        <property name="label" value="Title ID"/>
+        <property name="shortLabel" value="Title ID"/>
+        <property name="maxLength" value="200"/>
+        <property name="control">
+            <bean parent="HiddenControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="RequisitionItem-bibUUID" parent="RequisitionItem-bibUUID-parentBean"/>
+    <bean id="RequisitionItem-bibUUID-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="bibUUID"/>
+        <property name="label" value="Title Bib ID"/>
+        <property name="shortLabel" value="Title Bib ID"/>
+        <property name="maxLength" value="200"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="RequisitionItem-requestorFirstName" parent="RequisitionItem-requestorFirstName-parentBean"/>
+    <bean id="RequisitionItem-requestorFirstName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="requestorFirstName"/>
+        <property name="label" value="Requestor"/>
+        <property name="shortLabel" value="Requestor"/>
+        <property name="maxLength" value="200"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="RequisitionItem-requestorId" parent="RequisitionItem-requestorId-parentBean"/>
+    <bean id="RequisitionItem-requestorId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="requestorId"/>
+        <property name="label" value="Requestor"/>
+        <property name="shortLabel" value="Requestor"/>
+        <property name="maxLength" value="200"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="RequisitionItem-internalRequestorId" parent="RequisitionItem-internalRequestorId-parentBean"/>
+    <bean id="RequisitionItem-internalRequestorId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="internalRequestorId"/>
+        <property name="label" value="Internal Requestor"/>
+        <property name="shortLabel" value="Internal Requestor"/>
+        <property name="maxLength" value="200"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="RequisitionItem-requisition.documentNumber" parent="RequisitionItem-requisition.documentNumber-parentBean"/>
+    <bean id="RequisitionItem-requisition.documentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="requisition.documentNumber"/>
+        <property name="label" value="Document Number"/>
+        <property name="shortLabel" value="Document Number"/>
+        <property name="maxLength" value="200"/>
+        <property name="validationPattern">
+            <ref bean="NumericValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+    <bean id="RequisitionItem-categoryId" parent="RequisitionItem-categoryId-parentBean"/>
+    <bean id="RequisitionItem-categoryId-parentBean" abstract="true" parent="OleCategory-categoryId">
+        <property name="name" value="categoryId"/>
+        <property name="label" value="Category"/>
+        <property name="shortLabel" value="Category"/>
+
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.ole.select.businessobject.options.OleCategoryValuesFinder" p:includeKeyInLabel="false"/>
+        </property>
+    </bean>
+
+    <bean id="RequisitionItem-formatTypeId" parent="RequisitionItem-formatTypeId-parentBean"/>
+    <bean id="RequisitionItem-formatTypeId-parentBean" abstract="true" parent="OleFormatType-formatTypeId">
+        <property name="name" value="formatTypeId"/>
+        <property name="label" value="Format"/>
+        <property name="shortLabel" value="Format"/>
+
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.ole.select.businessobject.options.OleFormatTypeValuesFinder" p:includeKeyInLabel="false"/>
+        </property>
+    </bean>
+
+    <bean id="RequisitionItem-itemPriceSourceId" parent="RequisitionItem-itemPriceSourceId-parentBean"/>
+    <bean id="RequisitionItem-itemPriceSourceId-parentBean" abstract="true" parent="OleItemPriceSource-itemPriceSourceId">
+        <property name="name" value="itemPriceSourceId"/>
+        <property name="label" value="Item Price Source"/>
+        <property name="shortLabel" value="Item Price Source"/>
+
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.ole.select.businessobject.options.OleItemPriceSourceValueFinder" p:includeKeyInLabel="false"/>
+        </property>
+    </bean>
+    <bean id="RequisitionItem-requestSourceTypeId" parent="RequisitionItem-requestSourceTypeId-parentBean"/>
+    <bean id="RequisitionItem-requestSourceTypeId-parentBean" abstract="true" parent="OleRequestSourceType-requestSourceTypeId">
+        <property name="name" value="requestSourceTypeId"/>
+        <property name="label" value="Request Source"/>
+        <property name="shortLabel" value="Request Source"/>
+
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.ole.select.businessobject.options.OleRequestSourceTypeValuesFinder" p:includeKeyInLabel="false"/>
+        </property>
+    </bean>
+
+    <bean id="RequisitionItem-receiptStatusId" parent="RequisitionItem-receiptStatusId-parentBean"/>
+    <bean id="RequisitionItem-receiptStatusId-parentBean" abstract="true" parent="OleReceiptStatus-receiptStatusId">
+        <property name="name" value="receiptStatusId"/>
+        <property name="label" value="Receipt Status"/>
+        <property name="shortLabel" value="Receipt Status"/>
+
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.ole.select.businessobject.options.OleReceiptStatusValuesFinder" p:includeKeyInLabel="false"/>
+        </property>
+    </bean>
+
+    <bean id="RequisitionItem-requisition.purapDocumentIdentifier" parent="RequisitionItem-requisition.purapDocumentIdentifier-parentBean"/>
+    <bean id="RequisitionItem-requisition.purapDocumentIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="requisition.purapDocumentIdentifier"/>
+        <property name="label" value="Requisition Identifier"/>
+        <property name="shortLabel" value="Requisition Identifier"/>
+        <property name="maxLength" value="200"/>
+        <property name="validationPattern">
+            <ref bean="NumericValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="RequisitionItem-fromDateLastModified" parent="RequisitionItem-fromDateLastModified-parentBean"/>
+    <bean id="RequisitionItem-fromDateLastModified-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+        <property name="name" value="fromDateLastModified"/>
+        <property name="label" value="Workflow Status Change Date"/>
+        <property name="shortLabel" value="Workflow Status Change Date"/>
+    </bean>
+
+
+    <bean id="RequisitionItem-dateModified" parent="RequisitionItem-dateModified-parentBean"/>
+    <bean id="RequisitionItem-dateModified-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+        <property name="name" value="dateModified"/>
+        <property name="label" value="Workflow Status Change Date"/>
+        <property name="shortLabel" value="Workflow Status Change Date"/>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter"/>
+    </bean>
+
+    <bean id="RequisitionItem-itemPrice" parent="RequisitionItem-itemPrice-parentBean"/>
+
+    <bean id="RequisitionItem-itemPrice-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+        <property name="name" value="itemPrice"/>
+        <property name="label" value="Price"/>
+        <property name="shortLabel" value="Price"/>
+    </bean>
+
+    <bean id="RequisitionItem-requestorName" parent="RequisitionItem-requestorName-parentBean"/>
+    <bean id="RequisitionItem-requestorName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="requestorName"/>
+        <property name="label" value="Requestor"/>
+        <property name="shortLabel" value="Requestor"/>
+        <property name="maxLength" value="200"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="RequisitionItem-internalRequestorName" parent="RequisitionItem-internalRequestorName-parentBean"/>
+    <bean id="RequisitionItem-internalRequestorName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="internalRequestorName"/>
+        <property name="label" value="Internal Requestor"/>
+        <property name="shortLabel" value="Internal Requestor"/>
+        <property name="maxLength" value="200"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="RequisitionItem-externalRequestorName" parent="RequisitionItem-externalRequestorName-parentBean"/>
+    <bean id="RequisitionItem-externalRequestorName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="externalRequestorName"/>
+        <property name="label" value="External Requestor"/>
+        <property name="shortLabel" value="External Requestor"/>
+        <property name="maxLength" value="200"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="RequisitionItem-itemCurrencyType" parent="RequisitionItem-itemCurrencyType-parentBean"/>
+
+    <bean id="RequisitionItem-itemCurrencyType-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="itemCurrencyType"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Currency Type"/>
+        <property name="shortLabel" value="Currency Type"/>
+        <property name="maxLength" value="200"/>
+        <property name="validationPattern">
+            <ref bean="AnyCharacterWithWhitespaceValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="RequisitionItem-itemForeignListPrice" parent="RequisitionItem-itemForeignListPrice-parentBean"/>
+
+    <bean id="RequisitionItem-itemForeignListPrice-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemUnitPrice">
+        <property name="name" value="itemForeignListPrice"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Foreign List Price"/>
+        <property name="shortLabel" value="Foreign List Price"/>
+
+    </bean>
+
+    <bean id="RequisitionItem-itemForeignDiscount" parent="RequisitionItem-itemForeignDiscount-parentBean"/>
+
+    <bean id="RequisitionItem-itemForeignDiscount-parentBean" abstract="true" parent="GenericAttributes-percent">
+        <property name="name" value="itemForeignDiscount"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Foreign Discount"/>
+        <property name="shortLabel" value="Foreign Discount"/>
+        <property name="validationPattern">
+            <bean parent="FixedPointValidationPattern" p:precision="19" p:scale="4" p:allowNegative="false"/>
+        </property>
+    </bean>
+
+    <bean id="RequisitionItem-itemForeignDiscountType" parent="RequisitionItem-itemForeignDiscountType-parentBean"/>
+
+    <bean id="RequisitionItem-itemForeignDiscountType-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="itemForeignDiscountType" />
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Discount Type"/>
+        <property name="shortLabel" value="Discount Type"/>
+        <property name="maxLength" value="1"/>
+
+
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.ole.module.purap.businessobject.options.DiscountTypeValuesFinder" p:includeKeyInLabel="false"/>
+        </property>
+    </bean>
+
+    <bean id="RequisitionItem-itemForeignDiscountAmt" parent="RequisitionItem-itemForeignDiscountAmt-parentBean"/>
+
+    <bean id="RequisitionItem-itemForeignDiscountAmt-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemUnitPrice">
+        <property name="name" value="itemForeignDiscountAmt"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Foreign Discount Amt"/>
+        <property name="shortLabel" value="Foreign Discount Amt"/>
+
+    </bean>
+
+    <bean id="RequisitionItem-itemForeignUnitCost" parent="RequisitionItem-itemForeignUnitCost-parentBean"/>
+
+    <bean id="RequisitionItem-itemForeignUnitCost-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemUnitPrice">
+        <property name="name" value="itemForeignUnitCost"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Foreign Unit Cost"/>
+        <property name="shortLabel" value="Foreign Unit Cost"/>
+
+    </bean>
+
+    <bean id="RequisitionItem-itemExchangeRate" parent="RequisitionItem-itemExchangeRate-parentBean"/>
+
+    <bean id="RequisitionItem-itemExchangeRate-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemUnitPrice">
+        <property name="name" value="itemExchangeRate"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Exchange Rate"/>
+        <property name="shortLabel" value="Exchange Rate"/>
+        <property name="validationPattern">
+            <bean parent="FixedPointValidationPattern" p:precision="19" p:scale="6" />
+        </property>
+
+    </bean>
+
+
+    <bean id="RequisitionItem-itemUnitCostUSD" parent="RequisitionItem-itemUnitCostUSD-parentBean"/>
+
+    <bean id="RequisitionItem-itemUnitCostUSD-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemUnitPrice">
+        <property name="name" value="itemUnitCostUSD"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="USD Unit Cost"/>
+        <property name="shortLabel" value="USD Unit Cost"/>
+
+    </bean>
+
+    <bean id="RequisitionItem-itemRouteToRequestorIndicator" parent="RequisitionItem-itemRouteToRequestorIndicator-parentBean"/>
+
+    <bean id="RequisitionItem-itemRouteToRequestorIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="itemRouteToRequestorIndicator"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Route To Requestor"/>
+        <property name="shortLabel" value="Route To Requestor"/>
+        <property name="maxLength" value="1"/>
+        <property name="control">
+            <bean parent="CheckboxControlDefinition"/>
+        </property>
+    </bean>
+
+    <bean id="RequisitionItem-itemPublicViewIndicator" parent="RequisitionItem-itemPublicViewIndicator-parentBean"/>
+
+    <bean id="RequisitionItem-itemPublicViewIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="itemPublicViewIndicator"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Public View"/>
+        <property name="shortLabel" value="Public View"/>
+        <property name="maxLength" value="2"/>
+        <property name="control">
+            <bean parent="CheckboxControlDefinition"/>
+        </property>
+    </bean>
+
+    <bean id="RequisitionItem-noteTypeId" parent="RequisitionItem-noteTypeId-parentBean"/>
+
+    <bean id="RequisitionItem-noteTypeId-parentBean" abstract="true" parent="OleNoteType-noteTypeId">
+        <property name="name" value="noteTypeId"/>
+        <property name="label" value="Note Type"/>
+        <property name="shortLabel" value="Note Type Code"/>
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.ole.select.businessobject.options.OleNoteTypeValuesFinder" p:includeKeyInLabel="false"/>
+        </property>
+    </bean>
+
+    <bean id="RequisitionItem-note" parent="RequisitionItem-note-parentBean"/>
+
+    <bean id="RequisitionItem-note-parentBean" abstract="true" parent="OleRequisitionNotes-note">
+        <property name="name" value="note"/>
+        <property name="label" value="Note"/>
+        <property name="shortLabel" value="Text"/>
+    </bean>
+
+    <!-- Added for OLE-1976 Order Queue Search Enhancements -->
+    <bean id="RequisitionItem-requisition.vendorName" parent="RequisitionItem-requisition.vendorName-parentBean" />
+
+    <bean id="RequisitionItem-requisition.vendorName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="requisition.vendorName"/>
+        <property name="label" value="Vendor Name"/>
+        <property name="shortLabel" value="Vendor Name"/>
+        <property name="maxLength" value="200"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+    <!-- Added for OLE-1976 Order Queue Search Enhancements Ends -->
+    <bean id="RequisitionItem-requisition.organizationCode" parent="RequisitionItem-requisition.organizationCode-parentBean" />
+
+
+    <bean id="RequisitionItem-requisition.organizationCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="requisition.organizationCode"/>
+        <property name="label" value="Organization Code"/>
+        <property name="shortLabel" value="Organization #"/>
+        <property name="maxLength" value="20"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="RequisitionItem-sourceAccountingLines.accountNumber" parent="RequisitionItem-sourceAccountingLines.accountNumber-parentBean" />
+
+    <bean id="RequisitionItem-sourceAccountingLines.accountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="sourceAccountingLines.accountNumber"/>
+        <property name="label" value="Account Number"/>
+        <property name="shortLabel" value="Account #"/>
+        <property name="maxLength" value="20"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+    </bean>
+    <bean id="RequisitionItem-sourceAccountingLines.chartOfAccountsCode" parent="RequisitionItem-sourceAccountingLines.chartOfAccountsCode-parentBean" />
+
+    <bean id="RequisitionItem-sourceAccountingLines.chartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="sourceAccountingLines.chartOfAccountsCode"/>
+        <property name="label" value="Chart Code"/>
+        <property name="shortLabel" value="Chart #"/>
+        <property name="maxLength" value="20"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+    </bean>
+
+    <bean id="RequisitionItem-sourceAccountingLines.financialObjectCode" parent="RequisitionItem-sourceAccountingLines.financialObjectCode-parentBean" />
+
+    <bean id="RequisitionItem-sourceAccountingLines.financialObjectCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="sourceAccountingLines.financialObjectCode"/>
+        <property name="label" value="Object Code"/>
+        <property name="shortLabel" value="Object #"/>
+        <property name="maxLength" value="5"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20"/>
+        </property>
+    </bean>
+    <bean id="RequisitionItem-itemQuantity-parentBean" abstract="true" parent="PurApGenericAttributes-genericItemQuantity">
+        <property name="name" value="itemQuantity"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="No of Copies Ordered"/>
+        <property name="shortLabel" value="No of Copies Ordered"/>
+        <property name="maxLength" value="11"/>
+        <property name="required" value="true"/>
+        <property name="validationPattern">
+            <bean parent="FixedPointValidationPattern" p:precision="11" p:scale="2"/>
+        </property>
+        <property name="exclusiveMin" value="0"/>
+        <property name="control">
+            <ref bean="FourCharacterTextControl" />
+        </property>
+    </bean>
+
+    <bean id="RequisitionItem-itemUnitOfMeasureCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="itemUnitOfMeasureCode"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Item Unit Of Measure Code"/>
+        <property name="shortLabel" value="UOM"/>
+        <property name="maxLength" value="4"/>
+        <property name="validationPattern">
+            <ref bean="AnyCharacterValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="4"/>
+        </property>
+    </bean>
+
+    <bean id="RequisitionItem-docData.isbn" parent="RequisitionItem-docData.isbn-parentBean"/>
+    <bean id="RequisitionItem-docData.isbn-parentBean" abstract="true" parent="DocData-isbn">
+        <property name="name" value="docData.isbn"/>
+        <property name="label" value="ISBN"/>
+        <property name="shortLabel" value="ISBN"/>
+        <property name="maxLength" value="200"/>
+        <property name="validationPattern">
+            <ref bean="AnyCharacterValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="RequisitionItem-itemForiegnExtendedPrice" parent="RequisitionItem-itemForiegnExtendedPrice-parentBean"/>
+
+    <bean id="RequisitionItem-itemForiegnExtendedPrice-parentBean" abstract="true" parent="GenericAttributes-genericAmount">
+        <property name="name" value="itemForiegnExtendedPrice"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Foreign Extended Price"/>
+        <property name="shortLabel" value="Foreign Extended Price"/>
+
+    </bean>
+
+    <bean id="RequisitionItem-parts" parent="RequisitionItem-parts-parentBean"/>
+    <bean id="RequisitionItem-parts-parentBean" abstract="true" parent="OleRequisitionCopies-parts">
+        <property name="name" value="parts"/>
+        <property name="label" value="No. Of Parts"/>
+        <property name="shortLabel" value="Parts"/>
+    </bean>
+
+    <bean id="RequisitionItem-partEnumeration" parent="RequisitionItem-partEnumeration-parentBean"/>
+    <bean id="RequisitionItem-partEnumeration-parentBean" abstract="true" parent="OleRequisitionCopies-partEnumeration">
+        <property name="name" value="partEnumeration"/>
+        <property name="label" value="Part Enumeration"/>
+        <property name="shortLabel" value="Part Enumeration"/>
+    </bean>
+
+    <bean id="RequisitionItem-locationCopies" parent="RequisitionItem-locationCopies-parentBean"/>
+    <bean id="RequisitionItem-locationCopies-parentBean" abstract="true" parent="OleRequisitionCopies-locationCopies">
+        <property name="name" value="locationCopies"/>
+        <property name="label" value="Location Copies"/>
+        <property name="shortLabel" value="Location Copies"/>
+    </bean>
+
+    <bean id="RequisitionItem-startingCopyNumber" parent="RequisitionItem-startingCopyNumber-parentBean"/>
+
+    <bean id="RequisitionItem-startingCopyNumber-parentBean"  abstract="true" parent="OleRequisitionCopies-startingCopyNumber">
+        <property name="name" value="startingCopyNumber"/>
+        <property name="label" value="Starting Copy"/>
+        <property name="shortLabel" value="Starting Copy"/>
+    </bean>
+
+    <bean id="RequisitionItem-itemCopies" parent="RequisitionItem-itemCopies-parentBean"/>
+    <bean id="RequisitionItem-itemCopies-parentBean" abstract="true" parent="OleRequisitionCopies-itemCopies">
+        <property name="name" value="itemCopies"/>
+        <property name="label" value="No. Of Copies"/>
+        <property name="shortLabel" value="Copies"/>
+    </bean>
+
+    <bean id="RequisitionItem-paymentHistory" parent="RequisitionItem-paymentHistory-parentBean"/>
+    <bean id="RequisitionItem-paymentHistory-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="paymentHistory"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Payment History"/>
+        <property name="shortLabel" value="Payment History"/>
+        <property name="maxLength" value="50"/>
+        <property name="validationPattern">
+            <ref bean="AnyCharacterWithWhitespaceValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="RequisitionItem-itemLocation" parent="RequisitionItem-itemLocation-parentBean"/>
+
+    <bean id="RequisitionItem-itemLocation-parentBean"  abstract="true" parent="AttributeDefinition">
+        <property name="name" value="itemLocation"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Location"/>
+        <property name="shortLabel" value="Location"/>
+        <property name="maxLength" value="200"/>
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.ole.select.businessobject.options.OleLocationKeyValueFinder" p:includeKeyInLabel="false"/>
+        </property>
+    </bean>
+
+
+    <bean id="RequisitionItem-itemStatus" parent="RequisitionItem-itemStatus-parentBean"/>
+
+    <bean id="RequisitionItem-itemStatus-parentBean"  abstract="true" parent="AttributeDefinition">
+        <property name="name" value="itemStatus"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Item Status"/>
+        <property name="shortLabel" value="Item Status"/>
+        <property name="maxLength" value="200"/>
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.ole.select.businessobject.options.OleItemStatusKeyValuesFinder" p:includeKeyInLabel="false"/>
+        </property>
+    </bean>
+
+    <bean id="RequisitionItem-purposeId" parent="RequisitionItem-purposeId-parentBean"/>
+
+    <bean id="RequisitionItem-purposeId-parentBean"  abstract="true" parent="AttributeDefinition">
+        <property name="name" value="purposeId"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Purpose"/>
+        <property name="shortLabel" value="Purpose"/>
+        <property name="maxLength" value="200"/>
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.ole.module.purap.businessobject.options.OLEPurchaseOrderPurposeKeyValueFinder" p:includeKeyInLabel="false"/>
+        </property>
+    </bean>
+
+    <bean id="RequisitionItem-donorCode" parent="RequisitionItem-donorCode-parentBean"/>
+    <bean id="RequisitionItem-donorCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="donorCode"/>
+        <property name="label" value="Donor"/>
+        <property name="shortLabel" value="Donor"/>
+        <property name="maxLength" value="10"/>
+        <property name="validationPattern">
+            <ref bean="AnyCharacterWithWhitespaceValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="10"/>
+        </property>
+    </bean>
+
+    <bean id="RequisitionItem-fundCode" parent="RequisitionItem-fundCode-parentBean"/>
+    <bean id="RequisitionItem-fundCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="fundCode"/>
+        <property name="label" value="Fund Code"/>
+        <property name="shortLabel" value="Fund Code"/>
+        <property name="maxLength" value="10"/>
+        <property name="validationPattern">
+            <ref bean="AnyCharacterWithWhitespaceValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="10"/>
+        </property>
+    </bean>
+
+    <bean id="RequisitionItem-noOfCopiesReceived" parent="RequisitionItem-noOfCopiesReceived-parentBean"/>
+    <bean id="RequisitionItem-noOfCopiesReceived-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="noOfCopiesReceived"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="No Of Copies Received"/>
+        <property name="shortLabel" value="No Of Copies Received"/>
+        <property name="maxLength" value="3"/>
+        <property name="validationPattern">
+            <ref bean="AnyCharacterWithWhitespaceValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="3" />
+        </property>
+    </bean>
+
+    <bean id="RequisitionItem-noOfPartsReceived" parent="RequisitionItem-noOfPartsReceived-parentBean"/>
+    <bean id="RequisitionItem-noOfPartsReceived-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="noOfPartsReceived"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="No Of Parts Received"/>
+        <property name="shortLabel" value="No of Parts Received"/>
+        <property name="maxLength" value="3"/>
+        <property name="validationPattern">
+            <ref bean="AnyCharacterWithWhitespaceValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="3" />
+        </property>
+    </bean>
+
+    <bean id="RequisitionItem-itemTypeDescription" parent="RequisitionItem-itemTypeDescription-parentBean"/>
+
+    <bean id="RequisitionItem-itemTypeDescription-parentBean" abstract="true" parent="ItemType-itemTypeDescription">
+        <property name="name" value="itemTypeDescription"/>
+        <property name="label" value="Item Type"/>
+        <property name="shortLabel" value="Item Type"/>
+        <property name="control">
+            <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.ole.select.businessobject.options.OleItemTypeDescriptionValuesFinder" p:includeKeyInLabel="false"/>
+        </property>
+    </bean>
+
+    <bean id="RequisitionItem-oleRequisitionCopy.parts" parent="RequisitionItem-oleRequisitionCopy.parts-parentBean" />
+    <bean id="RequisitionItem-oleRequisitionCopy.parts-parentBean" parent="OleRequisitionCopies-parts" abstract="true"
+          p:name="oleRequisitionCopy.parts"
+          p:forceUppercase="false"
+          p:label="Parts"
+          p:shortLabel="Parts">
+    </bean>
+
+    <bean id="RequisitionItem-instanceId" parent="RequisitionItem-instanceId-parentBean"/>
+    <bean id="RequisitionItem-instanceId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="instanceId"/>
+        <property name="label" value="Instance ID"/>
+        <property name="shortLabel" value="Instance ID"/>
+        <property name="maxLength" value="200"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="RequisitionItem-oleItemQuantity" parent="RequisitionItem-oleItemQuantity-parentBean"/>
+    <bean id="RequisitionItem-oleItemQuantity-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="oleItemQuantity"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="No of Copies Ordered"/>
+        <property name="shortLabel" value="No of Copies Ordered"/>
+        <property name="maxLength" value="3"/>
+        <property name="required" value="true"/>
+        <property name="validationPattern">
+            <ref bean="NumericValidation" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="3" />
+        </property>
+    </bean>
+
+    <bean id="RequisitionItem-caption" parent="RequisitionItem-caption-parentBean"/>
+    <bean id="RequisitionItem-caption-parentBean" abstract="true" parent="OleRequisitionCopies-caption">
+        <property name="name" value="caption"/>
+        <property name="label" value="Caption"/>
+        <property name="shortLabel" value="Caption"/>
+    </bean>
+
+    <bean id="RequisitionItem-volumeNumber" parent="RequisitionItem-volumeNumber-parentBean"/>
+    <bean id="RequisitionItem-volumeNumber-parentBean" abstract="true" parent="OleRequisitionCopies-volumeNumber">
+        <property name="name" value="volumeNumber"/>
+        <property name="label" value="Volume Number"/>
+        <property name="shortLabel" value="Volume Number"/>
+    </bean>
+
+    <bean id="RequisitionItem-enumeration" parent="RequisitionItem-enumeration-parentBean"/>
+
+    <bean id="RequisitionItem-enumeration-parentBean"  abstract="true" parent="OleCopy-enumeration">
+        <property name="name" value="enumeration"/>
+        <property name="label" value="Enumeration"/>
+        <property name="shortLabel" value="Enum"/>
+    </bean>
+
+
+    <bean id="RequisitionItem-location" parent="RequisitionItem-location-parentBean"/>
+
+    <bean id="RequisitionItem-location-parentBean"  abstract="true" parent="OleCopy-location">
+        <property name="name" value="location"/>
+        <property name="label" value="Location"/>
+        <property name="shortLabel" value="Location"/>
+    </bean>
+
+    <bean id="RequisitionItem-copyNumber" parent="RequisitionItem-copyNumber-parentBean"/>
+
+    <bean id="RequisitionItem-copyNumber-parentBean"  abstract="true" parent="OleCopy-copyNumber">
+        <property name="name" value="copyNumber"/>
+        <property name="label" value="Copy Number"/>
+        <property name="shortLabel" value="Copy Number"/>
+    </bean>
+
+    <bean id="RequisitionItem-receiptStatus" parent="RequisitionItem-receiptStatus-parentBean"/>
+
+    <bean id="RequisitionItem-receiptStatus-parentBean"  abstract="true" parent="OleCopy-receiptStatus">
+        <property name="name" value="receiptStatus"/>
+        <property name="label" value="Receipt Status"/>
+        <property name="shortLabel" value="Receipt Status"/>
+    </bean>
+
+
+    <bean id="RequisitionItem-doNotClaim" parent="RequisitionItem-doNotClaim-parentBean"/>
+
+    <bean id="RequisitionItem-doNotClaim-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="doNotClaim"/>
+        <property name="forceUppercase" value="true"/>
+        <property name="label" value="Do Not Claim"/>
+        <property name="shortLabel" value="Do Not Claim"/>
+        <property name="maxLength" value="2"/>
+        <property name="control">
+            <bean parent="CheckboxControlDefinition"/>
+        </property>
+    </bean>
+
+    <bean id="RequisitionItem-claimDate" parent="RequisitionItem-claimDate-parentBean"/>
+
+    <bean id="RequisitionItem-claimDate-parentBean" abstract="true" parent="GenericAttributes-genericDate">
+        <property name="name" value="claimDate"/>
+        <property name="label" value="Claim Date"/>
+        <property name="shortLabel" value="Claim Date"/>
+    </bean>
+
+
+
+    <bean id="RequisitionItem-inquiryDefinition" parent="RequisitionItem-inquiryDefinition-parentBean"/>
+
+    <bean id="RequisitionItem-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="title" value="Book Inquiry"/>
+        <property name="inquirySections">
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="title" value=""/>
+                    <property name="numberOfColumns" value="1"/>
+                    <property name="inquiryFields">
+                        <list>
+                            <bean parent="FieldDefinition" p:attributeName="itemTitleId"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OleRequisitionItem-lookupDefinition" parent="OleRequisitionItem-lookupDefinition-parentBean"/>
+    <bean id="OleRequisitionItem-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Requisition Item Lookup"/>
+        <property name="lookupableID" value="oleRequisitionItemLookupable"/>
+        <property name="defaultSort">
+            <bean parent="SortDefinition">
+            </bean>
+        </property>
+        <property name="lookupFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="requisition.documentNumber"/>
+                <bean parent="FieldDefinition" p:attributeName="requisition.purapDocumentIdentifier"/>
+                <!-- <bean parent="FieldDefinition" p:attributeName="itemNoOfParts"/> -->
+                <bean parent="FieldDefinition" p:attributeName="requisition.statusCode"/>
+                <bean parent="FieldDefinition" p:attributeName="selector" p:quickfinderParameterString="lookupRoleName=OLE_Selectors,lookupRoleNamespaceCode=OLE-SELECT"/>
+                <bean parent="FieldDefinition" p:attributeName="requestorId" p:hidden="true"/>
+                <bean parent="FieldDefinition" p:attributeName="internalRequestorId" p:hidden="true"/>
+                <bean parent="FieldDefinition" p:attributeName="externalRequestorName"/>
+                <bean parent="FieldDefinition" p:attributeName="internalRequestorName"/>
+                <bean parent="FieldDefinition" p:attributeName="fromDateLastModified"/>
+                <!-- <bean parent="FieldDefinition" p:attributeName="itemTitleId"/>
+                <bean parent="FieldDefinition" p:attributeName="docData.title"/>
+                <bean parent="FieldDefinition" p:attributeName="docData.author"/>
+                <bean parent="FieldDefinition" p:attributeName="docData.publisher"/> -->
+                <bean parent="FieldDefinition" p:attributeName="categoryId"/>
+                <bean parent="FieldDefinition" p:attributeName="formatTypeId"/>
+                <bean parent="FieldDefinition" p:attributeName="requestSourceTypeId"/>
+                <bean parent="FieldDefinition" p:attributeName="itemPriceSourceId"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="requisition.documentNumber"/>
+                <bean parent="FieldDefinition" p:attributeName="requisition.purapDocumentIdentifier"/>
+                <!-- <bean parent="FieldDefinition" p:attributeName="itemNoOfParts"/> -->
+                <bean parent="FieldDefinition" p:attributeName="requisition.statusCode"/>
+                <bean parent="FieldDefinition" p:attributeName="requestorName"/>
+                <bean parent="FieldDefinition" p:attributeName="dateModified"/>
+                <!-- <bean parent="FieldDefinition" p:attributeName="itemTitleId"/> -->
+                <bean parent="FieldDefinition" p:attributeName="docData.title" p:noInquiry="true"/>
+                <bean parent="FieldDefinition" p:attributeName="docData.author" p:noInquiry="true"/>
+                <bean parent="FieldDefinition" p:attributeName="docData.publisher" p:noInquiry="true"/>
+                <!-- <bean parent="FieldDefinition" p:attributeName="docData.placeOfPublication" p:noInquiry="true"/> -->
+                <!-- <bean parent="FieldDefinition" p:attributeName="docData.publicationDate"/> -->
+                <bean parent="FieldDefinition" p:attributeName="docData.format"/>
+                <bean parent="FieldDefinition" p:attributeName="itemPrice" />
+                <bean parent="FieldDefinition" p:attributeName="categoryId"/>
+                <bean parent="FieldDefinition" p:attributeName="formatTypeId"/>
+                <bean parent="FieldDefinition" p:attributeName="requestSourceTypeId"/>
+                <bean parent="FieldDefinition" p:attributeName="itemPriceSourceId"/>
+
+            </list>
+        </property>
+    </bean>
+</beans>

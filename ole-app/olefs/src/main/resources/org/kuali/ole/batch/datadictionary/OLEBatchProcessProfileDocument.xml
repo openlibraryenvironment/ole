@@ -1,0 +1,743 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+
+    <bean id="OLEBatchProcessProfileBo" parent="OLEBatchProcessProfileBo-parentBean"/>
+
+    <bean id="OLEBatchProcessProfileBo-parentBean"  abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.batch.bo.OLEBatchProcessProfileBo"/>
+        <!-- <property name="inquiryDefinition">
+             <ref bean="OLEBatchProcessProfileBo-InquiryView"/>
+         </property>-->
+        <!-- <property name="lookupDefinition">
+             <ref bean="OLEBatchProcessProfileBo-lookupDefinition"/>
+         </property>-->
+        <property name="titleAttribute" value="batchProcessProfileId"/>
+        <property name="objectLabel" value="Batch Process Profile"/>
+
+        <property name="attributes">
+            <list>
+                <ref bean="OLEBatchProcessProfileBo-batchProcessProfileId"/>
+                <ref bean="OLEBatchProcessProfileBo-batchProcessProfileName"/>
+                <ref bean="OLEBatchProcessProfileBo-batchProcessProfileDesc"/>
+                <ref bean="OLEBatchProcessProfileBo-batchProcessProfileType"/>
+                <ref bean="OLEBatchProcessProfileBo-bibImportProfileForOrderRecord"/>
+                <ref bean="OLEBatchProcessProfileBo-krmsProfileName"/>
+                <ref bean="OLEBatchProcessProfileBo-dataToImport"/>
+                <ref bean="OLEBatchProcessProfileBo-requisitionsforTitle"/>
+            </list>
+        </property>
+
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+    <bean id="OLEBatchProcessProfileBo-batchProcessProfileId" parent="OLEBatchProcessProfileBo-batchProcessProfileId-parentBean"/>
+
+    <bean id="OLEBatchProcessProfileBo-batchProcessProfileId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="batchProcessProfileId"/>
+        <property name="label" value="Batch Process Profile Id"/>
+        <property name="description" value="Batch Process Profile Id"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Batch Process Profile Id"/>
+        <property name="maxLength" value="40"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchProcessProfileBo-batchProcessProfileName" parent="OLEBatchProcessProfileBo-batchProcessProfileName-parentBean"/>
+
+    <bean id="OLEBatchProcessProfileBo-batchProcessProfileName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="batchProcessProfileName"/>
+        <property name="label" value="Batch Profile Name"/>
+        <property name="description" value="Batch Profile Name"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Batch Profile Name"/>
+        <property name="maxLength" value="40"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchProcessProfileBo-batchProcessProfileDesc" parent="OLEBatchProcessProfileBo-batchProcessProfileDesc-parentBean"/>
+
+    <bean id="OLEBatchProcessProfileBo-batchProcessProfileDesc-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="batchProcessProfileDesc"/>
+        <property name="label" value="Description"/>
+        <property name="description" value="Description"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Description"/>
+        <property name="maxLength" value="40"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchProcessProfileBo-krmsProfileName" parent="OLEBatchProcessProfileBo-krmsProfileName-parentBean"/>
+
+    <bean id="OLEBatchProcessProfileBo-krmsProfileName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="krmsProfileName"/>
+        <property name="label" value="Batch Process KRMS Profile"/>
+        <property name="description" value="Batch Process KRMS Profile"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Batch Process KRMS Profile"/>
+        <property name="maxLength" value="40"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchProcessProfileBo-batchProcessProfileType" parent="OLEBatchProcessProfileBo-batchProcessProfileType-parentBean"/>
+
+    <bean id="OLEBatchProcessProfileBo-batchProcessProfileType-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="batchProcessProfileType"/>
+        <property name="label" value="Batch Process Type"/>
+        <property name="description" value="Batch Process Type"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Batch Process Type"/>
+        <property name="maxLength" value="40"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchProcessProfileBo-bibImportProfileForOrderRecord" parent="OLEBatchProcessProfileBo-bibImportProfileForOrderRecord-parentBean"/>
+
+    <bean id="OLEBatchProcessProfileBo-bibImportProfileForOrderRecord-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="bibImportProfileForOrderRecord"/>
+        <property name="label" value="Bib Import Profile"/>
+        <property name="description" value="Bib Import Profile"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Bib Import Profile"/>
+        <property name="maxLength" value="40"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchProcessProfileBo-dataToImport" parent="OLEBatchProcessProfileBo-dataToImport-parentBean"/>
+
+    <bean id="OLEBatchProcessProfileBo-dataToImport-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="dataToImport"/>
+        <property name="label" value="Data To Import"/>
+        <property name="description" value="Data To Import"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Data To Import"/>
+        <property name="maxLength" value="50"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchProcessProfileBo-dataToExport" parent="OLEBatchProcessProfileBo-dataToExport-parentBean"/>
+
+    <bean id="OLEBatchProcessProfileBo-dataToExport-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="dataToExport"/>
+        <property name="label" value="Data To Export"/>
+        <property name="description" value="Data To Export"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Data To Export"/>
+        <property name="maxLength" value="50"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchProcessProfileBo-exportScope" parent="OLEBatchProcessProfileBo-exportScope-parentBean"/>
+
+    <bean id="OLEBatchProcessProfileBo-exportScope-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="exportScope"/>
+        <property name="label" value="Export Scope"/>
+        <property name="description" value="Export Scope"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Export Scope"/>
+        <property name="maxLength" value="40"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchProcessProfileBo-requisitionsforTitle" parent="OLEBatchProcessProfileBo-requisitionsforTitle-parentBean"/>
+
+    <bean id="OLEBatchProcessProfileBo-requisitionsforTitle-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="requisitionsforTitle"/>
+        <property name="label" value="Requisitions for Title"/>
+        <property name="description" value="Requisitions for Title"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Requisitions for Title"/>
+        <property name="maxLength" value="40"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchProcessProfileBo-bibAddOverlayOption" parent="OLEBatchProcessProfileBo-bibAddOverlayOption-parentBean"/>
+
+    <bean id="OLEBatchProcessProfileBo-bibAddOverlayOption-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="bibAddOverlayOption"/>
+        <property name="label" value="Bib Add Overlay Option"/>
+        <property name="description" value="Bib Add Overlay Option"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Bib Add Overlay Option"/>
+        <property name="maxLength" value="40"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchProcessProfileBo-instanceAddOverlayOption" parent="OLEBatchProcessProfileBo-instanceAddOverlayOption-parentBean"/>
+
+    <bean id="OLEBatchProcessProfileBo-instanceAddOverlayOption-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="instanceAddOverlayOption"/>
+        <property name="label" value="Instance Add Overlay Option"/>
+        <property name="description" value="Instance Add Overlay Option"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Instance Add Overlay Option"/>
+        <property name="maxLength" value="40"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+
+    <bean id="OLEBatchProcessProfileBo-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="Batch Process Profile Lookup" />
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/BASICS/content/ch02s04.html#_lookupHelp"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="dataObjectClassName" value="org.kuali.ole.batch.bo.OLEBatchProcessProfileBo" />
+        <property name="viewHelperServiceClass" value="org.kuali.ole.batch.lookup.OLEBatchProcessProfileLookupableImpl"/>
+        <property name="criteriaFields">
+            <list>
+                <bean id="lookup-batchProcessProfileName" parent="Uif-LookupCriteriaInputField" p:propertyName="batchProcessProfileName" p:label="Batch Process Profile Name"/>
+                <bean id="lookup-batchProcessProfileDesc" parent="Uif-LookupCriteriaInputField" p:propertyName="batchProcessProfileDesc" p:label="Batch Process Profile Desc"/>
+                <bean id="lookup-batchProcessProfileType" parent="Uif-LookupCriteriaInputField" p:propertyName="batchProcessProfileType" p:label="Batch Process Profile Type">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.batch.keyvalue.OLEBatchProcessTypeValuesFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                    <property name="quickfinder">
+                        <null></null>
+                    </property>
+                </bean>
+                <bean id="lookup-krmsProfileName" parent="Uif-LookupCriteriaInputField" p:propertyName="krmsProfileName" p:label="Batch Process KRMS Profile">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.ingest.keyvalue.AgendaKeyValues" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                    <property name="quickfinder">
+                        <null></null>
+                    </property>
+                </bean>
+            </list>
+        </property>
+
+        <property name="resultFields">
+            <list>
+                <bean id="result-batchProcessProfileId" parent="Uif-DataField" p:propertyName="batchProcessProfileId" />
+                <bean id="result-batchProcessProfileName" parent="Uif-DataField" p:propertyName="batchProcessProfileName" />
+                <bean id="result-batchProcessProfileType" parent="Uif-DataField" p:propertyName="batchProcessProfileType" />
+                <bean id="result-krmsProfileName" parent="Uif-DataField" p:propertyName="krmsProfileName" />
+            </list>
+        </property>
+        <property name="resultsGroup">
+            <bean parent="OLEBatch-LookupView-ResultActions"/>
+        </property>
+        <!--<property name="resultsActionsFieldGroup">
+            <bean parent="Uif-FieldGroupBase">
+                <property name="label" value="Actions"/>
+                <property name="group">
+                    <bean parent="OleRequestDocument-LookupView-ResultActions"/>
+                </property>
+            </bean>
+        </property>-->
+        <property name="criteriaGroup">
+            <bean parent="Uif-LookupCriteriaGroup"/>
+        </property>
+    </bean>
+
+
+
+    <!-- Inquiry Section -->
+
+
+    <bean id="OLEBatchProcessProfileBo-InquiryView" parent="Uif-OLEInquiryView">
+        <property name="headerText" value="OLE Batch Profile"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.batch.bo.OLEBatchProcessProfileBo" />
+        <property name="singlePageView" value="true"/>
+        <property name="items">
+            <list>
+                <!--<bean parent="Uif-Disclosure-VerticalBoxSection">
+                    <property name="header.headerText" value="Main Section" />
+                    <property name="items">
+                        <list>-->
+                <ref bean="OLEBatchProcessProfileBo-InquiryView-mainSection"/>
+                <ref bean="OLEBatchProcessProfileBo-InquiryView-filterCriteriaSection" />
+                <ref bean="OLEBatchProcessProfileBo-InquiryView-bibMatchPointSection"/>
+                <ref bean="OLEBatchProcessProfileBo-InquiryView-BibOverlayAdd"/>
+                <ref bean="OLEBatchProcessProfileBo-InquiryView-InstanceOverlayAdd"/>
+                <ref bean="OLEBatchProcessProfileBo-InquiryView-SetBibStatus"/>
+                <ref bean="OLEBatchProcessProfileBo-InquiryView-StaffOnlyTreatment"/>
+                <ref bean="OLEBatchProcessProfileBo-InquiryView-ChangesToImportedBibliographicRecord"/>
+                <ref bean="OLEBatchProcessProfileBo-InquiryView-profileConstantsSection"/>
+                <ref bean="OLEBatchProcessProfileBo-InquiryView-dataMappingSection"/>
+                <ref bean="OLEBatchProcessProfileBo-InquiryView-protectedFieldSection"/>
+                <ref bean="OLEBatchProcessProfileBo-InquiryView-deleteFieldSection"/>
+                <ref bean="OLEBatchProcessProfileBo-InquiryView-renameFieldSection"/>
+            </list>
+        </property>
+        <property name="title" value="Batch Process Profile Attributes"/>
+    </bean>
+    <!--</list>
+</property>
+</bean>-->
+
+    <bean id="OLEBatchProcessProfileBo-InquiryView-mainSection" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="headerText" value="Main Section" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2">
+                    <property name="items">
+                        <list>
+                            <bean id="oleBatchProcessProfileBoInquiry_batchProcessProfileId" parent="Uif-DataField" p:label="Batch Process Profile Id" p:propertyName="batchProcessProfileId"/>
+                            <bean id="oleBatchProcessProfileBoInquiry_batchProcessProfileName" parent="Uif-DataField" p:label="Batch Process Profile Name"  p:propertyName="batchProcessProfileName"/>
+                            <bean id="oleBatchProcessProfileBoInquiry_batchProcessProfileDesc" parent="Uif-DataField" p:label="Batch Process Profile Desc" p:propertyName="batchProcessProfileDesc"/>
+                            <bean id="oleBatchProcessProfileBoInquiry_batchProcessProfileType" parent="Uif-DataField" p:label="Batch Process Profile Type" p:propertyName="batchProcessProfileType"/>
+                            <bean id="oleBatchProcessProfileBoInquiry_krmsProfileName" parent="Uif-DataField" p:label="KRMS Profile" p:propertyName="krmsProfileName"/>
+                            <bean id="oleBatchProcessProfileBoInquiry_dataToImport" parent="Uif-DataField" p:propertyName="dataToImport" p:label="Data To Import" p:render="@{dataObject.batchProcessProfileType eq 'Bib Import'}"/>
+                            <bean id="oleBatchProcessProfileBoInquiry_requisitionsForTitle" parent="Uif-DataField" p:propertyName="requisitionsforTitle" p:label="Requisitions For Titles" p:render="@{dataObject.batchProcessProfileType eq 'Order Record Import'}"/>
+                            <bean id="oleBatchProcessProfileBoInquiry_dataToExport" parent="Uif-DataField" p:label="Data To Export" p:propertyName="dataToExport" p:render="@{dataObject.batchProcessProfileType eq 'Batch Export'}"/>
+                            <bean id="oleBatchProcessProfileBoInquiry_exportScope" parent="Uif-DataField" p:label="Export Scope" p:propertyName="exportScope" p:render="@{dataObject.batchProcessProfileType eq 'Batch Export'}"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="OLEBatchProcessProfileBo-InquiryView-filterCriteriaSection" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="12" p:render="@{dataObject.batchProcessProfileType eq 'Batch Export'}">
+        <property name="headerText" value="Filter Criteria Section " />
+        <property name="collectionObjectClass" value="org.kuali.ole.batch.bo.OLEBatchProcessProfileFilterCriteriaBo"/>
+        <property name="propertyName" value="oleBatchProcessProfileFilterCriteriaList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.richTable.disableTableSort" value="false" />
+        <property name="items">
+            <list>
+                <bean id="oleBatchProcessProfileBoInquiry_filterId" parent="Uif-DataField" p:label="Filter Id" p:propertyName="filterId"/>
+                <bean id="oleBatchProcessProfileBoInquiry_filterFieldName" parent="Uif-DataField" p:label="Filter Name" p:propertyName="filterFieldName" />
+                <bean id="oleBatchProcessProfileBoInquiry_filterFieldValue" parent="Uif-DataField" p:label="Filter Value" p:propertyName="filterFieldValue" />
+                <bean id="oleBatchProcessProfileBoInquiry_filterRangeFrom" parent="Uif-DataField" p:label="Filter Range From" p:propertyName="filterRangeFrom"/>
+                <bean id="oleBatchProcessProfileBoInquiry_filterRangeTo" parent="Uif-DataField" p:label="Filter Range To" p:propertyName="filterRangeTo" />
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+    <bean id="OLEBatchProcessProfileBo-InquiryView-dataMappingSection" parent="Uif-MaintenanceTableCollectionSection"
+          p:layoutManager.numberOfColumns="12" p:disclosure.defaultOpen="false" p:render="@{dataObject.batchProcessProfileType eq 'Bib Import' or dataObject.batchProcessProfileType eq 'Batch Export'}">
+        <property name="headerText" value="Data Mapping Section"/>
+        <property name="collectionObjectClass" value="org.kuali.ole.batch.bo.OLEBatchProcessProfileMappingOptionsBo"/>
+        <property name="propertyName" value="oleBatchProcessProfileMappingOptionsList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <!--<property name="layoutManager.richTable.disableTableSort" value="false"/>-->
+        <property name="items">
+            <list>
+                <bean id="oleBatchProcessProfileBoInquiry_oleBatchProcessDataMapId" parent="Uif-DataField"
+                      p:label="Batch Process Data Map Id" p:propertyName="oleBatchProcessDataMapId" p:hidden="true"/>
+            </list>
+        </property>
+        <property name="subCollections">
+            <list>
+                <ref bean="OLEBatchProcessProfileBo-InquiryView-optionsSection"/>
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+    <bean id="OLEBatchProcessProfileBo-InquiryView-optionsSection" parent="Uif-TableSubCollection-WithinSection"
+          p:layoutManager.numberOfColumns="2" p:disclosure.defaultOpen="false">
+        <property name="headerText" value="Data Mapping Option"/>
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.batch.bo.OLEBatchProcessProfileDataMappingOptionsBo"/>
+        <property name="propertyName" value="oleBatchProcessProfileDataMappingOptionsBoList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <!--<property name="addLinePlacement" value="BOTTOM" />-->
+        <property name="items">
+            <list>
+                <bean id="oleBatchProcessProfileBoInquiry_DMList_dataType" parent="Uif-DataField" p:label="Data Type"
+                      p:propertyName="dataType"/>
+                <bean id="oleBatchProcessProfileBoInquiry_DMList_sourceField" parent="Uif-DataField"
+                      p:label="Source Field" p:propertyName="sourceField"/>
+                <bean id="oleBatchProcessProfileBoInquiry_DMList_sourceFieldValue" parent="Uif-DataField"
+                      p:label="Source Field Value" p:propertyName="sourceFieldValue"/>
+                <bean id="oleBatchProcessProfileBoInquiry_DMList_destinationDataType" parent="Uif-DataField" p:label="Data Type"
+                      p:propertyName="dataTypeDestinationField"/>
+                <bean id="oleBatchProcessProfileBoInquiry_DMList_destinationField" parent="Uif-DataField"
+                      p:label="Destination Field" p:propertyName="destinationField"/>
+                <bean id="oleBatchProcessProfileBoInquiry_DMList_destinationFieldValue" parent="Uif-DataField"
+                      p:label="Destination Field Value" p:propertyName="destinationFieldValue"/>
+                <bean id="oleBatchProcessProfileBoInquiry_DMList_priority" parent="Uif-DataField" p:propertyName="priority" p:label="Priority"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="OLEBatchProcessProfileBo-InquiryView-protectedFieldSection" parent="Uif-Disclosure-VerticalBoxSection" p:disclosure.defaultOpen="false" p:render="@{dataObject.batchProcessProfileType eq 'Bib Import'}">
+        <property name="headerText" value="Protected Field" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalBoxSection">
+                    <property name="items">
+                        <list>
+                            <ref bean="OLEBatchProcessProfileBo-InquiryView-globallyProtectedFieldSection"/>
+                            <ref bean="OLEBatchProcessProfileBo-InquiryView-ProfileProtectedFieldList"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="OLEBatchProcessProfileBo-InquiryView-globallyProtectedFieldSection" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="12" p:disclosure.defaultOpen="false" >
+        <property name="headerText" value="Globally Protected Field Section" />
+        <property name="collectionObjectClass" value="org.kuali.ole.batch.bo.OLEBatchGloballyProtectedField"/>
+        <property name="propertyName" value="oleBatchGloballyProtectedFieldList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.richTable.disableTableSort" value="false" />
+        <property name="items">
+            <list>
+                <bean id="oleBatchProcessProfileBoInquiry_GPList_tag" parent="Uif-DataField" p:label="Field Name" p:propertyName="tag" />
+                <bean id="oleBatchProcessProfileBoInquiry_GPList_firstIndicator" parent="Uif-DataField" p:label="First Indicator" p:propertyName="firstIndicator" />
+                <bean id="oleBatchProcessProfileBoInquiry_GPList_secondIndicator" parent="Uif-DataField" p:label="Second Indicator" p:propertyName="secondIndicator"/>
+                <bean id="oleBatchProcessProfileBoInquiry_GPList_subField" parent="Uif-DataField" p:label="Sub Field" p:propertyName="subField" />
+                <bean id="oleBatchProcessProfileBoInquiry_GPList_ignoreValue" parent="Uif-DataField" p:label="Ignore GPF" p:propertyName="ignoreValue" />
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+
+    <bean id="OLEBatchProcessProfileBo-InquiryView-ProfileProtectedFieldList" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="12" p:disclosure.defaultOpen="false" >
+        <property name="headerText" value="Profile Protected Field Section" />
+        <property name="collectionObjectClass" value="org.kuali.ole.batch.bo.OLEBatchProcessProfileProtectedField"/>
+        <property name="propertyName" value="oleBatchProcessProfileProtectedFieldList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.richTable.disableTableSort" value="false" />
+        <property name="items">
+            <list>
+                <bean id="oleBatchProcessProfileBoInquiry_PPList_tag" parent="Uif-DataField" p:label="Field name" p:propertyName="tag" />
+                <bean id="oleBatchProcessProfileBoInquiry_PPList_firstIndicator" parent="Uif-DataField" p:label="First Indicator" p:propertyName="firstIndicator" />
+                <bean id="oleBatchProcessProfileBoInquiry_PPList_secondIndicator" parent="Uif-DataField" p:label="Second Indicator" p:propertyName="secondIndicator"/>
+                <bean id="oleBatchProcessProfileBoInquiry_PPList_subField" parent="Uif-DataField" p:label="Sub Field" p:propertyName="subField" />
+                <bean id="oleBatchProcessProfileBoInquiry_PPList_subFieldContains" parent="Uif-InputField" p:label="Sub Field Contains" p:propertyName="subFieldContains" />
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+    <bean id="OLEBatchProcessProfileBo-InquiryView-deleteFieldSection" parent="Uif-MaintenanceTableCollectionSection"
+          p:layoutManager.numberOfColumns="10" p:disclosure.defaultOpen="false" p:render="@{dataObject.batchProcessProfileType eq 'Bib Import' or dataObject.batchProcessProfileType eq 'Batch Export'}">
+        <property name="headerText" value="Delete Field"/>
+        <property name="collectionObjectClass" value="org.kuali.ole.batch.bo.OLEBatchProcessProfileDeleteField"/>
+        <property name="propertyName" value="oleBatchProcessProfileDeleteFieldsList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="items">
+            <list>
+                <bean id="oleBatchProcessProfileBoInquiry_deleteField_tag" parent="Uif-DataField" p:propertyName="tag"
+                      p:label="Field Name"/>
+                <bean id="oleBatchProcessProfileBoInquiry_deleteField_indicator1" parent="Uif-DataField"
+                      p:propertyName="firstIndicator" p:label="First Indicator"/>
+                <bean id="oleBatchProcessProfileBoInquiry_deleteField_indicator2" parent="Uif-DataField"
+                      p:propertyName="secondIndicator" p:label="Second Indicator"/>
+                <bean id="oleBatchProcessProfileBoInquiry_deleteField_subField" parent="Uif-DataField"
+                      p:propertyName="subField" p:label="SubField"/>
+                <bean id="oleBatchProcessProfileBoInquiry_deleteField_subFieldContains" parent="Uif-DataField"
+                      p:propertyName="subFieldContains" p:label="SubField Contains"/>
+            </list>
+        </property>
+
+    </bean>
+    <bean id="OLEBatchProcessProfileBo-InquiryView-renameFieldSection" parent="Uif-MaintenanceTableCollectionSection"
+          p:layoutManager.numberOfColumns="20" p:disclosure.defaultOpen="false" p:render="@{dataObject.batchProcessProfileType eq 'Bib Import' or dataObject.batchProcessProfileType eq 'Batch Export'}">
+        <property name="headerText" value="Rename Field"/>
+        <property name="collectionObjectClass" value="org.kuali.ole.batch.bo.OLEBatchProcessProfileRenameField"/>
+        <property name="propertyName" value="oleBatchProcessProfileRenameFieldsList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+
+        <property name="items">
+            <list>
+                <bean id="oleBatchProcessProfileBoInquiry_originalField_originalTag" parent="Uif-DataField"
+                      p:propertyName="originalTag" p:label="Original Tag"/>
+                <bean id="oleBatchProcessProfileBoInquiry_originalField_originalIndicator1" parent="Uif-DataField"
+                      p:propertyName="originalFirstIndicator" p:label="Ind 1"/>
+                <bean id="oleBatchProcessProfileBoInquiry_originalField_originalIndicator2" parent="Uif-DataField"
+                      p:propertyName="originalSecondIndicator" p:label="Ind 2"/>
+                <bean id="oleBatchProcessProfileBoInquiry_originalField_originalSubField" parent="Uif-DataField"
+                      p:propertyName="originalSubField" p:label="Subfield"/>
+                <bean id="oleBatchProcessProfileBoInquiry_originalField_originalSubFieldContains" parent="Uif-DataField"
+                      p:propertyName="originalSubFieldContains" p:label="Subfield contains"/>
+                <bean id="oleBatchProcessProfileBoInquiry_renameField_renamedTag" parent="Uif-DataField"
+                      p:propertyName="renamedTag" p:label="Rename Tag"/>
+                <bean id="oleBatchProcessProfileBoInquiry_renameField_renamedIndicator1" parent="Uif-DataField"
+                      p:propertyName="renamedFirstIndicator" p:label="Ind 1"/>
+                <bean id="oleBatchProcessProfileBoInquiry_renameField_renamedIndicator2" parent="Uif-DataField"
+                      p:propertyName="renamedSecondIndicator" p:label="Ind 2"/>
+                <bean id="oleBatchProcessProfileBoInquiry_renameField_renamedSubField" parent="Uif-DataField"
+                      p:propertyName="renamedSubField" p:label="Subfield"/>
+                <bean id="oleBatchProcessProfileBoInquiry_renameField_renamedSubFieldContains" parent="Uif-DataField"
+                      p:propertyName="renamedSubFieldContains" p:label="Subfield contains"/>
+            </list>
+        </property>
+
+    </bean>
+
+    <bean id="OLEBatchProcessProfileBo-InquiryView-profileConstantsSection" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="12" p:disclosure.defaultOpen="false" p:render="@{dataObject.batchProcessProfileType eq 'Order Record Import' or dataObject.batchProcessProfileType eq 'Bib Import'}">
+        <property name="headerText" value="Constant and Default Values" />
+        <property name="collectionObjectClass" value="org.kuali.ole.batch.bo.OLEBatchProcessProfileConstantsBo"/>
+        <property name="propertyName" value="oleBatchProcessProfileConstantsList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.richTable.disableTableSort" value="false" />
+        <property name="items">
+            <list>
+                <!--<bean id="oleBatchProcessProfileBoInquiry_PCList_oleBatchProcessProfileConstantsId" parent="Uif-DataField" p:label="Profile Constant Id" p:propertyName="oleBatchProcessProfileConstantsId"/>-->
+                <bean id="oleBatchProcessProfileBoInquiry_PCList_dataType" parent="Uif-DataField" p:label="Data Type" p:propertyName="dataType"/>
+                <bean id="oleBatchProcessProfileBoInquiry_PCList_attributeName" parent="Uif-DataField" p:label="Attribute Name" p:propertyName="attributeName" />
+                <bean id="oleBatchProcessProfileBoInquiry_PCList_attributeValue" parent="Uif-DataField" p:label="Attribute Value" p:propertyName="attributeValue" />
+                <bean id="oleBatchProcessProfileBoInquiry_PCList_defaultValue" parent="Uif-DataField" p:propertyName="defaultValue" p:label="Default/Constant" />
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+    <bean id="OLEBatchProcessProfileBo-InquiryView-bibMatchPointSection" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="12" p:disclosure.defaultOpen="false" p:render="@{dataObject.batchProcessProfileType eq 'Bib Import' or dataObject.batchProcessProfileType eq 'Batch Delete'}">
+        <property name="headerText" value="Bib Match Point" />
+        <property name="collectionObjectClass" value="org.kuali.ole.batch.bo.OLEBatchProcessProfileBibMatchPoint" />
+        <property name="propertyName" value="oleBatchProcessProfileBibMatchPointList" />
+        <property name="layoutManager.richTable.disableTableSort" value="true" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="items">
+            <list>
+                <bean id="oleBatchProcessProfileBoInquiry_MP_MatchPoint" parent="Uif-DataField" p:label="Match Point" p:propertyName="oleBibMatchPoint"/>
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+    <bean id="OLEBatchProcessProfileBo-InquiryView-BibOverlayAdd" parent="Uif-Disclosure-VerticalBoxSection" p:disclosure.defaultOpen="false" p:render="@{(dataObject.batchProcessProfileType eq 'Bib Import')}">
+        <property name="headerText" value="Bib Overlay/Add" />
+
+        <property name="items">
+            <list>
+                <bean id="oleBatchProcessProfileBoInquiry_bibOverlayOrAddOrNone" parent="Uif-DataField" p:label="Bib Overlay Or Add Or None" p:propertyName="bibOverlayOrAddOrNone"/>
+                <bean id="oleBatchProcessProfileBoInquiry_bibNoMatchAction" parent="Uif-DataField" p:label="Bib No Match Action" p:propertyName="bibNoMatchAction"/>
+
+                <bean parent="Uif-GridSection" p:layoutManager.numberOfColumns="1">
+                    <property name="items">
+                        <list>
+                            <ref bean="OLEBatchProcessProfileBo-InquiryView-BibAddOverlaySection-BibStatus"/>
+                            <!--<ref bean="bibAddOverlaySection-bibWorkUnit"/>-->
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+
+    </bean>
+    <bean id="OLEBatchProcessProfileBo-InquiryView-BibAddOverlaySection-BibStatus" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="1" p:disclosure.defaultOpen="false">
+        <property name="headerText" value="Overlay Bib Status" />
+        <property name="collectionObjectClass" value="org.kuali.ole.batch.bo.OLEBatchProcessProfileBibStatus"/>
+        <property name="propertyName" value="oleBatchProcessProfileBibStatusList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.richTable.disableTableSort" value="false" />
+        <property name="items">
+            <list>
+                <bean id="oleBatchProcessProfileBoInquiry_BatchProcessBibStatus" parent="Uif-DataField" p:label="Bib Status Not In" p:propertyName="batchProcessBibStatus"/>
+
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+    <bean id="OLEBatchProcessProfileBo-InquiryView-InstanceOverlayAdd" parent="Uif-Disclosure-VerticalBoxSection" p:disclosure.defaultOpen="false" p:render="@{(dataObject.batchProcessProfileType eq 'Bib Import')}">
+        <property name="headerText" value="Instance Overlay/Add" />
+
+        <property name="items">
+            <list>
+                <bean id="oleBatchProcessProfileBoInquiry_instanceMatch" parent="Uif-DataField" p:label="When overlaying a bib" p:propertyName="instanceOverlayOrAddOrNone"/>
+                <bean id="oleBatchProcessProfileBoInquiry_instanceNoMatch" parent="Uif-DataField" p:label="When adding a new bib" p:propertyName="instanceNoMatchAction"/>
+
+            </list>
+        </property>
+
+    </bean>
+    <bean id="OLEBatchProcessProfileBo-InquiryView-SetBibStatus" parent="Uif-Disclosure-VerticalBoxSection" p:disclosure.defaultOpen="false" p:render="@{(dataObject.batchProcessProfileType eq 'Bib Import')}">
+        <property name="headerText" value="Set Bib Status" />
+
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="6">
+                    <property name="items">
+                        <list>
+                            <bean id="oleBatchProcessProfileBoInquiry_newBibStaus" parent="Uif-DataField" p:label="For new records set Bib status as" p:propertyName="newBibStaus"/>
+                            <bean id="oleBatchProcessProfileBoInquiry_noChangeOrSet" parent="Uif-DataField" p:label="For Overlaid Bibs" p:propertyName="noChangeOrSet"/>
+                            <bean id="oleBatchProcessProfileBoInquiry_existedBibStatus" parent="Uif-DataField" p:label="Change Status To" p:propertyName="existedBibStatus"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+
+    </bean>
+    <bean id="OLEBatchProcessProfileBo-InquiryView-ChangesToImportedBibliographicRecord" parent="Uif-Disclosure-HorizontalBoxSection" p:disclosure.defaultOpen="false" p:render="@{(dataObject.batchProcessProfileType eq 'Bib Import')}">
+        <property name="headerText" value="Changes to Imported Bibliographic Record" />
+
+        <property name="items">
+            <list>
+                <bean id="oleBatchProcessProfileBoInquiry_dontChange001" parent="Uif-DataField" p:label="Tag 001" p:propertyName="dontChange001"/>
+                <bean id="oleBatchProcessProfileBoInquiry_prepend003To035" parent="Uif-DataField" p:label="prepend003To035" p:propertyName="prepend003To035"/>
+                <bean id="oleBatchProcessProfileBoInquiry_valueToPrepend" parent="Uif-DataField" p:label="valueToPrepend" p:propertyName="valueToPrepend"/>
+            </list>
+        </property>
+
+    </bean>
+    <bean id="OLEBatchProcessProfileBo-InquiryView-StaffOnlyTreatment" parent="Uif-Disclosure-HorizontalBoxSection" p:disclosure.defaultOpen="false" p:render="@{(dataObject.batchProcessProfileType eq 'Bib Import')}">
+        <property name="headerText" value="Staff Only Treatment" />
+
+        <property name="items">
+
+            <list>
+                <bean id="oleBatchProcessProfileBoInquiry_bibStaffOnly" parent="Uif-DataField" p:label="For new Bib set Staff Only" p:propertyName="bibStaffOnly"/>
+                <bean id="oleBatchProcessProfileBoInquiry_instanceStaffOnly" parent="Uif-DataField" p:label="For new Instance set Staff Only" p:propertyName="instanceStaffOnly"/>
+                <bean id="oleBatchProcessProfileBoInquiry_itemStaffOnly" parent="Uif-DataField" p:label="For new Item set Staff Only" p:propertyName="itemStaffOnly"/>
+            </list>
+
+        </property>
+
+    </bean>
+
+    <bean id="OLEBatch-LookupView-ResultActions" parent="Uif-LookupResultsCollectionSection">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-lookupView-resultActions</value>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-ActionLink" p:order="10">
+                    <property name="actionLabel" value="edit"/>
+                    <property name="finalizeMethodToCall" value="getMaintenanceActionLink"/>
+                    <property name="finalizeMethodAdditionalArguments">
+                        <list>
+                            <value>maintenanceEdit</value>
+                        </list>
+                    </property>
+                    <property name="render"
+                              value="@{#ViewHelper.allowsMaintenanceEditAction(#line) and view.showMaintenanceLinks}"/>
+                </bean>
+                <bean parent="Uif-ActionLink">
+                    <property name="actionLabel" value="Return Value"/>
+                    <property name="finalizeMethodToCall" value="getReturnUrlForResults"/>
+                    <property name="render"
+                              value="@{!#empty(returnFormKey) and !#empty(returnLocation) and !view.hideReturnLinks}"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>

@@ -1,0 +1,15 @@
+<request>
+	<user>khuntley</user>
+	<operation>checkOut</operation>
+	<requestDocuments>
+		<ingestDocument id="1" category="work" type="license" format="pdf">
+			<uuid>50f9b668-b50c-472f-8486-de516b22d0e0</uuid>
+		</ingestDocument>
+		<ingestDocument id="2" category="work" type="license" format="doc">
+			<uuid>35aa90ab-d6d2-41b3-ad02-c48c40d2d9ab</uuid>
+		</ingestDocument>
+		<ingestDocument id="3" category="work" type="license" format="onixpl">
+			<uuid>15adc265-587a-4205-b67f-3a04b0ca53a5</uuid>
+		</ingestDocument>
+	</requestDocuments>
+</request>

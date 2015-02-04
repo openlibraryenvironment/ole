@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="UserPreferencePanel" parent="UserPreferencePanel-parentBean"/>
+    <bean id="UserPreferencePanel-parentBean" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <ref bean="ValidationMessage"/>
+                <ref bean="UserPreferences-Name"/>
+                <ref bean="UserPreferences-Settings"/>
+                <ref bean="UserPreferences-CallNumberMapping"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="UserPreferences-Name" parent="Uif-GridSection" >
+
+        <property name="items">
+            <list>
+                <bean id="preference_Name" parent="Uif-InputField"
+                      p:propertyName="importBibUserPreferences.prefId1"
+                      p:label="Name"
+                      p:optionsFinderClass="org.kuali.ole.describe.keyvalue.ImportBibKeyValueFinder">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="load_button" parent="Uif-SecondaryActionButton-Small"
+                      p:methodToCall="loadUserPref" p:actionLabel="Load" p:ajaxSubmit="true"
+                      p:successCallback="load()"  p:style="float:right;margin-right:-15em" />
+            </list>
+
+        </property>
+    </bean>
+
+
+    <bean id="UserPreferences-Settings" parent="Uif-GridSection"
+          p:render="@{importBibUserPreferences ne null and importBibUserPreferences.importType ne null}">
+
+        <property name="items">
+            <list>
+
+
+                <bean id="importOverLayType_id" parent="Uif-InputField"
+                      p:propertyName="importBibUserPreferences.importType"
+                      p:render="@{existingBibMarcRecord ne null}"
+                      p:label="Import Type">
+                    <property name="control">
+                        <bean parent="Uif-VerticalRadioControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="newImport" p:value="New Record"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="overLay"
+                                          p:value=" Replace Currently Selected Record"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="overLayMatchPoint"
+                                          p:value="Replace Based On Match Point"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+
+                <bean id="importType_id" parent="Uif-InputField" p:render="@{existingBibMarcRecord eq null}"
+                      p:propertyName="importBibUserPreferences.importType"
+                      p:label="Import Type">
+                    <property name="control">
+                        <bean parent="Uif-VerticalRadioControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="newImport" p:value="New Record"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="overLayMatchPoint"
+                                          p:value="Replace Based On Match Point"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-HorizontalFieldGroup" p:label="OverLay Record Info"
+                      p:render="@{importBibConfirmReplace.overLayMarcRecord ne null and existingBibMarcRecord ne null}">
+                    <property name="items">
+                        <list>
+                            <bean id="title_name" parent="Uif-DataField" p:label="Title"
+                                  p:propertyName="importBibConfirmReplace.overLayMarcRecord.title">
+                            </bean>
+                            <bean id="barcode_id" parent="Uif-DataField" p:label="Call Number"
+                                  p:propertyName="importBibConfirmReplace.overLayMarcRecord.holdingsTree.holdings.callNumber">
+                            </bean>
+                            <bean id="callNumber_id" parent="Uif-DataField" p:label="Barcode"
+                                  p:propertyName="importBibConfirmReplace.overLayMarcRecord.holdingsTree.items[0].barcode">
+                            </bean>
+                            <bean id="location_name" parent="Uif-DataField" p:label="Location"
+                                  p:propertyName="importBibConfirmReplace.overLayMarcRecord.holdingsTree.items[0].locationName">
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean id="importStatus_id" parent="Uif-InputField"
+                      p:propertyName="importBibUserPreferences.importStatus" p:label="Import Status">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.describe.keyvalue.BibliographicRecordStatus"/>
+                    </property>
+                </bean>
+
+                <bean id="permLocation_Name" parent="Uif-InputField"
+                      p:propertyName="importBibUserPreferences.permLocation" p:label="Permanent Location">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.describe.keyvalue.LocationValuesBuilder"/>
+                    </property>
+                </bean>
+
+
+                <bean id="tempLocation_Name" parent="Uif-InputField"
+                      p:propertyName="importBibUserPreferences.tempLocation" p:label="Temporary Location">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.describe.keyvalue.LocationValuesBuilder"/>
+                    </property>
+                </bean>
+
+                <bean id="adminRemovalTags_id" parent="Uif-DataField" p:label="Tags That Will Be Removed"
+                      p:propertyName="importBibUserPreferences.adminRemovalTags"/>
+
+                <bean id="removalTags_id" parent="Uif-InputField"
+                      p:propertyName="importBibUserPreferences.removalTags" p:label="Additionally Remove These Tags">
+                    <property name="control">
+                        <bean parent="Uif-TextAreaControl" p:rows="5" p:cols="20"/>
+                    </property>
+                </bean>
+
+                <bean id="adminProtectedTags_id" parent="Uif-DataField" p:label="Protected Fields"
+                      p:propertyName="importBibUserPreferences.adminProtectedTags"/>
+
+                <bean id="protectedTags_id" parent="Uif-InputField"
+                      p:propertyName="importBibUserPreferences.protectedTags" p:label="Additional Protected Fields">
+                    <property name="control">
+                        <bean parent="Uif-TextAreaControl" p:rows="5" p:cols="20"/>
+                    </property>
+                </bean>
+            </list>
+
+        </property>
+    </bean>
+
+    <bean id="ValidationMessage" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="ValidationMessageScetion" parent="Uif-Message"
+                      p:messageText="@{message}" p:cssClasses="messageClass"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="UserPreferences-CallNumberMapping" parent="Uif-VerticalBoxSection"
+          p:render="@{importBibUserPreferences ne null and importBibUserPreferences.importType ne null}">
+        <property name="headerText" value="Call Number Mapping"/>
+        <property name="items">
+            <list>
+                <ref bean="shelvingScheme-name"/>
+                <ref bean="callNumber-Section"/>
+                <ref bean="UserPreferences-Button"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="shelvingScheme-name" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="shelvingScheme_Name" parent="Uif-InputField"
+                      p:propertyName="importBibUserPreferences.shelvingScheme"
+                      p:label="Classification Scheme">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.describe.keyvalue.ShelvingScheme"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="callNumber-Section" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="callNumber1_id" parent="Uif-InputField" p:label="Call Number Source 1"
+                      p:minLength="3" p:maxLength="3" p:propertyName="importBibUserPreferences.callNumberSource1">
+                    <property name="validCharactersConstraint">
+                        <bean parent="NumericPatternConstraint"/>
+                    </property>
+                </bean>
+                <bean id="callNumber2_id" parent="Uif-InputField" p:label=""
+                      p:constraintText="Must be DataField tag value Ex: 050"
+                      p:minLength="3" p:maxLength="3" p:propertyName="importBibUserPreferences.callNumberSource2">
+
+                    <property name="validCharactersConstraint">
+                        <bean parent="NumericPatternConstraint"/>
+                    </property>
+                </bean>
+                <bean id="callNumber3_id" parent="Uif-InputField" p:label=""
+                      p:minLength="3" p:maxLength="3" p:propertyName="importBibUserPreferences.callNumberSource3">
+                    <property name="validCharactersConstraint">
+                        <bean parent="NumericPatternConstraint"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="UserPreferences-Button" parent="Uif-HorizontalBoxSection" p:align="right"
+          p:render="@{importBibUserPreferences ne null and importBibUserPreferences.importType ne null}">
+        <property name="items">
+            <list>
+                <bean id="userPrefNext_button" parent="Uif-SecondaryActionButton-Small"
+                      p:methodToCall="userPrefNext" p:actionLabel="Next"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

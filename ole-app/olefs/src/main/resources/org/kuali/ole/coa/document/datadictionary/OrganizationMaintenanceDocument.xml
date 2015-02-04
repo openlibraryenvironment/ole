@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+ Copyright 2008-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean id="OrganizationMaintenanceDocument" parent="OrganizationMaintenanceDocument-parentBean"/>
+
+  <bean id="OrganizationMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.ole.coa.businessobject.Organization"/>
+    <property name="maintainableClass" value="org.kuali.ole.coa.document.KualiOrgMaintainable"/>
+    <property name="maintainableSections">
+      <list>
+        <ref bean="OrganizationMaintenanceDocument-EditOrganizationCode"/>
+        <!-- Disabling plant accounting attributes -->
+        <!-- <ref bean="OrganizationMaintenanceDocument-EditPlantAccounts"/> -->
+        <!--  Start Code changes to hide Edit HRMS Unit tab as per JIRA OLE2344 -->
+        <!-- <ref bean="OrganizationMaintenanceDocument-EditHRMSUnit"/> -->
+        <!--  End Code changes to hide Edit HRMS Unit tab as per JIRA OLE2344 -->
+      </list>
+    </property>
+    <property name="defaultExistenceChecks">
+      <list>
+        <bean parent="ReferenceDefinition" p:attributeName="chartOfAccounts" p:attributeToHighlightOnFail="chartOfAccountsCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="organizationManagerUniversal" p:attributeToHighlightOnFail="organizationManagerUniversal.principalName"/>
+        <bean parent="ReferenceDefinition" p:attributeName="responsibilityCenter" p:attributeToHighlightOnFail="responsibilityCenterCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="organizationPhysicalCampus" p:attributeToHighlightOnFail="organizationPhysicalCampusCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="organizationType" p:attributeToHighlightOnFail="organizationTypeCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="postalZip" p:attributeToHighlightOnFail="organizationZipCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="organizationCountry" p:attributeToHighlightOnFail="organizationCountryCode"/>
+      </list>
+    </property>
+    <property name="lockingKeys">
+      <list>
+        <value>chartOfAccountsCode</value>
+        <value>organizationCode</value>
+      </list>
+    </property>
+    <property name="documentTypeName" value="OLE_ORGN"/>
+    <property name="businessRulesClass" value="org.kuali.ole.coa.document.validation.impl.OrgRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.ole.coa.document.authorization.OrganizationDocumentAuthorizer"/>
+    <property name="documentPresentationControllerClass" value="org.kuali.ole.coa.document.authorization.OrganizationtMaintenanceDocumentPresentationController"/>
+    
+    <property name="promptBeforeValidationClass" value="org.kuali.ole.coa.document.validation.impl.OrgPreRules"/>
+    <property name="webScriptFiles">
+      <list>
+        <value>../dwr/interface/PostalCodeService.js</value>
+        <value>../scripts/coa/organizationDocument.js</value>
+        <value>../dwr/interface/AccountService.js</value>
+        <value>../scripts/coa/accountDocument.js</value>
+      </list>
+    </property>
+    <property name="workflowAttributes">
+      <ref bean="OrganizationMaintenanceDocument-workflowAttributes"/>
+    </property>
+    <property name="derivedValuesSetterClass" value="org.kuali.ole.coa.document.web.OrgDerivedValuesSetter"/>
+
+  </bean>
+
+<!-- Maintenance Section Definitions -->
+
+
+  <bean id="OrganizationMaintenanceDocument-EditOrganizationCode" parent="OrganizationMaintenanceDocument-EditOrganizationCode-parentBean"/>
+
+  <bean id="OrganizationMaintenanceDocument-EditOrganizationCode-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Organization Code"/>
+    <property name="title" value="Edit Organization Code"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="chartOfAccountsCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationName" p:required="true"/>
+        <!--  Start Code changes to make Organization manager,Responsibility Center Code and Organization Physical Campus Code optional as per JIRA OLE2344 -->
+        <!-- 
+        <bean parent="MaintainableFieldDefinition" p:name="organizationManagerUniversalId" p:unconditionallyReadOnly="true" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationManagerUniversal.principalName" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="responsibilityCenterCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationPhysicalCampusCode" p:required="true"/>
+        -->
+        <bean parent="MaintainableFieldDefinition" p:name="organizationManagerUniversalId" p:unconditionallyReadOnly="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="organizationManagerUniversal.principalName" />
+        <bean parent="MaintainableFieldDefinition" p:name="responsibilityCenterCode" />
+        <bean parent="MaintainableFieldDefinition" p:name="organizationPhysicalCampusCode" />
+        <!--  End Code changes to make Organization manager,Responsibility Center Code and Organization Physical Campus Code optional as per JIRA OLE2344 -->
+        <bean parent="MaintainableFieldDefinition" p:name="organizationTypeCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationDefaultAccountNumber"/>
+        <!--  Start Code changes to make Organization address line 1 optional as per JIRA OLE2344 -->
+        <!--
+        <bean parent="MaintainableFieldDefinition" p:name="organizationLine1Address" p:required="true"/>
+        -->
+        <bean parent="MaintainableFieldDefinition" p:name="organizationLine1Address" />
+        <!--  End Code changes to make Organization address line 1 optional as per JIRA OLE2344 -->
+        <bean parent="MaintainableFieldDefinition" p:name="organizationLine2Address"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationCityName" p:unconditionallyReadOnly="true" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationStateCode" p:unconditionallyReadOnly="true" p:required="true"/>
+        <!--  Start Code changes to make Organization ZipCode and Country optional as per JIRA OLE2344 -->
+        <!--
+        <bean parent="MaintainableFieldDefinition" p:name="organizationZipCode" p:required="true" p:webUILeaveFieldCallbackFunction="updateLocationByPostalCode_Callback" p:webUILeaveFieldFunction="updateLocationByPostalCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationCountryCode" p:required="true" p:webUILeaveFieldCallbackFunction="updateLocationByCountryCode_Callback" p:webUILeaveFieldFunction="updateLocationByCountryCode"/>
+        -->
+        <bean parent="MaintainableFieldDefinition" p:name="organizationZipCode" p:webUILeaveFieldCallbackFunction="updateLocationByPostalCode_Callback" p:webUILeaveFieldFunction="updateLocationByPostalCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationCountryCode" p:webUILeaveFieldCallbackFunction="updateLocationByCountryCode_Callback" p:webUILeaveFieldFunction="updateLocationByCountryCode"/>
+        <!--  End Code changes to make Organization ZipCode and Country optional as per JIRA OLE2344 -->
+        <bean parent="MaintainableFieldDefinition" p:name="organizationBeginDate" p:required="true" p:defaultValueFinderClass="org.kuali.ole.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationEndDate"/>
+        <bean parent="MaintainableFieldDefinition" p:name="reportsToChartOfAccountsCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="reportsToOrganizationCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
+      </list>
+    </property>
+  </bean>
+  <bean id="OrganizationMaintenanceDocument-EditPlantAccounts" parent="OrganizationMaintenanceDocument-EditPlantAccounts-parentBean"/>
+
+  <bean id="OrganizationMaintenanceDocument-EditPlantAccounts-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Plant Accounts"/>
+    <property name="title" value="Edit Plant Accounts"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationPlantChartCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationPlantAccountNumber" p:webUILeaveFieldFunction="onblur_accountNumber">
+			<property name="webUILeaveFieldFunctionParameters">
+				<list>
+					<value>organizationPlantChartCode</value>
+				</list>
+			</property> 
+		</bean>        
+        <bean parent="MaintainableFieldDefinition" p:name="campusPlantChartCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="campusPlantAccountNumber" p:webUILeaveFieldFunction="onblur_accountNumber">
+			<property name="webUILeaveFieldFunctionParameters">
+				<list>
+					<value>campusPlantChartCode</value>
+				</list>
+			</property> 
+		</bean>        
+      </list>
+    </property>
+  </bean>
+  <bean id="OrganizationMaintenanceDocument-EditHRMSUnit" parent="OrganizationMaintenanceDocument-EditHRMSUnit-parentBean"/>
+
+  <bean id="OrganizationMaintenanceDocument-EditHRMSUnit-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit HRMS Unit"/>
+    <property name="title" value="Edit HRMS Unit"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationExtension.hrmsCompany"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationExtension.hrmsIuOrganizationAddress2"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationExtension.hrmsIuOrganizationAddress3"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationExtension.hrmsIuCampusCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationExtension.hrmsIuCampusBuilding"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationExtension.hrmsIuCampusRoom"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationExtension.hrmsIuPositionAllowedFlag"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationExtension.hrmsIuTenureAllowedFlag"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationExtension.hrmsIuTitleAllowedFlag"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationExtension.hrmsIuOccupationalUnitAllowedFlag"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationExtension.hrmsPersonnelApproverUniversalId" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationExtension.hrmsPersonnelApproverUniversal.principalName"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationExtension.hrmsPersonnelApproverUniversal.name" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationExtension.fiscalApproverUniversalId" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationExtension.fiscalApproverUniversal.principalName"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationExtension.fiscalApproverUniversal.name" p:unconditionallyReadOnly="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationExtension.hrmsLastUpdateDate" p:unconditionallyReadOnly="true"/>
+      </list>
+    </property>
+  </bean>
+
+	
+	<!-- workflow attributes -->
+  	<bean id="OrganizationMaintenanceDocument-workflowAttributes" parent="OrganizationMaintenanceDocument-workflowAttributes-parentBean"/>
+  
+	<bean id="OrganizationMaintenanceDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+	<property name="routingTypeDefinitions">
+    		
+    		<map>
+    			<entry key="Chart" value-ref="RoutingType-MaintenanceDocument-Chart"/>
+    			<entry key="OrganizationHierarchy" value-ref="RoutingType-MaintenanceDocument-OrganizationHierarchy-OrgFromMaint"/>
+    		</map>
+    	
+		</property>
+			<property name="searchingTypeDefinitions">
+    		<list>
+    			<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.ole.coa.businessobject.Organization"/>
+    						<property name="attributeName" value="organizationManagerUniversalId"/>
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>newMaintainableObject.businessObject.organizationManagerUniversalId</value>
+    					</list>
+    				</property>
+    			</bean>
+    			<bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+    				<property name="searchingAttribute">
+    					<bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute">
+    						<property name="businessObjectClassName" value="org.kuali.ole.coa.businessobject.Organization"/>
+    						<property name="attributeName" value="responsibilityCenterCode"/>
+    					</bean>
+    				</property>
+    				<property name="documentValues">
+    					<list>
+    						<value>newMaintainableObject.businessObject.responsibilityCenterCode</value>
+    					</list>
+    				</property>
+    			</bean>
+    		</list>
+    	</property>
+	</bean>
+	
+</beans>

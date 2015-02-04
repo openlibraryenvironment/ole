@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="OLEEResourceLicense" parent="OLEEResourceLicense-parentBean"/>
+
+    <bean id="OLEEResourceLicense-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.select.document.OLEEResourceLicense"/>
+        <property name="titleAttribute" value="oleLicenseRequestId"/>
+        <property name="objectLabel" value="License Request"/>
+
+        <property name="attributes">
+            <list>
+                <ref bean="OleLicenseRequestBo-oleEResourceLicenseId"/>
+                <ref bean="OleLicenseRequestBo-oleERSIdentifier"/>
+                <ref bean="OleLicenseRequestBo-oleLicenseRequestId"/>
+                <ref bean="OleLicenseRequestBo-licenseDocumentNumber"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="OleLicenseRequestBo-oleEResourceLicenseId" parent="OleLicenseRequestBo-oleEResourceLicenseId-parentBean"/>
+
+    <bean id="OleLicenseRequestBo-oleEResourceLicenseId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="E-Resource License Request Id"/>
+        <property name="maxLength" value="10"/>
+        <property name="validationPattern">
+            <bean parent="NumericValidationPattern"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+        <property name="name" value="oleEResourceLicenseId"/>
+        <property name="label" value="E-Resource License Request Id"/>
+        <property name="description" value="E-Resource License Request Id"/>
+    </bean>
+
+    <bean id="OleLicenseRequestBo-oleERSIdentifier" parent="OleLicenseRequestBo-oleERSIdentifier-parentBean"/>
+
+    <bean id="OleLicenseRequestBo-oleERSIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="E-Resource Id"/>
+        <property name="maxLength" value="40"/>
+        <property name="validationPattern">
+            <bean parent="NumericValidationPattern"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+        <property name="name" value="oleERSIdentifier"/>
+        <property name="label" value="E-Resource Id"/>
+        <property name="description" value="E-Resource Id"/>
+    </bean>
+
+    <bean id="OleLicenseRequestBo-licenseDocumentNumber" parent="OleLicenseRequestBo-licenseDocumentNumber-parentBean"/>
+
+    <bean id="OleLicenseRequestBo-licenseDocumentNumber-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="License Request document Number"/>
+        <property name="maxLength" value="40"/>
+        <property name="validationPattern">
+            <bean parent="NumericValidationPattern"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+        <property name="name" value="licenseDocumentNumber"/>
+        <property name="label" value="License Request Doc Num"/>
+        <property name="description" value="License Request Document Number"/>
+    </bean>
+
+    <bean id="OleLicenseRequestBo-oleLicenseRequestId" parent="OleLicenseRequestBo-oleLicenseRequestId-parentBean"/>
+
+    <bean id="OleLicenseRequestBo-oleLicenseRequestId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="License Request Id"/>
+        <property name="maxLength" value="10"/>
+        <property name="validationPattern">
+            <bean parent="NumericValidationPattern"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+        <property name="name" value="oleLicenseRequestId"/>
+        <property name="label" value="License Request Id"/>
+        <property name="description" value="License Request Id"/>
+    </bean>
+
+
+
+</beans>

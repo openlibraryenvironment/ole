@@ -1,0 +1,21 @@
+<collection>
+    <record>
+        <leader></leader>
+        <controlfield tag="001"></controlfield>
+        <datafield tag="100">
+            <subfield code="a">Agatha Chrisyie</subfield>
+        </datafield>
+        <datafield tag="245">
+            <subfield code="a">And Then There Where None</subfield>
+        </datafield>
+        <datafield tag="260">
+            <subfield code="b">Bakshi</subfield>
+        </datafield>
+        <datafield tag="020">
+            <subfield code="a">9872540256</subfield>
+        </datafield>
+        <datafield tag="260">
+            <subfield code="c">9/10/2011</subfield>
+        </datafield>
+    </record>
+</collection>

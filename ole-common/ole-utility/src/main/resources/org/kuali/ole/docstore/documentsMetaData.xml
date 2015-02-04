@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<documentsMetaData>
+
+	<document category="work" type="bib" format="marc">
+		<field name="Author_display">
+			<include>100-a,110-a,111-a,700-a,710-a,711-a,800-a,810-a,811-a,400-a,410-a,411-a</include>
+			<exclude>100-6,110-6,111-t,700-t,710-t,711-t,800-t,810-t,811-t,400-t,410-t,411-t</exclude>
+		</field>
+		<field name="Author_search">
+			<include>100,110,111,700,710,711,800,810,811,400,410,411</include>
+			<exclude>100-6,110-6,111-t,700-t,710-t,711-t,800-t,810-t,811-t,400-t,410-t,411-t</exclude>
+		</field>
+		<field name="Author_facet">
+			<include>100-a,110-a,111-a,700-a,710-a,711-a,800-a,810-a,811-a,400-a,410-a,411-a</include>
+			<exclude>100-6,110-6,111-t,700-t,710-t,711-t,800-t,810-t,811-t,400-t,410-t,411-t</exclude>
+		</field>
+		<field name="Author_sort">
+			<include>100-a,110-a,111-a,700-a,710-a,711-a,800-a,810-a,811-a,400-a,410-a,411-a</include>
+			<exclude>100-6,110-6,111-t,700-t,710-t,711-t,800-t,810-t,811-t,400-t,410-t,411-t</exclude>
+		</field>
+		<field name="Barcode_display">
+			<include>999-i</include>
+		</field>
+		<field name="Barcode_search">
+			<include>999-i</include>
+		</field>
+		<field name="Description_display">
+			<include>505-a</include>
+		</field>
+		<field name="Description_search">
+			<include>505-a</include>
+		</field>
+		<field name="Edition_display">
+			<include>250-a;b</include>
+		</field>
+		<field name="Format_display" />
+		<field name="Format_search" />
+		<field name="Format_facet" />
+		<field name="FormGenre_display">
+			<include>655-a;v</include>
+		</field>
+		<field name="FormGenre_search">
+			<include>655-a;v</include>
+		</field>
+		<field name="Genre_facet">
+			<include>655-a;v</include>
+		</field>
+		<field name="ISBN_display">
+			<include>020-a;z</include>
+		</field>
+		<field name="ISBN_search">
+			<include>020-a;z</include>
+		</field>
+		<field name="ISSN_display">
+			<include>022-a;z</include>
+		</field>
+		<field name="ISSN_search">
+			<include>022-a;z</include>
+		</field>
+		<field name="common_identifier_search">
+			<include>020-a;z,022-a;z</include>
+		</field>
+		<field name="Language_display" />
+		<field name="Language_search" />
+		<field name="Language_facet" />
+		<field name="Location_display">
+			<include>856-u</include>
+		</field>
+		<field name="Location_search">
+			<include>856-u</include>
+		</field>
+		<field name="PublicationDate_display" />
+		<field name="PublicationDate_search" />
+		<field name="PublicationDate_facet" />
+		<field name="PublicationDate_sort" />
+		<field name="PublicationPlace_display">
+			<include>260-a</include>
+		</field>
+		<field name="PublicationPlace_search">
+			<include>260-a</include>
+		</field>
+		<field name="Publisher_display">
+			<include>260-a;b;c</include>
+		</field>
+		<field name="Publisher_search">
+			<include>260-b</include>
+		</field>
+		<field name="Subject_display">
+			<include>600-a,610-a,611-a,630-a,650-a,651-a,653-a,69*-a</include>
+			<exclude>600-6,610-6,611-6,630-6,650-6,651-6,653-6,69*-6</exclude>
+		</field>
+		<field name="Subject_facet">
+			<include>600-a,610-a,611-a,630-a,650-a,651-a,653-a,69*-a</include>
+			<exclude>600-6,610-6,611-6,630-6,650-6,651-6,653-6,69*-6</exclude>
+		</field>
+		<field name="Subject_search">
+			<include>600,610,611,630,650,651,653,69*</include>
+			<exclude>600-6,610-6,611-6,630-6,650-6,651-6,653-6,69*-6</exclude>
+		</field>
+		<field name="Title_display">
+			<include>245-a;b</include>
+			<exclude>245-c,245-6</exclude>
+		</field>
+		<field name="Title_search">
+			<include>245,130,240,246,247,440,490,730,740,773,774,780,785,830,840</include>
+			<exclude>245-c,245-6,245-c,245-6,130-c,130-6,240-c,240-6,246-c,246-6,247-c,247-6,440-c,440-6,490-c,490-6,730-c,730-6,740-c,740-6,773-c,773-6,774-c,774-6,780-c,780-6,785-c,785-6,830-c,830-6,840-c,840-6
+			</exclude>
+		</field>
+		<field name="Title_sort">
+			<include>245-a;b</include>
+			<exclude>245-c,245-6</exclude>
+		</field>
+		<field name="SystemControlNumber">
+			<include>035-a</include>
+		</field>
+	</document>
+
+	<document category="work" type="bib" format="dublin">
+		<field name="Author_display">
+			<element>contributor</element>
+			<qualifier>author</qualifier>
+		</field>
+		<field name="Author_search">
+			<element>contributor</element>
+			<qualifier>author</qualifier>
+		</field>
+		<field name="Author_facet">
+			<element>contributor</element>
+			<qualifier>author</qualifier>
+		</field>
+        <field name="Author_sort">
+            <element>contributor</element>
+            <qualifier>author</qualifier>
+        </field>
+        <field name="Format_display">
+			<element>format</element>
+			<qualifier>mimetype</qualifier>
+		</field>
+		<field name="Format_search">
+			<element>format</element>
+			<qualifier>mimetype</qualifier>
+		</field>
+		<field name="Format_facet">
+			<element>format</element>
+			<qualifier>mimetype</qualifier>
+		</field>
+		<field name="Language_display">
+			<element>language</element>
+			<qualifier>iso</qualifier>
+		</field>
+		<field name="Language_search">
+			<element>language</element>
+			<qualifier>iso</qualifier>
+		</field>
+		<field name="Language_facet">
+			<element>language</element>
+			<qualifier>iso</qualifier>
+		</field>
+		<field name="PublicationDate_display">
+			<element>date</element>
+			<qualifier>issued</qualifier>
+		</field>
+		<field name="PublicationDate_search">
+			<element>date</element>
+			<qualifier>issued</qualifier>
+		</field>
+		<field name="PublicationDate_facet">
+			<element>date</element>
+			<qualifier>issued</qualifier>
+		</field>
+        <field name="PublicationDate_sort">
+			<element>date</element>
+			<qualifier>issued</qualifier>
+		</field>
+		<field name="Publisher_display">
+			<element>publisher</element>
+		</field>
+		<field name="Publisher_search">
+			<element>publisher</element>
+		</field>
+        <field name="Subject_display">
+			<element>subject</element>
+		</field>
+		<field name="Subject_search">
+			<element>subject</element>
+		</field>
+		<field name="Subject_facet">
+			<element>subject</element>
+		</field>
+		<field name="Title_display">
+			<element>title</element>
+		</field>
+		<field name="Title_search">
+			<element>title</element>
+		</field>
+        <field name="Title_sort">
+			<element>title</element>
+		</field>
+		<field name="Type_display">
+			<element>type</element>
+		</field>
+		<field name="Type_search">
+			<element>type</element>
+		</field>
+		<field name="Genre_facet">
+			<element>type</element>
+		</field>
+	</document>
+
+	<document category="work" type="bib" format="dublinunq">
+		<field name="Author_display">
+			<tag>dc:creator</tag>
+		</field>
+		<field name="Author_search">
+			<tag>dc:creator</tag>
+		</field>
+		<field name="Author_facet">
+			<tag>dc:creator</tag>
+		</field>
+        <field name="Author_sort">
+			<tag>dc:creator</tag>
+		</field>
+		<field name="Description_display">
+			<tag>dc:description</tag>
+		</field>
+		<field name="Description_search">
+			<tag>dc:description</tag>
+		</field>
+		<field name="Format_display">
+			<tag>dc:format</tag>
+		</field>
+		<field name="Format_search">
+			<tag>dc:format</tag>
+		</field>
+		<field name="Format_facet">
+			<tag>dc:format</tag>
+		</field>
+		<field name="ISBN_display">
+			<tag>dc:identifier</tag>
+		</field>
+		<field name="ISBN_search">
+			<tag>dc:identifier</tag>
+		</field>
+		<field name="ISSN_display">
+			<tag>dc:identifier</tag>
+		</field>
+		<field name="ISSN_search">
+			<tag>dc:identifier</tag>
+		</field>
+		<field name="Language_display">
+			<tag>dc:language</tag>
+		</field>
+		<field name="Language_search">
+			<tag>dc:language</tag>
+		</field>
+		<field name="Language_facet">
+			<tag>dc:language</tag>
+		</field>
+		<field name="PublicationDate_display">
+			<tag>dc:date</tag>
+		</field>
+		<field name="PublicationDate_search">
+			<tag>dc:date</tag>
+		</field>
+		<field name="PublicationDate_facet">
+			<tag>dc:date</tag>
+		</field>
+        <field name="PublicationDate_sort">
+			<tag>dc:date</tag>
+		</field>
+		<field name="Publisher_display">
+			<tag>dc:publisher</tag>
+		</field>
+		<field name="Publisher_search">
+			<tag>dc:publisher</tag>
+		</field>
+
+		<field name="Subject_display">
+			<tag>dc:subject</tag>
+		</field>
+		<field name="Subject_search">
+			<tag>dc:subject</tag>
+		</field>
+		<field name="Subject_facet">
+			<tag>dc:subject</tag>
+		</field>
+		<field name="Title_display">
+			<tag>dc:title</tag>
+		</field>
+		<field name="Title_search">
+			<tag>dc:title</tag>
+		</field>
+        <field name="Title_sort">
+			<tag>dc:title</tag>
+		</field>
+		<field name="Type_display">
+			<tag>dc:type</tag>
+		</field>
+		<field name="Type_search">
+			<tag>dc:type</tag>
+		</field>
+		<field name="Genre_facet">
+			<tag>dc:type</tag>
+		</field>
+		<field name="Coverage_display">
+			<tag>dc:coverage</tag>
+		</field>
+		<field name="Coverage_search">
+			<tag>dc:coverage</tag>
+		</field>
+		<field name="Relation_display">
+			<tag>dc:relation</tag>
+		</field>
+		<field name="Relation_search">
+			<tag>dc:relation</tag>
+		</field>
+
+	</document>
+
+</documentsMetaData>

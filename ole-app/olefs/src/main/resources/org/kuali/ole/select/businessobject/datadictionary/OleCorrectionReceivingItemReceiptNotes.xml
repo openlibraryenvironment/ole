@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd       http://rice.kuali.org/dd        http://rice.kuali.org/dd/dd.xsd">
+<!--
+   - Copyright 2011 The Kuali Foundation.
+   - 
+   - Licensed under the Educational Community License, Version 2.0 (the "License");
+   - you may not use this file except in compliance with the License.
+   - You may obtain a copy of the License at
+   - 
+   - http://www.opensource.org/licenses/ecl2.php
+   - 
+   - Unless required by applicable law or agreed to in writing, software
+   - distributed under the License is distributed on an "AS IS" BASIS,
+   - WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   - See the License for the specific language governing permissions and
+   - limitations under the License.
+ -->
+
+  <bean id="OleCorrectionReceivingItemReceiptNotes" parent="OleCorrectionReceivingItemReceiptNotes-parentBean"/>
+
+  <bean id="OleCorrectionReceivingItemReceiptNotes-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.ole.select.businessobject.OleCorrectionReceivingItemReceiptNotes"/>    
+    <property name="titleAttribute" value="receivingCorrectionLineItemNoteId"/>
+    <property name="objectLabel" value="Ole Receiving Correction Item Notes"/>
+    <property name="attributes">
+      <list>
+        <ref bean="OleCorrectionReceivingItemReceiptNotes-receivingCorrectionLineItemNoteId"/>
+        <ref bean="OleCorrectionReceivingItemReceiptNotes-noteTypeId"/>
+        <ref bean="OleCorrectionReceivingItemReceiptNotes-notes"/>
+        <ref bean="OleCorrectionReceivingItemReceiptNotes-isNotesAck"/>
+      </list>
+    </property>	
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="OleCorrectionReceivingItemReceiptNotes-receivingCorrectionLineItemNoteId" parent="OleCorrectionReceivingItemReceiptNotes-receivingCorrectionLineItemNoteId-parentBean"/>
+
+  <bean id="OleCorrectionReceivingItemReceiptNotes-receivingCorrectionLineItemNoteId-parentBean"  abstract="true" parent="AttributeDefinition">
+    <property name="name" value="receivingCorrectionLineItemNoteId"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Note Type"/>
+    <property name="shortLabel" value="Note Type"/>
+    <property name="maxLength" value="8"/>
+    <property name="validationPattern">
+      <ref bean="NumericValidation" />
+    </property>
+     <property name="control">
+      <ref bean="HiddenControl" />
+    </property>
+  </bean>
+  
+  <bean id="OleCorrectionReceivingItemReceiptNotes-noteTypeId" parent="OleCorrectionReceivingItemReceiptNotes-noteTypeId-parentBean"/>
+
+  <bean id="OleCorrectionReceivingItemReceiptNotes-noteTypeId-parentBean" abstract="true" parent="OleNoteType-noteTypeId">
+  	<property name="name" value="noteTypeId"/>
+    <property name="label" value="Note Type"/>
+    <property name="shortLabel" value="Note Type"/> 
+   	<property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.ole.select.businessobject.options.OleNoteTypeValuesFinder" p:includeKeyInLabel="false"/>
+    </property>
+  </bean> 
+    
+    
+
+  <bean id="OleCorrectionReceivingItemReceiptNotes-notes" parent="OleCorrectionReceivingItemReceiptNotes-notes-parentBean"/>
+
+  <bean id="OleCorrectionReceivingItemReceiptNotes-notes-parentBean" abstract="true" parent="AttributeDefinition">
+   <property name="name" value="notes"/>
+    <property name="label" value="Notes"/>
+    <property name="shortLabel" value="Text"/>
+    <property name="maxLength" value="2000"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextareaControlDefinition" p:rows="3" p:cols="50"/>
+    </property>   
+  </bean>
+  
+  <bean id="OleCorrectionReceivingItemReceiptNotes-isNotesAck" parent="OleCorrectionReceivingItemReceiptNotes-isNotesAck-parentBean"/>
+  
+  <bean id="OleCorrectionReceivingItemReceiptNotes-isNotesAck-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="notesAck"/>
+    <property name="label" value="Notes Acknowledge"/>
+	<property name="shortLabel" value="Acknowledge"/>
+	<property name="maxLength" value="10"/>
+	<property name="control">
+    	<bean parent="CheckboxControlDefinition"/>
+    </property>  
+  </bean> 
+</beans>

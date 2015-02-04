@@ -1,0 +1,1401 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2005-2008 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <!-- PURAP Definitions -->
+
+    <bean id="PurchasingAccountsPayable-accountingLineAmountAndPercentNullsValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingAccountingLineAmountAndPercentNullsValidation" abstract="true"/>
+
+    <bean id="PurchasingAccountsPayable-accountPercentBetween0And100Validation" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingAccountsPayableAccountPercentBetween0And100Validation" abstract="true"/>
+
+    <bean id="PurchasingAccountsPayable-bankCodeValidation" class="org.kuali.ole.module.purap.document.validation.impl.AccountsPayableBankCodeValidation" abstract="true"/>
+
+    <bean id="PurchasingAccountsPayable-belowTheLineValuesValidation" parent="PurchasingAccountsPayable-belowTheLineValuesValidation-parentBean" scope="prototype" />
+
+    <bean id="PurchasingAccountsPayable-belowTheLineValuesValidation-parentBean" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingAccountsPayableBelowTheLineValuesValidation" abstract="true">
+        <property name="dataDictionaryService" ref="dataDictionaryService" />
+        <property name="parameterService" ref="parameterService" />
+    </bean>
+
+    <bean id="PurchasingAccountsPayable-objectCodeOverrideBranchingValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingAccountsPayableObjectCodeOverrideBranchingValidation" abstract="true">
+        <property name="parameterService" ref="parameterService" />
+        <property name="responsibleProperty" value="financialObjectCode" />
+        <property name="propertyPath" value="financialObjectCode" />
+        <property name="parameterToCheckAgainst" value="OBJECT_CODES_OVERRIDING_RESTRICTIONS" />
+    </bean>
+
+    <bean id="PurchasingAccountsPayable-newIndividualItemValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingAccountsPayableNewIndividualItemValidation" abstract="true">
+        <property name="dataDictionaryService" ref="dataDictionaryService" />
+        <property name="parameterService" ref="parameterService" />
+        <property name="belowTheLineValuesValidation" ref="PurchasingAccountsPayable-belowTheLineValuesValidation" />
+    </bean>
+
+    <bean id="PurchasingAccountsPayable-processVendorValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingAccountsPayableProcessVendorValidation" abstract="true"/>
+
+    <bean id="PurchasingAccountsPayable-accountingLineAccessibleValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingAccountsPayableAccountingLineAccessibleValidation" abstract="true">
+        <property name="dataDictionaryService" ref="dataDictionaryService" />
+    </bean>
+
+    <bean id="PaymentRequest-accountingLineAccessibleValidation" class="org.kuali.ole.module.purap.document.validation.impl.PaymentRequestAccountingLineAccessibleValidation" abstract="true">
+        <property name="dataDictionaryService" ref="dataDictionaryService" />
+    </bean>
+
+    <bean id="Invoice-accountingLineAccessibleValidation" class="org.kuali.ole.module.purap.document.validation.impl.InvoiceAccountingLineAccessibleValidation" abstract="true">
+        <property name="dataDictionaryService" ref="dataDictionaryService" />
+    </bean>
+
+    <bean id="PurchasingAccountsPayable-extendedPriceNonZeroBranchingValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingAccountsPayableExtendedPriceNonZeroBranchingValidation" abstract="true"/>
+
+    <bean id="PurchasingAccountsPayable-lineItemIndicatorBranchingValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingAccountsPayableLineItemIndicatorBranchingValidation" abstract="true"/>
+
+    <bean id="PurchasingAccountsPayable-hasAccountsValidation" parent="PurchasingAccountsPayable-hasAccountsValidation-parentBean" scope="prototype"/>
+    <bean id="PurchasingAccountsPayable-hasAccountsValidation-parentBean" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingAccountsPayableHasAccountsValidation" abstract="true"/>
+
+    <bean id="PurchasingAccountsPayable-accountPercentValidation" parent="PurchasingAccountsPayable-accountPercentValidation-parentBean" scope="prototype"/>
+    <bean id="PurchasingAccountsPayable-accountPercentValidation-parentBean" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingAccountsPayableAccountPercentValidation" abstract="true"/>
+
+    <bean id="PurchasingAccountsPayable-accountTotalAmountValidation" parent="PurchasingAccountsPayable-accountTotalAmountValidation-parentBean" scope="prototype"/>
+    <bean id="PurchasingAccountsPayable-accountTotalAmountValidation-parentBean" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingAccountsPayableAccountTotalValidation" abstract="true"/>
+
+    <bean id="PurchasingAccountsPayable-accountTotalValidation" parent="PurchasingAccountsPayable-accountTotalValidation-parentBean" scope="prototype"/>
+    <bean id="PurchasingAccountsPayable-accountTotalValidation-parentBean" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingAccountsPayableAccountTotalValidation" abstract="true"/>
+
+    <bean id="PaymentRequest-accountTotalValidation" parent="PaymentRequest-accountTotalValidation-parentBean" scope="prototype"/>
+    <bean id="PaymentRequest-accountTotalValidation-parentBean" class="org.kuali.ole.module.purap.document.validation.impl.PaymentRequestAccountTotalValidation" abstract="true"/>
+
+    <bean id="Invoice-accountTotalValidation" parent="Invoice-accountTotalValidation-parentBean" scope="prototype"/>
+    <bean id="Invoice-accountTotalValidation-parentBean" class="org.kuali.ole.module.purap.document.validation.impl.InvoiceAccountTotalValidation" abstract="true"/>
+
+
+    <bean id="PurchasingAccountsPayable-uniqueAccountingStringsValidation" parent="PurchasingAccountsPayable-uniqueAccountingStringsValidation-parentBean" scope="prototype"/>
+    <bean id="PurchasingAccountsPayable-uniqueAccountingStringsValidation-parentBean" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingAccountsPayableUniqueAccountingStringsValidation" abstract="true"/>
+
+    <bean id="PurchasingAccountsPayable-accountHasAtleastOnePercentValidation" parent="PurchasingAccountsPayable-accountHasAtleastOnePercentValidation-parentBean" scope="prototype"/>
+    <bean id="PurchasingAccountsPayable-accountHasAtleastOnePercentValidation-parentBean" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingAccountsPayableAccountAtleastOneLineHasPercentValidation" abstract="true"/>
+
+    <bean id="PurchasingAccountsPayable-accountingLineAmountValidation" parent="PurchasingAccountsPayable-accountingLineAmountValidation-parentBean" scope="prototype"/>
+    <bean id="PurchasingAccountsPayable-accountingLineAmountValidation-parentBean" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingAccountingLineAmountValidation" abstract="true"/>
+
+    <bean id="PurchasingAccountsPayable-processAccountValidation" parent="PurchasingAccountsPayable-processAccountValidation-parentBean" scope="prototype" />
+
+    <bean id="PurchasingAccountsPayable-processAccountValidation-parentBean" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingAccountsPayableProcessAccountValidation" abstract="true">
+        <property name="parameterProperties">
+            <list>
+                <bean parent="itemIterationSubjectFieldConversation" />
+            </list>
+        </property>
+        <property name="hasAccountsValidation" ref="PurchasingAccountsPayable-hasAccountsValidation"/>
+        <property name="accountHasAtleastOnePercentValidation" ref="PurchasingAccountsPayable-accountHasAtleastOnePercentValidation"/>
+        <property name="accountLineAmountValidation" ref="PurchasingAccountsPayable-accountingLineAmountValidation"/>
+        <property name="accountPercentValidation" ref="PurchasingAccountsPayable-accountPercentValidation"/>
+        <property name="accountTotalValidation" ref="PurchasingAccountsPayable-accountTotalValidation"/>
+        <property name="accountingStringsValidation" ref="PurchasingAccountsPayable-uniqueAccountingStringsValidation"/>
+    </bean>
+
+    <bean id="PurchasingAccountsPayable-addItemValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingAccountsPayableAddItemValidation" abstract="true">
+        <property name="dictionaryValidationService" ref="dictionaryValidationService" />
+    </bean>
+
+    <bean id="PurchasingAccountsPayable-importItemValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingAccountsPayableImportItemValidation" abstract="true">
+        <property name="dictionaryValidationService" ref="dictionaryValidationService" />
+    </bean>
+
+    <bean id="PurchasingAccountsPayable-itemConsideredEnteredBranchingValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingAccountsPayableItemConsideredEnteredBranchingValidation" abstract="true" />
+
+    <bean id="PurchasingAccountsPayable-requiresAccountValidationBranchingValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingAccountsPayableRequiresAccountValidationBranchingValidation" abstract="true" />
+
+    <bean id="PurchasingAccountsPayable-fullDocumentEntryCompletedBranchingValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingAccountsPayableFullDocumentEntryCompletedBranchingValidation" abstract="true">
+        <property name="purapService" ref="purapService" />
+    </bean>
+
+    <bean id="PurchasingAccountsPayable-fixErrorPathValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingAccountsPayableFixErrorPathValidation" abstract="true" />
+
+    <bean id="PurchasingAccountsPayable-itemTypeTaxPolicyValidation" class="org.kuali.ole.module.purap.document.validation.impl.ItemTypeTaxPolicyValidation" abstract="true">
+        <property name="purapService" ref="purapService"/>
+    </bean>
+
+    <!-- Purchasing Definitions -->
+    <bean id="Purchasing-accountingLineDataDictionaryValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurapAccountingLineDataDictionaryValidation" abstract="true">
+        <property name="accountingLineRuleHelperService"><ref bean="purchasingAccountingLineRuleHelperService" /></property>
+    </bean>
+
+    <bean id="OLEPurchasing-accountingLineDataDictionaryValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurapAccountingLineDataDictionaryValidation" abstract="true">
+        <property name="accountingLineRuleHelperService"><ref bean="OLEPurchasingAccountingLineRuleHelperService" /></property>
+    </bean>
+
+    <bean id="Purchasing-belowTheLineItemNoUnitCostValidation" parent="Purchasing-belowTheLineItemNoUnitCostValidation-parentBean" scope="prototype"/>
+    <bean id="Purchasing-belowTheLineItemNoUnitCostValidation-parentBean" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingBelowTheLineItemNoUnitCostValidation" abstract="true"/>
+
+    <bean id="Purchasing-itemQuantityValidation" parent="Purchasing-itemQuantityValidation-parentBean" scope="prototype"/>
+    <bean id="Purchasing-itemQuantityValidation-parentBean" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingItemQuantityValidation" abstract="true">
+        <property name="dataDictionaryService" ref="dataDictionaryService" />
+    </bean>
+
+    <bean id="Purchasing-itemDescriptionValidation" parent="Purchasing-itemDescriptionValidation-parentBean" scope="prototype"/>
+    <bean id="Purchasing-itemDescriptionValidation-parentBean" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingItemDescriptionValidation" abstract="true">
+        <property name="dataDictionaryService" ref="dataDictionaryService" />
+    </bean>
+
+    <bean id="Purchasing-unitOfMeasureValidation" parent="Purchasing-unitOfMeasureValidation-parentBean" scope="prototype"/>
+    <bean id="Purchasing-unitOfMeasureValidation-parentBean" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingUnitOfMeasureValidation" abstract="true">
+        <property name="dataDictionaryService" ref="dataDictionaryService" />
+        <property name="businessObjectService" ref="businessObjectService" />
+    </bean>
+
+    <bean id="Purchasing-itemUnitPriceValidation" parent="Purchasing-itemUnitPriceValidation-parentBean" scope="prototype"/>
+    <bean id="Purchasing-itemUnitPriceValidation-parentBean" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingItemUnitPriceValidation" abstract="true">
+        <property name="dataDictionaryService" ref="dataDictionaryService" />
+    </bean>
+
+    <bean id="Purchasing-commodityCodesForDistributionValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingCommodityCodesForDistributionValidation" abstract="true">
+        <property name="businessObjectService" ref="businessObjectService" />
+    </bean>
+
+    <bean id="Purchasing-changeSystemValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingChangeSystemValidation" abstract="true"/>
+
+    <bean id="Purchasing-selectSystemValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingSelectSystemValidation" abstract="true"/>
+
+    <bean id="Purchasing-addItemCapitalAssetValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingAddItemCapitalAssetValidation" abstract="true">
+        <property name="capitalAssetBuilderModuleService" ref="capitalAssetBuilderModuleService" />
+    </bean>
+
+    <bean id="Purchasing-addCapitalAssetLocationValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingAddCapitalAssetLocationValidation" abstract="true" />
+
+    <bean id="Purchasing-newIndividualItemValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingNewIndividualItemValidation" abstract="true">
+        <property name="dataDictionaryService" ref="dataDictionaryService" />
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="capitalAssetBuilderModuleService" ref="capitalAssetBuilderModuleService" />
+        <property name="parameterService" ref="parameterService" />
+        <property name="unitOfMeasureValidation" ref="Purchasing-unitOfMeasureValidation" />
+        <property name="itemUnitPriceValidation" ref="Purchasing-itemUnitPriceValidation" />
+        <property name="itemDescriptionValidation" ref="Purchasing-itemDescriptionValidation" />
+        <property name="itemQuantityValidation" ref="Purchasing-itemQuantityValidation" />
+        <property name="belowTheLineItemNoUnitCostValidation" ref="Purchasing-belowTheLineItemNoUnitCostValidation" />
+        <property name="belowTheLineValuesValidation" ref="PurchasingAccountsPayable-belowTheLineValuesValidation" />
+    </bean>
+
+    <bean id="Purchasing-processVendorValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingProcessVendorValidation" abstract="true">
+        <property name="vendorService" ref="vendorService" />
+        <property name="parameterService" ref="parameterService" />
+        <property name="postalCodeValidationService" ref="postalCodeValidationService" />
+    </bean>
+
+
+    <bean id="PurchasingAccountsPayable-processRequestorPhoneAndEmailAddressValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingProcessRequestorPhoneAndEmailAddressValidation" abstract="true">
+    </bean>
+
+
+    <bean id="Purchasing-capitalAssetValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingCapitalAssetValidation" abstract="true">
+        <property name="purchasingService" ref="purchasingService" />
+        <property name="capitalAssetBuilderModuleService" ref="capitalAssetBuilderModuleService" />
+    </bean>
+
+    <bean id="Purchasing-paymentInfoValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingPaymentInfoValidation" abstract="true">
+        <property name="dateTimeService" ref="dateTimeService" />
+        <property name="universityDateService" ref="universityDateService" />
+    </bean>
+
+    <bean id="Purchasing-updateCamsViewValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingUpdateCamsViewValidation" abstract="true">
+        <property name="capitalAssetBuilderModuleService" ref="capitalAssetBuilderModuleService" />
+    </bean>
+
+
+    <bean id="Purchasing-deliveryValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingDeliveryValidation" abstract="true">
+        <property name="dateTimeService" ref="dateTimeService" />
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="postalCodeValidationService" ref="postalCodeValidationService" />
+    </bean>
+
+    <bean id="Purchasing-processTotalCostValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingProcessTotalCostValidation" abstract="true"/>
+
+    <bean id="Purchasing-processContainsAtLeastOneItemValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingProcessContainsAtLeastOneItemValidation" abstract="true"/>
+
+    <bean id="Purchasing-processTradeInValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingProcessTradeInValidation" abstract="true"/>
+
+    <bean id="Purchasing-commodityCodeValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingCommodityCodeValidation" abstract="true">
+        <property name="dataDictionaryService" ref="dataDictionaryService" />
+        <property name="businessObjectService" ref="businessObjectService" />
+    </bean>
+
+    <bean id="Purchasing-addItemValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingAddItemValidation" abstract="true">
+        <property name="dataDictionaryService" ref="dataDictionaryService" />
+        <property name="dictionaryValidationService" ref="dictionaryValidationService" />
+        <property name="businessObjectService" ref="businessObjectService" />
+    </bean>
+
+    <bean id="Purchasing-importItemValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingImportItemValidation" abstract="true">
+        <property name="dataDictionaryService" ref="dataDictionaryService" />
+        <property name="dictionaryValidationService" ref="dictionaryValidationService" />
+        <property name="businessObjectService" ref="businessObjectService" />
+    </bean>
+
+    <bean id="Purchasing-updateAccountingLineValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingUpdateAccountingLineValidation" abstract="true"/>
+
+    <bean id="Purchasing-accountingLinePercentValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingAccountingLinePercentValidation" abstract="true"/>
+
+    <bean id="itemIterationSubjectFieldConversation" parent="validationFieldConversion">
+        <property name="sourceEventProperty" value="iterationSubject" />
+        <property name="targetValidationProperty" value="itemForValidation" />
+    </bean>
+
+    <bean id="Purchasing-newProcessItem-itemsCollection-itemConsideredEnteredBranchingValidation" abstract="true" parent="PurchasingAccountsPayable-itemConsideredEnteredBranchingValidation" scope="prototype">
+        <property name="branchMap">
+            <map>
+                <entry>
+                    <key><value>needsIndividualItemValidation</value></key>
+                    <bean parent="Purchasing-itemConsideredEnteredCompositeValidation-parentBean" scope="prototype"/>
+                </entry>
+            </map>
+        </property>
+        <property name="parameterProperties">
+            <list>
+                <bean parent="itemIterationSubjectFieldConversation" />
+            </list>
+        </property>
+    </bean>
+    <!-- End of itemConsideredEnteredBranchingValidation -->
+
+    <!-- These are the validations from within the loop of items in newProcessItemValidation in
+                     PurchasingAccountsPayableDocumentRuleBase
+-->
+    <bean id="Purchasing-newProcessItem-itemsCollectionValidation" abstract="true" parent="CollectionValidation" scope="prototype">
+        <property name="collectionProperty" value="document.items" />
+        <property name="validations">
+            <list>
+                <bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+                    <property name="parameterProperties">
+                        <list>
+                            <bean parent="validationFieldConversion">
+                                <property name="sourceEventProperty" value="iterationSubject" />
+                                <property name="targetValidationProperty" value="businessObjectForValidation" />
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+
+                <!-- Need to do the itemConsideredEnteredBranchingValidation to determine whether
+                     we need to call the newIndividualItemValidation (not needed if item is not
+                     considered entered
+-->
+                <bean parent="Purchasing-newProcessItem-itemsCollection-itemConsideredEnteredBranchingValidation" abstract="true" />
+            </list>
+        </property>
+    </bean>
+    <!-- End of the newProcessItemValidation in PurchasingAccountsPayableDocumentRuleBase
+-->
+
+    <!-- New Process Item Validation Definitions -->
+    <bean id="Purchasing-newProcessItemValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+        <property name="quitOnFail" value="false" />
+        <property name="validations">
+            <list>
+                <bean parent="Purchasing-newProcessItem-itemsCollectionValidation" scope="prototype" />
+                <!-- All the validations from newProcessItemValidation in PurchasingDocumentRuleBase
+-->
+                <bean parent="Purchasing-processTotalCostValidation" scope="prototype" />
+                <bean parent="Purchasing-processContainsAtLeastOneItemValidation" scope="prototype" />
+                <bean parent="Purchasing-processTradeInValidation" scope="prototype" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Purchasing-itemConsideredEntered-requiresAccountValidationBranching-needsAccountValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+        <property name="validations">
+            <list>
+                <bean parent="PurchasingAccountsPayable-processAccountValidation-parentBean" scope="prototype">
+                    <property name="parameterProperties">
+                        <list>
+                            <bean parent="itemIterationSubjectFieldConversation" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Purchasing-itemConsideredEntered-requiresAccountValidationBranchingValidation" abstract="true" parent="PurchasingAccountsPayable-requiresAccountValidationBranchingValidation" scope="prototype">
+        <property name="branchMap">
+            <map>
+                <entry>
+                    <key><value>needsAccountValidation</value></key>
+                    <bean parent="Purchasing-itemConsideredEntered-requiresAccountValidationBranching-needsAccountValidation" scope="prototype" />
+                </entry>
+            </map>
+        </property>
+        <property name="parameterProperties">
+            <list>
+                <bean parent="itemIterationSubjectFieldConversation" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Purchasing-itemConsideredEnteredCompositeValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+        <property name="quitOnFail" value="false" />
+        <property name="validations">
+            <list>
+
+                <bean parent="Purchasing-newIndividualItemValidation" scope="prototype">
+                    <property name="parameterProperties">
+                        <list>
+                            <bean parent="itemIterationSubjectFieldConversation" />
+                        </list>
+                    </property>
+                </bean>
+
+                <!-- Need to do the purchasingAccountsPayableRequiresAccountValidationBranchingValidation to determine
+                     whether we need to call the processAccountValidation
+-->
+                <bean parent="Purchasing-itemConsideredEntered-requiresAccountValidationBranchingValidation" scope="prototype" />
+                <!-- End of purchasingAccountspayableRequiresAccountValidationBranchingValidation
+-->
+            </list>
+        </property>
+    </bean>
+
+    <!-- Requisition Definitions -->
+
+    <bean id="Requisition-newIndividualItemValidation" class="org.kuali.ole.module.purap.document.validation.impl.RequisitionNewIndividualItemValidation" abstract="true">
+        <property name="parameterService" ref="parameterService" />
+        <property name="dataDictionaryService" ref="dataDictionaryService" />
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="capitalAssetBuilderModuleService" ref="capitalAssetBuilderModuleService" />
+        <property name="unitOfMeasureValidation" ref="Purchasing-unitOfMeasureValidation" />
+        <property name="itemUnitPriceValidation" ref="Purchasing-itemUnitPriceValidation" />
+        <property name="itemDescriptionValidation" ref="Purchasing-itemDescriptionValidation" />
+        <property name="itemQuantityValidation" ref="Purchasing-itemQuantityValidation" />
+        <property name="belowTheLineItemNoUnitCostValidation" ref="Purchasing-belowTheLineItemNoUnitCostValidation" />
+        <property name="belowTheLineValuesValidation" ref="PurchasingAccountsPayable-belowTheLineValuesValidation" />
+    </bean>
+
+
+    <bean id="Purchasing-processReceivingValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingReceivingValidation" abstract="true"/>
+
+    <bean id="Purchasing-chartOrgValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingChartOrgValidation" abstract="true">
+        <property name="organizationService" ref="organizationService"/>
+        <property name="chartService" ref="chartService" />
+    </bean>
+
+    <bean id="Requisition-accountingLineAccessibleValidation" class="org.kuali.ole.module.purap.document.validation.impl.RequisitionAccountingLineAccessibleValidation" abstract="true">
+        <property name="dataDictionaryService" ref="dataDictionaryService" />
+    </bean>
+
+    <bean id="Requisition-processAdditionalValidation" class="org.kuali.ole.module.purap.document.validation.impl.RequisitionProcessAdditionalValidation" abstract="true"/>
+
+    <bean id="Requisition-requiresAccountValidationBranchingValidation" class="org.kuali.ole.module.purap.document.validation.impl.RequisitionRequiresAccountValidationBranchingValidation" abstract="true" />
+
+    <bean id="Requisition-accountClosedValidation" class="org.kuali.ole.module.purap.document.validation.impl.RequisitionAccountClosedValidation" abstract="true"/>
+
+    <bean id="Requisition-assignToTradeInValidation" class="org.kuali.ole.module.purap.document.validation.impl.RequisitionAssignToTradeInValidation" abstract="true">
+        <property name="dataDictionaryService" ref="dataDictionaryService" />
+    </bean>
+
+    <!-- Purchase Order Definitions -->
+
+    <bean id="PurchaseOrder-emptyItemWithAccountsValidation" parent="PurchaseOrder-emptyItemWithAccountsValidation-parentBean" scope="prototype"/>
+    <bean id="PurchaseOrder-emptyItemWithAccountsValidation-parentBean" class="org.kuali.ole.module.purap.document.validation.impl.PurchaseOrderEmptyItemWithAccountsValidation" abstract="true"/>
+
+    <bean id="PurchaseOrder-newIndividualItemValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurchaseOrderNewIndividualItemValidation" abstract="true">
+        <property name="parameterService" ref="parameterService" />
+        <property name="dataDictionaryService" ref="dataDictionaryService" />
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="capitalAssetBuilderModuleService" ref="capitalAssetBuilderModuleService" />
+        <property name="emptyItemsWithAccountsValidation" ref="PurchaseOrder-emptyItemWithAccountsValidation"/>
+        <property name="unitOfMeasureValidation" ref="Purchasing-unitOfMeasureValidation" />
+        <property name="itemUnitPriceValidation" ref="Purchasing-itemUnitPriceValidation" />
+        <property name="itemDescriptionValidation" ref="Purchasing-itemDescriptionValidation" />
+        <property name="itemQuantityValidation" ref="Purchasing-itemQuantityValidation" />
+        <property name="belowTheLineItemNoUnitCostValidation" ref="Purchasing-belowTheLineItemNoUnitCostValidation" />
+        <property name="belowTheLineValuesValidation" ref="PurchasingAccountsPayable-belowTheLineValuesValidation" />
+    </bean>
+
+    <bean id="PurchaseOrder-assignedUserValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurchaseOrderAssignedUserValidation" abstract="true">
+    </bean>
+
+    <bean id="PurchaseOrder-processVendorValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurchaseOrderProcessVendorValidation" abstract="true">
+        <property name="vendorService" ref="vendorService" />
+        <property name="dataDictionaryService" ref="dataDictionaryService" />
+        <property name="parameterService" ref="parameterService" />
+        <property name="postalCodeValidationService" ref="postalCodeValidationService" />
+    </bean>
+
+    <bean id="PurchaseOrder-accountingLineAccessibleValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurchaseOrderAccountingLineAccessibleValidation" abstract="true">
+        <property name="dataDictionaryService" ref="dataDictionaryService" />
+    </bean>
+
+    <bean id="PurchaseOrder-processVendorStipulationValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurchaseOrderProcessVendorStipulationValidation" abstract="true"/>
+
+    <bean id="PurchaseOrder-splitValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurchaseOrderSplitValidation" abstract="true">
+        <property name="purchaseOrderService" ref="purchaseOrderService" />
+    </bean>
+
+    <bean id="PurchaseOrder-addQuoteToVendorValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurchaseOrderAddQuoteToVendorValidation" abstract="true">
+        <property name="vendorService" ref="vendorService" />
+    </bean>
+
+    <bean id="PurchaseOrder-assignSensitiveDataValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurchaseOrderAssignSensitiveDataValidation" abstract="true" />
+
+    <bean id="PurchaseOrder-requiresAccountValidationBranchingValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurchaseOrderRequiresAccountValidationBranchingValidation" abstract="true" />
+
+    <bean id="PurchaseOrder-newProcessItem-documentItems-itemConsideredEnteredBranchingValidation" abstract="true" parent="PurchasingAccountsPayable-itemConsideredEnteredBranchingValidation" scope="prototype">
+        <property name="branchMap">
+            <map>
+                <entry>
+                    <key><value>needsIndividualItemValidation</value></key>
+                    <bean parent="PurchaseOrder-itemConsideredEnteredCompositeValidation-parentBean" scope="prototype"/>
+                </entry>
+            </map>
+        </property>
+        <property name="parameterProperties">
+            <list>
+                <bean parent="itemIterationSubjectFieldConversation" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PurchaseOrder-newProcessItem-documentItemsValidation" abstract="true" parent="CollectionValidation" scope="prototype">
+        <property name="collectionProperty" value="document.items" />
+        <property name="validations">
+            <list>
+                <bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+                    <property name="parameterProperties">
+                        <list>
+                            <bean parent="validationFieldConversion">
+                                <property name="sourceEventProperty" value="iterationSubject" />
+                                <property name="targetValidationProperty" value="businessObjectForValidation" />
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+
+                <!-- Need to do the itemConsideredEnteredBranchingValidation to determine whether
+                     we need to call the newIndividualItemValidation (not needed if item is not
+                     considered entered
+-->
+                <bean parent="PurchaseOrder-newProcessItem-documentItems-itemConsideredEnteredBranchingValidation" scope="prototype" />
+                <!-- End of itemConsideredEnteredBranchingValidation -->
+            </list>
+        </property>
+    </bean>
+
+    <!-- New Process Item Validation Definitions -->
+    <bean id="PurchaseOrder-newProcessItemValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+        <property name="quitOnFail" value="false" />
+        <property name="validations">
+            <list>
+                <!-- These are the validations from within the loop of items in newProcessItemValidation in
+                     PurchasingAccountsPayableDocumentRuleBase
+-->
+                <bean parent="PurchaseOrder-newProcessItem-documentItemsValidation" scope="prototype" />
+                <!-- End of the newProcessItemValidation in PurchasingAccountsPayableDocumentRuleBase
+-->
+                <!-- All the validations from newProcessItemValidation in PurchasingDocumentRuleBase
+-->
+                <bean parent="Purchasing-processTotalCostValidation" scope="prototype" />
+                <bean parent="Purchasing-processContainsAtLeastOneItemValidation" scope="prototype" />
+                <bean parent="Purchasing-processTradeInValidation" scope="prototype" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PurchaseOrder-itemConsideredEnteredComposite-requiresAccountValidationBranching-needsAccountValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+        <property name="validations">
+            <list>
+                <bean parent="PurchasingAccountsPayable-processAccountValidation-parentBean" scope="prototype">
+                    <property name="parameterProperties">
+                        <list>
+                            <bean parent="itemIterationSubjectFieldConversation" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PurchaseOrder-itemConsideredEnteredComposite-requiresAccountValidationBranchingValidation" abstract="true" parent="PurchaseOrder-requiresAccountValidationBranchingValidation" scope="prototype">
+        <property name="branchMap">
+            <map>
+                <entry>
+                    <key><value>needsAccountValidation</value></key>
+                    <bean parent="PurchaseOrder-itemConsideredEnteredComposite-requiresAccountValidationBranching-needsAccountValidation" scope="prototype" />
+                </entry>
+            </map>
+        </property>
+        <property name="parameterProperties">
+            <list>
+                <bean parent="itemIterationSubjectFieldConversation" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PurchaseOrder-itemConsideredEnteredCompositeValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+        <property name="quitOnFail" value="false" />
+        <property name="validations">
+            <list>
+
+                <bean parent="PurchaseOrder-newIndividualItemValidation" scope="prototype">
+                    <property name="parameterProperties">
+                        <list>
+                            <bean parent="itemIterationSubjectFieldConversation" />
+                        </list>
+                    </property>
+                </bean>
+
+                <!-- Need to do the purchaseOrderRequiresAccountValidationBranchingValidation to determine
+                     whether we need to call the processAccountValidation
+-->
+                <bean parent="PurchaseOrder-itemConsideredEnteredComposite-requiresAccountValidationBranchingValidation" scope="prototype" />
+                <!-- End of purchaseOrderRequiresAccountValidationBranchingValidation
+-->
+            </list>
+        </property>
+    </bean>
+
+    <!-- Purchase Order Amendment Definitions -->
+    <bean id="PurchaseOrderAmendment-newIndividualItemValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurchaseOrderAmendmentNewIndividualItemValidation" abstract="true">
+        <property name="parameterService" ref="parameterService" />
+        <property name="dataDictionaryService" ref="dataDictionaryService" />
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="purchaseOrderService" ref="purchaseOrderService" />
+        <property name="capitalAssetBuilderModuleService" ref="capitalAssetBuilderModuleService" />
+        <property name="emptyItemsWithAccountsValidation" ref="PurchaseOrder-emptyItemWithAccountsValidation"/>
+        <property name="unitOfMeasureValidation" ref="Purchasing-unitOfMeasureValidation" />
+        <property name="itemUnitPriceValidation" ref="Purchasing-itemUnitPriceValidation" />
+        <property name="itemDescriptionValidation" ref="Purchasing-itemDescriptionValidation" />
+        <property name="itemQuantityValidation" ref="Purchasing-itemQuantityValidation" />
+        <property name="belowTheLineItemNoUnitCostValidation" ref="Purchasing-belowTheLineItemNoUnitCostValidation" />
+        <property name="belowTheLineValuesValidation" ref="PurchasingAccountsPayable-belowTheLineValuesValidation" />
+    </bean>
+
+    <bean id="PurchaseOrderAmendment-accountValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurchaseOrderAmendmentAccountValidation" abstract="true"/>
+
+    <bean id="PurchaseOrderAmendment-accountingLineAccessibleValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurchaseOrderAmendmentAccountingLineAccessibleValidation" abstract="true">
+        <property name="dataDictionaryService" ref="dataDictionaryService" />
+        <property name="purapService" ref="purapService" />
+    </bean>
+
+    <bean id="PurchaseOrderAmendment-containsAtLeastOneActiveItemValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurchaseOrderAmendmentContainsAtLeastOneActiveItemValidation" abstract="true" />
+
+    <bean id="PurchaseOrderAmendment-processAccountValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurchaseOrderAmendmentProcessAccountValidation" abstract="true"/>
+
+    <bean id="PurchaseOrderAmendment-requiresAccountValidationBranchingValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurchaseOrderAmendmentRequiresAccountValidationBranchingValidation" abstract="true" >
+        <property name="purapService" ref="purapService" />
+        <property name="purchaseOrderService" ref="purchaseOrderService" />
+    </bean>
+
+    <!-- Accounts Payable Definitions  -->
+    <bean id="AccountsPayable-processApprovalAtAccountsPayableReviewAllowedValidation" class="org.kuali.ole.module.purap.document.validation.impl.AccountsPayableProcessApprovalAtAccountsPayableReviewAllowedValidation" abstract="true"/>
+
+    <bean id="AccountsPayable-validateAccountsPayableItemsValidation" class="org.kuali.ole.module.purap.document.validation.impl.AccountsPayableValidateAccountsPayableItemsValidation" abstract="true">
+        <property name="capitalAssetBuilderModuleService" ref="capitalAssetBuilderModuleService" />
+    </bean>
+
+    <bean id="AccountsPayable-preCalculateValidation" class="org.kuali.ole.module.purap.document.validation.impl.AccountsPayablePreCalculateValidation" abstract="true"/>
+
+    <!-- Credit Memo Definitions -->
+    <bean id="VendorCreditMemo-accountingLineDataDictionaryValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurapAccountingLineDataDictionaryValidation" abstract="true">
+        <property name="accountingLineRuleHelperService"><ref bean="vendorCreditMemoAccountingLineRuleHelperService" /></property>
+    </bean>
+
+    <bean id="VendorCreditMemo-flagLineItemTotalsValidation" class="org.kuali.ole.module.purap.document.validation.impl.VendorCreditMemoFlagLineItemTotalsValidation" abstract="true"/>
+
+    <bean id="VendorCreditMemo-totalMatchesVendorAmountValidation" class="org.kuali.ole.module.purap.document.validation.impl.VendorCreditMemoTotalMatchesVendorAmountValidation" abstract="true"/>
+
+    <bean id="VendorCreditMemo-itemQuantityValidation" parent="VendorCreditMemo-itemQuantityValidation-parentBean" scope="prototype"/>
+
+    <bean id="VendorCreditMemo-itemQuantityValidation-parentBean" class="org.kuali.ole.module.purap.document.validation.impl.VendorCreditMemoItemQuantityValidation" abstract="true">
+        <property name="dataDictionaryService" ref="dataDictionaryService" />
+    </bean>
+
+    <bean id="VendorCreditMemo-itemUnitPriceValidation" parent="VendorCreditMemo-itemUnitPriceValidation-parentBean" scope="prototype"/>
+
+    <bean id="VendorCreditMemo-itemUnitPriceValidation-parentBean" class="org.kuali.ole.module.purap.document.validation.impl.VendorCreditMemoItemUnitPriceValidation" abstract="true">
+        <property name="dataDictionaryService" ref="dataDictionaryService" />
+    </bean>
+
+    <bean id="VendorCreditMemo-itemExtendedPriceValidation" parent="VendorCreditMemo-itemExtendedPriceValidation-parentBean" scope="prototype"/>
+
+    <bean id="VendorCreditMemo-itemExtendedPriceValidation-parentBean" class="org.kuali.ole.module.purap.document.validation.impl.VendorCreditMemoItemExtendedPriceValidation" abstract="true">
+        <property name="dataDictionaryService" ref="dataDictionaryService" />
+    </bean>
+
+    <bean id="VendorCreditMemo-totalOverZeroValidation" class="org.kuali.ole.module.purap.document.validation.impl.VendorCreditMemoTotalOverZeroValidation" abstract="true"/>
+
+    <bean id="VendorCreditMemo-processItemValidation" class="org.kuali.ole.module.purap.document.validation.impl.VendorCreditMemoProcessItemValidation" abstract="true">
+        <property name="parameterService" ref="parameterService" />
+
+        <property name="itemQuantityValidation" ref="VendorCreditMemo-itemQuantityValidation" />
+        <property name="itemUnitPriceValidation" ref="VendorCreditMemo-itemUnitPriceValidation" />
+        <property name="itemExtendedPriceValidation" ref="VendorCreditMemo-itemExtendedPriceValidation" />
+        <property name="processAccountValidation" ref="PurchasingAccountsPayable-processAccountValidation" />
+    </bean>
+
+    <bean id="VendorCreditMemo-accountPercentBetween0And100Validation" class="org.kuali.ole.module.purap.document.validation.impl.VendorCreditMemoAccountPercentBetween0And100Validation" abstract="true">
+        <property name="dataDictionaryService" ref="dataDictionaryService" />
+    </bean>
+
+    <bean id="VendorCreditMemo-objectCodeValidation" class="org.kuali.ole.module.purap.document.validation.impl.VendorCreditMemoObjectCodeValidation" abstract="true">
+        <property name="parameterService" ref="parameterService" />
+    </bean>
+
+    <bean id="VendorCreditMemo-initTabRequiredFieldsValidation" class="org.kuali.ole.module.purap.document.validation.impl.VendorCreditMemoInitTabRequiredFieldsValidation" abstract="true">
+        <property name="dataDictionaryService" ref="dataDictionaryService" />
+        <property name="paymentRequestService" ref="paymentRequestService" />
+    </bean>
+
+    <bean id="VendorCreditMemo-initTabReferenceNumberValidation" class="org.kuali.ole.module.purap.document.validation.impl.VendorCreditMemoInitTabReferenceNumberValidation" abstract="true">
+        <property name="paymentRequestService" ref="paymentRequestService" />
+        <property name="purapService" ref="purapService" />
+        <property name="purchaseOrderService" ref="purchaseOrderService" />
+        <property name="vendorService" ref="vendorService" />
+    </bean>
+
+    <bean id="VendorCreditMemo-purchaseOrderForInvoicedItemsValidation" class="org.kuali.ole.module.purap.document.validation.impl.VendorCreditMemoPurchaseOrderForInvoicedItemsValidation" abstract="true">
+        <property name="purchaseOrderService" ref="purchaseOrderService" />
+        <property name="creditMemoService" ref="creditMemoService" />
+    </bean>
+
+    <bean id="VendorCreditMemo-cancelValidation" class="org.kuali.ole.module.purap.document.validation.impl.VendorCreditMemoCancelValidation" abstract="true">
+        <property name="creditMemoService" ref="creditMemoService" />
+    </bean>
+
+
+    <!--  Start Invoice Validations -->
+    <bean id="Invoice-lineItemQuantityNotZero" class="org.kuali.ole.module.purap.document.validation.impl.LineItemQuantityNotZero" abstract="true" />
+
+    <bean id="Invoice-nonZeroAccountingLineAmountValidation" class="org.kuali.ole.module.purap.document.validation.impl.InvoiceNonZeroAccountingLineAmountValidation" abstract="true">
+        <property name="parameterService" ref="parameterService" />
+    </bean>
+
+    <bean id="Invoice-invoiceImageAttachmentValidation" class="org.kuali.ole.module.purap.document.validation.impl.InvoiceImageAttachmentValidation" abstract="true"/>
+
+    <bean id="Invoice-accountingLineDataDictionaryValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurapAccountingLineDataDictionaryValidation" abstract="true">
+        <property name="accountingLineRuleHelperService"><ref bean="paymentRequestAccountingLineRuleHelperService" /></property>
+    </bean>
+
+    <bean id="OLEInvoice-accountingLineDataDictionaryValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurapAccountingLineDataDictionaryValidation" abstract="true">
+        <property name="accountingLineRuleHelperService"><ref bean="OLEPaymentRequestAccountingLineRuleHelperService" /></property>
+    </bean>
+
+    <bean id="Invoice-tradeInWarningValidation" class="org.kuali.ole.module.purap.document.validation.impl.InvoiceTradeInWarningValidation" abstract="true"/>
+
+    <bean id="Invoice-expiredAccountWarningValidation" class="org.kuali.ole.module.purap.document.validation.impl.InvoiceExpiredAccountWarningValidation" abstract="true">
+        <property name="dateTimeService" ref="dateTimeService" />
+        <property name="parameterService" ref="parameterService" />
+    </bean>
+
+    <bean id="Invoice-accountingLineAccessibleBranchingValidation" class="org.kuali.ole.module.purap.document.validation.impl.InvoiceAccountingLineAccessibleBranchingValidation" abstract="true"/>
+
+    <bean id="Invoice-purchaseOrderIdValidation" class="org.kuali.ole.module.purap.document.validation.impl.InvoicePurchaseOrderIdValidation" abstract="true"/>
+
+    <bean id="Invoice-invoiceValidation" class="org.kuali.ole.module.purap.document.validation.impl.InvoiceValidation" abstract="true"/>
+
+    <bean id="Invoice-dateForContinueValidation" class="org.kuali.ole.module.purap.document.validation.impl.InvoiceDateForContinueValidation" abstract="true">
+        <property name="invoiceService" ref="invoiceService" />
+    </bean>
+
+    <bean id="Invoice-totalsValidation" class="org.kuali.ole.module.purap.document.validation.impl.InvoiceTotalsValidation" abstract="true"/>
+
+    <bean id="Invoice-payDateNotOverThresholdDaysAwayValidation" class="org.kuali.ole.module.purap.document.validation.impl.InvoicePayDateNotOverThresholdDaysAwayValidation" abstract="true">
+        <property name="purapService" ref="purapService" />
+    </bean>
+
+    <!-- bean id="Invoice-grandTotalOverZeroValidation" class="org.kuali.ole.module.purap.document.validation.impl.InvoiceGrandTotalOverZeroValidation" abstract="true"/-->
+
+    <bean id="Invoice-payDateNotPastValidation" class="org.kuali.ole.module.purap.document.validation.impl.InvoicePayDateNotPastValidation" abstract="true">
+        <property name="purapService" ref="purapService" />
+        <property name="persistenceService" ref="persistenceService"/>
+        <property name="businessObjectService" ref="businessObjectService" />
+    </bean>
+
+    <bean id="Invoice-taxAreaValidation" class="org.kuali.ole.module.purap.document.validation.impl.InvoiceTaxAreaValidation" abstract="true">
+        <property name="businessObjectService" ref="businessObjectService" />
+    </bean>
+
+    <bean id="Invoice-cancelValidation" class="org.kuali.ole.module.purap.document.validation.impl.InvoiceCancelValidation" abstract="true"/>
+
+    <bean id="Invoice-vendorValidation" class="org.kuali.ole.module.purap.document.validation.impl.InvoiceVendorValidation" abstract="true">
+        <property name="postalCodeValidationService" ref="postalCodeValidationService" />
+    </bean>
+
+    <bean id="Invoice-reviewValidation" class="org.kuali.ole.module.purap.document.validation.impl.InvoiceReviewValidation" abstract="true">
+    </bean>
+
+    <!-- bean id="PurchasingAccountsPayable-checkNegativeAccountsValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingAccountsPayableCheckNegativeAccountsValidation" abstract="true">
+        <property name="purapAccountingService" ref="purapAccountingService"/>
+    </bean-->
+
+    <bean id="Invoice-reviewAccountingLine" parent="AccountingDocument-ReviewAccountingLine-DefaultValidation" scope="prototype"/>
+
+    <bean id="Invoice-processItemValidation" class="org.kuali.ole.module.purap.document.validation.impl.InvoiceProcessItemValidation" abstract="true">
+        <property name="purapService" ref="purapService" />
+        <property name="reviewAccountingLineValidation" ref="Invoice-reviewAccountingLine" />
+    </bean>
+    <!--  Invoice Validations -->
+
+
+
+    <!-- Payment Request Definitions -->
+    <bean id="PaymentRequest-lineItemQuantityNotZero" class="org.kuali.ole.module.purap.document.validation.impl.LineItemQuantityNotZero" abstract="true" />
+
+    <bean id="PaymentRequest-nonZeroAccountingLineAmountValidation" class="org.kuali.ole.module.purap.document.validation.impl.PaymentRequestNonZeroAccountingLineAmountValidation" abstract="true">
+        <property name="parameterService" ref="parameterService" />
+    </bean>
+
+    <bean id="PaymentRequest-invoiceImageAttachmentValidation" class="org.kuali.ole.module.purap.document.validation.impl.PaymentRequestInvoiceImageAttachmentValidation" abstract="true"/>
+
+    <bean id="PaymentRequest-accountingLineDataDictionaryValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurapAccountingLineDataDictionaryValidation" abstract="true">
+        <property name="accountingLineRuleHelperService"><ref bean="paymentRequestAccountingLineRuleHelperService" /></property>
+    </bean>
+
+    <bean id="OLEPaymentRequest-accountingLineDataDictionaryValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurapAccountingLineDataDictionaryValidation" abstract="true">
+        <property name="accountingLineRuleHelperService"><ref bean="OLEPaymentRequestAccountingLineRuleHelperService" /></property>
+    </bean>
+
+    <bean id="PaymentRequest-tradeInWarningValidation" class="org.kuali.ole.module.purap.document.validation.impl.PaymentRequestTradeInWarningValidation" abstract="true"/>
+
+    <bean id="PaymentRequest-expiredAccountWarningValidation" class="org.kuali.ole.module.purap.document.validation.impl.PaymentRequestExpiredAccountWarningValidation" abstract="true">
+        <property name="dateTimeService" ref="dateTimeService" />
+        <property name="parameterService" ref="parameterService" />
+    </bean>
+
+    <bean id="PaymentRequest-accountingLineAccessibleBranchingValidation" class="org.kuali.ole.module.purap.document.validation.impl.PaymentRequestAccountingLineAccessibleBranchingValidation" abstract="true"/>
+
+    <bean id="PaymentRequest-purchaseOrderIdValidation" class="org.kuali.ole.module.purap.document.validation.impl.PaymentRequestPurchaseOrderIdValidation" abstract="true"/>
+
+    <bean id="PaymentRequest-invoiceValidation" class="org.kuali.ole.module.purap.document.validation.impl.PaymentRequestInvoiceValidation" abstract="true"/>
+
+    <bean id="PaymentRequest-dateForContinueValidation" class="org.kuali.ole.module.purap.document.validation.impl.PaymentRequestDateForContinueValidation" abstract="true">
+        <property name="paymentRequestService" ref="paymentRequestService" />
+    </bean>
+
+    <bean id="PaymentRequest-totalsValidation" class="org.kuali.ole.module.purap.document.validation.impl.PaymentRequestTotalsValidation" abstract="true"/>
+
+    <bean id="PaymentRequest-payDateNotOverThresholdDaysAwayValidation" class="org.kuali.ole.module.purap.document.validation.impl.PaymentRequestPayDateNotOverThresholdDaysAwayValidation" abstract="true">
+        <property name="purapService" ref="purapService" />
+    </bean>
+
+    <!-- bean id="PaymentRequest-grandTotalOverZeroValidation" class="org.kuali.ole.module.purap.document.validation.impl.PaymentRequestGrandTotalOverZeroValidation" abstract="true"/-->
+
+    <bean id="PaymentRequest-payDateNotPastValidation" class="org.kuali.ole.module.purap.document.validation.impl.PaymentRequestPayDateNotPastValidation" abstract="true">
+        <property name="purapService" ref="purapService" />
+        <property name="persistenceService" ref="persistenceService"/>
+        <property name="businessObjectService" ref="businessObjectService" />
+    </bean>
+
+    <bean id="PaymentRequest-taxAreaValidation" class="org.kuali.ole.module.purap.document.validation.impl.PaymentRequestTaxAreaValidation" abstract="true">
+        <property name="businessObjectService" ref="businessObjectService" />
+    </bean>
+
+    <bean id="PaymentRequest-cancelValidation" class="org.kuali.ole.module.purap.document.validation.impl.PaymentRequestCancelValidation" abstract="true"/>
+
+    <bean id="PaymentRequest-vendorValidation" class="org.kuali.ole.module.purap.document.validation.impl.PaymentRequestVendorValidation" abstract="true">
+        <property name="postalCodeValidationService" ref="postalCodeValidationService" />
+    </bean>
+
+    <bean id="PaymentRequest-reviewValidation" class="org.kuali.ole.module.purap.document.validation.impl.PaymentRequestReviewValidation" abstract="true">
+    </bean>
+
+    <bean id="PurchasingAccountsPayable-checkNegativeAccountsValidation" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingAccountsPayableCheckNegativeAccountsValidation" abstract="true">
+        <property name="purapAccountingService" ref="purapAccountingService"/>
+    </bean>
+
+    <bean id="PaymentRequest-reviewAccountingLine" parent="AccountingDocument-ReviewAccountingLine-DefaultValidation" scope="prototype"/>
+
+    <bean id="PaymentRequest-processItemValidation" class="org.kuali.ole.module.purap.document.validation.impl.PaymentRequestProcessItemValidation" abstract="true">
+        <property name="purapService" ref="purapService" />
+        <property name="reviewAccountingLineValidation" ref="PaymentRequest-reviewAccountingLine" />
+    </bean>
+
+    <bean id="PurchasingAccountsPayable-newProcessItem-itemsCollection-itemConsideredEnteredBranchingValidation" abstract="true" parent="PurchasingAccountsPayable-itemConsideredEnteredBranchingValidation" scope="prototype">
+        <property name="branchMap">
+            <map>
+                <entry>
+                    <key><value>needsIndividualItemValidation</value></key>
+                    <bean parent="PurchasingAccountsPayable-itemConsideredEnteredCompositeValidation-parentBean" scope="prototype"/>
+                </entry>
+            </map>
+        </property>
+        <property name="parameterProperties">
+            <list>
+                <bean parent="itemIterationSubjectFieldConversation" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PurchasingAccountsPayable-newProcessItem-itemsCollectionValidation" abstract="true" parent="CollectionValidation" scope="prototype">
+        <property name="collectionProperty" value="document.items" />
+        <property name="validations">
+            <list>
+                <bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+                    <property name="parameterProperties">
+                        <list>
+                            <bean parent="validationFieldConversion">
+                                <property name="sourceEventProperty" value="iterationSubject" />
+                                <property name="targetValidationProperty" value="businessObjectForValidation" />
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+
+                <!-- Need to do the itemConsideredEnteredBranchingValidation to determine whether
+                     we need to call the newIndividualItemValidation (not needed if item is not 
+                     considered entered
+-->
+                <bean parent="PurchasingAccountsPayable-newProcessItem-itemsCollection-itemConsideredEnteredBranchingValidation" scope="prototype" />
+                <!-- End of itemConsideredEnteredBranchingValidation -->
+            </list>
+        </property>
+    </bean>
+
+    <!-- New Process Item Validation Definitions -->
+    <bean id="PurchasingAccountsPayable-newProcessItemValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+        <property name="quitOnFail" value="false" />
+        <property name="validations">
+            <list>
+                <!-- These are the validations from within the loop of items in newProcessItemValidation in
+                     PurchasingAccountsPayableDocumentRuleBase
+-->
+                <bean parent="PurchasingAccountsPayable-newProcessItem-itemsCollectionValidation" scope="prototype" />
+                <!-- End of the newProcessItemValidation in PurchasingAccountsPayableDocumentRuleBase
+-->
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PurchasingAccountsPayable-itemConsideredEnteredComposite-requiresAccountValidation-needsAccountBranchCompositeValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+        <property name="validations">
+            <list>
+                <bean parent="PurchasingAccountsPayable-processAccountValidation-parentBean" scope="prototype">
+                    <property name="parameterProperties">
+                        <list>
+                            <bean parent="itemIterationSubjectFieldConversation" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PurchasingAccountsPayable-itemConsideredEnteredComposite-requiresAccountValidationBranchingValidation" abstract="true" parent="PurchasingAccountsPayable-requiresAccountValidationBranchingValidation" scope="prototype">
+        <property name="branchMap">
+            <map>
+                <entry>
+                    <key><value>needsAccountValidation</value></key>
+                    <bean parent="PurchasingAccountsPayable-itemConsideredEnteredComposite-requiresAccountValidation-needsAccountBranchCompositeValidation" scope="prototype" />
+                </entry>
+            </map>
+        </property>
+        <property name="parameterProperties">
+            <list>
+                <bean parent="itemIterationSubjectFieldConversation" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PurchasingAccountsPayable-itemConsideredEnteredCompositeValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+        <property name="quitOnFail" value="false" />
+        <property name="validations">
+            <list>
+
+                <bean parent="PurchasingAccountsPayable-newIndividualItemValidation" scope="prototype">
+                    <property name="parameterProperties">
+                        <list>
+                            <bean parent="itemIterationSubjectFieldConversation" />
+                        </list>
+                    </property>
+                </bean>
+
+                <!-- Need to do the purchasingAccountsPayableRequiresAccountValidationBranchingValidation to determine
+                     whether we need to call the processAccountValidation
+-->
+                <bean parent="PurchasingAccountsPayable-itemConsideredEnteredComposite-requiresAccountValidationBranchingValidation" scope="prototype" />
+                <!-- End of purchasingAccountsPayableRequiresAccountValidationBranchingValidation
+-->
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PurchasingAccountsPayable-accountingLineValuesAllowed-objectCodeOverride-ObjectCodeOverriddenBranchCompositeValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+        <property name="validations">
+            <list>
+                <bean parent="PurchasingAccountsPayable-accountingLineValuesAllowed-objectCodeOverride-ObjectCodeOverriddenValidation" scope="prototype" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PurchasingAccountsPayable-accountingLineValuesAllowed-objectCodeOverride-ObjectCodeOverriddenValidation" abstract="true" parent="AccountingDocument-defaultAccountingLineValuesAllowedValidation" scope="prototype">
+        <property name="accountingDocumentParameterPropertyName" value="document" />
+        <property name="accountingLineParameterPropertyName" value="accountingLine" />
+        <property name="objectCodeAllowedValidation"><null /></property>
+        <property name="objectTypeAllowedValidation"><null /></property>
+        <property name="objectSubTypeAllowedValidation"><null /></property>
+        <property name="objectLevelAllowedValidation"><null /></property>
+        <property name="objectConsolidationAllowedValidation"><null /></property>
+    </bean>
+
+    <bean id="PurchasingAccountsPayable-accountingLineValuesAllowed-objectCodeOverride-ObjectCodeNotOverriddenBranchCompositeValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+        <property name="validations">
+            <list>
+                <bean parent="PurchasingAccountsPayable-accountingLineValuesAllowed-objectCodeOverride-ObjectCodeNotOverriddenValidation" scope="prototype" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PurchasingAccountsPayable-accountingLineValuesAllowed-objectCodeOverride-ObjectCodeNotOverriddenValidation" abstract="true" parent="AccountingDocument-defaultAccountingLineValuesAllowedValidation" scope="prototype">
+        <property name="accountingDocumentParameterPropertyName" value="document" />
+        <property name="accountingLineParameterPropertyName" value="accountingLine" />
+    </bean>
+
+    <bean id="PurchasingAccountsPayable-accountingLineValuesAllowed-objectCodeOverrideBranchingValidation" abstract="true" parent="PurchasingAccountsPayable-objectCodeOverrideBranchingValidation" scope="prototype">
+        <property name="branchMap">
+            <map>
+                <entry>
+                    <key><value>ObjectCodeOverriden</value></key>
+                    <bean parent="PurchasingAccountsPayable-accountingLineValuesAllowed-objectCodeOverride-ObjectCodeOverriddenBranchCompositeValidation" scope="prototype" />
+                </entry>
+                <entry>
+                    <key><value>ObjectCodeNotOverriden</value></key>
+                    <bean parent="PurchasingAccountsPayable-accountingLineValuesAllowed-objectCodeOverride-ObjectCodeNotOverriddenBranchCompositeValidation" scope="prototype" />
+                </entry>
+            </map>
+        </property>
+        <property name="parameterProperties">
+            <list>
+                <bean parent="accountingDocumentFieldConversion" />
+                <bean parent="accountingLineFieldConversion" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PurchasingAccountsPayable-accountingLineValuesAllowedValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+        <property name="validations">
+            <list>
+                <bean parent="PurchasingAccountsPayable-accountingLineValuesAllowed-objectCodeOverrideBranchingValidation" scope="prototype" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PurchasingAccountsPayable-updatedAccountingLineValuesAllowed-objectCodeOverride-ObjectCodeOverriddenBranchCompositeValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+        <property name="validations">
+            <list>
+                <bean parent="PurchasingAccountsPayable-updatedAccountingLineValuesAllowed-objectCodeOverride-ObjectCodeOverriddenValidation" scope="prototype" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PurchasingAccountsPayable-updatedAccountingLineValuesAllowed-objectCodeOverride-ObjectCodeOverriddenValidation" abstract="true" parent="AccountingDocument-defaultAccountingLineValuesAllowedValidation" scope="prototype">
+        <property name="accountingDocumentParameterPropertyName" value="document" />
+        <property name="accountingLineParameterPropertyName" value="updatedAccountingLine" />
+        <property name="objectCodeAllowedValidation"><null /></property>
+        <property name="objectTypeAllowedValidation"><null /></property>
+        <property name="objectSubTypeAllowedValidation"><null /></property>
+        <property name="objectLevelAllowedValidation"><null /></property>
+        <property name="objectConsolidationAllowedValidation"><null /></property>
+    </bean>
+
+    <bean id="PurchasingAccountsPayable-updatedAccountingLineValuesAllowed-objectCodeOverride-ObjectCodeNotOverriddenBranchCompositeValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+        <property name="validations">
+            <list>
+                <bean parent="PurchasingAccountsPayable-updatedAccountingLineValuesAllowed-objectCodeOverride-ObjectCodeNotOverriddenValidation" scope="prototype" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PurchasingAccountsPayable-updatedAccountingLineValuesAllowed-objectCodeOverride-ObjectCodeNotOverriddenValidation" abstract="true" parent="AccountingDocument-defaultAccountingLineValuesAllowedValidation" scope="prototype">
+        <property name="accountingDocumentParameterPropertyName" value="document" />
+        <property name="accountingLineParameterPropertyName" value="updatedAccountingLine" />
+    </bean>
+
+    <bean id="PurchasingAccountsPayable-updatedAccountingLineValuesAllowed-objectCodeOverrideBranchingValidation" abstract="true" parent="PurchasingAccountsPayable-objectCodeOverrideBranchingValidation" scope="prototype">
+        <property name="branchMap">
+            <map>
+                <entry>
+                    <key><value>ObjectCodeOverriden</value></key>
+                    <bean parent="PurchasingAccountsPayable-updatedAccountingLineValuesAllowed-objectCodeOverride-ObjectCodeOverriddenBranchCompositeValidation" scope="prototype" />
+                </entry>
+                <entry>
+                    <key><value>ObjectCodeNotOverriden</value></key>
+                    <bean parent="PurchasingAccountsPayable-updatedAccountingLineValuesAllowed-objectCodeOverride-ObjectCodeNotOverriddenValidation" scope="prototype" />
+                </entry>
+            </map>
+        </property>
+        <property name="parameterProperties">
+            <list>
+                <bean parent="accountingDocumentFieldConversion" />
+                <bean parent="updatedAccountingLineFieldConversion" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PurchasingAccountsPayable-updatedAccountingLineValuesAllowedValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+        <property name="validations">
+            <list>
+                <bean parent="PurchasingAccountsPayable-updatedAccountingLineValuesAllowed-objectCodeOverrideBranchingValidation" scope="prototype" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="BulkReceivingDocument-purchaseOrderIdValidation" class="org.kuali.ole.module.purap.document.validation.impl.BulkReceivingPurchaseOrderIdValidation" abstract="true">
+        <property name="purchaseOrderService" ref="purchaseOrderService" />
+    </bean>
+
+    <bean id="BulkReceivingDocument-initScreenFieldValidation" class="org.kuali.ole.module.purap.document.validation.impl.BulkReceivingInitScreenFieldValidation" abstract="true">
+        <property name="dictionaryValidationService" ref="dictionaryValidationService" />
+    </bean>
+
+    <bean id="BulkReceivingDocument-deliveryValidation" class="org.kuali.ole.module.purap.document.validation.impl.BulkReceivingDeliveryValidation" abstract="true">
+        <property name="postalCodeValidationService" ref="postalCodeValidationService" />
+    </bean>
+
+
+
+    <!--  INVOICE  VALIDATIONS START-->
+
+
+    <bean id="Invoice-newProcessItem-itemsCollection-itemConsideredEnteredBranchingValidation" abstract="true" parent="PurchasingAccountsPayable-itemConsideredEnteredBranchingValidation" scope="prototype">
+        <property name="branchMap">
+            <map>
+                <entry>
+                    <key><value>needsIndividualItemValidation</value></key>
+                    <bean parent="Invoice-itemConsideredEnteredCompositeValidation-parentBean" scope="prototype"/>
+                </entry>
+            </map>
+        </property>
+        <property name="parameterProperties">
+            <list>
+                <bean parent="itemIterationSubjectFieldConversation" />
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="Invoice-newProcessItem-itemsCollectionValidation" abstract="true" parent="CollectionValidation" scope="prototype">
+        <property name="collectionProperty" value="document.items" />
+        <property name="validations">
+            <list>
+                <bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+                    <property name="parameterProperties">
+                        <list>
+                            <bean parent="validationFieldConversion">
+                                <property name="sourceEventProperty" value="iterationSubject" />
+                                <property name="targetValidationProperty" value="businessObjectForValidation" />
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+
+
+                <bean parent="Invoice-newProcessItem-itemsCollection-itemConsideredEnteredBranchingValidation" scope="prototype" />
+                <!-- End of itemConsideredEnteredBranchingValidation -->
+            </list>
+        </property>
+    </bean>
+
+
+
+    <bean id="Invoice-newProcessItemValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+        <property name="quitOnFail" value="false" />
+        <property name="validations">
+            <list>
+                <bean parent="Invoice-newProcessItem-itemsCollectionValidation" scope="prototype" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Invoice-itemConsideredEnteredComposite-requiresAccountValidationBranching-needsAccountValidationCompositeValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+        <property name="validations">
+            <list>
+                <bean parent="Invoice-processAccountValidation-parentBean" scope="prototype">
+                    <property name="parameterProperties">
+                        <bean parent="itemIterationSubjectFieldConversation" />
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Invoice-itemConsideredEnteredComposite-requiresAccountValidationBranchingValidation" abstract="true" parent="PurchasingAccountsPayable-requiresAccountValidationBranchingValidation" scope="prototype">
+        <property name="branchMap">
+            <map>
+                <entry>
+                    <key><value>needsAccountValidation</value></key>
+                    <bean parent="Invoice-itemConsideredEnteredComposite-requiresAccountValidationBranching-needsAccountValidationCompositeValidation" scope="prototype" />
+                </entry>
+            </map>
+        </property>
+        <property name="parameterProperties">
+            <list>
+                <bean parent="itemIterationSubjectFieldConversation" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Invoice-itemConsideredEnteredCompositeValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+        <property name="quitOnFail" value="false" />
+        <property name="validations">
+            <list>
+
+                <bean parent="PurchasingAccountsPayable-newIndividualItemValidation" scope="prototype">
+                    <property name="parameterProperties">
+                        <list>
+                            <bean parent="itemIterationSubjectFieldConversation" />
+                        </list>
+                    </property>
+                </bean>
+
+                <!-- Need to do the purchasingAccountsPayableRequiresAccountValidationBranchingValidation to determine
+                     whether we need to call the processAccountValidation
+-->
+                <bean parent="Invoice-itemConsideredEnteredComposite-requiresAccountValidationBranchingValidation" scope="prototype" />
+                <!-- End of purchasingAccountsPayableRequiresAccountValidationBranchingValidation
+-->
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Invoice-processAccountValidation" parent="Invoice-processAccountValidation-parentBean" scope="prototype" />
+
+    <bean id="Invoice-processAccountValidation-parentBean" class="org.kuali.ole.module.purap.document.validation.impl.InvoiceProcessAccountValidation" abstract="true">
+        <property name="hasAccountsValidation" ref="PurchasingAccountsPayable-hasAccountsValidation"/>
+        <property name="accountTotalValidation" ref="Invoice-accountTotalValidation"/>
+        <property name="accountingStringsValidation" ref="PurchasingAccountsPayable-uniqueAccountingStringsValidation"/>
+        <property name="accountHasAtleastOnePercentValidation" ref="PurchasingAccountsPayable-accountHasAtleastOnePercentValidation"/>
+        <property name="accountLineAmountValidation" ref="PurchasingAccountsPayable-accountingLineAmountValidation"/>
+        <property name="accountPercentValidation" ref="PurchasingAccountsPayable-accountPercentValidation"/>
+    </bean>
+
+
+
+
+
+    <!--  INVOICE  VALIDATIONS END-->
+
+
+
+
+
+
+
+
+
+    <!--  Payment Request validations -->
+
+    <bean id="PaymentRequest-newProcessItem-itemsCollection-itemConsideredEnteredBranchingValidation" abstract="true" parent="PurchasingAccountsPayable-itemConsideredEnteredBranchingValidation" scope="prototype">
+        <property name="branchMap">
+            <map>
+                <entry>
+                    <key><value>needsIndividualItemValidation</value></key>
+                    <bean parent="PaymentRequest-itemConsideredEnteredCompositeValidation-parentBean" scope="prototype"/>
+                </entry>
+            </map>
+        </property>
+        <property name="parameterProperties">
+            <list>
+                <bean parent="itemIterationSubjectFieldConversation" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- These are the validations from within the loop of items in newProcessItemValidation in
+                     PurchasingAccountsPayableDocumentRuleBase
+-->
+    <bean id="PaymentRequest-newProcessItem-itemsCollectionValidation" abstract="true" parent="CollectionValidation" scope="prototype">
+        <property name="collectionProperty" value="document.items" />
+        <property name="validations">
+            <list>
+                <bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+                    <property name="parameterProperties">
+                        <list>
+                            <bean parent="validationFieldConversion">
+                                <property name="sourceEventProperty" value="iterationSubject" />
+                                <property name="targetValidationProperty" value="businessObjectForValidation" />
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+
+                <!-- Need to do the itemConsideredEnteredBranchingValidation to determine whether
+                     we need to call the newIndividualItemValidation (not needed if item is not
+                     considered entered
+-->
+                <bean parent="PaymentRequest-newProcessItem-itemsCollection-itemConsideredEnteredBranchingValidation" scope="prototype" />
+                <!-- End of itemConsideredEnteredBranchingValidation -->
+            </list>
+        </property>
+    </bean>
+    <!-- End of the newProcessItemValidation in PurchasingAccountsPayableDocumentRuleBase
+-->
+
+    <bean id="PaymentRequest-newProcessItemValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+        <property name="quitOnFail" value="false" />
+        <property name="validations">
+            <list>
+                <bean parent="PaymentRequest-newProcessItem-itemsCollectionValidation" scope="prototype" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PaymentRequest-itemConsideredEnteredComposite-requiresAccountValidationBranching-needsAccountValidationCompositeValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+        <property name="validations">
+            <list>
+                <bean parent="PaymentRequest-processAccountValidation-parentBean" scope="prototype">
+                    <property name="parameterProperties">
+                        <bean parent="itemIterationSubjectFieldConversation" />
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PaymentRequest-itemConsideredEnteredComposite-requiresAccountValidationBranchingValidation" abstract="true" parent="PurchasingAccountsPayable-requiresAccountValidationBranchingValidation" scope="prototype">
+        <property name="branchMap">
+            <map>
+                <entry>
+                    <key><value>needsAccountValidation</value></key>
+                    <bean parent="PaymentRequest-itemConsideredEnteredComposite-requiresAccountValidationBranching-needsAccountValidationCompositeValidation" scope="prototype" />
+                </entry>
+            </map>
+        </property>
+        <property name="parameterProperties">
+            <list>
+                <bean parent="itemIterationSubjectFieldConversation" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PaymentRequest-itemConsideredEnteredCompositeValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+        <property name="quitOnFail" value="false" />
+        <property name="validations">
+            <list>
+
+                <bean parent="PurchasingAccountsPayable-newIndividualItemValidation" scope="prototype">
+                    <property name="parameterProperties">
+                        <list>
+                            <bean parent="itemIterationSubjectFieldConversation" />
+                        </list>
+                    </property>
+                </bean>
+
+                <!-- Need to do the purchasingAccountsPayableRequiresAccountValidationBranchingValidation to determine
+                     whether we need to call the processAccountValidation
+-->
+                <bean parent="PaymentRequest-itemConsideredEnteredComposite-requiresAccountValidationBranchingValidation" scope="prototype" />
+                <!-- End of purchasingAccountsPayableRequiresAccountValidationBranchingValidation
+-->
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PaymentRequest-processAccountValidation" parent="PaymentRequest-processAccountValidation-parentBean" scope="prototype" />
+
+    <bean id="PaymentRequest-processAccountValidation-parentBean" class="org.kuali.ole.module.purap.document.validation.impl.PaymentRequestProcessAccountValidation" abstract="true">
+        <property name="hasAccountsValidation" ref="PurchasingAccountsPayable-hasAccountsValidation"/>
+        <property name="accountTotalValidation" ref="PaymentRequest-accountTotalValidation"/>
+        <property name="accountingStringsValidation" ref="PurchasingAccountsPayable-uniqueAccountingStringsValidation"/>
+        <property name="accountHasAtleastOnePercentValidation" ref="PurchasingAccountsPayable-accountHasAtleastOnePercentValidation"/>
+        <property name="accountLineAmountValidation" ref="PurchasingAccountsPayable-accountingLineAmountValidation"/>
+        <property name="accountPercentValidation" ref="PurchasingAccountsPayable-accountPercentValidation"/>
+    </bean>
+
+    <bean id="PurchasingAccountsPayable-accountingLine-newAccountingLineBranchingValidation-isOldLineBranchCompositeValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+        <property name="validations">
+            <list>
+                <bean parent="PurchasingAccountsPayable-fixErrorPathValidation" scope="prototype">
+                    <property name="parameterProperties">
+                        <list>
+                            <bean parent="accountingLineFieldConversion" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PurchasingAccountsPayable-accountingLine-newAccountingLineBranchingValidation" abstract="true" parent="AccountingDocument-newAccountingLineBranchingValidation" scope="prototype">
+        <property name="branchMap">
+            <map>
+                <entry>
+                    <key><value>isNewLine</value></key>
+                    <bean parent="AccountingDocument-alwaysTrueValidation" scope="prototype" />
+                </entry>
+                <entry>
+                    <key><value>isOldLine</value></key>
+                    <bean parent="PurchasingAccountsPayable-accountingLine-newAccountingLineBranchingValidation-isOldLineBranchCompositeValidation" scope="prototype" />
+                </entry>
+            </map>
+        </property>
+        <property name="parameterProperties">
+            <list>
+                <bean parent="accountingLineFieldConversion" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PurchasingAccountsPayable-updatedAccountingLine-newAccountingLineBranchingValidation-isOldLineBranchCompositeValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+        <property name="validations">
+            <list>
+                <bean parent="PurchasingAccountsPayable-fixErrorPathValidation" scope="prototype">
+                    <property name="parameterProperties">
+                        <list>
+                            <bean parent="updatedAccountingLineFieldConversion" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PurchasingAccountsPayable-updatedAccountingLine-newAccountingLineBranchingValidation" abstract="true" parent="AccountingDocument-newAccountingLineBranchingValidation" scope="prototype">
+        <property name="branchMap">
+            <map>
+                <entry>
+                    <key><value>isNewLine</value></key>
+                    <bean parent="AccountingDocument-alwaysTrueValidation" scope="prototype" />
+                </entry>
+                <entry>
+                    <key><value>isOldLine</value></key>
+                    <bean parent="PurchasingAccountsPayable-updatedAccountingLine-newAccountingLineBranchingValidation-isOldLineBranchCompositeValidation" scope="prototype" />
+                </entry>
+            </map>
+        </property>
+        <property name="parameterProperties">
+            <list>
+                <bean parent="updatedAccountingLineFieldConversion" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="PurchasingAccountsPayables-itemPreCalculateValidations" class="org.kuali.ole.module.purap.document.validation.impl.PurchasingAccountsPayablesItemPreCalculateValidations" abstract="true" />
+
+    <!--MSU Contribution OLEMI-8582 DTT-330 OLECNTRB-943  -->
+    <bean id="PurapRequisition-RoomBuildingInActiveValidation" parent="PurapRequisition-RoomBuildingInActiveValidation-parentBean" scope="prototype"/>
+    <bean id="PurapRequisition-RoomBuildingInActiveValidation-parentBean" class="org.kuali.ole.module.purap.document.validation.impl.PurapRequisitionRoomBuildingInActiveValidation" abstract="true">
+        <property name = "businessObjectService">
+            <ref bean  = "businessObjectService"/>
+        </property>
+    </bean>
+
+    <!--MSU Contribution OLEMI-8457 DTT-377 OLECNTRB-945 -->
+    <bean id="Requisition-organizationValidation" class="org.kuali.ole.module.purap.document.validation.impl.RequisitionOrganizationValidation" abstract="true">
+        <property name="organizationService" ref="organizationService" />
+    </bean>
+
+</beans>

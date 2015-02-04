@@ -1,0 +1,722 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified"
+           targetNamespace="http://ole.kuali.org/standards/ole-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="instanceCollection" type="ole:instanceCollection"
+                xmlns:ole="http://ole.kuali.org/standards/ole-instance">
+    </xs:element>
+    <xs:complexType name="instanceCollection">
+        <xs:sequence>
+            <xs:element type="ole:instance" name="instance" xmlns:ole="http://ole.kuali.org/standards/ole-instance"
+                        minOccurs="1" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>
+                        1 or more instance records
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="instance">
+        <xs:annotation>
+            <xs:documentation>
+                The instance captures holdings and item information. Holdings can be recorded in either the general
+                holdings section or specific holdings format in the sourceHoldings section. The flag "primary" on
+                either
+                holdings or the sourceHoldings tag indicates which holdings is being used. OLE will support MFHD and
+                any
+                other specific holdings format will need to be accounted for and implemented by the individual
+                institutions.
+                At any given time, either the general holdings or the sourceHoldings can be in use.
+
+                The item information is also recorded and also maps to fields in the MFHD record. OLE will provide
+                the
+                conversion if an institution is using MFHD, bearing in mind that in such an event the location will
+                only be limited to 3 levels.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element type="xs:string" name="instanceIdentifier">
+                <xs:annotation>
+                    <xs:documentation>
+                        Unique system assigned identifier for the instance document.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name="resourceIdentifier" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>
+                        Bibliographic identifier from 001 in the marc record in OLE
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="ole:formerIdentifier" name="formerResourceIdentifier"
+                        xmlns:ole="http://ole.kuali.org/standards/ole-instance" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>
+                        These are Identifiers from the legacy system for the bibliographic records that are stored
+                        in the 035 of the Marc record. Non-Editable that gets used at the time of linking bib records
+                        and instance records.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="ole:oleHoldings" name="oleHoldings"
+                        xmlns:ole="http://ole.kuali.org/standards/ole-instance">
+                <xs:annotation>
+                    <xs:documentation>
+                        General holdings information for institutions not using specific source holdings
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="ole:sourceHoldings" name="sourceHoldings"
+                        xmlns:ole="http://ole.kuali.org/standards/ole-instance">
+                <xs:annotation>
+                    <xs:documentation>
+                        Specific holdings format
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="ole:items" name="items" xmlns:ole="http://ole.kuali.org/standards/ole-instance">
+                <xs:annotation>
+                    <xs:documentation>
+                        Collection of Items.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="ole:extension" name="extension" xmlns:ole="http://ole.kuali.org/standards/ole-instance">
+                <xs:annotation>
+                    <xs:documentation>
+                        Element borrowed from/maps to MODS extension element. It may be used for elements that are local
+                        to the creators of the Instance documents. In addition, it may be used to extend the Instance
+                        schema for various purposes when another XML schema may handle the type of information.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="oleHoldings">
+        <xs:annotation>
+            <xs:documentation>
+                This section can be used to record general holdings information if not using a specific
+                source holdings.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element type="xs:string" name="holdingsIdentifier">
+                <xs:annotation>
+                    <xs:documentation>
+                        This is system generate unique ID.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="ole:extentOfOwnership" name="extentOfOwnership"
+                        xmlns:ole="http://ole.kuali.org/standards/ole-instance" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>
+                        (R)
+                        This is a free txt for summary holdings (textual) for institutions not using source holdings.
+                        It will be mapped to MFHD 866$a with ind1 being blank and ind2 = 0 if converted to the source
+                        MFHD.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name="receiptStatus">
+                <xs:annotation>
+                    <xs:documentation>
+                        MFHD field 008@position 06. List of allowed values are:
+                        0 - Unknown
+                        1 - Other receipt or acquisition status
+                        2 - Received and complete or ceased
+                        3 - On order
+                        4 - Currently received
+                        5 - Not currently received
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="ole:uri" xmlns:ole="http://ole.kuali.org/standards/ole-instance" name="uri"
+                        maxOccurs="unbounded" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        This is to indicate the universal resource identifier. Maps to 856$u. This could also be the
+                        one recorded in the bib record.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="ole:note" name="note"
+                        xmlns:ole="http://ole.kuali.org/standards/ole-instance" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>
+                        This indicates public or non-public
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="ole:location" name="location" xmlns:ole="http://ole.kuali.org/standards/ole-instance">
+                <xs:annotation>
+                    <xs:documentation>
+                        Global location specific information that is inherited/used by linked items. This information
+                        is not copied for each item. This also has information on the various location levels.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="ole:extension" name="extension" xmlns:ole="http://ole.kuali.org/standards/ole-instance">
+                <xs:annotation>
+                    <xs:documentation>
+                        Element borrowed from/maps to MODS extension element. It may be used for elements that are local
+                        to the creators of the Instance documents. In addition, it may be used to extend the Instance
+                        schema for various purposes when another XML schema may handle the type of information.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="ole:callNumber" xmlns:ole="http://ole.kuali.org/standards/ole-instance" name="callNumber">
+                <xs:annotation>
+                    <xs:documentation>
+                        To be filled
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" name="primary">
+        </xs:attribute>
+    </xs:complexType>
+    <xs:complexType name="location">
+        <xs:sequence>
+            <xs:element type="ole:locationLevel" name="locationLevel"
+                        xmlns:ole="http://ole.kuali.org/standards/ole-instance">
+                <xs:annotation>
+                    <xs:documentation>
+                        This represents hierarchy of levels. If an institution intends to convert the oleHoldings to
+                        sourceHoldings (MFHD) at some point or wants to have the flexibility, they will need to ensure
+                        the mappings are avail in ole location tables. Institutions can have as many levels.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" name="primary"></xs:attribute>
+        <xs:attribute type="xs:string" name="status"></xs:attribute>
+    </xs:complexType>
+    <xs:complexType name="locationLevel">
+        <xs:sequence>
+            <xs:element type="xs:string" name="name"/>
+            <xs:element type="xs:string" name="level"/>
+            <xs:element type="ole:locationLevel" name="locationLevel" minOccurs="0"
+                        xmlns:ole="http://ole.kuali.org/standards/ole-instance"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="note">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute type="xs:string" name="type"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    <xs:complexType name="shelvingScheme">
+        <xs:sequence>
+            <xs:element type="xs:string" name="codeValue"/>
+            <xs:element type="xs:string" name="fullValue"/>
+            <xs:element type="ole:typeOrSource" name="typeOrSource"
+                        xmlns:ole="http://ole.kuali.org/standards/ole-instance"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="shelvingOrder">
+        <xs:sequence>
+            <xs:element type="xs:string" name="codeValue"/>
+            <xs:element type="xs:string" name="fullValue"/>
+            <xs:element type="ole:typeOrSource" name="typeOrSource"
+                        xmlns:ole="http://ole.kuali.org/standards/ole-instance"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="sourceHoldings">
+        <xs:sequence>
+            <xs:element type="xs:string" name="holdingsIdentifier">
+                <xs:annotation>
+                    <xs:documentation>
+                        This is system generate unique ID.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name="name"/>
+            <xs:element type="ole:extension" name="holdings" xmlns:ole="http://ole.kuali.org/standards/ole-instance">
+                <xs:annotation>
+                    <xs:documentation>
+                        This indicates what the source of the holdings record is; i.e. MARC or DC or EAD etc.. Data is
+                        wrapped in the CDATA section with the raw record in the native format.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="ole:extension" name="extension" xmlns:ole="http://ole.kuali.org/standards/ole-instance">
+                <xs:annotation>
+                    <xs:documentation>
+                        Element borrowed from/maps to MODS extension element. It may be used for elements that are local
+                        to the creators of the Instance documents. In addition, it may be used to extend the Instance
+                        schema for various purposes when another XML schema may handle the type of information.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" name="primary"/>
+    </xs:complexType>
+    <xs:complexType name="holdings">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    <xs:complexType name="items">
+        <xs:sequence>
+            <xs:element type="ole:item" name="item" xmlns:ole="http://ole.kuali.org/standards/ole-instance"
+                        maxOccurs="unbounded" minOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="item">
+        <xs:annotation>
+            <xs:documentation>
+                Item information recorded in this section. This will not be mapping to any specific format i.e. MFHD.
+                Institutions wanting to export true holdings information will need to map themselves.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element type="xs:string" name="itemIdentifier">
+                <xs:annotation>
+                    <xs:documentation>
+                        This is system generate unique ID.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name="purchaseOrderLineItemIdentifier">
+                <xs:annotation>
+                    <xs:documentation>
+                        This is the PO line item identifier from OLE.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name="vendorLineItemIdentifier">
+                <xs:annotation>
+                    <xs:documentation>
+                        This is the vendor line item identifier.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="ole:accessInformation" name="accessInformation"
+                        xmlns:ole="http://ole.kuali.org/standards/ole-instance">
+                <xs:annotation>
+                    <xs:documentation>
+                        (R)
+                        This is volume specific URL.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name="barcodeARSL">
+                <xs:annotation>
+                    <xs:documentation>
+                        (NR)
+                        Special identifier for institutions that have automated storage/retrieval system.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="ole:formerIdentifier" name="formerIdentifier"
+                        xmlns:ole="http://ole.kuali.org/standards/ole-instance" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>
+                        (R)
+                        Does not map to MFHD. Identifies previously used barcodes or other identifiers for the
+                        holdings/item being described. Also allows for the identification of the type of identifier,
+                        e.g.,
+                        legacy system identifier.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="ole:statisticalSearchingCode" name="statisticalSearchingCode"
+                        xmlns:ole="http://ole.kuali.org/standards/ole-instance" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element type="ole:itemType" name="itemType" xmlns:ole="http://ole.kuali.org/standards/ole-instance">
+                <xs:annotation>
+                    <xs:documentation>
+                        (NR)
+                        Locally defined value that is used for circulation purposes and is a controlled value. OLE has
+                        the list control values defined as part of maint. documents.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="ole:location" name="location" xmlns:ole="http://ole.kuali.org/standards/ole-instance"
+                        minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        Global location specific information that is inherited/used by linked items. This information
+                        is not copied for each item. This also has information on the various location levels.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:element type="xs:string" name="copyNumber">
+                <xs:annotation>
+                    <xs:documentation>
+                        (R)
+                        Maps to MFHD 876 $t Copy number - Library-assigned to distinguish each copy of the
+                        same title; typically printed (with the label) at the end of the call number spine label.
+
+                        Label for copy number provided in copyNumberLabel
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name="copyNumberLabel">
+                <xs:annotation>
+                    <xs:documentation>Does not map to MFHD. Identifies the nature of the copyNumber. Number of copy
+                        provided in copyNumber
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name="volumeNumber">
+                <xs:annotation>
+                    <xs:documentation>Does not map to MFHD. Library-assigned to distinguish each volume of a multipart
+                        title; typically printed (with the label) at the end of the call number spine label.
+
+                        Label for volume number provided in volumeNumberLabel.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name="volumeNumberLabel">
+                <xs:annotation>
+                    <xs:documentation>Does not map to MFHD. Identifies the nature of the volume number.
+                        Number of volume provided in volumeNumber
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="ole:note" name="note"
+                        xmlns:ole="http://ole.kuali.org/standards/ole-instance" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>
+                        This indicates public or non-public
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name="enumeration">
+                <xs:annotation>
+                    <xs:documentation>Does not map to MFHD. Designation used to identify a specific part of a multipart
+                        title when there are multiple levels.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name="chronology">
+                <xs:annotation>
+                    <xs:documentation>Does not map to MFHD. Designation used to identify the issue date of a specific
+                        part of a multipart title; single dates may typically print at the end of the call number label
+                        attached to the part.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="ole:highDensityStorage" name="highDensityStorage"
+                        xmlns:ole="http://ole.kuali.org/standards/ole-instance"/>
+            <xs:element type="ole:itemType" name="temporaryItemType"
+                        xmlns:ole="http://ole.kuali.org/standards/ole-instance">
+                <xs:annotation>
+                    <xs:documentation>
+                        (NR)
+                        This is of itemType but used in cases where the item was moved and there is a need to
+                        specify a temp. item type.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name="fund">
+                <xs:annotation>
+                    <xs:documentation>
+                        (R)
+                        This is Account Number from the PO line item under the accounting lines section.
+                    </xs:documentation>
+                </xs:annotation>
+
+            </xs:element>
+            <xs:element type="xs:string" name="donorPublicDisplay">
+                <xs:annotation>
+                    <xs:documentation>
+                        (R)
+                        This is automatically inherited from the PO Line Item number for the appropriate fund used.
+                        Needs more discussion, but leaving here as a place holder.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name="donorNote">
+                <xs:annotation>
+                    <xs:documentation>
+                        (R)
+                        Donor information for items that are gifts and for items that were purchased not using some
+                        specific funds.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="ole:callNumber" xmlns:ole="http://ole.kuali.org/standards/ole-instance" name="callNumber">
+                <xs:annotation>
+                    <xs:documentation>
+                        LC or Duewy decimal etc...
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name="price">
+            </xs:element>
+            <xs:element type="xs:string" name="numberOfPieces">
+                <xs:annotation>
+                    <xs:documentation>
+                        Very specific to the item and defaults to 1. Count of individual pieces in the barcoded item.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name="itemStatus">
+                <xs:annotation>
+                    <xs:documentation>
+                        Current status of the item.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name="itemStatusEffectiveDate">
+                <xs:annotation>
+                    <xs:documentation>
+                        Date when the status was assigned. Tied to the status change.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name="checkinNote">
+                <xs:annotation>
+                    <xs:documentation>
+                        Free text note. If populated, operator is promoted with the note for acknowledgement when the
+                        item is checked in.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:boolean" name="staffOnlyFlag">
+                <xs:annotation>
+                    <xs:documentation>
+                        The item data not to be displayed in the public display interface.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:boolean" name="fastAddFlag">
+                <xs:annotation>
+                    <xs:documentation>
+                        Indicator that the item was created at a circulation desk. To indicate special processing
+                        instructions etc in the checkin notes.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="ole:extension" name="extension" xmlns:ole="http://ole.kuali.org/standards/ole-instance">
+                <xs:annotation>
+                    <xs:documentation>
+                        Element borrowed from/maps to MODS extension element. It may be used for elements that are local
+                        to the creators of the Instance documents. In addition, it may be used to extend the Instance
+                        schema for various purposes when another XML schema may handle the type of information.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="ole:numberOfCirculations" xmlns:ole="http://ole.kuali.org/standards/ole-instance" name="numberOfCirculations">
+                <xs:annotation>
+                    <xs:documentation>
+                        Number of Circulation contains list of check in location. This determines how many times check in takes place in each location.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" name="analytic">
+        </xs:attribute>
+        <xs:attribute type="xs:string" name="resourceIdentifier">
+        </xs:attribute>
+    </xs:complexType>
+    <xs:complexType name="typeOrSource">
+        <xs:sequence>
+            <xs:element name="pointer">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="http://www.test.com/metuens/montis"/>
+                        <xs:enumeration value="http://www.your.com/tempestatesque/e"/>
+                        <xs:enumeration value="http://www.test.com/gero/nimborum"/>
+                        <xs:enumeration value="http://www.test.org/montis/flammato"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element type="xs:string" name="text"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="accessInformation">
+        <xs:sequence>
+            <xs:element type="xs:string" name="barcode"/>
+            <xs:element type="ole:uri" name="uri" xmlns:ole="http://ole.kuali.org/standards/ole-instance"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="extentOfOwnership">
+        <xs:sequence>
+            <xs:element type="xs:string" name="textualHoldings"/>
+            <xs:element type="ole:note" name="note" xmlns:ole="http://ole.kuali.org/standards/ole-instance"
+                        minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element type="xs:string" name="type"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="statisticalSearchingCode">
+        <xs:annotation>
+            <xs:documentation>
+                (R)
+                Does not map to MFHD. Identifies types of locally defined statistical categories.
+                Example:
+                codeValue=STRVIDEO
+                fullValue=Streaming Video
+                typeOrSource=Can be a pointer to LOC to pull down pre-defined list
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element type="xs:string" name="codeValue"/>
+            <xs:element type="xs:string" name="fullValue"/>
+            <xs:element type="ole:typeOrSource" name="typeOrSource"
+                        xmlns:ole="http://ole.kuali.org/standards/ole-instance"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="highDensityStorage">
+        <xs:annotation>
+            <xs:documentation>Does not map to MFHD. Identifies the Row, Module, Shelf, and Tray information for
+                the
+                item's High Density Storage location.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element type="xs:string" name="row"/>
+            <xs:element type="xs:string" name="module"/>
+            <xs:element type="xs:string" name="shelf"/>
+            <xs:element type="xs:string" name="tray"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="itemType">
+        <xs:sequence>
+            <xs:element type="xs:string" name="codeValue"/>
+            <xs:element type="xs:string" name="fullValue"/>
+            <xs:element type="ole:typeOrSource" name="typeOrSource"
+                        xmlns:ole="http://ole.kuali.org/standards/ole-instance"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="identifier">
+        <xs:annotation>
+            <xs:documentation>
+                Unique identifier for the item record.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element type="xs:string" name="identifierValue"/>
+        </xs:sequence>
+        <xs:attribute type="xs:string" name="source"/>
+    </xs:complexType>
+    <xs:complexType name="formerIdentifier">
+        <xs:sequence>
+            <xs:element type="ole:identifier" name="identifier"
+                        xmlns:ole="http://ole.kuali.org/standards/ole-instance">
+                <xs:annotation>
+                    <xs:documentation>
+                        Former identifiers from the legacy systems. Mainly for item records.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name="identifierType">
+                <xs:annotation>
+                    <xs:documentation>
+                        To indicate which system the identifiers from ported from.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="extension" mixed="true">
+        <xs:sequence>
+            <xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="displayLabel" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="callNumber">
+        <xs:sequence>
+            <xs:element type="xs:string" name="type">
+                <xs:annotation>
+                    <xs:documentation>
+                        LC or Duewy decimal etc...
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name="prefix">
+                <xs:annotation>
+                    <xs:documentation>
+                        Maps to MFHD 852 $k Call Number Prefix - Term that precedes a call number.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name="number">
+                <xs:annotation>
+                    <xs:documentation>
+                        To be filled
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name="classificationPart">
+                <xs:annotation>
+                    <xs:documentation>
+                        Maps to MFHD 852 $k Call Number Prefix - Term that precedes a call number.
+
+                        Also known as class number.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="xs:string" name="itemPart">
+                <xs:annotation>
+                    <xs:documentation>
+                        Maps to MFHD 852 $i Item Part - Cutter, date, or
+                        term that is added to the classification contained in classificationPart to
+                        distinguish one item from any other item assigned the same classification. A call number suffix
+                        is contained in callNumberSuffix).
+                        Also known as the book number part of call number.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="ole:shelvingScheme" name="shelvingScheme"
+                        xmlns:ole="http://ole.kuali.org/standards/ole-instance">
+                <xs:annotation>
+                    <xs:documentation>
+                        This maps to MFHD 852 ind1. Possible values are:
+                        # - No information provided
+                        0 - Library of Congress classification
+                        1 - Dewey Decimal classification
+                        2 - National Library of Medicine classification
+                        3 - Superintendent of Documents classification
+                        4 - Shelving control number
+                        5 - Title
+                        6 - Shelved separately
+                        7 - Source specified in subfield $2
+                        8 - Other scheme
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element type="ole:shelvingOrder" name="shelvingOrder"
+                        xmlns:ole="http://ole.kuali.org/standards/ole-instance">
+                <xs:annotation>
+                    <xs:documentation>
+                        This is the normalized form for the call number. This determines how the call number is indexed.
+                        Does not map to MFHD.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="uri">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute type="xs:string" name="resolvable"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    <xs:complexType name="numberOfCirculations">
+        <xs:sequence>
+            <xs:element type="ole:checkInLocation" name="checkInLocation"
+                        xmlns:ole="http://ole.kuali.org/standards/ole-instance" maxOccurs="unbounded" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                       Check in Location contains name and count. This determines how many times check in takes place in each location.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="checkInLocation">
+        <xs:sequence>
+            <xs:element type="xs:string" name="name"/>
+            <xs:element type="xs:string" name="count"/>
+            <xs:element type="xs:string" name="inHouseCount"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

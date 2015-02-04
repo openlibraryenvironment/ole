@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+<!--
+ Copyright 2006-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean id="CreditCardVendorMaintenanceDocument" parent="CreditCardVendorMaintenanceDocument-parentBean"/>
+
+  <bean id="CreditCardVendorMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.ole.fp.businessobject.CreditCardVendor"/>
+    <property name="maintainableClass" value="org.kuali.ole.sys.document.FinancialSystemMaintainable"/>
+    <property name="maintainableSections">
+      <list>
+        <ref bean="CreditCardVendorMaintenanceDocument-EditCreditCardVendor"/>
+      </list>
+    </property>
+    <property name="defaultExistenceChecks">
+      <list>
+        <bean parent="ReferenceDefinition" p:attributeName="financialDocumentCreditCardType" p:attributeToHighlightOnFail="financialDocumentCreditCardTypeCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="incomeFinancialChartOfAccounts" p:attributeToHighlightOnFail="incomeFinancialChartOfAccountsCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="incomeAccount" p:attributeToHighlightOnFail="incomeAccountNumber"/>
+        <bean parent="ReferenceDefinition" p:attributeName="incomeFinancialObject" p:attributeToHighlightOnFail="incomeFinancialObjectCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="incomeFinancialSubObject" p:attributeToHighlightOnFail="incomeFinancialSubObjectCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="incomeSubAccount" p:attributeToHighlightOnFail="incomeSubAccountNumber"/>
+        <bean parent="ReferenceDefinition" p:attributeName="expenseFinancialChartOfAccounts" p:attributeToHighlightOnFail="expenseFinancialChartOfAccountsCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="expenseAccount" p:attributeToHighlightOnFail="expenseAccountNumber"/>
+        <bean parent="ReferenceDefinition" p:attributeName="expenseFinancialObject" p:attributeToHighlightOnFail="expenseFinancialObjectCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="expenseFinancialSubObject" p:attributeToHighlightOnFail="expenseFinancialSubObjectCode"/>
+        <bean parent="ReferenceDefinition" p:attributeName="expenseSubAccount" p:attributeToHighlightOnFail="expenseSubAccountNumber"/>
+      </list>
+    </property>
+    <property name="lockingKeys">
+      <list>
+        <value>financialDocumentCreditCardVendorNumber</value>
+      </list>
+    </property>
+ 
+    <property name="documentTypeName" value="OLE_CCVN"/>
+    <property name="businessRulesClass" value="org.kuali.ole.fp.document.validation.impl.CreditCardVendorRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.ole.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
+
+    <property name="webScriptFiles">
+      <list>
+        <value>../dwr/interface/AccountService.js</value>
+        <value>../scripts/coa/accountDocument.js</value>
+      </list>
+    </property>
+    
+    <property name="workflowAttributes">
+    	<ref bean="CreditCardVendorMaintenanceDocument-workflowAttributes"/>
+    </property>
+  </bean>
+
+<!-- Maintenance Section Definitions -->
+
+  <bean id="CreditCardVendorMaintenanceDocument-EditCreditCardVendor" parent="CreditCardVendorMaintenanceDocument-EditCreditCardVendor-parentBean"/>
+
+  <bean id="CreditCardVendorMaintenanceDocument-EditCreditCardVendor-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Edit Credit Card Vendor"/>
+    <property name="title" value="Edit Credit Card Vendor"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="financialDocumentCreditCardVendorNumber" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="financialDocumentCreditCardVendorName" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="financialDocumentCreditCardTypeCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="incomeFinancialChartOfAccountsCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="incomeAccountNumber" p:webUILeaveFieldFunction="onblur_accountNumber">
+			<property name="webUILeaveFieldFunctionParameters">
+				<list>
+					<value>incomeFinancialChartOfAccountsCode</value>
+				</list>
+			</property> 
+		</bean>        
+        <bean parent="MaintainableFieldDefinition" p:name="incomeFinancialObjectCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="incomeFinancialSubObjectCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="incomeSubAccountNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="expenseFinancialChartOfAccountsCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="expenseAccountNumber" p:webUILeaveFieldFunction="onblur_accountNumber">
+			<property name="webUILeaveFieldFunctionParameters">
+				<list>
+					<value>expenseFinancialChartOfAccountsCode</value>
+				</list>
+			</property> 
+		</bean>        
+        <bean parent="MaintainableFieldDefinition" p:name="expenseFinancialObjectCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="expenseFinancialSubObjectCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="expenseSubAccountNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:required="false"/>
+      </list>
+    </property>
+  </bean>
+  
+  <!-- workflow attributes -->
+  <bean id="CreditCardVendorMaintenanceDocument-workflowAttributes" parent="CreditCardVendorMaintenanceDocument-workflowAttributes-parentBean"/>
+  
+  <bean id="CreditCardVendorMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true"/>
+</beans>

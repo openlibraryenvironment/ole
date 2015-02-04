@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="OleEResourceRequestor" parent="OleEResourceRequestor-parentBean"/>
+
+    <bean id="OleEResourceRequestor-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.select.bo.OLEEResourceRequestor"/>
+        <property name="objectLabel" value="E-Resource Requestor"/>
+        <property name="attributes">
+            <list>
+                <ref bean="OleEResourceRequestor-oleERSRequestorId"/>
+                <ref bean="OleEResourceRequestor-oleERSIdentifier"/>
+                <ref bean="OleEResourceRequestor-requestorId"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+    <bean id="OleEResourceRequestor-oleERSRequestorId" parent="OleEResourceRequestor-oleERSRequestorId-parentBean"/>
+
+    <bean id="OleEResourceRequestor-oleERSRequestorId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="E-Resource Requestor Id"/>
+        <property name="maxLength" value="10"/>
+        <property name="name" value="oleERSRequestorId"/>
+        <property name="label" value="E-Resource Requestor Id"/>
+        <property name="description" value="E-Resource Requestor Id"/>
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+    </bean>
+
+
+    <bean id="OleEResourceRequestor-oleERSIdentifier" parent="OleEResourceRequestor-oleERSIdentifier-parentBean"/>
+
+    <bean id="OleEResourceRequestor-oleERSIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="E-Resource Id"/>
+        <property name="maxLength" value=""/>
+        <property name="name" value="oleERSIdentifier"/>
+        <property name="label" value="E-Resource Id"/>
+        <property name="description" value="E-Resource Id"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="10"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="10"/>
+        </property>
+    </bean>
+
+
+    <bean id="OleEResourceRequestor-requestorId" parent="OleEResourceRequestor-requestorId-parentBean"/>
+
+    <bean id="OleEResourceRequestor-requestorId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="E-Resource Requestor Name"/>
+        <property name="maxLength" value="40"/>
+        <property name="name" value="requestorId"/>
+        <property name="label" value="E-Resource Requestor Name"/>
+        <property name="description" value="E-Resource Requestor Name"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+</beans>

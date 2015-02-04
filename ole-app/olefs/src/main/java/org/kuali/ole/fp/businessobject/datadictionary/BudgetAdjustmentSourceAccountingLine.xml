@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+ Copyright 2006-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean id="BudgetAdjustmentSourceAccountingLine" parent="BudgetAdjustmentSourceAccountingLine-parentBean"/>
+
+  <bean id="BudgetAdjustmentSourceAccountingLine-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.ole.fp.businessobject.BudgetAdjustmentSourceAccountingLine"/>
+    <property name="objectLabel" value="Budget Adjustment Source Accounting Line"/>
+    <property name="attributes">
+      <list>
+        <ref bean="BudgetAdjustmentSourceAccountingLine-budgetAdjustmentPeriodCode"/>
+        <ref bean="BudgetAdjustmentSourceAccountingLine-currentBudgetAdjustmentAmount"/>
+        <ref bean="BudgetAdjustmentSourceAccountingLine-baseBudgetAdjustmentAmount"/>
+        <ref bean="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth1LineAmount"/>
+        <ref bean="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth2LineAmount"/>
+        <ref bean="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth3LineAmount"/>
+        <ref bean="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth4LineAmount"/>
+        <ref bean="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth5LineAmount"/>
+        <ref bean="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth6LineAmount"/>
+        <ref bean="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth7LineAmount"/>
+        <ref bean="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth8LineAmount"/>
+        <ref bean="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth9LineAmount"/>
+        <ref bean="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth10LineAmount"/>
+        <ref bean="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth11LineAmount"/>
+        <ref bean="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth12LineAmount"/>
+        <ref bean="BudgetAdjustmentSourceAccountingLine-objectCode.financialObjectTypeCode"/>
+        <ref bean="BudgetAdjustmentSourceAccountingLine-objectCode.financialObjectSubTypeCode"/>
+        <ref bean="BudgetAdjustmentSourceAccountingLine-objectCode.financialObjectLevelCode"/>
+        <ref bean="BudgetAdjustmentSourceAccountingLine-account.financialHigherEdFunctionCd"/>
+        <ref bean="BudgetAdjustmentSourceAccountingLine-account.subFundGroupCode"/>
+        <ref bean="BudgetAdjustmentSourceAccountingLine-account.subFundGroup.fundGroupCode"/>
+        <ref bean="BudgetAdjustmentSourceAccountingLine-balanceTypeCode"/>
+        <ref bean="BudgetAdjustmentSourceAccountingLine-referenceNumber"/>
+        <ref bean="BudgetAdjustmentSourceAccountingLine-sequenceNumber"/>
+        <ref bean="BudgetAdjustmentSourceAccountingLine-financialObjectCode"/>
+        <ref bean="BudgetAdjustmentSourceAccountingLine-accountNumber"/>
+        <ref bean="BudgetAdjustmentSourceAccountingLine-organizationReferenceId"/>
+        <ref bean="BudgetAdjustmentSourceAccountingLine-chartOfAccountsCode"/>
+        <ref bean="BudgetAdjustmentSourceAccountingLine-postingYear"/>
+        <ref bean="BudgetAdjustmentSourceAccountingLine-referenceOriginCode"/>
+        <ref bean="BudgetAdjustmentSourceAccountingLine-overrideCode"/>
+        <ref bean="BudgetAdjustmentSourceAccountingLine-amount"/>
+        <ref bean="BudgetAdjustmentSourceAccountingLine-subAccountNumber"/>
+        <ref bean="BudgetAdjustmentSourceAccountingLine-referenceTypeCode"/>
+        <ref bean="BudgetAdjustmentSourceAccountingLine-projectCode"/>
+        <ref bean="BudgetAdjustmentSourceAccountingLine-financialSubObjectCode"/>
+        <ref bean="BudgetAdjustmentSourceAccountingLine-documentNumber"/>
+        <ref bean="BudgetAdjustmentSourceAccountingLine-debitCreditCode"/>
+        <ref bean="BudgetAdjustmentSourceAccountingLine-encumbranceUpdateCode"/>
+        <ref bean="BudgetAdjustmentSourceAccountingLine-objectTypeCode"/>
+        <ref bean="BudgetAdjustmentSourceAccountingLine-accountExpiredOverride"/>
+        <ref bean="BudgetAdjustmentSourceAccountingLine-nonFringeAccountOverride"/>
+        <ref bean="BudgetAdjustmentSourceAccountingLine-objectBudgetOverride"/>
+        <ref bean="BudgetAdjustmentSourceAccountingLine-financialDocumentLineDescription"/>
+        <ref bean="BudgetAdjustmentSourceAccountingLine-salesTaxRequired"/>
+        <ref bean="BudgetAdjustmentSourceAccountingLine-salesTax.chartOfAccountsCode"/>
+        <ref bean="BudgetAdjustmentSourceAccountingLine-salesTax.accountNumber"/>
+        <ref bean="BudgetAdjustmentSourceAccountingLine-salesTax.financialDocumentGrossSalesAmount"/>
+        <ref bean="BudgetAdjustmentSourceAccountingLine-salesTax.financialDocumentTaxableSalesAmount"/>
+        <ref bean="BudgetAdjustmentSourceAccountingLine-salesTax.financialDocumentSaleDate"/>
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="BudgetAdjustmentSourceAccountingLine-budgetAdjustmentPeriodCode" parent="BudgetAdjustmentSourceAccountingLine-budgetAdjustmentPeriodCode-parentBean"/>
+  <bean id="BudgetAdjustmentSourceAccountingLine-budgetAdjustmentPeriodCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="budgetAdjustmentPeriodCode"/>
+    <property name="label" value="Budget Adjustment Period Code"/>
+    <property name="shortLabel" value="Period Code"/>
+    <property name="maxLength" value="2"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterValidation" />
+    </property>
+    <property name="control">
+      <ref bean="FourCharacterTextControl" />
+    </property>
+  </bean>
+  
+  <bean id="BudgetAdjustmentSourceAccountingLine-currentBudgetAdjustmentAmount" parent="BudgetAdjustmentSourceAccountingLine-currentBudgetAdjustmentAmount-parentBean"/>
+  <bean id="BudgetAdjustmentSourceAccountingLine-currentBudgetAdjustmentAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="currentBudgetAdjustmentAmount"/>
+    <property name="label" value="Current Budget Adjustment Amount"/>
+    <property name="shortLabel" value="Current Amt"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <ref bean="FloatingPointAllowNegativeValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
+    </property>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
+  </bean>
+  
+  <bean id="BudgetAdjustmentSourceAccountingLine-baseBudgetAdjustmentAmount" parent="BudgetAdjustmentSourceAccountingLine-baseBudgetAdjustmentAmount-parentBean"/>
+  <bean id="BudgetAdjustmentSourceAccountingLine-baseBudgetAdjustmentAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="baseBudgetAdjustmentAmount"/>
+    <property name="label" value="Base Budget Adjustment Amount"/>
+    <property name="shortLabel" value="Base Amt"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <ref bean="FloatingPointAllowNegativeValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
+    </property>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
+  </bean>
+  
+  <bean id="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth1LineAmount" parent="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth1LineAmount-parentBean"/>
+  <bean id="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth1LineAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentMonth1LineAmount"/>
+    <property name="label" value="Month 01 Line Amount"/>
+    <property name="shortLabel" value="Month 1 Amt"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <ref bean="FloatingPointAllowNegativeValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
+    </property>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
+  </bean>
+  
+  <bean id="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth2LineAmount" parent="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth2LineAmount-parentBean"/>
+  <bean id="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth2LineAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentMonth2LineAmount"/>
+    <property name="label" value="Month 02 Line Amount"/>
+    <property name="shortLabel" value="Month 2 Amt"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <ref bean="FloatingPointAllowNegativeValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
+    </property>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
+  </bean>
+  <bean id="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth3LineAmount" parent="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth3LineAmount-parentBean"/>
+
+  <bean id="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth3LineAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentMonth3LineAmount"/>
+    <property name="label" value="Month 03 Line Amount"/>
+    <property name="shortLabel" value="Month 3 Amt"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <ref bean="FloatingPointAllowNegativeValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
+    </property>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
+  </bean>
+  <bean id="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth4LineAmount" parent="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth4LineAmount-parentBean"/>
+
+  <bean id="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth4LineAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentMonth4LineAmount"/>
+    <property name="label" value="Month 04 Line Amount"/>
+    <property name="shortLabel" value="Month 4 Amt"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <ref bean="FloatingPointAllowNegativeValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
+    </property>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
+  </bean>
+  <bean id="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth5LineAmount" parent="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth5LineAmount-parentBean"/>
+
+  <bean id="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth5LineAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentMonth5LineAmount"/>
+    <property name="label" value="Month 05 Line Amount"/>
+    <property name="shortLabel" value="Month 5 Amt"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <ref bean="FloatingPointAllowNegativeValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
+    </property>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
+  </bean>
+  <bean id="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth6LineAmount" parent="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth6LineAmount-parentBean"/>
+
+  <bean id="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth6LineAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentMonth6LineAmount"/>
+    <property name="label" value="Month 06 Line Amount"/>
+    <property name="shortLabel" value="Month 6 Amt"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <ref bean="FloatingPointAllowNegativeValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
+    </property>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
+  </bean>
+  <bean id="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth7LineAmount" parent="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth7LineAmount-parentBean"/>
+
+  <bean id="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth7LineAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentMonth7LineAmount"/>
+    <property name="label" value="Month 07 Line Amount"/>
+    <property name="shortLabel" value="Month 7 Amt"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <ref bean="FloatingPointAllowNegativeValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
+    </property>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
+  </bean>
+  <bean id="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth8LineAmount" parent="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth8LineAmount-parentBean"/>
+
+  <bean id="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth8LineAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentMonth8LineAmount"/>
+    <property name="label" value="Month 08 Line Amount"/>
+    <property name="shortLabel" value="Month 8 Amt"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <ref bean="FloatingPointAllowNegativeValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
+    </property>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
+  </bean>
+  <bean id="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth9LineAmount" parent="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth9LineAmount-parentBean"/>
+
+  <bean id="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth9LineAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentMonth9LineAmount"/>
+    <property name="label" value="Month 09 Line Amount"/>
+    <property name="shortLabel" value="Month 9 Amt"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <ref bean="FloatingPointAllowNegativeValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
+    </property>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
+  </bean>
+  <bean id="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth10LineAmount" parent="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth10LineAmount-parentBean"/>
+
+  <bean id="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth10LineAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentMonth10LineAmount"/>
+    <property name="label" value="Month 10 Line Amount"/>
+    <property name="shortLabel" value="Month 10 Amt"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <ref bean="FloatingPointAllowNegativeValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
+    </property>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
+  </bean>
+  <bean id="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth11LineAmount" parent="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth11LineAmount-parentBean"/>
+
+  <bean id="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth11LineAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentMonth11LineAmount"/>
+    <property name="label" value="Month 11 Line Amount"/>
+    <property name="shortLabel" value="Month 11 Amt"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <ref bean="FloatingPointAllowNegativeValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
+    </property>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
+  </bean>
+  <bean id="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth12LineAmount" parent="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth12LineAmount-parentBean"/>
+
+  <bean id="BudgetAdjustmentSourceAccountingLine-financialDocumentMonth12LineAmount-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="financialDocumentMonth12LineAmount"/>
+    <property name="label" value="Month 12 Line Amount"/>
+    <property name="shortLabel" value="Month 12 Amt"/>
+    <property name="maxLength" value="19"/>
+    <property name="validationPattern">
+      <ref bean="FloatingPointAllowNegativeValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="21"/>
+    </property>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.CurrencyFormatter"/>
+  </bean>
+  <bean id="BudgetAdjustmentSourceAccountingLine-balanceTypeCode" parent="BudgetAdjustmentSourceAccountingLine-balanceTypeCode-parentBean"/>
+  <bean id="BudgetAdjustmentSourceAccountingLine-balanceTypeCode-parentBean" abstract="true" parent="SourceAccountingLine-balanceTypeCode" />
+
+  <bean id="BudgetAdjustmentSourceAccountingLine-referenceNumber" parent="BudgetAdjustmentSourceAccountingLine-referenceNumber-parentBean"/>
+  <bean id="BudgetAdjustmentSourceAccountingLine-referenceNumber-parentBean" abstract="true" parent="SourceAccountingLine-referenceNumber" />
+
+  <bean id="BudgetAdjustmentSourceAccountingLine-sequenceNumber" parent="BudgetAdjustmentSourceAccountingLine-sequenceNumber-parentBean"/>
+  <bean id="BudgetAdjustmentSourceAccountingLine-sequenceNumber-parentBean" abstract="true" parent="SourceAccountingLine-sequenceNumber" />
+
+  <bean id="BudgetAdjustmentSourceAccountingLine-financialObjectCode" parent="BudgetAdjustmentSourceAccountingLine-financialObjectCode-parentBean"/>
+  <bean id="BudgetAdjustmentSourceAccountingLine-financialObjectCode-parentBean" abstract="true" parent="SourceAccountingLine-financialObjectCode" />
+
+  <bean id="BudgetAdjustmentSourceAccountingLine-accountNumber" parent="BudgetAdjustmentSourceAccountingLine-accountNumber-parentBean"/>
+  <bean id="BudgetAdjustmentSourceAccountingLine-accountNumber-parentBean" abstract="true" parent="SourceAccountingLine-accountNumber" />
+
+  <bean id="BudgetAdjustmentSourceAccountingLine-organizationReferenceId" parent="BudgetAdjustmentSourceAccountingLine-organizationReferenceId-parentBean"/>
+  <bean id="BudgetAdjustmentSourceAccountingLine-organizationReferenceId-parentBean" abstract="true" parent="SourceAccountingLine-organizationReferenceId" />
+
+  <bean id="BudgetAdjustmentSourceAccountingLine-chartOfAccountsCode" parent="BudgetAdjustmentSourceAccountingLine-chartOfAccountsCode-parentBean"/>
+  <bean id="BudgetAdjustmentSourceAccountingLine-chartOfAccountsCode-parentBean" abstract="true" parent="SourceAccountingLine-chartOfAccountsCode" />
+
+  <bean id="BudgetAdjustmentSourceAccountingLine-postingYear" parent="BudgetAdjustmentSourceAccountingLine-postingYear-parentBean"/>
+  <bean id="BudgetAdjustmentSourceAccountingLine-postingYear-parentBean" abstract="true" parent="SourceAccountingLine-postingYear" />
+
+  <bean id="BudgetAdjustmentSourceAccountingLine-referenceOriginCode" parent="BudgetAdjustmentSourceAccountingLine-referenceOriginCode-parentBean"/>
+  <bean id="BudgetAdjustmentSourceAccountingLine-referenceOriginCode-parentBean" abstract="true" parent="SourceAccountingLine-referenceOriginCode" />
+
+  <bean id="BudgetAdjustmentSourceAccountingLine-overrideCode" parent="BudgetAdjustmentSourceAccountingLine-overrideCode-parentBean"/>
+  <bean id="BudgetAdjustmentSourceAccountingLine-overrideCode-parentBean" abstract="true" parent="SourceAccountingLine-overrideCode" />
+
+  <bean id="BudgetAdjustmentSourceAccountingLine-amount" parent="BudgetAdjustmentSourceAccountingLine-amount-parentBean"/>
+  <bean id="BudgetAdjustmentSourceAccountingLine-amount-parentBean" abstract="true" parent="SourceAccountingLine-amount" />
+
+  <bean id="BudgetAdjustmentSourceAccountingLine-subAccountNumber" parent="BudgetAdjustmentSourceAccountingLine-subAccountNumber-parentBean"/>
+  <bean id="BudgetAdjustmentSourceAccountingLine-subAccountNumber-parentBean" abstract="true" parent="SourceAccountingLine-subAccountNumber" />
+
+  <bean id="BudgetAdjustmentSourceAccountingLine-referenceTypeCode" parent="BudgetAdjustmentSourceAccountingLine-referenceTypeCode-parentBean"/>
+  <bean id="BudgetAdjustmentSourceAccountingLine-referenceTypeCode-parentBean" abstract="true" parent="SourceAccountingLine-referenceTypeCode"/>
+
+  <bean id="BudgetAdjustmentSourceAccountingLine-projectCode" parent="BudgetAdjustmentSourceAccountingLine-projectCode-parentBean"/>
+  <bean id="BudgetAdjustmentSourceAccountingLine-projectCode-parentBean" abstract="true" parent="SourceAccountingLine-projectCode" />
+
+  <bean id="BudgetAdjustmentSourceAccountingLine-financialSubObjectCode" parent="BudgetAdjustmentSourceAccountingLine-financialSubObjectCode-parentBean"/>
+  <bean id="BudgetAdjustmentSourceAccountingLine-financialSubObjectCode-parentBean" abstract="true" parent="SourceAccountingLine-financialSubObjectCode" />
+
+  <bean id="BudgetAdjustmentSourceAccountingLine-documentNumber" parent="BudgetAdjustmentSourceAccountingLine-documentNumber-parentBean"/>
+  <bean id="BudgetAdjustmentSourceAccountingLine-documentNumber-parentBean" abstract="true" parent="SourceAccountingLine-documentNumber" />
+
+  <bean id="BudgetAdjustmentSourceAccountingLine-debitCreditCode" parent="BudgetAdjustmentSourceAccountingLine-debitCreditCode-parentBean"/>
+  <bean id="BudgetAdjustmentSourceAccountingLine-debitCreditCode-parentBean" abstract="true" parent="SourceAccountingLine-debitCreditCode" />
+
+  <bean id="BudgetAdjustmentSourceAccountingLine-encumbranceUpdateCode" parent="BudgetAdjustmentSourceAccountingLine-encumbranceUpdateCode-parentBean"/>
+  <bean id="BudgetAdjustmentSourceAccountingLine-encumbranceUpdateCode-parentBean" abstract="true" parent="SourceAccountingLine-encumbranceUpdateCode" />
+
+  <bean id="BudgetAdjustmentSourceAccountingLine-objectTypeCode" parent="BudgetAdjustmentSourceAccountingLine-objectTypeCode-parentBean"/>
+  <bean id="BudgetAdjustmentSourceAccountingLine-objectTypeCode-parentBean" abstract="true" parent="SourceAccountingLine-objectTypeCode" />
+
+  <bean id="BudgetAdjustmentSourceAccountingLine-accountExpiredOverride" parent="BudgetAdjustmentSourceAccountingLine-accountExpiredOverride-parentBean"/>
+  <bean id="BudgetAdjustmentSourceAccountingLine-accountExpiredOverride-parentBean" abstract="true" parent="SourceAccountingLine-accountExpiredOverride" />
+  
+  <bean id="BudgetAdjustmentSourceAccountingLine-nonFringeAccountOverride" parent="BudgetAdjustmentSourceAccountingLine-nonFringeAccountOverride-parentBean"/>
+  <bean id="BudgetAdjustmentSourceAccountingLine-nonFringeAccountOverride-parentBean" abstract="true" parent="SourceAccountingLine-nonFringeAccountOverride" />
+  
+  <bean id="BudgetAdjustmentSourceAccountingLine-objectBudgetOverride" parent="BudgetAdjustmentSourceAccountingLine-objectBudgetOverride-parentBean"/>
+  <bean id="BudgetAdjustmentSourceAccountingLine-objectBudgetOverride-parentBean" abstract="true" parent="SourceAccountingLine-objectBudgetOverride" />
+
+  <bean id="BudgetAdjustmentSourceAccountingLine-financialDocumentLineDescription" parent="BudgetAdjustmentSourceAccountingLine-financialDocumentLineDescription-parentBean"/>
+  <bean id="BudgetAdjustmentSourceAccountingLine-financialDocumentLineDescription-parentBean" abstract="true" parent="SourceAccountingLine-financialDocumentLineDescription" />
+
+  <bean id="BudgetAdjustmentSourceAccountingLine-salesTaxRequired" parent="BudgetAdjustmentSourceAccountingLine-salesTaxRequired-parentBean"/>
+  <bean id="BudgetAdjustmentSourceAccountingLine-salesTaxRequired-parentBean" abstract="true" parent="SourceAccountingLine-salesTaxRequired" />
+
+  <bean id="BudgetAdjustmentSourceAccountingLine-salesTax.chartOfAccountsCode" parent="BudgetAdjustmentSourceAccountingLine-salesTax.chartOfAccountsCode-parentBean"/>
+  <bean id="BudgetAdjustmentSourceAccountingLine-salesTax.chartOfAccountsCode-parentBean" abstract="true" parent="SourceAccountingLine-salesTax.chartOfAccountsCode" />
+
+  <bean id="BudgetAdjustmentSourceAccountingLine-salesTax.accountNumber" parent="BudgetAdjustmentSourceAccountingLine-salesTax.accountNumber-parentBean"/>
+  <bean id="BudgetAdjustmentSourceAccountingLine-salesTax.accountNumber-parentBean" abstract="true" parent="SourceAccountingLine-salesTax.accountNumber" />
+
+  <bean id="BudgetAdjustmentSourceAccountingLine-salesTax.financialDocumentGrossSalesAmount" parent="BudgetAdjustmentSourceAccountingLine-salesTax.financialDocumentGrossSalesAmount-parentBean"/>
+  <bean id="BudgetAdjustmentSourceAccountingLine-salesTax.financialDocumentGrossSalesAmount-parentBean" abstract="true" parent="SourceAccountingLine-salesTax.financialDocumentGrossSalesAmount" />
+
+  <bean id="BudgetAdjustmentSourceAccountingLine-salesTax.financialDocumentTaxableSalesAmount" parent="BudgetAdjustmentSourceAccountingLine-salesTax.financialDocumentTaxableSalesAmount-parentBean"/>
+  <bean id="BudgetAdjustmentSourceAccountingLine-salesTax.financialDocumentTaxableSalesAmount-parentBean" abstract="true" parent="SourceAccountingLine-salesTax.financialDocumentTaxableSalesAmount" />
+
+  <bean id="BudgetAdjustmentSourceAccountingLine-salesTax.financialDocumentSaleDate" parent="BudgetAdjustmentSourceAccountingLine-salesTax.financialDocumentSaleDate-parentBean"/>
+  <bean id="BudgetAdjustmentSourceAccountingLine-salesTax.financialDocumentSaleDate-parentBean" abstract="true" parent="SourceAccountingLine-salesTax.financialDocumentSaleDate" />
+
+  <bean id="BudgetAdjustmentSourceAccountingLine-objectCode.financialObjectTypeCode" parent="BudgetAdjustmentSourceAccountingLine-objectCode.financialObjectTypeCode-parentBean"/>
+  <bean id="BudgetAdjustmentSourceAccountingLine-objectCode.financialObjectTypeCode-parentBean" abstract="true" parent="SourceAccountingLine-objectCode.financialObjectTypeCode"/>
+
+  <bean id="BudgetAdjustmentSourceAccountingLine-objectCode.financialObjectSubTypeCode" parent="BudgetAdjustmentSourceAccountingLine-objectCode.financialObjectSubTypeCode-parentBean"/>
+  <bean id="BudgetAdjustmentSourceAccountingLine-objectCode.financialObjectSubTypeCode-parentBean" abstract="true" parent="SourceAccountingLine-objectCode.financialObjectSubTypeCode"/>
+
+    <bean id="BudgetAdjustmentSourceAccountingLine-objectCode.financialObjectLevelCode" parent="BudgetAdjustmentSourceAccountingLine-objectCode.financialObjectLevelCode-parentBean"/>
+    <bean id="BudgetAdjustmentSourceAccountingLine-objectCode.financialObjectLevelCode-parentBean" abstract="true" parent="SourceAccountingLine-objectCode.financialObjectLevelCode" />
+        
+    <bean id="BudgetAdjustmentSourceAccountingLine-objectCode.financialObjectLevel.financialConsolidationObjectCode" parent="BudgetAdjustmentSourceAccountingLine-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean"/>
+    <bean id="BudgetAdjustmentSourceAccountingLine-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean" abstract="true" parent="SourceAccountingLine-objectCode.financialObjectLevel.financialConsolidationObjectCode-parentBean" />
+   
+    <bean id="BudgetAdjustmentSourceAccountingLine-account.organizationCode" parent="BudgetAdjustmentSourceAccountingLine-account.organizationCode-parentBean"/>
+    <bean id="BudgetAdjustmentSourceAccountingLine-account.organizationCode-parentBean" abstract="true" parent="SourceAccountingLine-account.organizationCode" />
+
+    <bean id="BudgetAdjustmentSourceAccountingLine-account.financialHigherEdFunctionCd" parent="BudgetAdjustmentSourceAccountingLine-account.financialHigherEdFunctionCd-parentBean"/>
+    <bean id="BudgetAdjustmentSourceAccountingLine-account.financialHigherEdFunctionCd-parentBean" abstract="true" parent="SourceAccountingLine-account.financialHigherEdFunctionCd" />
+
+    <bean id="BudgetAdjustmentSourceAccountingLine-account.subFundGroupCode" parent="BudgetAdjustmentSourceAccountingLine-account.subFundGroupCode-parentBean"/>
+    <bean id="BudgetAdjustmentSourceAccountingLine-account.subFundGroupCode-parentBean" abstract="true" parent="SourceAccountingLine-account.subFundGroupCode" />
+
+    <bean id="BudgetAdjustmentSourceAccountingLine-account.subFundGroup.fundGroupCode" parent="BudgetAdjustmentSourceAccountingLine-account.subFundGroup.fundGroupCode-parentBean"/>
+    <bean id="BudgetAdjustmentSourceAccountingLine-account.subFundGroup.fundGroupCode-parentBean" abstract="true" parent="SourceAccountingLine-account.subFundGroup.fundGroupCode" />
+
+</beans>

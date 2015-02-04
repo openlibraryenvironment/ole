@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <bean id="OLEInvoiceImportDetail" parent="OLEInvoiceImportDetail-parentBean"/>
+<!--
+    <bean id="OleLocationIngestSummaryRecord-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.ole.describe.bo.OleLocationIngestSummaryRecord"/>
+    <property name="titleAttribute" value="oleLocationSummaryId"/>
+    <property name="objectLabel" value="Ole Location Summary report Id"/>-->
+
+
+
+    <bean id="OLEInvoiceImportDetail-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.select.document.OLEInvoiceIngestLoadReport"/>
+       <!-- <property name="documentTypeName" value="OLE_INVOICE_IMPORT"/>
+        <property name="documentClass" value="org.kuali.ole.select.document.OLEInvoiceIngestLoadDetailstails"/>-->
+        <property name="titleAttribute" value="ole invoice ingest summary"/>
+        <property name="objectLabel" value="OLE invoice ingest summary"/>
+        <property name="attributes">
+            <list>
+                <ref bean="OLEInvoiceImportDetail-vendor"/>
+                <ref bean="OLEInvoiceImportDetail-fileName"/>
+                <ref bean="OLEInvoiceImportDetail-dateUploaded"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="OLEInvoiceImportDetail-vendor" parent="OLEInvoiceImportDetail-vendor-parentBean"/>
+    <bean id="OLEInvoiceImportDetail-vendor-parentBean" parent="AttributeDefinition">
+        <property name="name" value="vendor"/>
+        <property name="label" value="Vendor"/>
+        <property name="shortLabel" value="vendor"/>
+        <property name="maxLength" value="40"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLEInvoiceImportDetail-fileName" parent="OLEInvoiceImportDetail-fileName-parentBean"/>
+    <bean id="OLEInvoiceImportDetail-fileName-parentBean" parent="AttributeDefinition">
+        <property name="name" value="fileName"/>
+        <property name="label" value="FileName"/>
+        <property name="shortLabel" value="File Name"/>
+        <property name="maxLength" value="40"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLEInvoiceImportDetail-dateUploaded" parent="OLEInvoiceImportDetail-dateUploaded-parentBean"/>
+    <bean id="OLEInvoiceImportDetail-dateUploaded-parentBean" parent="AttributeReferenceDummy-genericDate">
+        <property name="name" value="dateUploaded"/>
+        <property name="label" value="Date Uploaded/Ingested"/>
+        <property name="shortLabel" value="dateUploaded"/>
+
+    </bean>
+
+    <bean id="OLEInvoiceImportDetail-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="Invoice Load Details" />
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="${ole.externalizable.help.url}/reference/webhelp/AG/content/ch11s02.html"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="dataObjectClassName" value="org.kuali.ole.select.document.OLEInvoiceIngestLoadReport" />
+        <property name="viewHelperServiceClass" value="org.kuali.ole.select.lookup.OLEInvoiceIngestLoadReportLookupableImpl" />
+        <property name="criteriaFields">
+            <list>
+
+                <bean id="vendor" parent="Uif-LookupCriteriaInputField" p:propertyName="vendor"/>
+                <bean id="fileName" parent="Uif-LookupCriteriaInputField" p:propertyName="fileName"/>
+                <bean id="dateUploaded" parent="Uif-LookupCriteriaInputField" p:propertyName="dateUploaded">
+                    <property name="control">
+                        <bean parent="Uif-DateControl" p:size="10"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean id="searchResult_vendor" parent="Uif-DataField" p:propertyName="vendor" />
+                <bean id="searchResult_fileName" parent="Uif-DataField" p:propertyName="fileName"/>
+                <bean id="searchResult_dateUploaded" parent="Uif-DataField" p:propertyName="dateUploaded"/>
+            </list>
+        </property>
+    </bean>
+</beans>

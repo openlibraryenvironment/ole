@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="OLEPatronFlaggedItemHistoryView" parent="OLEPatronFlaggedItemHistoryView-parentBean" />
+    <bean id="OLEPatronFlaggedItemHistoryView-parentBean" parent="Uif-OLEFormView">
+        <property name="headerText" value="Items Flagged History"/>
+        <property name="items">
+            <list>
+                <bean id="OLEPatronFlaggedItemHistoryView" parent="Uif-Page" >
+                    <property name="items">
+                        <list>
+                            <ref bean="OLEPatronFlaggedItemHistoryView-history-section"/>
+                            <bean id="OLEPatronFlaggedItemHistoryView-history-section-empty" parent="Uif-MessageField" p:messageText="No records found" p:cssClasses="receiveAndPayHeader" p:render="@{itemsList.size() eq 0}" p:style=" display: block;float: inherit;width: inherit;clear: both;font-size: 18px;margin: 0;padding: 0;padding-top: 8px;color:red;" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="formClass" value="org.kuali.ole.deliver.form.OLEPatronFlaggedItemHistoryForm"/>
+    </bean>
+
+
+    <bean id="OLEPatronFlaggedItemHistoryView-history-section"  parent="Uif-TableCollectionSection" p:style="width:1000px" p:layoutManager.numberOfColumns="7" p:render="@{itemsList.size() ne 0}">
+        <property name="headerText" value="" />
+        <property name="collectionObjectClass" value="org.kuali.ole.deliver.bo.OLEFlaggedItems" />
+        <property name="propertyName" value="itemsList" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.richTable.disableTableSort" value="false" />
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="bFilter" value="false"/>
+            </map>
+        </property>
+        <property name="renderLineActions" value="false"/>
+        <property name="items">
+            <list>
+                <bean id="OLEPatronFlaggedItemHistoryView_patronId" parent="Uif-LinkField" p:style="font-weight:bold;" p:href="inquiry?olePatronId=@{#line?.patronId}&amp;methodToCall=start&amp;dataObjectClassName=org.kuali.ole.deliver.bo.OlePatronDocument&amp;dialogMode=true&amp;showHome=false&amp;showHistory=false}" p:linkText="@{#line?.patronBarcode}" p:target="_blank" p:label="Patron Barcode" p:readOnly="true" />
+                <bean id="OLEPatronFlaggedItemHistoryView_patronName" parent="Uif-DataField" p:propertyName="patronName" p:label="Patron Name" p:readOnly="true"/>
+                <bean id="OLEPatronFlaggedItemHistoryView_patronFlagType" parent="Uif-DataField" p:propertyName="patronFlagType" p:label="Flag Type" p:readOnly="true"/>
+                <bean id="OLEPatronFlaggedItemHistoryView_patronNote" parent="Uif-DataField" p:propertyName="patronNote" p:label="Patron Note" p:readOnly="true"/>
+            </list>
+        </property>
+
+    </bean>
+
+
+</beans>

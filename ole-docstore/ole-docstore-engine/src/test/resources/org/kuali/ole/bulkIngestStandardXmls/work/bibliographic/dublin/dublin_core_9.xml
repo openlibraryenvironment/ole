@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<dublin_core schema="dc">
+  <dcvalue element="contributor" qualifier="author">Shackel, Paul A.</dcvalue>
+  <dcvalue element="contributor" qualifier="author">Hopkins, Joseph W., III</dcvalue>
+  <dcvalue element="contributor" qualifier="author">Williams, Eileen</dcvalue>
+  <dcvalue element="date" qualifier="accessioned">2010-12-03T17:12:31Z</dcvalue>
+  <dcvalue element="date" qualifier="available">2010-12-03T17:12:31Z</dcvalue>
+  <dcvalue element="date" qualifier="issued">1988</dcvalue>
+  <dcvalue element="identifier" qualifier="uri">http://hdl.handle.net/1903/11010</dcvalue>
+  <dcvalue element="description" qualifier="abstract">During the spring of 1985, archaeological excavations were conducted at the State House Inn, 18AP42, 15 State Circle, Annapolis, Maryland. Work was conducted by &quot;Archaeology in Annapolis,&quot; a cooperative project between Historic Annapolis, Inc. and the University of Maryland, College Park. This site is located within zone seven of the Maryland Archaeological Research Units (Figures 1, 2 &amp; 3). A two-week program of testing in March, 1985 was carried out in the yard on State Circle. On the basis of positive results from this testing, six more weeks of excavations were carried out. This report summarizes the results of both phases of the excavations. Excavations were directed by Joseph W. Hopkins III, with the assistance of Donald Creveling
+and Paul Shackel. These excavations were part of a larger investigation of the Baroque town plan of Annapolis, laid out by Governor Francis Nicholson in 1695. This plan served as a framework around which the town grew over the next three centuries. Available historic records do not adequately document the development of the plan to its present form. The excavation program was a first step in a program to recover information about the gradual change of the city plan.</dcvalue>
+  <dcvalue element="description" qualifier="provenance">Submitted by Joan Kaminer (jgibson@umd.edu) on 2010-12-02T19:26:24Z
+No. of bitstreams: 1
+Ap42 1988.pdf: 20398692 bytes, checksum: f96147d31da8edbcbb8659ac042e18f6 (MD5)</dcvalue>
+  <dcvalue element="description" qualifier="provenance">Approved for entry into archive by Manager for faculty self-deposit collections(drum-help@umd.edu) on 2010-12-03T17:12:31Z (GMT) No. of bitstreams: 1
+Ap42 1988.pdf: 20398692 bytes, checksum: f96147d31da8edbcbb8659ac042e18f6 (MD5)</dcvalue>
+  <dcvalue element="description" qualifier="provenance">Made available in DSpace on 2010-12-03T17:12:31Z (GMT). No. of bitstreams: 1
+Ap42 1988.pdf: 20398692 bytes, checksum: f96147d31da8edbcbb8659ac042e18f6 (MD5)
+  Previous issue date: 1988</dcvalue>
+  <dcvalue element="subject" qualifier="none">Archaeology</dcvalue>
+  <dcvalue element="subject" qualifier="none">Annapolis, Maryland</dcvalue>
+  <dcvalue element="subject" qualifier="none">State House Inn</dcvalue>
+  <dcvalue element="subject" qualifier="none">18AP42</dcvalue>
+  <dcvalue element="subject" qualifier="none">State Circle</dcvalue>
+  <dcvalue element="subject" qualifier="none">Baroque town plan</dcvalue>
+  <dcvalue element="subject" qualifier="none">Governor Francis Nicholson</dcvalue>
+  <dcvalue element="title" qualifier="none">Excavations at the State House Inn Site, 18AP42, 15 State Circle, Annapolis, Maryland</dcvalue>
+  <dcvalue element="relation" qualifier="isAvailableAt">University of Maryland (College Park, Md)</dcvalue>
+  <dcvalue element="relation" qualifier="isAvailableAt">Digital Repository at the University of Maryland</dcvalue>
+</dublin_core>

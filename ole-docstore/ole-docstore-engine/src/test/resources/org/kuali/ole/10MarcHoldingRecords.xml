@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   - Copyright 2011 The Kuali Foundation.
+   - 
+   - Licensed under the Educational Community License, Version 2.0 (the "License");
+   - you may not use this file except in compliance with the License.
+   - You may obtain a copy of the License at
+   - 
+   - http://www.opensource.org/licenses/ecl2.php
+   - 
+   - Unless required by applicable law or agreed to in writing, software
+   - distributed under the License is distributed on an "AS IS" BASIS,
+   - WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   - See the License for the specific language governing permissions and
+   - limitations under the License.
+ -->
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+    <record>
+        <leader>00198cy a22000854 4500</leader>
+        <controlfield tag="001">a7749745</controlfield>
+        <controlfield tag="003">InU</controlfield>
+        <controlfield tag="008">080911 eng 080911</controlfield>
+        <datafield tag="852" ind1=" " ind2=" ">
+            <subfield code="b">SOUTHEAST</subfield>
+            <subfield code="c">STACKS</subfield>
+            <subfield code="h">DS897.K84 F68 2002</subfield>
+        </datafield>
+        <datafield tag="866" ind1=" " ind2=" ">
+            <subfield code="a">Program 1-4</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>00183cy a22000854 4500</leader>
+        <controlfield tag="001">a7749841</controlfield>
+        <controlfield tag="003">InU</controlfield>
+        <controlfield tag="008">090105 eng 090105</controlfield>
+        <datafield tag="852" ind1=" " ind2=" ">
+            <subfield code="b">B-ALF</subfield>
+            <subfield code="c">_ALF</subfield>
+            <subfield code="h">DS734 .L43 1974</subfield>
+        </datafield>
+        <datafield tag="866" ind1=" " ind2=" ">
+            <subfield code="a">v.1-2</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>00248cy a22001094 4500</leader>
+        <controlfield tag="001">a7749859</controlfield>
+        <controlfield tag="003">InU</controlfield>
+        <controlfield tag="008">080624 eng 080624</controlfield>
+        <datafield tag="852" ind1=" " ind2=" ">
+            <subfield code="b">B-ALF</subfield>
+            <subfield code="c">_ALF</subfield>
+            <subfield code="h">SH11 .A284</subfield>
+            <subfield code="x">no.</subfield>
+        </datafield>
+        <datafield tag="866" ind1=" " ind2=" ">
+            <subfield code="a">2-4,6-8,11-16,18-67</subfield>
+        </datafield>
+        <datafield tag="866" ind1=" " ind2=" ">
+            <subfield code="a">1940-1949</subfield>
+        </datafield>
+        <datafield tag="901" ind1=" " ind2=" ">
+            <subfield code="a">a7749859</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>00194cy a22000854 4500</leader>
+        <controlfield tag="001">a7749899</controlfield>
+        <controlfield tag="003">InU</controlfield>
+        <controlfield tag="008">100702 eng 110114</controlfield>
+        <datafield tag="852" ind1=" " ind2=" ">
+            <subfield code="b">B-WELLS</subfield>
+            <subfield code="c">_RCSTACKS</subfield>
+            <subfield code="h">DS916.35 .T658 2007</subfield>
+        </datafield>
+        <datafield tag="866" ind1=" " ind2=" ">
+            <subfield code="a">v.1-2</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>00232cy a22001094 4500</leader>
+        <controlfield tag="001">a7749912</controlfield>
+        <controlfield tag="003">InU</controlfield>
+        <controlfield tag="008">080624 eng 090318</controlfield>
+        <datafield tag="852" ind1=" " ind2=" ">
+            <subfield code="b">B-ALF</subfield>
+            <subfield code="c">_ALF</subfield>
+            <subfield code="h">QH7 .A313</subfield>
+            <subfield code="x">vol.</subfield>
+        </datafield>
+        <datafield tag="866" ind1=" " ind2=" ">
+            <subfield code="a">4-8</subfield>
+        </datafield>
+        <datafield tag="866" ind1=" " ind2=" ">
+            <subfield code="a">1959-1963</subfield>
+        </datafield>
+        <datafield tag="901" ind1=" " ind2=" ">
+            <subfield code="a">a7749912</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>00190cy a22000854 4500</leader>
+        <controlfield tag="001">a7749991</controlfield>
+        <controlfield tag="003">InU</controlfield>
+        <controlfield tag="008">080728 eng 080728</controlfield>
+        <datafield tag="852" ind1=" " ind2=" ">
+            <subfield code="b">B-WELLS</subfield>
+            <subfield code="c">_RCSTACKS</subfield>
+            <subfield code="h">BL795.M9 P54 2006</subfield>
+        </datafield>
+        <datafield tag="866" ind1=" " ind2=" ">
+            <subfield code="a">v.2</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>00192cy a22000854 4500</leader>
+        <controlfield tag="001">a7750007</controlfield>
+        <controlfield tag="003">InU</controlfield>
+        <controlfield tag="008">080924 eng 081111</controlfield>
+        <datafield tag="852" ind1=" " ind2=" ">
+            <subfield code="b">B-WELLS</subfield>
+            <subfield code="c">_RCSLAVRF</subfield>
+            <subfield code="h">DK511.C4 C46 2003</subfield>
+        </datafield>
+        <datafield tag="866" ind1=" " ind2=" ">
+            <subfield code="a">v.1-6</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>00199cy a22000854 4500</leader>
+        <controlfield tag="001">a7750067</controlfield>
+        <controlfield tag="003">InU</controlfield>
+        <controlfield tag="008">080626 eng 080626</controlfield>
+        <datafield tag="852" ind1=" " ind2=" ">
+            <subfield code="b">B-WELLS</subfield>
+            <subfield code="c">_DOCSMFIC</subfield>
+            <subfield code="h">TD 2.310:</subfield>
+            <subfield code="x">year</subfield>
+        </datafield>
+        <datafield tag="866" ind1=" " ind2=" ">
+            <subfield code="a">1979-1986,1988</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>00237cy a22000974 4500</leader>
+        <controlfield tag="001">a7750067</controlfield>
+        <controlfield tag="003">InU</controlfield>
+        <controlfield tag="008">080626 eng 080626</controlfield>
+        <datafield tag="852" ind1=" " ind2=" ">
+            <subfield code="b">B-WELLS</subfield>
+            <subfield code="c">_DOCSUS</subfield>
+            <subfield code="h">TD 2.310:</subfield>
+            <subfield code="x">year</subfield>
+        </datafield>
+        <datafield tag="866" ind1=" " ind2=" ">
+            <subfield code="a">1973-1975,1977-1978,1985-1988</subfield>
+        </datafield>
+        <datafield tag="901" ind1=" " ind2=" ">
+            <subfield code="a">a7750067</subfield>
+        </datafield>
+    </record>
+    <record>
+        <leader>00192cy a22000854 4500</leader>
+        <controlfield tag="001">a7750068</controlfield>
+        <controlfield tag="003">InU</controlfield>
+        <controlfield tag="008">080625 eng 080625</controlfield>
+        <datafield tag="852" ind1=" " ind2=" ">
+            <subfield code="b">B-WELLS</subfield>
+            <subfield code="c">_DOCSSTKL</subfield>
+            <subfield code="h">HC557.C3 A55 1959</subfield>
+        </datafield>
+        <datafield tag="866" ind1=" " ind2=" ">
+            <subfield code="a">v.1-2</subfield>
+        </datafield>
+    </record>
+</collection>

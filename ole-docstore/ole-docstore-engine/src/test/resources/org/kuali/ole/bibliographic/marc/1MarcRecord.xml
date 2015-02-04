@@ -1,0 +1,109 @@
+<!--
+   - Copyright 2011 The Kuali Foundation.
+   - 
+   - Licensed under the Educational Community License, Version 2.0 (the "License");
+   - you may not use this file except in compliance with the License.
+   - You may obtain a copy of the License at
+   - 
+   - http://www.opensource.org/licenses/ecl2.php
+   - 
+   - Unless required by applicable law or agreed to in writing, software
+   - distributed under the License is distributed on an "AS IS" BASIS,
+   - WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   - See the License for the specific language governing permissions and
+   - limitations under the License.
+ -->
+<records>
+    <record>
+        <leader>01297cama2200301Ia 450</leader>
+        <controlfield tag="001">a5556513</controlfield>
+        <controlfield tag="003">InU</controlfield>
+        <controlfield tag="005">20030418112155.0</controlfield>
+        <controlfield tag="008">940914s1994 inu 000 0 eng d</controlfield>
+        <datafield tag="040" ind1=" " ind2=" ">
+            <subfield code="a">XXN</subfield>
+            <subfield code="c">XXN</subfield>
+            <subfield code="d">IUL</subfield>
+        </datafield>
+        <datafield tag="090" ind1=" " ind2=" ">
+            <subfield code="a">LC4704</subfield>
+            <subfield code="b">.E23 1994</subfield>
+        </datafield>
+        <datafield tag="092" ind1=" " ind2=" ">
+            <subfield code="a">38 .E34</subfield>
+        </datafield>
+        <datafield tag="049" ind1=" " ind2=" ">
+            <subfield code="a">IULA</subfield>
+        </datafield>
+        <datafield tag="100" ind1="1" ind2=" ">
+            <subfield code="a">Ebeling, David G.</subfield>
+            <subfield code="q">(David George),</subfield>
+            <subfield code="d">1940-</subfield>
+        </datafield>
+        <datafield tag="245" ind1="1" ind2="0">
+            <subfield code="a">Adapting curriculum and instruction in inclusive classrooms :</subfield>
+            <subfield code="b">staff development kit /</subfield>
+            <subfield code="c">David G. Ebeling, Cathy Deschenes, Jeffrey Sprague.</subfield>
+        </datafield>
+        <datafield tag="260" ind1=" " ind2=" ">
+            <subfield code="a">Bloomington, Ind. :</subfield>
+            <subfield code="b">Center for School and Community Integration, Institute for the Study of Developmental
+                Disabilities,
+            </subfield>
+            <subfield code="c">c1994.</subfield>
+        </datafield>
+        <datafield tag="300" ind1=" " ind2=" ">
+            <subfield code="a">32 leaves ;</subfield>
+            <subfield code="c">28 cm.</subfield>
+        </datafield>
+        <datafield tag="500" ind1=" " ind2=" ">
+            <subfield code="a">"This reference manual was produced with support from grant #HO86U00026 United States
+                Department of Education."
+            </subfield>
+        </datafield>
+        <datafield tag="650" ind1=" " ind2="0">
+            <subfield code="a">Learning disabled children</subfield>
+            <subfield code="x">Education.</subfield>
+        </datafield>
+        <datafield tag="710" ind1="2" ind2=" ">
+            <subfield code="a">Indiana University, Bloomington.</subfield>
+            <subfield code="b">Center for School and Community Integration.</subfield>
+        </datafield>
+        <datafield tag="710" ind1="2" ind2=" ">
+            <subfield code="a">Indiana University, Bloomington.</subfield>
+            <subfield code="b">Institute for the Study of Developmental Disabilities.</subfield>
+        </datafield>
+        <datafield tag="700" ind1="1" ind2=" ">
+            <subfield code="a">Deschenes, Cathy.</subfield>
+        </datafield>
+        <datafield tag="700" ind1="1" ind2=" ">
+            <subfield code="a">Sprague, Jeffrey.</subfield>
+        </datafield>
+        <datafield tag="949" ind1=" " ind2=" ">
+            <subfield code="h">iidcref</subfield>
+        </datafield>
+        <datafield tag="998" ind1=" " ind2=" ">
+            <subfield code="a">rcp3593</subfield>
+        </datafield>
+        <datafield tag="994" ind1=" " ind2=" ">
+            <subfield code="a">02</subfield>
+            <subfield code="b">IUL</subfield>
+        </datafield>
+        <datafield tag="596" ind1=" " ind2=" ">
+            <subfield code="a">50</subfield>
+        </datafield>
+        <datafield tag="999" ind1=" " ind2=" ">
+            <subfield code="a">38 .E34</subfield>
+            <subfield code="w">ALPHANUM</subfield>
+            <subfield code="c">1</subfield>
+            <subfield code="i">30000085671695</subfield>
+            <subfield code="l">_IIDCREF</subfield>
+            <subfield code="m">B-CEDIR</subfield>
+            <subfield code="p">$13.50</subfield>
+            <subfield code="r">Y</subfield>
+            <subfield code="s">Y</subfield>
+            <subfield code="t">NONCIRC</subfield>
+            <subfield code="u">7/10/2003</subfield>
+        </datafield>
+    </record>
+</records>

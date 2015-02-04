@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+<!--
+ Copyright 2006-2008 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean id="OrderItemStatus" parent="OrderItemStatus-parentBean"/>
+
+  <bean id="OrderItemStatus-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.ole.module.purap.businessobject.OrderItemStatus"/>
+    <property name="inquiryDefinition">
+      <ref bean="OrderItemStatus-inquiryDefinition"/>
+    </property>
+    <property name="lookupDefinition">
+      <ref bean="OrderItemStatus-lookupDefinition"/>
+    </property>
+    <property name="titleAttribute" value="orderItemStatusId"/>
+    <property name="objectLabel" value="order Item Status"/>
+    <property name="attributes">
+      <list>
+        <ref bean="OrderItemStatus-orderItemStatusId"/>
+        <ref bean="OrderItemStatus-orderItemStatus"/>
+        <ref bean="OrderItemStatus-description"/>
+        <ref bean="OrderItemStatus-active"/>
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="OrderItemStatus-orderItemStatusId" parent="OrderItemStatus-orderItemStatusId-parentBean"/>
+
+  <bean id="OrderItemStatus-orderItemStatusId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="orderItemStatusId"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Order Item Status Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="8"/>
+    <property name="validationPattern">
+      <ref bean="NumericValidation" />
+    </property>
+     <property name="control">
+      <ref bean="HiddenControl" />
+    </property>
+  </bean>
+  <bean id="OrderItemStatus-orderItemStatus" parent="OrderItemStatus-orderItemStatus-parentBean"/>
+
+  <bean id="OrderItemStatus-orderItemStatus-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="orderItemStatus"/>
+    <property name="label" value="Order Item Status Type"/>
+    <property name="shortLabel" value="Description"/>
+    <property name="maxLength" value="250"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="47"/>
+    </property>
+  </bean>
+  
+  <bean id="OrderItemStatus-active" parent="OrderItemStatus-active-parentBean"/>
+  <bean id="OrderItemStatus-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active"/>
+  </bean>
+  
+  
+  <bean id="OrderItemStatus-description" parent="OrderItemStatus-description-parentBean"/>
+
+  <bean id="OrderItemStatus-description-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="description"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Description"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="500"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
+    </property>
+     <property name="control">
+      <bean parent="TextControlDefinition" p:size="47"/>
+    </property>
+  </bean>
+  
+  
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="OrderItemStatus-inquiryDefinition" parent="OrderItemStatus-inquiryDefinition-parentBean"/>
+
+  <bean id="OrderItemStatus-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Order Item Status Inquiry"/>
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="orderItemStatusId"/>
+              <bean parent="FieldDefinition" p:attributeName="orderItemStatus"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="OrderItemStatus-lookupDefinition" parent="OrderItemStatus-lookupDefinition-parentBean"/>
+
+  <bean id="OrderItemStatus-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Order Item Status Lookup"/>
+    
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="orderItemStatusId"/>
+        <bean parent="FieldDefinition" p:attributeName="orderItemStatus"/>
+        <bean parent="FieldDefinition" p:attributeName="description"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="orderItemStatusId"/>
+        <bean parent="FieldDefinition" p:attributeName="orderItemStatus"/>
+        <bean parent="FieldDefinition" p:attributeName="description"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+  </bean>
+</beans>

@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="AlertEventMaintenance" parent="AlertEventMaintenance-parentBean"/>
+    <bean id="AlertEventMaintenance-parentBean" abstract="true" parent="BusinessObjectEntry"
+          p:businessObjectClass="org.kuali.ole.alert.bo.AlertEvent" p:titleAttribute="alertEventName"
+          p:objectLabel="Alert Event">
+        <property name="attributes">
+            <list>
+                <ref bean="AlertEvent-alertEventId"/>
+                <ref bean="AlertEvent-alertEventName"/>
+                <ref bean="AlertEvent-alertDocumentTypeId"/>
+                <ref bean="AlertEvent-alertDocumentTypeName"/>
+                <ref bean="AlertEvent-active"/>
+            </list>
+        </property>
+        <property name="primaryKeys">
+            <list>
+                <value>alertEventId</value>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="AlertEvent-alertEventId" parent="AlertEvent-alertEventId-parentBean"/>
+
+    <bean id="AlertEvent-alertEventId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="10"/>
+        <property name="shortLabel" value="Alert Event Id"/>
+        <property name="description" value="Alert Event"/>
+        <property name="name" value="alertEventId"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Alert Event Id"/>
+    </bean>
+
+    <bean id="AlertEvent-active" parent="AlertEvent-active-parentBean"/>
+
+    <bean id="AlertEvent-active-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="active"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="active"/>
+        <property name="maxLength" value="1"/>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-CheckboxControl"/>
+        </property>
+        <property name="summary" value="Active Indicator"/>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+        <property name="label" value="Active Indicator"/>
+        <property name="description" value="This attribute is used to describe whether the associated object is active or inactive."/>
+    </bean>
+
+    <bean id="AlertEvent-alertEventName" parent="AlertEvent-alertEventName-parentBean"/>
+
+    <bean id="AlertEvent-alertEventName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="30"/>
+        <property name="shortLabel" value="Alert Event Name"/>
+        <property name="description" value="alertEventName"/>
+        <property name="name" value="alertEventName"/>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Alert Event Name"/>
+    </bean>
+    <bean id="AlertEvent-alertDocumentTypeId" parent="AlertEvent-alertDocumentTypeId-parentBean"/>
+
+    <bean id="AlertEvent-alertDocumentTypeId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="30"/>
+        <property name="shortLabel" value="Alert Document Type Id"/>
+        <property name="description" value="Alert Document Type Id"/>
+        <property name="name" value="alertDocumentTypeId"/>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Alert Document Type Id"/>
+    </bean>
+    <bean id="AlertEvent-alertDocumentTypeName" parent="AlertEvent-alertDocumentTypeName-parentBean"/>
+
+    <bean id="AlertEvent-alertDocumentTypeName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="30"/>
+        <property name="shortLabel" value="Alert Document Type Name"/>
+        <property name="description" value="alertDocumentTypeName"/>
+        <property name="name" value="alertDocumentTypeName"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="forceUppercase" value="false"/>
+        <property name="label" value="Alert Document Type Name"/>
+    </bean>
+
+    <bean id="AlertEventDocument-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="Alert Event Lookup" />
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/BASICS/content/ch02s04.html#_lookupHelp"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="dataObjectClassName" value="org.kuali.ole.alert.bo.AlertEvent" />
+      <!--  <property name="viewHelperServiceClass" value="org.kuali.ole.deliver.lookup.OleDeliverRequestTypeLookupableImpl"/>-->
+        <property name="criteriaFields">
+            <list>
+                <bean id="lookUp_alertEventId" parent="Uif-LookupCriteriaInputField" p:propertyName="alertEventId"  />
+                <bean id="lookUp_alertEventName" parent="Uif-LookupCriteriaInputField" p:propertyName="alertEventName"/>
+                <bean id="lookUp_alertDocumentTypeName" parent="Uif-LookupCriteriaInputField" p:propertyName="alertDocumentTypeName" />
+                <bean id="lookUp_alert_active" parent="Uif-LookupCriteriaInputField" p:propertyName="active" />
+
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+
+                <bean parent="Uif-DataField" p:propertyName="alertEventId" />
+                <bean parent="Uif-DataField" p:propertyName="alertEventName" />
+                <bean parent="Uif-DataField" p:propertyName="alertDocumentTypeName" />
+                <bean parent="Uif-DataField" p:propertyName="active" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="AlertEventDocument-InquiryView" parent="Uif-OLEInquiryView">
+        <property name="title" value="Alert Event Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.alert.bo.AlertEvent" />
+        <property name="singlePageView" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-VerticalBoxSection">
+                    <property name="header.headerText" value="Alert Event" />
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:propertyName="alertEventId" />
+                            <bean parent="Uif-InputField" p:propertyName="alertEventName" />
+                            <bean parent="Uif-InputField" p:propertyName="alertDocumentTypeName" />
+                            <bean parent="Uif-InputField" p:propertyName="active" />
+                        </list>
+                    </property>
+
+                    <property name="title" value="Alert Event"/>
+                </bean>
+                <bean parent="AlertEventType_Inquiry-EventFieldMappingSection"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="AlertEventType_Inquiry-EventFieldMappingSection" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="4" p:disclosure.defaultOpen="true">
+        <!--p:fieldBindingObjectPath="document.newMaintainableObject.dataObject"-->
+        <property name="headerText" value="Event Field" />
+
+        <property name="collectionObjectClass" value="org.kuali.ole.alert.bo.AlertEventField" />
+        <property name="propertyName" value="alertEventFieldList" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean id="alert_inquiry_field_name" parent="Uif-InputField" p:propertyName="alertFieldName" p:label="Alert Field Name">
+                </bean>
+                <bean id= "alert_inquiry_field_type" parent="Uif-InputField" p:propertyName="alertFieldType" p:label="Alert Field Type">
+                </bean>
+
+                <bean parent="Uif-InputField" p:propertyName="alertCriteria" p:label="Alert Criteria">
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="alertFieldValue" p:label="Alert Field Value"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

@@ -1,0 +1,592 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2005-2008 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    
+
+	<bean id="PurchaseOrderAmendment-routeDocumentValidation" parent="PurchaseOrderAmendment-routeDocumentValidation-parentBean" scope="prototype" />
+  
+  	<bean id="PurchaseOrderAmendment-routeDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>  				
+  				<bean parent="PurchaseOrderAmendment-newProcessItemValidation-parentBean" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  	
+				
+				<bean parent="PurchasingAccountsPayable-processAccountValidation-parentBean" scope="prototype">	
+					<property name="quitOnFail" value="false" />
+				</bean>  	
+							
+  				<bean parent="PurchaseOrder-assignedUserValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  					
+  						  				
+				<bean parent="PurchaseOrder-processVendorValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  
+				
+				<bean parent="PurchaseOrder-processVendorStipulationValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  
+				
+				<bean parent="Purchasing-capitalAssetValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  
+
+				<bean parent="Purchasing-paymentInfoValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  
+
+				<bean parent="Purchasing-updateCamsViewValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  
+
+				<bean parent="Purchasing-deliveryValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  
+				
+				<bean parent="PurchaseOrderAmendment-containsAtLeastOneActiveItemValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>		
+				
+				<bean parent="PurchaseOrderAmendment-accountValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>
+
+   				<!--MSU Contribution OLEMI-8582 DTT-330 OLECNTRB-943 -->
+   				<bean parent="PurapRequisition-RoomBuildingInActiveValidation" scope="prototype">								
+ 					<property name="quitOnFail" value="false" />
+ 				</bean>
+  			</list>
+  		</property>
+  	</bean>
+  
+  	<bean id="PurchaseOrderAmendment-approveDocumentValidation" parent="PurchaseOrderAmendment-approveDocumentValidation-parentBean" scope="prototype" />
+  
+  	<bean id="PurchaseOrderAmendment-approveDocumentValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>  				
+  				<bean parent="PurchaseOrderAmendment-newProcessItemValidation-parentBean" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  	
+				
+				<bean parent="PurchasingAccountsPayable-processAccountValidation-parentBean" scope="prototype">	
+					<property name="quitOnFail" value="false" />
+				</bean>  	
+				
+				<bean parent="PurchaseOrder-processVendorValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  
+				
+				<bean parent="PurchaseOrder-processVendorStipulationValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  
+				
+				<bean parent="Purchasing-capitalAssetValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  
+
+				<bean parent="Purchasing-paymentInfoValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  
+
+				<bean parent="Purchasing-updateCamsViewValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  
+
+				<bean parent="Purchasing-deliveryValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  
+				
+				<bean parent="PurchaseOrderAmendment-containsAtLeastOneActiveItemValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>  	
+
+				<bean parent="PurchaseOrderAmendment-accountValidation" scope="prototype">								
+					<property name="quitOnFail" value="false" />
+				</bean>
+  			</list>
+  		</property>
+  	</bean>
+  
+    <!-- Add Accounting Line Event -->
+	<bean id="PurchaseOrderAmendment-addAccountingLineValidation" parent="PurchaseOrderAmendment-addAccountingLineValidation-parentBean" scope="prototype" />
+  
+	<bean id="PurchaseOrderAmendment-addAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>
+				<bean parent="PurchasingAccountsPayable-accountingLine-newAccountingLineBranchingValidation" scope="prototype" />
+					
+				<bean parent="PurchaseOrderAmendment-addAccountingLineDefaultValidation-parentBean" scope="prototype">
+					<property name="quitOnFail" value="true" />
+				</bean>
+
+				<bean parent="Purchasing-accountingLinePercentValidation" scope="prototype">
+					<property name="parameterProperties">
+						<bean parent="validationFieldConversion">
+							<property name="sourceEventProperty" value="accountingLine" />
+							<property name="targetValidationProperty" value="updatedAccountingLine" />
+						</bean>
+					</property>				
+				</bean>
+
+			</list>
+  		</property>
+	</bean>
+	
+	<bean id="PurchaseOrderAmendment-addAccountingLineDefault-failFastValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+		<property name="validations">
+			<list>
+				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+					<property name="parameterProperties">
+						<bean parent="accountingLineToBusinessObjectFieldConversion" />
+					</property>
+				</bean>
+				<!--<bean parent="Purchasing-accountingLineDataDictionaryValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="accountingLineFieldConversion" />
+						</list>
+					</property>
+					<property name="quitOnFail" value="true" />
+				</bean>-->
+                <bean parent="OLEPurchasing-accountingLineDataDictionaryValidation" scope="prototype">
+                    <property name="parameterProperties">
+                        <list>
+                            <bean parent="accountingLineFieldConversion" />
+                        </list>
+                    </property>
+                    <property name="quitOnFail" value="true" />
+                </bean>
+				<bean parent="AccountingDocument-defaultAccountingLineValuesAllowedValidation" scope="prototype">
+					<property name="accountingDocumentParameterPropertyName" value="document" />
+					<property name="accountingLineParameterPropertyName" value="accountingLine" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="PurchaseOrderAmendment-addAccountingLineDefaultValidation" parent="PurchaseOrderAmendment-addAccountingLineDefaultValidation-parentBean" scope="prototype"/>
+	
+	<bean id="PurchaseOrderAmendment-addAccountingLineDefaultValidation-parentBean" parent="CompositeValidation"  abstract="true" scope="protoptype">
+		<property name="validations">
+			<list>
+				<bean parent="PurchaseOrderAmendment-addAccountingLineDefault-failFastValidation" scope="prototype" />
+				<bean parent="PurchaseOrderAmendment-accountingLineAccessibleValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="accountingDocumentFieldConversion" />
+							<bean parent="accountingLineFieldConversion" />
+						</list>
+					</property>
+				</bean>			
+			</list>
+		</property>
+	</bean>
+
+	<!-- Update Accounting Line Event -->
+	<bean id="PurchaseOrderAmendment-updateAccountingLine-failFastValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+  		<property name="validations">
+  			<list>
+  				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="updatedAccountingLineToBusinessObjectFieldConversion" />
+						</list>
+					</property>
+					<property name="quitOnFail" value="false" />
+				</bean>
+				<!--<bean parent="Purchasing-accountingLineDataDictionaryValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="updatedAccountingLineFieldConversion" />
+						</list>
+					</property>
+					<property name="quitOnFail" value="false" />
+				</bean>-->
+                  <bean parent="OLEPurchasing-accountingLineDataDictionaryValidation" scope="prototype">
+                      <property name="parameterProperties">
+                          <list>
+                              <bean parent="accountingLineFieldConversion" />
+                          </list>
+                      </property>
+                      <property name="quitOnFail" value="true" />
+                  </bean>
+				<bean parent="PurchasingAccountsPayable-updatedAccountingLineValuesAllowedValidation-parentBean" scope="prototype"/>						
+			</list>
+		</property>
+	</bean>
+	
+    <bean id="PurchaseOrderAmendment-updateAccountingLineValidation" parent="PurchaseOrderAmendment-updateAccountingLineValidation-parentBean" scope="prototype" />
+  
+	<bean id="PurchaseOrderAmendment-updateAccountingLineValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>
+				<bean parent="PurchasingAccountsPayable-updatedAccountingLine-newAccountingLineBranchingValidation" scope="prototype" /> 			
+  				<bean parent="PurchaseOrderAmendment-updateAccountingLine-failFastValidation" scope="prototype" />
+				<bean parent="PurchaseOrderAmendment-accountingLineAccessibleValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="accountingDocumentFieldConversion" />
+							<bean parent="updatedAccountingLineFieldConversion" />
+						</list>
+					</property>
+				</bean>
+			</list>
+  		</property>
+	</bean>
+	
+    <!-- Split Purchase Order Event -->
+    <bean id="PurchaseOrderAmendment-performSplitValidation" parent="PurchaseOrderAmendment-performSplitValidation-parentBean" scope="prototype" />
+  
+	<bean id="PurchaseOrderAmendment-performSplitValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>
+				<bean parent="PurchaseOrder-splitValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="accountingDocumentFieldConversion" />
+						</list>
+					</property>
+				</bean>
+			</list>
+  		</property>
+	</bean>
+	
+	<!--Add Quote To Vendor Event -->
+    <bean id="PurchaseOrderAmendment-performAddQuoteToVendorValidation" parent="PurchaseOrderAmendment-performAddQuoteToVendorValidation-parentBean" scope="prototype" />
+  
+	<bean id="PurchaseOrderAmendment-performAddQuoteToVendorValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>
+				<bean parent="PurchaseOrder-addQuoteToVendorValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="accountingDocumentFieldConversion" />
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="purchaseOrderVendorQuote" />
+								<property name="targetValidationProperty" value="vendorQuote" />
+							</bean>							
+						</list>
+					</property>
+				</bean>
+			</list>
+  		</property>
+	</bean>
+	
+	<!--Assign Sensitive Data Event -->
+    <bean id="PurchaseOrderAmendment-performAssignSensitiveDataValidation" parent="PurchaseOrderAmendment-performAssignSensitiveDataValidation-parentBean" scope="prototype" />
+  
+	<bean id="PurchaseOrderAmendment-performAssignSensitiveDataValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>
+				<bean parent="PurchaseOrder-assignSensitiveDataValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="accountingDocumentFieldConversion" />
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="sensitiveDataAssignmentReason" />
+								<property name="targetValidationProperty" value="sensitiveDataAssignmentReason" />
+							</bean>							
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="sensitiveDatasAssigned" />
+								<property name="targetValidationProperty" value="sensitiveDatasAssigned" />
+							</bean>							
+						</list>
+					</property>
+				</bean>
+			</list>
+  		</property>
+	</bean>	
+	
+	<!-- Add Item Event -->
+    <bean id="PurchaseOrderAmendment-addPurchasingAccountsPayableItemValidation" parent="PurchaseOrderAmendment-addPurchasingAccountsPayableItemValidation-parentBean" scope="prototype" />
+  
+	<bean id="PurchaseOrderAmendment-addPurchasingAccountsPayableItemValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+  			<list>
+				<bean parent="Purchasing-addItemValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="item" />
+								<property name="targetValidationProperty" value="itemForValidation" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>	
+	</bean>
+
+	<!-- Import Item Event -->
+    <bean id="PurchaseOrderAmendment-importPurchasingAccountsPayableItemValidation" parent="PurchaseOrderAmendment-importPurchasingAccountsPayableItemValidation-parentBean" scope="prototype" />
+  
+	<bean id="PurchaseOrderAmendment-importPurchasingAccountsPayableItemValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+  			<list>		
+				<bean parent="Purchasing-importItemValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="item" />
+								<property name="targetValidationProperty" value="item" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+    <bean id="PurchaseOrderAmendment-changeSystemPurapValidation" parent="PurchaseOrderAmendment-changeSystemPurapValidation-parentBean" scope="prototype" />
+  
+	<bean id="PurchaseOrderAmendment-changeSystemPurapValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+  			<list>
+	  			<bean parent="Purchasing-changeSystemValidation" scope="prototype"/>		  			
+			</list>
+		</property>
+	</bean>
+    
+    <bean id="PurchaseOrderAmendment-selectSystemPurapValidation" parent="PurchaseOrderAmendment-selectSystemPurapValidation-parentBean" scope="prototype" />
+  
+	<bean id="PurchaseOrderAmendment-selectSystemPurapValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+  			<list>		
+  				<bean parent="Purchasing-selectSystemValidation" scope="prototype"/>  			
+			</list>
+		</property>
+	</bean>
+	
+    <bean id="PurchaseOrderAmendment-updateCamsViewPurapValidation" parent="PurchaseOrderAmendment-updateCamsViewPurapValidation-parentBean" scope="prototype" />
+  
+	<bean id="PurchaseOrderAmendment-updateCamsViewPurapValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+  			<list>		
+  				<bean parent="Purchasing-updateCamsViewValidation" scope="prototype"/>
+			</list>
+		</property>
+	</bean>
+	
+    <bean id="PurchaseOrderAmendment-addPurchasingItemCapitalAssetValidation" parent="PurchaseOrderAmendment-addPurchasingItemCapitalAssetValidation-parentBean" scope="prototype" />
+  
+	<bean id="PurchaseOrderAmendment-addPurchasingItemCapitalAssetValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+  			<list>		
+	  			<bean parent="Purchasing-addItemCapitalAssetValidation" scope="prototype">
+					<property name="parameterProperties">
+		                <list>
+		                    <bean parent="validationFieldConversion">
+		                        <property name="sourceEventProperty" value="itemCapitalAsset" />
+		                        <property name="targetValidationProperty" value="asset" />
+		                    </bean>
+		                </list>
+		            </property>
+				</bean>  			
+			</list>
+		</property>
+	</bean>
+	
+    <bean id="PurchaseOrderAmendment-addPurchasingCapitalAssetLocationValidation" parent="PurchaseOrderAmendment-addPurchasingCapitalAssetLocationValidation-parentBean" scope="prototype" />
+  
+	<bean id="PurchaseOrderAmendment-addPurchasingCapitalAssetLocationValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+		<property name="validations">
+  			<list>		
+	  			<bean parent="Purchasing-addCapitalAssetLocationValidation" scope="prototype">
+					<property name="parameterProperties">
+		                <list>
+		                    <bean parent="validationFieldConversion">
+		                        <property name="sourceEventProperty" value="capitalAssetLocation" />
+		                        <property name="targetValidationProperty" value="location" />
+		                    </bean>
+		                </list>
+		            </property>
+				</bean>  			  			
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="PurchaseOrderAmendment-newProcessItem-itemCollection-itemConsideredEntered-needsIndividualItemValidationBranchCompositeValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+		<property name="validations">
+			<list>
+				<bean parent="PurchaseOrderAmendment-itemConsideredEnteredCompositeValidation" scope="prototype"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="PurchaseOrderAmendment-newProcessItem-itemCollection-itemConsideredEnteredBranchingValidation" abstract="true" parent="PurchasingAccountsPayable-itemConsideredEnteredBranchingValidation" scope="prototype">
+		<property name="branchMap">
+			<map>
+				<entry>
+					<key><value>needsIndividualItemValidation</value></key>
+					<bean parent="PurchaseOrderAmendment-newProcessItem-itemCollection-itemConsideredEntered-needsIndividualItemValidationBranchCompositeValidation" scope="prototype"/>
+				</entry>
+			</map>
+		</property>
+		<property name="parameterProperties">
+			<list>
+				<bean parent="itemIterationSubjectFieldConversation" />
+			</list>
+		</property>
+	</bean>
+	
+	<!-- New Process Item Validation Definitions -->
+	<bean id="PurchaseOrderAmendment-newProcessItem-itemCollectionValidation" abstract="true" parent="CollectionValidation" scope="prototype">
+		<property name="collectionProperty" value="document.items" />
+		<property name="validations">
+			<list>
+				<bean parent="AccountingDocument-businessObjectDataDictionaryValidation" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="validationFieldConversion">
+								<property name="sourceEventProperty" value="iterationSubject" />
+								<property name="targetValidationProperty" value="businessObjectForValidation" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+                            
+                <!-- Need to do the itemConsideredEnteredBranchingValidation to determine whether
+                     we need to call the newIndividualItemValidation (not needed if item is not 
+                     considered entered -->
+				<bean parent="PurchaseOrderAmendment-newProcessItem-itemCollection-itemConsideredEnteredBranchingValidation" scope="prototype" />
+				<!-- End of itemConsideredEnteredBranchingValidation -->	
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="PurchaseOrderAmendment-newProcessItemValidation" parent="PurchaseOrderAmendment-newProcessItemValidation-parentBean" scope="prototype" abstract="true" />
+	
+    <bean id="PurchaseOrderAmendment-newProcessItemValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true"> 								
+        <property name="quitOnFail" value="false" />
+        <property name="validations">
+            <list>
+                <!-- These are the validations from within the loop of items in newProcessItemValidation in
+                     PurchasingAccountsPayableDocumentRuleBase -->
+                <bean parent="PurchaseOrderAmendment-newProcessItem-itemCollectionValidation" scope="prototype" />	  		
+                <!-- End of the newProcessItemValidation in PurchasingAccountsPayableDocumentRuleBase -->			                
+                <!-- All the validations from newProcessItemValidation in PurchasingDocumentRuleBase -->
+			    <bean parent="Purchasing-processTotalCostValidation" scope="prototype" />
+			    <bean parent="Purchasing-processContainsAtLeastOneItemValidation" scope="prototype" />
+			    <bean parent="Purchasing-processTradeInValidation" scope="prototype" />							    
+            </list>
+        </property>					
+    </bean>
+    
+    <bean id="PurchaseOrderAmendment-itemConsideredEntered-requiresAccountValidation-needsAccount-processAccountValidation-BranchCompositeValidation" abstract="true" parent="CompositeValidation" scope="prototype"> 								
+		<property name="quitOnFail" value="false" />
+		<property name="validations">
+			<list>    
+				<bean parent="PurchasingAccountsPayable-processAccountValidation-parentBean" scope="prototype">
+					<property name="parameterProperties">
+						<list>
+							<bean parent="itemIterationSubjectFieldConversation" />
+						</list>
+					</property>	                                
+				</bean>
+			</list>
+		</property>
+	</bean>
+    
+    <bean id="PurchaseOrderAmendment-itemConsideredEntered-requiresAccountValidation-needsAccount-processAccountValidation" abstract="true" parent="PurchaseOrderAmendment-processAccountValidation" scope="prototype">
+    	<property name="branchMap">
+    		<map>
+    			<entry>
+					<key><value>processAccountValidation</value></key>
+					<bean parent="PurchaseOrderAmendment-itemConsideredEntered-requiresAccountValidation-needsAccount-processAccountValidation-BranchCompositeValidation" scope="prototype" />
+				</entry>
+			</map>
+		</property>
+		<property name="parameterProperties">
+			<list>
+				<bean parent="itemIterationSubjectFieldConversation" />
+			</list>
+		</property>
+	</bean>
+    
+    <bean id="PurchaseOrderAmendment-itemConsideredEntered-requiresAccountValidation-needsAccountValidationBranchCompositeValidation" abstract="true" parent="CompositeValidation" scope="prototype">
+    	<property name="validations">
+    		<list>
+    			<bean parent="PurchaseOrderAmendment-itemConsideredEntered-requiresAccountValidation-needsAccount-processAccountValidation" scope="prototype" />
+    		</list>
+    	</property>
+    </bean>
+    
+    <bean id="PurchaseOrderAmendment-itemConsideredEntered-requiresAccountValidationBranchingValidation" abstract="true" parent="PurchaseOrderAmendment-requiresAccountValidationBranchingValidation" scope="prototype">
+		<property name="branchMap">
+			<map>
+				<entry>
+					<key><value>needsAccountValidation</value></key>
+					<bean parent="PurchaseOrderAmendment-itemConsideredEntered-requiresAccountValidation-needsAccountValidationBranchCompositeValidation" scope="prototype" />
+				</entry>
+			</map>
+		</property>
+		<property name="parameterProperties">
+			<list>
+				<bean parent="itemIterationSubjectFieldConversation" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="PurchaseOrderAmendment-itemConsideredEnteredCompositeValidation" parent="PurchaseOrderAmendment-itemConsideredEnteredCompositeValidation-parentBean" scope="prototype" abstract="true" />
+
+    <bean id="PurchaseOrderAmendment-itemConsideredEnteredCompositeValidation-parentBean" parent="CompositeValidation" scope="prototype" abstract="true"> 								
+        <property name="quitOnFail" value="false" />
+        <property name="validations">
+            <list>    
+			  
+                <bean parent="PurchaseOrderAmendment-newIndividualItemValidation" scope="prototype">
+                    <property name="parameterProperties">
+                        <list>
+                            <bean parent="itemIterationSubjectFieldConversation" />
+                        </list>
+                    </property>
+                </bean>
+				
+				<!-- Need to do the purchaseOrderRequiresAccountValidationBranchingValidation to determine
+				     whether we need to call the processAccountValidation -->
+                <bean parent="PurchaseOrderAmendment-itemConsideredEntered-requiresAccountValidationBranchingValidation" scope="prototype" />		
+				<!-- End of purchaseOrderRequiresAccountValidationBranchingValidation -->				            				                        
+            </list>
+        </property>
+    </bean>
+    
+      <!-- accounts percents and accounts amounts validations  -->
+	<bean id="PurchaseOrderAmendment-purchasingAccountsPayablesItemPreCalculateValidations" parent="PurchaseOrderAmendment-purchasingAccountsPayablesItemPreCalculateValidations-parentBean" scope="prototype" />
+  
+	<bean id="PurchaseOrderAmendment-purchasingAccountsPayablesItemPreCalculateValidations-parentBean" parent="CompositeValidation" scope="prototype" abstract="true">
+  		<property name="validations">
+  			<list>
+  				<bean parent="PurchasingAccountsPayables-itemPreCalculateValidations" scope="prototype">
+        			<property name="parameterProperties">
+           				<list>
+             				<bean parent="validationFieldConversion">
+                               <property name="sourceEventProperty" value="item" />
+                               <property name="targetValidationProperty" value="item" />
+                           </bean>
+           				</list> 
+                   </property>
+       			</bean>
+  			</list>
+  		</property>
+	</bean>
+    
+</beans>

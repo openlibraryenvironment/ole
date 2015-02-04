@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <bean id="AlertMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+        <property name="workflowPropertyGroups">
+            <list>
+                <bean parent="WorkflowPropertyGroup">
+                    <property name="workflowProperties">
+                        <list>
+                            <bean parent="WorkflowProperty" p:path="oldMaintainableObject.businessObject"/>
+                            <bean parent="WorkflowProperty" p:path="newMaintainableObject.businessObject"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="AlertMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
+        <property name="dataObjectClass" value="org.kuali.ole.alert.bo.AlertDocument"/>
+        <property name="documentTypeName" value="OLE_ALERT"/>
+        <property name="maintainableClass" value="org.kuali.ole.deliver.maintenance.AlertDocumentMaintenanceImpl"/>
+        <property name="lockingKeys">
+            <list>
+                <value>alertDocumentId</value>
+            </list>
+        </property>
+    </bean>
+
+
+
+
+    <bean id="AlertMaintenanceDocument-MaintenanceView" parent="Uif-MaintenanceView">
+        <property name="dataObjectClassName" value="org.kuali.ole.alert.bo.AlertDocument"/>
+
+        <property name="headerText" value="Alert Document"/>
+
+        <property name="items">
+            <list>
+                <ref bean="AlertDocument-Main-Section" />
+               <!-- <ref bean="AlertDocument-FieldValueMapping" />-->
+                <ref bean="AlertDocument-AlertAndNotificationSection" />
+              <!--  <ref bean="AlertMaintenanceDocument-AlertDoc"/>-->
+                <bean parent="Uif-DocumentOverviewSection" p:order="10" p:render="false"/>
+                <bean parent="Uif-DocumentAdHocRecipientsSection" p:disclosure.defaultOpen="false" p:order="40"
+                      p:render="false"/>
+                <bean parent="Uif-DocumentNotesSection" p:disclosure.defaultOpen="false" p:order="30" p:render="false"/>
+                <bean parent="Uif-DocumentRouteLogSection" p:disclosure.defaultOpen="false" p:order="50" p:render="false"/>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>ole/alert/scripts/alertDocument.js</value>
+            </list>
+        </property>
+
+
+    </bean>
+
+
+
+    <bean id="AlertDocument-Main-Section" parent="Uif-MaintenanceGridSection">
+    <property name="headerText" value=""/>
+    <property name="items">
+    <list>
+    <bean id="AlertDocument-documentTypeName" p:propertyName="documentTypeName" parent="Uif-InputField" p:label="Document type" p:style="align:center">
+        <property name="quickfinder">
+            <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.ole.alert.bo.AlertDocumentType" p:fieldConversions="alertDocumentId:documentTypeId,alertDocumentTypeName:documentTypeName,alertDocumentClass:documentClassName"/>
+        </property>
+    </bean>
+        <bean id="AlertDocument-repeatable" p:propertyName="repeatable" parent="Uif-InputField" p:label="Repeatable" p:style="align:center">
+            <property name="control">
+                <bean parent="Uif-CheckboxControl"/>
+            </property>
+        </bean>
+    </list>
+    </property>
+    </bean>
+
+    <bean id="AlertDocument-FieldValueMapping" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="5" p:render="@{((document.newMaintainableObject.dataObject.documentClassName ne null and document.newMaintainableObject.dataObject.documentClassName ne '') or document.newMaintainableObject.dataObject.alertDocumentId ne null)}">
+        <property name="headerText" value="FieldValue mapping" />
+        <property name="collectionObjectClass" value="org.kuali.ole.alert.bo.AlertFieldValueMapping" />
+        <property name="propertyName" value="alertFieldValueMappings" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="renderAddLine" value="true"/>
+        <property name="renderLineActions" value="true"/>
+        <property name="items">
+            <list>
+                <bean id="fieldName" parent="Uif-InputField" p:propertyName="fieldName"
+                      p:label="Field Name" p:required="true" p:readOnly="@{!#isAddLine}">
+                   <!-- <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="vendorId" p:value="vendorId"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="accountNumber" p:value="accountNumber"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="chartcode" p:value="chartcode"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>-->
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.alert.keyValue.AlertFieldNameValueFinder"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                </bean>
+                <bean id="fieldType" parent="Uif-InputField" p:propertyName="fieldType"
+                      p:label="Field Type" p:required="true" p:readOnly="@{!#isAddLine}">
+                   <!-- <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="String" p:value="String"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="Integer" p:value="Integer"/>
+                                    <bean parent="Uif-KeyLabelPair" p:key="Date" p:value="Date"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>-->
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.alert.keyValue.AlertFieldValueFinder"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                </bean>
+                <bean id="fieldValue" p:propertyName="fieldValue" parent="Uif-InputField" p:label="Field Value" p:readOnly="@{!#isAddLine}"/>
+            </list>
+        </property>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="false">
+                <entry key="bLengthChange" value="false"/>
+                <entry key="sPagePrevious" value="false"/>
+                <entry key="sPageNext" value="false"/>
+                <entry key="bFilter" value="false"/>
+            </map>
+        </property>
+        <property name="addLineActions">
+            <list>
+                <bean id="Alert_Map_Add" parent="Uif-PrimaryActionButton-Small" p:methodToCall="mapAddLine" p:actionLabel="Add" p:ajaxSubmit="true"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="AlertDocument-AlertAndNotificationSection" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="8" p:render="@{((document.newMaintainableObject.dataObject.documentClassName ne null AND document.newMaintainableObject.dataObject.documentClassName ne '') or document.newMaintainableObject.dataObject.alertDocumentId ne null)}">
+        <property name="headerText" value="Alert Event And Notification Section" />
+        <property name="collectionObjectClass" value="org.kuali.ole.alert.bo.AlertConditionAndReceiverInformation" />
+        <property name="propertyName" value="alertConditionAndReceiverInformations" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="renderAddLine" value="true"/>
+        <property name="renderLineActions" value="true"/>
+        <property name="items">
+            <list>
+                <bean id="alertEventName" parent="Uif-InputField" p:propertyName="alertEventId"
+                      p:label="Event" p:readOnly="@{!#isAddLine}">
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.alert.keyValue.AlertEventValueFinder"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+
+                </bean>
+                <bean id="role" p:propertyName="roleName" parent="Uif-InputField" p:label="Role" p:readOnly="@{!#isAddLine}">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.rice.kim.impl.role.RoleBo" p:fieldConversions="id:roleId,name:roleName"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="20"/>
+                    </property>
+                </bean>
+                <bean id="group" p:propertyName="groupName" parent="Uif-InputField" p:label="Group" p:readOnly="@{!#isAddLine}">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.rice.kim.impl.group.GroupBo" p:fieldConversions="id:groupId,name:groupName"/>
+
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="20"/>
+                    </property>
+                </bean>
+                <bean id="person" p:propertyName="principalName" parent="Uif-InputField" p:label="Person" p:readOnly="@{!#isAddLine}">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.rice.kim.api.identity.Person"
+                              p:fieldConversions="principalId:principalId;,principalName:principalName"/>
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="20"/>
+                    </property>
+                </bean>
+
+<!--                <bean id="isEmail" parent="Uif-InputField" p:propertyName="email" p:label="Email" p:readOnly="@{!#isAddLine}">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+                <bean id="alert_note" parent="Uif-InputField" p:propertyName="alert" p:label="Alert List" p:readOnly="@{!#isAddLine}">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>-->
+
+                <bean id="alertInterval" p:propertyName="alertInterval" parent="Uif-InputField" p:label="Alert Interval(days)" p:readOnly="@{!#isAddLine}" >
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="20"/>
+                    </property>
+                </bean>
+                <bean id="alertNote" p:propertyName="alertNote" parent="Uif-InputField" p:label="Alert Note">
+                    <property name="control">
+                        <bean parent="Uif-TextAreaControl" p:rows="2" p:cols="25"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="false">
+                <entry key="bLengthChange" value="false"/>
+                <!--<entry key="bFilter" value="false"/>-->
+
+                <entry key="sPagePrevious" value="false"/>
+                <entry key="sPageNext" value="false"/>
+                <entry key="bFilter" value="false"/>
+            </map>
+        </property>
+
+        <property name="addLineActions">
+            <list>
+                <bean id="Alert_condition_add_line" parent="Uif-PrimaryActionButton-Small" p:methodToCall="alertCondition" p:actionLabel="Add" p:ajaxSubmit="true"/>
+            </list>
+        </property>
+    </bean>
+
+    <!--<bean id="AlertMaintenanceDocument-AlertDoc"
+          parent="AlertMaintenanceDocument-AlertDoc-parentBean"/>
+    <bean parent="Uif-MaintenanceGridSection" id="AlertMaintenanceDocument-AlertDoc-parentBean">
+        <property name="headerText" value="AlertSDC"/>
+        <property name="items">
+            <list>
+                <bean p:required="true" p:propertyName="alertDocumentId" parent="Uif-InputField"/>
+                <bean p:propertyName="documentTypeName" parent="Uif-InputField"/>
+                <bean p:propertyName="alertDocumentCreatorId" parent="Uif-InputField"/>
+            </list>
+        </property>
+    </bean>-->
+
+
+
+</beans>

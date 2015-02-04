@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="StaffUploadView" parent="StaffUploadView-parentBean" />
+    <bean id="StaffUploadView-parentBean" parent="Uif-OLEFormView">
+        <property name="headerText" value="Staff Upload"/>
+        <property name="items">
+            <list>
+                <bean id="StaffUploadViewPage" parent="Uif-Page" >
+                    <property name="items">
+                        <list>
+                            <ref bean="StaffMessageSection"/>
+                            <ref bean="StaffUploadView-gridSection" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="footer">
+            <ref bean="StaffUploadView-buttons" />
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>/ole/ingest/css/staffUpload.css</value>
+            </list>
+        </property>
+        <property name="formClass" value="org.kuali.ole.ingest.form.StaffUploadForm"/>
+    </bean>
+
+    <bean id="StaffUploadView-gridSection" parent="StaffUploadView-gridSection-parentBean" />
+    <bean id="StaffUploadView-gridSection-parentBean" parent="Uif-GridSection" p:disclosure.render="false">
+        <property name="items">
+            <list>
+                <ref bean="StaffUploadView-marcFileUpload" />
+                <ref bean="StaffUploadView-ediFileUpload" />
+                <ref bean="StaffUploadView-agenda" />
+                <ref bean="StaffUploadView-agendaDescription" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="StaffMessageSection" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="MessageFieldSection" parent="Uif-MessageField" p:messageText="@{message}" p:cssClasses="messageClass"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="StaffUploadView-agendaDescription" parent="StaffUploadView-agendaDescription-parentBean" />
+    <bean id="StaffUploadView-agendaDescription-parentBean" parent="Uif-InputField" p:propertyName="agendaDescription" p:required="false" p:label="Description">
+        <property name="control">
+            <bean parent="Uif-TextControl"/>
+        </property>
+    </bean>
+    
+    <bean id="StaffUploadView-marcFileUpload" parent="StaffUploadView-marcFileUpload-parentBean" />
+    <bean id="StaffUploadView-marcFileUpload-parentBean" parent="Uif-InputField" p:propertyName="marcFile" p:required="true" p:label="Marc File Upload">
+        <property name="control">
+            <bean parent="Uif-FileControl" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="StaffUploadView-ediFileUpload" parent="StaffUploadView-ediFileUpload-parentBean" />
+    <bean id="StaffUploadView-ediFileUpload-parentBean" parent="Uif-InputField" p:propertyName="ediFile" p:required="true" p:label="EDI File Upload">
+        <property name="control">
+            <bean parent="Uif-FileControl" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="StaffUploadView-agenda" parent="StaffUploadView-agenda-parentBean" />
+    <bean id="StaffUploadView-agenda-parentBean" p:required="true" parent="Uif-InputField" p:propertyName="agenda" p:label="Load Profile" p:width="auto"
+          p:defaultValue="0">
+        <property name="control">
+            <bean parent="Uif-DropdownControl"/>
+        </property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.ole.ingest.keyvalue.AgendaKeyValues" p:blankOption="true"/>
+        </property>
+    </bean>
+
+    <bean id="StaffUploadView-buttons" parent="StaffUploadView-buttons-parentBean" />
+    <bean id="StaffUploadView-buttons-parentBean" parent="Uif-FooterBase">
+        <property name="items">
+            <list>
+                <bean id="uploadButton" parent="Uif-SecondaryActionButton" p:methodToCall="upload" p:actionLabel="Upload" p:style="float:left;margin-left:2em"/>
+                <bean id="cancelButton" parent="Uif-SecondaryActionButton" p:methodToCall="cancel" p:actionLabel="Cancel" p:style="float:left;margin-left:0.2em"/>
+                <bean id="loadReportsButton" parent="Uif-SecondaryActionButton" p:actionLabel="Load Reports" p:actionScript="parent.document.location.href='@{loadReportURL}';" p:style="float:left;margin-left:0.2em"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

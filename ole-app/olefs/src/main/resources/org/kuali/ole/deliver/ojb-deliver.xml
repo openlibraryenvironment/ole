@@ -1,0 +1,1717 @@
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<!--<!DOCTYPE descriptor-repository PUBLIC
+       "-//Apache Software Foundation//DTD OJB Repository//EN"
+       "http://db.apache.org/dtds/1.0/repository.dtd">-->
+
+<descriptor-repository version="1.0">
+
+
+    <!-- ******************************************************************* -->
+    <!-- Reference Tables -->
+    <!-- ******************************************************************* -->
+    <class-descriptor
+            class="org.kuali.rice.krms.impl.repository.KrmsAttributeDefinitionBo"
+            table="KRMS_ATTR_DEFN_T">
+        <field-descriptor name="id" column="ATTR_DEFN_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true"
+                          sequence-name="KRMS_ATTR_DEFN_S"/>
+        <field-descriptor name="name" column="NM" jdbc-type="VARCHAR"/>
+        <field-descriptor name="label" column="LBL" jdbc-type="VARCHAR"/>
+        <field-descriptor name="namespace" column="NMSPC_CD" jdbc-type="VARCHAR"/>
+        <field-descriptor name="description" column="DESC_TXT" jdbc-type="VARCHAR"/>
+        <field-descriptor name="active" column="ACTV" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <field-descriptor name="componentName" column="CMPNT_NM" jdbc-type="VARCHAR"/>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.rice.krms.impl.repository.KrmsTypeBo" table="KRMS_TYP_T">
+        <field-descriptor name="id" column="TYP_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true"
+                          sequence-name="KRMS_TYP_S"/>
+        <field-descriptor name="name" column="NM" jdbc-type="VARCHAR"/>
+        <field-descriptor name="namespace" column="NMSPC_CD" jdbc-type="VARCHAR"/>
+        <field-descriptor name="serviceName" column="SRVC_NM" jdbc-type="VARCHAR"/>
+        <field-descriptor name="active" column="ACTV" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <collection-descriptor name="attributes"
+                               element-class-ref="org.kuali.rice.krms.impl.repository.KrmsTypeAttributeBo"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                               auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+            <inverse-foreignkey field-ref="typeId"/>
+        </collection-descriptor>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.rice.krms.impl.repository.KrmsTypeAttributeBo" table="KRMS_TYP_ATTR_T">
+        <field-descriptor name="id" column="TYP_ATTR_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true"
+                          sequence-name="KRMS_TYP_ATTR_S"/>
+        <field-descriptor name="typeId" column="TYP_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="attributeDefinitionId" column="ATTR_DEFN_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="sequenceNumber" column="SEQ_NO" jdbc-type="INTEGER"/>
+        <field-descriptor name="active" column="ACTV" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.rice.krms.impl.repository.ContextBo" table="KRMS_CNTXT_T">
+        <field-descriptor name="id" column="CNTXT_ID" jdbc-type="VARCHAR" primarykey="true"
+                          autoincrement="true" sequence-name="KRMS_CNTXT_S"/>
+        <field-descriptor name="name" column="NM" jdbc-type="VARCHAR"/>
+        <field-descriptor name="namespace" column="NMSPC_CD" jdbc-type="VARCHAR"/>
+        <field-descriptor name="typeId" column="TYP_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="description" column="DESC_TXT" jdbc-type="VARCHAR"/>
+        <field-descriptor name="active" column="ACTV" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <collection-descriptor name="attributeBos"
+                               element-class-ref="org.kuali.rice.krms.impl.repository.ContextAttributeBo"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                               auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+            <inverse-foreignkey field-ref="contextId"/>
+        </collection-descriptor>
+        <!-- TODO: add proxy="true" when XmlOBjectSerializerServiceImpl issue is fixed -->
+        <collection-descriptor name="agendas" element-class-ref="org.kuali.rice.krms.impl.repository.AgendaBo"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                               auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="contextId"/>
+        </collection-descriptor>
+        <!-- collection-descriptor name="validActions" element-class-ref="org.kuali.rice.krms.impl.repository.ContextValidActionBo" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="false" auto-update="object" auto-delete="object" proxy="true">
+            <inverse-foreignkey field-ref="contextId" />
+        </collection-descriptor>
+        <collection-descriptor name="validEvents" element-class-ref="org.kuali.rice.krms.impl.repository.ContextValidEventBo" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="false" auto-update="object" auto-delete="object" proxy="true">
+            <inverse-foreignkey field-ref="contextId" />
+        </collection-descriptor -->
+    </class-descriptor>
+
+    <!-- ContextAttributeBo:
+
+    def String id
+    def String contextId
+    def String attributeDefinitionId
+    def String value
+    -->
+
+    <class-descriptor class="org.kuali.rice.krms.impl.repository.ContextAttributeBo" table="KRMS_CNTXT_ATTR_T">
+        <field-descriptor name="id" column="CNTXT_ATTR_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true"
+                          sequence-name="KRMS_CNTXT_ATTR_S"/>
+        <field-descriptor name="contextId" column="CNTXT_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="value" column="ATTR_VAL" jdbc-type="VARCHAR"/>
+        <field-descriptor name="attributeDefinitionId" column="ATTR_DEFN_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <reference-descriptor name="attributeDefinition"
+                              class-ref="org.kuali.rice.krms.impl.repository.KrmsAttributeDefinitionBo"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="attributeDefinitionId"/>
+        </reference-descriptor>
+    </class-descriptor>
+
+    <!-- AgendaDefinitionBo:
+
+    def String id
+    def String namespace
+    def String name
+    def String typeId
+    def String contextId
+
+    def String firstItemId
+    def Set<AgendaAttributeBo> attributes -->
+
+    <class-descriptor class="org.kuali.rice.krms.impl.repository.AgendaBo" table="KRMS_AGENDA_T">
+        <field-descriptor name="id" column="AGENDA_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true"
+                          sequence-name="KRMS_AGENDA_S"/>
+        <field-descriptor name="name" column="NM" jdbc-type="VARCHAR"/>
+        <field-descriptor name="typeId" column="TYP_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="contextId" column="CNTXT_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="firstItemId" column="INIT_AGENDA_ITM_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="active" column="ACTV" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <collection-descriptor name="attributeBos"
+                               element-class-ref="org.kuali.rice.krms.impl.repository.AgendaAttributeBo"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableHashSet"
+                               auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+            <inverse-foreignkey field-ref="agendaId"/>
+        </collection-descriptor>
+        <collection-descriptor name="items" element-class-ref="org.kuali.rice.krms.impl.repository.AgendaItemBo"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                               auto-retrieve="true" auto-update="object" auto-delete="none" proxy="false">
+            <inverse-foreignkey field-ref="agendaId"/>
+        </collection-descriptor>
+        <reference-descriptor name="context" class-ref="org.kuali.rice.krms.impl.repository.ContextBo"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="contextId"/>
+        </reference-descriptor>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.rice.krms.impl.repository.AgendaAttributeBo" table="KRMS_AGENDA_ATTR_T">
+        <field-descriptor name="id" column="AGENDA_ATTR_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true"
+                          sequence-name="KRMS_AGENDA_ATTR_S"/>
+        <field-descriptor name="agendaId" column="AGENDA_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="value" column="ATTR_VAL" jdbc-type="VARCHAR"/>
+        <field-descriptor name="attributeDefinitionId" column="ATTR_DEFN_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <reference-descriptor name="attributeDefinition"
+                              class-ref="org.kuali.rice.krms.impl.repository.KrmsAttributeDefinitionBo"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="attributeDefinitionId"/>
+        </reference-descriptor>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.rice.krms.impl.repository.AgendaItemBo" table="KRMS_AGENDA_ITM_T">
+        <field-descriptor name="id" column="AGENDA_ITM_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true"
+                          sequence-name="KRMS_AGENDA_ITM_S"/>
+        <field-descriptor name="agendaId" column="AGENDA_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="ruleId" column="RULE_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="subAgendaId" column="SUB_AGENDA_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="whenTrueId" column="WHEN_TRUE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="whenFalseId" column="WHEN_FALSE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="alwaysId" column="ALWAYS" jdbc-type="VARCHAR"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <reference-descriptor name="rule" class-ref="org.kuali.rice.krms.impl.repository.RuleBo" auto-retrieve="true"
+                              auto-update="object" auto-delete="object" proxy="true">
+            <foreignkey field-ref="ruleId" target-field-ref="id"/>
+        </reference-descriptor>
+        <reference-descriptor name="whenTrue" class-ref="org.kuali.rice.krms.impl.repository.AgendaItemBo"
+                              auto-retrieve="true" auto-update="object" auto-delete="none" proxy="false">
+            <foreignkey field-ref="whenTrueId" target-field-ref="id"/>
+        </reference-descriptor>
+        <reference-descriptor name="whenFalse" class-ref="org.kuali.rice.krms.impl.repository.AgendaItemBo"
+                              auto-retrieve="true" auto-update="object" auto-delete="none" proxy="false">
+            <foreignkey field-ref="whenFalseId" target-field-ref="id"/>
+        </reference-descriptor>
+        <reference-descriptor name="always" class-ref="org.kuali.rice.krms.impl.repository.AgendaItemBo"
+                              auto-retrieve="true" auto-update="object" auto-delete="none" proxy="false">
+            <foreignkey field-ref="alwaysId" target-field-ref="id"/>
+        </reference-descriptor>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.rice.krms.impl.repository.PropositionParameterBo" table="KRMS_PROP_PARM_T">
+        <field-descriptor name="id" column="PROP_PARM_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true"
+                          sequence-name="KRMS_PROP_PARM_S"/>
+        <field-descriptor name="propId" column="PROP_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="value" column="PARM_VAL" jdbc-type="VARCHAR"/>
+        <field-descriptor name="parameterType" column="PARM_TYP_CD" jdbc-type="VARCHAR"/>
+        <field-descriptor name="sequenceNumber" column="SEQ_NO" jdbc-type="INTEGER"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.rice.krms.impl.repository.PropositionBo" table="KRMS_PROP_T">
+        <field-descriptor name="id" column="PROP_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true"
+                          sequence-name="KRMS_PROP_S"/>
+        <field-descriptor name="description" column="DESC_TXT" jdbc-type="VARCHAR"/>
+        <field-descriptor name="ruleId" column="RULE_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="typeId" column="TYP_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="compoundOpCode" column="CMPND_OP_CD" jdbc-type="VARCHAR"/>
+        <field-descriptor name="compoundSequenceNumber" column="CMPND_SEQ_NO" jdbc-type="INTEGER"/>
+        <field-descriptor name="propositionTypeCode" column="DSCRM_TYP_CD" jdbc-type="VARCHAR"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <collection-descriptor name="parameters"
+                               element-class-ref="org.kuali.rice.krms.impl.repository.PropositionParameterBo"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                               auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+            <orderby name="sequenceNumber" sort="ASC"/>
+            <inverse-foreignkey field-ref="propId"/>
+        </collection-descriptor>
+        <collection-descriptor name="compoundComponents"
+                               element-class-ref="org.kuali.rice.krms.impl.repository.PropositionBo"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                               indirection-table="KRMS_CMPND_PROP_PROPS_T"
+                               auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+            <orderby name="CMPND_SEQ_NO" sort="ASC"/>
+            <fk-pointing-to-this-class column="CMPND_PROP_ID"/>
+            <fk-pointing-to-element-class column="PROP_ID"/>
+            <inverse-foreignkey field-ref="propId"/>
+        </collection-descriptor>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.rice.krms.impl.repository.ActionBo" table="KRMS_ACTN_T">
+        <field-descriptor name="id" column="ACTN_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true"
+                          sequence-name="KRMS_ACTN_S"/>
+        <field-descriptor name="name" column="NM" jdbc-type="VARCHAR"/>
+        <field-descriptor name="namespace" column="NMSPC_CD" jdbc-type="VARCHAR"/>
+        <field-descriptor name="description" column="DESC_TXT" jdbc-type="VARCHAR"/>
+        <field-descriptor name="typeId" column="TYP_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="ruleId" column="RULE_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="sequenceNumber" column="SEQ_NO" jdbc-type="INTEGER"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <collection-descriptor name="attributeBos"
+                               element-class-ref="org.kuali.rice.krms.impl.repository.ActionAttributeBo"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableHashSet"
+                               auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+            <inverse-foreignkey field-ref="actionId"/>
+        </collection-descriptor>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.rice.krms.impl.repository.ActionAttributeBo" table="KRMS_ACTN_ATTR_T">
+        <field-descriptor name="id" column="ACTN_ATTR_DATA_ID" jdbc-type="VARCHAR" primarykey="true"
+                          autoincrement="true" sequence-name="KRMS_ACTN_ATTR_S"/>
+        <field-descriptor name="actionId" column="ACTN_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="value" column="ATTR_VAL" jdbc-type="VARCHAR"/>
+        <field-descriptor name="attributeDefinitionId" column="ATTR_DEFN_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <reference-descriptor name="attributeDefinition"
+                              class-ref="org.kuali.rice.krms.impl.repository.KrmsAttributeDefinitionBo"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="attributeDefinitionId"/>
+        </reference-descriptor>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.rice.krms.impl.repository.RuleBo" table="KRMS_RULE_T">
+        <field-descriptor name="id" column="RULE_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true"
+                          sequence-name="KRMS_RULE_S"/>
+        <field-descriptor name="name" column="NM" jdbc-type="VARCHAR"/>
+        <field-descriptor name="description" column="DESC_TXT" jdbc-type="VARCHAR"/>
+        <field-descriptor name="namespace" column="NMSPC_CD" jdbc-type="VARCHAR"/>
+        <field-descriptor name="typeId" column="TYP_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="propId" column="PROP_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="active" column="ACTV" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <reference-descriptor name="proposition" class-ref="org.kuali.rice.krms.impl.repository.PropositionBo"
+                              auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+            <foreignkey field-ref="propId"/>
+        </reference-descriptor>
+        <!--  collection-descriptor name="allChildPropositions" element-class-ref="org.kuali.rice.krms.impl.repository.PropositionBo" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+            <inverse-foreignkey field-ref="ruleId" />
+        </collection-descriptor -->
+        <collection-descriptor name="actions" element-class-ref="org.kuali.rice.krms.impl.repository.ActionBo"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                               auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+            <inverse-foreignkey field-ref="ruleId"/>
+        </collection-descriptor>
+        <collection-descriptor name="attributeBos"
+                               element-class-ref="org.kuali.rice.krms.impl.repository.RuleAttributeBo"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                               auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+            <inverse-foreignkey field-ref="ruleId"/>
+        </collection-descriptor>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.rice.krms.impl.repository.RuleAttributeBo" table="KRMS_RULE_ATTR_T">
+        <field-descriptor name="id" column="RULE_ATTR_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true"
+                          sequence-name="KRMS_RULE_ATTR_S"/>
+        <field-descriptor name="ruleId" column="RULE_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="value" column="ATTR_VAL" jdbc-type="VARCHAR"/>
+        <field-descriptor name="attributeDefinitionId" column="ATTR_DEFN_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <reference-descriptor name="attributeDefinition"
+                              class-ref="org.kuali.rice.krms.impl.repository.KrmsAttributeDefinitionBo"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="attributeDefinitionId"/>
+        </reference-descriptor>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.rice.krms.impl.repository.TermSpecificationBo" table="KRMS_TERM_SPEC_T">
+        <field-descriptor name="id" column="TERM_SPEC_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true"
+                          sequence-name="KRMS_TERM_SPEC_S"/>
+        <field-descriptor name="name" column="NM" jdbc-type="VARCHAR"/>
+        <field-descriptor name="namespace" column="NMSPC_CD" jdbc-type="VARCHAR"/>
+        <field-descriptor name="type" column="TYP" jdbc-type="VARCHAR"/>
+        <field-descriptor name="description" column="DESC_TXT" jdbc-type="VARCHAR"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <field-descriptor name="active" column="ACTV" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <collection-descriptor name="contexts" element-class-ref="org.kuali.rice.krms.impl.repository.ContextBo"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                               indirection-table="KRMS_CNTXT_VLD_TERM_SPEC_T"
+                               auto-retrieve="true" auto-update="link" auto-delete="none" proxy="true">
+            <fk-pointing-to-this-class column="TERM_SPEC_ID"/>
+            <fk-pointing-to-element-class column="CNTXT_ID"/>
+        </collection-descriptor>
+        <collection-descriptor name="categories" element-class-ref="org.kuali.rice.krms.impl.repository.CategoryBo"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                               indirection-table="KRMS_TERM_SPEC_CTGRY_T"
+                               auto-retrieve="true" auto-update="link" auto-delete="none">
+            <fk-pointing-to-this-class column="TERM_SPEC_ID"/>
+            <fk-pointing-to-element-class column="CTGRY_ID"/>
+        </collection-descriptor>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.rice.krms.impl.repository.TermParameterBo" table="KRMS_TERM_PARM_T">
+        <field-descriptor name="id" column="TERM_PARM_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true"
+                          sequence-name="KRMS_TERM_PARM_S"/>
+        <field-descriptor name="termId" column="TERM_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="name" column="NM" jdbc-type="VARCHAR"/>
+        <field-descriptor name="value" column="VAL" jdbc-type="VARCHAR"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.rice.krms.impl.repository.TermBo" table="KRMS_TERM_T">
+        <field-descriptor name="id" column="TERM_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true"
+                          sequence-name="KRMS_TERM_S"/>
+        <field-descriptor name="specificationId" column="TERM_SPEC_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="description" column="DESC_TXT" jdbc-type="VARCHAR"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <reference-descriptor name="specification" class-ref="org.kuali.rice.krms.impl.repository.TermSpecificationBo"
+                              auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="specificationId"/>
+        </reference-descriptor>
+        <collection-descriptor name="parameters" element-class-ref="org.kuali.rice.krms.impl.repository.TermParameterBo"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                               auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="termId"/>
+        </collection-descriptor>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.rice.krms.impl.repository.TermResolverAttributeBo"
+                      table="KRMS_TERM_RSLVR_ATTR_T">
+        <field-descriptor name="id" column="TERM_RSLVR_ATTR_ID" jdbc-type="VARCHAR" primarykey="true"
+                          autoincrement="true" sequence-name="KRMS_TERM_RSLVR_ATTR_S"/>
+        <field-descriptor name="termResolverId" column="TERM_RSLVR_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="value" column="ATTR_VAL" jdbc-type="VARCHAR"/>
+        <field-descriptor name="attributeDefinitionId" column="ATTR_DEFN_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <reference-descriptor name="attributeDefinition"
+                              class-ref="org.kuali.rice.krms.impl.repository.KrmsAttributeDefinitionBo"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="attributeDefinitionId"/>
+        </reference-descriptor>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.rice.krms.impl.repository.TermResolverParameterSpecificationBo"
+                      table="KRMS_TERM_RSLVR_PARM_SPEC_T">
+        <field-descriptor name="id" column="TERM_RSLVR_PARM_SPEC_ID" jdbc-type="VARCHAR" primarykey="true"
+                          autoincrement="true" sequence-name="KRMS_TERM_RSLVR_PARM_SPEC_S"/>
+        <field-descriptor name="termResolverId" column="TERM_RSLVR_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="name" column="NM" jdbc-type="VARCHAR"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.rice.krms.impl.repository.TermResolverBo" table="KRMS_TERM_RSLVR_T">
+        <field-descriptor name="id" column="TERM_RSLVR_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true"
+                          sequence-name="KRMS_TERM_RSLVR_S"/>
+        <field-descriptor name="name" column="NM" jdbc-type="VARCHAR"/>
+        <field-descriptor name="namespace" column="NMSPC_CD" jdbc-type="VARCHAR"/>
+        <field-descriptor name="typeId" column="TYP_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="active" column="ACTV" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <field-descriptor name="outputId" column="OUTPUT_TERM_SPEC_ID" jdbc-type="VARCHAR"/>
+        <reference-descriptor name="output" class-ref="org.kuali.rice.krms.impl.repository.TermSpecificationBo"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="outputId"/>
+        </reference-descriptor>
+        <collection-descriptor name="prerequisites"
+                               element-class-ref="org.kuali.rice.krms.impl.repository.TermSpecificationBo"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableHashSet"
+                               indirection-table="KRMS_TERM_RSLVR_INPUT_SPEC_T"
+                               auto-retrieve="true" auto-update="link" auto-delete="none">
+            <fk-pointing-to-this-class column="TERM_RSLVR_ID"/>
+            <fk-pointing-to-element-class column="TERM_SPEC_ID"/>
+            <inverse-foreignkey field-ref="id"/>
+        </collection-descriptor>
+        <collection-descriptor name="parameterSpecifications"
+                               element-class-ref="org.kuali.rice.krms.impl.repository.TermResolverParameterSpecificationBo"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableHashSet"
+                               auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+            <inverse-foreignkey field-ref="termResolverId"/>
+        </collection-descriptor>
+        <collection-descriptor name="attributeBos"
+                               element-class-ref="org.kuali.rice.krms.impl.repository.TermResolverAttributeBo"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableHashSet"
+                               auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+            <inverse-foreignkey field-ref="termResolverId"/>
+        </collection-descriptor>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.rice.krms.impl.repository.FunctionBo" table="KRMS_FUNC_T">
+        <field-descriptor name="id" column="FUNC_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true"
+                          sequence-name="KRMS_FUNC_S"/>
+        <field-descriptor name="namespace" column="NMSPC_CD" jdbc-type="VARCHAR"/>
+        <field-descriptor name="name" column="NM" jdbc-type="VARCHAR"/>
+        <field-descriptor name="description" column="DESC_TXT" jdbc-type="VARCHAR"/>
+        <field-descriptor name="returnType" column="RTRN_TYP" jdbc-type="VARCHAR"/>
+        <field-descriptor name="typeId" column="TYP_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="active" column="ACTV" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <collection-descriptor name="parameters"
+                               element-class-ref="org.kuali.rice.krms.impl.repository.FunctionParameterBo"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                               auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="functionId"/>
+        </collection-descriptor>
+        <collection-descriptor name="categories" element-class-ref="org.kuali.rice.krms.impl.repository.CategoryBo"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                               indirection-table="KRMS_FUNC_CTGRY_T"
+                               auto-retrieve="true" auto-update="link" auto-delete="none">
+            <fk-pointing-to-this-class column="FUNC_ID"/>
+            <fk-pointing-to-element-class column="CTGRY_ID"/>
+        </collection-descriptor>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.rice.krms.impl.repository.FunctionParameterBo" table="KRMS_FUNC_PARM_T">
+        <field-descriptor name="id" column="FUNC_PARM_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true"
+                          sequence-name="KRMS_FUNC_S"/>
+        <field-descriptor name="name" column="NM" jdbc-type="VARCHAR"/>
+        <field-descriptor name="description" column="DESC_TXT" jdbc-type="VARCHAR"/>
+        <field-descriptor name="parameterType" column="TYP" jdbc-type="VARCHAR"/>
+        <field-descriptor name="functionId" column="FUNC_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="sequenceNumber" column="SEQ_NO" jdbc-type="INTEGER"/>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.rice.krms.impl.repository.CategoryBo" table="KRMS_CTGRY_T">
+        <field-descriptor name="id" column="CTGRY_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true"
+                          sequence-name="KRMS_CTGRY_S"/>
+        <field-descriptor name="name" column="NM" jdbc-type="VARCHAR"/>
+        <field-descriptor name="namespace" column="NMSPC_CD" jdbc-type="VARCHAR"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.rice.krms.impl.repository.ContextValidActionBo"
+                      table="KRMS_CNTXT_VLD_ACTN_TYP_T">
+        <field-descriptor name="id" column="CNTXT_VLD_ACTN_ID" jdbc-type="VARCHAR" primarykey="true"
+                          autoincrement="true" sequence-name="KRMS_CNTXT_VLD_ACTN_TYP_S"/>
+        <field-descriptor name="contextId" column="CNTXT_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="actionTypeId" column="ACTN_TYP_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <reference-descriptor name="actionType" class-ref="org.kuali.rice.krms.impl.repository.KrmsTypeBo"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="actionTypeId"/>
+        </reference-descriptor>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.rice.krms.impl.repository.ContextValidAgendaBo"
+                      table="KRMS_CNTXT_VLD_AGENDA_TYP_T">
+        <field-descriptor name="id" column="CNTXT_VLD_AGENDA_ID" jdbc-type="VARCHAR" primarykey="true"
+                          autoincrement="true" sequence-name="KRMS_CNTXT_VLD_AGENDA_TYP_S"/>
+        <field-descriptor name="contextId" column="CNTXT_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="agendaTypeId" column="AGENDA_TYP_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <reference-descriptor name="agendaType" class-ref="org.kuali.rice.krms.impl.repository.KrmsTypeBo"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="agendaTypeId"/>
+        </reference-descriptor>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.rice.krms.impl.repository.ContextValidRuleBo" table="KRMS_CNTXT_VLD_RULE_TYP_T">
+        <field-descriptor name="id" column="CNTXT_VLD_RULE_ID" jdbc-type="VARCHAR" primarykey="true"
+                          autoincrement="true" sequence-name="KRMS_CNTXT_VLD_RULE_TYP_S"/>
+        <field-descriptor name="contextId" column="CNTXT_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="ruleTypeId" column="RULE_TYP_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <reference-descriptor name="ruleType" class-ref="org.kuali.rice.krms.impl.repository.KrmsTypeBo"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="ruleTypeId"/>
+        </reference-descriptor>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.rice.krms.impl.repository.ContextValidTermBo" table="KRMS_CNTXT_VLD_TERM_SPEC_T">
+        <field-descriptor name="id" column="CNTXT_TERM_SPEC_PREREQ_ID" jdbc-type="VARCHAR" primarykey="true"
+                          autoincrement="true"/>
+        <field-descriptor name="contextId" column="CNTXT_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="termSpecificationId" column="TERM_SPEC_ID" jdbc-type="VARCHAR"/>
+        <!--      <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" /> -->
+        <reference-descriptor name="termSpecification"
+                              class-ref="org.kuali.rice.krms.impl.repository.TermSpecificationBo" auto-retrieve="true"
+                              auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="termSpecificationId"/>
+        </reference-descriptor>
+    </class-descriptor>
+
+
+    <class-descriptor class="org.kuali.ole.ingest.pojo.MatchBo" table="OLE_PROFILE_FACT_T">
+        <field-descriptor name="id" column="ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true"
+                          sequence-name="OLE_PROFILE_FACT_S"/>
+        <field-descriptor name="agendaName" column="AGENDA_NAME" jdbc-type="VARCHAR"/>
+        <field-descriptor name="termName" column="TERM_NAME" jdbc-type="VARCHAR"/>
+        <field-descriptor name="docType" column="DOC_TYPE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="incomingField" column="INCOMING_FIELD" jdbc-type="VARCHAR"/>
+        <field-descriptor name="existingField" column="EXISTING_FIELD" jdbc-type="VARCHAR"/>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.ingest.pojo.ProfileAttributeBo" table="OLE_PROFILE_ATTR_T">
+        <field-descriptor name="id" column="ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true"
+                          sequence-name="OLE_PROFILE_ATTR_S"/>
+        <field-descriptor name="agendaName" column="AGENDA_NAME" jdbc-type="VARCHAR"/>
+        <field-descriptor name="attributeName" column="NAME" jdbc-type="VARCHAR"/>
+        <field-descriptor name="attributeValue" column="VALUE" jdbc-type="VARCHAR"/>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.ingest.pojo.OverlayOption" table="OLE_OVERLAY_OPTION_T">
+        <field-descriptor name="id" column="ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true"
+                          sequence-name="OLE_OVERLAY_OPTION_ID_S"/>
+        <field-descriptor name="agendaName" column="AGENDA_NAME" jdbc-type="VARCHAR"/>
+        <field-descriptor name="name" column="OPTION_NAME" jdbc-type="VARCHAR"/>
+        <collection-descriptor name="oleDataFields" element-class-ref="org.kuali.ole.ingest.pojo.OleDataField"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                               auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="overlayOptionId"/>
+        </collection-descriptor>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.ingest.pojo.OleDataField" table="OLE_DATAFIELD_T">
+        <field-descriptor name="id" column="ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true"
+                          sequence-name="OLE_DATAFIELD_ID_S"/>
+        <field-descriptor name="overlayOptionId" column="OVERLAY_OPTION_ID" jdbc-type="INTEGER" />
+        <field-descriptor name="agendaName" column="AGENDA_NAME" jdbc-type="VARCHAR"/>
+        <field-descriptor name="dataFieldTag" column="DATAFIELD_TAG" jdbc-type="VARCHAR"/>
+        <field-descriptor name="dataFieldInd1" column="DATAFIELD_IND1" jdbc-type="VARCHAR"/>
+        <field-descriptor name="dataFieldInd2" column="DATAFIELD_IND2" jdbc-type="VARCHAR"/>
+        <field-descriptor name="subFieldCode" column="SUBFIELD_CODE" jdbc-type="VARCHAR"/>
+    </class-descriptor>
+
+    <!--<class-descriptor class="org.kuali.ole.ingest.pojo.OverlayLookupAction" table="OLE_OVERLAY_LOOKUP_ACTION_T">
+        <field-descriptor name="id" column="ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true"
+                          sequence-name="OLE_OVERLAY_LOOKUP_ACTION_ID_S"/>
+        <field-descriptor name="agendaName" column="AGENDA_NAME" jdbc-type="VARCHAR"/>
+        <field-descriptor name="actionId" column="ACTION_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
+        <field-descriptor name="actionType" column="ACTION_TYPE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="event" column="EVENT" jdbc-type="VARCHAR"/>
+        <field-descriptor name="mapping" column="MAPPING"  jdbc-type="VARCHAR"/>
+        <field-descriptor name="incomingDataField" column="INCOMING_DATA_FIELD"  jdbc-type="VARCHAR"/>
+        <field-descriptor name="incomingSubField" column="INCOMING_SUB_FIELD"  jdbc-type="VARCHAR"/>
+        <field-descriptor name="existingField" column="EXISTING_FIELD"  jdbc-type="VARCHAR"/>
+        <collection-descriptor name="overlayLookupTables" element-class-ref="org.kuali.ole.ingest.pojo.OverlayLookupTable"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                               auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="overlayLookupActionId"/>
+        </collection-descriptor>
+    </class-descriptor>-->
+
+    <!--    <class-descriptor class="org.kuali.ole.ingest.pojo.OverlayLookupTable" table="OLE_OVERLAY_LOOKUP_T">
+            <field-descriptor name="id" column="ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true"
+                              sequence-name="OLE_OVERLAY_LOOKUP_ID_S"/>
+            <field-descriptor name="overlayLookupActionId" column="OVERLAY_LOOKUP_ACTION_ID" jdbc-type="INTEGER"/>
+            <field-descriptor name="agendaName" column="AGENDA_NAME" jdbc-type="VARCHAR"/>
+            <field-descriptor name="actionId" column="ACTION_ID" jdbc-type="VARCHAR"/>
+            <field-descriptor name="table" column="MAPPING_TABLE_NAME" jdbc-type="VARCHAR"/>
+            <field-descriptor name="field" column="FIELD" jdbc-type="VARCHAR"/>
+            <field-descriptor name="nextaction" column="NEXT_ACTION" jdbc-type="VARCHAR"/>
+        </class-descriptor>-->
+
+
+
+    <class-descriptor class="org.kuali.ole.ingest.pojo.OleOverlayAction" table="OLE_OVERLAY_ACTN_T">
+        <field-descriptor name="overlayActionId" column="OLE_OVR_ACT_ID" jdbc-type="VARCHAR" primarykey="true" indexed="true" autoincrement="true"
+                          sequence-name="OLE_OVERLAY_ACTN_S" />
+        <field-descriptor name="profileName" column="OLE_PRFL_NM" jdbc-type="VARCHAR"/>
+        <field-descriptor name="description" column="OLE_OVR_ACT_DESC" jdbc-type="VARCHAR"/>
+        <collection-descriptor name="oleMappingFields" element-class-ref="org.kuali.ole.ingest.pojo.OleMappingField"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                               auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+            <inverse-foreignkey field-ref="overlayActionId"/>
+        </collection-descriptor>
+        <collection-descriptor name="oleOutputFieldMappings" element-class-ref="org.kuali.ole.ingest.pojo.OleOutputFieldMapping"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                               auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+            <inverse-foreignkey field-ref="overlayActionId"/>
+        </collection-descriptor>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.ingest.pojo.OleMappingField" table="OLE_OVERLAY_MAP_FLD_T">
+        <field-descriptor name="id" column="OLE_MAP_FLD_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_OVERLAY_MAP_FLD_S" />
+        <field-descriptor name="fileFormat" column="FILE_FMT" jdbc-type="VARCHAR" />
+        <field-descriptor name="incomingField" column="INCOMING_FLD" jdbc-type="VARCHAR" />
+        <field-descriptor name="incomingFieldValue" column="INCOMING_FLD_VAL" jdbc-type="VARCHAR" />
+        <field-descriptor name="overlayActionId" column="OLE_OVR_ACT_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+
+    </class-descriptor>
+
+
+    <class-descriptor class="org.kuali.ole.ingest.pojo.OleOutputFieldMapping" table="OLE_OVERLAY_OUT_FLD_T">
+        <field-descriptor name="id" column="OLE_OUT_FLD_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_OVERLAY_OUT_FLD_S" />
+        <field-descriptor name="fieldName" column="FLD_NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="fieldValue" column="FLD_VAL" jdbc-type="VARCHAR" />
+        <field-descriptor name="targetField" column="TARGET_FLD" jdbc-type="VARCHAR" />
+        <field-descriptor name="overlayActionId" column="OLE_OVR_ACT_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="lookUp" column="LOOKUP_IND" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.deliver.bo.OleBatchJobBo" table="OLE_DLVR_BATCH_JOB_T">
+        <field-descriptor name="jobId" column="JOB_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_DLVR_BATCH_JOB_S"/>
+        <field-descriptor name="jobTriggerName" column="JOB_TRG_NM" jdbc-type="VARCHAR" />
+        <field-descriptor name="jobCronExpression" column="JOB_CRON_EXPRSN" jdbc-type="VARCHAR" />
+        <field-descriptor name="jobEnableStatus" column="ROW_ACT_IND" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.alert.bo.AlertDocument" table="ALRT_DOC_T">
+        <field-descriptor name="alertDocumentId" column="ALRT_DOC_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="ALRT_DOC_S"/>
+        <field-descriptor name="documentTypeId" column="DOC_TYP_Id" jdbc-type="VARCHAR" />
+        <field-descriptor name="documentTypeName" column="DOC_TYP_NM" jdbc-type="VARCHAR" />
+        <field-descriptor name="alertDocumentCreatorId" column="ALRT_DOC_CRTR_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="repeatable" column="ALRT_RPT" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+<!--        <collection-descriptor name="alertFieldValueMappings" element-class-ref="org.kuali.ole.alert.bo.AlertFieldValueMapping"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                               auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+            <inverse-foreignkey field-ref="alertDocumentId"/>
+        </collection-descriptor>-->
+        <collection-descriptor name="alertConditionAndReceiverInformations" element-class-ref="org.kuali.ole.alert.bo.AlertConditionAndReceiverInformation"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                               auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+            <inverse-foreignkey field-ref="alertDocumentId"/>
+        </collection-descriptor>
+        <reference-descriptor name="alertDocumentType" class-ref="org.kuali.ole.alert.bo.AlertDocumentType"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="documentTypeId" target-field-ref="alertDocumentId"/>
+        </reference-descriptor>
+
+    </class-descriptor>
+
+
+    <class-descriptor class="org.kuali.ole.alert.bo.AlertFieldValueMapping" table="ALRT_FLD_VAL_MAP_T">
+        <field-descriptor name="alertFieldValueMappingId" column="ALRT_FLD_VAL_MAP_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="ALRT_FLD_VAL_MAP_S"/>
+        <field-descriptor name="fieldName" column="FLD_NM" jdbc-type="VARCHAR" />
+        <field-descriptor name="fieldType" column="FLD_TYP" jdbc-type="VARCHAR" />
+        <field-descriptor name="fieldValue" column="FLD_VAL" jdbc-type="VARCHAR" />
+        <field-descriptor name="alertDocumentId" column="ALRT_DOC_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <reference-descriptor name="alertDocument" class-ref="org.kuali.ole.alert.bo.AlertDocument"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="alertDocumentId"/>
+        </reference-descriptor>
+
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.alert.bo.AlertConditionAndReceiverInformation" table="ALRT_CNDTN_NTFCN_INFO_T">
+        <field-descriptor name="alertConditionId" column="ALRT_CNDTN_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="ALRT_CNDTN_NTFCN_INFO_S"/>
+        <field-descriptor name="groupId" column="GRP_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="roleId" column="ROLE_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="principalId" column="PRNCPL_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="alertEventId" column="ALRT_EVENT_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="alertNote" column="ALRT_NOTE" jdbc-type="VARCHAR" />
+        <field-descriptor name="email" column="IS_EMAIL" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="alert" column="IS_ALRT_LST" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+       <!-- <field-descriptor name="alertDate" column="ALRT_DT" jdbc-type="DATE" />-->
+        <field-descriptor name="alertInterval" column="ALRT_INTRVL" jdbc-type="VARCHAR" />
+        <field-descriptor name="alertDocumentId" column="ALRT_DOC_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <reference-descriptor name="alertDocument" class-ref="org.kuali.ole.alert.bo.AlertDocument"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="alertDocumentId"/>
+        </reference-descriptor>
+        <reference-descriptor name="alertEvent" class-ref="org.kuali.ole.alert.bo.AlertEvent"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="alertEventId"/>
+        </reference-descriptor>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.deliver.bo.OleLoanDocument" table="ole_dlvr_loan_t">
+        <field-descriptor name="loanId" column="LOAN_TRAN_ID " jdbc-type="VARCHAR" primarykey="true" index="true" autoincrement="true" sequence-name="ole_dlvr_loan_s"></field-descriptor>
+        <field-descriptor name="circulationPolicyId" column="CIR_POLICY_ID" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="itemId" column="ITM_ID" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="patronId" column="OLE_PTRN_ID" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="proxyPatronId" column="PROXY_PTRN_ID" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="circulationLocationId" column="CIRC_LOC_ID" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="loanOperatorId" column="OPTR_CRTE_ID" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="machineId" column="MACH_ID" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="loanApproverId" column="OVRR_OPTR_ID" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="realPatronName" column="OLE_PROXY_BORROWER_NM" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="numberOfRenewals" column="NUM_RENEWALS" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="courtesyNoticeFlag" column="CRTSY_NTCE" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"></field-descriptor>
+        <field-descriptor name="numberOfOverdueNoticesSent" column="NUM_OVERDUE_NOTICES_SENT" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="noOfOverdueNoticesSentForBorrower" column="N_OVERDUE_NOTICE" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="oleRequestId" column="OLE_RQST_ID" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="repaymentFeePatronBillId" column="REPMNT_FEE_PTRN_BILL_ID" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="createDate" column="CRTE_DT_TIME" jdbc-type="TIMESTAMP"></field-descriptor>
+        <field-descriptor name="loanDueDate" column="CURR_DUE_DT_TIME" jdbc-type="TIMESTAMP"></field-descriptor>
+        <field-descriptor name="pastDueDate" column="PAST_DUE_DT_TIME" jdbc-type="TIMESTAMP"></field-descriptor>
+        <field-descriptor name="overDueNoticeDate" column="OVERDUE_NOTICE_DATE" jdbc-type="DATE"></field-descriptor>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <field-descriptor name="itemUuid" column="ITEM_UUID" jdbc-type="VARCHAR" />
+        <reference-descriptor name="olePatron" class-ref="org.kuali.ole.deliver.bo.OlePatronDocument"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="patronId"/>
+        </reference-descriptor>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.deliver.bo.OleLoanStatus" table="ole_dlvr_loan_stat_t">
+        <field-descriptor name="loanStatusId" column="LOAN_STAT_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="ole_dlvr_loan_stat_s" />
+        <field-descriptor name="loanStatusCode" column="LOAN_STAT_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="loanStatusName" column="LOAN_STAT_NM" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.deliver.bo.OleLoanTermUnit" table="ole_dlvr_loan_term_unit_t">
+        <field-descriptor name="loanTermUnitId" column="LOAN_TERM_UNIT_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="ole_dlvr_loan_term_unit_s" />
+        <field-descriptor name="loanTermUnitCode" column="LOAN_TERM_UNIT_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="loanTermUnitName" column="LOAN_TERM_UNIT_NM" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    </class-descriptor>
+
+
+
+    <class-descriptor class="org.kuali.ole.deliver.bo.OleItemSearch" table="OLE_VIRTUAL_ITM_SEARCH_T">
+        <field-descriptor name="title" column="VIRTUAL_TITLE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="author" column="VIRTUAL_AUTHOR" jdbc-type="VARCHAR"/>
+        <field-descriptor name="itemBarCode" column="VIRTUAL_ITM_BARCODE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="publisher" column="VIRTUAL_PUBLISHER" jdbc-type="VARCHAR"/>
+        <field-descriptor name="itemType" column="VIRTUAL_ITM_TYPE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="callNumber" column="VIRTUAL_CALL_NBR" jdbc-type="VARCHAR"/>
+        <field-descriptor name="shelvingLocation" column="VIRTUAL_SHELVINGlOCATION" jdbc-type="VARCHAR"/>
+        <field-descriptor name="itemStatus" column="VIRTUAL_ITM_STATUS" jdbc-type="VARCHAR"/>
+        <field-descriptor name="copyNumber" column="VIRTUAL_COPY_NBR" jdbc-type="VARCHAR"/>
+    </class-descriptor>
+
+
+    <class-descriptor class="org.kuali.ole.deliver.bo.OleCirculationDesk" table="OLE_CRCL_DSK_T">
+        <field-descriptor name="circulationDeskId" column="OLE_CRCL_DSK_ID" jdbc-type="VARCHAR" primarykey="true" indexed="true" autoincrement="true"
+                          sequence-name="OLE_CRCL_DSK_S" />
+        <field-descriptor name="circulationDeskCode" column="OLE_CRCL_DSK_CODE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="circulationDeskPublicName" column="OLE_CRCL_DSK_PUB_NAME" jdbc-type="VARCHAR"/>
+        <field-descriptor name="circulationDeskStaffName" column="OLE_CRCL_DSK_STAFF_NAME" jdbc-type="VARCHAR"/>
+        <field-descriptor name="onHoldDays" column="HLD_DAYS" jdbc-type="VARCHAR"/>
+        <field-descriptor name="shelvingLagTime" column="SLVNG_LAG_TIM" jdbc-type="VARCHAR"/>
+        <field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="pickUpLocation" column="PK_UP_LOCN_IND" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="asrPickupLocation" column="ASR_PK_UP_LOCN_IND" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="printSlip" column="PRNT_SLP_IND" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+
+        <field-descriptor name="calendarGroupId" column="OLE_CLNDR_GRP_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="holdFormat" column="HOLD_FORMAT" jdbc-type="VARCHAR"/>
+        <field-descriptor name="holdQueue" column="HOLD_QUEUE" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <collection-descriptor name="oleCirculationDeskLocations" element-class-ref="org.kuali.ole.deliver.bo.OleCirculationDeskLocation"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                               auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+            <inverse-foreignkey field-ref="circulationDeskId"/>
+        </collection-descriptor>
+        <reference-descriptor name="oleCalendarGroup" class-ref="org.kuali.ole.deliver.calendar.bo.OleCalendarGroup"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="calendarGroupId" target-field-ref="id"/>
+        </reference-descriptor>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.deliver.bo.OleCirculationDeskLocation" table="OLE_CRCL_DSK_LOCN_T">
+        <field-descriptor name="circulationDeskLocationId" column="OLE_CRCL_DSK_LOCN_ID" jdbc-type="VARCHAR" primarykey="true" indexed="true" autoincrement="true"
+                          sequence-name="OLE_CRCL_DSK_LOCN_S" />
+        <field-descriptor name="circulationDeskId" column="OLE_CRCL_DSK_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="circulationDeskLocation" column="OLE_CRCL_DSK_LOCN" jdbc-type="VARCHAR"/>
+        <reference-descriptor name="location" class-ref="org.kuali.ole.describe.bo.OleLocation"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="circulationDeskLocation"/>
+        </reference-descriptor>
+        <reference-descriptor name="oleCirculationDesk" class-ref="org.kuali.ole.deliver.bo.OleCirculationDesk"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="circulationDeskId"/>
+        </reference-descriptor>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.deliver.bo.OleCirculationDeskDetail" table="ole_circ_dsk_dtl_t">
+        <field-descriptor name="circulationDeskDetailId" column="CRCL_DSK_DTL_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="ole_circ_dsk_dtl_s" />
+        <field-descriptor name="operatorId" column="OPTR_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="circulationDeskId" column="CRCL_DSK_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="defaultLocation" column="DEFAULT_LOC" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="allowedLocation" column="ALLOWED_LOC" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <reference-descriptor name="oleCirculationDesk" class-ref="org.kuali.ole.deliver.bo.OleCirculationDesk"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="circulationDeskId"/>
+        </reference-descriptor>
+    </class-descriptor>
+    <class-descriptor class="org.kuali.ole.deliver.bo.OleCirculationHistory" table="OLE_DLVR_CIRC_RECORD">
+        <field-descriptor name="oleCirculationHistoryId" column="CIR_HIS_REC_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_DLVR_CIRC_RECORD_S"/>
+        <field-descriptor name="loanId" column="LOAN_TRAN_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="patronId" column="CIR_POLICY_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="patronId" column="OLE_PTRN_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="patronTypeId" column="PTRN_TYP_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="affiliationId" column="AFFILIATION_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="deptId" column="DEPARTMENT_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="otherAffiliation" column="OTHER_AFFILIATION" jdbc-type="VARCHAR"/>
+        <field-descriptor name="statisticalCategory" column="STATISTICAL_CATEGORY" jdbc-type="VARCHAR"/>
+        <field-descriptor name="itemId" column="ITM_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="bibTitle" column="BIB_TIT" jdbc-type="VARCHAR"/>
+        <field-descriptor name="bibAuthor" column="BIB_AUTH" jdbc-type="VARCHAR"/>
+        <field-descriptor name="bibEdition" column="BIB_EDITION" jdbc-type="VARCHAR"/>
+        <field-descriptor name="bibPublication" column="BIB_PUB" jdbc-type="VARCHAR"/>
+        <field-descriptor name="bibPublicationDate" column="BIB_PUB_DT" jdbc-type="DATE"/>
+        <field-descriptor name="bibIsbn" column="BIB_ISBN" jdbc-type="VARCHAR"/>
+        <field-descriptor name="proxyPatronId" column="PROXY_PTRN_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="dueDate"  column="DUE_DT_TIME" jdbc-type="TIMESTAMP"/>
+        <field-descriptor name="pastDueDate"  column="PAST_DUE_DT_TIME" jdbc-type="TIMESTAMP"/>
+        <field-descriptor name="createDate"  column="CRTE_DT_TIME" jdbc-type="TIMESTAMP"/>
+        <field-descriptor name="modifyDate"  column="MODI_DT_TIME" jdbc-type="TIMESTAMP"/>
+        <field-descriptor name="circulationLocationId" column="CIRC_LOC_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="operatorCreateId" column="OPTR_CRTE_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="operatorModifyId" column="OPTR_MODI_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="machineId" column="MACH_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="overrideOperatorId" column="OVRR_OPTR_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="numberOfRenewals" column="NUM_RENEWALS" jdbc-type="VARCHAR"/>
+        <field-descriptor name="numberOfOverdueNoticesSent" column="NUM_OVERDUE_NOTICES_SENT" jdbc-type="VARCHAR"/>
+        <field-descriptor name="overdueNoticeDate" column="OVERDUE_NOTICE_DATE" jdbc-type="DATE"/>
+        <field-descriptor name="oleRequestId" column="OLE_RQST_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="repaymentFeePatronBillId" column="REPMNT_FEE_PTRN_BILL_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="checkInDate"  column="CHECK_IN_DT_TIME" jdbc-type="TIMESTAMP"/>
+        <field-descriptor name="checkInOperatorId" column="CHECK_IN_OPTR_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="checkInMachineId" column="CHECK_IN_MACH_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="itemUuid" column="ITEM_UUID" jdbc-type="VARCHAR" />
+    </class-descriptor>
+    <class-descriptor class="org.kuali.ole.deliver.bo.OleTemporaryCirculationHistory" table="OLE_DLVR_TEMP_CIRC_RECORD">
+        <field-descriptor name="temporaryCirculationHistoryId" column="TMP_CIR_HIS_REC_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_DLVR_TEMP_CIRC_RECORD_S"/>
+        <field-descriptor name="olePatronId" column="OLE_PTRN_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="itemId" column="ITM_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="circulationLocationId" column="CIRC_LOC_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="checkInDate"  column="CHECK_IN_DT_TIME" jdbc-type="TIMESTAMP"/>
+        <field-descriptor name="itemUuid" column="ITEM_UUID" jdbc-type="VARCHAR" />
+        <field-descriptor name="dueDate"  column="DUE_DT_TIME" jdbc-type="TIMESTAMP"/>
+        <field-descriptor name="checkOutDate"  column="CHECK_OUT_DT_TIME" jdbc-type="TIMESTAMP"/>
+    </class-descriptor>
+    <class-descriptor class="org.kuali.ole.deliver.bo.OleDeliverRequestBo" table="OLE_DLVR_RQST_T">
+        <field-descriptor name="requestId" column="OLE_RQST_ID" jdbc-type="VARCHAR" primarykey="true"/>
+        <field-descriptor name="poLineItemNo" column="PO_LN_ITM_NO" jdbc-type="VARCHAR" />
+        <field-descriptor name="itemId" column="ITM_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="borrowerId" column="OLE_PTRN_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="borrowerBarcode" column="OLE_PTRN_BARCD" jdbc-type="VARCHAR" />
+        <field-descriptor name="borrowerQueuePosition" column="PTRN_Q_POS" jdbc-type="INTEGER" />
+        <field-descriptor name="proxyBorrowerId" column="PROXY_PTRN_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="proxyBorrowerBarcode" column="PROXY_PTRN_BARCD" jdbc-type="VARCHAR" />
+        <field-descriptor name="requestTypeId" column="OLE_RQST_TYP_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="contentDescription" column="CNTNT_DESC" jdbc-type="VARCHAR" />
+        <field-descriptor name="copyFormat" column="CPY_FRMT" jdbc-type="VARCHAR" />
+        <field-descriptor name="loanTransactionRecordNumber" column="LOAN_TRAN_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="pickUpLocationId" column="PCKUP_LOC_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="operatorCreateId" column="OPTR_CRTE_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="operatorModifiedId" column="OPTR_MODI_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="circulationLocationId" column="CIRC_LOC_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="machineId" column="MACH_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="requestExpiryDate" column="RQST_EXPIR_DT_TIME" jdbc-type="DATE"/>
+        <field-descriptor name="recallNoticeSentDate" column="RCAL_NTC_SNT_DT" jdbc-type="DATE"/>
+        <field-descriptor name="onHoldNoticeSentDate" column="ONHLD_NTC_SNT_DT" jdbc-type="DATE"/>
+        <field-descriptor name="createDate" column="CRTE_DT_TIME" jdbc-type="DATE"/>
+        <field-descriptor name="modifiedDate" column="MODI_DT_TIME" jdbc-type="DATE"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" indexed="true" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="itemUuid" column="ITEM_UUID" jdbc-type="VARCHAR" />
+        <field-descriptor name="requestStatus" column="RQST_STAT" jdbc-type="VARCHAR" />
+        <field-descriptor name="asrFlag" column="ASR_FLAG" jdbc-type="VARCHAR"   conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <reference-descriptor name="olePatron" class-ref="org.kuali.ole.deliver.bo.OlePatronDocument" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="borrowerId" target-field-ref="olePatronId"/>
+        </reference-descriptor>
+        <reference-descriptor name="oleProxyPatron" class-ref="org.kuali.ole.deliver.bo.OlePatronDocument" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="proxyBorrowerId" target-field-ref="olePatronId"/>
+        </reference-descriptor>
+
+        <!--  <reference-descriptor name="operatorCreator" class-ref="org.kuali.rice.kim.impl.identity.PersonImpl" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+             <foreignkey field-ref="operatorCreateId"/>
+         </reference-descriptor>
+
+         <reference-descriptor name="operatorModifier" class-ref="org.kuali.rice.kim.impl.identity.PersonImpl" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+             <foreignkey field-ref="operatorModifiedId"/>
+         </reference-descriptor>-->
+        <reference-descriptor name="oleDeliverRequestType" class-ref="org.kuali.ole.deliver.bo.OleDeliverRequestType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="requestTypeId" target-field-ref="requestTypeId"/>
+        </reference-descriptor>
+        <reference-descriptor name="olePickUpLocation" class-ref="org.kuali.ole.deliver.bo.OleCirculationDesk" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="pickUpLocationId" target-field-ref="circulationDeskId"/>
+        </reference-descriptor>
+        <reference-descriptor name="oleCirculationLocation" class-ref="org.kuali.ole.deliver.bo.OleCirculationDesk" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="circulationLocationId" target-field-ref="circulationDeskId"/>
+        </reference-descriptor>
+
+    </class-descriptor>
+
+
+    <class-descriptor class="org.kuali.ole.deliver.bo.OleDeliverRequestType" table="OLE_DLVR_RQST_TYP_T">
+        <field-descriptor name="requestTypeId" column="OLE_RQST_TYP_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="ole_dlvr_rqst_typ_s"/>
+        <field-descriptor name="requestTypeCode" column="OLE_RQST_TYP_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="requestTypeName" column="OLE_RQST_TYP_NM" jdbc-type="VARCHAR" />
+        <field-descriptor name="requestTypeDescription" column="OLE_RQST_TYP_DESC" jdbc-type="VARCHAR" />
+        <field-descriptor name="active" column="ROW_ACT_IND" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    </class-descriptor>
+
+
+
+
+    <class-descriptor class="org.kuali.ole.deliver.bo.OleDeliverRequestHistoryRecord" table="OLE_DLVR_RQST_HSTRY_REC_T">
+        <field-descriptor name="requestHistoryId" column="OLE_RQST_HSTRY_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_DLVR_RQST_HSTRY_REC_S"/>
+        <field-descriptor name="requestId" column="OLE_RQST_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="itemId" column="OLE_ITEM_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="loanTransactionId" column="OLE_LOAN_ID" jdbc-type="VARCHAR" />
+
+        <field-descriptor name="poLineItemNumber" column="OLE_LN_ITM_NUM" jdbc-type="VARCHAR" />
+        <field-descriptor name="deliverRequestTypeCode" column="OLE_RQST_TYP_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="pickUpLocationCode" column="OLE_PCK_LOC_CD" jdbc-type="VARCHAR" />
+
+        <field-descriptor name="operatorId" column="OLE_OPRT_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="machineId" column="OLE_MACH_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="archiveDate" column="ARCH_DT_TIME" jdbc-type="DATE"/>
+
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    </class-descriptor>
+
+
+
+
+
+    <class-descriptor class="org.kuali.ole.deliver.bo.OleFixedDueDate" table="OLE_DLVR_FIXED_DUE_DATE_T">
+        <field-descriptor name="fixedDueDateId" column="DUE_DATE_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_DLVR_FIXED_DUE_DATE_S" />
+        <field-descriptor name="circulationPolicySetId" column="CIRCULATION_POLICY_SET_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <collection-descriptor name="oleFixedDateTimeSpanList" element-class-ref="org.kuali.ole.deliver.bo.OleFixedDateTimeSpan"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                               auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+            <inverse-foreignkey field-ref="fixedDueDateId"/>
+        </collection-descriptor>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.deliver.bo.OleFixedDateTimeSpan" table="OLE_DLVR_FXD_DUE_DT_SPAN_T">
+        <field-descriptor name="OleFixedDateTimeSpanId" column="FIXED_DUE_DATE_TIME_SPAN_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_DLVR_FXD_DUE_DT_SPAN_S" />
+        <field-descriptor name="fixedDueDateId" column="DUE_DATE_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="fixedDueDate" column="FIXED_DUE_DATE" jdbc-type="DATE" />
+        <field-descriptor name="fromDueDate" column="FROM_DATE" jdbc-type="DATE" />
+        <field-descriptor name="toDueDate" column="TO_DATE" jdbc-type="DATE" />
+        <field-descriptor name="timeSpan" column="TIME_SPAN" jdbc-type="VARCHAR"/>
+        <reference-descriptor name="oleFixedDueDate" class-ref="org.kuali.ole.deliver.bo.OleFixedDueDate"
+                              auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+            <foreignkey field-ref="fixedDueDateId"/>
+        </reference-descriptor>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.deliver.bo.OleRecentlyReturned" table="OLE_DLVR_RECENTLY_RETURNED_T">
+        <field-descriptor name="id" column="ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_DLVR_RECENTLY_RETURNED_S"/>
+        <field-descriptor name="circulationDeskId" column="CIRC_DESK_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="itemUuid" column="ITEM_UUID" jdbc-type="VARCHAR" />
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.deliver.bo.OlePatronDocument" table="OLE_PTRN_T">
+        <field-descriptor name="olePatronId" column="OLE_PTRN_ID" jdbc-type="VARCHAR" primarykey="true"/>
+        <field-descriptor name="barcode" column="BARCODE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="borrowerType" column="BORR_TYP" jdbc-type="VARCHAR"/>
+        <field-descriptor name="activeIndicator" column="ACTV_IND" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="generalBlock" column="GENERAL_BLOCK" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="pagingPrivilege" column="PAGING_PRIVILEGE" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="courtesyNotice" column="COURTESY_NOTICE" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="deliveryPrivilege" column="DELIVERY_PRIVILEGE" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="expirationDate" column="EXPIRATION_DATE" jdbc-type="DATE"/>
+        <field-descriptor name="activationDate" column="ACTIVATION_DATE" jdbc-type="DATE"/>
+        <field-descriptor name="generalBlockNotes" column="GENERAL_BLOCK_NT" jdbc-type="VARCHAR"/>
+        <field-descriptor name="source" column="OLE_SRC" jdbc-type="VARCHAR"/>
+        <field-descriptor name="statisticalCategory" column="OLE_STAT_CAT" jdbc-type="VARCHAR"/>
+        <field-descriptor name="patronPhotograph" column="PHOTOGRAPH" jdbc-type="BLOB"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <reference-descriptor name="oleBorrowerType" class-ref="org.kuali.ole.deliver.bo.OleBorrowerType"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="borrowerType" target-field-ref="borrowerTypeId"/>
+        </reference-descriptor>
+        <reference-descriptor name="sourceBo" class-ref="org.kuali.ole.deliver.bo.OleSourceBo"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="source" target-field-ref="oleSourceId"/>
+        </reference-descriptor>
+        <reference-descriptor name="statisticalCategoryBo" class-ref="org.kuali.ole.deliver.bo.OleStatisticalCategoryBo"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="statisticalCategory" target-field-ref="oleStatisticalCategoryId"/>
+        </reference-descriptor>
+        <reference-descriptor name="olePatronEntityViewBo" class-ref="org.kuali.ole.deliver.bo.OLEPatronEntityViewBo"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="olePatronId" target-field-ref="patronId"/>
+        </reference-descriptor>
+        <collection-descriptor name="notes" element-class-ref="org.kuali.ole.deliver.bo.OlePatronNotes"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                               auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+            <inverse-foreignkey field-ref="olePatronId"/>
+        </collection-descriptor>
+        <collection-descriptor name="lostBarcodes" element-class-ref="org.kuali.ole.deliver.bo.OlePatronLostBarcode"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                               auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+            <inverse-foreignkey field-ref="olePatronId"/>
+        </collection-descriptor>
+        <collection-descriptor name="oleProxyPatronDocuments" element-class-ref="org.kuali.ole.deliver.bo.OleProxyPatronDocument"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                               auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+            <inverse-foreignkey field-ref="olePatronId"/>
+        </collection-descriptor>
+        <collection-descriptor name="oleProxyPatronDocumentList" element-class-ref="org.kuali.ole.deliver.bo.OleProxyPatronDocument"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                               auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+            <inverse-foreignkey field-ref="proxyPatronId" target-field-ref="olePatronId"/>
+        </collection-descriptor>
+        <collection-descriptor name="oleAddresses" element-class-ref="org.kuali.ole.deliver.bo.OleAddressBo"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                               auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+            <inverse-foreignkey field-ref="olePatronId"/>
+        </collection-descriptor>
+        <collection-descriptor name="oleLoanDocuments" element-class-ref="org.kuali.ole.deliver.bo.OleLoanDocument"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                               auto-retrieve="true" auto-update="none" auto-delete="object" proxy="false">
+            <inverse-foreignkey field-ref="patronId"/>
+        </collection-descriptor>
+        <collection-descriptor name="oleDeliverRequestBos" element-class-ref="org.kuali.ole.deliver.bo.OleDeliverRequestBo"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                               auto-retrieve="true" auto-update="none" auto-delete="object" proxy="false">
+            <inverse-foreignkey field-ref="borrowerId"/>
+        </collection-descriptor>
+        <collection-descriptor name="oleTemporaryCirculationHistoryRecords" element-class-ref="org.kuali.ole.deliver.bo.OleTemporaryCirculationHistory"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                               auto-retrieve="true" auto-update="none" auto-delete="object" proxy="false">
+            <inverse-foreignkey field-ref="olePatronId"/>
+        </collection-descriptor>
+        <collection-descriptor name="olePatronLocalIds" element-class-ref="org.kuali.ole.deliver.bo.OlePatronLocalIdentificationBo"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                               auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+            <inverse-foreignkey field-ref="olePatronId"/>
+        </collection-descriptor>
+        <collection-descriptor name="patronBillPayments" element-class-ref="org.kuali.ole.deliver.bo.PatronBillPayment"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                               auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+            <inverse-foreignkey field-ref="patronId"/>
+        </collection-descriptor>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.deliver.bo.OleProxyPatronDocument" table="OLE_PROXY_PTRN_T">
+        <field-descriptor name="oleProxyPatronDocumentId" column="OLE_PROXY_PTRN_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true"
+                          sequence-name="OLE_PROXY_PTRN_S"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <field-descriptor name="olePatronId" column="OLE_PTRN_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="proxyPatronId" column="OLE_PROXY_PTRN_REF_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="proxyPatronActivationDate" column="OLE_PROXY_PTRN_ACT_DT" jdbc-type="DATE"/>
+        <field-descriptor name="proxyPatronExpirationDate" column="OLE_PROXY_PTRN_EXP_DT" jdbc-type="DATE"/>
+        <field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <reference-descriptor name="olePatronDocument" class-ref="org.kuali.ole.deliver.bo.OlePatronDocument"
+                              auto-retrieve="true" auto-update="object" auto-delete="none" proxy="false">
+            <foreignkey field-ref="olePatronId"/>
+        </reference-descriptor>
+    </class-descriptor>
+
+
+    <class-descriptor class="org.kuali.ole.deliver.bo.OleAddressBo" table="OLE_DLVR_ADD_T">
+        <field-descriptor name="oleAddressId" column="DLVR_ADD_ID" jdbc-type="VARCHAR" primarykey="true" index="true" sequence-name="OLE_DLVR_ADD_S"/>
+        <field-descriptor name="olePatronId" column="OLE_PTRN_ID" jdbc-type="VARCHAR" index="true" />
+        <field-descriptor name="id" column="ENTITY_ADDR_ID" jdbc-type="VARCHAR" index="true" />
+        <field-descriptor name="addressSource" column="OLE_ADDR_SRC" jdbc-type="VARCHAR" index="true" />
+        <field-descriptor name="addressVerified" column="DLVR_PTRN_ADD_VER" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="addressValidFrom" column="ADD_VALID_FROM" jdbc-type="DATE"/>
+        <field-descriptor name="addressValidTo" column="ADD_VALID_TO" jdbc-type="DATE"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <reference-descriptor name="addressSourceBo" class-ref="org.kuali.ole.deliver.bo.OleAddressSourceBo"
+                              auto-retrieve="false" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="addressSource" target-field-ref="oleAddressSourceId" />
+        </reference-descriptor>
+        <reference-descriptor name="olePatronDocument" class-ref="org.kuali.ole.deliver.bo.OlePatronDocument"
+                              auto-retrieve="false" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="olePatronId"/>
+        </reference-descriptor>
+    </class-descriptor>
+
+
+    <class-descriptor class="org.kuali.ole.deliver.bo.BarcodeStatus" table="OLE_DLVR_BARCD_STAT_T">
+        <field-descriptor name="barcodeStatusId" column="DLVR_BARCD_STAT_ID " jdbc-type="VARCHAR" primarykey="true"
+                          index="true" autoincrement="true" sequence-name="OLE_DLVR_BARCD_STAT_S"></field-descriptor>
+        <field-descriptor name="barcodeStatusCode" column="DLVR_BARCD_TYP_CD" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="barcodeStatusName" column="DLVR_BARCD_TYP_NM" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <field-descriptor name="active" column="ROW_ACT_IND" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="delete" column="DEL_IND" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+    </class-descriptor>
+
+
+    <class-descriptor class="org.kuali.ole.deliver.bo.OleBorrowerType" table="OLE_DLVR_BORR_TYP_T">
+        <field-descriptor name="borrowerTypeId" column="DLVR_BORR_TYP_ID " jdbc-type="VARCHAR" primarykey="true"
+                          index="true" autoincrement="true" sequence-name="OLE_DLVR_BORR_TYP_S "></field-descriptor>
+        <field-descriptor name="borrowerTypeCode" column="DLVR_BORR_TYP_CD" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="borrowerTypeDescription" column="DLVR_BORR_TYP_DESC"
+                          jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="borrowerTypeName" column="DLVR_BORR_TYP_NM" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <field-descriptor name="active" column="ROW_ACT_IND" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.deliver.bo.OleSourceBo" table="OLE_DLVR_SRC_T">
+        <field-descriptor name="oleSourceId" column="OLE_DLVR_SRC_ID " jdbc-type="VARCHAR" primarykey="true"
+                          index="true" autoincrement="true" sequence-name="OLE_DLVR_SRC_S "></field-descriptor>
+        <field-descriptor name="oleSourceCode" column="OLE_DLVR_SRC_CD" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="oleSourceDesc" column="OLE_DLVR_SRC_DESC"
+                          jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="oleSourceName" column="OLE_DLVR_SRC_NM" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <field-descriptor name="active" column="ROW_ACT_IND" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.deliver.bo.OleStatisticalCategoryBo" table="OLE_DLVR_STAT_CAT_T">
+        <field-descriptor name="oleStatisticalCategoryId" column="OLE_DLVR_STAT_CAT_ID " jdbc-type="VARCHAR" primarykey="true"
+                          index="true" autoincrement="true" sequence-name="OLE_DLVR_STAT_CAT_S "></field-descriptor>
+        <field-descriptor name="oleStatisticalCategoryCode" column="OLE_DLVR_STAT_CAT_CD" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="oleStatisticalCategoryDesc" column="OLE_DLVR_STAT_CAT_DESC"
+                          jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="oleStatisticalCategoryName" column="OLE_DLVR_STAT_CAT_NM" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <field-descriptor name="active" column="ROW_ACT_IND" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.deliver.bo.OleAddressSourceBo" table="OLE_DLVR_ADDR_SRC_T">
+        <field-descriptor name="oleAddressSourceId" column="OLE_DLVR_ADDR_SRC_ID " jdbc-type="VARCHAR" primarykey="true"
+                          index="true" autoincrement="true" sequence-name="OLE_DLVR_ADDR_SRC_S "></field-descriptor>
+        <field-descriptor name="oleAddressSourceCode" column="OLE_DLVR_ADDR_SRC_CD" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="oleAddressSourceDesc" column="OLE_DLVR_ADDR_SRC_DESC"
+                          jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="oleAddressSourceName" column="OLE_DLVR_ADDR_SRC_NM" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <field-descriptor name="active" column="ROW_ACT_IND" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.deliver.bo.OlePatronLostBarcode" table="OLE_PTRN_LOST_BAR_T">
+        <field-descriptor name="olePatronLostBarcodeId" column="OLE_PTRN_LOST_BAR_ID " jdbc-type="VARCHAR" primarykey="true"
+                          index="true" autoincrement="true" sequence-name="OLE_PTRN_LOST_BAR_S "></field-descriptor>
+        <field-descriptor name="olePatronId" column="OLE_PTRN_ID" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="invalidOrLostBarcodeNumber" column="OLE_PTRN_LOST_BAR" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="status" column="OLE_PTRN_LOST_STATUS" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="description" column="OLE_PTRN_LOST_DESC" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="active" column="OLE_PTRN_LOST_BAR_ACTIVE" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="invalidOrLostBarcodeEffDate" column="OLE_PTRN_LOST_BAR_EFF_DT" jdbc-type="DATE"></field-descriptor>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <reference-descriptor name="olePatronDocument" class-ref="org.kuali.ole.deliver.bo.OlePatronDocument"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="olePatronId"/>
+        </reference-descriptor>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.deliver.bo.OlePatronLocalIdentificationBo" table="OLE_PTRN_LOCAL_ID_T">
+        <field-descriptor name="patronLocalSeqId" column="OLE_PTRN_LOCAL_SEQ_ID " jdbc-type="VARCHAR" primarykey="true"
+                          index="true" autoincrement="true" sequence-name="OLE_PTRN_LOCAL_ID_S "></field-descriptor>
+        <field-descriptor name="olePatronId" column="OLE_PTRN_ID" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="localId" column="LOCAL_ID" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <reference-descriptor name="olePatronDocument" class-ref="org.kuali.ole.deliver.bo.OlePatronDocument"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="olePatronId"/>
+        </reference-descriptor>
+    </class-descriptor>
+
+
+    <class-descriptor class="org.kuali.ole.deliver.bo.OlePatronNoteType" table="ole_ptrn_nte_typ_t">
+        <field-descriptor name="patronNoteTypeId" column="OLE_PTRN_NTE_TYP_ID " jdbc-type="VARCHAR" primarykey="true"
+                          index="true" autoincrement="true" sequence-name="ole_ptrn_nte_typ_s "></field-descriptor>
+        <field-descriptor name="patronNoteTypeCode" column="OLE_PTRN_NTE_TYPE_CD"
+                          jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="patronNoteTypeName" column="OLE_PTRN_NTE_TYP_NM" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.deliver.bo.OlePatronNotes" table="ole_ptrn_nte_t">
+        <field-descriptor name="patronNoteId" column="OLE_PTRN_NTE_ID " jdbc-type="VARCHAR" primarykey="true"
+                          index="true" autoincrement="true" sequence-name="ole_ptrn_nte_s "></field-descriptor>
+        <field-descriptor name="olePatronId" column="OLE_PTRN_ID" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="patronNoteTypeId" column="OLE_PTRN_NTE_TYP_ID" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="patronNoteText" column="OLE_PTRN_NTE_TXT" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <reference-descriptor name="olePatron" class-ref="org.kuali.ole.deliver.bo.OlePatronDocument"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="olePatronId"/>
+        </reference-descriptor>
+        <reference-descriptor name="olePatronNoteType" class-ref="org.kuali.ole.deliver.bo.OlePatronNoteType"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="patronNoteTypeId"/>
+        </reference-descriptor>
+    </class-descriptor>
+
+
+
+    <class-descriptor class="org.kuali.ole.deliver.bo.OlePatronIngestSummaryRecord" table="ole_ptrn_sum_t">
+        <field-descriptor name="olePatronSummaryId" column="OLE_PTRN_SUM_ID" jdbc-type="VARCHAR" primarykey="true"
+                          autoincrement="true" sequence-name="ole_ptrn_sum_s" />
+        <field-descriptor name="fileName" column="FILE_NM" jdbc-type="VARCHAR" />
+        <field-descriptor name="patronTotCount" column="PTRN_TOT_CNT" jdbc-type="INTEGER" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="patronCreateCount" column="PTRN_CRE_CNT" jdbc-type="INTEGER" />
+        <field-descriptor name="patronFailedCount" column="PTRN_FL_CNT" jdbc-type="INTEGER" />
+        <field-descriptor name="patronRejectCount" column="PTRN_REJ_CNT" jdbc-type="INTEGER" />
+        <field-descriptor name="patronUpdateCount" column="PTRN_UP_CNT" jdbc-type="INTEGER" />
+        <field-descriptor name="principalName" column="PRNCPL_NM" jdbc-type="VARCHAR" />
+        <field-descriptor name="createdDate" column="CRT_DT" jdbc-type="TIMESTAMP" />
+    </class-descriptor>
+
+
+
+
+    <class-descriptor class="org.kuali.ole.deliver.bo.PatronBillPayment" table="OLE_DLVR_PTRN_BILL_T">
+        <field-descriptor name="billNumber" column="PTRN_BILL_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_DLVR_PTRN_BILL_S" />
+        <field-descriptor name="patronId" column="OLE_PTRN_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="proxyPatronId" column="PROXY_PTRN_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="totalAmount" column="TOT_AMT_DUE" jdbc-type="DECIMAL"  conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+        <field-descriptor name="unPaidBalance" column="UNPAID_BAL" jdbc-type="DECIMAL"  conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+        <field-descriptor name="paymentMethod" column="PAY_METHOD_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="paymentAmount" column="PAY_AMT" jdbc-type="DECIMAL"  conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+        <field-descriptor name="payDate" column="PAY_DT" jdbc-type="DATE" />
+        <field-descriptor name="paymentOperatorId" column="PAY_OPTR_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="paymentMachineId" column="PAY_MACHINE_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="billDate" column="CRTE_DT_TIME" jdbc-type="DATE" />
+        <field-descriptor name="operatorId" column="OPTR_CRTE_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="machineId" column="OPTR_MACHINE_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="freeTextNote" column="PAY_NOTE" jdbc-type="VARCHAR" />
+        <field-descriptor name="note" column="NOTE" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="reviewed" column="BILL_REVIEWED" jdbc-type="VARCHAR"
+                          conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <collection-descriptor name="feeType" element-class-ref="org.kuali.ole.deliver.bo.FeeType"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                               auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+            <inverse-foreignkey field-ref="billNumber"/>
+        </collection-descriptor>
+        <reference-descriptor name="olePatron" class-ref="org.kuali.ole.deliver.bo.OlePatronDocument" auto-retrieve="false" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="patronId" target-field-ref="olePatronId"/>
+        </reference-descriptor>
+
+        <!--        <reference-descriptor name="olePaymentStatus" class-ref="org.kuali.ole.deliver.bo.OlePaymentStatus"
+                                      auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+                    <foreignkey field-ref="paymentStatus" target-field-ref="paymentStatusId"/>
+                </reference-descriptor>-->
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.deliver.bo.FeeType" table="OLE_DLVR_PTRN_BILL_FEE_TYP_T">
+        <field-descriptor name="id" column="ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_DLVR_PTRN_BILL_FEE_TYP_S" />
+        <field-descriptor name="billNumber" column="PTRN_BILL_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="feeType" column="FEE_TYP_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="itemBarcode" column="ITM_BARCODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="feeAmount" column="FEE_TYP_AMT" jdbc-type="DECIMAL"  conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+        <field-descriptor name="paymentStatus" column="PAY_STATUS_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="itemUuid" column="ITM_UUID" jdbc-type="VARCHAR" />
+        <field-descriptor name="balFeeAmount" column="BALANCE_AMT" jdbc-type="DECIMAL"  conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+        <field-descriptor name="billDate" column="PTRN_BILL_DATE" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="forgiveNote" column="PAY_FORGIVE_NOTE" jdbc-type="VARCHAR" />
+        <field-descriptor name="errorNote" column="PAY_ERROR_NOTE" jdbc-type="VARCHAR" />
+        <field-descriptor name="cancellationNote" column="PAY_CANCEL_NOTE" jdbc-type="VARCHAR" />
+        <field-descriptor name="generalNote" column="PAY_GENERAL_NOTE" jdbc-type="VARCHAR" />
+        <field-descriptor name="feeSource" column="OPERATOR_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="dueDate" column="DUE_DT_TIME" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="checkOutDate" column="CHECK_OUT_DT_TIME" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="checkInDate" column="CHECK_IN_DT_TIME" jdbc-type="TIMESTAMP" />
+        <reference-descriptor name="patronBillPayment" class-ref="org.kuali.ole.deliver.bo.PatronBillPayment"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="billNumber"/>
+        </reference-descriptor>
+
+        <reference-descriptor name="oleFeeType" class-ref="org.kuali.ole.deliver.bo.OleFeeType"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="feeType" target-field-ref="feeTypeId"/>
+        </reference-descriptor>
+
+        <reference-descriptor name="olePaymentStatus" class-ref="org.kuali.ole.deliver.bo.OlePaymentStatus"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="paymentStatus" target-field-ref="paymentStatusId"/>
+        </reference-descriptor>
+
+        <collection-descriptor name="itemLevelBillPaymentList" element-class-ref="org.kuali.ole.deliver.bo.OleItemLevelBillPayment"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                               auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+            <inverse-foreignkey field-ref="lineItemId" target-field-ref="id"/>
+        </collection-descriptor>
+
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.deliver.bo.OleItemLevelBillPayment" table="ole_dlvr_ptrn_bill_pay_t">
+        <field-descriptor name="paymentId" column="ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_DLVR_PTRN_BILL_FEE_TYP_S" />
+        <field-descriptor name="lineItemId" column="ITM_LINE_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="amount" column="BILL_PAY_AMT" jdbc-type="DECIMAL"  conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+        <field-descriptor name="paymentDate" column="CRTE_DT_TIME" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="createdUser" column="OPTR_CRTE_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="transactionNumber" column="TRNS_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="transactionNote" column="TRNS_NOTE" jdbc-type="VARCHAR" />
+        <field-descriptor name="paymentMode" column="TRNS_MODE" jdbc-type="VARCHAR" />
+
+        <reference-descriptor name="feeType" class-ref="org.kuali.ole.deliver.bo.FeeType"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="lineItemId" target-field-ref="id"/>
+        </reference-descriptor>
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.deliver.bo.OleFeeType" table="ole_dlvr_ptrn_fee_type_t">
+        <field-descriptor name="feeTypeId" column="FEE_TYP_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="ole_dlvr_ptrn_fee_type_s" />
+        <field-descriptor name="feeTypeCode" column="FEE_TYP_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="feeTypeName" column="FEE_TYP_NM" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    </class-descriptor>
+
+    <!--OleCalendar.java-->
+
+    <class-descriptor class="org.kuali.ole.deliver.bo.CopyFormat" table="OLE_COPY_FORMAT_T">
+        <field-descriptor name="copyFormatId" column="COPY_FORMAT_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_COPY_FORMAT_TYPE_S" />
+        <field-descriptor name="code" column="COPY_FORMAT_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="name" column="COPY_FORMAT_NM" jdbc-type="VARCHAR" />
+        <field-descriptor name="active" column="COPY_FORMAT_ACTIVE" jdbc-type="VARCHAR"   conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    </class-descriptor>
+
+
+    <class-descriptor class="org.kuali.ole.deliver.bo.OlePaymentStatus" table="OLE_PTRN_PAY_STA_T">
+        <field-descriptor name="paymentStatusId" column="PAY_STA_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_PTRN_PAY_STA_S" />
+        <field-descriptor name="paymentStatusCode" column="PAY_STA_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="paymentStatusName" column="PAY_STA_NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    </class-descriptor>
+
+    <!--OleCalendarExceptionType.java-->
+    <class-descriptor class="org.kuali.ole.deliver.calendar.bo.OleCalendarExceptionType" table="OLE_CLNDR_EXP_TYP_T">
+        <field-descriptor name="exceptionTypeId" column="EXP_TYP_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_CLNDR_EXP_TYP_S" />
+        <field-descriptor name="exceptionTypeCode" column="EXP_TYP_CODE" jdbc-type="VARCHAR" />
+        <field-descriptor name="exceptionTypeName" column="EXP_TYP_NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="active" column="EXP_TYP_IND" jdbc-type="VARCHAR"   conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    </class-descriptor>
+
+
+
+
+    <!--OleCalendar.java-->
+
+    <class-descriptor class="org.kuali.ole.deliver.calendar.bo.OleCalendar" table="OLE_CLNDR_T">
+        <field-descriptor name="calendarId" column="OLE_CLNDR_ID" jdbc-type="VARCHAR" primarykey="true" index="true" autoincrement="true" sequence-name="OLE_CLNDR_S" />
+        <field-descriptor name="calendarDescription" column="OLE_CLNDR_DESC" jdbc-type="VARCHAR" />
+        <field-descriptor name="beginDate" column="BEGIN_DT" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="endDate" column="END_DT" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+        <field-descriptor name="chronologicalSequence" column="CL_SEQ" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="calendarGroupId" column="OLE_CLNDR_GRP_ID" jdbc-type="VARCHAR" index="true"/>
+        <collection-descriptor name="oleCalendarWeekList"  element-class-ref="org.kuali.ole.deliver.calendar.bo.OleCalendarWeek" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                               auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+            <inverse-foreignkey field-ref="calendarId"/>
+        </collection-descriptor>
+
+        <collection-descriptor name="oleCalendarExceptionDateList" element-class-ref="org.kuali.ole.deliver.calendar.bo.OleCalendarExceptionDate" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                               auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+            <inverse-foreignkey field-ref="calendarId"/>
+        </collection-descriptor>
+
+        <collection-descriptor name="oleCalendarExceptionPeriodList" element-class-ref="org.kuali.ole.deliver.calendar.bo.OleCalendarExceptionPeriod" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                               auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+            <inverse-foreignkey field-ref="calendarId"/>
+        </collection-descriptor>
+
+        <reference-descriptor name="oleCalendarGroup" class-ref="org.kuali.ole.deliver.calendar.bo.OleCalendarGroup"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="calendarGroupId" target-field-ref="id"/>
+        </reference-descriptor>
+
+    </class-descriptor>
+    <!--OleCalendar.java-->
+
+
+
+    <!--OleCalendarExceptionDate.java-->
+    <class-descriptor class="org.kuali.ole.deliver.calendar.bo.OleCalendarExceptionDate" table="OLE_CLNDR_EXCP_DAT_T">
+        <field-descriptor name="calendarExceptionDateId" column="OLE_CLNDR_EXCP_DAT_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_CLNDR_EXCP_DAT_S" />
+        <field-descriptor name="date" column="OLE_CLNDR_EXCPTN_DAT" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="exceptionDateDesc" column="EXCPTN_DESC" jdbc-type="VARCHAR" />
+        <field-descriptor name="exceptionType" column="EXCPTN_TYP" jdbc-type="VARCHAR" />
+        <field-descriptor name="openTime" column="OPN_TIM" jdbc-type="VARCHAR" />
+        <field-descriptor name="closeTime" column="CLOS_TIM" jdbc-type="VARCHAR" />
+        <field-descriptor name="openTimeSession" column="OPN_TIM_SESS" jdbc-type="VARCHAR" />
+        <field-descriptor name="closeTimeSession" column="CLOS_TIM_SESS" jdbc-type="VARCHAR" />
+        <field-descriptor name="calendarId" column="OLE_CLNDR_ID" jdbc-type="VARCHAR"/>
+        <reference-descriptor name="oleCalendar" class-ref="org.kuali.ole.deliver.calendar.bo.OleCalendar"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="calendarId"/>
+        </reference-descriptor>
+    </class-descriptor>
+    <!--OleCalendarExceptionDate.java-->
+
+    <!--OleCalendarExceptionPeriod.java-->
+    <class-descriptor class="org.kuali.ole.deliver.calendar.bo.OleCalendarExceptionPeriod" table="OLE_CLNDR_EXCP_PRD_T">
+        <field-descriptor name="calendarExceptionPeriodId" column="OLE_CLNDR_EXCP_PRD_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_CLNDR_EXCP_PRD_S" />
+        <field-descriptor name="beginDate" column="BEGIN_DT" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="endDate" column="END_DT" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="exceptionPeriodType" column="EXP_PRD_TYP" jdbc-type="VARCHAR" />
+        <field-descriptor name="calendarExceptionPeriodDesc" column="OLE_CLNDR_EXCPTN_PRD_DESC" jdbc-type="VARCHAR" />
+        <field-descriptor name="calendarId" column="OLE_CLNDR_ID" jdbc-type="VARCHAR" />
+        <reference-descriptor name="oleCalendar" class-ref="org.kuali.ole.deliver.calendar.bo.OleCalendar"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="calendarId"/>
+        </reference-descriptor>
+        <collection-descriptor name="oleCalendarExceptionPeriodWeekList" element-class-ref="org.kuali.ole.deliver.calendar.bo.OleCalendarExceptionPeriodWeek"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                               auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+            <inverse-foreignkey field-ref="calendarExceptionPeriodId"/>
+        </collection-descriptor>
+    </class-descriptor>
+    <!--OleCalendarExceptionPeriod.java-->
+
+
+    <!--OleCalendarExceptionPeriodWeek.java-->
+    <class-descriptor class="org.kuali.ole.deliver.calendar.bo.OleCalendarExceptionPeriodWeek" table="OLE_CLNDR_EXCP_PRD_WK_T">
+        <field-descriptor name="calendarWeekId" column="OLE_CLNDR_EXCP_PRD_WK_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_CLNDR_EXCP_PRD_WK_S" />
+        <field-descriptor name="openTime" column="OPN_TIM" jdbc-type="VARCHAR" />
+        <field-descriptor name="closeTime" column="CLOS_TIM" jdbc-type="VARCHAR" />
+        <field-descriptor name="startDay" column="FROM_DAY" jdbc-type="VARCHAR" />
+        <field-descriptor name="endDay" column="TO_DAY" jdbc-type="VARCHAR" />
+        <field-descriptor name="openTimeSession" column="OPN_TIM_SESS" jdbc-type="VARCHAR" />
+        <field-descriptor name="closeTimeSession" column="CLOS_TIM_SESS" jdbc-type="VARCHAR" />
+        <field-descriptor name="calendarExceptionPeriodId" column="OLE_CLNDR_EXCP_PRD_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="eachDayOfExceptionWeek" column="PERIOD_WEEK_ACTIVE" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <reference-descriptor name="oleCalendarExceptionPeriod" class-ref="org.kuali.ole.deliver.calendar.bo.OleCalendarExceptionPeriod"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="calendarExceptionPeriodId"/>
+        </reference-descriptor>
+    </class-descriptor>
+    <!--OleCalendarExceptionPeriodWeek.java-->
+
+
+    <!--OleCalendarWeek.java-->
+    <class-descriptor class="org.kuali.ole.deliver.calendar.bo.OleCalendarWeek" table="OLE_CLNDR_WK_T">
+        <field-descriptor name="calendarWeekId" column="OLE_CLNDR_WK_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_CLNDR_WK_S" />
+        <field-descriptor name="openTime" column="OPN_TIM" jdbc-type="VARCHAR" />
+        <field-descriptor name="closeTime" column="CLOS_TIM" jdbc-type="VARCHAR" />
+        <field-descriptor name="startDay" column="FROM_DAY" jdbc-type="VARCHAR" />
+        <field-descriptor name="endDay" column="TO_DAY" jdbc-type="VARCHAR" />
+        <field-descriptor name="openTimeSession" column="OPN_TIM_SESS" jdbc-type="VARCHAR" />
+        <field-descriptor name="closeTimeSession" column="CLOS_TIM_SESS" jdbc-type="VARCHAR" />
+        <field-descriptor name="calendarId" column="OLE_CLNDR_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="eachDayWeek" column="WEEK_ACTIVE" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+
+        <reference-descriptor name="oleCalendar" class-ref="org.kuali.ole.deliver.calendar.bo.OleCalendar"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="calendarId"/>
+        </reference-descriptor>
+    </class-descriptor>
+    <!--OleCalendarWeek.java-->
+
+
+    <!--OleCalendarGroup.java-->
+    <class-descriptor class="org.kuali.ole.deliver.calendar.bo.OleCalendarGroup" table="OLE_CLNDR_GRP_T">
+        <field-descriptor name="calendarGroupId" column="OLE_CLNDR_GRP_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_CLNDR_GRP_S" />
+        <field-descriptor name="calendarGroupCode" column="CLNDR_GRP_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="calendarGroupName" column="CLNDR_GRP_NM" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="active" column="ROW_ACT_IND" jdbc-type="VARCHAR"   conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+    </class-descriptor>
+    <!--OleCalendarGroup.java-->
+
+    <class-descriptor class="org.kuali.ole.deliver.bo.ASRItem" table="ole_asr_itm_t">
+        <field-descriptor name="id" column="ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="ole_asr_itm_s" />
+        <field-descriptor name="itemBarcode" column="ITM_BAR_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="title" column="TITLE" jdbc-type="VARCHAR" />
+        <field-descriptor name="author" column="AUTHOR" jdbc-type="VARCHAR" />
+        <field-descriptor name="callNumber" column="CALL_NBR" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.deliver.bo.ASRTypeRequest" table="ole_asr_rqst_t">
+        <field-descriptor name="id" column="ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="ole_asr_rqst_s" />
+        <field-descriptor name="itemId" column="ITM_BAR_CD" jdbc-type="VARCHAR" />
+        <field-descriptor name="patronId" column="PTRN_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="patronName" column="PTRN_NM" jdbc-type="VARCHAR" />
+        <field-descriptor name="pickUpLocation" column="PK_UP_LOCN" jdbc-type="VARCHAR" />
+        <field-descriptor name="requestId" column="RQST_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="requestStatus" column="RQST_STAT" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.deliver.bo.OLEPatronEntityViewBo" table="OLE_PTRN_ENTITY_V">
+        <field-descriptor name="patronId" column="OLE_PTRN_ID" jdbc-type="VARCHAR" primarykey="true" />
+        <field-descriptor name="patronBarcode" column="PTRN_BRCD" jdbc-type="VARCHAR" />
+        <field-descriptor name="patronType" column="PTRN_TYP" jdbc-type="VARCHAR" />
+        <field-descriptor name="patronTypeId" column="PTRN_TYP_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="expirationDate" column="EXPR_DT" jdbc-type="VARCHAR" />
+        <field-descriptor name="entityId" column="ENTITY_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="firstName" column="FIRST_NM" jdbc-type="VARCHAR" />
+        <field-descriptor name="middleName" column="MIDDLE_NM" jdbc-type="VARCHAR" />
+        <field-descriptor name="lastName" column="LAST_NM" jdbc-type="VARCHAR" />
+        <field-descriptor name="suffix" column="SUFFIX_NM" jdbc-type="VARCHAR" />
+        <field-descriptor name="prefix" column="PREFIX_NM" jdbc-type="VARCHAR" />
+        <field-descriptor name="name" column="NAME" jdbc-type="VARCHAR" />
+        <field-descriptor name="billCount" column="BILL_CNT" jdbc-type="INTEGER" />
+        <field-descriptor name="emailAddress" column="EMAIL" jdbc-type="VARCHAR" />
+        <field-descriptor name="phoneNumber" column="PHONE" jdbc-type="VARCHAR" />
+        <field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR"   conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <!--
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />-->
+    </class-descriptor>
+
+
+
+    <class-descriptor class="org.kuali.ole.deliver.bo.OLEDeliverNotice" table="OLE_DLVR_LOAN_NOTICE_T">
+        <field-descriptor name="id" column="ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_DLVR_LOAN_NOTICE_S" />
+        <field-descriptor name="loanId" column="LOAN_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="patronId" column="PTRN_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="noticeType" column="NTC_TYP" jdbc-type="VARCHAR" />
+        <field-descriptor name="noticeSendType" column="NTC_SND_TYP" jdbc-type="VARCHAR" />
+        <field-descriptor name="replacementFeeAmount" column="RPLCMNT_FEE_AMNT" jdbc-type="DECIMAL" />
+        <field-descriptor name="noticeToBeSendDate" column="NTC_TO_SND_DT" jdbc-type="TIMESTAMP"></field-descriptor>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    </class-descriptor>
+
+
+    <class-descriptor class="org.kuali.ole.deliver.bo.OLEDeliverNoticeHistory" table="OLE_DLVR_LOAN_NOTICE_HSTRY_T">
+        <field-descriptor name="id" column="ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="OLE_DLVR_LOAN_NOTICE_HSTRY_S" />
+        <field-descriptor name="loanId" column="LOAN_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="noticeSentDate" column="NTC_SNT_DT" jdbc-type="TIMESTAMP"></field-descriptor>
+        <field-descriptor name="patronId" column="PTRN_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="noticeType" column="NTC_TYP" jdbc-type="VARCHAR" />
+        <field-descriptor name="noticeSendType" column="NTC_SND_TYP" jdbc-type="VARCHAR" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.alert.bo.AlertBo" table="ALRT_T">
+        <field-descriptor name="alertId" column="ALRT_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="ALRT_S"/>
+        <field-descriptor name="documentId" column="DCMNT_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="alertDate" column="ALRT_DT" jdbc-type="DATE"/>
+        <field-descriptor name="alertNote" column="ALRT_NTE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="alertCreateDate" column="ALRT_CRT_DT" jdbc-type="DATE"/>
+        <field-descriptor name="alertModifiedDate" column="ALRT_MDFD_DT" jdbc-type="DATE"/>
+        <field-descriptor name="alertInitiatorId" column="ALRT_INIT_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="alertModifierId" column="ALRT_MODFIR_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="alertStatus" column="ALRT_STAT" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="receivingUserId" column="RCVNG_USR_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="receivingGroupId" column="RCVNG_GRP_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="receivingRoleId" column="RCVNG_ROLE_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="alertApproverId" column="ALRT_APRVR_Id" jdbc-type="VARCHAR"/>
+        <field-descriptor name="alertApprovedDate" column="ALRT_APROVD_DT" jdbc-type="DATE"/>
+        <field-descriptor name="alertInterval" column="ALRT_INTRVL" jdbc-type="VARCHAR"></field-descriptor>
+        <field-descriptor name="repeatable" column="ALRT_RPTBLE" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.alert.bo.ActionListAlertBo" table="ACTN_LST_ALRT_T">
+        <field-descriptor name="actionListAlertId" column="ACTN_LST_ALRT_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" sequence-name="ACTN_LST_ALRT_S"/>
+        <field-descriptor name="documentId" column="DCMNT_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="title" column="TITL" jdbc-type="VARCHAR"/>
+        <field-descriptor name="recordType" column="RCRD_TYP" jdbc-type="VARCHAR"/>
+        <field-descriptor name="note" column="NTE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="active" column="ACTV" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="alertUserId" column="ALRT_USR_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="alertDate" column="ALRT_DT" jdbc-type="DATE"/>
+        <field-descriptor name="alertInitiatorId" column="ALRT_INIT_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="alertApproverId" column="ALRT_APRVR_Id" jdbc-type="VARCHAR"/>
+        <field-descriptor name="alertApprovedDate" column="ALRT_APROVD_DT" jdbc-type="DATE"/>
+        <field-descriptor name="alertId" column="ALRT_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    </class-descriptor>
+
+    <class-descriptor class="org.kuali.ole.alert.bo.AlertDocumentType" table="ALRT_DOC_TYP_T">
+        <field-descriptor name="alertDocumentId" column="ALRT_DOC_TYP_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" index="true" sequence-name="ALRT_DOC_TYP_S"/>
+        <field-descriptor name="alertDocumentTypeName" column="ALRT_DOC_TYP_NAME" jdbc-type="VARCHAR"/>
+        <field-descriptor name="alertDocumentTypeDescription" column="ALRT_DOC_TYP_DESC" jdbc-type="VARCHAR"/>
+        <field-descriptor name="alertDocumentClass" column="ALRT_DOC_CLASS" jdbc-type="VARCHAR"/>
+        <field-descriptor name="activeIndicator" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="alertReminderInterval" column="ALRT_REM_INTERVAL" jdbc-type="VARCHAR"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    </class-descriptor>
+
+
+
+    <class-descriptor class="org.kuali.ole.alert.bo.AlertEvent" table="ALRT_EVENT_T">
+        <field-descriptor name="alertEventId" column="ALRT_EVENT_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" index="true" sequence-name="ALRT_EVENT_S"/>
+        <field-descriptor name="alertEventName" column="ALRT_EVENT_NAME" jdbc-type="VARCHAR"/>
+        <field-descriptor name="alertDocumentTypeId" column="ALRT_DOC_TYP_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <collection-descriptor name="alertEventFieldList" element-class-ref="org.kuali.ole.alert.bo.AlertEventField"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                               auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
+            <inverse-foreignkey field-ref="alertEventId"/>
+        </collection-descriptor>
+        <reference-descriptor name="alertDocumentType" class-ref="org.kuali.ole.alert.bo.AlertDocumentType"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="alertDocumentTypeId" target-field-ref="alertDocumentId"/>
+        </reference-descriptor>
+    </class-descriptor>
+
+
+    <class-descriptor class="org.kuali.ole.alert.bo.AlertEventField" table="ALRT_EVENT_FIELD_T">
+        <field-descriptor name="alertEventFieldId" column="ALRT_EVENT_FIELD_ID" jdbc-type="VARCHAR" primarykey="true" autoincrement="true" index="true" sequence-name="ALRT_EVENT_FIELD_S"/>
+        <field-descriptor name="alertEventId" column="ALRT_EVENT_ID" jdbc-type="VARCHAR"/>
+        <field-descriptor name="alertFieldName" column="ALRT_FIELD_NM" jdbc-type="VARCHAR"/>
+        <field-descriptor name="alertFieldType" column="ALRT_FIELD_TYP" jdbc-type="VARCHAR"/>
+        <field-descriptor name="alertFieldValue" column="ALRT_FIELD_VAL" jdbc-type="VARCHAR"/>
+        <field-descriptor name="alertCriteria" column="ALRT_CRIT" jdbc-type="VARCHAR"/>
+        <field-descriptor name="active" column="ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <reference-descriptor name="alertEvent" class-ref="org.kuali.ole.alert.bo.AlertEvent"
+                              auto-retrieve="true" auto-update="none" auto-delete="none" proxy="false">
+            <foreignkey field-ref="alertEventId"/>
+        </reference-descriptor>
+    </class-descriptor>
+
+
+</descriptor-repository>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

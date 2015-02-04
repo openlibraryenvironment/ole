@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <bean id="OLEEResourceAccessMaintenanceDocument-workflowProperties-parentBean" abstract="true"
+          parent="WorkflowProperties">
+        <property name="workflowPropertyGroups">
+            <list>
+                <bean parent="WorkflowPropertyGroup">
+                    <property name="workflowProperties">
+                        <list>
+                            <bean id="oldMaintainableObject" parent="WorkflowProperty" p:path="oldMaintainableObject.businessObject"/>
+                            <bean id="newMaintainableObject" parent="WorkflowProperty" p:path="newMaintainableObject.businessObject"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="OLEEResourceAccessMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
+        <property name="dataObjectClass" value="org.kuali.ole.select.bo.OLEEResourceAccessActivation"/>
+        <property name="documentTypeName" value="OLE_ERES_ACCESS_MD"/>
+        <property name="documentAuthorizerClass"
+                  value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    </bean>
+    <bean id="OLEEResourceAccess-MaintenanceView" parent="Uif-OLEMaintenanceView">
+        <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OLEEResourceAccessActivation"/>
+        <property name="headerText" value="OLE EResource Access Activation"/>
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="${ole.externalizable.help.url}/reference/webhelp/CIRC/content/ch04s05.html"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="items">
+            <list merge="true">
+                <ref bean="OLEEResourceAccess-access"/>
+                <ref bean="OLEEResourceAccess-configuration"/>
+                <ref bean="OLEEResourceAccess-marcRecords"/>
+                <ref bean="OLEEResourceAccess-Workflow-Description"/>
+                <ref bean="OLEEResourceAccess-Workflow"/>
+            </list>
+        </property>
+        <property name="page.footer">
+            <bean parent="Uif-DocumentPageFooter">
+                <property name="items">
+                    <list>
+   <!--                     <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="performRouteReport"
+                              p:actionLabel="route report"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_PERFORM_ROUTE_REPORT]}"/>
+                        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="sendAdHocRequests"
+                              p:actionLabel="send adhoc"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SEND_ADHOC_REQUESTS]}"/>
+                        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="true" p:methodToCall="route"
+                              p:actionLabel="submit" p:performClientSideValidation="true"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"
+                              p:successCallback="printResponseString()"/>
+                        <bean parent="Uif-SaveAction" p:ajaxSubmit="false"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}"/>
+                        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="reload"
+                              p:actionLabel="reload"
+                              p:render="false"/>
+                        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="blanketApprove"
+                              p:actionLabel="blanket approve" p:performClientSideValidation="true"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE]}"/>-->
+                        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="approve"
+                              p:actionLabel="approve" p:performClientSideValidation="true"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]}"/>
+<!--                        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="disapprove"
+                              p:actionLabel="disapprove"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_DISAPPROVE]}"/>
+                        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="fyi"
+                              p:actionLabel="fyi"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_FYI]}"/>
+                        <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="acknowledge"
+                              p:actionLabel="acknowledge"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ACKNOWLEDGE]}"/>-->
+                        <bean parent="Uif-BackAction" p:ajaxSubmit="false"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}"/>
+                        <bean parent="Uif-CancelAction" p:ajaxSubmit="false"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]} "/>
+<!--                        <bean parent="Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="copy" p:actionLabel="copy"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_COPY]}"/>-->
+                        <bean parent="Uif-PrimaryActionButton" p:methodToCall="startAccessActivation" p:actionLabel="Start Access Activation"
+                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}"/>
+
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceAccess-access" parent="Uif-Disclosure-VerticalBoxSection" >
+        <property name="headerText" value="Access" />
+        <property name="items">
+        <list>
+            <bean id="access"  parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4" >
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-InputField" p:propertyName="oleERSIdentifier" p:readOnly="true"/>
+                        <bean parent="Uif-InputField" p:propertyName="accessStatus" p:readOnly="true"/>
+                        <bean parent="Uif-InputField" p:propertyName="dateAccessConfirmed"/>
+                        <bean parent="Uif-InputField" p:propertyName="workflowId" p:label="WorkFlow"
+                              p:enableAutoQuickfinder="false" p:readOnly="@{document.newMaintainableObject.dataObject.workflowId ne null and document.newMaintainableObject.dataObject.workflowDescription ne null }">
+                            <property name="optionsFinder">
+                                <bean class="org.kuali.ole.select.keyvalue.OLEEResourceWorkflowConfigKeyValue"/>
+                            </property>
+                            <property name="control">
+                                <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select"/>
+                            </property>
+                        </bean>
+                        <bean parent="Uif-InputField" p:propertyName="accessLocation" p:label="Access Location"
+                              p:enableAutoQuickfinder="false">
+                            <property name="optionsFinder">
+                                <bean class="org.kuali.ole.select.keyvalue.OLEAccessLocationKeyValues"/>
+                            </property>
+                            <property name="control">
+                                <bean parent="Uif-MultiSelectControl" p:size="3"/>
+                            </property>
+                        </bean>
+                        <bean parent="Uif-InputField" p:propertyName="accessTypeId" p:enableAutoQuickfinder="false">
+                            <property name="optionsFinder">
+                                <bean class="org.kuali.ole.select.keyvalue.OLEAccessTypeKeyValues"/>
+                            </property>
+                            <property name="control">
+                                <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select"/>
+                            </property>
+                        </bean>
+                        <bean parent="Uif-InputField" p:propertyName="accessUserName"/>
+                        <bean parent="Uif-InputField" p:propertyName="authenticationTypeId" p:label="Authentication Type" p:enableAutoQuickfinder="false">
+                            <property name="optionsFinder">
+                                <bean class="org.kuali.ole.select.keyvalue.OLEAuthenticationTypeKeyValues"/>
+                            </property>
+                            <property name="control">
+                                <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select"/>
+                            </property>
+                        </bean>
+                        <bean parent="Uif-InputField" p:propertyName="accessPassword"/>
+                        <bean parent="Uif-InputField" p:propertyName="numOfSimultaneousUsers" p:label="No. of Simultaneous User">
+                            <property name="control">
+                                <bean parent="Uif-TextControl" p:size="10" p:maxLength="25"/>
+                            </property>
+                            <property name="validCharactersConstraint">
+                                <bean parent="NumericPatternConstraint"/>
+                            </property>
+                        </bean>
+                        <bean parent="Uif-InputField" p:propertyName="proxiedURL"/>
+                        <bean parent="Uif-InputField" p:propertyName="proxiedResource"/>
+
+                        <bean parent="Uif-InputField" p:propertyName="mobileAccess" p:label="Mobile Access"
+                              p:enableAutoQuickfinder="false">
+                            <property name="optionsFinder">
+                                <bean class="org.kuali.ole.select.keyvalue.OLEMobileAccessKeyValues"/>
+                            </property>
+                            <property name="control">
+                                <bean parent="Uif-MultiSelectControl" p:size="3"/>
+                            </property>
+                        </bean>
+                        <bean parent="Uif-InputField" p:propertyName="mobileAccessNote"/>
+                    </list>
+                </property>
+            </bean>
+        </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceAccess-configuration" parent="Uif-Disclosure-VerticalBoxSection" >
+        <property name="headerText" value="Configuration" />
+        <property name="items">
+            <list>
+                <bean id="configuration"  parent="Uif-GridGroup" >
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:propertyName="brandingComplete"/>
+                            <bean parent="Uif-InputField" p:propertyName="platformConfigComplete"/>
+                            <bean parent="Uif-InputField" p:propertyName="techRequirements"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean id="OLEEResourceAccess-NoteTextSection" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="1" >
+                    <property name="collectionObjectClass" value="org.kuali.ole.select.bo.OLEEResourceNotes" />
+                    <property name="propertyName" value="eresNotes" />
+                    <property name="layoutManager.renderSequenceField" value="false" />
+                    <property name="layoutManager.richTable.render" value="true"/>
+                    <property name="renderAddBlankLineButton" value="false" />
+                    <property name="renderAddLine" value="false"/>
+                    <property name="layoutManager.richTable.templateOptions">
+                        <map merge="false">
+                            <entry key="bPaginate" value="false"/>
+                            <entry key="bInfo" value="false"/>
+                            <entry key="bFilter" value="false"/>
+                        </map>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean id="oleERSAccessNoteText" parent="Uif-InputField" p:propertyName="oleERSNoteText" />
+                        </list>
+                    </property>
+                    <property name="lineActions">
+                        <list>
+                            <bean id="OLEEResourceAccess-NoteTextSection_addTagButton_id" parent="Uif-SecondaryActionButton-Small"
+                                  p:methodToCall="addNoteTextSection" p:actionLabel="Add" p:style="Margin-top:0.4em;"
+                                  p:ajaxSubmit="true" />
+                            <bean id="OLEEResourceAccess-NoteTextSection_removeTagButton_id" parent="Uif-SecondaryActionButton-Small"
+                                  p:methodToCall="removeNoteTextSection" p:actionLabel="Remove" p:style="Margin-top:0.4em;"
+                                  p:ajaxSubmit="true" p:render="@{document.newMaintainableObject.dataObject.eresNotes.size() ne 1}" />
+                        </list>
+                    </property>
+                    <property name="layoutManager.actionFieldPrototype.group.layoutManager">
+                        <bean id="OLEEResourceAccess-NoteTextSection-HorizontalBoxLayout" parent="Uif-HorizontalBoxLayout"/>
+                    </property>
+                    <property name="layoutManager.actionFieldPrototype.label" value=""/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceAccess-marcRecords" parent="Uif-Disclosure-VerticalBoxSection" >
+        <property name="headerText" value="MARC Records" />
+        <property name="items">
+            <list>
+                <bean id="marcRecords"  parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4" >
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:propertyName="marcRecordSourceTypeId">
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.ole.select.keyvalue.OLEMarcRecordSourceTypeKeyValues" />
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-100-select"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="lastRecordLoadDate"/>
+                            <bean parent="Uif-InputField" p:propertyName="marcRecordSource"/>
+                            <bean parent="Uif-InputField" p:propertyName="marcRecordUpdateFreqId">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="1" p:value="None"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="2" p:value="Irregular"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="3" p:value="Weekly"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="4" p:value="Monthly"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="marcRecordURL"/>
+                            <bean parent="Uif-InputField" p:propertyName="marcRecordUserName"/>
+                            <bean parent="Uif-InputField" p:propertyName="marcRecordNote"/>
+                            <bean parent="Uif-InputField" p:propertyName="marcRecordPassword"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OLEEResourceAccess-Workflow-Description" parent="Uif-Disclosure-VerticalBoxSection" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}">
+        <property name="headerText" value="Access Activation Workflow Decsription" />
+        <property name="items">
+            <list>
+                <bean id="accessWorkflow"  parent="Uif-GridGroup" p:layoutManager.numberOfColumns="1" >
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:propertyName="workflowDescription" p:label="Description" p:required="true"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="OLEEResourceAccess-Workflow" parent="Uif-Disclosure-TableCollectionSection">
+        <property name="headerText" value="Workflow"/>
+        <property name="collectionObjectClass" value="org.kuali.ole.select.document.OLEEResourceAccessWorkflow"/>
+        <property name="propertyName" value="oleERSAccessWorkflows"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="description" p:label="Description"/>
+                <bean parent="Uif-DataField" p:propertyName="status" p:label="Status"/>
+                <bean parent="Uif-DataField" p:propertyName="lastApproved" p:label="Last Approved"/>
+                <bean parent="Uif-DataField" p:propertyName="currentOwner" p:label="Current Owner"/>
+            </list>
+        </property>
+        <property name="layoutManager.actionFieldPrototype.group.layoutManager">
+            <bean parent="Uif-HorizontalBoxLayout"/>
+        </property>
+        <property name="lineActions">
+            <list>
+                <!--<bean parent="Uif-InputField" p:propertyName="lineActions">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair" p:key="1" p:value="Approve"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>-->
+            </list>
+        </property>
+    </bean>
+</beans>

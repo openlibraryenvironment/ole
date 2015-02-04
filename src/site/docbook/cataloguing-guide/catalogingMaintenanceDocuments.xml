@@ -1,0 +1,1138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0"
+    xml:lang="en-US">
+<title><anchor xml:id="_Toc358377133"/>Cataloging Maintenance Documents</title>
+<para role="Body Text"><inlinemediaobject>
+            <alt>Maintenance</alt>
+            <imageobject>
+                <imagedata fileref="../images/maintenanceMenu.png"/>
+            </imageobject>
+        </inlinemediaobject>
+        <emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+            <alt>Cataloging Admin</alt>
+            <imageobject>
+                <imagedata fileref="../images/DescribeNoTitlePage-CatalogingAdmin.png"/>
+            </imageobject>
+        </inlinemediaobject><emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+            <alt>Cataloging Admin Links</alt>
+            <imageobject>
+                <imagedata fileref="../images/DescribeNoTitlePage-CatalogingAdminMenu.png"/>
+            </imageobject>
+        </inlinemediaobject></para>
+<para role="Body Text">Bibliographic and Instance attribute maintenance e-docs are available via the
+Cataloging submenu on the <emphasis role="bold">Rice 2</emphasis> menu tab.</para>
+    <section>
+        <title><anchor xml:id="_Bibliographic_Record_Status"/>Bibliographic Record Status</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                <alt>Cataloging Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/DescribeNoTitlePage-CatalogingAdmin.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Bibliographic Record Status</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DescribeNoTitlePage-210.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Bibliographic Record Status Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DescribeNoTitlePage-211.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Bibliographic Record Status</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DescribeNoTitlePage-212.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The Bibliographic Record Status maintenance document is used to
+            assign a status to a bibliographic record. Some examples include cataloging complete, on
+            order, electronic resource.</para>
+        <para role="Body Text">Only system administrators will be able to create and add
+            Bibliographic Record Statuses.</para>
+        <section>
+            <title>Document Layout</title>
+            <para role="Normal"/>
+            <para role="Normal">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Bibliographic Record Status Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DescribeNoTitlePage-213.png" width="100%"
+                            />
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Body Text">The Bibliographic Record Status document includes the <emphasis
+                    role="bold">Add/</emphasis><emphasis role="bold">Edit Bibliographic Record
+                    Status</emphasis> tab. The system automatically enters data into both the
+                    <emphasis role="bold">Old</emphasis> and <emphasis role="bold">New</emphasis>
+                sections in this tab. Selected data fields are available for editing.</para>
+            <para role="TableHeading"><emphasis role="bold">Add/Edit Bibliographic Record Status tab
+                    definition</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Bibliographic Record Status Code </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">The code to identify the bibliographic
+                                    record status. Maximum length is 30 characters.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Bibliographic Record Status Name</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. The familiar title of the
+                                    bibliographic record status. Maximum length is 100
+                                    characters.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Source</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. The source of the bibliographic
+                                    record status.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Source Date</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. The date for which the
+                                    bibliographic record status was retrieved from the
+                                    source.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Indicates whether the bibliographic record
+                                    status is active or inactive. Remove the checkmark to deactivate
+                                    this code</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_globallyProtectedField"/>Globally Protected Field</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                <alt>Cataloging Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/DescribeNoTitlePage-CatalogingAdmin.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Bib Overlay Protected Field</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-400.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Globally Protected Field Lookup</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-401.png"
+                            width=""/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Globally Protected Field</alt>
+                    <imageobject>
+                        <imagedata
+                            fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-406.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The <emphasis role="bold">Globally Protected Field
+            </emphasis>Maintenance Document is used to maintain the protected fields for importing
+            files into the OLE DocStore. The globally protected fields contain MARC
+            tags/indicators/subfields that should not be dropped from the MARC record but could be
+            modified if indicated.</para>
+        <para role="Body Text">A list entry has several data elements:  tag, first indicator, second
+            indicator, (optionally) subfield code, and protection flag.  Wildcards (for example:
+            01*, 9**, 050*) can be used anywhere except for the protection flag.  The list entry
+            will apply to all matching fields.</para>
+        <note>
+            <para>Globally protected fields can be overridden through the load profile.</para>
+        </note>
+        <section>
+            <title>Document Layout</title>
+            <para role="Illustration">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Globally Protected Field Document</alt>
+                        <imageobject>
+                            <imagedata
+                                fileref="../images/PurchasingAndAccountsPayableNoTitlePagept2-407.png"
+                                width="100%"/>
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Body Text">The Globally Protected Field document includes the <emphasis
+                    role="bold">Add/Edit Globally Protected Field</emphasis> tab. The system
+                automatically enters data into both the <emphasis role="bold">Old</emphasis> and
+                    <emphasis role="bold">New</emphasis> sections in this tab. Selected data fields
+                are available for editing.</para>
+            <para role="TableHeading"><emphasis role="bold">Add/Edit Globally Protected Field tab
+                    definition</emphasis></para>
+            <informaltable frame="topbot">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Description</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Tag</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Required.  The MARC tag that will globally
+                                    protected during ingest. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">First Indicator</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells"> Optional. The MARC first indicator that
+                                    will be globally protected during ingest. </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">Second
+                                Indicator</entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top"> Optional. The
+                                MARC second indicator that will be globally protected during ingest.
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">Sub
+                                Field</entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top"> Optional. The
+                                MARC subfield that will be globally protected during ingest.
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Indicates whether this licensing
+                                    requirement code is active or inactive. Remove the check mark to
+                                    deactivate this code.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_Bib_Import_Preferences"/>Bib Import Preferences</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                <alt>Cataloging Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/DescribeNoTitlePage-CatalogingAdmin.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Bib Import Preference</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DescribeNoTitlePage-260.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Import Bib User Preferences Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DescribeNoTitlePage-261.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Import Bib User Preferences</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DescribeNoTitlePage-262.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">Users may set preferences to apply to all records during the import
+            process. These settings can be overridden during the import process.</para>
+        <section>
+            <title>Document Layout</title>
+            <para role="Normal"/>
+            <para role="Normal">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Import Bib User Preferences Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DescribeNoTitlePage-263.png" width="100%"
+                            />
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Body Text">The User Preferences document includes the <emphasis role="bold"
+                    >Add/Edit Import Bib User Preference </emphasis>tab. The system automatically
+                enters data into both the <emphasis role="bold">Old</emphasis> and <emphasis
+                    role="bold">New</emphasis> sections in this tab. Selected data fields are
+                available for editing.</para>
+            <para role="TableHeading"><emphasis role="bold">Add/Edit Import Bib User Preference tab
+                    definition</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Name</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">The familiar title of the user
+                                    preference.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Import Type</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Select the type of import to be performed
+                                    from the dropdown list.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Import Bib Status</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Select a status for the bibliographic
+                                    records to inherit upon import completion.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Temporary Location</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Optional. Select a temporary location for
+                                    the bibliographic records to inherit upon import
+                                    completion.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Permanent Location</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Select a permanent location for the
+                                    bibliographic records to inherit upon import completion.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Removal Tags</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Enter any tags to be removed when importing
+                                    bibliographic records</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Protected Tags</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Enter any tags that will not be affected
+                                    when importing bibliographic records</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Classification Scheme</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Select the classification scheme for the
+                                    bibliographic records to inherit upon import completion.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Call Number Source 1</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Enter a first priority for mapping MARC
+                                    fields and subfields into OLE item’s call number fields.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Call Number Source 2</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Enter a second priority for mapping MARC
+                                    fields and subfields into OLE item’s call number fields.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Call Number Source 3</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Enter a third priority for mapping MARC
+                                    fields and subfields into OLE item’s call number fields.</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_Shelving_Scheme_-Call"/>Call Number Type</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                <alt>Cataloging Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/DescribeNoTitlePage-CatalogingAdmin.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Call Number Type</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DescribeNoTitlePage-234.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Call Number Type Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DescribeNoTitlePage-235.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Call Number Type</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DescribeNoTitlePage-236.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The Call Number Type maintenance document defines what type of
+            classification system is used within OLE. Call Number Types are used on Holdings, Items,
+            and E-Holdings records and can be searched upon from the Search Workbench. Some examples
+            include Library of Congress, Dewey Decimal.  </para>
+        <para role="Body Text">When a call number is assigned to a holdings or an item, whether by a
+            cataloger or by a batch load process, the call number type has to be specified. The call
+            number type determines how OLE assigns the Shelving Order value, which is used for
+            sorting call numbers when you do a call number browse in Search Workbench. If you enter
+            “DC223.4 .C83 2014” in the Call Number field of a holdings record, choose “Library of
+            Congress Classification,” and submit, OLE automatically formulates a Shelving Order
+            value of “DC 0223.400000 C0.830000 002014” for sorting purposes.</para>
+        <para>Because call number type is associated with the process of formulating Shelving Order
+            values, you are not able make up a new call number type from within the Call Number Type
+            document without modifying the code and formulating rules for Shelving Order values. </para>
+        <section>
+            <title>Document Layout</title>
+            <para role="Normal"/>
+            <para role="Normal">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Call Number Type Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DescribeNoTitlePage-237.png" width="100%"
+                            />
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Body Text">The Call Number Type document includes the <emphasis role="bold"
+                    >Add/Edit Call Number Type</emphasis> tab. The system automatically enters data
+                into both the <emphasis role="bold">Old</emphasis> and <emphasis role="bold"
+                    >New</emphasis> sections in this tab. Selected data fields are available for
+                editing.</para>
+            <para role="TableHeading"><emphasis role="bold">Add/Edit Call Number Type tab
+                    definition</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Call Number Type Code </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">The code to identify the call number type.
+                                    Maximum length is 30 characters.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Call Number Type Name</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. The familiar title of the call
+                                    number type. Maximum length is 100 characters.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Source</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. The hyperlink to the source of
+                                    the call number type.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Source Date</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. The date for which the call
+                                    number type was retrieved from the source.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Indicates whether the call number type is
+                                    active or inactive. Remove the checkmark to deactivate this
+                                    code</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_Type_of_Ownership"/>Extent of Ownership Type (Type of
+            Ownership)</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                <alt>Cataloging Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/DescribeNoTitlePage-CatalogingAdmin.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Extent of Ownership Type</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DescribeNoTitlePage-246.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Extent of Ownership Type Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DescribeNoTitlePage-247.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Extent of Ownership Type</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DescribeNoTitlePage-248.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para>The Type of Ownership maintenance document describes the type of information to be
+            captured for the extent of ownership. Some examples include basic, supplementary, and
+            indexes. </para>
+        <section>
+            <title>Document Layout</title>
+            <para role="Normal"/>
+            <para role="Normal">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Extent of Ownership Type Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DescribeNoTitlePage-249.png" width="100%"
+                            />
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Body Text">The Type of Ownership document includes the <emphasis role="bold"
+                    >Add/</emphasis><emphasis role="bold">Edit Type of Ownership</emphasis> tab. The
+                system automatically enters data into both the <emphasis role="bold">Old</emphasis>
+                and <emphasis role="bold">New</emphasis> sections in this tab. Selected data fields
+                are available for editing.</para>
+            <para role="TableHeading"><emphasis role="bold">Add/Edit Type of Ownership tab
+                    definition</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Extent Of Ownership Code </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">The code to identify the extent of
+                                    ownership. Maximum length is 100 characters.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Extent Of Ownership Name</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. The familiar title of the extent
+                                    of ownership. Maximum length is 100 characters.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Source</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. The hyperlink to the source of
+                                    the extent of ownership.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Source Date</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. The date for which the extent of
+                                    ownership was retrieved from the source.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Indicates whether the extent of ownership
+                                    is active or inactive. Remove the checkmark to deactivate this
+                                    code</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+    <section>
+        <title><anchor xml:id="_Item_Availability_Status"/>Item Availability Status</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                <alt>Cataloging Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/DescribeNoTitlePage-CatalogingAdmin.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Item Availability Status</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DescribeNoTitlePage-222.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Item Availability Status Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DescribeNoTitlePage-223.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Item Availability Status</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DescribeNoTitlePage-224.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para>The Item Availability Status maintenance document defines the status of an item. Some
+            examples include on order, available, loaned and intransit.</para>
+        <section>
+            <title>Document Layout</title>
+            <para role="Normal"/>
+            <para role="Normal">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Item Availability Status Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DescribeNoTitlePage-225.png" width="100%"
+                            />
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Body Text">The Item Availability Status document includes the <emphasis
+                    role="bold">Add/</emphasis><emphasis role="bold">Edit Item Availability
+                    Status</emphasis> tab. The system automatically enters data into both the
+                    <emphasis role="bold">Old</emphasis> and <emphasis role="bold">New</emphasis>
+                sections in this tab. Selected data fields are available for editing.</para>
+            <para role="TableHeading"><emphasis role="bold">Add/Edit Item Availability Status tab
+                    definition</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Item Availability Status Code </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">The code to identify the item availability
+                                    status. Maximum length is 30 characters.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Item Availability Status Name</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. The familiar title of the item
+                                    availability status. Maximum length is 100 characters.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Indicates whether the item availability
+                                    status is active or inactive. Remove the checkmark to deactivate
+                                    this code</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+<section>
+<title><anchor xml:id="_Instance_Item_Type"/>Item Type</title>
+<para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                <alt>Cataloging Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/DescribeNoTitlePage-CatalogingAdmin.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Item Type</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DescribeNoTitlePage-216.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Item Type Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DescribeNoTitlePage-217.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Item Type</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DescribeNoTitlePage-218.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+<para role="Normal">The Item Type maintenance document defines library items types. Some examples
+include DVD, 2-hour reserve, 24 hour loan. The Item Type is used to determine loan periods for
+circulating library materials.</para>
+<section>
+<title>Document Layout</title>
+<para role="Normal"/>
+<para role="Normal">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Item Type Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DescribeNoTitlePage-219.png" width="100%"
+                            />
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+<para role="Body Text">The Item Type document includes the <emphasis role="bold"
+>Add/</emphasis><emphasis role="bold">Edit Item Type</emphasis> tab. The system automatically enters
+data into both the <emphasis role="bold">Old</emphasis> and <emphasis role="bold">New</emphasis>
+sections in this tab. Selected data fields are available for editing.</para>
+<para role="TableHeading"><emphasis role="bold">Add/Edit Item Type tab definition</emphasis></para>
+<informaltable frame="top">
+<tgroup cols="2">
+<colspec colname="col1" colnum="1"/>
+<colspec colname="col2" colnum="2"/>
+<tbody>
+<row>
+<entry colname="col1" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells">Title </para>
+</entry>
+<entry colname="col2" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells">Description </para>
+</entry>
+</row>
+<row>
+<entry colname="col1" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells">Item Type Code </para>
+</entry>
+<entry colname="col2" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells">The code to identify the Instance item type. Maximum length is 30
+characters.</para>
+</entry>
+</row>
+<row>
+<entry colname="col1" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells">Item Type Name</para>
+</entry>
+<entry colname="col2" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells">Required. The familiar title of the Instance item type. Maximum length is
+100 characters.</para>
+</entry>
+</row>
+<row>
+<entry colname="col1" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells">Item Type Desc</para>
+</entry>
+<entry colname="col2" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells">The familiar description of the Instance item type</para>
+</entry>
+</row>
+<row>
+<entry colname="col1" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells">Source</para>
+</entry>
+<entry colname="col2" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells">Required. The source of the Instance item type.</para>
+</entry>
+</row>
+<row>
+<entry colname="col1" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells">Source Date</para>
+</entry>
+<entry colname="col2" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells">Required. The date for which the Instance item type was retrieved from the
+source.</para>
+</entry>
+</row>
+<row>
+<entry colname="col1" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells">Active Indicator</para>
+</entry>
+<entry colname="col2" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells">Indicates whether the Instance item type is active or inactive. Remove the
+checkmark to deactivate this code</para>
+</entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+</section>
+</section>
+    <section>
+        <title><anchor xml:id="_Receipt_Status"/>Receipt Status</title>
+        <para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                <alt>Cataloging Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/DescribeNoTitlePage-CatalogingAdmin.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Receipt Status</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DescribeNoTitlePage-228.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Receipt Status Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DescribeNoTitlePage-229.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Receipt Status</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DescribeNoTitlePage-230.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+        <para role="Body Text">The Receipt Status maintenance document describe the status of newly
+            published parts of a mulitpart or serial item.</para>
+        <section>
+            <title>Document Layout</title>
+            <para role="Normal"/>
+            <para role="Normal">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Receipt Status Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DescribeNoTitlePage-231.png" width="100%"
+                            />
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+            <para role="Body Text">The Receipt Status document includes the <emphasis role="bold"
+                    >Add/</emphasis><emphasis role="bold">Edit Receipt Status</emphasis> tab. The
+                system automatically enters data into both the <emphasis role="bold">Old</emphasis>
+                and <emphasis role="bold">New</emphasis> sections in this tab. Selected data fields
+                are available for editing.</para>
+            <para role="TableHeading"><emphasis role="bold">Add/Edit Receipt Status tab
+                    definition</emphasis></para>
+            <informaltable frame="top">
+                <tgroup cols="2">
+                    <colspec colname="col1" colnum="1"/>
+                    <colspec colname="col2" colnum="2"/>
+                    <tbody>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Title </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Description </para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Receipt Status Code </para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">The code to identify the receipt status.
+                                    Maximum length is 30 characters.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Receipt Status Name</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. The familiar title of the receipt
+                                    status. Maximum length is 100 characters.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Source</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. The hyperlink to the source of
+                                    the receipt status.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Source Date</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Required. The date for which the receipt
+                                    status was retrieved from the source.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry colname="col1" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Active Indicator</para>
+                            </entry>
+                            <entry colname="col2" colsep="1" rowsep="1" valign="top">
+                                <para role="Table Cells">Indicates whether the receipt status is
+                                    active or inactive. Remove the checkmark to deactivate this
+                                    code</para>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </section>
+    </section>
+<section>
+<title><anchor xml:id="_Statistical_Searching_Codes"/>Statistical Searching Codes</title>
+<para role="Body Text"><inlinemediaobject>
+                <alt>Maintenance</alt>
+                <imageobject>
+                    <imagedata fileref="../images/maintenanceMenu.png"/>
+                </imageobject>
+            </inlinemediaobject>
+            <emphasis role="bold">&gt; </emphasis><inlinemediaobject>
+                <alt>Cataloging Admin</alt>
+                <imageobject>
+                    <imagedata fileref="../images/DescribeNoTitlePage-CatalogingAdmin.png"/>
+                </imageobject>
+            </inlinemediaobject><emphasis role="bold"> &gt; <inlinemediaobject>
+                    <alt>Statistical Searching Codes</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DescribeNoTitlePage-240.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Statistical Searching Codes Lookup</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DescribeNoTitlePage-241.png"/>
+                    </imageobject>
+                </inlinemediaobject> &gt; <inlinemediaobject>
+                    <alt>Statistical Searching Codes Maintenance</alt>
+                    <imageobject>
+                        <imagedata fileref="../images/DescribeNoTitlePage-242.png"/>
+                    </imageobject>
+                </inlinemediaobject></emphasis></para>
+<para role="Normal"/>
+<para role="Normal">The Statistical Searching Code maintenance document defines items. It is used to
+help limit items when searching and used for reporting. Some examples include Juvenile, CD,
+Microfiche and GovDocs.</para>
+<section>
+<title>Document Layout</title>
+<para role="Normal"/>
+<para role="Normal">
+                <screenshot>
+                    <mediaobject>
+                        <alt>Statistical Searching Codes Maintenance Document</alt>
+                        <imageobject>
+                            <imagedata fileref="../images/DescribeNoTitlePage-243.png" width="100%"
+                            />
+                        </imageobject>
+                    </mediaobject>
+                </screenshot>
+            </para>
+<para role="Body Text">The Statistical Searching Codes document includes the <emphasis role="bold"
+>Add/Edit Statistical Searching Codes</emphasis> tab. The system automatically enters data into both
+the <emphasis role="bold">Old</emphasis> and <emphasis role="bold">New</emphasis> sections in this
+tab. Selected data fields are available for editing.</para>
+<para role="TableHeading"><emphasis role="bold">Add/Edit Statistical Searching Codes tab
+definition</emphasis></para>
+<informaltable frame="top">
+<tgroup cols="2">
+<colspec colname="col1" colnum="1"/>
+<colspec colname="col2" colnum="2"/>
+<tbody>
+<row>
+<entry colname="col1" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells">Title </para>
+</entry>
+<entry colname="col2" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells">Description </para>
+</entry>
+</row>
+<row>
+<entry colname="col1" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells">Statistical Searching Code</para>
+</entry>
+<entry colname="col2" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells">The code to identify the statistical searching code. Maximum length is 30
+characters.</para>
+</entry>
+</row>
+<row>
+<entry colname="col1" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells">Statistical Searching Name</para>
+</entry>
+<entry colname="col2" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells">Required. The familiar title of the statistical searching code. Maximum
+length is 30 characters.</para>
+</entry>
+</row>
+<row>
+<entry colname="col1" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells">Source</para>
+</entry>
+<entry colname="col2" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells">Required. The hyperlink to the source of the statistical searching
+code.</para>
+</entry>
+</row>
+<row>
+<entry colname="col1" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells">Source Date</para>
+</entry>
+<entry colname="col2" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells">Required. The date for which the statistical searching code was retrieved
+from the source.</para>
+</entry>
+</row>
+<row>
+<entry colname="col1" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells">Active Indicator</para>
+</entry>
+<entry colname="col2" colsep="1" rowsep="1" valign="top">
+<para role="Table Cells">Indicates whether the statistical searching code is active or inactive.
+Remove the checkmark to deactivate this code</para>
+</entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+</section>
+</section>
+</chapter>

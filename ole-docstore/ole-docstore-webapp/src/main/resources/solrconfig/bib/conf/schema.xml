@@ -1,0 +1,784 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+   - Copyright 2011 The Kuali Foundation.
+   - 
+   - Licensed under the Educational Community License, Version 2.0 (the "License");
+   - you may not use this file except in compliance with the License.
+   - You may obtain a copy of the License at
+   - 
+   - http://www.opensource.org/licenses/ecl2.php
+   - 
+   - Unless required by applicable law or agreed to in writing, software
+   - distributed under the License is distributed on an "AS IS" BASIS,
+   - WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   - See the License for the specific language governing permissions and
+   - limitations under the License.
+ -->
+
+<!--  
+ This is the Solr schema file. This file should be named "schema.xml" and
+ should be in the conf directory under the solr home
+ (i.e. ./solr/conf/schema.xml by default) 
+ or located where the classloader for the Solr webapp can find it.
+
+ This example schema is the recommended starting point for users.
+ It should be kept correct and concise, usable out-of-the-box.
+
+ For more information, on how to customize this file, please see
+ http://wiki.apache.org/solr/SchemaXml
+-->
+
+<schema name="ole" version="1.5">
+    <!-- attribute "name" is the name of this schema and is only used for display purposes.
+Applications should change this to reflect the nature of the search collection.
+version="1.1" is Solr's version number for the schema syntax and semantics.  It should
+not normally be changed by applications.
+1.0: multiValued attribute did not exist, all fields are multiValued by nature
+1.1: multiValued attribute introduced, false by default -->
+
+
+        <!-- field type definitions. The "name" attribute is
+           just a label to be used by field definitions.  The "class"
+           attribute and any other attributes determine the real
+           behavior of the fieldType.
+             Class names starting with "solr" refer to java classes in the
+           org.apache.solr.analysis package.
+        -->
+
+        <!-- The StrField type is not analyzed, but indexed/stored verbatim.
+           - StrField and TextField support an optional compressThreshold which
+           limits compression (if enabled in the derived fields) to values which
+           exceed a certain size (in characters).
+        -->
+        <fieldType name="string" class="solr.StrField" sortMissingLast="true" omitNorms="true"/>
+
+        <!-- boolean type: "true" or "false" -->
+        <fieldType name="boolean" class="solr.BoolField" sortMissingLast="true" omitNorms="true"/>
+
+        <!-- The optional sortMissingLast and sortMissingFirst attributes are
+             currently supported on types that are sorted internally as strings.
+           - If sortMissingLast="true", then a sort on this field will cause documents
+             without the field to come after documents with the field,
+             regardless of the requested sort order (asc or desc).
+           - If sortMissingFirst="true", then a sort on this field will cause documents
+             without the field to come before documents with the field,
+             regardless of the requested sort order.
+           - If sortMissingLast="false" and sortMissingFirst="false" (the default),
+             then default lucene sorting will be used which places docs without the
+             field first in an ascending sort and last in a descending sort.
+        -->
+
+
+        <!-- numeric field types that store and index the text
+value verbatim (and hence don't support range queries, since the
+lexicographic ordering isn't equal to the numeric ordering) -->
+        <fieldType name="integer" class="solr.IntField" omitNorms="true"/>
+        <fieldType name="long" class="solr.LongField" omitNorms="true"/>
+        <fieldType name="float" class="solr.FloatField" omitNorms="true"/>
+        <fieldType name="double" class="solr.DoubleField" omitNorms="true"/>
+
+
+        <!-- Numeric field types that manipulate the value into
+  a string value that isn't human-readable in its internal form,
+  but with a lexicographic ordering the same as the numeric ordering,
+  so that range queries work correctly. -->
+        <fieldType name="sint" class="solr.SortableIntField" sortMissingLast="true" omitNorms="true"/>
+        <fieldType name="slong" class="solr.SortableLongField" sortMissingLast="true" omitNorms="true"/>
+        <fieldType name="sfloat" class="solr.SortableFloatField" sortMissingLast="true" omitNorms="true"/>
+        <fieldType name="sdouble" class="solr.SortableDoubleField" sortMissingLast="true" omitNorms="true"/>
+
+
+        <!-- The format for this date field is of the form 1995-12-31T23:59:59Z, and
+           is a more restricted form of the canonical representation of dateTime
+           http://www.w3.org/TR/xmlschema-2/#dateTime
+           The trailing "Z" designates UTC time and is mandatory.
+           Optional fractional seconds are allowed: 1995-12-31T23:59:59.999Z
+           All other components are mandatory.
+
+           Expressions can also be used to denote calculations that should be
+           performed relative to "NOW" to determine the value, ie...
+
+                 NOW/HOUR
+                    ... Round to the start of the current hour
+                 NOW-1DAY
+                    ... Exactly 1 day prior to now
+                 NOW/DAY+6MONTHS+3DAYS
+                    ... 6 months and 3 days in the future from the start of
+                        the current day
+
+           Consult the DateField javadocs for more information.
+        -->
+        <fieldType name="date" class="solr.DateField" sortMissingLast="true" omitNorms="true"/>
+
+
+        <!-- The "RandomSortField" is not used to store or search any
+            data.  You can declare fields of this type it in your schema
+            to generate psuedo-random orderings of your docs for sorting
+            purposes.  The ordering is generated based on the field name
+            and the version of the index, As long as the index version
+            remains unchanged, and the same field name is reused,
+            the ordering of the docs will be consistent.
+            If you want differend psuedo-random orderings of documents,
+            for the same version of the index, use a dynamicField and
+            change the name
+        -->
+        <fieldType name="random" class="solr.RandomSortField" indexed="true" />
+
+        <!-- solr.TextField allows the specification of custom text analyzers
+            specified as a tokenizer and a list of token filters. Different
+            analyzers may be specified for indexing and querying.
+
+            The optional positionIncrementGap puts space between multiple fields of
+            this type on the same document, with the purpose of preventing false phrase
+            matching across fields.
+
+            For more info on customizing your analyzer chain, please see
+            http://wiki.apache.org/solr/AnalyzersTokenizersTokenFilters
+        -->
+
+        <!-- One can also specify an existing Analyzer class that has a
+             default constructor via the class attribute on the analyzer element
+        <fieldType name="text_greek" class="solr.TextField">
+          <analyzer class="org.apache.lucene.analysis.el.GreekAnalyzer"/>
+        </fieldType>
+        -->
+
+        <!-- A text field that only splits on whitespace for exact matching of words -->
+        <fieldType name="text_ws" class="solr.TextField" positionIncrementGap="100">
+            <analyzer>
+                <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+            </analyzer>
+        </fieldType>
+
+
+        <fieldType name="bucketFirstLetter" class="solr.TextField"
+                   sortMissingLast="true" omitNorms="true">
+            <analyzer type="index">
+                <tokenizer class="solr.PatternTokenizerFactory"
+                           pattern="^([a-zA-Z]).*" group="1" />
+                <filter class="solr.SynonymFilterFactory"
+                        synonyms="mb_letterBuckets.txt" ignoreCase="true"
+                        expand="false"/>
+            </analyzer>
+            <analyzer type="query">
+                <tokenizer class="solr.KeywordTokenizerFactory"/>
+            </analyzer>
+        </fieldType>
+
+        <!-- A text field that uses WordDelimiterFilter to enable splitting and matching of
+        words on case-change, alpha numeric boundaries, and non-alphanumeric chars,
+        so that a query of "wifi" or "wi fi" could match a document containing "Wi-Fi".
+        Synonyms and stopwords are customized by external files, and stemming is enabled.
+        Duplicate tokens at the same position (which may result from Stemmed Synonyms or
+        WordDelim parts) are removed.
+        -->
+        <fieldType name="text" class="solr.TextField" positionIncrementGap="100">
+            <analyzer type="index">
+                <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+                <!-- in this example, we will only use synonyms at query time
+                <filter class="solr.SynonymFilterFactory" synonyms="index_synonyms.txt" ignoreCase="true" expand="false"/>
+                -->
+                <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt"/>
+                <filter class="solr.WordDelimiterFilterFactory" generateWordParts="1" generateNumberParts="1" catenateWords="1" catenateNumbers="1" catenateAll="0" splitOnCaseChange="0" splitOnNumerics="0"/>
+                <filter class="solr.LowerCaseFilterFactory"/>
+                <filter class="solr.KeywordMarkerFilterFactory" protected="protwords.txt"/>
+                <filter class="solr.PorterStemFilterFactory"/>
+                <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>
+            </analyzer>
+            <analyzer type="query">
+                <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+                <filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="true"/>
+                <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt"/>
+                <filter class="solr.WordDelimiterFilterFactory" generateWordParts="1" generateNumberParts="1" catenateWords="0" catenateNumbers="0" catenateAll="0" splitOnCaseChange="0" splitOnNumerics="0"/>
+                <filter class="solr.LowerCaseFilterFactory"/>
+                <filter class="solr.KeywordMarkerFilterFactory" protected="protwords.txt"/>
+                <filter class="solr.PorterStemFilterFactory"/>
+                <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>
+            </analyzer>
+        </fieldType>
+
+
+        <!-- Less flexible matching, but less false matches.  Probably not ideal for product names,
+but may be good for SKUs.  Can insert dashes in the wrong place and still match. -->
+        <fieldType name="textTight" class="solr.TextField" positionIncrementGap="100" >
+            <analyzer>
+                <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+                <filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="false"/>
+                <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt"/>
+                <filter class="solr.WordDelimiterFilterFactory" generateWordParts="0" generateNumberParts="0" catenateWords="1" catenateNumbers="1" catenateAll="0"/>
+                <filter class="solr.LowerCaseFilterFactory"/>
+                <filter class="solr.KeywordMarkerFilterFactory" protected="protwords.txt"/>
+                <filter class="solr.EnglishMinimalStemFilterFactory"/>
+                <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>
+            </analyzer>
+        </fieldType>
+
+        <!-- This is an example of using the KeywordTokenizer along
+           With various TokenFilterFactories to produce a sortable field
+           that does not include some properties of the source text
+        -->
+        <fieldType name="alphaOnlySort" class="solr.TextField" sortMissingLast="true" omitNorms="true">
+            <analyzer>
+                <!-- KeywordTokenizer does no actual tokenizing, so the entire
+                   input string is preserved as a single token
+                -->
+                <tokenizer class="solr.KeywordTokenizerFactory"/>
+                <!-- The LowerCase TokenFilter does what you expect, which can be
+                   when you want your sorting to be case insensitive
+                -->
+                <filter class="solr.LowerCaseFilterFactory" />
+                <!-- The TrimFilter removes any leading or trailing whitespace -->
+                <filter class="solr.TrimFilterFactory" />
+                <!-- The PatternReplaceFilter gives you the flexibility to use
+                   Java Regular expression to replace any sequence of characters
+                   matching a pattern with an arbitrary replacement string,
+                   which may include back refrences to portions of the orriginal
+                   string matched by the pattern.
+
+                   See the Java Regular Expression documentation for more
+                   infomation on pattern and replacement string syntax.
+
+                   http://java.sun.com/j2se/1.5.0/docs/api/java/util/regex/package-summary.html
+                -->
+                <filter class="solr.PatternReplaceFilterFactory"
+                        pattern="([^a-z])" replacement="" replace="all" />
+            </analyzer>
+        </fieldType>
+
+
+        <fieldType class="solr.TextField" name="text_suggest" positionIncrementGap="100">
+            <analyzer>
+                <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+                <filter class="solr.WordDelimiterFilterFactory" generateWordParts="1"
+                        generateNumberParts="1" catenateWords="1" catenateNumbers="1" catenateAll="0" splitOnCaseChange="1"/>
+                <filter class="solr.LowerCaseFilterFactory"/>
+                <filter class="solr.StopFilterFactory"/>
+            </analyzer>
+        </fieldType>
+
+
+        <!-- since fields of this type are by default not stored or indexed, any data added to
+            them will be ignored outright
+        -->
+        <fieldtype name="ignored" stored="false" indexed="false" class="solr.StrField" />
+
+        <fieldtype name="html" stored="true" indexed="true" class="solr.TextField">
+            <analyzer type="index">
+                <charFilter class="solr.HTMLStripCharFilterFactory"/>
+                <tokenizer class="solr.StandardTokenizerFactory"/>
+                <!-- in this example, we will only use synonyms at query time
+                <filter class="solr.SynonymFilterFactory" synonyms="index_synonyms.txt" ignoreCase="true" expand="false"/>
+                -->
+                <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt"/>
+                <filter class="solr.WordDelimiterFilterFactory" generateWordParts="1" generateNumberParts="1" catenateWords="1" catenateNumbers="1" catenateAll="0" splitOnCaseChange="1"/>
+                <filter class="solr.LowerCaseFilterFactory"/>
+                <filter class="solr.KeywordMarkerFilterFactory" protected="protwords.txt"/>
+                <filter class="solr.PorterStemFilterFactory"/>
+                <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>
+            </analyzer>
+            <analyzer type="query">
+                <charFilter class="solr.HTMLStripCharFilterFactory"/>
+                <tokenizer class="solr.StandardTokenizerFactory"/>
+                <filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="true"/>
+                <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt"/>
+                <filter class="solr.WordDelimiterFilterFactory" generateWordParts="1" generateNumberParts="1" catenateWords="0" catenateNumbers="0" catenateAll="0" splitOnCaseChange="1"/>
+                <filter class="solr.LowerCaseFilterFactory"/>
+                <filter class="solr.KeywordMarkerFilterFactory" protected="protwords.txt"/>
+                <filter class="solr.PorterStemFilterFactory"/>
+                <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>
+            </analyzer>
+        </fieldtype>
+        <fieldtype name="uuid" class="solr.UUIDField" indexed="true"></fieldtype>
+
+
+        <fieldType name="NISOSort" class="solr.TextField" sortMissingLast="true" omitNorms="true">
+            <analyzer>
+                <charFilter class="solr.HTMLStripCharFilterFactory"/>
+                <tokenizer class="solr.KeywordTokenizerFactory"/>
+                <filter class="solr.ASCIIFoldingFilterFactory"/>
+                <filter class="solr.LowerCaseFilterFactory"/>
+                <filter class="solr.TrimFilterFactory"/>
+                <filter class="solr.PatternReplaceFilterFactory"
+                        pattern="[\-\/]" replacement=" " replace="all"/>
+                <filter class="solr.PatternReplaceFilterFactory"
+                        pattern="\s+" replacement=" " replace="all"/>
+                <filter class="solr.PatternReplaceFilterFactory"
+                        pattern="[\.\,\;\:\(\)\{\}\'\!\?\&quot;\&gt;\&lt;\[\]]"  replacement="" replace="all" />
+            </analyzer>
+        </fieldType>
+
+        <fieldType name="text_icu" class="solr.TextField" positionIncrementGap="100">
+            <analyzer type="index">
+                <tokenizer class="solr.ICUTokenizerFactory"/>
+                <filter class="solr.WordDelimiterFilterFactory" generateWordParts="1" generateNumberParts="1" catenateWords="1" catenateNumbers="1" catenateAll="0" splitOnCaseChange="0" splitOnNumerics="0"/>
+                <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt"/>
+                <filter class="solr.ICUFoldingFilterFactory"/>
+                <filter class="solr.KeywordMarkerFilterFactory" protected="protwords.txt"/>
+                <filter class="solr.SnowballPorterFilterFactory" language="English"/>
+                <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>
+            </analyzer>
+            <analyzer type="query">
+                <tokenizer class="solr.ICUTokenizerFactory"/>
+                <filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="true"/>
+                <filter class="solr.WordDelimiterFilterFactory" generateWordParts="1" generateNumberParts="1" catenateWords="0" catenateNumbers="0" catenateAll="0" splitOnCaseChange="0" splitOnNumerics="0"/>
+                <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt"/>
+                <filter class="solr.ICUFoldingFilterFactory"/>
+                <filter class="solr.KeywordMarkerFilterFactory" protected="protwords.txt"/>
+                <filter class="solr.SnowballPorterFilterFactory" language="English"/>
+                <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>
+            </analyzer>
+        </fieldType>
+
+
+
+
+        <!-- Valid attributes for fields:
+          name: mandatory - the name for the field
+          type: mandatory - the name of a previously defined type from the <types> section
+          indexed: true if this field should be indexed (searchable or sortable)
+          stored: true if this field should be retrievable
+          compressed: [false] if this field should be stored using gzip compression
+            (this will only apply if the field type is compressable; among
+            the standard field types, only TextField and StrField are)
+          multiValued: true if this field may contain multiple values per document
+          omitNorms: (expert) set to true to omit the norms associated with
+            this field (this disables length normalization and index-time
+            boosting for the field, and saves some memory).  Only full-text
+            fields or fields that need an index-time boost need norms.
+          termVectors: [false] set to true to store the term vector for a given field.
+            When using MoreLikeThis, fields used for similarity should be stored for
+            best performance.
+        -->
+
+        <!-- ::START:: Fields common to all Doc Types -->
+        <field name="id" type="string" indexed="true" stored="true"/>
+        <field name="uniqueId" type="string" indexed="true" stored="true"/>
+        <field name="DocCategory" type="string" indexed="true" stored="true" multiValued="false" />
+        <field name="DocType" type="string" indexed="true" stored="true" multiValued="false" />
+        <field name="DocFormat" type="text" indexed="true" stored="true" multiValued="false" />
+        <field name="all_text" type="text_icu" indexed="true" stored="true" multiValued="true" />
+        <field name="staffOnlyFlag" type="text" indexed="true" stored="true" multiValued="false" />
+        <field name="createdBy" type="string" indexed="true" stored="true" multiValued="false" />
+        <field name="updatedBy" type="string" indexed="true" stored="true" multiValued="false" />
+        <field name="dateEntered" type="date" indexed="true" stored="true" multiValued="false" />
+        <field name="dateUpdated" type="date" indexed="true" stored="true" multiValued="false" />
+        <field name="isSeries" type="boolean" indexed="true" stored="true" multiValued="false" />
+        <field name="isAnalytic" type="boolean" indexed="true" stored="true" multiValued="false" />
+        <field name="isBoundwith" type="boolean" indexed="true" stored="true" multiValued="false" />
+
+        <field name="claimsReturnedFlag" type="string" indexed="true" stored="true" multiValued="false" />
+        <field name="claimsReturnedFlagCreateDate" type="string" indexed="true" stored="true" multiValued="false" />
+        <field name="claimsReturnedNote" type="string" indexed="true" stored="true" multiValued="false" />
+        <field name="currentBorrower" type="string" indexed="true" stored="true" multiValued="false" />
+        <field name="proxyBorrower" type="string" indexed="true" stored="true" multiValued="false" />
+        <field name="dueDateTime" type="string" indexed="true" stored="true" multiValued="false" />
+        <field name="checkOutDateTime" type="string" indexed="true" stored="true" multiValued="false" />
+        <field name="itemStatusEffectiveDate" type="string" indexed="true" stored="true" multiValued="false"/>
+
+
+
+        <field name="LocalId_search" type="sint" indexed="true" stored="true" multiValued="false"
+               sortMissingLast="true"/>
+
+       <!-- <field name="StaffOnlyFlag_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="StaffOnlyFlag_display" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>-->
+        <!-- SEARCH FIELDS -->
+
+        <field name="Title_search" type="text_icu" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="JournalTitle_search" type="text_icu" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Author_search" type="text_icu" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Publisher_search" type="text_icu" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Subject_search" type="text_icu" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Conference_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="FormGenre_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Language_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Description_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="ISBN_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="ISSN_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="PublicationDate_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Format_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="PublicationPlace_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="common_identifier_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Type_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Identifier_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Coverage_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Relation_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Barcode_search" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Edition_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="statusUpdatedOn" type="date" indexed="true" stored="true" multiValued="false" />
+
+        <copyField source="ISBN_search" dest="common_identifier_search"/>
+        <copyField source="ISSN_search" dest="common_identifier_search"/>
+        <!-- DISPLAY FIELDS -->
+        <field name="LocalId_display" type="string" indexed="true" stored="true" multiValued="false" sortMissingLast="true"/>
+        <field name="Author_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Subject_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Title_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="JournalTitle_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Publisher_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="StandardizedTitle_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Edition_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Conference_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="FormGenre_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Language_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Summary_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Description_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="ISBN_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="ISSN_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="PublicationDate_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Format_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="PublicationPlace_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Type_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Identifier_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Coverage_display" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Relation_display" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Barcode_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="NumberOfRenew_display" type="string" indexed="true" stored="true" multiValued="false" sortMissingLast="true"/>
+
+        <copyField source="ISBN_search" dest="Identifier_search" />
+        <copyField source="ISSN_search" dest="Identifier_search" />
+        <copyField source="ISBN_display" dest="Identifier_display" />
+        <copyField source="ISSN_display" dest="Identifier_display" />
+
+        <!-- instance fields -->
+        <field name="instanceIdentifier" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="resourceIdentifier" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="holdingsIdentifier" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="itemIdentifier" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="bibIdentifier" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="SystemControlNumber" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Source_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Source_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+
+
+          <!--Holdings & Item common search fields -->
+
+        <field name="CallNumberType_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="CallNumber_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="CallNumberPrefix_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="ClassificationPart_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="ShelvingSchemeCode_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="ShelvingSchemeValue_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="ShelvingOrderCode_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="ShelvingOrder_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Location_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+
+        <!-- ends here..-->
+
+         <!--Holdings & Item common display fields -->
+
+        <field name="CallNumberType_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="CallNumber_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="CallNumberPrefix_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="ClassificationPart_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="ShelvingSchemeCode_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="ShelvingSchemeValue_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="ShelvingOrderCode_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="ShelvingOrder_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Location_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+
+        <!-- ends here..-->
+
+        <!--Holdings search fields -->
+
+        <field name="Uri_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="ReceiptStatus_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="HoldingsNote_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="LocationLevelName_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="ItemPart_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+
+        <!-- ends here..-->
+
+        <!--Holdings display fields -->
+
+        <field name="Uri_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="ReceiptStatus_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="HoldingsNote_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="LocationLevelName_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="ItemPart_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="ExtentOfOwnership_Note_Value_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="ExtentOfOwnership_Note_Type_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="ExtentOfOwnership_Type_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Proxied_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Authentication_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="NumberOfSimultaneousUses_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="AccessLocation_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+
+        <!-- ends here..-->
+
+        <!--Item search fields -->
+
+        <field name="ItemIdentifier_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="ItemType_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="ItemBarcode_search" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="ItemUri_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="PurchaseOrderLineItemIdentifier_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="VendorLineItemIdentifier_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="BarcodeARSL_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="StatisticalSearchingCodeValue_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="StatisticalSearchingFullValue_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="ItemTypeFullValue_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="ItemTypeCodeValue_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="CopyNumber_search" type="text" indexed="true" stored="true" multiValued="false" sortMissingLast="true"/>
+        <field name="CopyNumberLabel_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="VolumeNumberLabel_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="VolumeNumber_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Enumeration_search" type="text" indexed="true" stored="true" multiValued="false" sortMissingLast="true"/>
+        <field name="Chronology_search" type="text" indexed="true" stored="true" multiValued="false" sortMissingLast="true"/>
+        <field name="ItemStatus_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="DonorCode_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="MissingPieceFlagNote_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="DamagedItemNote_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="ClaimsReturnedNote_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="MissingPieceFlag_search" type="boolean" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="ClaimsReturnedFlag_search" type="boolean" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="ItemDamagedStatus_search" type="boolean" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="TemporaryItemTypeFullValue_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="TemporaryItemTypeCodeValue_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="HoldingsCallNumber_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="HoldingsLocation_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="HoldingsCopyNumber_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="MissingPieceCount_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="NumberOfPieces_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <!-- ends here..-->
+
+
+        <!--Item display fields -->
+
+        <field name="ItemIdentifier_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="ItemBarcode_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="ItemUri_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="ItemType_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="PurchaseOrderLineItemIdentifier_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="VendorLineItemIdentifier_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="BarcodeARSL_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="StatisticalSearchingCodeValue_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="StatisticalSearchingFullValue_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="ItemTypeFullValue_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="ItemTypeCodeValue_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="CopyNumber_display" type="string" indexed="true" stored="true" multiValued="false" sortMissingLast="true"/>
+        <field name="CopyNumberLabel_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="VolumeNumberLabel_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="VolumeNumber_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Enumeration_display" type="string" indexed="true" stored="true" multiValued="false" sortMissingLast="true"/>
+        <field name="Chronology_display" type="string" indexed="true" stored="true" multiValued="false" sortMissingLast="true"/>
+        <field name="ItemStatus_display" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="DonorCode_display" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="MissingPieceFlagNote_display" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="DamagedItemNote_display" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="ClaimsReturnedNote_display" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="MissingPieceFlag_display" type="boolean" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="ClaimsReturnedFlag_display" type="boolean" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="ItemDamagedStatus_display" type="boolean" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="TemporaryItemTypeFullValue_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="TemporaryItemTypeCodeValue_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="DonorPublic_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="DonorNote_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="HighDensityStorage_Row_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="HighDensityStorage_Module_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="HighDensityStorage_Shelf_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="HighDensityStorage_Tray_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="ItemNote_Value_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="ItemNote_Type_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="HoldingsCallNumber_display" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="HoldingsLocation_display" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="HoldingsCopyNumber_display" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="MissingPieceCount_display" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="NumberOfPieces_display" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <!-- ends here..-->
+
+        <!--License fields starts here.. -->
+        <!--
+             <field name="Title_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+             <field name="Title_display" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        -->
+
+        <!-- ONIXPL -->
+
+        <field name="ContractNumber_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="ContractNumber_display" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+
+        <field name="Licensee_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Licensee_display" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+
+        <field name="Licensor_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Licensor_display" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+
+        <field name="Status_search" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Status_display" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+
+        <field name="Method_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Method_display" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+
+
+
+        <!-- License Binary (PDF,DOC,XSLT etc) starts here.. -->
+
+        <!--
+             <field name="Name_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+             <field name="Name_display" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        -->
+
+        <field name="FileName_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="FileName_display" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+
+        <field name="DateUploaded_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="DateUploaded_display" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+
+        <field name="Owner_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Owner_display" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+
+        <field name="Notes_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Notes_display" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+
+
+        <!-- License Binary (PDF,DOC,XSLT etc) ends here.. -->
+
+
+
+        <!-- SORT fields -->
+        <field name="Author_sort" type="NISOSort" indexed="true" stored="true" multiValued="false" sortMissingLast="true"/>
+        <field name="Title_sort" type="NISOSort" indexed="true" stored="true" multiValued="false" sortMissingLast="true"/>
+        <field name="JournalTitle_sort" type="NISOSort" indexed="true" stored="true" multiValued="false" sortMissingLast="true"/>
+        <field name="PublicationDate_sort" type="string" indexed="true" stored="true" multiValued="false" sortMissingLast="true"/>
+        <field name="ShelvingOrder_sort" type="string" indexed="true" stored="true" multiValued="false" sortMissingLast="true"/>
+        <field name="Location_sort" type="string" indexed="true" stored="true" multiValued="false" sortMissingLast="true"/>
+        <field name="CallNumber_sort" type="string" indexed="true" stored="true" multiValued="false" sortMissingLast="true"/>
+        <field name="CallNumberPrefix_sort" type="string" indexed="true" stored="true" multiValued="false" sortMissingLast="true"/>
+        <field name="Enumeration_sort" type="string" indexed="true" stored="true" multiValued="false" sortMissingLast="true"/>
+        <field name="Chronology_sort" type="string" indexed="true" stored="true" multiValued="false" sortMissingLast="true"/>
+        <field name="CopyNumber_sort" type="string" indexed="true" stored="true" multiValued="false" sortMissingLast="true"/>
+        <field name="ItemBarcode_sort" type="string" indexed="true" stored="true" multiValued="false" sortMissingLast="true"/>
+        <!-- FACET fields -->
+        <field name="Subject_facet" type="string" indexed="true" stored="true"  multiValued="true"/>
+        <field name="Author_facet" type="string" indexed="true" stored="true"  multiValued="true"/>
+        <field name="Format_facet" type="string" indexed="true" stored="true"  multiValued="true"/>
+        <field name="Language_facet" type="string" indexed="true" stored="true"  multiValued="true"/>
+        <field name="PublicationDate_facet" type="string" indexed="true" stored="true"  multiValued="true"/>
+        <field name="PublicationDate_facet_With_Ranges" type="string" indexed="true" stored="true"  multiValued="false"/>
+        <field name="Genre_facet" type="string" indexed="true" stored="true"  multiValued="true"/>
+
+        <!-- LINK Fields -->
+        <field name="ItemLinks" type="text" indexed="true" stored="true" multiValued="true" />
+        <field name="HoldingLinks" type="text" indexed="true" stored="true" multiValued="true" />
+        <field name="BibliographicLinks" type="text" indexed="true" stored="true" multiValued="true" />
+        <!-- ::END:: Fields common to all Doc Types -->
+
+
+        <!-- Misc fields:: START -->
+        <field name="leader" type="string" indexed="true" stored="true" multiValued="false"/>
+        <field name="controlfield_001" type="text" indexed="true" stored="true" multiValued="true"/>
+        <field name="controlfield_002" type="text" indexed="true" stored="true" multiValued="true"/>
+        <field name="controlfield_003" type="text" indexed="true" stored="true" multiValued="true"/>
+        <field name="controlfield_004" type="text" indexed="true" stored="true" multiValued="true"/>
+        <field name="controlfield_005" type="text" indexed="true" stored="true" multiValued="true"/>
+        <field name="controlfield_006" type="text" indexed="true" stored="true" multiValued="true"/>
+        <field name="controlfield_007" type="text" indexed="true" stored="true" multiValued="true"/>
+        <field name="controlfield_008" type="text" indexed="true" stored="true" multiValued="true"/>
+        <field name="controlfield_009" type="text" indexed="true" stored="true" multiValued="true"/>
+        <!-- Misc fields:: END -->
+
+        <!-- :::::::::::::::::::::::  DynamicFields :: Start ::::::::::::::::::::::::::::-->
+
+        <dynamicField name="0*"  type="text"  indexed="true"  stored="true" multiValued="true"/>
+        <dynamicField name="1*"  type="text"  indexed="true"  stored="true" multiValued="true"/>
+        <dynamicField name="2*"  type="text"  indexed="true"  stored="true" multiValued="true"/>
+        <dynamicField name="3*"  type="text"  indexed="true"  stored="true" multiValued="true"/>
+        <dynamicField name="4*"  type="text"  indexed="true"  stored="true" multiValued="true"/>
+        <dynamicField name="5*"  type="text"  indexed="true"  stored="true" multiValued="true"/>
+        <dynamicField name="6*"  type="text"  indexed="true"  stored="true" multiValued="true"/>
+        <dynamicField name="7*"  type="text"  indexed="true"  stored="true" multiValued="true"/>
+        <dynamicField name="8*"  type="text"  indexed="true"  stored="true" multiValued="true"/>
+        <dynamicField name="9*"  type="text"  indexed="true"  stored="true" multiValued="true"/>
+
+        <!-- dynamic fields for marc data fields (eg. 245) -->
+        <dynamicField name="mdf_*"  type="text"  indexed="true"  stored="true" multiValued="true"/>
+
+        <!-- :::::::::::::::::::::::  DynamicFields :: END ::::::::::::::::::::::::::::-->
+
+        <!--::::::::::::::: MARC FIELDS:: END :::::::::::::: -->
+
+
+        <!--::::::::::::::: SERVICE PATRON FIELDS:: START :::::::::::::: -->
+        <!--  Search Fields-->
+        <field name="RecordNumber_search" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="BeginDate_search" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="BorrowerType_search" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Name_search" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="BarCodeNumber_search" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="BarCodeStatus_search" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="IdentificationType_search" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Identification_search" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+
+        <!--Display Fields-->
+        <field name="RecordNumber_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="BeginDate_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="BorrowerType_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Name_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="BarCodeNumber_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="BarCodeStatus_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="IdentificationType_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Identification_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+
+        <!--::::::::::::::: SERVICE PATRON FIELDS:: END :::::::::::::: -->
+
+        <!-- Fields for eInstance -->
+        <field name="gokbIdentifier" type="text" indexed="true" stored="true" multiValued="false" sortMissingLast="true"/>
+        <field name="AccessStatus_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Imprint_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Platform_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Subscription_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="CallNumberTypeName_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="URL_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="E_Publisher_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Proxied_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Authentication_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="NumberOfSimultaneousUses_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="AccessLocation_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="SubscriptionStatus_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Persist_Link_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Access_Password_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Access_UserName_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Link_Text_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Admin_UserName_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Admin_Password_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Admin_url_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="ILL_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="DonorPublic_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="DonorNote_search" type="text" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+
+
+        <field name="AccessStatus_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Subscription_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Imprint_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Platform_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Url_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="E_Publisher_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Public_Note_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="EResource_name_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Persist_Link_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Access_Password_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Access_UserName_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Link_Text_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Admin_UserName_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Admin_Password_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="Admin_url_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="ILL_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+
+        <field name="CoverageDate_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="SubscriptionStatus_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="PerpetualAccess_display" type="string" indexed="true" stored="true" multiValued="true" sortMissingLast="true"/>
+        <field name="_version_" type="long" indexed="true"  stored="true"/>
+
+    <!-- Field to use to determine and enforce document uniqueness.
+       Unless this field is marked with required="false", it will be a required field
+    -->
+    <uniqueKey>uniqueId</uniqueKey>
+
+    <!-- field for the QueryParser to use when an explicit fieldname is absent -->
+    <defaultSearchField>all_text</defaultSearchField>
+
+    <!-- SolrQueryParser configuration: defaultOperator="AND|OR" -->
+    <solrQueryParser defaultOperator="OR"/>
+
+</schema>

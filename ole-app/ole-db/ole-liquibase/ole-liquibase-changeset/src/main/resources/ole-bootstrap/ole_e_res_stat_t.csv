@@ -1,0 +1,7 @@
+E_RES_STAT_ID,E_RES_STAT_NM,E_RES_STAT_DESC,OBJ_ID,VER_NBR,ROW_ACT_IND
+1,In-Process,Status of E-Res Record,OLEERS119,1,Y
+2,Trial,Status of E-Res Record,OLEERS120,1,Y
+3,Ordered,Status of E-Res Record,OLEERS121,1,Y
+4,Invoiced,Status of E-Res Record,OLEERS122,1,Y
+5,Active,Status of E-Res Record,OLEERS123,1,Y
+6,Canceled,Status of E-Res Record,OLEERS124,1,Y

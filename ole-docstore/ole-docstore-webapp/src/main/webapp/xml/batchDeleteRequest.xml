@@ -1,0 +1,8 @@
+<request>
+       <user>ole-khuntley</user>
+	   <operation>batchDeleteWithLinks</operation>
+	   <requestDocuments>
+	       <ingestdocument id="6f3e5086-0ccb-4faf-addb-a9d70ab35888" category="bibliographic" type="bibliographic" format="marc">
+		   </ingestdocument>
+		</requestDocuments>
+ </request>

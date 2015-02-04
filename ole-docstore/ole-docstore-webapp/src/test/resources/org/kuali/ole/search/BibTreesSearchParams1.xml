@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<searchParams>
+    <pageSize>25</pageSize>
+    <searchConditions>
+        <searchCondition>
+            <operator>AND</operator>
+            <searchField>
+                <docType>bibliographic</docType>
+                <fieldName>Title</fieldName>
+                <fieldValue>Title-1</fieldValue>
+            </searchField>
+            <searchScope>AND</searchScope>
+        </searchCondition>
+    </searchConditions>
+    <searchResultFields>
+        <searchResultField>
+            <docType>bibliographic</docType>
+            <fieldName>Title</fieldName>
+        </searchResultField>
+        <searchResultField>
+            <docType>bibliographic</docType>
+            <fieldName>Author</fieldName>
+        </searchResultField>
+        <searchResultField>
+            <docType>holdings</docType>
+            <fieldName>CallNumberPrefix</fieldName>
+        </searchResultField>
+        <searchResultField>
+            <docType>item</docType>
+            <fieldName>enumeration</fieldName>
+        </searchResultField>
+    </searchResultFields>
+    <startIndex>0</startIndex>
+</searchParams>

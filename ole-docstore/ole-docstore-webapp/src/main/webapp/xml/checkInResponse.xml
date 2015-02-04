@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OLEDocstore-call>
+<request>
+<command>Check-in</command>
+<params/>
+</request>
+<response>
+<status>Failure</status>
+<message>Checkin failed</message>
+</response>
+</OLEDocstore-call>

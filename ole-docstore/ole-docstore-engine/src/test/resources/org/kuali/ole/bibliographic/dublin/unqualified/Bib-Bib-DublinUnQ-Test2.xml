@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+    <responseDate>2010-07-25T08:14:49Z</responseDate>
+    <request verb="ListRecords" metadataPrefix="oai_dc" set="hathitrust">http://quod.lib.umich.edu/cgi/o/oai/oai
+    </request>
+    <ListRecords>
+        <record>
+            <header>
+                <identifier>oai:quod.lib.umich.edu:MIU01-000753105</identifier>
+                <datestamp>2008-12-19T18:46:30Z</datestamp>
+                <setSpec>hathitrust:pd</setSpec>
+            </header>
+            <metadata>
+                <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/"
+                           xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/"
+                           xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+                    <dc:title>Twenty years after Brown : a report of the United States Commission on Civil Rights.
+                    </dc:title>
+                    <dc:creator>United States Commission on Civil Rights.</dc:creator>
+                    <dc:subject>Civil rights--United States--History.</dc:subject>
+                    <dc:description>xi, 187 p. ;</dc:description>
+                    <dc:publisher>Washington : Commission on Civil Rights,</dc:publisher>
+                    <dc:date>1977.</dc:date>
+                    <dc:identifier>(ISBN)(pbk.)</dc:identifier>
+                    <dc:identifier>(OCoLC)ocm03451960</dc:identifier>
+                    <dc:identifier>JC599.U5 A427 1977</dc:identifier>
+                    <dc:identifier>http://hdl.handle.net/2027/mdp.39015002221466</dc:identifier>
+                    <dc:source>http://hdl.handle.net/2027/mdp.39015002221466</dc:source>
+                    <dc:language>eng</dc:language>
+                    <dc:type>text</dc:type>
+                    <dc:rights>We have determined this item to be in the public domain according to US copyright law
+                        through information in the bibliographic record and/or US copyright renewal records. The digital
+                        version is available for all educational uses worldwide. Please contact HathiTrust staff at
+                        hathitrust-help@umich.edu with any questions about this item.
+                    </dc:rights>
+                </oai_dc:dc>
+            </metadata>
+        </record>
+        <record>
+            <header>
+                <identifier>oai:quod.lib.umich.edu:MIU01-001262537</identifier>
+                <datestamp>2008-12-19T18:46:51Z</datestamp>
+                <setSpec>hathitrust:pd</setSpec>
+            </header>
+            <metadata>
+                <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/"
+                           xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/"
+                           xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+                    <dc:title>Adventures in the wilderness. Edited by William K. Verner. With introd. and notes by
+                        Warder H. Cadbury.
+                    </dc:title>
+                    <dc:creator>Murray, W. H. H. (William Henry Harrison), 1840-1904.</dc:creator>
+                    <dc:subject>Fishing--New York (State)--Adirondack Mountains.</dc:subject>
+                    <dc:subject>Hunting--New York (State)--Adirondack Mountains.</dc:subject>
+                    <dc:subject>Adirondack Mountains (N.Y.)</dc:subject>
+                    <dc:description>75, 236, 77-95 p.</dc:description>
+                    <dc:publisher>[Syracuse, N.Y.] Adirondack Museum</dc:publisher>
+                    <dc:date>[1970, c1869]</dc:date>
+                    <dc:identifier>(LCCN)72132972 //r86</dc:identifier>
+                    <dc:identifier>(ISBN)0815600712</dc:identifier>
+                    <dc:identifier>(OCoLC)ocm00102850</dc:identifier>
+                    <dc:identifier>F127.A2 M9 1970</dc:identifier>
+                    <dc:identifier>917.47/53</dc:identifier>
+                    <dc:identifier>F 127 .A2 M98 1970</dc:identifier>
+                    <dc:identifier>http://hdl.handle.net/2027/mdp.39015014632072</dc:identifier>
+                    <dc:source>http://hdl.handle.net/2027/mdp.39015014632072</dc:source>
+                    <dc:language>eng</dc:language>
+                    <dc:type>text</dc:type>
+                    <dc:rights>We have determined this item to be in the public domain according to US copyright law
+                        through information in the bibliographic record and/or US copyright renewal records. The digital
+                        version is available for all educational uses worldwide. Please contact HathiTrust staff at
+                        hathitrust-help@umich.edu with any questions about this item.
+                    </dc:rights>
+                </oai_dc:dc>
+            </metadata>
+        </record>
+        <record>
+            <header>
+                <identifier>oai:quod.lib.umich.edu:MIU01-005148090</identifier>
+                <datestamp>2008-12-19T18:49:01Z</datestamp>
+                <setSpec>hathitrust:pd</setSpec>
+            </header>
+            <metadata>
+                <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/"
+                           xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/"
+                           xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+                    <dc:title>Think and act : a series of articles pertaining to men and women, work and wages /
+                        Virginia Penny.
+                    </dc:title>
+                    <dc:creator>Penny, Virginia, b. 1826.</dc:creator>
+                    <dc:subject>Women--Employment.</dc:subject>
+                    <dc:subject>Wages--Women.</dc:subject>
+                    <dc:description>Reprint ed.</dc:description>
+                    <dc:description>372 p. ;</dc:description>
+                    <dc:publisher>New York : Arno,</dc:publisher>
+                    <dc:date>1971, c1868.</dc:date>
+                    <dc:identifier>(LCCN)75156420</dc:identifier>
+                    <dc:identifier>(ISBN)0405029381</dc:identifier>
+                    <dc:identifier>(OCoLC)ocm00403911</dc:identifier>
+                    <dc:identifier>sdr-wu75471</dc:identifier>
+                    <dc:identifier>HD6053 .P46 1971</dc:identifier>
+                    <dc:identifier>HD 6053 .P461 1971</dc:identifier>
+                    <dc:identifier>http://hdl.handle.net/2027/mdp.39015063162336</dc:identifier>
+                    <dc:identifier>http://hdl.handle.net/2027/wu.89058506783</dc:identifier>
+                    <dc:source>http://hdl.handle.net/2027/mdp.39015063162336</dc:source>
+                    <dc:source>http://hdl.handle.net/2027/wu.89058506783</dc:source>
+                    <dc:language>eng</dc:language>
+                    <dc:type>text</dc:type>
+                    <dc:rights>We have determined this item to be in the public domain according to US copyright law
+                        through information in the bibliographic record and/or US copyright renewal records. The digital
+                        version is available for all educational uses worldwide. Please contact HathiTrust staff at
+                        hathitrust-help@umich.edu with any questions about this item.
+                    </dc:rights>
+                </oai_dc:dc>
+            </metadata>
+        </record>
+        <record>
+            <header>
+                <identifier>oai:quod.lib.umich.edu:MIU01-000062477</identifier>
+                <datestamp>2008-12-19T18:45:49Z</datestamp>
+                <setSpec>hathitrust:pd</setSpec>
+            </header>
+            <metadata>
+                <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/"
+                           xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/"
+                           xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+                    <dc:title>Country reports on human rights practices : report submitted to the Committee on Foreign
+                        Affairs, U.S. House of Representatives and Committee on Foreign Relations, U.S. Senate by the
+                        Department of State in Accordance with sections 116(d) and 502B(b) of the Foreign Assistance Act
+                        of 1961, as amended.
+                    </dc:title>
+                    <dc:creator>Country reports on human rights practices (Washington, D.C. : 1979)</dc:creator>
+                    <dc:subject>Human rights</dc:subject>
+                    <dc:subject>Civil rights</dc:subject>
+                    <dc:description>v. ;</dc:description>
+                    <dc:publisher>Washington, D.C. : U.S. G.P.O., For sale by the Supt. of Docs., U.S. G.P.O.,
+                    </dc:publisher>
+                    <dc:date>1980-</dc:date>
+                    <dc:identifier>(LCCN)80643581//r82</dc:identifier>
+                    <dc:identifier>(ISSN)0198-9669</dc:identifier>
+                    <dc:identifier>(OCoLC)ocm06026722</dc:identifier>
+                    <dc:identifier>(SFX)110978984441773</dc:identifier>
+                    <dc:identifier>JC571 .U48a</dc:identifier>
+                    <dc:identifier>323.4/05</dc:identifier>
+                    <dc:identifier>http://www.state.gov/g/drl/rls/hrrpt/</dc:identifier>
+                    <dc:identifier>http://www.state.gov/www/global/human_rights/hrp_reports_mainhp.html</dc:identifier>
+                    <dc:identifier>JC 571 .U481</dc:identifier>
+                    <dc:identifier>http://hdl.handle.net/2027/mdp.39015039359891</dc:identifier>
+                    <dc:identifier>http://hdl.handle.net/2027/mdp.39015014164753</dc:identifier>
+                    <dc:identifier>http://hdl.handle.net/2027/mdp.39015014227832</dc:identifier>
+                    <dc:identifier>http://hdl.handle.net/2027/mdp.39015008874342</dc:identifier>
+                    <dc:identifier>http://hdl.handle.net/2027/mdp.39015011233270</dc:identifier>
+                    <dc:identifier>http://hdl.handle.net/2027/mdp.39015013361749</dc:identifier>
+                    <dc:identifier>http://hdl.handle.net/2027/mdp.39015013385052</dc:identifier>
+                    <dc:identifier>http://hdl.handle.net/2027/mdp.39015078291708</dc:identifier>
+                    <dc:identifier>http://hdl.handle.net/2027/mdp.39015078291716</dc:identifier>
+                    <dc:identifier>http://hdl.handle.net/2027/mdp.39015078291724</dc:identifier>
+                    <dc:source>Online version: : http://www.state.gov/g/drl/rls/hrrpt/</dc:source>
+                    <dc:source>State Dept. archive online version: :
+                        http://www.state.gov/www/global/human_rights/hrp_reports_mainhp.html
+                    </dc:source>
+                    <dc:source>1981 : http://hdl.handle.net/2027/mdp.39015039359891</dc:source>
+                    <dc:source>1982 : http://hdl.handle.net/2027/mdp.39015014164753</dc:source>
+                    <dc:source>1983 : http://hdl.handle.net/2027/mdp.39015014227832</dc:source>
+                    <dc:source>1984 : http://hdl.handle.net/2027/mdp.39015008874342</dc:source>
+                    <dc:source>1985 : http://hdl.handle.net/2027/mdp.39015011233270</dc:source>
+                    <dc:source>1986 : http://hdl.handle.net/2027/mdp.39015013361749</dc:source>
+                    <dc:source>1987 : http://hdl.handle.net/2027/mdp.39015013385052</dc:source>
+                    <dc:source>1996 : http://hdl.handle.net/2027/mdp.39015078291708</dc:source>
+                    <dc:source>1997 : http://hdl.handle.net/2027/mdp.39015078291716</dc:source>
+                    <dc:source>2000 v.1 : http://hdl.handle.net/2027/mdp.39015078291724</dc:source>
+                    <dc:language>eng</dc:language>
+                    <dc:type>text</dc:type>
+                    <dc:rights>We have determined this item to be in the public domain according to US copyright law
+                        through information in the bibliographic record and/or US copyright renewal records. The digital
+                        version is available for all educational uses worldwide. Please contact HathiTrust staff at
+                        hathitrust-help@umich.edu with any questions about this item.
+                    </dc:rights>
+                </oai_dc:dc>
+            </metadata>
+        </record>
+        <record>
+            <header>
+                <identifier>oai:quod.lib.umich.edu:MIU01-000361628</identifier>
+                <datestamp>2008-12-19T18:45:59Z</datestamp>
+                <setSpec>hathitrust:pd</setSpec>
+            </header>
+            <metadata>
+                <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/"
+                           xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/"
+                           xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+                    <dc:title>New France and New England, by John Fiske.</dc:title>
+                    <dc:creator>Fiske, John, 1842-1901.</dc:creator>
+                    <dc:subject>Canada--History--To 1763 (New France)</dc:subject>
+                    <dc:subject>New England--History--Colonial period, ca. 1600-1775</dc:subject>
+                    <dc:description>1 p.l., v-xxiii p., 1 l., 378 p., 1 l.</dc:description>
+                    <dc:publisher>Boston, New York, Houghton, Mifflin and company,</dc:publisher>
+                    <dc:date>1902.</dc:date>
+                    <dc:identifier>(LCCN)02022288</dc:identifier>
+                    <dc:identifier>(OCoLC)ocm00654785</dc:identifier>
+                    <dc:identifier>E195 .F54</dc:identifier>
+                    <dc:identifier>973.2</dc:identifier>
+                    <dc:identifier>E195 .F54</dc:identifier>
+                    <dc:identifier>http://hdl.handle.net/2027/mdp.39015013113496</dc:identifier>
+                    <dc:source>http://hdl.handle.net/2027/mdp.39015013113496</dc:source>
+                    <dc:language>eng</dc:language>
+                    <dc:type>text</dc:type>
+                    <dc:rights>We have determined this item to be in the public domain according to US copyright law
+                        through information in the bibliographic record and/or US copyright renewal records. The digital
+                        version is available for all educational uses worldwide. Please contact HathiTrust staff at
+                        hathitrust-help@umich.edu with any questions about this item.
+                    </dc:rights>
+                </oai_dc:dc>
+            </metadata>
+        </record>
+        <record>
+            <header>
+                <identifier>oai:quod.lib.umich.edu:MIU01-001953647</identifier>
+                <datestamp>2008-12-19T18:47:11Z</datestamp>
+                <setSpec>hathitrust:pd</setSpec>
+            </header>
+            <metadata>
+                <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/"
+                           xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/"
+                           xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+                    <dc:title>Information collection budget of the United States government.</dc:title>
+                    <dc:creator>United States. Office of Management and Budget.</dc:creator>
+                    <dc:subject>Government paperwork--United States--Periodicals.</dc:subject>
+                    <dc:description>v. :</dc:description>
+                    <dc:publisher>[Washington] : Executive Office of the President, Office of Management and Budget ;
+                        [Springfield, Va. : National Technical Information Service, distributor,
+                    </dc:publisher>
+                    <dc:identifier>(LCCN)84642396</dc:identifier>
+                    <dc:identifier>(ISSN)0743-4928</dc:identifier>
+                    <dc:identifier>(OCoLC)8192424</dc:identifier>
+                    <dc:identifier>(OCoLC)ocm08192424</dc:identifier>
+                    <dc:identifier>JK468.P34 U55b</dc:identifier>
+                    <dc:identifier>353.0071/4</dc:identifier>
+                    <dc:identifier>JK 468 .P34 U58</dc:identifier>
+                    <dc:identifier>http://hdl.handle.net/2027/mdp.39015073088539</dc:identifier>
+                    <dc:source>1989 : http://hdl.handle.net/2027/mdp.39015073088539</dc:source>
+                    <dc:language>eng</dc:language>
+                    <dc:type>text</dc:type>
+                    <dc:rights>We have determined this item to be in the public domain according to US copyright law
+                        through information in the bibliographic record and/or US copyright renewal records. The digital
+                        version is available for all educational uses worldwide. Please contact HathiTrust staff at
+                        hathitrust-help@umich.edu with any questions about this item.
+                    </dc:rights>
+                </oai_dc:dc>
+            </metadata>
+        </record>
+        <record>
+            <header>
+                <identifier>oai:quod.lib.umich.edu:MIU01-001953647</identifier>
+                <datestamp>2008-12-19T18:47:11Z</datestamp>
+                <setSpec>hathitrust:pd</setSpec>
+            </header>
+            <metadata>
+                <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/"
+                           xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/"
+                           xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+                    <dc:title>Information collection budget of the United States government.</dc:title>
+                    <dc:creator>United States. Office of Management and Budget.</dc:creator>
+                    <dc:subject>Government paperwork--United States--Periodicals.</dc:subject>
+                    <dc:description>v. :</dc:description>
+                    <dc:publisher>[Washington] : Executive Office of the President, Office of Management and Budget ;
+                        [Springfield, Va. : National Technical Information Service, distributor,
+                    </dc:publisher>
+                    <dc:identifier>(LCCN)84642396</dc:identifier>
+                    <dc:identifier>(ISSN)0743-4928</dc:identifier>
+                    <dc:identifier>(OCoLC)8192424</dc:identifier>
+                    <dc:identifier>(OCoLC)ocm08192424</dc:identifier>
+                    <dc:identifier>JK468.P34 U55b</dc:identifier>
+                    <dc:identifier>353.0071/4</dc:identifier>
+                    <dc:identifier>JK 468 .P34 U58</dc:identifier>
+                    <dc:identifier>http://hdl.handle.net/2027/mdp.39015073088539</dc:identifier>
+                    <dc:source>1989 : http://hdl.handle.net/2027/mdp.39015073088539</dc:source>
+                    <dc:language>eng</dc:language>
+                    <dc:type>text</dc:type>
+                    <dc:rights>We have determined this item to be in the public domain according to US copyright law
+                        through information in the bibliographic record and/or US copyright renewal records. The digital
+                        version is available for all educational uses worldwide. Please contact HathiTrust staff at
+                        hathitrust-help@umich.edu with any questions about this item.
+                    </dc:rights>
+                </oai_dc:dc>
+            </metadata>
+        </record>
+        <record>
+            <header>
+                <identifier>oai:quod.lib.umich.edu:MIU01-000406047</identifier>
+                <datestamp>2008-12-19T18:46:01Z</datestamp>
+                <setSpec>hathitrust:pd</setSpec>
+            </header>
+            <metadata>
+                <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/"
+                           xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/"
+                           xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+                    <dc:title>The presidential campaign of 1832, by Samuel Rhea Gammon, jr.</dc:title>
+                    <dc:creator>Gammon, Samuel Rhea, 1889-</dc:creator>
+                    <dc:subject>Presidents--United States--Election--1832.</dc:subject>
+                    <dc:subject>Political parties--United States</dc:subject>
+                    <dc:description>ix, 11-180 p., 1 l.</dc:description>
+                    <dc:publisher>Baltimore,</dc:publisher>
+                    <dc:date>1922.</dc:date>
+                    <dc:identifier>(LCCN)22023206</dc:identifier>
+                    <dc:identifier>(OCoLC)ocm02309286</dc:identifier>
+                    <dc:identifier>E383 G21</dc:identifier>
+                    <dc:identifier>E 383 .G193</dc:identifier>
+                    <dc:identifier>http://hdl.handle.net/2027/mdp.39015005377547</dc:identifier>
+                    <dc:source>http://hdl.handle.net/2027/mdp.39015005377547</dc:source>
+                    <dc:language>eng</dc:language>
+                    <dc:type>text</dc:type>
+                    <dc:rights>We have determined this item to be in the public domain according to US copyright law
+                        through information in the bibliographic record and/or US copyright renewal records. The digital
+                        version is available for all educational uses worldwide. Please contact HathiTrust staff at
+                        hathitrust-help@umich.edu with any questions about this item.
+                    </dc:rights>
+                </oai_dc:dc>
+            </metadata>
+        </record>
+        <record>
+            <header>
+                <identifier>oai:quod.lib.umich.edu:MIU01-000406918</identifier>
+                <datestamp>2008-12-19T18:46:01Z</datestamp>
+                <setSpec>hathitrust:pd</setSpec>
+            </header>
+            <metadata>
+                <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/"
+                           xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/"
+                           xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+                    <dc:title>The Mexican War diary of General George B. McClellan, ed. by William Starr Myers.
+                    </dc:title>
+                    <dc:creator>McClellan, George Brinton, 1826-1885.</dc:creator>
+                    <dc:subject>Mexican War, 1846-1848--Personal narratives.</dc:subject>
+                    <dc:description>iv p., 1 L., 97 p.</dc:description>
+                    <dc:publisher>Princeton, Princeton university press,</dc:publisher>
+                    <dc:date>1917.</dc:date>
+                    <dc:identifier>(LCCN)17011694</dc:identifier>
+                    <dc:identifier>(OCoLC)ocm05591174</dc:identifier>
+                    <dc:identifier>E411 .M13</dc:identifier>
+                    <dc:identifier>E411 .M16</dc:identifier>
+                    <dc:identifier>http://hdl.handle.net/2027/mdp.39015005708477</dc:identifier>
+                    <dc:source>http://hdl.handle.net/2027/mdp.39015005708477</dc:source>
+                    <dc:language>eng</dc:language>
+                    <dc:type>text</dc:type>
+                    <dc:rights>We have determined this item to be in the public domain according to US copyright law
+                        through information in the bibliographic record and/or US copyright renewal records. The digital
+                        version is available for all educational uses worldwide. Please contact HathiTrust staff at
+                        hathitrust-help@umich.edu with any questions about this item.
+                    </dc:rights>
+                </oai_dc:dc>
+            </metadata>
+        </record>
+        <record>
+            <header>
+                <identifier>oai:quod.lib.umich.edu:MIU01-000429516</identifier>
+                <datestamp>2008-12-19T18:46:02Z</datestamp>
+                <setSpec>hathitrust:pd</setSpec>
+            </header>
+            <metadata>
+                <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/"
+                           xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/"
+                           xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+                    <dc:title>Elements</dc:title>
+                    <dc:title>De zes eerste, elfde en twaalfde boeken Euclidis ... Mitsgaders een aanhang, vervattende
+                        de transformatien, additien, substractien, multiplicatien en divisien in figuren. Alles op een
+                        korte en wiskonstige manier gedemonstreert, door Pieter Warius.
+                    </dc:title>
+                    <dc:creator>Euclid.</dc:creator>
+                    <dc:subject>Geometry</dc:subject>
+                    <dc:description>Den vierden druk. Verbetert en van voorgaande drukfouten gezuyvert.</dc:description>
+                    <dc:description>7 p. L., 292 p.</dc:description>
+                    <dc:publisher>Amsterdam, By J. van Keulen,</dc:publisher>
+                    <dc:date>1763.</dc:date>
+                    <dc:identifier>(OCoLC)ocm23621227</dc:identifier>
+                    <dc:identifier>QA31.E88 S737 1763</dc:identifier>
+                    <dc:identifier>http://hdl.handle.net/2027/mdp.39015063875366</dc:identifier>
+                    <dc:source>http://hdl.handle.net/2027/mdp.39015063875366</dc:source>
+                    <dc:language>dut</dc:language>
+                    <dc:language>dut</dc:language>
+                    <dc:language>grc</dc:language>
+                    <dc:type>text</dc:type>
+                    <dc:rights>We have determined this item to be in the public domain according to US copyright law
+                        through information in the bibliographic record and/or US copyright renewal records. The digital
+                        version is available for all educational uses worldwide. Please contact HathiTrust staff at
+                        hathitrust-help@umich.edu with any questions about this item.
+                    </dc:rights>
+                </oai_dc:dc>
+            </metadata>
+        </record>
+        <record>
+            <header>
+                <identifier>oai:quod.lib.umich.edu:MIU01-000430652</identifier>
+                <datestamp>2008-12-19T18:46:02Z</datestamp>
+                <setSpec>hathitrust:pd</setSpec>
+            </header>
+            <metadata>
+                <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/"
+                           xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/dc/terms/"
+                           xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+                    <dc:title>The life of Thomas Hutchinson, royal governor of the province of Massachusetts Bay.
+                    </dc:title>
+                    <dc:creator>Hosmer, James Kendall, 1834-1927.</dc:creator>
+                    <dc:subject>Hutchinson, Thomas, 1711-1780.</dc:subject>
+                    <dc:description>xxviii, 453 p.</dc:description>
+                    <dc:publisher>New York, Da Capo Press,</dc:publisher>
+                    <dc:date>1972 [c1896]</dc:date>
+                    <dc:identifier>(LCCN)70124926//r862</dc:identifier>
+                    <dc:identifier>(ISBN)0306710382</dc:identifier>
+                    <dc:identifier>(OCoLC)ocm00200935</dc:identifier>
+                    <dc:identifier>F67 .H9806 1972</dc:identifier>
+                    <dc:identifier>974.4/02/0924 B</dc:identifier>
+                    <dc:identifier>F67.H97 H82 1972</dc:identifier>
+                    <dc:identifier>http://hdl.handle.net/2027/mdp.39015022216322</dc:identifier>
+                    <dc:source>http://hdl.handle.net/2027/mdp.39015022216322</dc:source>
+                    <dc:language>eng</dc:language>
+                    <dc:type>text</dc:type>
+                    <dc:rights>We have determined this item to be in the public domain according to US copyright law
+                        through information in the bibliographic record and/or US copyright renewal records. The digital
+                        version is available for all educational uses worldwide. Please contact HathiTrust staff at
+                        hathitrust-help@umich.edu with any questions about this item.
+                    </dc:rights>
+                </oai_dc:dc>
+            </metadata>
+        </record>
+    </ListRecords>
+</OAI-PMH>

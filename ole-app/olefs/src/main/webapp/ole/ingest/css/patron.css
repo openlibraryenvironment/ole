@@ -1,0 +1,125 @@
+.fixed-size-200-select {
+    width:200px;
+}
+.fixed-size-100-select {
+    width:100px;
+}
+.fixed-size-75-select {
+    width:75px;
+}
+.fixed-size-50-select {
+    width:50px;
+}
+.fixed-size-150-select {
+    width:150px;
+}
+.fixed-height-500 {
+    height:500px;
+}
+.fixed-size-50-check {
+    width:50px;
+}
+#OlePatronDocument-Name_group .boxLayoutHorizontalItem{
+    margin-top: 0.7em !important;
+    width: 20em !important;
+}
+#NameKeyValues {
+    color: red;
+}
+
+div.blockOverlay{
+    display:none !important;
+}
+
+div.blockUI{
+    display:none !important;
+}
+
+.messageClass{
+    color: #D8000C;
+
+    font-size:18px;
+
+}
+#mask {
+    display: none;
+    background: #000;
+    position: fixed; left: 0; top: 0;
+    z-index: 10;
+    width: 100%; height: 100%;
+    opacity: 0.8;
+    z-index: 999;
+}
+div#OlePatronDocument-Barcode-Update-Section{
+    display:none;
+    background: #DDDDDD;
+    padding: 10px;
+    border: 2px solid #ddd;
+    float: left;
+    width: auto;
+    height: auto;
+    position: fixed;
+    top: 50%; left: 50%;
+    z-index: 99999;
+    box-shadow: 0px 0px 20px #999;
+    -moz-box-shadow: 0px 0px 20px #999;
+    -webkit-box-shadow: 0px 0px 20px #999;
+    border-radius:3px 3px 3px 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+
+div#OlePatronDocument-reinstateBarcode-section{
+    display:none;
+    background: #DDDDDD;
+    padding: 10px;
+    border: 2px solid #ddd;
+    float: left;
+    width: auto;
+    height: auto;
+    position: fixed;
+    top: 50%; left: 50%;
+    z-index: 99999;
+    box-shadow: 0px 0px 20px #999;
+    -moz-box-shadow: 0px 0px 20px #999;
+    -webkit-box-shadow: 0px 0px 20px #999;
+    border-radius:3px 3px 3px 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+
+
+
+div.true span{
+    color:#808080;
+}
+
+div#OlePatronDocument-messagePopupSection{
+    display:none;
+    background: #DDDDDD;
+    padding: 10px;
+    border: 2px solid #ddd;
+    float: left;
+    width: auto;
+    height: auto;
+    position: fixed;
+    top: 50%; left: 50%;
+    z-index: 99999;
+    box-shadow: 0px 0px 20px #999;
+    -moz-box-shadow: 0px 0px 20px #999;
+    -webkit-box-shadow: 0px 0px 20px #999;
+    border-radius:3px 3px 3px 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+
+.patron-message-info {
+    border: 1px solid;
+    margin: 10px 0px;
+    padding:15px 10px 15px 50px;
+    background-repeat: no-repeat;
+    background-position: 10px center;
+    color: #00529B;
+    background-color: #BDE5F8;
+
+}

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<profile>
+    <name>YBP</name>
+    <description>firm fixed order for IU</description>
+    <contextName>Kuali OLE</contextName>
+    <categoryName>Bibliographic</categoryName>
+    <profileAttributes>
+        <attribute name="orderPerFile">SINGLE-ORDER</attribute>
+        <attribute name="vendorProfileCode">YBK</attribute>
+        <attribute name="contractMgr">John Doe</attribute>
+        <attribute name="assignToUser">Jane Doe</attribute>
+        <attribute name="chartCode">UA</attribute>
+        <attribute name="itemChartCode">BL</attribute>
+        <attribute name="orgCode">VPIT</attribute>
+        <attribute name="receivingRequired">false</attribute>
+        <attribute name="itemStatus">a values goes here</attribute>
+        <attribute name="locationStatus">Permanent</attribute>
+        <attribute name="useTaxInd">true</attribute>
+        <attribute name="orderType">firm_fixed_ybp</attribute>
+        <attribute name="payReqPositiveApprovalReq">true</attribute>
+        <attribute name="deliveryCampus">BL</attribute>
+        <attribute name="building">BL209</attribute>
+        <attribute name="publicView">false</attribute>
+        <attribute name="internalPurchasingLimit">null</attribute>
+        <attribute name="costSource">EST</attribute>
+        <attribute name="recordType">x</attribute>
+        <attribute name="encodingLevel">1</attribute>
+        <attribute name="receiptStatus">3</attribute>
+        <attribute name="acquisitionMethod">3</attribute>
+        <attribute name="generalRetentionPolicy">u</attribute>
+        <attribute name="specificRetentionPolicy-PolicyType"></attribute>
+        <attribute name="fundingSource">INST</attribute>
+        <attribute name="purchaseorderconfirmationindicator">true</attribute>
+        <attribute name="requisitionSource">AUTO</attribute>
+        <attribute name="vendorchoice">vendorchoice</attribute>
+        <attribute name="itemType">ITEM</attribute>
+        <attribute name="routeRequester">false</attribute>
+        <attribute name="publicView">true</attribute>
+        <attribute name="percent">100</attribute>
+        <attribute name="poTransmissionMethod">NOPR</attribute>
+        <attribute name="internalPurchasingLimit">2</attribute>
+
+    </profileAttributes>
+    <rules>
+        <rule>
+            <name>isbnCheck</name>
+            <term>isbn</term>
+            <matchType>exact</matchType>
+            <docType>bib</docType>
+            <incomingField>
+                <field>020</field>
+                <subfield>a</subfield>
+            </incomingField>
+            <existingField>
+                <field>020</field>
+                <subfield>a</subfield>
+            </existingField>
+            <falseActions>
+                <action>
+                    <name>createBib</name>
+                    <description>Create Bibliographic Record Action</description>
+                    <sequenceNumber>0</sequenceNumber>
+                </action>
+            </falseActions>
+            <trueActions>
+                <action>
+                    <name>exception</name>
+                    <description>Exception handling</description>
+                    <sequenceNumber>1</sequenceNumber>
+                    <routes>
+                        <routeTo>
+                            <name>ole-load</name>
+                            <type>FYI</type>
+                        </routeTo>
+                    </routes>
+                </action>
+                <action>
+                    <name>updateItem</name>
+                    <description>Update Item Record for an existing Bibliographic record</description>
+                    <sequenceNumber>1</sequenceNumber>
+                </action>
+            </trueActions>
+        </rule>
+    </rules>
+</profile>

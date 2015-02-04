@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+ Copyright 2008-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean id="ACHTransactionType" parent="ACHTransactionType-parentBean"/>
+
+  <bean id="ACHTransactionType-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.ole.pdp.businessobject.ACHTransactionType"/>
+    <property name="inquiryDefinition">
+      <ref bean="ACHTransactionType-inquiryDefinition"/>
+    </property>
+    <property name="lookupDefinition">
+      <ref bean="ACHTransactionType-lookupDefinition"/>
+    </property>
+    <property name="objectLabel" value="ACH Transaction Type"/>
+    <property name="attributes">
+      <list>
+        <ref bean="ACHTransactionType-code"/>
+        <ref bean="ACHTransactionType-name"/>
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="ACHTransactionType-code" parent="ACHTransactionType-code-parentBean"/>
+
+  <bean id="ACHTransactionType-code-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="code"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="ACH Transaction Type"/>
+    <property name="shortLabel" value="Trans Typ"/>
+    <property name="maxLength" value="4"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="6"/>
+    </property>
+  </bean>
+  <bean id="ACHTransactionType-name" parent="ACHTransactionType-name-parentBean"/>
+
+  <bean id="ACHTransactionType-name-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="name"/>
+    <property name="label" value="ACH Transaction Type Description"/>
+    <property name="shortLabel" value="Type Desc"/>
+    <property name="maxLength" value="50"/>
+    <property name="required" value="true"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="52"/>
+    </property>
+  </bean>
+ 
+ 
+<!-- Business Object Inquiry Definition -->
+
+  <bean id="ACHTransactionType-inquiryDefinition" parent="ACHTransactionType-inquiryDefinition-parentBean"/>
+
+  <bean id="ACHTransactionType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="ACH Transaction Code Inquiry"/>
+    <property name="inquirySections">
+      <list>
+		<ref bean="ACHTransactionType-inquirySectionDefinition"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="ACHTransactionType-inquirySectionDefinition" parent="ACHTransactionType-inquirySectionDefinition-parentBean"/>
+  <bean id="ACHTransactionType-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="code"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
+      </list>
+    </property>
+  </bean>
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="ACHTransactionType-lookupDefinition" parent="ACHTransactionType-lookupDefinition-parentBean"/>
+
+  <bean id="ACHTransactionType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="ACH Transaction Type Lookup"/>
+    
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+        <property name="attributeNames">
+          <list>
+            <value>code</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="code"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="code"/>
+        <bean parent="FieldDefinition" p:attributeName="name"/>
+      </list>
+    </property>
+  </bean>
+</beans>

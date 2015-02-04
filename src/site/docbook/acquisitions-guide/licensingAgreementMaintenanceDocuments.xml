@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook" version="5.0"
+    xml:lang="en-US">
+        <title>Agreement Maintenance Documents<indexterm significance="normal">
+                <primary>Maintenance Documents, License</primary>
+                <secondary>License</secondary>
+            </indexterm></title>
+        <para role="Body Text"><inlinemediaobject>
+            <imageobject>
+                <imagedata fileref="../images/licensing.png"/>
+            </imageobject>
+        </inlinemediaobject>
+        <emphasis role="bold">&gt; <inlinemediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/LicensingNoTitlePage-83.png"/>
+                </imageobject>
+            </inlinemediaobject>&gt; <inlinemediaobject>
+                <imageobject>
+                    <imagedata fileref="../images/LicensingNoTitlePage-81.png"/>
+                </imageobject>
+            </inlinemediaobject></emphasis></para>
+        <para role="Body Text">Agreement maintenance e-docs are available via the Agreement submenu
+        on the <emphasis role="bold">Licensing</emphasis> menu tab. </para>
+    </chapter>

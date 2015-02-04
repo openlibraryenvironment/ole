@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="krms" type="krmsType"/>
+    <xs:complexType name="rulesType">
+        <xs:sequence>
+            <xs:element type="ruleType" name="rule" maxOccurs="unbounded" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="ruleType">
+        <xs:sequence>
+            <xs:element name="name">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="FullApprovalCheck"/>
+                        <xs:enumeration value="SignatoryCheck"/>
+                        <xs:enumeration value="ReviewCheck"/>
+                        <xs:enumeration value="ApprovalCheck"/>
+                        <xs:enumeration value="RenewalCheck"/>
+                        <xs:enumeration value="AddendumCheck"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element type="compoundPropositionType" name="compoundProposition"/>
+            <xs:element type="trueActionsType" name="trueActions"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="agendaType">
+        <xs:sequence>
+            <xs:element type="xs:string" name="name"/>
+            <xs:element type="xs:string" name="description"/>
+            <xs:element type="xs:string" name="contextName"/>
+            <xs:element type="xs:string" name="categoryName"/>
+            <xs:element type="xs:string" name="profileAttributes"/>
+            <xs:element type="rulesType" name="rules"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="krmsType">
+        <xs:sequence>
+            <xs:element type="agendaType" name="agenda"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="trueActionsType">
+        <xs:sequence>
+            <xs:element type="actionType" name="action"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="compoundPropositionType">
+        <xs:sequence>
+            <xs:element name="propositionType">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="&amp;"/>
+                        <xs:enumeration value="|"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element type="propositionType" name="proposition" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element type="compoundPropositionType" name="compoundProposition" maxOccurs="unbounded" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="propositionType">
+        <xs:sequence>
+            <xs:element name="term">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="licenseType"/>
+                        <xs:enumeration value="agreementMethod"/>
+                        <xs:enumeration value="workflowName"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element type="xs:string" name="type"/>
+            <xs:element type="xs:string" name="operator"/>
+            <xs:element type="xs:string" name="constant"/>
+            <xs:element type="xs:string" name="function"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="actionType">
+        <xs:sequence>
+            <xs:element type="xs:string" name="serviceName"/>
+            <xs:element name="name">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="Full Approval"/>
+                        <xs:enumeration value="Signatory Only"/>
+                        <xs:enumeration value="Review Only"/>
+                        <xs:enumeration value="Approval Only"/>
+                        <xs:enumeration value="Renewal"/>
+                        <xs:enumeration value="Addendum"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element type="xs:string" name="description"/>
+            <xs:element type="xs:string" name="sequenceNumber"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

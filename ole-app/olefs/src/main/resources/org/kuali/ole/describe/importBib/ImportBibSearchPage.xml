@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="SearchBibPanel" parent="Uif-VerticalBoxGroup">
+        <property name="items">
+            <list>
+                <bean id="SearchBibTabSection" parent="Uif-TabSection">
+                    <property name="items">
+                        <list>
+                            <ref bean="ImportFromLocal"/>
+                            <ref bean="ImportFromExternalDataSource"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="ImportFromLocal" parent="Uif-VerticalBoxSection" p:componentSecurity.viewAuthz="true">
+        <property name="headerText" value="Import From Local"/>
+        <property name="items">
+            <list>
+                <ref bean="localSearch-Section"/>
+                <ref bean="localSearch-Buttons"/>
+                <ref bean="localSearchDetails-Section"/>
+                <ref bean="ValidationMessage"/>
+                <ref bean="localSearchResults-Section"/>
+                <ref bean="searchNext-Button"/>
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="localSearch-Section" parent="Uif-VerticalBoxSection" p:style="float:left;margin-left:10em">
+        <property name="items">
+            <list>
+                <bean id="LocationView-locationFileUpload-parentBean" parent="Uif-InputField"
+                      p:propertyName="importBibSearch.locationFile" p:label="Select File" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-FileControl"/>
+                    </property>
+
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="localSearch-Buttons" parent="Uif-HorizontalBoxSection" p:style="float:left;margin-left:20em">
+        <property name="items">
+            <list>
+                <bean id="load_button" parent="Uif-SecondaryActionButton-Small"
+                      p:methodToCall="load" p:actionLabel="Load"/>
+                <bean id="clear_button" parent="Uif-SecondaryActionButton-Small"
+                      p:methodToCall="clearFile" p:actionLabel="Clear"/>
+            </list>
+        </property>
+
+    </bean>
+
+
+    <bean id="ValidationMessage" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="ValidationMessageScetion" parent="Uif-Message" p:messageText="@{message}"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="localSearchDetails-Section" parent="Uif-VerticalBoxSection"
+          p:render="@{importBibSearch.localBibDocumentSearchResults ne null}" p:style="float:left;margin-left:10em">
+        <property name="items">
+            <list>
+
+                <bean id="file_name" parent="Uif-DataField" p:propertyName="importBibSearch.selectedFileName"
+                      p:label="Selected File Name"></bean>
+                <bean id="file_size" parent="Uif-DataField" p:propertyName="importBibSearch.recordsInFile"
+                      p:label="Records In File"></bean>
+                <bean id="file_unicode" parent="Uif-DataField" p:propertyName="importBibSearch.recordsInUnicode"
+                      p:label="Records In Unicode"></bean>
+                <bean id="file_nonunicode" parent="Uif-DataField" p:propertyName="importBibSearch.recordsInNonUnicode"
+                      p:label="Records In Non-Unicode"></bean>
+                <bean id="imported_file_size" parent="Uif-DataField" p:propertyName="importBibSearch.recordsImported"
+                      p:label="Records Imported"></bean>
+
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="localSearchResults-Section" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="5"
+          p:render="@{importBibSearch.localBibDocumentSearchResults ne null}">
+        <property name="headerText" value="Records in the File:"/>
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.describe.bo.BibDocumentSearchResult"/>
+        <property name="propertyName" value="importBibSearch.localBibDocumentSearchResults"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.generateAutoSequence" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="items">
+            <list>
+                <bean id="localMarc" parent="Uif-InputField" p:label="" p:propertyName="selectedMarc" p:width="5%" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" p:cssClasses="defaultClass" p:onClickScript="validateCheckBoxes();"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-DataField" p:label="Title" p:propertyName="title" p:width="50%"/>
+                <bean parent="Uif-DataField" p:label="Author" p:propertyName="author" p:width="20%"/>
+                <bean parent="Uif-DataField" p:label="Publication Date" p:propertyName="publicationDate" p:width="10%"/>
+               <bean id="localDetail" parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
+                      p:href="importBibController?viewId=ImportDetailView&amp;methodToCall=showDetailForLocalSearchRecord&amp;bibId=@{#index}"
+                      p:linkText="Detail" p:target="_blank"/>
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+
+    <bean id="searchNext-Button" parent="Uif-HorizontalBoxSection" p:align="right"
+          p:render="@{importBibSearch.localBibDocumentSearchResults ne null}">
+        <property name="items">
+            <list>
+                <bean id="next_button" parent="Uif-SecondaryActionButton-Small"
+                      p:methodToCall="localNext" p:actionLabel="Next"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="ImportFromExternalDataSource" parent="Uif-VerticalBoxSection" p:componentSecurity.viewAuthz="true" >
+        <property name="headerText" value="Import From External Data Source"/>
+        <property name="items">
+            <list>
+                <ref bean="ExternalSourceSearch-Section"/>
+                <!--<ref bean="ExternalSourceSearch-Buttons"/>-->
+                <!--<ref bean="ExternalSourceResults-Section"/>-->
+                <!--<ref bean="externalNext-Button"/>-->
+                <ref bean="ExternalDataSource-Link"/>
+                <ref bean="showExternalDS"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ExternalDataSource-Link" parent="Uif-HorizontalBoxSection">
+
+        <property name="items">
+            <list>
+                <bean parent="Uif-Message" p:messageText="Please Refer to "/>
+                <bean id="externalDataSourceLink" parent="Uif-LinkField" p:style="border:0px;text-decoration:underline;"
+                      p:href="https://wiki.kuali.org/display/OLE/Searching+External+Datasources+with+Z39.50"
+                      p:linkText="Searching External Datasources with Z39.50" p:target="_blank" />
+                <bean parent="Uif-Message" p:messageText=" to implement this feature."/>
+            </list>
+
+        </property>
+    </bean>
+
+
+    <bean id="ExternalSourceSearch-Section" parent="Uif-VerticalBoxSection">
+
+        <property name="items">
+            <list>
+
+                <ref bean="ExternalSource-name"/>
+                <ref bean="SearchPanel-searchParams-Section"/>
+            </list>
+
+        </property>
+    </bean>
+
+
+    <bean id="ExternalSource-name" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="source_name" parent="Uif-InputField" p:propertyName="importBibSearch.source" p:label="Source">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.ole.describe.keyvalue.ExternalDataSourceKeyValue"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="ExternalSourceSearch-Buttons" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="search_button" parent="Uif-SecondaryActionButton-Small"
+                      p:methodToCall="search" p:actionLabel="Search"/>
+                      <!--p:methodToCall="search" p:actionLabel="Search" p:refreshId="ExternalSourceResults-Section"/>-->
+                <bean id="clearSearch_button" parent="Uif-SecondaryActionButton-Small"
+                      p:methodToCall="clearSearch" p:actionLabel="Clear"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="showExternalDS" parent="Uif-InputField" p:propertyName="importBibSearch.returnCheck">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
+
+    <bean id="ExternalSourceResults-Section" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="5"
+          p:render="@{importBibSearch.externalBibDocumentSearchResults ne null}" p:style="width:1500px">
+        <property name="headerText" value="Search Results:"/>
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.describe.bo.BibDocumentSearchResult"/>
+        <property name="propertyName" value="importBibSearch.externalBibDocumentSearchResults"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.generateAutoSequence" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="items">
+            <list>
+                <bean id="ExternalMarc" parent="Uif-InputField" p:label="" p:propertyName="SelectedExternalMarc" p:width="5%">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" p:cssClasses="defaultClass"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-DataField" p:label="Title" p:propertyName="title" p:width="50%"/>
+                <bean parent="Uif-DataField" p:label="Author" p:propertyName="author" p:width="20%"/>
+                <bean parent="Uif-DataField" p:label="Publication Date" p:propertyName="publicationDate" p:width="15%"/>
+                <bean id="externalDetail" parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
+                      p:href="importBibController?viewId=ImportDetailView&amp;methodToCall=showDetailForExternalSearchRecord&amp;bibId=@{#index}"
+                      p:linkText="Detail" p:target="_blank"/>
+               <!-- <bean parent="Uif-ActionLink" p:methodToCall="actionLink" p:actionLabel="Detail" p:width="10%"
+                      p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;); ">
+                </bean>-->
+                <!--p:actionLabel=”Do Script” p:actionScript=”doYourAjax();”/>-->
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+    </bean>
+
+
+    <bean id="externalNext-Button" parent="Uif-HorizontalBoxSection" p:align="right"
+          p:render="@{importBibSearch.externalBibDocumentSearchResults ne null}">
+        <property name="items">
+            <list>
+                <bean id="externalNext_button" parent="Uif-SecondaryActionButton-Small"
+                      p:methodToCall="externalNext" p:actionLabel="Next"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

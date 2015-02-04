@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+<!--
+ Copyright 2006-2008 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean id="DeliveryRequiredDateReason" parent="DeliveryRequiredDateReason-parentBean"/>
+
+  <bean id="DeliveryRequiredDateReason-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.ole.module.purap.businessobject.DeliveryRequiredDateReason"/>
+    <property name="inquiryDefinition">
+      <ref bean="DeliveryRequiredDateReason-inquiryDefinition"/>
+    </property>
+    <property name="lookupDefinition">
+      <ref bean="DeliveryRequiredDateReason-lookupDefinition"/>
+    </property>
+    <property name="titleAttribute" value="deliveryRequiredDateReasonCode"/>
+    <property name="objectLabel" value="Delivery Required Date Reason"/>
+    <property name="attributes">
+      <list>
+        <ref bean="DeliveryRequiredDateReason-deliveryRequiredDateReasonCode"/>
+        <ref bean="DeliveryRequiredDateReason-deliveryRequiredDateReasonDescription"/>
+        <ref bean="DeliveryRequiredDateReason-active"/>
+      </list>
+    </property>
+  </bean>
+
+<!-- Attribute Definitions -->
+
+
+  <bean id="DeliveryRequiredDateReason-deliveryRequiredDateReasonCode" parent="DeliveryRequiredDateReason-deliveryRequiredDateReasonCode-parentBean"/>
+
+  <bean id="DeliveryRequiredDateReason-deliveryRequiredDateReasonCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="deliveryRequiredDateReasonCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Delivery Required Date Reason Code"/>
+    <property name="shortLabel" value="Code"/>
+    <property name="maxLength" value="4"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="6"/>
+    </property>
+  </bean>
+  <bean id="DeliveryRequiredDateReason-deliveryRequiredDateReasonDescription" parent="DeliveryRequiredDateReason-deliveryRequiredDateReasonDescription-parentBean"/>
+
+  <bean id="DeliveryRequiredDateReason-deliveryRequiredDateReasonDescription-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="deliveryRequiredDateReasonDescription"/>
+    <property name="label" value="Delivery Required Date Reason Description"/>
+    <property name="shortLabel" value="Delivery Required Date Reason Description"/>
+    <property name="maxLength" value="45"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="47"/>
+    </property>
+  </bean>
+  <bean id="DeliveryRequiredDateReason-active" parent="DeliveryRequiredDateReason-active-parentBean"/>
+
+  <bean id="DeliveryRequiredDateReason-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active"/>
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="DeliveryRequiredDateReason-inquiryDefinition" parent="DeliveryRequiredDateReason-inquiryDefinition-parentBean"/>
+
+  <bean id="DeliveryRequiredDateReason-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Delivery Required Date Reason Inquiry"/>
+    <property name="inquirySections">
+      <list>
+		<ref bean="DeliveryRequiredDateReason-inquirySectionDefinition"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="DeliveryRequiredDateReason-inquirySectionDefinition" parent="DeliveryRequiredDateReason-inquirySectionDefinition-parentBean"/>
+  <bean id="DeliveryRequiredDateReason-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+    <property name="title" value=""/>
+    <property name="numberOfColumns" value="1"/>
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+        <bean parent="FieldDefinition" p:attributeName="deliveryRequiredDateReasonCode"/>
+        <bean parent="FieldDefinition" p:attributeName="deliveryRequiredDateReasonDescription"/>
+      </list>
+    </property>
+  </bean>
+  
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="DeliveryRequiredDateReason-lookupDefinition" parent="DeliveryRequiredDateReason-lookupDefinition-parentBean"/>
+
+  <bean id="DeliveryRequiredDateReason-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Delivery Required Date Reason Lookup"/>
+    
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="deliveryRequiredDateReasonCode"/>
+        <bean parent="FieldDefinition" p:attributeName="deliveryRequiredDateReasonDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="deliveryRequiredDateReasonCode"/>
+        <bean parent="FieldDefinition" p:attributeName="deliveryRequiredDateReasonDescription"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+  </bean>
+</beans>

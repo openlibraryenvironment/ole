@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	<!--
+		Copyright 2006-2008 The Kuali Foundation Licensed under the
+		Educational Community License, Version 2.0 (the "License"); you may
+		not use this file except in compliance with the License. You may
+		obtain a copy of the License at
+		http://www.opensource.org/licenses/ecl2.php Unless required by
+		applicable law or agreed to in writing, software distributed under the
+		License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+		CONDITIONS OF ANY KIND, either express or implied. See the License for
+		the specific language governing permissions and limitations under the
+		License.
+	-->
+	<bean id="StewardshipRequirement" parent="StewardshipRequirement-parentBean" />
+
+	<bean id="StewardshipRequirement-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.ole.coa.businessobject.OleStewardship" />
+		<property name="inquiryDefinition">
+			<ref bean="StewardshipRequirement-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="StewardshipRequirement-lookupDefinition" />
+		</property>
+		<property name="titleAttribute" value="stewardshipTypeCode" />
+		<property name="objectLabel" value="Stewardship Type" />
+		<property name="attributes">
+			<list>
+				<ref bean="StewardshipRequirement-stewardshipTypeCode" />
+				<ref bean="StewardshipRequirement-stewardshipTypeName" />
+				<ref bean="StewardshipRequirement-active" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+
+
+	<bean id="StewardshipRequirement-stewardshipTypeCode" parent="StewardshipRequirement-stewardshipTypeCode-parentBean" />
+
+	<bean id="StewardshipRequirement-stewardshipTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="stewardshipTypeCode" />
+		<property name="label" value="Stewardship Type Code" />
+		<property name="shortLabel" value="Stewardship Type Code" />
+		<property name="maxLength" value="5" />
+		<property name="required" value="true" />
+		<property name="validationPattern">
+      	<ref bean="NumericValidation" />
+    	</property>
+     	<property name="control">
+     		<ref bean="HiddenControl" />
+      		<!--<bean parent="TextControlDefinition" p:size="50" />
+    	--></property>
+		</bean>
+	<bean id="StewardshipRequirement-stewardshipTypeName" parent="StewardshipRequirement-stewardshipTypeName-parentBean" />
+
+	<bean id="StewardshipRequirement-stewardshipTypeName-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="name" value="stewardshipTypeName" />
+		<property name="label" value="Stewardship Type" />
+		<property name="shortLabel" value="Name" />
+		<property name="maxLength" value="40" />
+		<property name="validationPattern">
+			<ref bean="AnyCharacterWithWhitespaceValidation" />
+		</property>
+		<property name="required" value="true" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="50" />
+		</property>
+	</bean>
+	<bean id="StewardshipRequirement-active" parent="StewardshipRequirement-active-parentBean" />
+
+	<bean id="StewardshipRequirement-active-parentBean" abstract="true"
+		parent="GenericAttributes-activeIndicator">
+		<property name="name" value="active" />
+	</bean>
+
+
+	<!-- Business Object Inquiry Definition -->
+
+
+	<bean id="StewardshipRequirement-inquiryDefinition" parent="StewardshipRequirement-inquiryDefinition-parentBean" />
+
+	<bean id="StewardshipRequirement-inquiryDefinition-parentBean" abstract="true"
+		parent="InquiryDefinition">
+		<property name="title" value="Stewardship Requirement Inquiry" />
+		<property name="inquirySections">
+			<list>
+				<ref bean="StewardshipRequirement-inquirySectionDefinition" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="StewardshipRequirement-inquirySectionDefinition" parent="StewardshipRequirement-inquirySectionDefinition-parentBean" />
+	<bean id="StewardshipRequirement-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition"
+		abstract="true">
+		<property name="title" value="" />
+		<property name="numberOfColumns" value="1" />
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="stewardshipTypeCode" />
+				<bean parent="FieldDefinition" p:attributeName="stewardshipTypeName" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Business Object Lookup Definition -->
+
+
+	<bean id="StewardshipRequirement-lookupDefinition" parent="StewardshipRequirement-lookupDefinition-parentBean" />
+
+	<bean id="StewardshipRequirement-lookupDefinition-parentBean" abstract="true"
+		parent="LookupDefinition">
+		<property name="title" value="Stewardship Requirement Lookup" />
+
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+				<property name="attributeNames">
+					<list>
+						<value>stewardshipTypeCode</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="stewardshipTypeCode" />
+				<bean parent="FieldDefinition" p:attributeName="stewardshipTypeName" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="stewardshipTypeCode" />
+				<bean parent="FieldDefinition" p:attributeName="stewardshipTypeName" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+	</bean>
+</beans>

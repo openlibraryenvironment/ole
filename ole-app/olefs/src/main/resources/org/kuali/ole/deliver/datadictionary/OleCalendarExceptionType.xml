@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="OleCalendarExceptionType" parent="OleCalendarExceptionType-parentBean"/>
+
+    <bean id="OleCalendarExceptionType-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.deliver.calendar.bo.OleCalendarExceptionType"/>
+        <property name="titleAttribute" value="exceptionTypeCode"/>
+        <property name="objectLabel" value="Calendar Exception Type"/>
+        <property name="attributes">
+            <list>
+                <ref bean="OleCalendarExceptionType-exceptionTypeId"/>
+                <ref bean="OleCalendarExceptionType-exceptionTypeCode"/>
+                <ref bean="OleCalendarExceptionType-exceptionTypeName"/>
+                <ref bean="OleCalendarExceptionType-active"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+    <bean id="OleCalendarExceptionType-exceptionTypeId" parent="OleCalendarExceptionType-exceptionTypeId-parentBean"/>
+
+    <bean id="OleCalendarExceptionType-exceptionTypeId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Calendar Exception Type Id"/>
+        <property name="maxLength" value="10"/>
+        <property name="control">
+            <bean id="TextControlDefinition_exceptionTypeId" parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean id="Uif-TextControl_TextControlDefinition_exceptionTypeId" parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="exceptionTypeId"/>
+        <property name="label" value="Calendar Exception Type Id"/>
+        <property name="description" value="Calendar Exception Type Id"/>
+    </bean>
+
+
+    <bean id="OleCalendarExceptionType-exceptionTypeCode" parent="OleCalendarExceptionType-exceptionTypeCode-parentBean"/>
+
+    <bean id="OleCalendarExceptionType-exceptionTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Calendar Exception Type Code"/>
+        <property name="maxLength" value="40"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean id="TextControlDefinition_exceptionTypeCode" parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean id="Uif-TextControl_exceptionTypeCode" parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="exceptionTypeCode"/>
+        <property name="label" value="Calendar Exception Type Code"/>
+        <property name="description" value="Calendar Exception Type Code"/>
+    </bean>
+
+
+    <bean id="OleCalendarExceptionType-exceptionTypeName" parent="OleCalendarExceptionType-exceptionTypeName-parentBean"/>
+
+    <bean id="OleCalendarExceptionType-exceptionTypeName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Calendar Exception Type Name"/>
+        <property name="maxLength" value="100"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean id="TextControlDefinition_exceptionTypeName" parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean id="Uif-TextControl_exceptionTypeName" parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="exceptionTypeName"/>
+        <property name="label" value="Calendar Exception Type Name"/>
+        <property name="description" value="Calendar Exception Type Name"/>
+    </bean>
+
+    <bean id="OleCalendarExceptionType-active" parent="OleCalendarExceptionType-active-parentBean"/>
+    <bean id="OleCalendarExceptionType-active-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="active"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="active"/>
+        <property name="maxLength" value="1"/>
+        <property name="validCharactersConstraint">
+            <bean  parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean  parent="Uif-CheckboxControl"/>
+        </property>
+        <property name="summary" value="Active Indicator"/>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+        <property name="label" value="Active Indicator"/>
+        <property name="description" value="This attribute is used to describe whether the associated object is active or inactive."/>
+    </bean>
+
+
+    <!-- Business Object Inquiry Definition -->
+    <bean id="OleCalendarExceptionType-InquiryView" parent="Uif-OLEInquiryView">
+        <property name="headerText" value="Calendar Exception Type Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.deliver.calendar.bo.OleCalendarExceptionType" />
+        <property name="singlePageView" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-VerticalBoxSection">
+                    <property name="header.headerText" value="Calendar Exception Type" />
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-GridGroup">
+                                <property name="layoutManager.numberOfColumns" value="2" />
+                                <property name="items">
+                                    <list>
+                                        <bean id="inquiry_exceptionTypeCode" parent="Uif-InputField" p:propertyName="exceptionTypeCode" p:enableAutoDirectInquiry="true"/>
+                                        <bean id="inquiry_exceptionTypeName" parent="Uif-InputField" p:propertyName="exceptionTypeName"/>
+                                        <bean id="inquiry_active" parent="Uif-InputField" p:propertyName="active"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <!-- Business Object Lookup Definition -->
+
+
+    <bean id="OleCalendarExceptionType-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="Calendar Exception Type Lookup" />
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/BASICS/content/ch02s04.html#_lookupHelp"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="dataObjectClassName" value="org.kuali.ole.deliver.calendar.bo.OleCalendarExceptionType" />
+        <property name="criteriaFields">
+            <list>
+                <bean id="exceptionTypeCode" parent="Uif-LookupCriteriaInputField" p:propertyName="exceptionTypeCode" p:enableAutoDirectInquiry="false"/>
+                <bean id="exceptionTypeName" parent="Uif-LookupCriteriaInputField" p:propertyName="exceptionTypeName" />
+                <bean id="active" parent="Uif-LookupCriteriaInputField" p:propertyName="active"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean id="searchResult_exceptionTypeCode" parent="Uif-DataField" p:propertyName="exceptionTypeCode" />
+                <bean id="searchResult_exceptionTypeName" parent="Uif-DataField" p:propertyName="exceptionTypeName" />
+                <bean id="searchResult_active" parent="Uif-DataField" p:propertyName="active"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

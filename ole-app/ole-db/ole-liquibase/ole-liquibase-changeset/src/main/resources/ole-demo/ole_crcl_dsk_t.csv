@@ -1,0 +1,12 @@
+OLE_CRCL_DSK_CODE,OLE_CRCL_DSK_PUB_NAME,OLE_CRCL_DSK_STAFF_NAME,ACTV_IND,PK_UP_LOCN_IND,HLD_DAYS,SLVNG_LAG_TIM,PRNT_SLP_IND,OLE_CRCL_DSK_ID,OLE_CLNDR_GRP_ID,ASR_PK_UP_LOCN_IND,HOLD_FORMAT,HOLD_QUEUE
+"BL_EDUC","BL Education","BL Education","Y","Y","1","15","Y","1","100","N","ReceiptPrinter","Y"
+"BL_HPER","BL HPER","BL HPER","Y","Y","2","5","Y","2","100","N","ReceiptPrinter","Y"
+"BL_BS_SPEA","BL Business SPEA","BL Business SPEA","Y","N","2","30","Y","3","100","N","ReceiptPrinter","Y"
+"DU_PERKN","DU Perkins","DU Perkins","Y","Y","1","15","Y","4","100","N","ReceiptPrinter","Y"
+"DU_LILLY","DU Lilly","DU Lilly","Y","Y","2","5","Y","5","100","N","ReceiptPrinter","Y"
+"DU_FORD","DU Ford","DU Ford","Y","Y","2","10","Y","6","100","N","ReceiptPrinter","Y"
+"UC_JRLMAIN","UC Regenstein Library, 1st Floor","UC Regenstein Library, 1st Floor","Y","Y","1","15","Y","7","100","N","ReceiptPrinter","Y"
+"UC_DLAW","UC D Angelo Law Library","UC D Angelo Law Library","Y","Y","1","10","Y","8","100","N","ReceiptPrinter","Y"
+"UC_CRERAR","UC Crerar Library","UC Crerar Library","Y","Y","1","15","Y","9","100","N","ReceiptPrinter","Y"
+"PALCI","PALCI","PALCI","Y","Y","1","15","Y","10","100","N","ReceiptPrinter","Y"
+"API","API","API","Y","Y","1","15","Y","11","100","N","ReceiptPrinter","Y"

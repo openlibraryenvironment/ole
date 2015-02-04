@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+<!--
+ Copyright 2007-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+        
+  <bean id="OleLegacyFundCode" parent="OleLegacyFundCode-parentBean"/>
+
+  <bean id="OleLegacyFundCode-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.ole.select.businessobject.OleLegacyFundCode"/>
+    <property name="inquiryDefinition">
+      <ref bean="OleLegacyFundCode-inquiryDefinition"/>
+    </property>
+     <property name="lookupDefinition">
+      <ref bean="OlelegacyFundCode-lookupDefinition"/>
+      </property>
+    <property name="objectLabel" value="Preferred Transmission Format"/> 
+    <property name="attributes">
+      <list>
+        <ref bean="OleLegacyFundCode-legacyFundCodeIdentifier"/>
+        <ref bean="OleLegacyFundCode-legacyFundCode"/>
+        <ref bean="OleLegacyFundCode-legacyFundCodeNote"/>
+        <ref bean="OleLegacyFundCode-chartOfAccountsCode"/>
+        <ref bean="OleLegacyFundCode-accountNumber"/>
+        <ref bean="OleLegacyFundCode-newCollectionRecord"/>
+        <ref bean="OleLegacyFundCode-active"/>
+      </list>
+    </property>
+    <property name="relationships">
+            <list>
+                <bean parent="RelationshipDefinition">
+                    <property name="objectAttributeName" value="account"/>
+                    <property name="primitiveAttributes">
+                        <list>
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="accountNumber" p:targetName="accountNumber"/>
+                        </list>                      
+                    </property>
+                </bean>
+            </list>
+        </property>
+	</bean>
+    
+<!-- Attribute Definitions -->
+
+ <bean id="OleLegacyFundCode-legacyFundCodeIdentifier" parent="OleLegacyFundCode-legacyFundCodeIdentifier-parentBean"/>
+
+  <bean id="OleLegacyFundCode-legacyFundCodeIdentifier-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="legacyFundCodeIdentifier"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="Legacy FundCode Identifier"/>
+    <property name="shortLabel" value="legacyFundCodeIdentifier"/>
+    <property name="maxLength" value="8"/>
+    <property name="required" value="false"/>
+    <property name="validationPattern">
+      <ref bean="NumericValidation" />
+    </property>
+     <property name="control">
+      <ref bean="HiddenControl" />
+    </property>
+  </bean>
+  <bean id="OleLegacyFundCode-chartOfAccountsCode" parent="OleLegacyFundCode-chartOfAccountsCode-parentBean"/>
+
+  <bean id="OleLegacyFundCode-chartOfAccountsCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="chartOfAccountsCode"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="chartOfAccountsCode"/>
+    <property name="shortLabel" value="chartOfAccountsCode"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <ref bean="NumericValidation" />
+    </property>
+    <property name="control">
+      <ref bean="HiddenControl" />
+    </property>
+  </bean>
+  
+  
+  <bean id="OleLegacyFundCode-accountNumber" parent="OleLegacyFundCode-accountNumber-parentBean"/>
+
+  <bean id="OleLegacyFundCode-accountNumber-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="accountNumber"/>
+    <property name="forceUppercase" value="true"/>
+    <property name="label" value="AccountNumber"/>
+    <property name="shortLabel" value="accountNumber"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <ref bean="NumericValidation" />
+    </property>
+    <property name="control">
+       <ref bean="HiddenControl" />
+    </property>
+  </bean>
+  
+  <bean id="OleLegacyFundCode-legacyFundCode" parent="OleLegacyFundCode-legacyFundCode-parentBean"/>
+
+  <bean id="OleLegacyFundCode-legacyFundCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="legacyFundCode"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Legacy FundCode"/>
+    <property name="shortLabel" value="legacyFundCode"/>
+    <property name="maxLength" value="700"/>
+    <property name="validationPattern">
+      <ref bean="AnyCharacterWithWhitespaceValidation" />
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="70"/>
+    </property>
+  </bean>
+  
+ <bean id="OleLegacyFundCode-newCollectionRecord" parent="OleLegacyFundCode-newCollectionRecord-parentBean" />
+  <bean id="OleLegacyFundCode-newCollectionRecord-parentBean" abstract="true"
+    parent="GenericAttributes-newCollectionRecord">
+  </bean>
+   
+   
+  
+   
+   
+   
+  <bean id="OleLegacyFundCode-legacyFundCodeNote" parent="OleLegacyFundCode-legacyFundCodeNote-parentBean"/>
+
+  <bean id="OleLegacyFundCode-legacyFundCodeNote-parentBean" abstract="true" parent="GenericAttributes-genericBigText">
+    <property name="name" value="legacyFundCodeNote"/>
+    <property name="label" value="Legacy FundCode Note"/>
+    <property name="shortLabel" value="LegacyFundCodeNote"/>
+  </bean>
+  
+  
+  
+  
+  <bean id="OleLegacyFundCode-active" parent="OleLegacyFundCode-active-parentBean"/>
+
+  <bean id="OleLegacyFundCode-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
+    <property name="name" value="active"/>
+  </bean>
+
+<!-- Business Object Inquiry Definition -->
+
+
+  <bean id="OleLegacyFundCode-inquiryDefinition" parent="OleLegacyFundCode-inquiryDefinition-parentBean"/>
+
+  <bean id="OleLegacyFundCode-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="Transmission Format Detail Inquiry"/>
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value=""/>
+          <property name="numberOfColumns" value="1"/>
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="legacyFundCodeIdentifier"/>
+              <bean parent="FieldDefinition" p:attributeName="legacyFundCode"/>
+              <bean parent="FieldDefinition" p:attributeName="legacyFundCodeNote"/>
+              <bean parent="FieldDefinition" p:attributeName="active"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="OlelegacyFundCode-lookupDefinition" parent="OlelegacyFundCode-lookupDefinition-parentBean"/>
+
+  <bean id="OlelegacyFundCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="LegacyFundCode Lookup"/>
+    
+    <property name="defaultSort">
+      <bean parent="SortDefinition">
+      </bean>
+    </property>
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="legacyFundCodeIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="legacyFundCode"/>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="legacyFundCodeNote"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+       <bean parent="FieldDefinition" p:attributeName="legacyFundCodeIdentifier"/>
+        <bean parent="FieldDefinition" p:attributeName="accountNumber"/>
+        <bean parent="FieldDefinition" p:attributeName="legacyFundCode"/>
+        <bean parent="FieldDefinition" p:attributeName="chartOfAccountsCode"/>
+        <bean parent="FieldDefinition" p:attributeName="legacyFundCodeNote"/>
+        <bean parent="FieldDefinition" p:attributeName="active"/>
+      </list>
+    </property>
+  </bean>
+</beans>

@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+
+    <bean id="OLEBatchProcessTypeBo" parent="OLEBatchProcessTypeBo-parentBean"/>
+
+    <bean id="OLEBatchProcessTypeBo-parentBean"  abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.batch.bo.OLEBatchProcessTypeBo"/>
+        <!--<property name="inquiryDefinition">
+            <ref bean="OLEBatchProcessProfileBo-inquiryDefinition"/>
+        </property>
+        <property name="lookupDefinition">
+            <ref bean="OLEBatchProcessProfileBo-lookupDefinition"/>
+        </property>-->
+        <property name="titleAttribute" value="batchProcessTypeId"/>
+        <property name="objectLabel" value="Batch Process Type"/>
+
+        <property name="attributes">
+            <list>
+                <ref bean="OLEBatchProcessTypeBo-batchProcessTypeId"/>
+                <ref bean="OLEBatchProcessTypeBo-batchProcessTypeName"/>
+                <ref bean="OLEBatchProcessTypeBo-batchProcessTypeCode"/>
+                <ref bean="OLEBatchProcessTypeBo-active"/>
+            </list>
+        </property>
+
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+    <bean id="OLEBatchProcessTypeBo-batchProcessTypeId" parent="OLEBatchProcessTypeBo-batchProcessTypeId-parentBean"/>
+
+    <bean id="OLEBatchProcessTypeBo-batchProcessTypeId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="batchProcessTypeId"/>
+        <property name="label" value="Batch Process Type Id"/>
+        <property name="description" value="Batch Process Type Id"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Batch Process Type Id"/>
+        <property name="maxLength" value="40"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchProcessTypeBo-batchProcessTypeName" parent="OLEBatchProcessTypeBo-batchProcessTypeName-parentBean"/>
+
+    <bean id="OLEBatchProcessTypeBo-batchProcessTypeName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="batchProcessTypeName"/>
+        <property name="label" value="Batch Process Type Name"/>
+        <property name="description" value="Batch Process Type Name"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Batch Process Type Name"/>
+        <property name="maxLength" value="40"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="OLEBatchProcessTypeBo-batchProcessTypeCode" parent="OLEBatchProcessTypeBo-batchProcessTypeCode-parentBean"/>
+
+    <bean id="OLEBatchProcessTypeBo-batchProcessTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="batchProcessTypeCode"/>
+        <property name="label" value="Batch Process Type Code"/>
+        <property name="description" value="Batch Process Type Code"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Batch Process Type Code"/>
+        <property name="maxLength" value="40"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <!--<bean id="OLEBatchProcessTypeBo-active" parent="OLEBatchProcessTypeBo-active-parentBean"/>
+
+    <bean id="OLEBatchProcessTypeBo-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+        <property name="name" value="active"/>
+    </bean>
+-->
+    <bean id="OLEBatchProcessTypeBo-active" parent="OLEBatchProcessTypeBo-active-parentBean"/>
+
+    <bean id="OLEBatchProcessTypeBo-active-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="active"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="active"/>
+        <property name="maxLength" value="1"/>
+        <property name="validCharactersConstraint">
+            <bean  parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean  parent="Uif-CheckboxControl"/>
+        </property>
+        <property name="summary" value="Active Indicator"/>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+        <property name="label" value="Active Indicator"/>
+        <property name="description" value="This attribute is used to describe whether the associated object is active or inactive."/>
+    </bean>
+
+
+    <bean id="OLEBatchProcessTypeBo-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="Batch Process Type Lookup" />
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="${ole.externalizable.help.url}/reference/webhelp/ADMIN/content/ch01s07.html"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+
+        <property name="dataObjectClassName" value="org.kuali.ole.batch.bo.OLEBatchProcessTypeBo" />
+      <!--  <property name="viewHelperServiceClass" value="org.kuali.ole.deliver.lookup.OleDeliverRequestLookupableImpl"/>-->
+        <property name="criteriaFields">
+            <list>
+                <bean id="lookup-batchProcessTypeId" parent="Uif-LookupCriteriaInputField" p:propertyName="batchProcessTypeId" p:label="Batch Process Type Id"/>
+                <bean id="lookup-batchProcessTypeName" parent="Uif-LookupCriteriaInputField" p:propertyName="batchProcessTypeName" p:label="Batch Process Type Name"/>
+                <bean id="lookup-batchProcessTypeCode" parent="Uif-LookupCriteriaInputField" p:propertyName="batchProcessTypeCode" p:label="Batch Process Type Code"/>
+                <bean id="lookup-active" parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:label="Batch Process Type Active"/>
+            </list>
+        </property>
+    <!--<property name="additionalScriptFiles">
+            <list>
+                <value>ole/deliver/request/scripts/requestMaintenance.js</value>
+            </list>
+        </property>-->
+        <property name="resultFields">
+            <list>
+                <bean id="result-batchProcessTypeId" parent="Uif-DataField" p:propertyName="batchProcessTypeId" />
+                <bean id="result-batchProcessTypeName" parent="Uif-DataField" p:propertyName="batchProcessTypeName" />
+                <bean id="result-batchProcessTypeCode" parent="Uif-DataField" p:propertyName="batchProcessTypeCode" />
+                <bean id="result-active" parent="Uif-DataField" p:propertyName="active"/>
+            </list>
+        </property>
+        <!--<property name="resultsActionsFieldGroup">
+            <bean parent="Uif-FieldGroupBase">
+                <property name="label" value="Actions"/>
+                <property name="group">
+                    <bean parent="OleRequestDocument-LookupView-ResultActions"/>
+                </property>
+            </bean>
+        </property>-->
+        <property name="criteriaGroup">
+            <bean parent="Uif-LookupCriteriaGroup"/>
+        </property>
+    </bean>
+
+     <!-- -->
+
+    <bean id="OLEBatchProcessTypeBo-InquiryView" parent="Uif-OLEInquiryView">
+        <property name="headerText" value="OLEBatchProcess DocType Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.batch.bo.OLEBatchProcessTypeBo"/>
+        <property name="singlePageView" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-VerticalBoxSection">
+                    <property name="header.headerText" value="OLEBatchProcessType Doc Type"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2">
+                                <property name="items">
+                                    <list>
+                                        <bean id="inquiry_batchProcessTypeId" parent="Uif-InputField" p:propertyName="batchProcessTypeId"/>
+                                        <bean id="inquiry_batchProcessTypeName" parent="Uif-InputField" p:propertyName="batchProcessTypeName"/>
+                                        <bean id="inquiry_batchProcessTypeCode" parent="Uif-InputField" p:propertyName="batchProcessTypeCode"/>
+                                        <bean id="inquiry_active" parent="Uif-InputField" p:propertyName="active"/>
+
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                    <property name="headerText" value="OLEBatchProcessType Doc Type"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+</beans>

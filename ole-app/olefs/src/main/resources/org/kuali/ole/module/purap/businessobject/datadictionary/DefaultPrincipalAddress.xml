@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+ Copyright 2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+	<bean id="DefaultPrincipalAddress" parent="DefaultPrincipalAddress-parentBean"/>
+
+	<bean id="DefaultPrincipalAddress-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.ole.module.purap.businessobject.DefaultPrincipalAddress"/>
+		<property name="inquiryDefinition">
+			<ref bean="DefaultPrincipalAddress-inquiryDefinition"/>
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="DefaultPrincipalAddress-lookupDefinition"/>
+		</property>
+		<property name="titleAttribute" value="DefaultPrincipalAddressCode"/>
+		<property name="objectLabel" value="Delivery Required Date Reason"/>
+		<property name="attributes">
+			<list>
+				<ref bean="DefaultPrincipalAddress-principalId"/>
+				<ref bean="DefaultPrincipalAddress-campusCode"/>
+				<ref bean="DefaultPrincipalAddress-buildingCode"/>
+				<ref bean="DefaultPrincipalAddress-buildingRoomNumber"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="DefaultPrincipalAddress-principalId" parent="DefaultPrincipalAddress-principalId-parentBean"/>
+
+	<bean id="DefaultPrincipalAddress-principalId-parentBean" abstract="true" parent="PersonImpl-principalId"/>
+
+
+	<bean id="DefaultPrincipalAddress-campusCode" parent="DefaultPrincipalAddress-campusCode-parentBean"/>
+
+	<bean id="DefaultPrincipalAddress-campusCode-parentBean" abstract="true" parent="Room-campusCode"/>
+
+
+	<bean id="DefaultPrincipalAddress-buildingCode" parent="DefaultPrincipalAddress-buildingCode-parentBean"/>
+
+	<bean id="DefaultPrincipalAddress-buildingCode-parentBean" abstract="true" parent="Room-buildingCode"/>
+
+
+	<bean id="DefaultPrincipalAddress-buildingRoomNumber" parent="DefaultPrincipalAddress-buildingRoomNumber-parentBean"/>
+
+	<bean id="DefaultPrincipalAddress-buildingRoomNumber-parentBean" abstract="true" parent="Room-buildingRoomNumber"/>
+
+<!-- Business Object Inquiry Definition -->
+
+	<bean id="DefaultPrincipalAddress-inquiryDefinition" parent="DefaultPrincipalAddress-inquiryDefinition-parentBean"/>
+
+	<bean id="DefaultPrincipalAddress-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+		<property name="title" value="Credit Memo Status Inquiry"/>
+		<property name="inquirySections">
+			<list>
+				<ref bean="DefaultPrincipalAddress-inquirySectionDefinition"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="DefaultPrincipalAddress-inquirySectionDefinition" parent="DefaultPrincipalAddress-inquirySectionDefinition-parentBean"/>
+	<bean id="DefaultPrincipalAddress-inquirySectionDefinition-parentBean" parent="InquirySectionDefinition" abstract="true">
+		<property name="title" value=""/>
+		<property name="numberOfColumns" value="1"/>
+		<property name="inquiryFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="principalId"/>
+				<bean parent="FieldDefinition" p:attributeName="campusCode"/>
+				<bean parent="FieldDefinition" p:attributeName="buildingCode"/>
+				<bean parent="FieldDefinition" p:attributeName="buildingRoomNumber"/>
+			</list>
+		</property>
+	</bean>
+
+<!-- Business Object Lookup Definition -->
+
+	<bean id="DefaultPrincipalAddress-lookupDefinition" parent="DefaultPrincipalAddress-lookupDefinition-parentBean"/>
+
+	<bean id="DefaultPrincipalAddress-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="title" value="Credit Memo Status Lookup"/>
+		
+		<property name="defaultSort">
+			<bean parent="SortDefinition"/>
+		</property>
+		<property name="lookupFields">
+			<list>
+
+				<bean parent="FieldDefinition" p:attributeName="principalId"/>
+
+				<bean parent="FieldDefinition" p:attributeName="campusCode"/>
+
+				<bean parent="FieldDefinition" p:attributeName="buildingCode"/>
+
+				<bean parent="FieldDefinition" p:attributeName="buildingRoomNumber"/>
+
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+
+				<bean parent="FieldDefinition" p:attributeName="principalId"/>
+
+				<bean parent="FieldDefinition" p:attributeName="campusCode"/>
+
+				<bean parent="FieldDefinition" p:attributeName="buildingCode"/>
+
+				<bean parent="FieldDefinition" p:attributeName="buildingRoomNumber"/>
+
+			</list>
+		</property>
+	</bean>
+</beans>

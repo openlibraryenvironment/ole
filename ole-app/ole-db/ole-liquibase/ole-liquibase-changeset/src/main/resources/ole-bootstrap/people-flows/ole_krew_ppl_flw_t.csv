@@ -1,0 +1,10 @@
+PPL_FLW_ID,NM,NMSPC_CD,TYP_ID,ACTV,VER_NBR,DESC_TXT
+OLE10000,Full Approval,OLE-LIC,null,Y,1,Full Approval People Flow for  License
+OLE10001,Signatory Only,OLE-LIC,null,Y,1,Signatory People Flow for  License
+OLE10002,Review Only,OLE-LIC,null,Y,1,Review People Flow for License
+OLE10003,Approval Only,OLE-LIC,null,Y,1,Approval People Flow for License
+OLE10004,Renewal,OLE-LIC,null,Y,1,Renewal People Flow for License
+OLE10005,Addendum,OLE-LIC,null,Y,1,Addendum People Flow for License
+OLE10006,Request Approval,OLE,null,Y,1,Request Approval People Flow 
+OLE10007,Acquisition Approval,OLE,null,Y,1,Acquisition Approval for EResource 
+OLE10008,Cataloger Approval,OLE,null,Y,1,Cataloger Approval for EResource 

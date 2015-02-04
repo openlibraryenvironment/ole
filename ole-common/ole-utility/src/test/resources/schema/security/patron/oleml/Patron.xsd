@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2012 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<!-- version 1.2 February 22, 2012 -->
+
+<!-- version 1.2 changes:
+    Removed creation date, creation operator, update date, and update operator from schema. 
+    These will be handled by metadata in the Docstore.
+ -->
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns="http://ole.kuali.org/standards/ole-patron"
+    targetNamespace="http://ole.kuali.org/standards/ole-patron" elementFormDefault="qualified">
+
+    <xs:element name="patron" type="patron"/>
+
+    <xs:element name="patronGroup" type="patronGroup"/>
+
+    <xs:complexType name="patronGroup">
+        <xs:annotation>
+            <xs:documentation>A sequence of patrons wrapped in a patronGroup. Also valid to have a
+                single patron. </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="patron" type="patron" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="patron">
+        <xs:annotation>
+            <xs:documentation> RecordNumber holds the database-level ID. This could be the same as
+                the LoadID. Active dates are the allowed and expire dates for the patron. Most circ
+                activity will be blocked before and after the activeDates--the exact rules for that
+                need to be established. The purge date is the date the system will purge/hide the
+                patron. Photo is just a URL. Other elements are annotated where they are defined.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="recordNumber" type="xs:string" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>The record number could be empty when loading a new record.
+                        OLE will generate a new record number in that case.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:element name="activeDates" type="beginEndDate" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="purgeDate" type="xs:date" minOccurs="1" maxOccurs="1"/>
+
+            <xs:element name="name" type="name" minOccurs="1" maxOccurs="1"/>
+
+            <xs:element name="borrowerType" type="xs:string" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>Only a single borrowerType. No borrower type history; no way
+                        to handle multiple borrower types at once. This is OK. This is a string in
+                        the schema, but will match the borrower types the library
+                        establishes.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:element name="barcode" type="barcode">
+                <xs:annotation>
+                    <xs:documentation>This is the patron's primary barcode; when they walk up to the
+                        desk this is the one that works. If its status is something other than
+                        "Active" then the patron can't borrow.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:element name="historicalBarcodes" type="barcodes" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>These are the patrons historical and inactive barcodes. Their
+                        statuses should never be 'Active'</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:element name="addresses" type="addresses" minOccurs="1" maxOccurs="1"/>
+
+            <xs:element name="isGenerallyBlocked" type="isGenerallyBlocked" minOccurs="1"
+                maxOccurs="1" default="false"/>
+            <xs:element name="patronLevelPolicies" type="patronLevelPolicies" minOccurs="1"
+                maxOccurs="1"/>
+
+            <xs:element name="affiliations" type="affiliations" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="identifications" type="identifications" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="notes" type="notes" minOccurs="0" maxOccurs="1"/>
+
+            <xs:element name="photo" type="xs:anyURI" minOccurs="0" maxOccurs="1"/>
+
+        </xs:sequence>
+
+    </xs:complexType>
+
+    <!-- Name -->
+
+    <xs:complexType name="name">
+        <xs:annotation>
+            <xs:documentation>The patron name with free-text prefix, suffix and middle name. For
+                entities that don't have structured names, or in cases where the name is not
+                structured in the load, use the surname field.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="prefix" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="first" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="middle" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="surname" type="xs:string" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="suffix" type="xs:string" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Barcodes -->
+
+    <xs:simpleType name="barcodeStatuses">
+        <xs:annotation>
+            <xs:documentation> Barcodes/library cards are important enough that they get modeled out
+                separately from the other identifiers. They're not necessarily actual barcodes but
+                they are the token you bring to the circ desk to borrow. They are called barcodes
+                here because it's shorter than 'library card identifier.'</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Active"/>
+            <xs:enumeration value="Lost"/>
+            <xs:enumeration value="Stolen"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="barcode">
+        <xs:sequence>
+            <xs:element name="barcodeNumber" type="xs:string" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="status" type="xs:string" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>This contains the barcode status as configured in the
+                        RDBMS.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="statusDate" type="xs:dateTime"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="barcodes">
+        <xs:sequence>
+            <xs:element name="barcode" type="barcode" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <!-- Addresses -->
+
+    <xs:complexType name="postalAddress">
+        <xs:annotation>
+            <xs:documentation>One address line is required; the rest is optional. Some systems can
+                only put address data in address lines 1-4, without populating the city, state,
+                postal, country fields. Non-USA addresses sometimes don't have state and/or postal
+                code, so none of these are required except for the first address
+                line.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="attention" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="addressLine" type="xs:string" minOccurs="1" maxOccurs="4"/>
+            <xs:element name="city" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="stateProvince" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="country" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="postalCode" type="xs:string" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="emailAddress">
+        <xs:sequence>
+            <xs:element name="email" type="xs:string" minOccurs="1" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="telephoneNumber">
+        <xs:sequence>
+            <xs:element name="countryDialingCode" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="phoneNumber" type="xs:string" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="acceptsTextMessage" type="xs:boolean" minOccurs="1" maxOccurs="1"
+                default="false"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="addressWithDates">
+        <xs:annotation>
+            <xs:documentation>This is an address with the other attributes that make it useful.
+                Inactivated indicates that the library has forced the address to deactivate
+                manually, rather than because the dates are invalid. Some other validation will be
+                necessary for addresses. More than one address can be primary, as long as their date
+                ranges do not intersect.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="type" type="xs:string" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>This contains the address type as configured by the
+                        library.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:choice minOccurs="1" maxOccurs="unbounded">
+                <xs:element name="postalAddress" type="postalAddress"/>
+                <xs:element name="emailAddress" type="emailAddress"/>
+                <xs:element name="telephoneNumber" type="telephoneNumber"/>
+            </xs:choice>
+            <xs:element name="activeDates" type="beginEndDate" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="inactivated" type="xs:dateTime" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="validated" type="xs:dateTime" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+        <xs:attribute name="primary" type="xs:boolean" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="addresses">
+        <xs:sequence>
+            <xs:element name="address" type="addressWithDates" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Patron-level Policies -->
+
+    <xs:simpleType name="isGenerallyBlocked">
+        <xs:annotation>
+            <xs:documentation>This is a single patron-wide flag that turns off circulation activity.
+                This should almost always be false because most of the time a patron is blocked from
+                specific activities because of various policies. But if you want to keep a patron
+                from performing any circulation activity with a single switch this is the flag to do
+                it.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:boolean"/>
+    </xs:simpleType>
+
+    <xs:complexType name="patronLevelPolicies">
+        <xs:annotation>
+            <xs:documentation> These three privileges are set for individual patrons, as well as in
+                policies. We may have more individual-patron level policies in the
+                future.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="hasDeliveryPrivilege" type="xs:boolean" minOccurs="1" maxOccurs="1"
+                default="false"/>
+            <xs:element name="hasPagingPrivilege" type="xs:boolean" minOccurs="1" maxOccurs="1"
+                default="false"/>
+            <xs:element name="receivesCourtesyNotice" type="xs:boolean" minOccurs="1" maxOccurs="1"
+                default="false"/>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <!-- Affiliations -->
+
+
+
+    <xs:complexType name="affiliation">
+        <xs:sequence>
+            <xs:element name="type" type="xs:string" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>This contains the affiliation type as configured in the
+                        RDBMS.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="value" type="xs:string" minOccurs="1" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="affiliations">
+        <xs:sequence>
+            <xs:element name="affiliation" type="affiliation" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Identifications -->
+
+    <xs:complexType name="identification">
+        <xs:sequence>
+            <xs:element name="identificationType" type="xs:string" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="identifier" type="xs:string" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="identifier2" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="context" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="salt" type="xs:string" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="identifications">
+        <xs:sequence>
+            <xs:element name="identification" type="identification" minOccurs="1"
+                maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <!-- Notes -->
+
+    <xs:complexType name="note">
+        <xs:sequence>
+            <xs:element name="type" type="xs:string" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>This contains the note type as configured in the
+                        RDBMS.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="note" type="xs:string" minOccurs="1" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="notes">
+        <xs:sequence>
+            <xs:element name="note" type="note" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Utilities -->
+
+    <xs:complexType name="beginEndDate">
+        <xs:annotation>
+            <xs:documentation> General type for start and end dates. They use dates, not date/times.
+                They correspond to library service days, not moments in time. note that
+                activationDate is required, so to be open-ended at the beginning you have to put a
+                date in the past in; expiration date is optional, so to be always active after the
+                date you leave it out.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="beginDate" type="xs:date" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="endDate" type="xs:date" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>

@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <!--
+
+        Copyright 2005-2012 The Kuali Foundation
+
+        Licensed under the Educational Community License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at
+
+        http://www.opensource.org/licenses/ecl2.php
+
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+
+    -->
+
+    <bean id="OleShelvingOrder" parent="OleShelvingOrder-parentBean"/>
+
+    <bean id="OleShelvingOrder-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.describe.bo.OleShelvingOrder"/>
+        <property name="titleAttribute" value="shelvingOrderId"/>
+        <property name="objectLabel" value="Shelving OrderId"/>
+        <property name="attributes">
+            <list>
+                <ref bean="OleShelvingOrder-shelvingOrderId"/>
+                <ref bean="OleShelvingOrder-shelvingOrderCode"/>
+                <ref bean="OleShelvingOrder-shelvingOrderName"/>
+                <ref bean="OleShelvingOrder-source"/>
+                <ref bean="OleShelvingOrder-sourceDate"/>
+                <ref bean="OleShelvingOrder-active"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+
+    <bean id="OleShelvingOrder-shelvingOrderId" parent="OleShelvingOrder-shelvingOrderId-parentBean"/>
+
+    <bean id="OleShelvingOrder-shelvingOrderId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Shelving Order Id"/>
+        <property name="maxLength" value="10"/>
+        <property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+        <property name="name" value="shelvingOrderId"/>
+        <property name="label" value="Shelving Order Id"/>
+        <property name="description" value="Shelving Order Id"/>
+    </bean>
+
+    <bean id="OleShelvingOrder-shelvingOrderCode" parent="OleShelvingOrder-shelvingOrderCode-parentBean"/>
+
+    <bean id="OleShelvingOrder-shelvingOrderCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Shelving Order Code"/>
+        <property name="maxLength" value="30"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="shelvingOrderCode"/>
+        <property name="label" value="Shelving Order Code"/>
+        <property name="description" value="Shelving Order Code"/>
+    </bean>
+
+    <bean id="OleShelvingOrder-shelvingOrderName" parent="OleShelvingOrder-shelvingOrderName-parentBean"/>
+
+    <bean id="OleShelvingOrder-shelvingOrderName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Shelving Order Name"/>
+        <property name="maxLength" value="30"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="shelvingOrderName"/>
+        <property name="label" value="Shelving Order Name"/>
+        <property name="description" value="Shelving Order Name"/>
+    </bean>
+
+    <bean id="OleShelvingOrder-source" parent="OleShelvingOrder-source-parentBean"/>
+
+    <bean id="OleShelvingOrder-source-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Source"/>
+        <property name="maxLength" value="100"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="source"/>
+        <property name="label" value="Source"/>
+        <property name="description" value="Source description"/>
+
+    </bean>
+
+    <bean id="OleShelvingOrder-sourceDate" parent="OleShelvingOrder-sourceDate-parentBean"/>
+
+    <bean id="OleShelvingOrder-sourceDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+        <property name="shortLabel" value="Source Date"/>
+        <property name="name" value="sourceDate"/>
+        <property name="label" value="Source Date"/>
+        <property name="required" value="true"/>
+    </bean>
+
+    <bean id="OleShelvingOrder-active" parent="OleShelvingOrder-active-parentBean"/>
+
+    <bean id="OleShelvingOrder-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+        <property name="name" value="active"/>
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+
+    <bean id="OleShelvingOrder-InquiryView" parent="Uif-OLEInquiryView">
+        <property name="headerText" value="Shelving Order Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.describe.bo.OleShelvingOrder" />
+        <property name="singlePageView" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-VerticalBoxSection">
+                    <property name="header.headerText" value="Shelving Order" />
+                    <property name="items">
+                        <list>
+                        <bean parent="Uif-GridGroup">
+                            <property name="items">
+                                <list>
+                                    <bean id="inquiry_shelvingOrderId" parent="Uif-InputField" p:propertyName="shelvingOrderId" />
+                                    <bean id="inquiry_shelvingOrderCode" parent="Uif-InputField" p:propertyName="shelvingOrderCode" />
+                                    <bean id="inquiry_shelvingOrderName" parent="Uif-InputField" p:propertyName="shelvingOrderName" />
+                                    <bean id="inquiry_source" parent="Uif-InputField" p:propertyName="source" />
+                                    <bean id="inquiry_sourceDate" parent="Uif-InputField" p:propertyName="sourceDate" />
+                                    <bean id="inquiry_active" parent="Uif-InputField" p:propertyName="active" />
+                                </list>
+                            </property>
+                        </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+
+    <bean id="OleShelvingOrder-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="Shelving Order Lookup" />
+        <property name="dataObjectClassName" value="org.kuali.ole.describe.bo.OleShelvingOrder" />
+        <property name="criteriaFields">
+            <list>
+                <bean id="shelvingOrderCode" parent="Uif-LookupCriteriaInputField" p:propertyName="shelvingOrderCode" />
+                <bean id="shelvingOrderName" parent="Uif-LookupCriteriaInputField" p:propertyName="shelvingOrderName" />
+                <bean id="source" parent="Uif-LookupCriteriaInputField" p:propertyName="source" />
+                <bean id="sourceDate" parent="Uif-LookupCriteriaInputField" p:propertyName="sourceDate">
+                    <property name="control">
+                        <bean id="date" parent="Uif-DateControl" p:size="10"/>
+                    </property>
+                </bean>
+                <bean id="active" parent="Uif-LookupCriteriaInputField" p:propertyName="active" />
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean id="searchResult_shelvingOrderId" parent="Uif-DataField" p:propertyName="shelvingOrderId" />
+                <bean id="searchResult_shelvingOrderCode" parent="Uif-DataField" p:propertyName="shelvingOrderCode" />
+                <bean id="searchResult_shelvingOrderName" parent="Uif-DataField" p:propertyName="shelvingOrderName" />
+                <bean id="searchResult_source" parent="Uif-DataField" p:propertyName="source" />
+                <bean id="searchResult_sourceDate" parent="Uif-DataField" p:propertyName="sourceDate" />
+                <bean id="searchResult_active" parent="Uif-DataField" p:propertyName="active" />
+            </list>
+        </property>
+    </bean>
+
+</beans>

@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+
+    <bean id="BoundwithSearchPanel" parent="BoundwithSearchPanel-parentBean"/>
+    <bean id="BoundwithSearchPanel-parentBean" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="headerText" value="Search Conditions:"/>
+        <property name="items">
+            <list>
+                <ref bean="BoundwithSearchPanel-docType-Section"/>
+                <ref bean="BoundwithSearchPanel-searchParams-Section"/>
+                <ref bean="BoundwithSearchPanel-Buttons"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="BoundwithSearchPanel-docType-Section" parent="Uif-InputField" p:propertyName="docType" p:label="Document Type"
+          p:onClickScript="retrieveComponent('BoundwithSearchPanel-searchParams-Section','start', retrieveComponent('BoundwithSearchResultsPanel','start',null,null), null);">
+        <property name="control">
+            <bean parent="Uif-HorizontalRadioControl">
+                <property name="options">
+                    <list>
+                        <bean parent="Uif-KeyLabelPair" p:key="bibliographic" p:value="Bib"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="holdings" p:value="Holdings"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="item" p:value="Item"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="eHoldings" p:value="EHoldings"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+
+
+    <bean id="BoundwithSearchPanel-searchParams-Section" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="1" p:style="width:900px">
+        <property name="headerText" value=""/>
+        <property name="collectionObjectClass" value="org.kuali.ole.docstore.common.search.SearchCondition"/>
+        <property name="propertyName" value="searchParams.searchConditions"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <!--<property name="addLineLabel" value=""/>-->
+        <property name="items">
+            <list>
+                <bean id="items" parent="Uif-HorizontalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean id="searchText_id" parent="Uif-InputField" p:label="Search For" p:propertyName="searchField.fieldName" p:required="false">
+                            </bean>
+                            <bean id="operator_id" parent="Uif-InputField" p:propertyName="searchScope" p:label="">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="AND" p:value="All of these"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="OR" p:value="Any of these"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="phrase" p:value="As a phrase"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                            <bean id="docField_id" parent="Uif-InputField" p:propertyName="searchField.docType" p:label="In Search Field"
+                                  p:optionsFinderClass="org.kuali.ole.describe.keyvalue.DocFieldKeyValueFinder" p:defaultValue="all">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl"/>
+                                </property>
+                            </bean>
+                            <bean id="searchScope_id" parent="Uif-InputField" p:propertyName="operator" p:label="">
+                                <property name="control">
+                                    <bean parent="Uif-HorizontalRadioControl">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="AND" p:value="AND"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="OR" p:value="OR"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="NOT" p:value="NOT"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="renderLineActions" value="false"/>
+        <property name="layoutManager.actionFieldPrototype.group.layoutManager">
+            <bean parent="Uif-HorizontalBoxLayout"/>
+        </property>
+        <property name="layoutManager.actionFieldPrototype.label" value=""/>
+    </bean>
+
+    <bean id="BoundwithSearchPanel-Buttons"  parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="search_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:25em" p:methodToCall="search" p:actionLabel="Search" p:forceSessionPersistence="true" p:refreshId="BoundwithSearchResultsPanel"/>
+                <bean id="clear_button" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:0em" p:methodToCall="clearSearch" p:actionLabel="Clear" p:refreshId="BoundwithSearchPanel"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="BoundwithSearchResultsPanel" parent="BoundwithSearchResultsPanel-ParentBean" p:render="@{!viewGlobalEditFlag}"/>
+    <bean id="BoundwithSearchResultsPanel-ParentBean" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="headerText" value="Search Results:"/>
+        <property name="items">
+            <list>
+                <ref bean="BoundwithMessageSection"/>
+                <ref bean="Boundwith-BibSearchResults"/>
+                <ref bean="Boundwith-HoldingsSearchResults"/>
+                <ref bean="Boundwith-ItemSearchResults"/>
+                <ref bean="Boundwith-EHoldingsSearchResults"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="Boundwith-BibSearchResults" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="5" p:render="@{docType eq 'bibliographic'}">
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.describe.bo.SearchResultDisplayRow" />
+        <property name="propertyName" value="searchResultDisplayRowList" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.generateAutoSequence" value="false" />
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true" />
+        <property name="layoutManager.applyDefaultCellWidths" value="false"/>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="aaSorting" value="[[1,'asc']]"/>
+                <entry key="iDisplayLength" value="@{pageSize}"/>
+                <entry key="aoColumns"
+                       value="[ {'bSortable':false, 'sWidth':'5%'},
+                {'bSortable':false, 'sWidth':'20%'},
+                {'bSortable':true, 'sWidth':'20%'},
+                {'bSortable':true, 'sWidth':'15%'},
+                {'bSortable':true, 'sWidth':'15%'}
+                ]"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:label="" p:propertyName="select" p:defaultValue="false">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
+                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=@{#line.DocFormat}&amp;docId=@{#line.localId}&amp;bibId=@{#line.bibIdentifier}&amp;editable=true"
+                      p:label="Local Identifier" p:linkText="@{#line.localId}"  p:target="_blank"/>
+                <!-- <bean parent="Uif-DataField" p:label="Title" p:render="@{#line.staffOnlyFlag ne 'true'}" p:linkText="@{#line.title}" p:target="_blank" p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=@{#line.docFormat}&amp;docId=@{#line.id}&amp;editable=true"/>
+                 <bean parent="Uif-DataField" p:label="Title" p:cssClasses="staffOnlyClass" p:render="@{#line.staffOnlyFlag eq 'true'}" p:linkText="@{#line.title}" p:target="_blank" p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=bibliographic&amp;docFormat=@{#line.docFormat}&amp;docId=@{#line.id}&amp;editable=true"/>-->
+                <bean parent="Uif-DataField" p:label="Title" p:propertyName="title" p:cssClasses="staffOnlyClass" p:render="@{#line.staffOnly eq 'true'}"/>
+                <bean parent="Uif-DataField" p:label="Title" p:propertyName="title"  p:render="@{#line.staffOnly ne 'true'}"/>
+                <bean parent="Uif-DataField" p:label="Author" p:propertyName="author"/>
+                <!--<bean parent="Uif-DataField" p:label="Publisher" p:propertyName="publisher"/>-->
+                <bean parent="Uif-DataField" p:label="Publication Date" p:propertyName="publicationDate"/>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="FastAddItemSectionLinkForViewBib" parent="Uif-ActionLink"
+                      p:actionScript="viewWorkbenchBibView('@{#line.DocFormat}','@{#line.localId}','@{#line.bibIdentifier}');" p:actionLabel="View"/>
+                <bean id="FastAddItemSectionLinkForEditBib" parent="Uif-ActionLink"
+                      p:actionScript="viewWorkbenchBibEdit('@{#line.DocFormat}','@{#line.localId}','@{#line.bibIdentifier}');" p:actionLabel="Edit" />
+                <bean id="FastAddItemSectionLinkForOverLay" parent="Uif-ActionLink"
+                      p:actionScript="viewWorkbenchBibOverlay('@{#line.bibIdentifier}','@{#line.bibIdentifier}');" p:actionLabel="OverLay" />
+                <bean id="FastAddItemSectionLinkForInstance" parent="Uif-ActionLink"
+                      p:actionScript="viewWorkbenchBibCreateInstance('@{#line.localId}');" p:actionLabel="Create Instance" />
+            </list>
+        </property>
+       <!-- <property name="renderLineActions" value="false"/>-->
+    </bean>
+
+    <bean id="Boundwith-HoldingsSearchResults" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="5" p:render="@{docType eq 'holdings'}" >
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.describe.bo.SearchResultDisplayRow" />
+        <property name="propertyName" value="searchResultDisplayRowList" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.generateAutoSequence" value="false" />
+        <property name="renderAddLine" value="false"/>
+        <!--<property name="addLineLabel" value=""/>-->
+        <property name="layoutManager.richTable.render" value="true" />
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="aaSorting" value="[[1,'asc']]"/>
+                <entry key="iDisplayLength" value="@{pageSize}"/>
+                <entry key="aoColumns"
+                       value="[{'bSortable':false, 'sWidth':'5%'},
+                {'bSortable':false, 'sWidth':'10%'},
+                {'bSortable':true, 'sWidth':'20%'},
+                {'bSortable':true, 'sWidth':'10%'},
+                {'bSortable':false, 'sWidth':'10%'}
+                ]"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:label="" p:propertyName="select" p:defaultValue="false">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+                <bean id="LocalIDviewHoldingsNotStaffOnly" parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
+                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=holdings&amp;docFormat=oleml&amp;docId=@{#line.holdingsIdentifier}&amp;bibId=@{#line.bibIdentifier}&amp;editable=false"
+                      p:label="Local Identifier" p:linkText="@{#line.localId}" p:target="_blank" p:render="@{#line.staffOnly ne 'true'}"/>
+                <bean parent="Uif-DataField" p:label="Title" p:propertyName="title" p:render="@{#line.staffOnly ne 'true'}" />
+                <bean parent="Uif-DataField" p:label="Location" p:propertyName="locationName" p:render="@{#line.staffOnly ne 'true'}" />
+                <bean parent="Uif-DataField" p:label="Call Number" p:propertyName="callNumber" p:render="@{#line.staffOnly ne 'true'}" />
+                <bean id="LocalIDviewHoldingsStaffOnly" parent="Uif-LinkField" p:style="font-weight:bold;border:0px;color:#ff0000;font-style:italic;"
+                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=holdings&amp;docFormat=oleml&amp;docId=@{#line.holdingsIdentifier}&amp;bibId=@{#line.bibIdentifier}&amp;instanceId=@{#line.holdingsIdentifier}&amp;editable=false"
+                      p:label="Local Identifier" p:linkText="@{#line.localId}" p:target="_blank" p:cssClasses="staffOnlyForHiperlink" p:render="@{#line.staffOnly eq 'true'}"/>
+                <bean parent="Uif-DataField" p:label="Title" p:propertyName="title" p:cssClasses="staffOnlyClassForHoldinsItems" p:render="@{#line.staffOnly eq 'true'}" p:style="font-weight:bold;border:0px;color:#ff0000;background:#FFD801" />
+                <bean parent="Uif-DataField" p:label="Location" p:propertyName="locationName" p:cssClasses="staffOnlyClassForHoldinsItems" p:render="@{#line.staffOnly eq 'true'}" p:style="font-weight:bold;border:0px;color:#ff0000;background:#FFD801"/>
+                <bean parent="Uif-DataField" p:label="Call Number" p:propertyName="callNumber" p:cssClasses="staffOnlyClassForHoldinsItems" p:render="@{#line.staffOnly eq 'true'}" p:style="font-weight:bold;border:0px;color:#ff0000;background:#FFD801"/>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="ViewHoldings" parent="Uif-ActionLink"
+                      p:actionScript="viewWorkbenchHoldingsView('@{#line.localId}','@{#line.bibIdentifier}','@{#line.holdingsIdentifier}');" p:actionLabel="View" />
+                <bean id="EditHoldings" parent="Uif-ActionLink"
+                      p:actionScript="viewWorkbenchHoldingsEdit('@{#line.localId}','@{#line.bibIdentifier}','@{#line.holdingsIdentifier}');" p:actionLabel="Edit" />
+                <bean id="ShowBibsForHoldings" parent="Uif-ActionLink" p:style="font-weight:bold;border:0px;"
+                      p:actionScript="viewWorkbenchHoldingsShowBib('@{#line.holdingsIdentifier}','@{#line.holdingsIdentifier}');" p:actionLabel="@{#line.linkedBibCount}">
+                    <!--<property name="lightBox">
+                        <bean parent="Uif-LightBox"/>
+                    </property>-->
+                </bean>
+            </list>
+        </property>
+        <!--<property name="renderLineActions" value="false"/>-->
+    </bean>
+
+    <bean id="Boundwith-ItemSearchResults" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="6" p:render="@{docType eq 'item'}">
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.describe.bo.SearchResultDisplayRow" />
+        <property name="propertyName" value="searchResultDisplayRowList" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.generateAutoSequence" value="false" />
+        <property name="renderAddLine" value="false"/>
+        <!--<property name="addLineLabel" value=""/>-->
+        <property name="layoutManager.richTable.render" value="true" />
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <!-- <entry key="aaSorting" value="[[0,'asc']]"/>-->
+                <entry key="iDisplayLength" value="@{pageSize}"/>
+                <entry key="aoColumns"
+                       value="[ {'bSortable':false, 'sWidth':'5%'},
+                {'bSortable':false, 'sWidth':'10%'},
+                {'bSortable':true, 'sWidth':'10%'},
+                {'bSortable':true, 'sWidth':'10%'},
+                {'bSortable':true, 'sWidth':'10%'},
+                {'bSortable':false, 'sWidth':'10%'}
+                ]"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:label="" p:propertyName="select" p:defaultValue="false">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+                <bean id="LocalIDViewItemsNotStaffOnly" parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
+                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=item&amp;docFormat=oleml&amp;docId=@{#line.itemIdentifier}&amp;bibId=@{#line.bibIdentifier}&amp;instanceId=@{#line.holdingsIdentifier}&amp;editable=false"
+                      p:label="Local Identifier" p:linkText="@{#line.localId}" p:target="_blank" p:render="@{#line.staffOnly ne 'true'}"/>
+                <bean parent="Uif-DataField" p:label="Title" p:propertyName="title" p:render="@{#line.staffOnly ne 'true'}"/>
+                <bean parent="Uif-DataField" p:label="Location" p:propertyName="locationName" p:render="@{#line.staffOnly ne 'true'}"/>
+                <bean parent="Uif-DataField" p:label="Call Number" p:propertyName="callNumber" p:render="@{#line.staffOnly ne 'true'}"/>
+                <bean parent="Uif-DataField" p:label="Barcode" p:propertyName="barcode" p:render="@{#line.staffOnly ne 'true'}"/>
+                <bean id="LocalIDViewItemsStaffOnly" parent="Uif-LinkField" p:style="font-weight:bold;border:0px;color:#ff0000;font-style:italic;"
+                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=item&amp;docFormat=oleml&amp;docId=@{#line.itemIdentifier}&amp;bibId=@{#line.bibIdentifier}&amp;instanceId=@{#line.holdingsIdentifier}&amp;editable=false"
+                      p:label="Local Identifier" p:linkText="@{#line.localId}" p:target="_blank" p:cssClasses="staffOnlyForHiperlink" p:render="@{#line.staffOnly eq 'true'}"/>
+                <bean parent="Uif-DataField" p:label="Title" p:propertyName="title" p:cssClasses="staffOnlyClassForHoldinsItems" p:render="@{#line.staffOnly eq 'true'}" p:style="font-weight:bold;border:0px;color:#ff0000;background:#FFD801"/>
+                <bean parent="Uif-DataField" p:label="Location" p:propertyName="locationName" p:cssClasses="staffOnlyClassForHoldinsItems" p:render="@{#line.staffOnly eq 'true'}" p:style="font-weight:bold;border:0px;color:#ff0000;background:#FFD801"/>
+                <bean parent="Uif-DataField" p:label="Call Number" p:propertyName="callNumber" p:cssClasses="staffOnlyClassForHoldinsItems" p:render="@{#line.staffOnly eq 'true'}" p:style="font-weight:bold;border:0px;color:#ff0000;background:#FFD801"/>
+                <bean parent="Uif-DataField" p:label="Barcode" p:propertyName="barcode" p:cssClasses="staffOnlyClassForHoldinsItems" p:render="@{#line.staffOnly eq 'true'}" p:style="font-weight:bold;border:0px;color:#ff0000;background:#FFD801"/>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="ViewItems" parent="Uif-ActionLink"
+                      p:actionScript="viewWorkbenchItemView('@{#line.itemIdentifier}','@{#line.bibIdentifier}','@{#line.holdingsIdentifier}');" p:actionLabel="View" />
+                <bean id="EditItems" parent="Uif-ActionLink"
+                      p:actionScript="viewWorkbenchItemEdit('@{#line.itemIdentifier}','@{#line.bibIdentifier}','@{#line.holdingsIdentifier}');"
+                      p:actionLabel="Edit" />
+                <bean id="ShowBibsForItem" parent="Uif-ActionLink" p:style="font-weight:bold;border:0px;"
+                      p:actionScript="viewWorkbenchItemShowBib('@{#line.holdingsIdentifier}');" p:actionLabel="@{#line.linkedBibCount}">
+                    <!--<property name="lightBox">
+                        <bean parent="Uif-LightBox"/>
+                    </property>-->
+                </bean>
+            </list>
+        </property>
+        <!--<property name="renderLineActions" value="false"/>-->
+    </bean>
+
+    <bean id="Boundwith-EHoldingsSearchResults" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="8" p:render="@{docType eq 'eHoldings'}">
+        <property name="collectionObjectClass"
+                  value="org.kuali.ole.describe.bo.SearchResultDisplayRow" />
+        <property name="propertyName" value="searchResultDisplayRowList" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.generateAutoSequence" value="false" />
+        <property name="renderAddLine" value="false"/>
+        <!--<property name="addLineLabel" value=""/>-->
+        <property name="layoutManager.richTable.render" value="true" />
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <!-- <entry key="aaSorting" value="[[0,'asc']]"/>-->
+                <entry key="iDisplayLength" value="@{pageSize}"/>
+                <entry key="aoColumns"
+                       value="[
+                        {'bSortable':false, 'sWidth':'5%'},
+                        {'bSortable':false, 'sWidth':'20%'},
+                        {'bSortable':true, 'sWidth':'20%'},
+                        {'bSortable':true, 'sWidth':'10%'},
+                        {'bSortable':false, 'sWidth':'10%'},
+                        {'bSortable':false, 'sWidth':'10%'}
+                ]"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:label="" p:propertyName="select" p:defaultValue="false">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+                <!-- <bean parent="Uif-DataField" p:label="Title" p:propertyName="bibTitle"/>-->
+                <!--<bean parent="Uif-DataField" p:label="Title" p:propertyName="bibTitle"  p:render="@{#line.staffOnlyFlag ne 'true'}"/>-->
+                <!--<bean parent="Uif-DataField" p:label="Title" p:propertyName="bibTitle"  p:cssClasses="staffOnlyClass" p:render="@{#line.staffOnlyFlag eq 'true'}"/>-->
+                <bean id="LocalIDViewEHoldinsNotStaffOnly" parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
+                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=eHoldings&amp;docFormat=oleml&amp;docId=@{#line.holdingsIdentifier}&amp;bibId=@{#line.bibIdentifier}&amp;instanceId=@{#line.holdingsIdentifier}&amp;editable=false"
+                      p:label="Local Identifier" p:linkText="@{#line.localId}" p:target="_blank" p:render="@{#line.staffOnly ne 'true'}"/>
+                <bean parent="Uif-DataField" p:label="Access Status" p:propertyName="accessStatus" p:render="@{#line.staffOnly ne 'true'}"/>
+                <bean parent="Uif-DataField" p:label="PlatForm" p:propertyName="platForm" p:render="@{#line.staffOnly ne 'true'}"/>
+                <bean parent="Uif-DataField" p:label="Imprint" p:propertyName="imprint" p:render="@{#line.staffOnly ne 'true'}"/>
+                <bean parent="Uif-DataField" p:label="Statistical Code" p:propertyName="statisticalCode" p:render="@{#line.staffOnly ne 'true'}"/>
+
+                <bean id="LocalIDViewEHoldinsStaffOnly" parent="Uif-LinkField" p:style="font-weight:bold;border:0px;"
+                      p:href="editorcontroller?viewId=EditorView&amp;methodToCall=load&amp;docCategory=work&amp;docType=eHoldings&amp;docFormat=oleml&amp;docId=@{#line.holdingsIdentifier}&amp;bibId=@{#line.bibIdentifier}&amp;instanceId=@{#line.holdingsIdentifier}&amp;editable=false"
+                      p:label="Local Identifier" p:linkText="@{#line.localId}" p:target="_blank" p:render="@{#line.staffOnly eq 'true'}"  p:cssClasses="staffOnlyForHiperlink"/>
+                <bean parent="Uif-DataField" p:label="Access Status" p:propertyName="accessStatus" p:render="@{#line.staffOnly eq 'true'}"  p:cssClasses="staffOnlyClassForHoldinsItems" p:style="font-weight:bold;border:0px;color:#ff0000;background:#FFD801"/>
+                <bean parent="Uif-DataField" p:label="PlatForm" p:propertyName="platForm" p:render="@{#line.staffOnly eq 'true'}"  p:cssClasses="staffOnlyClassForHoldinsItems" p:style="font-weight:bold;border:0px;color:#ff0000;background:#FFD801"/>
+                <bean parent="Uif-DataField" p:label="Imprint" p:propertyName="imprint" p:render="@{#line.staffOnly eq 'true'}"  p:cssClasses="staffOnlyClassForHoldinsItems" p:style="font-weight:bold;border:0px;color:#ff0000;background:#FFD801"/>
+                <bean parent="Uif-DataField" p:label="Statistical Code" p:propertyName="statisticalCode" p:render="@{#line.staffOnly eq 'true'}"  p:cssClasses="staffOnlyClassForHoldinsItems" p:style="font-weight:bold;border:0px;color:#ff0000;background:#FFD801"/>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="ViewEHoldings" parent="Uif-ActionLink" p:actionScript="viewWorkbenchEHoldingsView('@{#line.holdingsIdentifier}','@{#line.bibIdentifier}','@{#line.holdingsIdentifier}');"
+                      p:actionLabel="View" />
+                <bean id="EditEHoldings" parent="Uif-ActionLink" p:actionScript="viewWorkbenchEHoldingsEdit('@{#line.holdingsIdentifier}','@{#line.bibIdentifier}','@{#line.holdingsIdentifier}');"
+                      p:actionLabel="Edit" />
+            </list>
+        </property>
+        <!--<property name="renderLineActions" value="false"/>-->
+    </bean>
+
+    <bean id="BoundwithMessageSection" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="boundwithmessageSection" parent="Uif-Message" p:messageText="@{message}" p:cssClasses="messageClass"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="BoundwithSearchResultsSelectPanel"  parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <!--<bean id="search_button1" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:25em" p:methodToCall="copyToTree" p:actionParameters="treeId:leftTree"  p:actionLabel="Copy To Tree1" />-->
+                <!--<bean id="search_button2" parent="Uif-SecondaryActionButton-Small" p:style="float:left;margin-left:25em" p:methodToCall="copyToTree" p:actionParameters="treeId:rightTree" p:actionLabel="Copy To Tree2" />-->
+                <bean id="search_button1" parent="Uif-SecondaryActionButton" p:style="float:left;margin-left:25em" p:methodToCall="copyToTree" p:actionLabel="Copy To Tree1" p:actionParameters="treeId:leftTree" p:refreshId="BoundwithSelectionSection" p:successCallback="searching()"/>
+                <bean id="search_button2" parent="Uif-SecondaryActionButton" p:style="float:left;margin-left:0em" p:methodToCall="copyToTree" p:actionLabel="Copy To Tree2" p:actionParameters="treeId:rightTree" p:refreshId="BoundwithSelectionSection" p:successCallback="searching()"/>
+                <bean id="search_button3" parent="Uif-SecondaryActionButton" p:style="float:left;margin-left:0em" p:methodToCall="unSelectAll" p:actionLabel="Unselect All" p:refreshId="Boundwith-BibSearchResults" p:successCallback="searching()"/>
+            </list>
+        </property>
+    </bean>
+</beans>

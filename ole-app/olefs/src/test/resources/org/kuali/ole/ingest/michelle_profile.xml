@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<profile id="100" description="firm fixed order for IU">
+    <profileAttributes>
+        <attribute name="orderPerFile">SINGLE-ORDER</attribute>
+        <attribute name="contractMgr">John Doe</attribute>
+        <attribute name="assignToUser">Jane Doe</attribute>
+        <attribute name="chartCode" system="YES">BA</attribute>
+        <attribute name="orgCode" system="YES">PARK</attribute>
+        <attribute name="receivingRequired">No</attribute>
+        <attribute name="itemStatus">a values goes here</attribute>
+        <attribute name="locationStatus">Permanent</attribute>
+        <attribute name="useTaxInd">Yes</attribute>
+        <attribute name="orderType">Firm, Fixed</attribute>
+        <attribute name="payReqPositiveApprovalReq">Yes</attribute>
+        <attribute name="deliveryCampus" system="YES">04</attribute>
+        <attribute name="building" system="YES">002</attribute>
+        <attribute name="publicView">No</attribute>
+        <attribute name="internalPurchasingLimit">null</attribute>
+        <attribute name="costSource">a value goes here</attribute>
+        <attribute name="recordType">x</attribute>
+        <attribute name="encodingLevel">1</attribute>
+        <attribute name="receiptStatus">3</attribute>
+        <attribute name="acquisitionMethod">3</attribute>
+        <attribute name="generalRetentionPolicy">u</attribute>
+        <attribute name="specificRetentionPolicy-PolicyType"></attribute>
+    </profileAttributes>
+    <matchrules>
+        <matchrule id="201" type="bib">
+            <description>ISBN Match</description>
+            <matches>
+                <match>
+                    <incoming_field>
+                        <field>020</field>
+                        <subfield>a</subfield>
+                    </incoming_field>
+                    <existing_field>
+                        <field>020</field>
+                        <subfield>a</subfield>
+                    </existing_field>
+                    <preprocess>regular expression (goes here) to normalize both values</preprocess>
+                    <match_type>exact</match_type>
+                </match>
+
+                <match>
+                    <incoming_field>
+                        <field>245</field>
+                        <subfield>a</subfield>
+                    </incoming_field>
+                    <existing_field>
+                        <field>245</field>
+                        <subfield>b</subfield>
+                    </existing_field>
+                    <preprocess>regular expression (goes here) to normalize both values</preprocess>
+                    <match_type>contains</match_type>
+                </match>
+            </matches>
+        </matchrule>
+        <matchrule id="202" type="bib">
+            <description>Look for value of 7</description>
+            <matches>
+                <match>
+                    <incoming_field>
+                        <literalvalue>7</literalvalue>
+                    </incoming_field>
+                    <existing_field>
+                        <field>LEADER[17,1]</field>
+                    </existing_field>
+                    <match_type>contains</match_type>
+                </match>
+            </matches>
+        </matchrule>
+        <matchrule id="501" type="instance">
+            <description>Count the number of instances attached to matched bib</description>
+            <matches>
+                <match>
+                    <match_type>count</match_type>
+                    <match_on>
+                        <greater_than>0</greater_than>
+                    </match_on>
+                </match>
+                <match>
+                    <match_type>count</match_type>
+                    <match_on>
+                        <less_than>2</less_than>
+                    </match_on>
+                </match>
+            </matches>
+        </matchrule>
+    </matchrules>
+    <actions>
+        <action id="302">
+            <description>Create bib record</description>
+            <action_type>bib</action_type>
+            <event>create</event>
+        </action>
+        <action id="303">
+            <description>Create Instance record</description>
+            <action_type>instance</action_type>
+            <event>create</event>
+        </action>
+        <action id="304">
+            <description>Creating Item record</description>
+            <action_type>item</action_type>
+            <event>create</event>
+        </action>
+        <action id="305">
+            <description>Create a purchase order</description>
+            <action_type>po</action_type>
+            <event>create</event>
+        </action>
+    </actions>
+    <exceptions>
+        <exception id="901">
+            <description>handle duplicates by logging and routing to jdoe</description>
+            <exception_events>
+                <routeto>
+                    <route type="FYI">ole-Load</route>
+                    <route type="ACK">ole-jsmith</route>
+                </routeto>
+                <logevent>true</logevent>
+            </exception_events>
+        </exception>
+    </exceptions>
+    <conditionalActions>
+        <conditionalAction>
+            <conditions>
+                <matchrule id="201"></matchrule>
+            </conditions>
+            <true_actions>
+                <conditionalActions>
+                    <conditionalAction>
+                        <conditions>
+                            <match id="202"></match>
+                        </conditions>
+                        <true_actions>
+                            <exception id="901"/>
+                            <action id="302"/>
+                            <action id="303"/>
+                            <action id="304"/>
+                            <action id="305"/>
+                        </true_actions>
+                        <false_actions>
+                            <action id="302"/>
+                            <action id="302"/>
+                            <action id="303"/>
+                            <action id="304"/>
+                            <action id="305"/>
+                        </false_actions>
+                    </conditionalAction>
+                </conditionalActions>
+            </true_actions>
+            <false_actions>
+                <action id="302"/>
+                <action id="303"/>
+                <action id="304"/>
+            </false_actions>
+        </conditionalAction>
+        <conditionalAction>
+            <conditions>
+                <matchrule id="202"></matchrule>
+            </conditions>
+            <true_actions>
+                <conditionalActions>
+                    <conditionalAction>
+                        <conditions>
+                            <match id="202"></match>
+                        </conditions>
+                        <true_actions>
+                            <exception id="901"/>
+                            <action id="302"/>
+                            <action id="303"/>
+                            <action id="304"/>
+                            <action id="305"/>
+                        </true_actions>
+                        <false_actions>
+                            <action id="302"/>
+                            <action id="302"/>
+                            <action id="303"/>
+                            <action id="304"/>
+                            <action id="305"/>
+                        </false_actions>
+                    </conditionalAction>
+                </conditionalActions>
+            </true_actions>
+            <false_actions>
+                <action id="302"/>
+                <action id="303"/>
+                <action id="304"/>
+            </false_actions>
+        </conditionalAction>
+    </conditionalActions>
+</profile>

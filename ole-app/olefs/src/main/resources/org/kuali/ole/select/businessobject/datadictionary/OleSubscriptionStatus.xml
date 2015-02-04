@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <!--
+
+        Copyright 2005-2012 The Kuali Foundation
+
+        Licensed under the Educational Community License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at
+
+        http://www.opensource.org/licenses/ecl2.php
+
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+
+    -->
+    <bean id="OleSubscriptionStatus" parent="OleSubscriptionStatus-parentBean"/>
+
+    <bean id="OleSubscriptionStatus-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.select.bo.OleSubscriptionStatus"/>
+        <property name="titleAttribute" value="subscriptionStatusCode"/>
+        <property name="objectLabel" value="Subscription Status"/>
+        <property name="attributes">
+            <list>
+                <ref bean="OleSubscriptionStatus-Id"/>
+                <ref bean="OleSubscriptionStatus-code"/>
+                <ref bean="OleSubscriptionStatus-name"/>
+                <ref bean="OleSubscriptionStatus-desc"/>
+                <ref bean="OleSubscriptionStatus-active"/>
+            </list>
+        </property>
+        <property name="primaryKeys">
+            <list>
+                <value>subscriptionStatusId</value>
+            </list>
+        </property>
+    </bean>
+
+     <!--Attribute Definitions -->
+
+    <bean id="OleSubscriptionStatus-Id" parent="OleSubscriptionStatus-Id-parentBean"/>
+
+    <bean id="OleSubscriptionStatus-Id-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Subscription Status Id"/>
+        <property name="maxLength" value="40"/>
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+        <property name="name" value="subscriptionStatusId"/>
+        <property name="label" value="Subscription Status Id"/>
+        <property name="description" value="Subscription Status Id"/>
+    </bean>
+
+    <bean id="OleSubscriptionStatus-code" parent="OleSubscriptionStatus-code-parentBean"/>
+
+    <bean id="OleSubscriptionStatus-code-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Subscription Status Code"/>
+        <property name="maxLength" value="25"/>
+        <!--<property name="control">-->
+            <!--<bean id="TextControlDefinition_subscriptionStatusCode" parent="TextControlDefinition" p:size="10"/>-->
+        <!--</property>-->
+        <property name="controlField">
+            <bean id="Uif-TextControl_subscriptionStatusCode" parent="Uif-TextControl" p:size="27"/>
+        </property>
+        <property name="name" value="subscriptionStatusCode"/>
+        <property name="label" value="Subscription Status Code"/>
+        <property name="description" value="Subscription Status Code"/>
+    </bean>
+
+    <bean id="OleSubscriptionStatus-name" parent="OleSubscriptionStatus-name-parentBean"/>
+
+    <bean id="OleSubscriptionStatus-name-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Subscription Status Name"/>
+        <property name="maxLength" value="25"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="false"/>
+        <!--<property name="control">-->
+            <!--<bean id="TextControlDefinition_subscriptionStatusName" parent="TextControlDefinition" p:size="10"/>-->
+        <!--</property>-->
+        <property name="controlField">
+            <bean id="Uif-TextControl_subscriptionStatusName" parent="Uif-TextControl" p:size="27"/>
+        </property>
+        <property name="name" value="subscriptionStatusName"/>
+        <property name="label" value="Subscription Status Name"/>
+        <property name="description" value="Subscription Status Name"/>
+    </bean>
+
+
+    <bean id="OleSubscriptionStatus-desc" parent="OleSubscriptionStatus-desc-parentBean"/>
+
+    <bean id="OleSubscriptionStatus-desc-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Subscription Status Description"/>
+        <property name="maxLength" value="40"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="false"/>
+        <property name="control">
+            <bean id="TextControlDefinition_subscriptionStatusDesc" parent="TextControlDefinition" p:size="40"/>
+        </property>
+        <property name="controlField">
+            <bean id="Uif-TextControl_subscriptionStatusDesc" parent="Uif-TextControl" p:size="47"/>
+        </property>
+        <property name="name" value="subscriptionStatusDescription"/>
+        <property name="label" value="Subscription Status Description"/>
+        <property name="description" value="Subscription Status Description"/>
+    </bean>
+
+    <bean id="OleSubscriptionStatus-active" parent="OleSubscriptionStatus-active-parentBean"/>
+    <bean id="OleSubscriptionStatus-active-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="active"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="active"/>
+        <property name="maxLength" value="1"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-CheckboxControl"/>
+        </property>
+        <property name="summary" value="Active Indicator"/>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+        <property name="label" value="Active Indicator"/>
+        <property name="description"
+                  value="This attribute is used to describe whether the associated object is active or inactive."/>
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+
+    <bean id="OleSubscriptionStatus-InquiryView" parent="Uif-InquiryView">
+        <property name="headerText" value="Subscription Status Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OleSubscriptionStatus" />
+        <property name="singlePageView" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-VerticalBoxSection">
+                    <property name="header.headerText" value="Subscription Status" />
+                      <property name="items">
+                        <list>
+                            <bean parent="Uif-GridGroup">
+                                <property name="layoutManager.numberOfColumns" value="2" />
+                                <property name="items">
+                                    <list>
+                                        <bean id="inquiry_SubscriptionStatusId" parent="Uif-InputField" p:propertyName="subscriptionStatusId" />
+                                        <bean id="inquiry_SubscriptionStatusCode" parent="Uif-InputField" p:propertyName="subscriptionStatusCode" p:enableAutoDirectInquiry="false"/>
+                                        <bean id="inquiry_SubscriptionStatusName" parent="Uif-InputField" p:propertyName="subscriptionStatusName"/>
+                                        <bean id="inquiry_SubscriptionStatusDescription" parent="Uif-InputField" p:propertyName="subscriptionStatusDescription"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+
+    <bean id="OleSubscriptionStatus-LookupView" parent="Uif-LookupView">
+        <property name="headerText" value="Subscription Status Lookup" />
+        <property name="dataObjectClassName" value="org.kuali.ole.select.bo.OleSubscriptionStatus" />
+        <!--<property name="viewHelperServiceClass" value="org.kuali.ole.deliver.lookup.OleCalendarLookupableImpl"/>-->
+        <property name="criteriaFields">
+            <list>
+                <bean id="subscriptionStatusId" parent="Uif-LookupCriteriaInputField" p:propertyName="subscriptionStatusId" />
+                <bean id="subscriptionStatusCode" parent="Uif-LookupCriteriaInputField" p:propertyName="subscriptionStatusCode" p:enableAutoDirectInquiry="false"/>
+                <bean id="subscriptionStatusName" parent="Uif-LookupCriteriaInputField" p:propertyName="subscriptionStatusName" />
+                <bean id="subscriptionStatusDesc" parent="Uif-LookupCriteriaInputField" p:propertyName="subscriptionStatusDescription" />
+                <bean id="subscriptionStatusActive" p:propertyName="active" parent="Uif-LookupCriteriaInputField"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <!--<bean id="searchResult_subscriptionStatusId" parent="Uif-DataField" p:propertyName="subscriptionStatusId" />-->
+                <bean id="searchResult_subscriptionStatusCode" parent="Uif-DataField" p:propertyName="subscriptionStatusCode" />
+                <bean id="searchResult_subscriptionStatusName" parent="Uif-DataField" p:propertyName="subscriptionStatusName" />
+                <bean id="searchResult_subscriptionStatusDesc" parent="Uif-DataField" p:propertyName="subscriptionStatusDescription" />
+                <bean id="searchResult_active" p:propertyName="active" parent="Uif-DataField"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

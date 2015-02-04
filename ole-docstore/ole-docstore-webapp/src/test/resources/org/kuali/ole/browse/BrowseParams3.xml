@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<browseParams>
+    <pageSize>0</pageSize>
+    <searchConditions>
+        <searchCondition>
+            <operator>AND</operator>
+            <searchField>
+                <docType>item</docType>
+                <fieldName>DocType</fieldName>
+                <fieldValue>item</fieldValue>
+            </searchField>
+            <searchScope>AND</searchScope>
+        </searchCondition>
+    </searchConditions>
+    <searchResultFields>
+        <searchResultField>
+            <docType>item</docType>
+            <fieldName>LocalId_display</fieldName>
+        </searchResultField>
+        <searchResultField>
+            <docType>item</docType>
+            <fieldName>Location_search</fieldName>
+        </searchResultField>
+        <searchResultField>
+            <docType>item</docType>
+            <fieldName>CallNumber_search</fieldName>
+        </searchResultField>
+    </searchResultFields>
+    <sortConditions>
+        <sortCondition>
+            <sortField>CallNumber</sortField>
+            <sortOrder>asc</sortOrder>
+        </sortCondition>
+    </sortConditions>
+    <startIndex>0</startIndex>
+    <totalCount>0</totalCount>
+</browseParams>

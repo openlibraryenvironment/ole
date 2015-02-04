@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:dd="http://rice.kuali.org/dd" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd         http://rice.kuali.org/dd         http://rice.kuali.org/dd/dd.xsd">
+<!--
+ Copyright 2008-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean id="CommodityCodeMaintenanceDocument" parent="CommodityCodeMaintenanceDocument-parentBean"/>
+
+  <bean id="CommodityCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.ole.vnd.businessobject.CommodityCode"/>
+    <property name="maintainableClass" value="org.kuali.ole.sys.document.FinancialSystemMaintainable"/>
+    <property name="maintainableSections">
+      <list>
+        <ref bean="CommodityCodeMaintenanceDocument-CommodityCode"/>
+        <ref bean="CommodityCodeMaintenanceDocument-ContractManagers"/>
+      </list>
+    </property>
+    <property name="lockingKeys">
+      <list>
+        <value>purchasingCommodityCode</value>
+      </list>
+    </property>
+    
+    
+    
+    <property name="documentTypeName" value="OLE_PMCC"/>
+    <property name="documentAuthorizerClass" value="org.kuali.ole.sys.document.authorization.FinancialSystemMaintenanceDocumentAuthorizerBase"/>
+    <property name="workflowAttributes">
+    	<ref bean="CommodityCodeMaintenanceDocument-workflowAttributes"/>
+    </property>
+  </bean>
+
+<!-- Maintenance Section Definitions -->
+
+
+  <bean id="CommodityCodeMaintenanceDocument-CommodityCode" parent="CommodityCodeMaintenanceDocument-CommodityCode-parentBean"/>
+
+  <bean id="CommodityCodeMaintenanceDocument-CommodityCode-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Commodity Code"/>
+    <property name="title" value="Commodity Code"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="purchasingCommodityCode" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="commodityDescription" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="salesTaxIndicator"/>
+        <bean parent="MaintainableFieldDefinition" p:name="restrictedItemsIndicator"/>
+        <bean parent="MaintainableFieldDefinition" p:name="sensitiveDataCode"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
+      </list>
+    </property>
+  </bean>
+  <bean id="CommodityCodeMaintenanceDocument-ContractManagers" parent="CommodityCodeMaintenanceDocument-ContractManagers-parentBean"/>
+
+  <bean id="CommodityCodeMaintenanceDocument-ContractManagers-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="id" value="Contract Managers"/>
+    <property name="title" value="Contract Managers"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableCollectionDefinition">
+          <property name="name" value="commodityContractManagers"/>
+          <property name="businessObjectClass" value="org.kuali.ole.vnd.businessobject.CommodityContractManager"/>
+          <property name="summaryTitle" value="Contract Manager"/>
+          <property name="summaryFields">
+            <list>
+              <bean parent="MaintainableFieldDefinition" p:name="campusCode"/>
+              <bean parent="MaintainableFieldDefinition" p:name="contractManagerCode"/>
+              <bean parent="MaintainableFieldDefinition" p:name="active" />
+            </list>
+          </property>          
+          <property name="maintainableFields">
+            <list>
+              <bean parent="MaintainableFieldDefinition" p:name="campusCode" p:required="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="contractManagerCode" p:required="true"/>
+              <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" />
+              <bean parent="MaintainableFieldDefinition" p:name="newCollectionRecord"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+  
+  <!-- workflow attributes -->
+  <bean id="CommodityCodeMaintenanceDocument-workflowAttributes" parent="CommodityCodeMaintenanceDocument-workflowAttributes-parentBean"/>
+  
+  <bean id="CommodityCodeMaintenanceDocument-workflowAttributes-parentBean" class="org.kuali.rice.krad.datadictionary.WorkflowAttributes" abstract="true"/>
+</beans>

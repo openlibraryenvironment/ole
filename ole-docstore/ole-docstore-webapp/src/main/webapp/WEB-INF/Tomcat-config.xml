@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copy this file as OLE-DocSearch.xml in \apache-tomcat-6.0.26\conf\Catalina\localhost.
+	Modify docBase value and env variable value suitably.
+ -->
+<Context path="/OLE-DocSearch" docBase="C:\eclipse\workspace\OKC-Web\WebContent" crossContext="false" >
+      <Environment name="solr/home" type="java.lang.String" value="C:\eclipse\workspace\OLE-SOLR" override="true" />
+</Context>

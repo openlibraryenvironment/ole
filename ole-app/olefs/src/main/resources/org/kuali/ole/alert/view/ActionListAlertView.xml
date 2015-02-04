@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="ActionListAlertView" parent="ActionListAlertView-parentBean" />
+    <bean id="ActionListAlertView-parentBean" parent="Uif-OLEFormView">
+        <property name="headerText" value="Alert"/>
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="@{#ConfigProperties['externalizable.help.url']}/reference/webhelp/CIRC/content/ch03s01.html"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="ActionListAlertPage" parent="Uif-Page" >
+                    <property name="items">
+                        <list>
+                            <ref bean="ActionListAlertView-HorizontalBoxSection"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="footer">
+            <ref bean="ClearFooterView-buttons" />
+        </property>
+<!--        <property name="additionalScriptFiles">
+            <list>
+                <value>ole/alert/script/actionListAlert.js</value>
+            </list>
+        </property>-->
+        <property name="formClass" value="org.kuali.ole.alert.form.AlertForm"/>
+    </bean>
+    <bean id="Uif-DeleteLineActions" parent="Uif-SecondaryActionButton-Small" p:methodToCall="approveAlert"
+          p:actionLabel="Approve"
+          p:onMouseOverScript="deleteLineMouseOver(this, 'uif-collectionDeleteHighlight');"
+          p:onMouseOutScript="deleteLineMouseOut(this, 'uif-collectionDeleteHighlight');"
+          p:onClickScript="writeCurrentPageToSession(this);" p:dirtyOnAction="true"
+          p:loadingMessageText="Deleting Line..." p:id="@{#collectionGroup.id}_del@{#lineSuffix}" />
+
+    <bean id="ActionListAlertView-HorizontalBoxSection" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="6" p:style="width:700px" >
+        <property name="headerText" value="Alerts"/>
+        <property name="collectionObjectClass" value="org.kuali.ole.alert.bo.ActionListAlertBo"/>
+        <property name="propertyName" value="actionListAlertList"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="true"/>
+        <property name="layoutManager.richTable.disableTableSort" value="true" />
+        <property name="items">
+            <list>
+                <bean id="ActionListAlertView-documentId" parent="Uif-LinkField"  p:width="10%" p:linkText="@{#line.documentId}" p:target="_blank" p:href="../ole-kr-krad/oleMaintenance?docId=@{#line.documentId}&amp;methodToCall=docHandler&amp;command=displayDocSearchView" p:label="Document Number" p:render="@{#line.active}"/>
+
+                <bean id="ActionListAlertView-title" parent="Uif-InputField" p:propertyName="title" p:label="Title" p:readOnly="true"  p:render="@{#line.active}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" />
+                    </property>
+                </bean>
+
+                <bean id="ActionListAlertView-alertDate" parent="Uif-InputField" p:propertyName="alertDate" p:label="Alert Date" p:readOnly="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" />
+                    </property>
+                </bean>
+                <bean id="ActionListAlertView-recordType" parent="Uif-InputField" p:propertyName="recordType" p:label="Record Type" p:readOnly="true"  p:render="@{#line.active}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" />
+                    </property>
+                </bean>
+                <bean id="ActionListAlertView-note" parent="Uif-InputField" p:propertyName="note" p:label="Note" p:render="@{#line.active}" p:readOnly="true">
+                    <property name="control">
+                        <bean parent="Uif-TextAreaControl" p:rows="2" p:cols="80"/>
+                    </property>
+                </bean>
+
+                <bean id="ActionListAlertView-alertCreatorName" parent="Uif-InputField" p:propertyName="alertInitiatorName" p:label="Alert Initiator Id" p:readOnly="true"  p:render="@{#line.active}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" />
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-DeleteLineActions"/>
+                <bean parent="Uif-SaveLineAction"/>
+            </list>
+        </property>
+        <property name="renderLineActions" value="true"/>
+    </bean>
+</beans>

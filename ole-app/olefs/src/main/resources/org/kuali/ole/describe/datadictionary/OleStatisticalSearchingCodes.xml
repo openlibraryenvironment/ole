@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <!--
+
+        Copyright 2005-2012 The Kuali Foundation
+
+        Licensed under the Educational Community License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at
+
+        http://www.opensource.org/licenses/ecl2.php
+
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+
+    -->
+    <bean id="OleStatisticalSearchingCodes" parent="OleStatisticalSearchingCodes-parentBean"/>
+
+    <bean id="OleStatisticalSearchingCodes-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.describe.bo.OleStatisticalSearchingCodes"/>
+        <property name="titleAttribute" value="statisticalSearchingCode"/>
+        <property name="objectLabel" value="Statistical Searching Codes"/>
+
+        <property name="attributes">
+            <list>
+                <ref bean="OleStatisticalSearchingCodes-statisticalSearchingCodeId"/>
+                <ref bean="OleStatisticalSearchingCodes-statisticalSearchingCode"/>
+                <ref bean="OleStatisticalSearchingCodes-statisticalSearchingName"/>
+                <ref bean="OleStatisticalSearchingCodes-source"/>
+                <ref bean="OleStatisticalSearchingCodes-sourceDate"/>
+                <ref bean="OleStatisticalSearchingCodes-active"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <!-- Attribute Definitions -->
+
+
+    <bean id="OleStatisticalSearchingCodes-statisticalSearchingCodeId" parent="OleStatisticalSearchingCodes-statisticalSearchingCodeId-parentBean"/>
+
+    <bean id="OleStatisticalSearchingCodes-statisticalSearchingCodeId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Statistical Searching Code Id"/>
+        <property name="maxLength" value="10"/>
+        <!--<property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint"/>
+        </property>-->
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+        <property name="name" value="statisticalSearchingCodeId"/>
+        <property name="label" value="Statistical Searching Code Id"/>
+        <property name="description" value="Statistical Searching Code Id"/>
+    </bean>
+
+
+
+    <bean id="OleStatisticalSearchingCodes-statisticalSearchingCode" parent="OleStatisticalSearchingCodes-statisticalSearchingCode-parentBean"/>
+
+    <bean id="OleStatisticalSearchingCodes-statisticalSearchingCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Statistical Searching Code"/>
+        <property name="maxLength" value="30"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="statisticalSearchingCode"/>
+        <property name="label" value="Statistical Searching Code"/>
+        <property name="description" value="Statistical Searching Code"/>
+
+    </bean>
+
+
+    <bean id="OleStatisticalSearchingCodes-statisticalSearchingName" parent="OleStatisticalSearchingCodes-statisticalSearchingName-parentBean"/>
+
+    <bean id="OleStatisticalSearchingCodes-statisticalSearchingName-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Statistical Searching Name"/>
+        <property name="maxLength" value="30"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="statisticalSearchingName"/>
+        <property name="label" value="Statistical Searching Name"/>
+        <property name="description" value="Statistical Searching Name"/>
+
+    </bean>
+
+    <bean id="OleStatisticalSearchingCodes-source" parent="OleStatisticalSearchingCodes-source-parentBean"/>
+
+    <bean id="OleStatisticalSearchingCodes-source-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Source"/>
+        <property name="maxLength" value="100"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="source"/>
+        <property name="label" value="Source"/>
+        <property name="description" value="Source description"/>
+
+    </bean>
+
+    <bean id="OleStatisticalSearchingCodes-sourceDate" parent="OleStatisticalSearchingCodes-sourceDate-parentBean"/>
+
+    <bean id="OleStatisticalSearchingCodes-sourceDate-parentBean" abstract="true" parent="AttributeReferenceDummy-genericDate">
+        <property name="shortLabel" value="Source Date"/>
+        <property name="name" value="sourceDate"/>
+        <property name="label" value="Source Date"/>
+        <property name="required" value="true"/>
+    </bean>
+
+
+
+
+    <!--<bean id="OleStatisticalSearchingCodes-active" parent="OleStatisticalSearchingCodes-active-parentBean"/>
+
+    <bean id="OleStatisticalSearchingCodes-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+        <property name="name" value="active"/>
+    </bean>
+-->
+
+    <bean id="OleStatisticalSearchingCodes-active" parent="OleStatisticalSearchingCodes-active-parentBean"/>
+
+    <bean id="OleStatisticalSearchingCodes-active-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="active"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="active"/>
+        <property name="maxLength" value="1"/>
+        <property name="validCharactersConstraint">
+            <bean  parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean  parent="Uif-CheckboxControl"/>
+        </property>
+        <property name="summary" value="Active Indicator"/>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
+        <property name="label" value="Active Indicator"/>
+        <property name="description" value="This attribute is used to describe whether the associated object is active or inactive."/>
+    </bean>
+
+    <!-- Business Object Inquiry Definition -->
+
+
+
+    <bean id="OleStatisticalSearchingCodes-InquiryView" parent="Uif-OLEInquiryView">
+        <property name="headerText" value="Statistical Searching Codes Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.ole.describe.bo.OleStatisticalSearchingCodes" />
+        <property name="singlePageView" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-VerticalBoxSection">
+                    <property name="header.headerText" value="Statistical Searching Codes" />
+                    <property name="items">
+                        <list>
+                        <bean parent="Uif-GridGroup">
+                            <property name="items">
+                                    <list>
+                                        <bean id="inquiry_statisticalSearchingCodeId" parent="Uif-InputField" p:propertyName="statisticalSearchingCodeId"/>
+                                        <bean id="inquiry_statisticalSearchingCode" parent="Uif-InputField"
+                                              p:propertyName="statisticalSearchingCode"
+                                              p:enableAutoDirectInquiry="false"/>
+                                        <bean id="inquiry_statisticalSearchingName" parent="Uif-InputField" p:propertyName="statisticalSearchingName"/>
+                                        <bean id="inquiry_source" parent="Uif-InputField" p:propertyName="source"/>
+                                        <bean id="inquiry_sourceDate" parent="Uif-InputField" p:propertyName="sourceDate"/>
+                                        <bean id="inquiry_active" parent="Uif-InputField" p:propertyName="active"/>
+                                    </list>
+                            </property>
+                        </bean>
+                        </list>
+                    </property>
+                    <property name="headerText" value="Statistical Searching Codes Inquiry"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Business Object Lookup Definition -->
+
+    <bean id="OleStatisticalSearchingCodes-LookupView" parent="Uif-OLELookupView">
+        <property name="headerText" value="Statistical Searching Codes Lookup" />
+        <property name="help">
+            <bean parent="Uif-Help">
+                <property name="externalHelpUrl"
+                          value="${ole.externalizable.help.url}/reference/webhelp/BASICS/content/ch02s04.html#_lookupHelp"/>
+                <property name="tooltipHelpContent" value="[Help] help"/>
+            </bean>
+        </property>
+        <property name="dataObjectClassName" value="org.kuali.ole.describe.bo.OleStatisticalSearchingCodes" />
+        <property name="viewHelperServiceClass" value="org.kuali.ole.describe.lookup.OleStatisticalSearchingCodesLookupableImpl"/>
+        <property name="criteriaFields">
+            <list>
+                <bean id="statisticalSearchingCode" parent="Uif-LookupCriteriaInputField"
+                      p:propertyName="statisticalSearchingCode" p:enableAutoDirectInquiry="false"/>
+                <bean id="statisticalSearchingName" parent="Uif-LookupCriteriaInputField" p:propertyName="statisticalSearchingName" />
+                <bean id="source" parent="Uif-LookupCriteriaInputField" p:propertyName="source" />
+                <bean id="sourceDate" parent="Uif-LookupCriteriaInputField" p:propertyName="sourceDate">
+                    <property name="control">
+                        <bean id="date" parent="Uif-DateControl" p:size="10"/>
+                    </property>
+                </bean>
+                <bean id="activeIndicator" parent="Uif-LookupCriteriaInputField" p:propertyName="active" />
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <!--<bean id="searchResult_statisticalSearchingCodeId" parent="Uif-DataField" p:propertyName="statisticalSearchingCodeId" />-->
+                <bean id="searchResult_statisticalSearchingCode" parent="Uif-DataField" p:propertyName="statisticalSearchingCode" />
+                <bean id="searchResult_statisticalSearchingName" parent="Uif-DataField" p:propertyName="statisticalSearchingName" />
+                <bean id="searchResult_source" parent="Uif-DataField" p:propertyName="source" />
+                <bean id="searchResult_sourceDate" parent="Uif-DataField" p:propertyName="sourceDate" />
+                <bean id="searchResult_active" parent="Uif-DataField" p:propertyName="active" />
+            </list>
+        </property>
+    </bean>
+
+</beans>

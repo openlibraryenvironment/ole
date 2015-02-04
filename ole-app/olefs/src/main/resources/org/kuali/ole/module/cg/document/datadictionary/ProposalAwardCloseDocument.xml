@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+ Copyright 2008-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean id="ProposalAwardCloseDocument" parent="ProposalAwardCloseDocument-parentBean"/>
+
+  <bean id="ProposalAwardCloseDocument-parentBean" abstract="true" parent="TransactionalDocumentEntry">
+    
+    
+    
+    <property name="documentTypeName" value="OLE_CLOS"/>
+    <property name="documentClass" value="org.kuali.ole.module.cg.document.ProposalAwardCloseDocument"/>
+    <property name="baseDocumentClass" value="org.kuali.ole.module.cg.document.ProposalAwardCloseDocument"/>
+    <property name="businessRulesClass" value="org.kuali.ole.module.cg.document.validation.impl.CloseDocumentRule"/>
+    <property name="documentAuthorizerClass" value="org.kuali.ole.module.cg.document.authorization.CloseDocumentAuthorizer"/>
+    <property name="workflowProperties">
+      <ref bean="ProposalAwardCloseDocument-workflowProperties"/>
+    </property>
+
+    <property name="attributes">
+      <list>
+        <ref bean="ProposalAwardCloseDocument-userInitiatedCloseDate"/>
+        <ref bean="ProposalAwardCloseDocument-closeOnOrBeforeDate"/>
+      </list>
+    </property>
+  </bean> 
+  
+  <bean id="ProposalAwardCloseDocument-closeOnOrBeforeDate" parent="ProposalAwardCloseDocument-closeOnOrBeforeDate-parentBean"/>
+
+  <bean id="ProposalAwardCloseDocument-closeOnOrBeforeDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="closeOnOrBeforeDate"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Close On Or Before Date"/>
+    <property name="shortLabel" value="Close on or before"/>
+    <property name="maxLength" value="10"/>
+    <!-- Required checking will be handled within the CloseDocumentRule class -->
+    <property name="required" value="true"/>
+    <property name="control">
+      <ref bean="TenCharacterTextControl" />
+    </property>
+    
+    
+  </bean>
+  
+  <bean id="ProposalAwardCloseDocument-userInitiatedCloseDate" parent="ProposalAwardCloseDocument-userInitiatedCloseDate-parentBean"/>
+
+  <bean id="ProposalAwardCloseDocument-userInitiatedCloseDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="userInitiatedCloseDate"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Close Date"/>
+    <property name="shortLabel" value="Date closed"/>
+    <property name="maxLength" value="10"/>
+    <!-- Required checking will be handled within the CloseDocumentRule class -->
+    <property name="required" value="true"/>
+    <property name="control">
+      <ref bean="TenCharacterTextControl" />
+    </property>
+    
+    
+  </bean>
+
+<!-- Exported Workflow Properties -->
+
+
+  <bean id="ProposalAwardCloseDocument-workflowProperties" parent="ProposalAwardCloseDocument-workflowProperties-parentBean"/>
+
+  <bean id="ProposalAwardCloseDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+ 	     		    <!-- no qualifiers for unprocessed -->
+ 	     		    <!-- no qualifiers for management -->
+ 	 
+  </bean>
+  
+</beans>

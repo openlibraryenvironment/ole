@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>ole-impex</artifactId>
+        <groupId>org.kuali.ole</groupId>
+        <version>2.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <name>OLE Impex DS</name>
+    <groupId>org.kuali.ole</groupId>
+    <artifactId>ole-impex-ds</artifactId>
+    <version>2.0-SNAPSHOT</version>
+
+    <properties>
+        <impex.sql.artifactId>ole-ds-sql</impex.sql.artifactId>
+        <impex.copy.phase>process-resources</impex.copy.phase>
+        <impex.scm.phase>process-resources</impex.scm.phase>
+    </properties>
+
+</project>

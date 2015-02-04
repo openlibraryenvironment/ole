@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <!--
+
+        Copyright 2005-2012 The Kuali Foundation
+
+        Licensed under the Educational Community License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at
+
+        http://www.opensource.org/licenses/ecl2.php
+
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+
+    -->
+    <bean id="OleDiscoveryExportMappingFields" parent="OleDiscoveryExportMappingFields-parentBean"/>
+
+    <bean id="OleDiscoveryExportMappingFields-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.ole.describe.bo.OleDiscoveryExportMappingFields"/>
+        <property name="titleAttribute" value="mappingFieldId"/>
+        <property name="objectLabel" value="Discovery Export Profile"/>
+        <property name="attributes">
+            <list>
+                <ref bean="OleDiscoveryExportMappingFields-mappingFieldId"/>
+                <ref bean="OleDiscoveryExportMappingFields-marcField"/>
+                <ref bean="OleDiscoveryExportMappingFields-itemField"/>
+                <ref bean="OleDiscoveryExportMappingFields-description"/>
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OleDiscoveryExportMappingFields-mappingFieldId" parent="OleDiscoveryExportMappingFields-mappingFieldId-parentBean"/>
+
+    <bean id="OleDiscoveryExportMappingFields-mappingFieldId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Mapping Field Id"/>
+        <property name="maxLength" value="10"/>
+        <property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+        <property name="name" value="mappingFieldId"/>
+        <property name="label" value="Mapping Field Id"/>
+        <property name="description" value="Mapping Field Id"/>
+    </bean>
+
+    <bean id="OleDiscoveryExportMappingFields-marcField" parent="OleDiscoveryExportMappingFields-marcField-parentBean"/>
+
+    <bean id="OleDiscoveryExportMappingFields-marcField-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="MARC Field"/>
+        <property name="maxLength" value="30"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="true"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="10"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="10" />
+        </property>
+        <property name="name" value="marcField"/>
+        <property name="label" value="MARC Field"/>
+        <property name="description" value="MARC Field"/>
+
+    </bean>
+
+    <bean id="OleDiscoveryExportMappingFields-itemField" parent="OleDiscoveryExportMappingFields-itemField-parentBean"/>
+
+    <bean id="OleDiscoveryExportMappingFields-itemField-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Item Field"/>
+        <property name="required" value="true"/>
+        <property name="maxLength" value="30"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="itemField"/>
+        <property name="label" value="Item Field"/>
+        <property name="description" value="Item Field"/>
+
+    </bean>
+
+    <bean id="OleDiscoveryExportMappingFields-description" parent="OleDiscoveryExportMappingFields-description-parentBean"/>
+
+    <bean id="OleDiscoveryExportMappingFields-description-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="forceUppercase" value="false"/>
+        <property name="shortLabel" value="Description"/>
+        <property name="maxLength" value="30"/>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern"/>
+        </property>
+        <property name="required" value="false"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+        <property name="name" value="description"/>
+        <property name="label" value="Description"/>
+        <property name="description" value="Description"/>
+
+    </bean>
+
+</beans>

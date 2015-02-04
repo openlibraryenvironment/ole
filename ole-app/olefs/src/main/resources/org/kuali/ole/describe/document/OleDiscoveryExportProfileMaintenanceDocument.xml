@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    <bean id="OleDiscoveryExportProfileMaintenanceDocument-workflowProperties-parentBean" abstract="true"
+          parent="WorkflowProperties">
+        <property name="workflowPropertyGroups">
+            <list>
+                <bean parent="WorkflowPropertyGroup">
+                    <property name="workflowProperties">
+                        <list>
+                            <bean id="oldMaintainableObject" parent="WorkflowProperty" p:path="oldMaintainableObject.businessObject"/>
+                            <bean id="newMaintainableObject" parent="WorkflowProperty" p:path="newMaintainableObject.businessObject"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OleDiscoveryExportProfile-MaintenanceView" parent="Uif-OleMaintenanceView">
+        <property name="dataObjectClassName" value="org.kuali.ole.describe.bo.OleDiscoveryExportProfile"/>
+        <property name="title" value="Discovery Export Profile"/>
+        <property name="items">
+            <list merge="true">
+                  <ref bean="OleDiscoveryExportProfile-MaintenanceView-exportDetails"/>
+                  <ref bean="OleDiscoveryExportProfile-MaintenanceView-mappingSection"/>
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OleDiscoveryExportProfile-MaintenanceView-exportDetails" parent="Uif-MaintenanceGridSection" >
+        <property name="title" value="Discovery Export Profile" />
+        <property name="items">
+            <list>
+                 <bean id="create_exportProfileCode" parent="Uif-InputField" p:propertyName="exportProfileCode"/>
+                 <bean id="create_exportProfileName" parent="Uif-InputField" p:propertyName="exportProfileName"/>
+                 <bean id="discoveryExportProfile-MaintenanceView-exportFormat" parent="Uif-InputField" p:propertyName="exportFormat" p:label="Export Format" >
+                    <property name="optionsFinder">
+                         <bean class="org.kuali.ole.describe.keyvalue.OleDiscoveryExportFormatValueFinder" />
+                    </property>
+                    <property name="control">
+                          <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                 </bean>
+                 <bean id="discoveryExportProfile-MaintenanceView-exportType" parent="Uif-InputField" p:propertyName="exportType" p:label="Export Type" >
+                    <property name="optionsFinder">
+                 <bean class="org.kuali.ole.describe.keyvalue.OleDiscoveryExportTypeValueFinder" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="fixed-size-200-select"/>
+                    </property>
+                 </bean>
+                 <bean id="create_exportTo" parent="Uif-InputField" p:propertyName="exportTo"/>
+                 <bean id="create_noOfExportThreads" parent="Uif-InputField" p:propertyName="noOfExportThreads"/>
+                 <bean id="create_noOfRecords" parent="Uif-InputField" p:propertyName="noOfRecords"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OleDiscoveryExportProfile-MaintenanceView-mappingSection" parent="Uif-MaintenanceVerticalBoxSection">
+        <property name="title" value="Map MARC fields with item fields" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-MaintenanceGridSection" p:layoutManager.numberOfColumns="1">
+                    <property name="items">
+                        <list>
+                            <ref bean="OleDiscoveryExportProfile-dataFieldSection" />
+                            <ref bean="OleDiscoveryExportProfile-marcFieldSection"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OleDiscoveryExportProfile-dataFieldSection" parent="Uif-MaintenanceVerticalBoxSection" >
+        <property name="items">
+            <list>
+                <bean id="creates_dataField" parent="Uif-InputField" p:propertyName="dataField"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OleDiscoveryExportProfile-marcFieldSection" parent="Uif-MaintenanceTableCollectionSection" p:layoutManager.numberOfColumns="3" p:disclosure.defaultOpen="true">
+        <property name="collectionObjectClass" value="org.kuali.ole.describe.bo.OleDiscoveryExportMappingFields" />
+        <property name="propertyName" value="oleDiscoveryExportMappingFields" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean id="create_marcField" p:label="MARC Field" parent="Uif-InputField" p:propertyName="marcField" />
+                <bean id="create_itemField" p:label="Item Field" parent="Uif-InputField" p:propertyName="itemField" />
+                <bean id="create_description" p:label="Description" parent="Uif-InputField" p:propertyName="description" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OleDiscoveryExportProfileMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
+        <property name="dataObjectClass" value="org.kuali.ole.describe.bo.OleDiscoveryExportProfile"/>
+        <property name="businessRulesClass" value="org.kuali.ole.describe.rule.OleDiscoveryExportProfileRule"/>
+        <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
+        <property name="documentTypeName" value="OLE_DISC_EXP_PROF_MD"/>
+        <property name="documentAuthorizerClass"
+                  value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+        <property name="lockingKeys">
+            <list>
+                <value>exportId</value>
+            </list>
+        </property>
+    </bean>
+</beans>

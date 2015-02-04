@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<searchParams>
+    <pageSize>10</pageSize>
+    <searchConditions>
+        <searchCondition>
+            <operator>AND</operator>
+            <searchField>
+                <docType>bibliographic</docType>
+            </searchField>
+            <searchScope>OR</searchScope>
+        </searchCondition>
+    </searchConditions>
+    <searchResultFields>
+        <searchResultField>
+            <docType>bibliographic</docType>
+            <fieldName>bibIdentifier</fieldName>
+        </searchResultField>
+        <searchResultField>
+            <docType>bibliographic</docType>
+            <fieldName>Title</fieldName>
+        </searchResultField>
+    </searchResultFields>
+    <startIndex>0</startIndex>
+</searchParams>

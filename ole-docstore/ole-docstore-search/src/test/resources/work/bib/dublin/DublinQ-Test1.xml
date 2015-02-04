@@ -1,0 +1,91 @@
+<request>
+    <user>ole-khuntley</user>
+    <operation>ingest</operation>
+    <requestDocuments>
+        <ingestDocument id="1" category="work" type="bibliographic" format="dublin">
+            <uuid>wbm-1</uuid>
+            <content><![CDATA[
+<dublin_core schema="dc">
+  <dcvalue element="contributor" qualifier="author">Harmon, James M.</dcvalue>
+  <dcvalue element="contributor" qualifier="author">Neuwirth, Jessica L.</dcvalue>
+  <dcvalue element="date" qualifier="accessioned">2010-12-13T20:13:01Z</dcvalue>
+  <dcvalue element="date" qualifier="available">2010-12-13T20:13:01Z</dcvalue>
+  <dcvalue element="date" qualifier="issued">2012</dcvalue>
+  <dcvalue element="identifier" qualifier="uri">http://hdl.handle.net/1903/11034</dcvalue>
+  <dcvalue element="identifier" qualifier="isbn">0-918006-48-1</dcvalue>
+  <dcvalue element="identifier" qualifier="issn">0-829117-59-12</dcvalue>
+  <dcvalue element="format" qualifier="mimetype">application/msword</dcvalue>
+  <dcvalue element="format" qualifier="mimetype">application/msword</dcvalue>
+  <dcvalue element="format" qualifier="mimetype">application/msword</dcvalue>
+  <dcvalue element="format" qualifier="mimetype">application/msword</dcvalue>
+  <dcvalue element="format" qualifier="mimetype">application/msword</dcvalue>
+  <dcvalue element="description" qualifier="abstract">Beginning in the summer of 1998, Archaeology In Annapolis
+performed a multi-phased archaeological investigation in and around
+the James Brice House, a National Historic Landmark with associated
+archaeological deposits (18AP38), located at 42 East Street in the
+historic District of the city of Annapolis, Maryland. The work was
+done under a series of contracts to the International Masonry
+Institute, owners of the structure. Funding for the project was
+provided by the IMI and the Maryland Historical Trust.
+A total of twenty-eight units were excavated during the initial
+portion of the project, and another four were excavated in support of
+a secondary project designed to rehabilitate the retaining wall
+located at the southern edge of the South Yard. In addition, several
+trenches excavated during construction at the site were profiled, and
+the lowering of the grade in the South Yard was monitored by
+Archaeology in Annapolis staff.
+Testing in the South Yard revealed evidence of a number of
+filling and landform modification episodes dating from the periods
+following construction of the Brice House up to the beginning of the
+twentieth century. Further evidence of twentieth century modification
+to the yard space was revealed in the form of a number of utility
+trenches and related features. Features related to no-longer extant
+stairs including brick piers and postholes were discovered in a number
+of areas. Finally, an oyster shell drainage feature and associated
+evidence of African-American religious practices were recovered from a
+trench and excavation unit at the western edge of the yard space.
+Excavation in the interior of the West Wing revealed the presence
+of three major stratigraphic units with a large number of associated
+structural and depositional features. The first of these depositional
+units consisted of twentieth century deposits associated with
+modification of the interior of the Wing, and the majority of this
+material had been recently disturbed. The second stratigraphic unit
+consisted of material associated with the construction of the Brice
+House between 1767 and 1773. The final stratigraphic unit in the West
+Wing consisted of structural features and a floor deposit dating to
+the early 18th century. This material is potentially related to a
+store owned by Captain John Brice and his son John Brice II.
+Excavations in the East Wing and Hyphen also revealed a number of
+stratigraphic units related to the initial construction and subsequent
+modification of the Brice House structure. In addition, a large
+deposit of late nineteenth and early twentieth century material
+associated with the religious practices of African-American occupants
+of the house was discovered beneath remnants of a brick floor in the
+interior of the East Wing.</dcvalue>
+  <dcvalue element="description" qualifier="provenance">Submitted by Terry Owen (towen@umd.edu) on 2010-12-13T20:12:12Z
+No. of bitstreams: 1
+ap38 2000.pdf: 45318991 bytes, checksum: 8882da700398a444c58efb78d51aa67a (MD5)</dcvalue>
+  <dcvalue element="description" qualifier="provenance">Approved for entry into archive by Manager for faculty self-deposit collections(drum-help@umd.edu) on 2010-12-13T20:13:01Z (GMT) No. of bitstreams: 1
+ap38 2000.pdf: 45318991 bytes, checksum: 8882da700398a444c58efb78d51aa67a (MD5)</dcvalue>
+  <dcvalue element="description" qualifier="provenance">Made available in DSpace on 2010-12-13T20:13:01Z (GMT). No. of bitstreams: 1
+ap38 2000.pdf: 45318991 bytes, checksum: 8882da700398a444c58efb78d51aa67a (MD5)
+  Previous issue date: 2000</dcvalue>
+  <dcvalue element="language" qualifier="iso">en_US</dcvalue>
+  <dcvalue element="subject" qualifier="none">Archaeology</dcvalue>
+  <dcvalue element="subject" qualifier="none">Annapolis, Maryland</dcvalue>
+  <dcvalue element="subject" qualifier="none">Anne Arundel County</dcvalue>
+  <dcvalue element="subject" qualifier="none">East Street</dcvalue>
+  <dcvalue element="subject" qualifier="none">18AP38</dcvalue>
+  <dcvalue element="subject" qualifier="none">James Brice House</dcvalue>
+  <dcvalue element="publisher" qualifier="none">Association of Research Libraries</dcvalue>
+  <dcvalue element="title" qualifier="none">Archaeological Investigations at the James Brice House (18AP38): A National Historic Site, 42 East Street, City of Annapolis, Anne Arundel County, Maryland</dcvalue>
+  <dcvalue element="type" qualifier="none">Technical Report</dcvalue>
+  <dcvalue element="relation" qualifier="isAvailableAt">University of Maryland (College Park, Md)</dcvalue>
+  <dcvalue element="relation" qualifier="isAvailableAt">Digital Repository at the University of Maryland</dcvalue>
+</dublin_core>
+                ]]>
+            </content>
+            <linkedIngestDocuments></linkedIngestDocuments>
+        </ingestDocument>
+    </requestDocuments>
+</request>

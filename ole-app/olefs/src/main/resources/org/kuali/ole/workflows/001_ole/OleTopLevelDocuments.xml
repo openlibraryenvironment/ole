@@ -1,0 +1,134 @@
+<data xmlns="ns:workflow" xsi:schemaLocation="ns:workflow resource:WorkflowData" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+      <name>OLEDocumentSearchCustomizer</name>
+      <label>OLE Document Search Customizer</label>
+      <className>{OLE}OLEDocumentSearchCustomizer</className>
+      <type>DocumentSearchCustomizer</type>
+      <applicationId>OLE</applicationId>
+    </ruleAttribute>
+    <ruleAttribute>
+      <name>OLESearchableAttribute</name>
+      <className>{OLE}OLESearchableAttribute</className>
+      <label>OLE Searchable Attribute</label>
+      <description>OLE Searchable Attribute</description>
+      <type>SearchableAttribute</type>
+      <applicationId>OLE</applicationId>
+    </ruleAttribute>
+  </ruleAttributes>
+  <documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+    <documentType>
+      <name>OLE</name>
+      <parent>KualiDocument</parent>
+      <label>OpenLibraryEnvironmentDocument</label>
+      <serviceNamespace>OLE</serviceNamespace>
+      <docHandler>${ole.url}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+      <postProcessorName>org.kuali.ole.sys.document.workflow.PostProcessor</postProcessorName>
+      <active>true</active>
+      <attributes>
+        <attribute>
+          <name>OLESearchableAttribute</name>
+        </attribute>
+        <attribute>
+          <name>OLEDocumentSearchCustomizer</name>
+        </attribute>
+      </attributes>
+      <routingVersion>2</routingVersion>
+    </documentType>
+
+    <documentType>
+      <name>
+        OpenLibraryEnvironmentSimpleMaintenanceDocument
+      </name>
+      <parent>
+        OLE
+      </parent>
+      <label>
+        OpenLibraryEnvironmentSimpleMaintenanceDocument
+      </label>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>
+        OpenLibraryEnvironmentComplexMaintenanceDocument
+      </name>
+      <parent>
+        OLE
+      </parent>
+      <label>
+        OpenLibraryEnvironmentComplexMaintenanceDocument
+      </label>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths>
+        <routePath>
+          <start name="AdHoc" nextNode="OrganizationHierarchy"/>
+          <role name="OrganizationHierarchy"/>
+        </routePath>
+      </routePaths>
+      <routeNodes>
+        <start name="AdHoc"/>
+        <role name="OrganizationHierarchy">
+          <qualifierResolverClass>
+            org.kuali.rice.kns.workflow.attribute.DataDictionaryQualifierResolver
+          </qualifierResolverClass>
+        </role>
+      </routeNodes>
+    </documentType>
+    <documentType>
+      <name>
+        OpenLibraryEnvironmentTransactionalDocument
+      </name>
+      <parent>
+        OLE
+      </parent>
+      <label>
+        OpenLibraryEnvironmentTransactionalDocument
+      </label>
+      <docSearchHelpURL>
+        default.htm?turl=WordDocuments%2Ffinancialtransactions.htm
+      </docSearchHelpURL>
+      <active>
+        true
+      </active>
+      <security>
+        <securityAttribute class="org.kuali.ole.sys.document.workflow.SensitiveDataSecurityAttribute"/>
+      </security>
+      <routingVersion>
+        2
+      </routingVersion>
+    </documentType>
+    <documentType>
+      <name>
+        OpenLibraryEnvironmentLedgerOnlyDocument
+      </name>
+      <label>
+        Open Library Environment - Ledger Only
+      </label>
+      <active>
+        true
+      </active>
+      <routingVersion>
+        2
+      </routingVersion>
+      <routePaths/>
+    </documentType>
+  </documentTypes>
+</data>

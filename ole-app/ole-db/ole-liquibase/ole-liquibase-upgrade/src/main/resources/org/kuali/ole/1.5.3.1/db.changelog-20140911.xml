@@ -1,0 +1,187 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <!--Schema update-->
+
+
+    <!--Data update-->
+
+    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_KRCR_PARM_T_oracle" dbms="oracle">
+        <loadData tableName="KRCR_PARM_T" file="org/kuali/ole/1.5.3.1/data/krcr_parm_t.csv"/>
+        <rollback>
+            <delete tableName="KRCR_PARM_T">
+                <where>APPL_ID = 'OLE'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_KRCR_PARM_T_mysql" dbms="mysql">
+        <sql>
+            SET sql_mode='NO_BACKSLASH_ESCAPES'
+        </sql>
+        <loadData tableName="KRCR_PARM_T" file="org/kuali/ole/1.5.3.1/data/krcr_parm_t.csv"/>
+        <rollback>
+            <delete tableName="KRCR_PARM_T">
+                <where>APPL_NMSPC_CD = 'OLE'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_KRMS_TYP_T_oracle" dbms="oracle">
+        <loadData tableName="KRMS_TYP_T" file="org/kuali/ole/1.5.3.1/data/ole_krms_typ_t.csv"/>
+        <rollback>
+            <delete tableName="KRMS_TYP_T">
+                <where>APPL_ID = 'OLE'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_LOAD_KRMS_TYP_T_mysql" dbms="mysql">
+        <sql>
+            SET sql_mode='NO_BACKSLASH_ESCAPES'
+        </sql>
+        <loadData tableName="KRMS_TYP_T" file="org/kuali/ole/1.5.3.1/data/ole_krms_typ_t.csv"/>
+        <rollback>
+            <delete tableName="KRCR_PARM_T">
+                <where>APPL_NMSPC_CD = 'OLE'</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_LOAN_NOTICE_T">
+        <createTable catalogName="ole"
+                   schemaName="ole"
+                   tableName="OLE_DLVR_LOAN_NOTICE_T ">
+            <column name="ID"   type="VARCHAR(40)"/>
+            <column name="LOAN_ID"   type="VARCHAR(40)"/>
+            <column name="PTRN_ID"  type="VARCHAR(37)"/>
+            <column name="NTC_TYP"  type="VARCHAR(37)"/>
+            <column name="NTC_SND_TYP"  type="VARCHAR(37)"/>
+            <column name="RPLCMNT_FEE_AMNT"  type="DECIMAL(8)"/>
+            <column name="NTC_TO_SND_DT" type="TIMESTAMP"/>
+            <column name="VER_NBR"  type="DECIMAL(8)"/>
+            <column name="OBJ_ID"  type="VARCHAR(36)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_LOAN_NOTICE_PK">
+        <addPrimaryKey catalogName="ole"
+                       columnNames="ID"
+                       constraintName="OLE_DLVR_LOAN_NOTICE_PK"
+                       schemaName="ole"
+                       tableName="OLE_DLVR_LOAN_NOTICE_T"/>
+
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_LOAN_NOTICE_S" dbms="oracle" >
+        <createSequence catalogName="ole"
+                        incrementBy="1"
+                        ordered="true"
+                        schemaName="ole"
+                        sequenceName="OLE_DLVR_LOAN_NOTICE_S"
+                        startValue="1"/>
+    </changeSet>
+
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_LOAN_NOTICE_S" dbms="mysql">
+        <createTable catalogName="ole"
+                     schemaName="ole"
+                     tableName="OLE_DLVR_LOAN_NOTICE_S ">
+            <column name="ID"   type="VARCHAR(40)"/>
+        </createTable>
+    </changeSet>
+
+
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_LOAN_NOTICE_S_PK"  dbms="mysql">
+        <addPrimaryKey catalogName="ole"
+                       columnNames="ID"
+                       constraintName="OLE_DLVR_LOAN_NOTICE_S_PK"
+                       schemaName="ole"
+                       tableName="OLE_DLVR_LOAN_NOTICE_S"/>
+
+    </changeSet>
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_LOAN_NOTICE_S_AUTOINCREMENT" dbms="mysql">
+        <addAutoIncrement catalogName="ole"
+                          columnDataType="BIGINT(19)"
+                          columnName="ID"
+                          incrementBy="1"
+                          schemaName="ole"
+                          startWith="1"
+                          tableName="OLE_DLVR_LOAN_NOTICE_S"/>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_LOAN_NOTICE_HSTRY_T">
+        <createTable catalogName="ole"
+                     schemaName="ole"
+                     tableName="OLE_DLVR_LOAN_NOTICE_HSTRY_T ">
+            <column name="ID"   type="VARCHAR(40)"/>
+            <column name="LOAN_ID"  type="VARCHAR(40)"/>
+            <column name="PTRN_ID"  type="VARCHAR(37)"/>
+            <column name="NTC_SNT_DT" type="TIMESTAMP"/>
+            <column name="NTC_TYP"  type="VARCHAR(37)"/>
+            <column name="NTC_SND_TYP"  type="VARCHAR(37)"/>
+            <column name="VER_NBR" type="DECIMAL(8)"/>
+            <column name="OBJ_ID"  type="VARCHAR(36)"/>
+        </createTable>
+    </changeSet>
+
+
+
+
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_LOAN_NOTICE_HSTRY_PK">
+        <addPrimaryKey catalogName="ole"
+                       columnNames="ID"
+                       constraintName="OLE_DLVR_LOAN_NOTICE_HSTRY_PK"
+                       schemaName="ole"
+                       tableName="OLE_DLVR_LOAN_NOTICE_HSTRY_T" />
+
+    </changeSet>
+
+
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_LOAN_NOTICE_HSTRY_S" dbms="oracle" >
+        <createSequence catalogName="ole"
+                        incrementBy="1"
+                        ordered="true"
+                        schemaName="ole"
+                        sequenceName="OLE_DLVR_LOAN_NOTICE_HSTRY_S"
+                        startValue="1"/>
+    </changeSet>
+
+
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_LOAN_NOTICE_HSTRY_S" dbms="mysql">
+        <createTable catalogName="ole"
+                     schemaName="ole"
+                     tableName="OLE_DLVR_LOAN_NOTICE_HSTRY_S ">
+            <column name="ID"   type="VARCHAR(40)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_LOAN_NOTICE_HSTRY_S_PK"  dbms="mysql">
+        <addPrimaryKey catalogName="ole"
+                       columnNames="ID"
+                       constraintName="OLE_DLVR_LOAN_NOTICE_HSTRY_S_PK"
+                       schemaName="ole"
+                       tableName="OLE_DLVR_LOAN_NOTICE_HSTRY_S"/>
+
+    </changeSet>
+    <changeSet context="bootstrap" author="ole" id="OLE_DLVR_LOAN_NOTICE_HSTRY_S_AUTOINCREMENT" dbms="mysql">
+        <addAutoIncrement catalogName="ole"
+                          columnDataType="BIGINT(19)"
+                          columnName="ID"
+                          incrementBy="1"
+                          schemaName="ole"
+                          startWith="1"
+                          tableName="OLE_DLVR_LOAN_NOTICE_HSTRY_S"/>
+    </changeSet>
+
+
+
+</databaseChangeLog>

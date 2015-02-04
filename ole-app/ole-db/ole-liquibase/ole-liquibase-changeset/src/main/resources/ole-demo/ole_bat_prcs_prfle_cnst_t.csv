@@ -1,0 +1,32 @@
+OLE_USR_DEF_VAL_ID,ATT_NM,ATT_VAL,DATA_TYPE,BAT_PRCS_PRF_ID,DEF_VAL,OBJ_ID,VER_NBR
+"1","chartCode","UA","OrderImport","6","default","1",1
+"2","orgCode","VPIT","OrderImport","6","default","1",1
+"3","receivingRequired","false","OrderImport","6","default","1",1
+"4","assignToUser","ole-jumonica","OrderImport","6","default","1",1
+"5","useTaxIndicator","true","OrderImport","6","default","1",1
+"6","orderType","Firm, Fixed","OrderImport","6","default","1",1
+"7","fundingSource","INST","OrderImport","6","default","1",1
+"8","payReqPositiveApprovalReq","true","OrderImport","6","default","1",1
+"9","purchaseOrderConfirmationIndicator","true","OrderImport","6","default","1",1
+"10","deliveryCampusCode","BL","OrderImport","6","default","1",1
+"11","buildingCode","BL209","OrderImport","6","default","1",1
+"12","vendorChoice","CNST","OrderImport","6","default","1",1
+"13","routeToRequestor","false","OrderImport","6","default","1",1
+"14","methodOfPOTransmission","NO PRINT","OrderImport","6","default","1",1
+"15","costSource","EST","OrderImport","6","default","1",1
+"16","percent","100","OrderImport","6","default","1",1
+"17","defaultLocation","ARCH/PSAP","OrderImport","6","default","1",1
+"18","quantity","1","OrderImport","6","default","1",1
+"19","vendorReferenceNumber","40022554293","OrderImport","6","default","1",1
+"20","requestorName","Sample, Stephanie","OrderImport","6","default","1",1
+"21","itemStatus","AVAILABLE","OrderImport","6","default","1",1
+"22","discount","10","OrderImport","6","default","1",1
+"23","discountType","%","OrderImport","6","default","1",1
+"24","accountNumber","2947430","OrderImport","6","default","1",1
+"25","financialObjectCode","7112","OrderImport","6","default","1",1
+"26","itemNoOfParts","1","OrderImport","6","default","1",1
+"27","vendorProfileCode","YBP","OrderImport","6","constant","1",1
+"28","itemChartCode","BL","OrderImport","6","default","1",1
+"29","vendorNumber","12106-0","InvoiceImport","5","default","1",1
+"30","caption","caption","OrderImport","6","default","1",1
+"31","deliveryBuildingRoomNumber","001","OrderImport","6","default","1",1

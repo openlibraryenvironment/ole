@@ -1,0 +1,66 @@
+<!--
+
+  Copyright 2005-2013 The Kuali Foundation
+
+  Licensed under the Educational Community License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.opensource.org/licenses/ecl2.php
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
+-->
+<config>
+    <!-- Load project properties -->
+    <param name="config.location">
+        classpath:META-INF/${project.groupId.path}/${project.artifactId}/project-rice-properties.xml
+    </param>
+    <param name="config.location">classpath:${project.groupId.path}/olefs-config-defaults.xml</param>
+
+    <!--
+      NOTE: The "\" at the start of this property is not a typo.
+      It prevents maven-resources-plugin from filtering the ${user.home} property at build time
+    -->
+    <param name="project.home">\${user.home}/kuali/main/${environment}/${project.artifactId}</param>
+
+    <param name="rice.logging.configure">true</param>
+    <param name="location.mode">LOCAL</param>
+    <param name="coreservice.mode">LOCAL</param>
+    <param name="ken.mode">LOCAL</param>
+    <param name="kim.mode">LOCAL</param>
+    <param name="kew.mode">LOCAL</param>
+    <param name="krms.mode">LOCAL</param>
+    <param name="ksb.mode">LOCAL</param>
+
+
+    <param name="jdbc.username">oleit</param>
+
+    <param name="module.name">olefs</param>
+    <param name="application.id">OLE</param>
+    <param name="app.context.name">olefs</param>
+
+    <param name="log4j.settings.path">classpath:org/kuali/ole/test-log4j.xml</param>
+    <param name="keystore.file">${project.basedir}/src/it/resources/META-INF/rice.keystore</param>
+
+    <!--TODO: This property is to address the KRAD memory leak issue in Rice 2.2.3; Possible fixes in Rice 2.3 and 2.3.1-->
+    <param name="maxNumberOfSessionForms">20</param>
+
+    <!-- Why did Peri override the default directory locations? Simplified directory structure? -->
+    <param name="data.xml.root.location">${project.home}/workflow</param>
+    <param name="data.xml.pending.location">${data.xml.root.location}/pending</param>
+    <param name="data.xml.loaded.location">${data.xml.root.location}/loaded</param>
+    <param name="data.xml.problem.location">${data.xml.root.location}/problem</param>
+
+    <param name="dev.mode">false</param>
+
+    <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
+    <param name="config.location">classpath:META-INF/common-config-locations.xml</param>
+    <param name="config.location">${alt.config.location}</param>
+    <param name="version">${project.version} :: ${project.build.timestamp}</param>
+
+</config>
